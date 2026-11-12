@@ -10,38 +10,38 @@ namespace Aow.Game.Magic.Spells;
 public partial class PowerLeakEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1001
-    public new const int ClassID = 135959;
+    public new const int ClassId = 135959;
 
     // GlobalEnchantmentSpells.pas:993
     public PowerLeakEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.PowerLeakRStr);
-        FEnchantmentType = GlobalEnchantmentType.PowerLeak;
-        FDispelMana = 25;
+        Name = AbilityRules.TranslateResourceString(GameText.s_powerLeakText);
+        EnchantmentType = GlobalEnchantmentType.PowerLeak;
+        DispelMana = 25;
     }
 
     // GlobalEnchantmentSpells.pas:1006
     public override int GetAIUpkeepPriority() => 750;
 
     // GlobalEnchantmentSpells.pas:1021
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        base.Deactivate(Player);
-        for (int I = AoWHSMap.Current.FPlayers.Count - 1; I >= 0; I--)
+        base.Deactivate(player);
+        for (int I = AoWHSMap.Current.Players.Count - 1; I >= 0; I--)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.Update();
+            AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Update();
         }
 
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:1011
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        base.Activate(Player);
-        for (int I = AoWHSMap.Current.FPlayers.Count - 1; I >= 0; I--)
+        base.Activate(player);
+        for (int I = AoWHSMap.Current.Players.Count - 1; I >= 0; I--)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.Update();
+            AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Update();
         }
 
         return true;

@@ -15,72 +15,72 @@ public partial class AnimationTokenEvent : TokenEvent
     { }
 
     // Animation.pas:388
-    public new const int ClassID = 135433;
+    public new const int ClassId = 135433;
 
-    public State FState;
-    public Animation FAnimation;
+    public AnimationTokenEventState State;
+    public Animation Animation;
 
     // Animation.pas:399
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwCreateEObject(ref FAnimation, null, 15);
+        base.ReadWrite(stream);
+        stream.rwCreateEObject(ref Animation, null, 15);
     }
 
     // Animation.pas:405
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result = base.Execute(TE);
-        if (FAnimation != null)
+        ExecuteResult result = base.Execute(tokenEvent);
+        if (Animation != null)
         {
-            if (FState == State.Idle)
+            if (State == AnimationTokenEventState.Idle)
             {
-                if (FAnimation.PlaceTE(this, TE))
+                if (Animation.PlaceTokenEvent(this, tokenEvent))
                 {
-                    FState = State.Playing;
+                    State = AnimationTokenEventState.Playing;
                 }
                 else
                 {
-                    Result = ExecuteResult.DoneHalt;
+                    result = ExecuteResult.DoneHalt;
                 }
             }
 
-            if (FState == State.Playing)
+            if (State == AnimationTokenEventState.Playing)
             {
-                if (!FAnimation.ExecuteTE(this, TE))
+                if (!Animation.ExecuteTokenEvent(this, tokenEvent))
                 {
-                    FAnimation.RemoveTE(this, TE);
-                    FState = State.Done;
+                    Animation.RemoveTokenEvent(this, tokenEvent);
+                    State = AnimationTokenEventState.Done;
                 }
             }
 
-            if (FState == State.Done)
+            if (State == AnimationTokenEventState.Done)
             {
-                Result = ExecuteResult.Done;
+                result = ExecuteResult.Done;
             }
         }
         else
         {
-            Result = ExecuteResult.Done;
+            result = ExecuteResult.Done;
         }
 
-        return Result;
+        return result;
     }
 
     // Animation.pas:393
-    public void Initialize(Animation Animation)
+    public void Initialize(Animation animation)
     {
-        if (FAnimation != null)
+        if (Animation != null)
         {
-            FAnimation?.Dispose();
+            Animation?.Dispose();
         }
 
-        FAnimation = Animation;
+        Animation = animation;
     }
 
-    public enum State : byte
-    {
-        Idle = 0, Playing = 1, Done = 2
-    }
+}
 
+public enum AnimationTokenEventState : byte
+{
+    Idle = 0, Playing = 1, Done = 2
 }

@@ -17,96 +17,96 @@ namespace Aow.Game.Commands;
 public partial class WarpPartyTokenEvent : SpellTokenEvent
 {
     // GlobalSpells.pas:564
-    public new const int ClassID = 135948;
+    public new const int ClassId = 135948;
 
-    public ArmyId FArmyID;
-    public MapCoordinate FWarpLocation;
+    public ArmyId ArmyId;
+    public MapCoordinate WarpLocation;
 
     // GlobalSpells.pas:558
     public override void Dispose()
     {
-        FArmyID?.Dispose();
+        ArmyId?.Dispose();
         base.Dispose();
     }
 
     // GlobalSpells.pas:569
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FWarpLocation.Packed, 30);
-        Stream.rwCreateEObject(ref FArmyID, null, 31);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref WarpLocation.Packed, 30);
+        stream.rwCreateEObject(ref ArmyId, null, 31);
     }
 
     // GlobalSpells.pas:552
     public WarpPartyTokenEvent(ECustomNode owner) : base(owner)
     {
-        FArmyID = null;
+        ArmyId = null;
     }
 
     // GlobalSpells.pas:576
     public override bool Validate(Hero source)
     {
-        byte Selection = default;
-        ArmyHexSprite Army = default;
-        bool Result = base.Validate(source) && FArmyID.Valid();
-        if (Result)
+        byte selection = default;
+        ArmyHexSprite army = default;
+        bool result = base.Validate(source) && ArmyId.Valid();
+        if (result)
         {
-            FArmyID.RetrieveArmy(ref Army, ref Selection);
-            Result = ((WarpParty)AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID)).ValidTarget(Army, FWarpLocation.X, FWarpLocation.Y, FWarpLocation.L);
+            ArmyId.RetrieveArmy(ref army, ref selection);
+            result = ((WarpParty)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).ValidTarget(army, WarpLocation.X, WarpLocation.Y, WarpLocation.MapLevel);
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:590
     public override bool Process(Troop source, int value)
     {
-        bool ShowSource;
-        bool ShowTarget;
-        byte Selection = default;
+        bool showSource;
+        bool showTarget;
+        byte selection = default;
         sbyte X = default;
         sbyte Y = default;
-        sbyte Layer = default;
-        ArmyHexSprite Army = default;
-        MapField Field;
-        ImageSequenceAnimation Animation;
+        sbyte layer = default;
+        ArmyHexSprite army = default;
+        MapField field;
+        ImageSequenceAnimation animation;
         base.Process(source, value);
-        source.GetLocation(ref X, ref Y, ref Layer);
-        FArmyID.RetrieveArmy(ref Army, ref Selection);
-        Field = AoWHSMap.Current.MapContainer.GetFieldXYL(FWarpLocation.Packed);
-        Army.MoveTo(Field, 0);
-        ShowSource = AoWHSMap.Current.FSeatedPlayer == source.FPlayer || AoWHSMap.Current.VisibleForPlayer(X, Y, Layer, AoWHSMap.Current.FSeatedPlayer);
-        ShowTarget = AoWHSMap.Current.FSeatedPlayer == source.FPlayer || AoWHSMap.Current.VisibleForPlayer(Field.Xhx, Field.Yhx, Field.Lhx, AoWHSMap.Current.FSeatedPlayer);
-        if (ShowSource && AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0] != null)
+        source.GetLocation(ref X, ref Y, ref layer);
+        ArmyId.RetrieveArmy(ref army, ref selection);
+        field = AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation.Packed);
+        army.MoveTo(field, 0);
+        showSource = AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.VisibleForPlayer(X, Y, layer, AoWHSMap.Current.SeatedPlayer);
+        showTarget = AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, AoWHSMap.Current.SeatedPlayer);
+        if (showSource && AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
-            Animation = new ImageSequenceAnimation(null);
-            Animation.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0]);
-            AoWHSMap.Current.PlaceHX(Animation, X, Y, Layer);
+            animation = new ImageSequenceAnimation(null);
+            animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
+            AoWHSMap.Current.PlaceHex(animation, X, Y, layer);
         }
 
-        if (ShowTarget && AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0] != null)
+        if (showTarget && AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
-            Animation = new ImageSequenceAnimation(null);
-            Animation.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0]);
-            AoWHSMap.Current.PlaceHX(Animation, Field.Xhx, Field.Yhx, Field.Lhx);
+            animation = new ImageSequenceAnimation(null);
+            animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
+            AoWHSMap.Current.PlaceHex(animation, field.HexX, field.HexY, field.HexLevel);
         }
 
-        if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer)
+        if (source.Player == AoWHSMap.Current.SeatedPlayer)
         {
-            AoWHSMap.Current.CenterViewTo(Field.Xhx, Field.Yhx, Field.Lhx);
+            AoWHSMap.Current.CenterViewTo(field.HexX, field.HexY, field.HexLevel);
         }
         else
         {
-            AoWHSMap.Current.ValidateObservation(source.FPlayer, Field.Xhx, Field.Yhx, Field.Lhx, 0);
+            AoWHSMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0);
         }
 
-        if (source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(X, Y, Layer, 0) || AoWHSMap.Current.Watching(Field.Xhx, Field.Yhx, Field.Lhx, 0))
+        if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(X, Y, layer, 0) || AoWHSMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
         {
-            AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
+            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
         }
 
-        var spell = AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
+        var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }
 

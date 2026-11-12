@@ -21,120 +21,120 @@ namespace Aow.Game.Magic.Spells;
 public partial class GlobalTargetSpell : Spell
 {
 
-    public int FCasterID;
-    public sbyte FCasterPlayer;
-    public bool FAboveGroundOnly;
+    public int CasterId;
+    public sbyte CasterPlayer;
+    public bool AboveGroundOnly;
 
     // GlobalTargetSpells.pas:439
     public GlobalTargetSpell(ECustomNode owner) : base(owner)
     {
-        FSpellType = SpellType.Global;
+        SpellType = SpellType.Global;
     }
 
     // GlobalTargetSpells.pas:569
-    public override bool CanActivate(Troop Source, ref string MessageText)
+    public override bool CanActivate(Troop source, ref string messageText)
     {
         sbyte X = default;
         sbyte Y = default;
-        sbyte Layer = default;
-        bool Result = base.CanActivate(Source, ref MessageText);
-        if (Result && FAboveGroundOnly)
+        sbyte layer = default;
+        bool result = base.CanActivate(source, ref messageText);
+        if (result && AboveGroundOnly)
         {
-            Source.GetLocation(ref X, ref Y, ref Layer);
-            if (Layer != 0)
+            source.GetLocation(ref X, ref Y, ref layer);
+            if (layer != 0)
             {
-                Result = false;
-                MessageText = AbilityRules.TranslateRStr(GameText.CannotCastSpellInUndergoundRStr);
+                result = false;
+                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastSpellInUndergroundText);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalTargetSpells.pas:618
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result;
-        string MessageText = "";
-        base.Activate(Source);
-        if (CanActivate(Source, ref MessageText))
+        bool result;
+        string messageText = "";
+        base.Activate(source);
+        if (CanActivate(source, ref messageText))
         {
-            FCasterID = Source.FUnitID;
-            FCasterPlayer = Source.FPlayer;
-            SetupTargetSelection(Source, AoWHSMap.Current.FTargetSelection);
-            AoWHSMap.Current.FTargetSelection.Activate();
-            Result = true;
+            CasterId = source.UnitId;
+            CasterPlayer = source.Player;
+            SetupTargetSelection(source, AoWHSMap.Current.TargetSelection);
+            AoWHSMap.Current.TargetSelection.Activate();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalTargetSpells.pas:445
-    public virtual void ShowTargetSelection(TargetSelectionControl Target, int HN, int Xs, int Ys, in LockedSurface SurfaceDesc)
+    public virtual void ShowTargetSelection(TargetSelectionControl target, int hexNumber, int xs, int ys, in LockedSurface lockedSurface)
     {
-        MapLevel Level;
-        AoWMapField MapF;
+        MapLevel level;
+        AoWMapField mapField;
         int X = default;
         int Y = default;
-        int Intensity;
-        int Radius;
-        Level = AoWHSMap.Current.MapContainer.MapLevels[Target.FTargetL];
-        HexGeometry.CenterHNtoHX(Target.FTargetX, Target.FTargetY, HN, ref X, ref Y);
+        int intensity;
+        int radius;
+        level = AoWHSMap.Current.MapContainer.MapLevels[target.TargetL];
+        HexGeometry.CenterHexNumberToHex(target.TargetX, target.TargetY, hexNumber, ref X, ref Y);
         // { Original accepts Width/Height themselves (strict > bounds test). }
-        if (X >= 0 && Y >= 0 && X <= Level.Width && Y <= Level.Height)
+        if (X >= 0 && Y >= 0 && X <= level.Width && Y <= level.Height)
         {
-            MapF = (AoWMapField)Level.Field[X, Y];
-            if (this.ValidTargetSelectionMapF((MapField)(object)MapF))
+            mapField = (AoWMapField)level.Field[X, Y];
+            if (this.ValidTargetSelectionMapField((MapField)(object)mapField))
             {
-                Radius = HexGeometry.HNtoRad(HN);
-                Intensity = Math.Abs((AoWHSMap.Current.Frame + Radius) % 9 - 4) * 20 + 20;
-                Target.FImageLibrary[0].ShowBlended(Xs - 8, Ys, SurfaceDesc, GraphicsState.IntensityBlendTable.LookupTables[Intensity]);
+                radius = HexGeometry.HexNumberToRadius(hexNumber);
+                intensity = Math.Abs((AoWHSMap.Current.Frame + radius) % 9 - 4) * 20 + 20;
+                target.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
             }
             else
             {
-                Target.FImageLibrary[1].Show(Xs - 8, Ys, SurfaceDesc);
+                target.ImageLibrary[1].Show(xs - 8, ys, lockedSurface);
             }
         }
     }
 
     // GlobalTargetSpells.pas:521
-    public virtual void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
+    public virtual void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        sbyte UnitX = default;
-        sbyte UnitY = default;
-        sbyte UnitLayer = default;
-        TargetSelection.Initialize(Source);
-        TargetSelection.FTargetMode = TargetSelection.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw, TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-        Source.GetLocation(ref UnitX, ref UnitY, ref UnitLayer);
-        TargetSelection.FSourceX = UnitX;
-        TargetSelection.FSourceY = UnitY;
-        TargetSelection.FSourceL = UnitLayer;
-        TargetSelection.FRange = 12;
-        TargetSelection.FOnChange += OnTargetSelectionChange;
-        TargetSelection.FOnShow = ShowTargetSelection;
-        var format = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.SelectTargetLocationForXOnMapRStr), [FSpellName]);
-        TargetSelection.FText.Text = format;
-        TargetSelection.FTitle = FSpellName;
-        TargetSelection.FCancelText = AbilityRules.TranslateRStr(GameText.CancelRStr);
-        TargetSelection.FSourceImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
-        TargetSelection.FValidTargetImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
-        TargetSelection.FInvalidTargetImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
+        sbyte unitX = default;
+        sbyte unitY = default;
+        sbyte unitLayer = default;
+        targetSelection.Initialize(source);
+        targetSelection.TargetMode = targetSelection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw, TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+        source.GetLocation(ref unitX, ref unitY, ref unitLayer);
+        targetSelection.SourceX = unitX;
+        targetSelection.SourceY = unitY;
+        targetSelection.SourceL = unitLayer;
+        targetSelection.Range = 12;
+        targetSelection.FOnChange += OnTargetSelectionChange;
+        targetSelection.OnShow = ShowTargetSelection;
+        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_selectTargetLocationForOnMapFormat), [SpellName]);
+        targetSelection.Text.Text = format;
+        targetSelection.Title = SpellName;
+        targetSelection.CancelText = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+        targetSelection.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
+        targetSelection.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
+        targetSelection.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
     }
 
     // GlobalTargetSpells.pas:544
-    public virtual bool TargetSelected(Troop Source, int X, int Y, int L) => false;
+    public virtual bool TargetSelected(Troop source, int X, int Y, int L) => false;
 
     // GlobalTargetSpells.pas:487
-    public virtual bool ValidTargetSelection(TargetSelectionControl TargetSelection) => true;
+    public virtual bool ValidTargetSelection(TargetSelectionControl targetSelection) => true;
 
     // GlobalTargetSpells.pas:475
-    public virtual bool ValidTargetSelectionMapF(MapField Field)
+    public virtual bool ValidTargetSelectionMapField(MapField field)
     {
-        if (AoWHSMap.Current.FExplorationEnabled && !((AoWMapField)Field).GetExplored(FCasterPlayer))
+        if (AoWHSMap.Current.ExplorationEnabled && !((AoWMapField)field).GetExplored(CasterPlayer))
         {
             // Preserve the result for callers.
             return false;
@@ -144,63 +144,63 @@ public partial class GlobalTargetSpell : Spell
     }
 
     // GlobalTargetSpells.pas:469
-    public virtual bool ValidTargetMapF(MapField Field) => true;
+    public virtual bool ValidTargetMapField(MapField field) => true;
 
     // GlobalTargetSpells.pas:492. The recovered view aliases this control.
     public virtual void OnTargetSelectionChange(TargetSelectionControl target)
     {
-        var caster = AoWHSMap.Current.FUnitControl.FindUnit(FCasterID);
-        if (caster is null || target.FChange == TargetSelectionChange.Deactivated)
+        var caster = AoWHSMap.Current.UnitControl.FindUnit(CasterId);
+        if (caster is null || target.Change == TargetSelectionChange.Deactivated)
         {
             target.FOnChange -= OnTargetSelectionChange;
             target.Deactivate();
         }
-        else if (target.FChange == TargetSelectionChange.Selected && ValidTargetSelection(target) &&
-            TargetSelected(caster, target.FTargetX, target.FTargetY, target.FTargetL))
+        else if (target.Change == TargetSelectionChange.Selected && ValidTargetSelection(target) &&
+            TargetSelected(caster, target.TargetX, target.TargetY, target.TargetL))
         {
             target.FOnChange -= OnTargetSelectionChange;
             target.Deactivate();
         }
     }
 
-    internal static bool GlobalTargetCanActivate(GlobalTargetSpell Spell, Troop Caster, ref string MessageText)
+    internal static bool GlobalTargetCanActivate(GlobalTargetSpell spell, Troop caster, ref string messageText)
     {
         sbyte X = default;
         sbyte Y = default;
-        sbyte Layer = default;
-        bool Result = Spell.CanActivate__static(Caster, ref MessageText);
-        if (Result && Spell.FAboveGroundOnly)
+        sbyte layer = default;
+        bool result = spell.CanActivateStatic(caster, ref messageText);
+        if (result && spell.AboveGroundOnly)
         {
-            Caster.GetLocation(ref X, ref Y, ref Layer);
-            if (Layer != 0)
+            caster.GetLocation(ref X, ref Y, ref layer);
+            if (layer != 0)
             {
-                Result = false;
-                MessageText = AbilityRules.TranslateRStr(GameText.CannotCastSpellInUndergoundRStr);
+                result = false;
+                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastSpellInUndergroundText);
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static bool GlobalTargetActivate(GlobalTargetSpell Spell, Troop Caster, int Unused)
+    internal static bool GlobalTargetActivate(GlobalTargetSpell spell, Troop caster, int unused)
     {
-        bool Result;
-        string MessageText = "";
-        Spell.Activate__static(Caster);
-        if (Spell.CanActivate(Caster, ref MessageText))
+        bool result;
+        string messageText = "";
+        spell.ActivateStatic(caster);
+        if (spell.CanActivate(caster, ref messageText))
         {
-            Spell.FCasterID = Caster.FUnitID;
-            Spell.FCasterPlayer = Caster.FPlayer;
-            Spell.SetupTargetSelection(Caster, AoWHSMap.Current.FTargetSelection);
-            AoWHSMap.Current.FTargetSelection.Activate();
-            Result = true;
+            spell.CasterId = caster.UnitId;
+            spell.CasterPlayer = caster.Player;
+            spell.SetupTargetSelection(caster, AoWHSMap.Current.TargetSelection);
+            AoWHSMap.Current.TargetSelection.Activate();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
 }

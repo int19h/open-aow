@@ -40,71 +40,71 @@ public partial class ArmyInfoDialog : DataModule
     public Label DetailsLbl;
     public Label HeaderLbl;
     public IvTranslator Translator;
-    public bool FUnitInfoShown;
-    public ExecuteDoneEvent FOnClose;
-    public ArmyInfoEventLog FEvent;
+    public bool UnitInfoShown;
+    public ExecuteDoneEvent OnClose;
+    public ArmyInfoEventLog Event;
 
     // AoWArmyInfoDlg.pas:63
-    public void DrawUnit(int Index, in Rect R, ref LockedSurface SD)
+    public void DrawUnit(int index, in Rect R, ref LockedSurface lockedSurface)
     {
-        Rect SaveRect;
-        UnitShowInfo Info;
-        LibraryImage Img;
-        Units.Alignment Alignment;
+        Rect saveRectangle;
+        UnitShowInfo info;
+        LibraryImage image;
+        Units.Alignment alignment;
         int X;
         int Y;
-        if (Index < FEvent.FArmyView.GetCount())
+        if (index < Event.ArmyView.GetCount())
         {
-            SaveRect = SD.ClipRect;
-            SD.ClipRect = R;
+            saveRectangle = lockedSurface.ClipRectangle;
+            lockedSurface.ClipRectangle = R;
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
-            Alignment = FEvent.FArmyView.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
+            alignment = Event.ArmyView.GetUnit(index).GetAlignment();
+            if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                Img = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
-                Img.ShowClipped(X - Img.Width / 2, Y - Img.Height / 2, SD);
+                image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, lockedSurface);
             }
 
-            Info = default;
-            Info.Direction = 3;
-            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            FEvent.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, SD, Info);
-            if ((((int)(((uint)FEvent.FSelection) >> Index)) & 1) == 0)
+            info = default;
+            info.Direction = 3;
+            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            Event.ArmyView.GetUnit(index).Show(X - 33, Y - 35, lockedSurface, info);
+            if ((((int)(((uint)Event.Selection) >> index)) & 1) == 0)
             {
-                Img = DialogHosts.IntGfxMod.UnitBGs[7];
-                Img.ShowClipped(X - Img.Width / 2, Y - Img.Height / 2, SD);
+                image = DialogHosts.UIGraphics.UnitBGs[7];
+                image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, lockedSurface);
             }
 
-            SD.ClipRect = SaveRect;
+            lockedSurface.ClipRectangle = saveRectangle;
         }
     }
 
     // AoWArmyInfoDlg.pas:92
     public void ClearEvent()
     {
-        ArmyInfoEventLog Event;
-        ExecuteDoneEvent Notify;
-        if (FUnitInfoShown)
+        ArmyInfoEventLog eventValue;
+        ExecuteDoneEvent notify;
+        if (UnitInfoShown)
         {
-            FUnitInfoShown = false;
-            DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWin.MainWindow.Priority;
+            UnitInfoShown = false;
+            DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
             DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
 
-        Notify = FOnClose;
-        Event = FEvent;
-        FOnClose = null;
-        FEvent = null;
-        if (Notify != null)
+        notify = OnClose;
+        eventValue = Event;
+        OnClose = null;
+        Event = null;
+        if (notify != null)
         {
-            Notify(Event);
+            notify(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
@@ -123,16 +123,16 @@ public partial class ArmyInfoDialog : DataModule
     }
 
     // AoWArmyInfoDlg.pas:121
-    public void U1MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y, int Slot)
+    public void U1MouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y, int slot)
     {
-        var count = FEvent.FArmyView.GetCount();
-        if (Slot < count)
+        var count = Event.ArmyView.GetCount();
+        if (slot < count)
         {
-            var unit = FEvent.FArmyView.GetUnit(Slot);
-            DialogHosts.General.FSelectedUnit = unit;
-            if (Button == MouseButton.Left)
+            var troop = Event.ArmyView.GetUnit(slot);
+            DialogHosts.General.SelectedUnit = troop;
+            if (button == MouseButton.Left)
             {
-                FUnitInfoShown = true;
+                UnitInfoShown = true;
                 DialogHosts.UnitWindow.ShowUnit();
                 DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
@@ -140,18 +140,18 @@ public partial class ArmyInfoDialog : DataModule
     }
 
     // AoWArmyInfoDlg.pas:134
-    public void U1PreDraw(Frame Sender, LockedSurface SD, int Slot)
+    public void U1PreDraw(Frame sender, LockedSurface lockedSurface, int slot)
     {
         Rect R = default;
-        R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
-        R.Right = Sender.WinWidth + R.Left;
-        R.Top = Sender.WinTop + UnitPnl.WinTop;
-        R.Bottom = Sender.WinHeight + R.Top;
-        DrawUnit(Slot, R, ref SD);
+        R.Left = sender.WinLeft + UnitPnl.WinLeft + 1;
+        R.Right = sender.WinWidth + R.Left;
+        R.Top = sender.WinTop + UnitPnl.WinTop;
+        R.Bottom = sender.WinHeight + R.Top;
+        DrawUnit(slot, R, ref lockedSurface);
     }
 
     // AoWArmyInfoDlg.pas:146
-    public void FaceFramePreDraw(LockedSurface SD)
+    public void FaceFramePreDraw(LockedSurface lockedSurface)
     {
         Rect R = default;
         int I;
@@ -161,14 +161,14 @@ public partial class ArmyInfoDialog : DataModule
         R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
         I = 0;
-        while ((FEvent.FSelection & (1 << I)) == 0 && I != FEvent.FArmyView.GetCount())
+        while ((Event.Selection & (1 << I)) == 0 && I != Event.ArmyView.GetCount())
         {
             I += 1;
         }
 
-        if (I < FEvent.FArmyView.GetCount())
+        if (I < Event.ArmyView.GetCount())
         {
-            FEvent.FArmyView.GetUnit(I).ShowFace(R, SD);
+            Event.ArmyView.GetUnit(I).ShowFace(R, lockedSurface);
         }
     }
 
@@ -179,25 +179,25 @@ public partial class ArmyInfoDialog : DataModule
     }
 
     // AoWArmyInfoDlg.pas:166
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27 || Key == 32)
+        if (key == 27 || key == 32)
         {
             Dlg.Visible = false;
         }
     }
 
-    internal static void ShowArmyInfo(ArmyInfoDialog Dialog, ArmyInfoEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowArmyInfo(ArmyInfoDialog dialog, ArmyInfoEventLog eventValue, ExecuteDoneEvent done)
     {
-        Dialog.FOnClose = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        var text = Event.FMessages.Text;
-        Dialog.Message.Items.Text = text;
-        Dialog.Title.Text = Event.FTitle;
-        Dialog.HeaderLbl.Text = Event.FDescription;
-        Dialog.Dlg.Visible = true;
-        Dialog.FUnitInfoShown = false;
+        dialog.OnClose = done;
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        var text = eventValue.Messages.Text;
+        dialog.Message.Items.Text = text;
+        dialog.Title.Text = eventValue.Title;
+        dialog.HeaderLbl.Text = eventValue.Description;
+        dialog.Dlg.Visible = true;
+        dialog.UnitInfoShown = false;
     }
 
 }

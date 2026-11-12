@@ -20,101 +20,101 @@ public partial class AowHexSpriteMapMouse : GameMapMouse
     // AoWHSMap.PAS:1148
     public override int GetCursor()
     {
-        int Result;
-        CustomCombatMap CombatMap;
-        CombatMap = AoWHSMap.Current.FCombatMap;
-        if (CombatMap != null)
+        int result;
+        CustomCombatMap combatMap;
+        combatMap = AoWHSMap.Current.CombatMap;
+        if (combatMap != null)
         {
-            Result = CombatMap.Mouse.GetCursor();
+            result = combatMap.Mouse.GetCursor();
         }
         else
         {
-            Result = base.GetCursor();
+            result = base.GetCursor();
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:1157
-    public override void Down(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void Down(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.CombatMap != null)
         {
-            AoWHSMap.Current.FCombatMap.Mouse.Down(Button, Shift, X, Y);
+            AoWHSMap.Current.CombatMap.Mouse.Down(button, shift, X, Y);
         }
         else
         {
-            base.Down(Button, Shift, X, Y);
+            base.Down(button, shift, X, Y);
         }
 
-        if (GameTables.AoWEngine.FRegistry.GetDebugMode())
+        if (GameTables.GameEngine.Registry.GetDebugMode())
         {
-            var xhx = Xhx;
-            var yhx = Yhx;
-            GameTables.AoWEngine.OutputDebugStr("Location (" + IntToStr(xhx) + "," + IntToStr(yhx) + ") selected");
+            var hexX = HexX;
+            var hexY = HexY;
+            GameTables.GameEngine.OutputDebugString("Location (" + IntToStr(hexX) + "," + IntToStr(hexY) + ") selected");
         }
     }
 
     // AoWHSMap.PAS:1167
-    public override void Up(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void Up(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.CombatMap != null)
         {
-            AoWHSMap.Current.FCombatMap.Mouse.Up(Button, Shift, X, Y);
+            AoWHSMap.Current.CombatMap.Mouse.Up(button, shift, X, Y);
         }
         else
         {
-            base.Up(Button, Shift, X, Y);
+            base.Up(button, shift, X, Y);
         }
     }
 
     // AoWHSMap.PAS:1175
-    public override void Move(Set<ShiftState> Shift, int X, int Y)
+    public override void Move(Set<ShiftState> shift, int X, int Y)
     {
-        CustomCombatMap CombatMap;
-        CombatMap = AoWHSMap.Current.FCombatMap;
-        if (CombatMap != null)
+        CustomCombatMap combatMap;
+        combatMap = AoWHSMap.Current.CombatMap;
+        if (combatMap != null)
         {
-            CombatMap.Mouse.Move(Shift, X, Y);
+            combatMap.Mouse.Move(shift, X, Y);
         }
         else
         {
-            base.Move(Shift, X, Y);
+            base.Move(shift, X, Y);
         }
     }
 
     // AoWHSMap.PAS:1184
-    public override void DblClick()
+    public override void DoubleClick()
     {
-        CustomCombatMap CombatMap;
-        bool SelectStructure;
-        Structure Structure;
-        CombatMap = AoWHSMap.Current.FCombatMap;
-        if (CombatMap != null)
+        CustomCombatMap combatMap;
+        bool selectStructure;
+        Structure structure;
+        combatMap = AoWHSMap.Current.CombatMap;
+        if (combatMap != null)
         {
-            CombatMap.Mouse.DblClick();
+            combatMap.Mouse.DoubleClick();
             return;
         }
 
-        SelectStructure = Capture == null;
-        if (Capture == AoWHSMap.Current.FSelectedArmy)
+        selectStructure = Capture == null;
+        if (Capture == AoWHSMap.Current.SelectedArmy)
         {
-            SelectStructure = AoWHSMap.Current.FSelectedArmy.GetArmyHS() != null && AoWHSMap.Current.FSelectedArmy.FMoveSettingsList.Count == 1 && AoWHSMap.Current.FSelectedArmy.GetArmyHS().Xhx == Xhx && AoWHSMap.Current.FSelectedArmy.GetArmyHS().Yhx == Yhx && AoWHSMap.Current.FSelectedArmy.GetArmyHS().Lhx == AoWHSMap.Current.ViewL;
+            selectStructure = AoWHSMap.Current.SelectedArmy.GetArmyHexSprite() != null && AoWHSMap.Current.SelectedArmy.MoveSettingsList.Count == 1 && AoWHSMap.Current.SelectedArmy.GetArmyHexSprite().HexX == HexX && AoWHSMap.Current.SelectedArmy.GetArmyHexSprite().HexY == HexY && AoWHSMap.Current.SelectedArmy.GetArmyHexSprite().HexLevel == AoWHSMap.Current.ViewL;
         }
 
-        if (SelectStructure && Xhx != -1)
+        if (selectStructure && HexX != -1)
         {
-            var yhx = Yhx;
-            var xhx = Xhx;
-            Structure = (Structure)AoWHSMap.Current.MapContainer.GetField(xhx, yhx, AoWHSMap.Current.ViewL).FindNoneTransparentHS(typeof(Structure));
-            if (Structure != null && Structure.CanDblClick())
+            var hexY = HexY;
+            var hexX = HexX;
+            structure = (Structure)AoWHSMap.Current.MapContainer.GetField(hexX, hexY, AoWHSMap.Current.ViewL).FindNoneTransparentHexSprite(typeof(Structure));
+            if (structure != null && structure.CanDoubleClick())
             {
                 AoWHSMap.Current.Selection.UnselectLocation();
-                AoWHSMap.Current.Selection.SelectLocationHS(Structure);
+                AoWHSMap.Current.Selection.SelectLocationHexSprite(structure);
             }
         }
 
-        base.DblClick();
+        base.DoubleClick();
     }
 
     // intf_P1_05.inc:68

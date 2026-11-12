@@ -46,7 +46,7 @@ public static partial class RtlUnit
             string expression = FileSystemName.TranslateWin32Expression(pattern);
             var matches = all.Where(e => FileSystemName.MatchesWin32Expression(expression, e.Name, true)).ToArray();
             if (matches.Length == 0) return 2;
-            search.Entries = matches.Where(e => (e.Attr & ~attr & 30) == 0).OrderBy(e => e.Name.ToUpperInvariant(), StringComparer.Ordinal).ToArray();
+            search.Entries = matches.Where(e => (e.Attribute & ~attr & 30) == 0).OrderBy(e => e.Name.ToUpperInvariant(), StringComparer.Ordinal).ToArray();
             search.Index = -1;
             int result = FindNext(ref search);
             if (result != 0) FindClose(ref search);
@@ -62,7 +62,7 @@ public static partial class RtlUnit
         if (search.Entries is null) return 6;
         if (++search.Index >= search.Entries.Length) return 18;
         var item = search.Entries[search.Index];
-        search.Name = item.Name; search.Size = item.Size; search.Attr = item.Attr; search.Time = DateTimeToFileDate(ToDelphiDate(item.Modified));
+        search.Name = item.Name; search.Size = item.Size; search.Attr = item.Attribute; search.Time = DateTimeToFileDate(ToDelphiDate(item.Modified));
         return 0;
     }
 

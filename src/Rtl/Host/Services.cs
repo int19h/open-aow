@@ -6,7 +6,7 @@ public interface IRtlHost
     IDialogService Dialogs { get; }
     IClock Clock { get; }
     ISettingsStore Settings { get; }
-    string ExeName { get; }
+    string ExecutableName { get; }
     string GameRoot { get; }
 
     /// <summary>
@@ -57,8 +57,8 @@ public interface ISettingsStore
 
 public sealed class MemorySettingsStore : ISettingsStore
 {
-    private readonly Dictionary<string, object> values = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, object> _values = new(StringComparer.OrdinalIgnoreCase);
 
-    public object? Read(string key) => values.GetValueOrDefault(key);
-    public void Write(string key, object value) => values[key] = value;
+    public object? Read(string key) => _values.GetValueOrDefault(key);
+    public void Write(string key, object value) => _values[key] = value;
 }

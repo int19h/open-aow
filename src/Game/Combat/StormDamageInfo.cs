@@ -15,14 +15,14 @@ public struct StormDamageInfo
     [FieldOffset(1)]
     public sbyte IndependentRelation;
     [FieldOffset(2)]
-    public byte FriendlyRelations__image;
+    public byte FriendlyRelationsImage;
 
-    public Set<byte> FriendlyRelations { get => Set<byte>.FromMask(FriendlyRelations__image); set => FriendlyRelations__image = (byte)value.Image; }
+    public Set<byte> FriendlyRelations { get => Set<byte>.FromMask(FriendlyRelationsImage); set => FriendlyRelationsImage = (byte)value.Image; }
 
     [FieldOffset(3)]
-    public byte EnemyRelations__image;
+    public byte EnemyRelationsImage;
 
-    public Set<byte> EnemyRelations { get => Set<byte>.FromMask(EnemyRelations__image); set => EnemyRelations__image = (byte)value.Image; }
+    public Set<byte> EnemyRelations { get => Set<byte>.FromMask(EnemyRelationsImage); set => EnemyRelationsImage = (byte)value.Image; }
 
     [FieldOffset(4)]
     public int FriendlyValue;

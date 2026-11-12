@@ -18,20 +18,20 @@ internal static class PacingVerification
         var display = new TimedDisplay();
         var controller = new SdlDisplayController(host);
         var times = new List<double>(306);
-        const int warmupFrames = 150;
+        const int WarmupFrames = 150;
         long previous = 0;
         var priority = Thread.CurrentThread.Priority;
         using var process = Process.GetCurrentProcess();
         var processPriority = process.PriorityClass;
-        bool noGc = false;
+        bool noGroupControl = false;
         try
         {
             Thread.CurrentThread.Priority = ThreadPriority.Highest;
             process.PriorityClass = ProcessPriorityClass.High;
-            noGc = GC.TryStartNoGCRegion(16 * 1024 * 1024);
+            noGroupControl = GC.TryStartNoGCRegion(16 * 1024 * 1024);
             display.Host = host;
             display.EventSink = host;
-            display.ActivateDC(controller);
+            display.ActivateDisplayController(controller);
             display.SetUpdate((_, _, _) =>
             {
                 if (times.Count == 300) clock.WaitMilliseconds(70);
@@ -39,7 +39,7 @@ internal static class PacingVerification
             display.FramePresented = frame =>
             {
                 long now = Stopwatch.GetTimestamp();
-                if (frame < warmupFrames) return;
+                if (frame < WarmupFrames) return;
                 if (previous != 0) times.Add(Stopwatch.GetElapsedTime(previous, now).TotalMilliseconds);
                 previous = now;
                 if (times.Count == 306) display.StopUpdateFrameLoop();
@@ -48,7 +48,7 @@ internal static class PacingVerification
         }
         finally
         {
-            if (noGc) GC.EndNoGCRegion();
+            if (noGroupControl) GC.EndNoGCRegion();
             Thread.CurrentThread.Priority = priority;
             process.PriorityClass = processPriority;
             display?.Dispose();
@@ -64,7 +64,7 @@ internal static class PacingVerification
         {
             equal,
             frames = 300,
-            warmup_frames = warmupFrames,
+            warmup_frames = WarmupFrames,
             fps = 30,
             target_ms = 33,
             tolerance_ms = 1,

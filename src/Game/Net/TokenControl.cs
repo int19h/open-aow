@@ -6,252 +6,252 @@ namespace Aow.Game.Net;
 // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
 public partial class TokenControl : IDisposable
 {
-    internal TokenEventList FEvents;
-    internal TokenManager FTokenManager;
-    internal int FPlayer;
-    internal bool FActive;
+    internal TokenEventList _events;
+    internal TokenManager _tokenManager;
+    internal int _player;
+    internal bool _active;
 
     // NetworkE.pas:1189
     // { Keeps the events sorted on their token counters; an event without one goes to the end }
-    public virtual void Add(TokenEvent TE)
+    public virtual void Add(TokenEvent tokenEvent)
     {
         int I;
-        if (TE.FTokenCounter != -1)
+        if (tokenEvent._tokenCounter != -1)
         {
             I = 0;
-            while (I != FEvents.Count && FEvents[I].FTokenCounter < TE.FTokenCounter)
+            while (I != _events.Count && _events[I]._tokenCounter < tokenEvent._tokenCounter)
             {
                 I += 1;
             }
 
-            if (I < FEvents.Count)
+            if (I < _events.Count)
             {
-                if (FEvents[I].FTokenCounter == TE.FTokenCounter)
+                if (_events[I]._tokenCounter == tokenEvent._tokenCounter)
                 {
                     throw new InvalidOperationException("Double TokenCounter defined");
                 }
 
-                FEvents.Insert(I, TE);
+                _events.Insert(I, tokenEvent);
             }
             else
             {
-                FEvents.Add(TE);
+                _events.Add(tokenEvent);
             }
         }
         else
         {
-            FEvents.Add(TE);
+            _events.Add(tokenEvent);
         }
     }
 
     // NetworkE.pas:1293
     // { A local player's events end with a TPassTokenTE (after a TSyncTE when the executer checks the
     //   sync); a remote player's events are prefetched only when they are complete }
-    public virtual bool PrefetchTokenEvents(TokenExecutor Executer)
+    public virtual bool PrefetchTokenEvents(TokenExecutor executor)
     {
-        bool Result;
+        bool result;
         int N;
-        TokenEvent TE;
+        TokenEvent tokenEvent;
         if (Global() || Local())
         {
-            if (FEvents.Count != 0 || Executer.FHoldTC != true)
+            if (_events.Count != 0 || executor._holdTacticalBattle != true)
             {
                 if (Local())
                 {
-                    if (Executer.FOnSyncError != null)
+                    if (executor._onSyncError != null)
                     {
-                        TE = new SyncTokenEvent(null);
-                        var syncValue = Executer.GetSyncValue();
-                        ((SyncTokenEvent)TE).FSyncValue = syncValue;
-                        FEvents.Insert(0, TE);
-                        TE.Release();
+                        tokenEvent = new SyncTokenEvent(null);
+                        var syncValue = executor.GetSyncValue();
+                        ((SyncTokenEvent)tokenEvent)._syncValue = syncValue;
+                        _events.Insert(0, tokenEvent);
+                        tokenEvent.Release();
                     }
 
-                    TE = new PassTokenTokenEvent(null);
-                    FEvents.Add(TE);
-                    TE.Release();
+                    tokenEvent = new PassTokenTokenEvent(null);
+                    _events.Add(tokenEvent);
+                    tokenEvent.Release();
                 }
 
-                for (int I = 0, last = FEvents.Count - 1; I <= last; I++)
+                for (int I = 0, last = _events.Count - 1; I <= last; I++)
                 {
-                    Executer.PrefetchTokenEvent(FEvents[I]);
+                    executor.PrefetchTokenEvent(_events[I]);
                 }
 
-                FEvents.Clear();
-                Result = true;
+                _events.Clear();
+                result = true;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
             if (Remote())
             {
-                N = GetPrefetchableTokenEvents(Executer);
+                N = GetPrefetchableTokenEvents(executor);
                 if (N > 0)
                 {
                     for (int I = 0; I <= N - 1; I++)
                     {
-                        Executer.PrefetchTokenEvent(FEvents[I]);
+                        executor.PrefetchTokenEvent(_events[I]);
                     }
 
                     for (int I = N - 1; I >= 0; I--)
                     {
-                        FEvents.Delete(I);
+                        _events.Delete(I);
                     }
 
-                    Result = true;
+                    result = true;
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:1342
     // { A local player's prefetched events go to every other player }
-    public virtual void TokenEventsPrefetched(TokenExecutor Executer, TokenEventList Events)
+    public virtual void TokenEventsPrefetched(TokenExecutor executor, TokenEventList events)
     {
-        if (Local() && !Global() && Events.Count != 0)
+        if (Local() && !Global() && events.Count != 0)
         {
-            FTokenManager.FTokenPackageDistributer.SendTokenEvents(FPlayer, NetworkSession.AllPlayers, Events);
+            _tokenManager._tokenPackageDistributor.SendTokenEvents(_player, NetworkSession.AllPlayers, events);
         }
     }
 
     // NetworkE.pas:1169
-    public TokenControl(TokenManager AManager, int APlayer)
+    public TokenControl(TokenManager manager, int player)
     {
-        FEvents = new TokenEventList(null);
-        FTokenManager = AManager;
-        FPlayer = APlayer;
-        FActive = true;
-        if (FTokenManager != null && FTokenManager.FTokenExecuter != null)
+        _events = new TokenEventList(null);
+        _tokenManager = manager;
+        _player = player;
+        _active = true;
+        if (_tokenManager != null && _tokenManager._tokenExecutor != null)
         {
-            FTokenManager.FTokenExecuter.AddTC(this);
+            _tokenManager._tokenExecutor.AddTacticalBattle(this);
         }
     }
 
     // NetworkE.pas:1211
-    public virtual void AddEvent(TokenEvent TE)
+    public virtual void AddEvent(TokenEvent tokenEvent)
     {
         if (Remote())
         {
             throw new InvalidOperationException("Cannot Add Remote events");
         }
 
-        Add(TE);
+        Add(tokenEvent);
     }
 
     // NetworkE.pas:1218
-    public virtual void AddEventEx(TokenEvent TE)
+    public virtual void AddLocalEvent(TokenEvent tokenEvent)
     {
-        Add(TE);
+        Add(tokenEvent);
     }
 
     // NetworkE.pas:1238
-    public virtual void AddEvents(TokenEventList Events)
+    public virtual void AddEvents(TokenEventList events)
     {
-        for (int I = 0, last = Events.Count - 1; I <= last; I++)
+        for (int I = 0, last = events.Count - 1; I <= last; I++)
         {
-            AddEvent(Events[I]);
+            AddEvent(events[I]);
         }
     }
 
     // NetworkE.pas:1180
     public virtual void Dispose()
     {
-        if (FTokenManager != null && FTokenManager.FTokenExecuter != null)
+        if (_tokenManager != null && _tokenManager._tokenExecutor != null)
         {
-            FTokenManager.FTokenExecuter.RemoveTC(this);
+            _tokenManager._tokenExecutor.RemoveTacticalBattle(this);
         }
 
-        FEvents?.Dispose();
+        _events?.Dispose();
     }
 
     // NetworkE.pas:1223
     public void ClearEvents()
     {
-        FEvents.Clear();
+        _events.Clear();
     }
 
     // NetworkE.pas:1228
-    public TokenEvent GetEvent(int Index) => FEvents[Index];
+    public TokenEvent GetEvent(int index) => _events[index];
 
     // NetworkE.pas:1233
-    public int GetCount() => FEvents.Count;
+    public int GetCount() => _events.Count;
 
     // NetworkE.pas:1246
     public bool Local()
     {
-        var playerCommunicationControl = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
-        return playerCommunicationControl.GetPlayers(FPlayer).FConnectionMode == ConnectionMode.Local;
+        var playerCommunicationControl = _tokenManager._tokenPackageDistributor._pc._playerCommunicationControl;
+        return playerCommunicationControl.GetPlayers(_player)._connectionMode == ConnectionMode.Local;
     }
 
     // NetworkE.pas:1252
     public bool Global()
     {
-        var playerCommunicationControl = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
-        return playerCommunicationControl.GetPlayers(FPlayer).FConnectionMode == ConnectionMode.Global;
+        var playerCommunicationControl = _tokenManager._tokenPackageDistributor._pc._playerCommunicationControl;
+        return playerCommunicationControl.GetPlayers(_player)._connectionMode == ConnectionMode.Global;
     }
 
     // NetworkE.pas:1258
     public bool Remote()
     {
-        var playerCommunicationControl = FTokenManager.FTokenPackageDistributer.FPC.FPCC;
-        return playerCommunicationControl.GetPlayers(FPlayer).FConnectionMode == ConnectionMode.Remote;
+        var playerCommunicationControl = _tokenManager._tokenPackageDistributor._pc._playerCommunicationControl;
+        return playerCommunicationControl.GetPlayers(_player)._connectionMode == ConnectionMode.Remote;
     }
 
     // NetworkE.pas:1266
     // { The number of events of a remote player that can be executed now: they must follow the
     //   executer's token counter without a gap, up to and including the first TPassTokenTE }
-    public int GetPrefetchableTokenEvents(TokenExecutor Executer)
+    public int GetPrefetchableTokenEvents(TokenExecutor executor)
     {
-        int Result;
+        int result;
         int I;
-        bool InOrder;
-        bool PassToken;
+        bool inOrder;
+        bool passToken;
         if (Remote())
         {
             I = 0;
-            InOrder = true;
-            PassToken = false;
-            while (InOrder && !PassToken && I < FEvents.Count)
+            inOrder = true;
+            passToken = false;
+            while (inOrder && !passToken && I < _events.Count)
             {
-                InOrder = FEvents[I].FTokenCounter == Executer.FTokenCounter + I;
-                PassToken = FEvents[I].EClass.ClassID == NetworkSession.CID_PassTokenTE;
+                inOrder = _events[I]._tokenCounter == executor._tokenCounter + I;
+                passToken = _events[I].EngineClass.ClassId == NetworkSession.ClassIdPassTokenTokenEvent;
                 I += 1;
             }
 
-            if (InOrder)
+            if (inOrder)
             {
-                Result = I;
+                result = I;
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
         else
         {
-            Result = FEvents.Count;
+            result = _events.Count;
         }
 
-        return Result;
+        return result;
     }
 
-    public TokenEventList Events { get => FEvents; }
-    public int Player { get => FPlayer; }
-    public bool Active { get => FActive; set => FActive = value; }
+    public TokenEventList Events { get => _events; }
+    public int Player { get => _player; }
+    public bool Active { get => _active; set => _active = value; }
     public int Count { get => GetCount(); }
 
 }

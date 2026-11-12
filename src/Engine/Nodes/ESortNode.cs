@@ -6,36 +6,36 @@ namespace Aow.Engine.Nodes;
 public partial class ESortNode : ECustomNode
 {
     // Engine.pas:1478
-    public new const int ClassID = 260;
+    public new const int ClassId = 260;
 
     public ESortNode(ECustomNode owner) : base(owner)
     {
-        FItems = [];
+        Items = [];
     }
 
-    protected internal bool FSorted;
-    protected internal int FCount;
-    protected internal int FCapacity;
-    protected internal SortItem[] FItems = [];
+    protected internal bool _sorted;
+    protected internal int _count;
+    protected internal int Capacity;
+    protected internal SortItem[] Items = [];
 
     // Engine.pas:1513
-    protected internal void Resize(int NewCapacity)
+    protected internal void Resize(int newCapacity)
     {
-        Array.Resize(ref FItems, NewCapacity);
-        FCapacity = NewCapacity;
-        if (FCapacity < FCount)
+        Array.Resize(ref Items, newCapacity);
+        Capacity = newCapacity;
+        if (Capacity < _count)
         {
-            FCount = FCapacity;
+            _count = Capacity;
         }
     }
 
     // Engine.pas:1498
-    internal int GetSortValue(int Index) => FItems[Index].SortValue;
+    internal int GetSortValue(int index) => Items[index].SortValue;
 
     // Engine.pas:1503
-    internal void SetSortValue(int Index, int Value)
+    internal void SetSortValue(int index, int value)
     {
-        FItems[Index].SortValue = Value;
+        Items[index].SortValue = value;
     }
 
     // Engine.pas:1472
@@ -52,87 +52,87 @@ public partial class ESortNode : ECustomNode
     }
 
     // Engine.pas:1488
-    public override EngineObject GetChild(int Index) => FItems[Index].Child;
+    public override EngineObject GetChild(int index) => Items[index].Child;
 
     // Engine.pas:1493
-    public override void SetChild(int Index, EngineObject Child)
+    public override void SetChild(int index, EngineObject child)
     {
-        FItems[Index].Child = Child;
+        Items[index].Child = child;
     }
 
     // Engine.pas:1508
-    public override int GetCount() => FCount;
+    public override int GetCount() => _count;
 
     // Engine.pas:1520
     public virtual void Grow()
     {
-        Resize(FCapacity + 2);
+        Resize(Capacity + 2);
     }
 
     // Engine.pas:1525
-    public override int RemoveChild(EngineObject Child)
+    public override int RemoveChild(EngineObject child)
     {
-        int Result = FCount - 1;
-        while (Result >= 0 && Child != FItems[Result].Child)
+        int result = _count - 1;
+        while (result >= 0 && child != Items[result].Child)
         {
-            Result -= 1;
+            result -= 1;
         }
 
-        if (Result >= 0)
+        if (result >= 0)
         {
-            FCount -= 1;
-            if (Result < FCount)
+            _count -= 1;
+            if (result < _count)
             {
-                Array.Copy(FItems, Result + 1, FItems, Result, FCount - Result);
+                Array.Copy(Items, result + 1, Items, result, _count - result);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:1537
-    public override int AddChild(EngineObject Child) => AddSortChild(Child, 0);
+    public override int AddChild(EngineObject child) => AddSortChild(child, 0);
 
     // Engine.pas:1542
-    public virtual int AddSortChild(EngineObject Child, int SortValue)
+    public virtual int AddSortChild(EngineObject child, int sortValue)
     {
-        int Result;
+        int result;
         int I;
-        if (FCount >= FCapacity)
+        if (_count >= Capacity)
         {
             Grow();
         }
 
-        if (FSorted)
+        if (_sorted)
         {
-            I = FCount;
-            while (I > 0 && SortValue > FItems[I - 1].SortValue)
+            I = _count;
+            while (I > 0 && sortValue > Items[I - 1].SortValue)
             {
                 I -= 1;
             }
 
-            if (I != FCount)
+            if (I != _count)
             {
-                Array.Copy(FItems, I, FItems, I + 1, FCount - I);
+                Array.Copy(Items, I, Items, I + 1, _count - I);
             }
 
-            FItems[I].Child = Child;
-            FItems[I].SortValue = SortValue;
-            Result = I;
+            Items[I].Child = child;
+            Items[I].SortValue = sortValue;
+            result = I;
         }
         else
         {
-            FItems[FCount].Child = Child;
-            FItems[FCount].SortValue = SortValue;
-            Result = FCount;
+            Items[_count].Child = child;
+            Items[_count].SortValue = sortValue;
+            result = _count;
         }
 
-        FCount += 1;
-        return Result;
+        _count += 1;
+        return result;
     }
 
     // Engine.pas:1565
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
         throw new NotSupportedException("Read/Write not supported (TESortNode)");
     }
@@ -140,61 +140,61 @@ public partial class ESortNode : ECustomNode
     // Engine.pas:1596
     public virtual void Sort()
     {
-        if (!FSorted && FCount > 0)
+        if (!_sorted && _count > 0)
         {
-            SortItems(FItems, 0, FCount - 1);
+            SortItems(Items, 0, _count - 1);
         }
 
-        FSorted = true;
+        _sorted = true;
     }
 
     public sealed class SortValueAccessor(ESortNode target)
     {
-        public int this[int Index] { get => target.GetSortValue(Index); set => target.SetSortValue(Index, value); }
+        public int this[int index] { get => target.GetSortValue(index); set => target.SetSortValue(index, value); }
     }
 
     public SortValueAccessor SortValue => new SortValueAccessor(this);
-    public bool Sorted { get => FSorted; }
+    public bool Sorted { get => _sorted; }
 
-    private static void SortItems(Span<SortItem> SortList, int L, int R)
+    private static void SortItems(Span<SortItem> sortList, int L, int R)
     {
-        int num;
+        int number;
         do
         {
-            num = L;
-            int num2 = R;
-            int sortValue = SortList[L + R >>> 1].SortValue;
+            number = L;
+            int number2 = R;
+            int sortValue = sortList[L + R >>> 1].SortValue;
             while (true)
             {
-                if (sortValue > SortList[num].SortValue)
+                if (sortValue > sortList[number].SortValue)
                 {
-                    num++;
+                    number++;
                     continue;
                 }
-                while (sortValue < SortList[num2].SortValue)
+                while (sortValue < sortList[number2].SortValue)
                 {
-                    num2--;
+                    number2--;
                 }
-                if (num <= num2)
+                if (number <= number2)
                 {
-                    SortItem tSortItem = SortList[num];
-                    SortList[num] = SortList[num2];
-                    SortList[num2] = tSortItem;
-                    num++;
-                    num2--;
+                    SortItem sortItem = sortList[number];
+                    sortList[number] = sortList[number2];
+                    sortList[number2] = sortItem;
+                    number++;
+                    number2--;
                 }
-                if (num > num2)
+                if (number > number2)
                 {
                     break;
                 }
             }
-            if (L < num2)
+            if (L < number2)
             {
-                SortItems(SortList, L, num2);
+                SortItems(sortList, L, number2);
             }
-            L = num;
+            L = number;
         }
-        while (num < R);
+        while (number < R);
     }
 
     public struct SortItem

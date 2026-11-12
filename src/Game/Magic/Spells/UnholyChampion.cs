@@ -15,46 +15,46 @@ public partial class UnholyChampion : UnitSpell
     // UnitSpells.pas:537
     public UnholyChampion(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.UnholyChampionRStr);
-        FSpellID = 37;
-        FBaseManaCost = 5;
-        FSpellLevel = 2;
-        FMagicSphere = MagicSphere.Death;
-        FTargetRange = 12;
-        FUnitDispelResistance = 4;
-        FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_unholyChampionText);
+        SpellId = 37;
+        BaseManaCost = 5;
+        SpellLevel = 2;
+        MagicSphere = MagicSphere.Death;
+        TargetRange = 12;
+        UnitDispelResistance = 4;
+        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
     }
 
     // UnitSpells.pas:569
-    public override bool ValidTargetUnit(Troop Source, Troop Target)
+    public override bool ValidTargetUnit(Troop source, Troop target)
     {
-        bool Result = base.ValidTargetUnit(Source, Target);
-        return Result && !Target.GetAbilityEnabled(147) && !Target.GetAbilityEnabled(161) && AoWHSSet.Current.FAbilityControl.GetAbility(147).CanExpand(Target);
+        bool result = base.ValidTargetUnit(source, target);
+        return result && !target.GetAbilityEnabled(147) && !target.GetAbilityEnabled(161) && AoWHSSet.Current.AbilityControl.GetAbility(147).CanExpand(target);
     }
 
     // UnitSpells.pas:550
-    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
     {
-        bool Result;
-        UnitEnchantment Enchantment;
-        if (ValidTargetUnit(Source, Target))
+        bool result;
+        UnitEnchantment enchantment;
+        if (ValidTargetUnit(source, target))
         {
-            if (Target.ExpandAbility(161))
+            if (target.ExpandAbility(161))
             {
-                Enchantment = ((UnitEnchantmentAbilityData)Target.GetAbilityData(161)).FEnchantment;
-                Enchantment.SetUpkeep(FManaUpkeep);
-                Enchantment.SetSource(Source.FPlayer);
-                Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
+                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(161)).Enchantment;
+                enchantment.SetUpkeep(ManaUpkeep);
+                enchantment.SetSource(source.Player);
+                enchantment.DispelResistance = (sbyte)UnitDispelResistance;
             }
 
             // { Original succeeds even when expansion fails. }
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 }

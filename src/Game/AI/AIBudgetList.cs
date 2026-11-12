@@ -9,7 +9,7 @@ public partial class AIBudgetList : ENode
     { }
 
     // AI.pas:1707
-    public AIBudget GetBudgets(int Index) => (AIBudget)FChildren.List[Index];
+    public AIBudget GetBudgets(int index) => (AIBudget)_children.List[index];
 
     // Engine.pas:631
 

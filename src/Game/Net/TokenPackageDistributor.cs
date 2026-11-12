@@ -6,37 +6,37 @@ namespace Aow.Game.Net;
 // the received ones with their players' token controls
 public partial class TokenPackageDistributor
 {
-    internal TokenManager FTokenManager;
-    internal PlayerCommunicator FPC;
+    internal TokenManager _tokenManager;
+    internal PlayerCommunicator _pc;
 
     // NetworkE.pas:1136
     // { The token events of a package from another system go to the token control of the sending player,
     //   unless they were already executed or are already there. }
-    public virtual void TokenPackageReceived(TokenPackage TP)
+    public virtual void TokenPackageReceived(TokenPackage tp)
     {
-        if (FTokenManager != null)
+        if (_tokenManager != null)
         {
-            if (FPC.FPCC.GetLocalSystemID() != FPC.FPCC.GetPlayers(TP.FSender).FSystemID)
+            if (_pc._playerCommunicationControl.GetLocalSystemId() != _pc._playerCommunicationControl.GetPlayers(tp._sender)._systemId)
             {
-                for (int I = 0, last = TP.FTokenEvents.Count - 1; I <= last; I++)
+                for (int I = 0, last = tp._tokenEvents.Count - 1; I <= last; I++)
                 {
-                    if (TP.FTokenEvents[I].FTokenCounter >= FTokenManager.FTokenExecuter.FTokenCounter)
+                    if (tp._tokenEvents[I]._tokenCounter >= _tokenManager._tokenExecutor._tokenCounter)
                     {
-                        var tokenEvent = TP.FTokenEvents[I];
-                        if (FTokenManager.GetTokenControl(TP.FSender).FEvents.IndexOfTokenCounter(tokenEvent.FTokenCounter) == -1)
+                        var tokenEvent = tp._tokenEvents[I];
+                        if (_tokenManager.GetTokenControl(tp._sender)._events.IndexOfTokenCounter(tokenEvent._tokenCounter) == -1)
                         {
-                            var fTokenEventsItem = TP.FTokenEvents[I];
-                            FTokenManager.GetTokenControl(TP.FSender).Add(fTokenEventsItem);
-                            FTokenManager.GetTokenControl(TP.FSender).FEvents.SortOnTokenCounter();
+                            var fTokenEventsItem = tp._tokenEvents[I];
+                            _tokenManager.GetTokenControl(tp._sender).Add(fTokenEventsItem);
+                            _tokenManager.GetTokenControl(tp._sender)._events.SortOnTokenCounter();
                         }
                         else
                         {
-                            FTokenManager.TriggerMessage("TokenEvent already exists");
+                            _tokenManager.TriggerMessage("TokenEvent already exists");
                         }
                     }
                     else
                     {
-                        FTokenManager.TriggerMessage("TokenEvent already executed");
+                        _tokenManager.TriggerMessage("TokenEvent already executed");
                     }
                 }
             }
@@ -44,45 +44,45 @@ public partial class TokenPackageDistributor
     }
 
     // NetworkE.pas:1113
-    public TokenPackageDistributor(TokenManager AManager)
+    public TokenPackageDistributor(TokenManager manager)
     {
-        FTokenManager = AManager;
+        _tokenManager = manager;
     }
 
     // NetworkE.pas:1157
-    public virtual void SendTokenEvents(int APlayer, int AReceiver, TokenEventList Events)
+    public virtual void SendTokenEvents(int player, int receiver, TokenEventList events)
     {
-        TokenPackage TP;
-        TP = new TokenPackage(null);
-        TP.FTokenEvents.Assign(Events, null);
-        FPC.SendDataPackage(TP, APlayer, AReceiver);
-        TP.Release();
+        TokenPackage tp;
+        tp = new TokenPackage(null);
+        tp._tokenEvents.Assign(events, null);
+        _pc.SendDataPackage(tp, player, receiver);
+        tp.Release();
     }
 
     // NetworkE.pas:1119
-    public void SetPC(PlayerCommunicator PC)
+    public void SetPC(PlayerCommunicator pc)
     {
-        if (FPC != null)
+        if (_pc != null)
         {
-            FPC.FOnReceive -= DataPackageReceived;
+            _pc.FOnReceive -= DataPackageReceived;
         }
 
-        FPC = PC;
-        if (FPC != null)
+        _pc = pc;
+        if (_pc != null)
         {
-            FPC.FOnReceive += DataPackageReceived;
+            _pc.FOnReceive += DataPackageReceived;
         }
     }
 
     // NetworkE.pas:1128
-    public void DataPackageReceived(PlayerCommunicator Sender)
+    public void DataPackageReceived(PlayerCommunicator sender)
     {
-        if (Sender.FReceivedPackage is TokenPackage package)
+        if (sender._receivedPackage is TokenPackage package)
         {
             TokenPackageReceived(package);
         }
     }
 
-    public PlayerCommunicator PC { get => FPC; set => SetPC(value); }
+    public PlayerCommunicator PC { get => _pc; set => SetPC(value); }
 
 }

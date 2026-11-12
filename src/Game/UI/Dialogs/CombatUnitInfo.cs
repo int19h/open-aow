@@ -39,7 +39,7 @@ public partial class CombatUnitInfo : DataModule
     public ListBox UAbilLB;
     public Label AbilNameLbl;
     public Panel TCUnitPnl;
-    public Image AOWImage1;
+    public Image Image1;
     public Memo AUnitName;
     public ListBox USelAbilLb;
     public Panel TCAbilPnl;
@@ -77,7 +77,7 @@ public partial class CombatUnitInfo : DataModule
     public Button Center;
     public VerticalScrollBar AbilSB;
     public VerticalScrollBar UAbilSB;
-    public VerticalScrollBar AOWVScrollBar1;
+    public VerticalScrollBar VScrollBar1;
     public Panel AbilFr;
     public Panel ANameFr;
     public Panel TargerFr;
@@ -89,8 +89,8 @@ public partial class CombatUnitInfo : DataModule
     // AoWTCUnit.pas:106
     public void TCUnitWinResize()
     {
-        this.TCUnitWin.Alignment.RightOffset = this.TCUnitWin.WinManager.WinWidth - this.TCUnitWin.WinLeft - this.TCUnitWin.WinWidth;
-        this.TCUnitWin.Alignment.BottomOffset = this.TCUnitWin.WinManager.WinHeight - this.TCUnitWin.WinTop - this.TCUnitWin.WinHeight;
+        this.TCUnitWin.Alignment.RightOffset = this.TCUnitWin.WindowManager.WinWidth - this.TCUnitWin.WinLeft - this.TCUnitWin.WinWidth;
+        this.TCUnitWin.Alignment.BottomOffset = this.TCUnitWin.WindowManager.WinHeight - this.TCUnitWin.WinTop - this.TCUnitWin.WinHeight;
     }
 
     // AoWTCUnit.pas:116
@@ -101,20 +101,20 @@ public partial class CombatUnitInfo : DataModule
     }
 
     // AoWTCUnit.pas:123
-    public void UAbilLBPreDrawItem(in Rect DrawRect, int DrawItem, ref LockedSurface SD)
+    public void UAbilLBPreDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface lockedSurface)
     {
-        if (DialogHosts.General.FCombatUnit != null)
+        if (DialogHosts.General.CombatUnit != null)
         {
-            bool condition = DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == CombatMap.Current.FSeatedPlayer && DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0 && DrawItem < DialogHosts.General.FCombatUnit.FCombatAbilityCount;
+            bool condition = DialogHosts.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && DialogHosts.General.CombatUnit.Unit.MovePoints > 0 && drawItem < DialogHosts.General.CombatUnit.CombatAbilityCount;
             if (condition)
             {
-                var ability = DialogHosts.General.FCombatUnit.FAbilities[DrawItem];
-                var combatMode = AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.FCombatUnit.FAbilities[DrawItem]).Ability != 52;
+                var ability = DialogHosts.General.CombatUnit.Abilities[drawItem];
+                var combatMode = AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
+                bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.CombatUnit.Abilities[drawItem]).Ability != 52;
                 if (!test)
                 {
-                    var moves = DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves();
-                    test = DialogHosts.General.FCombatUnit.FUnit.FMovePoints == moves;
+                    var moves = DialogHosts.General.CombatUnit.Unit.Troop.GetMoves();
+                    test = DialogHosts.General.CombatUnit.Unit.MovePoints == moves;
                 }
 
                 condition = test;
@@ -132,45 +132,45 @@ public partial class CombatUnitInfo : DataModule
     }
 
     // AoWTCUnit.pas:138
-    public void TCUnitPnlDrawBack(LockedSurface SD)
+    public void TCUnitPnlDrawBack(LockedSurface lockedSurface)
     {
-        if (DialogHosts.General.FCombatUnit != null)
+        if (DialogHosts.General.CombatUnit != null)
         {
-            DialogHosts.General.FCombatUnit.FUnit.FUnit.ShowEx(TCUnitPnl.WinLeft - 10, TCUnitPnl.WinTop - 2, SD, DialogHosts.General.FUnitShowInfo);
+            DialogHosts.General.CombatUnit.Unit.Troop.Show(TCUnitPnl.WinLeft - 10, TCUnitPnl.WinTop - 2, lockedSurface, DialogHosts.General.UnitShowInfo);
         }
     }
 
     // AoWTCUnit.pas:146
     public void UAbilLBUpdate()
     {
-        if (UAbilLB.F188 != UAbilLB.Selected)
+        if (UAbilLB.HoverItem != UAbilLB.Selected)
         {
-            UAbilLB.Selected = UAbilLB.F188;
+            UAbilLB.Selected = UAbilLB.HoverItem;
         }
     }
 
     // AoWTCUnit.pas:152
-    public void UAbilLBMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void UAbilLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Ability Ability;
+        Ability ability;
         if (UAbilLB.Selected > -1)
         {
-            if (Button == MouseButton.Left)
+            if (button == MouseButton.Left)
             {
                 var objectValue = UAbilLB.Items.Objects[UAbilLB.Selected];
-                var selectAbility = DialogHosts.General.FCombatUnit.SelectAbility(ObjectToInt(objectValue));
+                var selectAbility = DialogHosts.General.CombatUnit.SelectAbility(ObjectToInt(objectValue));
                 UAbilLB.Selected = selectAbility;
             }
             else
             {
-                if (Button == MouseButton.Right && DialogHosts.General.FCombatUnit != null)
+                if (button == MouseButton.Right && DialogHosts.General.CombatUnit != null)
                 {
                     var objectValue = UAbilLB.Items.Objects[UAbilLB.Selected];
-                    Ability = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
-                    if (Ability != null)
+                    ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+                    if (ability != null)
                     {
-                        var name = Ability.GetName(DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                        InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
+                        var name = ability.GetName(DialogHosts.General.CombatUnit.Unit.Troop);
+                        InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, ability.Description);
                     }
                 }
             }
@@ -178,34 +178,34 @@ public partial class CombatUnitInfo : DataModule
     }
 
     // AoWTCUnit.pas:168
-    public void UAbilLBMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void UAbilLBMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (DialogHosts.General.FCombatUnit != null)
+        if (DialogHosts.General.CombatUnit != null)
         {
-            if (DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == CombatMap.Current.FSeatedPlayer && DialogHosts.General.FCombatUnit.FUnit.FMovePoints != 0 && UAbilLB.F188 < DialogHosts.General.FCombatUnit.FCombatAbilityCount)
+            if (DialogHosts.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && DialogHosts.General.CombatUnit.Unit.MovePoints != 0 && UAbilLB.HoverItem < DialogHosts.General.CombatUnit.CombatAbilityCount)
             {
-                var ability = DialogHosts.General.FCombatUnit.FAbilities[UAbilLB.F188];
-                var combatMode = AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.FCombatUnit.FAbilities[UAbilLB.F188]).Ability != 52)
+                var ability = DialogHosts.General.CombatUnit.Abilities[UAbilLB.HoverItem];
+                var combatMode = AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
+                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.CombatUnit.Abilities[UAbilLB.HoverItem]).Ability != 52)
                 {
                     return;
                 }
 
-                var tacticalCombatUnit = DialogHosts.General.FCombatUnit.FUnit;
-                if (tacticalCombatUnit.FUnit.GetMoves() <= tacticalCombatUnit.FMovePoints)
+                var tacticalBattleUnit = DialogHosts.General.CombatUnit.Unit;
+                if (tacticalBattleUnit.Troop.GetMoves() <= tacticalBattleUnit.MovePoints)
                 {
                     return;
                 }
             }
 
-            UAbilLB.F188 = -1;
+            UAbilLB.HoverItem = -1;
         }
     }
 
     // AoWTCUnit.pas:187
-    public void HeroSMapMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void HeroSMapMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        DialogHosts.General.FSelectedUnit = DialogHosts.General.FCombatUnit.FUnit.FUnit;
+        DialogHosts.General.SelectedUnit = DialogHosts.General.CombatUnit.Unit.Troop;
         DialogHosts.UnitWindow.ShowUnit();
     }
 
@@ -213,14 +213,14 @@ public partial class CombatUnitInfo : DataModule
     public void CenterClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var lhx = DialogHosts.General.FCombatUnit.GetLhx();
-        var yhx = DialogHosts.General.FCombatUnit.GetYhx();
-        var xhx = DialogHosts.General.FCombatUnit.GetXhx();
-        CombatMap.Current.CenterViewTo(xhx, yhx, lhx);
-        var fCombatUnitLhx = DialogHosts.General.FCombatUnit.GetLhx();
-        var fCombatUnitYhx = DialogHosts.General.FCombatUnit.GetYhx();
-        var fCombatUnitXhx = DialogHosts.General.FCombatUnit.GetXhx();
-        CombatMap.Current.PlayCenterAnimation(fCombatUnitXhx, fCombatUnitYhx, fCombatUnitLhx);
+        var hexLevel = DialogHosts.General.CombatUnit.GetHexLevel();
+        var hexY = DialogHosts.General.CombatUnit.GetHexY();
+        var hexX = DialogHosts.General.CombatUnit.GetHexX();
+        CombatMap.Current.CenterViewTo(hexX, hexY, hexLevel);
+        var fCombatUnitHexLevel = DialogHosts.General.CombatUnit.GetHexLevel();
+        var fCombatUnitHexY = DialogHosts.General.CombatUnit.GetHexY();
+        var fCombatUnitHexX = DialogHosts.General.CombatUnit.GetHexX();
+        CombatMap.Current.PlayCenterAnimation(fCombatUnitHexX, fCombatUnitHexY, fCombatUnitHexLevel);
     }
 
     // AoWTCUnit.pas:195

@@ -15,48 +15,48 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World;
 
-// FPlayer, FTurnsRemaining, FDrifting, FDirection, FUpdated
+// Player, TurnsRemaining, Drifting, Direction, Updated
 public partial class PoisonCloud : MultiHexMapObject
 {
     public PoisonCloud(ECustomNode owner) : base(owner)
     {
-        FDrifting = false;
+        Drifting = false;
     }
 
     // PoisonC.pas:64
-    public new const int ClassID = 135743;
+    public new const int ClassId = 135743;
 
-    public sbyte FPlayer;
-    public int FTurnsRemaining;
-    public bool FDrifting;
-    public byte FDirection;
-    public bool FUpdated;
+    public sbyte Player;
+    public int TurnsRemaining;
+    public bool Drifting;
+    public byte Direction;
+    public bool Updated;
 
     // PoisonC.pas:149
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 15);
-        Stream.rwInteger(ref FTurnsRemaining, 16);
-        Stream.rwBool(ref FDrifting, 17);
-        Stream.rwByte(ref FDirection, 18);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 15);
+        stream.rwInteger(ref TurnsRemaining, 16);
+        stream.rwBool(ref Drifting, 17);
+        stream.rwByte(ref Direction, 18);
     }
 
     // PoisonC.pas:58
 
     // PoisonC.pas:275
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer && !FUpdated)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986 && message.Payload.Int == Player && !Updated)
         {
             UpdateCloud();
             return;
         }
 
-        if (Msg.MsgID == 537001987 && Msg.Payload.Int == FPlayer)
+        if (message.MessageId == 537001987 && message.Payload.Int == Player)
         {
-            FUpdated = false;
+            Updated = false;
         }
     }
 
@@ -66,54 +66,54 @@ public partial class PoisonCloud : MultiHexMapObject
     // PoisonC.pas:89
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
-        if (Result)
+        bool result = base.PlaceOnMap();
+        if (result)
         {
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            UpdateMapFields((MapLevel)Owner.Owner, xhx, yhx);
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            UpdateMapFields((MapLevel)Owner.Owner, hexX, hexY);
         }
 
-        return Result;
+        return result;
     }
 
     // PoisonC.pas:111
     public override void RemoveFromMap()
     {
-        MapLevel Level;
-        Level = (MapLevel)Owner.Owner;
+        MapLevel level;
+        level = (MapLevel)Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(Level, FXhx, FYhx);
+        UpdateMapFields(level, _hexX, _hexY);
     }
 
     // PoisonC.pas:182
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (Msg.MsgID != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            base.MapFieldMsgProc(ref Msg);
+            base.MapFieldMessageProc(ref message);
         }
 
-        if (FResource.TerrainList.Terrain[Msg.HN] >= -1)
+        if (_resource.TerrainList.Terrain[message.HexNumber] >= -1)
         {
-            if (Msg.MsgID == 4418)
+            if (message.MessageId == 4418)
             {
-                ArmyPlaced(Msg.Param[0].As<ArmyHexSprite>());
+                ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
             }
             else
             {
-                if (Msg.MsgID == 4384)
+                if (message.MessageId == 4384)
                 {
-                    if (!Msg.Param[0].As<ArmyHexSprite>().FArmy.ImmunityTypes(255).Contains(DamageType.Poison))
+                    if (!message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageType.Poison))
                     {
-                        Msg.Result = 1;
+                        message.Result = 1;
                     }
                 }
                 else
                 {
-                    if (Msg.MsgID == 4432)
+                    if (message.MessageId == 4432)
                     {
-                        if ((byte)Msg.Param[0].Int == 1 && Msg.Param[1].Int == 0 && Msg.HN == 0)
+                        if ((byte)message.Param[0].Int == 1 && message.Param[1].Int == 0 && message.HexNumber == 0)
                         {
                             Dispose();
                         }
@@ -124,14 +124,14 @@ public partial class PoisonCloud : MultiHexMapObject
     }
 
     // PoisonC.pas:119
-    public override int CanMoveOver(in HexSpriteSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int Result;
-        if (FResource.TerrainList.Terrain[Info.HN] >= -1)
+        int result;
+        if (_resource.TerrainList.Terrain[info.HexNumber] >= -1)
         {
-            if (!CanDoDamage(((MoveControl)Info.Sender).FSettings.FUnits))
+            if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units))
             {
-                Result = 1;
+                result = 1;
             }
             else
             {
@@ -140,217 +140,217 @@ public partial class PoisonCloud : MultiHexMapObject
         }
         else
         {
-            Result = 1;
+            result = 1;
         }
 
-        return Result;
+        return result;
     }
 
     // PoisonC.pas:198
     public override void Activate()
     {
         base.Activate();
-        if (FDirection == 0)
+        if (Direction == 0)
         {
-            FDirection = (byte)(AoWHSMap.Current.Random(6) + 1);
+            Direction = (byte)(AoWHSMap.Current.Random(6) + 1);
         }
     }
 
     // PoisonC.pas:83
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (FResource.TerrainList.Terrain[Info.HN] >= -1)
+        if (_resource.TerrainList.Terrain[info.HexNumber] >= -1)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 8192;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 8192;
         }
     }
 
     // PoisonC.pas:70
-    public override bool CanSelect(int Xhp, int Yhp)
+    public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool Result;
-        int Xhx = default;
-        int Yhx = default;
-        int HN;
-        if (FResource.Engine.HSMap.Status.Contains(HexSpriteMapStatusElement.Editting))
+        bool result;
+        int hexX = default;
+        int hexY = default;
+        int hexNumber;
+        if (_resource.Engine.HexSpriteMap.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-            HN = HexGeometry.dHXtoHN(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, Xhx, Yhx);
-            Result = HN < FResource.TerrainList.Count && FResource.TerrainList.Terrain[HN] >= -1;
+            HexGeometry.PixelToHex(pixelX, pixelY, ref hexX, ref hexY);
+            hexNumber = HexGeometry.DeltaHexToHexNumber(((MapField)Owner).HexX, ((MapField)Owner).HexY, hexX, hexY);
+            result = hexNumber < _resource.TerrainList.Count && _resource.TerrainList.Terrain[hexNumber] >= -1;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // PoisonC.pas:95
-    public new void UpdateMapFields(MapLevel Level, int Xhx, int Yhx)
+    public new void UpdateMapFields(MapLevel level, int hexX, int hexY)
     {
-        HexNumberWalkData Walk = default;
-        int Count;
-        Count = FResource.TerrainList.Count;
-        HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
-        while (Walk.HN != Count)
+        HexNumberWalkData walk = default;
+        int count;
+        count = _resource.TerrainList.Count;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        while (walk.HexNumber != count)
         {
-            if (GetTerrain(Walk.HN) >= -1 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                Level.GetField(Walk.X, Walk.Y).UpdateMapField();
+                level.GetField(walk.X, walk.Y).UpdateMapField();
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 
     // PoisonC.pas:129
-    public bool CanDoDamage(UnitList Units)
+    public bool CanDoDamage(UnitList units)
     {
         int I;
-        Troop AUnit;
-        bool Result = false;
-        I = Units.GetCount();
-        while (!Result && I != 0)
+        Troop troop;
+        bool result = false;
+        I = units.GetCount();
+        while (!result && I != 0)
         {
             I -= 1;
-            AUnit = Units.GetUnit(I);
-            Result = !AUnit.GetImmunityTypes().Contains(DamageType.Poison) && !AUnit.GetAbilityEnabled(1);
+            troop = units.GetUnit(I);
+            result = !troop.GetImmunityTypes().Contains(DamageType.Poison) && !troop.GetAbilityEnabled(1);
         }
 
-        return Result;
+        return result;
     }
 
     // PoisonC.pas:142
-    public void ArmyPlaced(ArmyHexSprite ArmyHS)
+    public void ArmyPlaced(ArmyHexSprite armyHexSprite)
     {
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && !((AoWMapField)ArmyHS.Owner).GetMagicShieldActive())
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && !((AoWMapField)armyHexSprite.Owner).GetMagicShieldActive())
         {
-            ArmyHS.FArmy.IncommingStorm(StormType.Pestilence, 0, ArmyHS.FArmy.FPlayer);
+            armyHexSprite.Army.IncomingStorm(StormType.Pestilence, 0, armyHexSprite.Army.Player);
         }
     }
 
     // PoisonC.pas:158
     public void TriggerDamage()
     {
-        MapFieldMessage Msg = default;
+        MapFieldMessage message = default;
         HexNumberWalkData Walk = default;
-        MapLevel Level;
-        Level = (MapLevel)Owner.Owner;
-        var yhx = GetYhx();
-        var xhx = GetXhx();
-        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
-        Msg.MsgID = 4432;
-        Msg.Param[0] = (int)StormType.Pestilence;
-        Msg.Param[2] = FPlayer;
+        MapLevel level;
+        level = (MapLevel)Owner.Owner;
+        var hexY = GetHexY();
+        var hexX = GetHexX();
+        HexNumberWalkData.InitializeHexNumberWalk(ref Walk, hexX, hexY, 0);
+        message.MessageId = 4432;
+        message.Param[0] = (int)StormType.Pestilence;
+        message.Param[2] = Player;
         ref var walk = ref Walk;
-        while (FResource.TerrainList.Count > walk.HN)
+        while (_resource.TerrainList.Count > walk.HexNumber)
         {
-            if (FResource.TerrainList.GetTerrain(walk.HN) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && Level.Height > walk.Y)
+            if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= -1 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
             {
-                Msg.Param[1] = walk.Radius;
-                Level.GetField(walk.X, walk.Y).SendMapFieldMsg(ref Msg);
+                message.Param[1] = walk.Radius;
+                level.GetField(walk.X, walk.Y).SendMapFieldMessage(ref message);
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref Walk);
         }
     }
 
     // PoisonC.pas:204
-    public bool ValidMoveDir(int Direction)
+    public bool ValidMoveDirection(int direction)
     {
-        int Xhx = default;
-        int Yhx = default;
-        MapLevel Level;
-        Level = (MapLevel)Owner.Owner;
-        var yhx = GetYhx();
-        HexGeometry.CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
-        HexGeometry.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
-        return Xhx >= 10 && Yhx >= 10 && Xhx + 10 <= Level.Width && Yhx + 10 <= Level.Height;
+        int hexX = default;
+        int hexY = default;
+        MapLevel level;
+        level = (MapLevel)Owner.Owner;
+        var yhx = GetHexY();
+        HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
+        HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
+        return hexX >= 10 && hexY >= 10 && hexX + 10 <= level.Width && hexY + 10 <= level.Height;
     }
 
     // PoisonC.pas:216
     public void UpdateCloud()
     {
-        int Xhx = default;
-        int Yhx = default;
-        ByteList Directions;
-        bool Valid;
-        int Direction;
-        int Tries;
-        int Lhx;
-        int OldXhx;
-        int OldYhx;
-        if (FTurnsRemaining != 1)
+        int hexX = default;
+        int hexY = default;
+        ByteList directions;
+        bool valid;
+        int direction;
+        int tries;
+        int hexLevel;
+        int oldHexX;
+        int oldHexY;
+        if (TurnsRemaining != 1)
         {
-            FUpdated = true;
-            if (FTurnsRemaining != 0)
+            Updated = true;
+            if (TurnsRemaining != 0)
             {
-                FTurnsRemaining -= 1;
+                TurnsRemaining -= 1;
             }
 
-            if (FDrifting)
+            if (Drifting)
             {
-                Direction = 0;
-                Directions = new ByteList();
-                Valid = false;
-                Directions.Add(FDirection);
-                if (FDirection != 1)
+                direction = 0;
+                directions = new ByteList();
+                valid = false;
+                directions.Add(Direction);
+                if (Direction != 1)
                 {
-                    Directions.Add((byte)(FDirection - 1));
+                    directions.Add((byte)(Direction - 1));
                 }
                 else
                 {
-                    Directions.Add(6);
+                    directions.Add(6);
                 }
 
-                if (FDirection != 6)
+                if (Direction != 6)
                 {
-                    Directions.Add((byte)(FDirection + 1));
+                    directions.Add((byte)(Direction + 1));
                 }
                 else
                 {
-                    Directions.Add(1);
+                    directions.Add(1);
                 }
 
-                while (Directions.Count != 0 && !Valid)
+                while (directions.Count != 0 && !valid)
                 {
-                    Direction = Directions[AoWHSMap.Current.Random(Directions.Count)];
-                    Valid = ValidMoveDir(Direction);
-                    if (!Valid)
+                    direction = directions[AoWHSMap.Current.Random(directions.Count)];
+                    valid = ValidMoveDirection(direction);
+                    if (!valid)
                     {
-                        Directions.Remove((byte)Direction);
+                        directions.Remove((byte)direction);
                     }
                 }
 
-                Directions?.Dispose();
-                if (!Valid)
+                directions?.Dispose();
+                if (!valid)
                 {
-                    Tries = 20;
-                    while (!Valid && Tries != 0)
+                    tries = 20;
+                    while (!valid && tries != 0)
                     {
-                        Direction = AoWHSMap.Current.Random(6) + 1;
-                        Valid = ValidMoveDir(Direction);
-                        Tries -= 1;
+                        direction = AoWHSMap.Current.Random(6) + 1;
+                        valid = ValidMoveDirection(direction);
+                        tries -= 1;
                     }
                 }
 
-                if (Valid)
+                if (valid)
                 {
-                    OldXhx = GetXhx();
-                    OldYhx = GetYhx();
-                    FDirection = (byte)Direction;
-                    Lhx = GetLhx();
-                    var yhx = GetYhx();
-                    HexGeometry.CenterHNtoHX(GetXhx(), yhx, Direction, ref Xhx, ref Yhx);
-                    HexGeometry.CenterHNtoHX(Xhx, Yhx, Direction, ref Xhx, ref Yhx);
+                    oldHexX = GetHexX();
+                    oldHexY = GetHexY();
+                    Direction = (byte)direction;
+                    hexLevel = GetHexLevel();
+                    var yhx = GetHexY();
+                    HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
+                    HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
                     Disconnect();
-                    UpdateMapFields(AoWHSMap.Current.MapContainer.GetMapLevel(Lhx), OldXhx, OldYhx);
-                    FXhx = (sbyte)Xhx;
-                    FYhx = (sbyte)Yhx;
-                    Owner = AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx);
+                    UpdateMapFields(AoWHSMap.Current.MapContainer.GetMapLevel(hexLevel), oldHexX, oldHexY);
+                    _hexX = (sbyte)hexX;
+                    _hexY = (sbyte)hexY;
+                    Owner = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
                     Connect();
-                    UpdateMapFields(AoWHSMap.Current.MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
+                    UpdateMapFields(AoWHSMap.Current.MapContainer.GetMapLevel(hexLevel), hexX, hexY);
                 }
             }
 
@@ -368,15 +368,15 @@ public partial class PoisonCloud : MultiHexMapObject
         { }
 
         // PoisonC.pas:286
-        public new const int ClassID = 135744;
+        public new const int ClassId = 135744;
 
         // PoisonC.pas:292
-        public override int ResourceUserClassID() => 135743;
+        public override int ResourceUserClassId() => 135743;
 
         // PoisonC.pas:289
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(PoisonCloudRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_poisonCloudText);
 
-        private static readonly string PoisonCloudRStr = "Poison Cloud";
+        private static readonly string s_poisonCloudText = "Poison Cloud";
 
     }
 

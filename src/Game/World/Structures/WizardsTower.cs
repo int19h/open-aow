@@ -26,122 +26,122 @@ public partial class WizardsTower : Structure
 {
     public WizardsTower(ECustomNode owner) : base(owner)
     {
-        FGenerateSpell = true;
-        FMagicSpheres = AllMagicSpheres;
-        FSpellLevel = 2;
+        GenerateSpell = true;
+        MagicSpheres = s_allMagicSpheres;
+        SpellLevel = 2;
     }
 
     // WizardsTower.pas:84
-    public new const int ClassID = 133278;
+    public new const int ClassId = 133278;
 
-    public bool FGenerateSpell;
-    public Set<MagicSphere> FMagicSpheres;
-    public byte FSpellLevel;
-    public int FSpellID;
+    public bool GenerateSpell;
+    public Set<MagicSphere> MagicSpheres;
+    public byte SpellLevel;
+    public int SpellId;
 
     // WizardsTower.pas:87
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwBool(ref FGenerateSpell, 30);
-        RwSet(ref FMagicSpheres, 2, 31, Stream.rwData, 0);
-        Stream.rwByte(ref FSpellLevel, 32);
-        Stream.rwData(Bytes.Of(ref FSpellID, 4), 4, 33);
+        base.ReadWrite(stream);
+        stream.rwBool(ref GenerateSpell, 30);
+        RwSet(ref MagicSpheres, 2, 31, stream.rwData, 0);
+        stream.rwByte(ref SpellLevel, 32);
+        stream.rwData(Bytes.Of(ref SpellId, 4), 4, 33);
     }
 
     // WizardsTower.pas:76
 
     // WizardsTower.pas:196
-    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
+    public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        Player Player;
-        string Reason = "";
-        ExecuteResult Result = base.ExecuteTE(TE, Executer);
-        if (TE.FAction == 1 && CanBuy((sbyte)TE.FParam, ref Reason))
+        Player player;
+        string reason = "";
+        ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
+        if (tokenEvent.Action == 1 && CanBuy((sbyte)tokenEvent.Param, ref reason))
         {
-            Player = AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam);
+            player = AoWHSMap.Current.Players.GetPlayers(tokenEvent.Param);
             var buyCost = BuyCost();
-            Player.SetGems(Player.FGems - buyCost);
-            Player.FMagicControl.FSpells.Add(FSpellID);
-            if (AoWHSMap.Current.FSeatedPlayer == TE.FParam)
+            player.SetGems(player.Gems - buyCost);
+            player.MagicControl.Spells.Add(SpellId);
+            if (AoWHSMap.Current.SeatedPlayer == tokenEvent.Param)
             {
-                var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-                var format = RtlUnit.Format(AbilityRules.TranslateRStr(TheyTaughtYouTheSpellXRStr), [spell.FSpellName]);
+                var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_theyTaughtYouSpellFormat), [spell.SpellName]);
                 AoWHSMap.Current.ShowMessage(format);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // WizardsTower.pas:168
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.FDay == 1 && (FGenerateSpell || FSpellID == 0))
+        if (AoWHSMap.Current.Day == 1 && (GenerateSpell || SpellId == 0))
         {
             GenerateSettings();
         }
     }
 
     // WizardsTower.pas:126
-    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
-        Army Army;
-        AIGroup Group;
+        Army army;
+        AIGroup group;
         int I;
-        string Reason = "";
-        int Cost;
-        bool Found;
-        int Location;
-        base.ArmyPlaced(PlacedArmy);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(PlacedArmy.FArmy.FPlayer);
-        if (Set<PlayerType>.Of(PlayerType.CPU1, PlayerType.CPU2, PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType) && ValidAITarget(PlacedArmy.FArmy.FPlayer))
+        string reason = "";
+        int cost;
+        bool found;
+        int location;
+        base.ArmyPlaced(placedArmy);
+        var player = AoWHSMap.Current.Players.GetPlayers(placedArmy.Army.Player);
+        if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType) && ValidAITarget(placedArmy.Army.Player))
         {
-            Army = PlacedArmy.FArmy;
-            Group = null;
+            army = placedArmy.Army;
+            group = null;
             I = 0;
-            Cost = BuyCost();
-            Found = false;
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            Location = Unsafe.BitCast<MapCoordinate, int>(HexGeometry.PackXYL(GetXhx(), yhx, lhx));
-            while (!Found && I != Army.Count)
+            cost = BuyCost();
+            found = false;
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            location = Unsafe.BitCast<MapCoordinate, int>(HexGeometry.PackMapCoordinate(GetHexX(), hexY, hexLevel));
+            while (!found && I != army.Count)
             {
-                Group = Army.GetUnit(I).FGroup;
-                Found = Group != null && Unsafe.As<MapCoordinate, int>(ref Group.FTargetXYL) == Location && Group.FGoldBudget == Cost;
+                group = army.GetUnit(I).Group;
+                found = group != null && Unsafe.As<MapCoordinate, int>(ref group.TargetMapCoordinate) == location && group.GoldBudget == cost;
                 I += 1;
             }
 
-            if (Found && CanBuy(Army.FPlayer, ref Reason))
+            if (found && CanBuy(army.Player, ref reason))
             {
-                Group.ReturnTargetExpense();
-                var playerGems = AoWHSMap.Current.FPlayers.GetPlayers(Army.FPlayer);
-                AoWHSMap.Current.FPlayers.GetPlayers(Army.FPlayer).SetGems(playerGems.FGems - Cost);
-                AoWHSMap.Current.FPlayers.GetPlayers(Army.FPlayer).FMagicControl.FSpells.Add(FSpellID);
+                group.ReturnTargetExpense();
+                var playerGems = AoWHSMap.Current.Players.GetPlayers(army.Player);
+                AoWHSMap.Current.Players.GetPlayers(army.Player).SetGems(playerGems.Gems - cost);
+                AoWHSMap.Current.Players.GetPlayers(army.Player).MagicControl.Spells.Add(SpellId);
             }
         }
     }
 
     // WizardsTower.pas:107
-    public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
+    public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        sbyte Player;
+        sbyte player;
         if (!GetRazed() || GetBuilding())
         {
-            switch (Info.Mode)
+            switch (info.Mode)
             {
                 case AITargetMode.Attack:
-                    Player = ((AoWMapField)Owner).GetPlayer();
-                    if (Player != Info.Player && (Player <= 0 || AbilityRules.ValidAttackRelation(Info.Player, 0, Player, 0)) && ValidAITarget(Info.Player))
+                    player = ((AoWMapField)Owner).GetPlayer();
+                    if (player != info.Player && (player <= 0 || AbilityRules.ValidAttackRelation(info.Player, 0, player, 0)) && ValidAITarget(info.Player))
                     {
-                        if (Data.Priority < 10)
+                        if (data.Priority < 10)
                         {
-                            Data.Priority = 10;
+                            data.Priority = 10;
                         }
 
                         var buyCost = BuyCost();
-                        Data.Cost = buyCost;
+                        data.Cost = buyCost;
                     }
 
                     break;
@@ -150,146 +150,146 @@ public partial class WizardsTower : Structure
     }
 
     // WizardsTower.pas:96
-    public override bool CanDblClick() => CanEnter(AoWHSMap.Current.FSeatedPlayer);
+    public override bool CanDoubleClick() => CanEnter(AoWHSMap.Current.SeatedPlayer);
 
     // WizardsTower.pas:99
-    public bool ValidAITarget(sbyte Player)
+    public bool ValidAITarget(sbyte player)
     {
-        bool Result;
-        if (Player > 0 && !GetRazed() && FSpellID != 0 && AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FSpells.IndexOf(FSpellID) == -1)
+        bool result;
+        if (player > 0 && !GetRazed() && SpellId != 0 && AoWHSMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
         {
-            Result = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastDuration > 0;
+            result = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastDuration > 0;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // WizardsTower.pas:163
     public void GenerateSettings()
     {
-        FSpellID = AoWHSSet.Current.FSpellControl.GetRandomSpell(FSpellLevel, FSpellLevel, FMagicSpheres);
+        SpellId = AoWHSSet.Current.SpellControl.GetRandomSpell(SpellLevel, SpellLevel, MagicSpheres);
     }
 
     // WizardsTower.pas:174
-    public bool CanEnter(sbyte Player)
+    public bool CanEnter(sbyte player)
     {
-        bool Result;
-        ArmyHexSprite ArmyHS;
-        ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-        if (ArmyHS == null || ArmyHS.FArmy.FPlayer != Player)
+        bool result;
+        ArmyHexSprite armyHexSprite;
+        armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        if (armyHexSprite == null || armyHexSprite.Army.Player != player)
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // WizardsTower.pas:182
     public bool Enter()
     {
-        bool Result = default;
-        EnterWizardsTowerEventLog Log;
-        if (CanEnter(AoWHSMap.Current.FSeatedPlayer))
+        bool result = default;
+        EnterWizardsTowerEventLog log;
+        if (CanEnter(AoWHSMap.Current.SeatedPlayer))
         {
-            Log = new EnterWizardsTowerEventLog(null);
-            Log.FTower = this;
-            Log.Execute(true, ExecuteTrigger.User, null);
-            Log.Release();
-            Result = true;
+            log = new EnterWizardsTowerEventLog(null);
+            log.Tower = this;
+            log.Execute(true, ExecuteTrigger.User, null);
+            log.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // WizardsTower.pas:215
     public int BuyCost()
     {
-        int Result;
-        if (FSpellID != 0)
+        int result;
+        if (SpellId != 0)
         {
-            Result = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FResearchCost;
+            result = AoWHSSet.Current.SpellControl.GetSpell(SpellId).ResearchCost;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // WizardsTower.pas:221
-    public bool CanBuy(sbyte Player, ref string Reason)
+    public bool CanBuy(sbyte player, ref string reason)
     {
-        bool Result;
-        if (FSpellID != 0)
+        bool result;
+        if (SpellId != 0)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FSpells.IndexOf(FSpellID) == -1)
+            if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
             {
-                var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
                 var buyCost = BuyCost();
-                if (player.FGems >= buyCost)
+                if (playerLocal.Gems >= buyCost)
                 {
-                    Result = true;
+                    result = true;
                 }
                 else
                 {
-                    Result = false;
-                    Reason = AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
+                    result = false;
+                    reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
                 }
             }
             else
             {
-                Result = false;
-                Reason = AbilityRules.TranslateRStr(SpellIsAlreadyResearchedRStr);
+                result = false;
+                reason = AbilityRules.TranslateResourceString(s_spellIsAlreadyResearchedText);
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // WizardsTower.pas:243
-    public bool Buy(sbyte Player, ref string Reason)
+    public bool Buy(sbyte player, ref string reason)
     {
-        bool Result;
-        StructureTokenEvent TE;
-        Reason = "";
-        if (CanBuy(Player, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
+        bool result;
+        StructureTokenEvent tokenEvent;
+        reason = "";
+        if (CanBuy(player, ref reason) && !AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            TE = CreateTE();
-            SetupTE(TE);
-            TE.FAction = 1;
-            TE.FParam = Player;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = CreateTokenEvent();
+            SetupTokenEvent(tokenEvent);
+            tokenEvent.Action = 1;
+            tokenEvent.Param = player;
+            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string SpellIsAlreadyResearchedRStr = "Spell already researched";
-    private static readonly string TheyTaughtYouTheSpellXRStr = "They taught you the spell %s";
-    private static Set<MagicSphere> AllMagicSpheres = Set<MagicSphere>.FromMask(255uL);
+    private static readonly string s_spellIsAlreadyResearchedText = "Spell already researched";
+    private static readonly string s_theyTaughtYouSpellFormat = "They taught you the spell %s";
+    private static Set<MagicSphere> s_allMagicSpheres = Set<MagicSphere>.FromMask(255uL);
 
     public new partial class Resource : StructureResource
     {
@@ -297,15 +297,15 @@ public partial class WizardsTower : Structure
         { }
 
         // WizardsTower.pas:263
-        public new const int ClassID = 133279;
+        public new const int ClassId = 133279;
 
         // WizardsTower.pas:266
-        public override int ResourceUserClassID() => 133278;
+        public override int ResourceUserClassId() => 133278;
 
         // WizardsTower.pas:260
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(WizardsTowerRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_wizardsTowerText);
 
-        private static readonly string WizardsTowerRStr = "Wizards Tower";
+        private static readonly string s_wizardsTowerText = "Wizards Tower";
 
     }
 

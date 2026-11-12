@@ -25,10 +25,10 @@ public sealed class SmallClassTargetTests
 
     private sealed class TrackedControl(List<string> log) : AIMoveExecutorControl(null!)
     {
-        public override void Activate(AIMoveExecutor executer)
+        public override void Activate(AIMoveExecutor executor)
         {
             log.Add("activate");
-            base.Activate(executer);
+            base.Activate(executor);
         }
 
         public override void Deactivate() { log.Add("deactivate"); base.Deactivate(); }
@@ -40,23 +40,23 @@ public sealed class SmallClassTargetTests
     public void MoveControlReplacementCleansUpBeforeConstruction()
     {
         var log = new List<string>();
-        using var executer = new AIMoveExecutor(null!);
-        executer.ActivateMEC(() => new TrackedControl(log));
+        using var executor = new AIMoveExecutor(null!);
+        executor.ActivateMoveExecutorControl(() => new TrackedControl(log));
         log.Clear();
-        executer.ActivateMEC(() =>
+        executor.ActivateMoveExecutorControl(() =>
         {
-            Assert.Null(executer.FControl);
+            Assert.Null(executor.Control);
             log.Add("construct");
             return new TrackedControl(log);
         });
         Assert.Equal(["deactivate", "destroy", "construct", "activate"], log);
-        Assert.Same(executer, executer.FControl.FExecuter);
-        Assert.Equal(0, executer.FControl.FState);
+        Assert.Same(executor, executor.Control.Executor);
+        Assert.Equal(0, executor.Control.State);
         log.Clear();
-        Assert.Throws<InvalidDataException>(() => executer.ActivateMEC(() => throw new InvalidDataException("control")));
+        Assert.Throws<InvalidDataException>(() => executor.ActivateMoveExecutorControl(() => throw new InvalidDataException("control")));
         Assert.Equal(["deactivate", "destroy"], log);
-        Assert.Null(executer.FControl);
-        executer.ActivateMEC(null!);
+        Assert.Null(executor.Control);
+        executor.ActivateMoveExecutorControl(null!);
         Assert.Equal(["deactivate", "destroy"], log);
     }
 }

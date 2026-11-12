@@ -19,23 +19,23 @@ public partial class GameOverTokenEvent : TokenEvent
     public GameOverTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135441;
+    public new const int ClassId = 135441;
 
-    public sbyte FPlayer;
-    public GameOverStatus FGameOverStatus;
+    public sbyte Player;
+    public GameOverStatus GameOverStatus;
 
     // MoveT.PAS:3233
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 20);
-        Stream.rwData(Bytes.Of(ref FGameOverStatus, 1), 1, 21);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
+        stream.rwData(Bytes.Of(ref GameOverStatus, 1), 1, 21);
     }
 
     // MoveT.PAS:3240
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        AoWHSMap.Current.FPlayerControl.GameOver(FPlayer, FGameOverStatus);
+        AoWHSMap.Current.PlayerControl.GameOver(Player, GameOverStatus);
         return ExecuteResult.Done;
     }
 

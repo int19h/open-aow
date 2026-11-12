@@ -11,253 +11,253 @@ namespace Aow.Game.Draw;
 internal static class EffectPaths
 {
 
-    internal static void MakeLinePath(int X1, int Y1, int X2, int Y2, int Steps, ref Point3DList List)
+    internal static void MakeLinePath(int x1, int y1, int x2, int y2, int steps, ref Point3DList list)
     {
-        Point3D XYZ;
-        if (Steps < 2)
+        Point3D xYZ;
+        if (steps < 2)
         {
-            Steps = 2;
+            steps = 2;
         }
 
-        for (int I = 0; I <= Steps - 1; I++)
+        for (int I = 0; I <= steps - 1; I++)
         {
-            XYZ = new Point3D();
-            List.Add(XYZ);
-            XYZ.X = X1 + (X2 - X1) * I / (Steps - 1);
-            XYZ.Y = Y1 + (Y2 - Y1) * I / (Steps - 1);
+            xYZ = new Point3D();
+            list.Add(xYZ);
+            xYZ.X = x1 + (x2 - x1) * I / (steps - 1);
+            xYZ.Y = y1 + (y2 - y1) * I / (steps - 1);
         }
     }
 
-    internal static void MakeSwarmPath(int Step, int Radius, int Phase, int Angle, int X, int Y, SwarmDirection Direction, ref Point3DList List)
+    internal static void MakeSwarmPath(int step, int radius, int phase, int angle, int X, int Y, SwarmDirection direction, ref Point3DList list)
     {
-        int Total;
+        int total;
         int B;
-        float Rad;
+        float radiusLocal;
         float R;
-        Point3D XYZ;
-        Total = 0;
+        Point3D xYZ;
+        total = 0;
         do
         {
-            Rad = (float)((double)((double)Angle * Math.PI) / 180);
-            B = (Phase + Angle) % 180;
+            radiusLocal = (float)((double)((double)angle * Math.PI) / 180);
+            B = (phase + angle) % 180;
             switch (B)
             {
                 case >= 0 and <= 89:
-                    R = (float)((double)((double)((double)B / 90 * ((double)B / 90)) * Radius) + Radius);
+                    R = (float)((double)((double)((double)B / 90 * ((double)B / 90)) * radius) + radius);
                     break;
                 default:
-                    R = (float)((double)((double)((double)(180 - B) / 90 * ((double)(180 - B) / 90)) * Radius) + Radius);
+                    R = (float)((double)((double)((double)(180 - B) / 90 * ((double)(180 - B) / 90)) * radius) + radius);
                     break;
             }
 
-            XYZ = new Point3D();
-            XYZ.X = Round((double)Math.Sin(Rad) * R) + X;
-            XYZ.Y = Round((double)Math.Cos(Rad) * R) + Y;
-            List.Add(XYZ);
-            switch (Direction)
+            xYZ = new Point3D();
+            xYZ.X = Round((double)Math.Sin(radiusLocal) * R) + X;
+            xYZ.Y = Round((double)Math.Cos(radiusLocal) * R) + Y;
+            list.Add(xYZ);
+            switch (direction)
             {
                 case SwarmDirection.Forward:
-                    Angle = Angle + Step;
-                    if (Angle >= 360)
+                    angle = angle + step;
+                    if (angle >= 360)
                     {
-                        Angle = Angle - 360;
+                        angle = angle - 360;
                     }
 
                     break;
                 case SwarmDirection.Backward:
-                    Angle = Angle - Step;
+                    angle = angle - step;
                     // { sic: tests 360 instead of 0, so the angle is never wrapped back }
-                    if (Angle < 360)
+                    if (angle < 360)
                     {
-                        Angle = Angle + 360;
+                        angle = angle + 360;
                     }
 
                     break;
             }
 
-            Total = Total + Step;
+            total = total + step;
         }
-        while (!(Total >= 360));
+        while (!(total >= 360));
     }
 
-    internal static void MakeLightningPath(int X1, int Y1, int X2, int Y2, ref Point3DList List)
+    internal static void MakeLightningPath(int x1, int y1, int x2, int y2, ref Point3DList list)
     {
-        int NX;
-        int NY;
-        int CX;
-        int CY;
-        int Len;
-        float Angle;
-        float A2;
-        int Dist;
-        int Seg;
-        CX = X1;
-        CY = Y1;
-        Angle = GetAngle(X1, Y1, X2, Y2);
-        A2 = Angle;
-        Len = Round(Math.Sqrt((X2 - X1) * (X2 - X1) + (Y2 - Y1) * (Y2 - Y1)));
-        Dist = 0;
-        Seg = Random(15) + 5;
-        while (Dist + Seg < Len)
+        int hexX;
+        int hexY;
+        int cx;
+        int cy;
+        int length;
+        float angle;
+        float a2;
+        int dist;
+        int seg;
+        cx = x1;
+        cy = y1;
+        angle = GetAngle(x1, y1, x2, y2);
+        a2 = angle;
+        length = Round(Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));
+        dist = 0;
+        seg = Random(15) + 5;
+        while (dist + seg < length)
         {
-            if ((double)A2 > Angle)
+            if ((double)a2 > angle)
             {
-                A2 = (float)((double)Angle - DegToRad(Random(40) + 40));
+                a2 = (float)((double)angle - DegToRad(Random(40) + 40));
             }
             else
             {
-                A2 = (float)((double)Angle + DegToRad(Random(40) + 40));
+                a2 = (float)((double)angle + DegToRad(Random(40) + 40));
             }
 
-            var cos = Math.Cos(Angle);
-            var mathCos = Math.Cos(A2);
-            NX = X1 - Round((double)cos * Dist) - Round((double)mathCos * Seg);
-            var sin = Math.Sin(Angle);
-            var mathSin = Math.Sin(A2);
-            NY = Y1 - Round((double)sin * Dist) - Round((double)mathSin * Seg);
-            MakeLinePath(CX, CY, NX, NY, Seg, ref List);
-            CX = NX;
-            CY = NY;
-            Seg = Math.Abs(Round((double)Math.Cos((double)A2 - Angle) * Seg));
-            Dist = Dist + Seg;
-            Seg = Random(15) + 5;
+            var cos = Math.Cos(angle);
+            var mathCos = Math.Cos(a2);
+            hexX = x1 - Round((double)cos * dist) - Round((double)mathCos * seg);
+            var sin = Math.Sin(angle);
+            var mathSin = Math.Sin(a2);
+            hexY = y1 - Round((double)sin * dist) - Round((double)mathSin * seg);
+            MakeLinePath(cx, cy, hexX, hexY, seg, ref list);
+            cx = hexX;
+            cy = hexY;
+            seg = Math.Abs(Round((double)Math.Cos((double)a2 - angle) * seg));
+            dist = dist + seg;
+            seg = Random(15) + 5;
         }
 
-        MakeLinePath(CX, CY, X2, Y2, Len - Dist, ref List);
-        var count = List.Count;
-        List[count - 1].Z = 1;
+        MakeLinePath(cx, cy, x2, y2, length - dist, ref list);
+        var count = list.Count;
+        list[count - 1].Z = 1;
     }
 
-    internal static void MakeArcPath(int X, int Y, int Angle, ref float Z, ref float Speed, ref float VZ, ref float Gravity, ref Point3DList List)
+    internal static void MakeArcPath(int X, int Y, int angle, ref float Z, ref float speed, ref float vz, ref float gravity, ref Point3DList list)
     {
-        float FX;
-        float FY;
-        float DX;
-        float DY;
-        Point3D XYZ;
-        FX = X;
-        FY = Y;
-        DX = (float)((double)Math.Cos(Angle) * Speed);
-        DY = (float)((double)Math.Sin(Angle) * Speed);
-        if ((double)Gravity > 0)
+        float effect;
+        float fy;
+        float deltaX;
+        float deltaY;
+        Point3D xYZ;
+        effect = X;
+        fy = Y;
+        deltaX = (float)((double)Math.Cos(angle) * speed);
+        deltaY = (float)((double)Math.Sin(angle) * speed);
+        if ((double)gravity > 0)
         {
             while ((double)Z >= 0)
             {
-                XYZ = new Point3D();
-                XYZ.X = Round(FX);
-                XYZ.Y = Round(FY);
-                XYZ.Z = Round(Z);
-                List.Add(XYZ);
-                FX = (float)((double)FX + DX);
-                FY = (float)((double)FY + DY);
-                VZ = (float)((double)VZ - Gravity);
-                Z = (float)((double)Z + VZ);
+                xYZ = new Point3D();
+                xYZ.X = Round(effect);
+                xYZ.Y = Round(fy);
+                xYZ.Z = Round(Z);
+                list.Add(xYZ);
+                effect = (float)((double)effect + deltaX);
+                fy = (float)((double)fy + deltaY);
+                vz = (float)((double)vz - gravity);
+                Z = (float)((double)Z + vz);
             }
         }
     }
 
-    internal static void MakeArcPathXY(short X1, short Y1, short X2, short Y2, short StepSize, short Height, ref Point3DList List)
+    internal static void MakeArcPathXY(short x1, short y1, short x2, short y2, short stepSize, short height, ref Point3DList list)
     {
         int I;
-        int Steps;
-        int DX;
-        int DY;
-        Point3D XYZ;
+        int steps;
+        int deltaX;
+        int deltaY;
+        Point3D xYZ;
         I = 0;
-        DX = Math.Abs(X2 - X1);
-        DY = Math.Abs(Y2 - Y1);
-        Steps = (DX + DY) / StepSize;
-        if (Steps < 2)
+        deltaX = Math.Abs(x2 - x1);
+        deltaY = Math.Abs(y2 - y1);
+        steps = (deltaX + deltaY) / stepSize;
+        if (steps < 2)
         {
-            Steps = 2;
+            steps = 2;
         }
 
-        while (I <= Steps)
+        while (I <= steps)
         {
-            XYZ = new Point3D();
-            List.Add(XYZ);
-            XYZ.X = X1 + (X2 - X1) * I / Steps;
-            XYZ.Y = Y1 + (Y2 - Y1) * I / Steps;
+            xYZ = new Point3D();
+            list.Add(xYZ);
+            xYZ.X = x1 + (x2 - x1) * I / steps;
+            xYZ.Y = y1 + (y2 - y1) * I / steps;
             var pi = Math.PI;
-            XYZ.Z = Round((double)Math.Sin((double)((double)I * pi) / Steps) * Height);
+            xYZ.Z = Round((double)Math.Sin((double)((double)I * pi) / steps) * height);
             I += 1;
         }
     }
 
-    internal static float GetAngle(int X1, int Y1, int X2, int Y2)
+    internal static float GetAngle(int x1, int y1, int x2, int y2)
     {
-        float Result;
-        if (X1 == X2)
+        float result;
+        if (x1 == x2)
         {
-            Result = (float)((double)Math.PI / 2);
+            result = (float)((double)Math.PI / 2);
         }
         else
         {
-            Result = (float)Math.Atan((double)(Y2 - Y1) / (X2 - X1));
+            result = (float)Math.Atan((double)(y2 - y1) / (x2 - x1));
         }
 
-        if (X2 > X1)
+        if (x2 > x1)
         {
-            Result = (float)((double)Result + Math.PI);
+            result = (float)((double)result + Math.PI);
         }
         else
         {
-            if (Y1 < Y2 && X2 == X1)
+            if (y1 < y2 && x2 == x1)
             {
-                Result = (float)((double)Result + Math.PI);
+                result = (float)((double)result + Math.PI);
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void CreateFire(bool Spread, int Chance, int Xhx, int Yhx)
+    internal static void CreateFire(bool spread, int chance, int hexX, int hexY)
     {
-        CombatFire Fire;
-        bool CanBurn;
-        CombatImageLibraryTerrain Terrain;
-        CityWall Wall;
-        if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).TerrainType != 15)
+        CombatFire fire;
+        bool canBurn;
+        CombatImageLibraryTerrain terrain;
+        CityWall wall;
+        if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType != 15)
         {
-            if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229578) == null)
+            if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2229578) == null)
             {
-                if (AoWHSMap.Current.Random(100) < Chance)
+                if (AoWHSMap.Current.Random(100) < chance)
                 {
-                    CanBurn = false;
-                    if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 9 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 1 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 2 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 3)
+                    canBurn = false;
+                    if (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 9 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 1 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 2 || CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).GetDecorationType() == 3)
                     {
-                        CanBurn = true;
+                        canBurn = true;
                     }
                     else
                     {
-                        Terrain = (CombatImageLibraryTerrain)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2228534);
-                        if (Terrain != null)
+                        terrain = (CombatImageLibraryTerrain)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2228534);
+                        if (terrain != null)
                         {
-                            if (Terrain.GetBurnValue() > 0)
+                            if (terrain.GetBurnValue() > 0)
                             {
-                                CanBurn = true;
+                                canBurn = true;
                             }
                         }
 
-                        Wall = (CityWall)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229508);
-                        if (Wall != null)
+                        wall = (CityWall)CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).FindOwnedChild(2229508);
+                        if (wall != null)
                         {
-                            if (Wall.FWallType == 1)
+                            if (wall.WallType == 1)
                             {
-                                if (Wall.FHitPoints > 0)
+                                if (wall.HitPoints > 0)
                                 {
-                                    CanBurn = true;
+                                    canBurn = true;
                                 }
                             }
                         }
                     }
 
-                    if (CanBurn)
+                    if (canBurn)
                     {
-                        Fire = new CombatFire(null);
-                        if (!CombatMap.Current.PlaceHX(Fire, Xhx, Yhx, 0))
+                        fire = new CombatFire(null);
+                        if (!CombatMap.Current.PlaceHex(fire, hexX, hexY, 0))
                         {
-                            Fire?.Dispose();
+                            fire?.Dispose();
                         }
                     }
                 }

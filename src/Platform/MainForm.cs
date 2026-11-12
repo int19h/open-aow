@@ -20,30 +20,30 @@ namespace Aow.Platform;
 public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 {
     public Display Display { get; }
-    public SdlDisplayController WinDC { get; }
-    public SdlDisplayController DXDC => WinDC;
+    public SdlDisplayController WinDisplayController { get; }
+    public SdlDisplayController DisplayController => WinDisplayController;
     public short FCursor { get; set; }
     public LibraryImage FCursorImage { get; set; }
-    public Rect FLastCursorRect { get; private set; }
+    public Rect FLastCursorRectangle { get; private set; }
     public bool FCursorChanged { get; private set; }
     public bool IsClosed { get; private set; }
     public LayoutSession Layouts { get; }
 
-    private readonly IDisplayHost host;
-    private bool disposed;
-    private bool created;
-    private WindowState windowState;
+    private readonly IDisplayHost _host;
+    private bool _disposed;
+    private bool _created;
+    private WindowState _windowState;
 
     private MainForm(IDisplayHost host, LayoutSession layouts)
     {
-        this.host = host;
+        this._host = host;
         Layouts = layouts;
         GameHost.MainForm = this;
         Display = new Display(null);
         Display.Host = host;
         Display.EventSink = this;
         Display.Terminated = () => IsClosed;
-        WinDC = new SdlDisplayController(host);
+        WinDisplayController = new SdlDisplayController(host);
     }
 
     public static MainForm Create(IDisplayHost host, string argument = "", bool mute = true, bool audioOutput = false)
@@ -64,13 +64,13 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     {
         Display.OnUpdateFrame = DisplayUpdateFrame;
         Display.OnResizeBackSurface = (_, w, h) => DisplayResizeBackSurface(w, h);
-        Display.OnSurfaceDataLost = (_, _) => DialogHosts.General.Manager.FAligned = false;
-        Display.OnSwapDC = _ => { DialogHosts.VideoDialog.FModeChanged = true; DialogHosts.VideoDialog.ApplyMode(); };
-        Display.PrimaryDC = WinDC;
-        Display.SecondaryDC = WinDC;
+        Display.OnSurfaceDataLost = (_, _) => DialogHosts.General.Manager.Aligned = false;
+        Display.OnSwapDisplayController = _ => { DialogHosts.VideoDialog.ModeChanged = true; DialogHosts.VideoDialog.ApplyMode(); };
+        Display.PrimaryDisplayController = WinDisplayController;
+        Display.SecondaryDisplayController = WinDisplayController;
         FormCreate();
-        created = true;
-        Display.ActivateDC(WinDC);
+        _created = true;
+        Display.ActivateDisplayController(WinDisplayController);
         Display.PresentInitialFrame();
         // The game reads its command line as a path on its own drive, so a host path becomes the file system's public path.
         FormShow(argument.Length == 0 ? argument : RtlUnit.Files.ExpandPath(argument));
@@ -78,42 +78,42 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     private void FormCreate()
     {
-        CombatClasses.Register(GameTables.AoWEngine);
-        GameTables.AoWEngine.InitializeHSSet(GameTables.AoWEngine.StartupDirectory + "RELEASE\\RELEASE.HSS", null);
-        windowState = GameTables.AoWEngine.FRegistry.GetMainWindowState();
-        DialogHosts.SoundDlg.MusicVolume.Position = GameTables.AoWEngine.FRegistry.GetMusicVolume();
-        DialogHosts.SoundDlg.SFXVolume.Position = GameTables.AoWEngine.FRegistry.GetSFXVolume();
-        DialogHosts.SoundDlg.FSettings.MusicEnabled = GameTables.AoWEngine.FRegistry.GetMusicEnabled();
-        DialogHosts.SoundDlg.FSettings.SFXEnabled = GameTables.AoWEngine.FRegistry.GetSFXEnabled();
-        DialogHosts.SoundDlg.FSettings.UseDirectSound = GameTables.AoWEngine.FRegistry.GetUseDirectSound();
-        DialogHosts.SoundDlg.FSoundQuality = GameTables.AoWEngine.FRegistry.GetSoundQuality();
-        DialogHosts.SoundDlg.FSettings.SampleVoices = 16;
-        DialogHosts.SoundDlg.FSettings.SampleRate = DialogHosts.SoundDlg.FSoundQuality == 1 ? 22050 : 44100;
-        DialogHosts.SoundDlg.FSettings.OutputMode = DialogHosts.SoundDlg.FSoundQuality switch
+        CombatClasses.Register(GameTables.GameEngine);
+        GameTables.GameEngine.InitializeHexSpriteSet(GameTables.GameEngine.StartupDirectory + "RELEASE\\RELEASE.HSS", null);
+        _windowState = GameTables.GameEngine.Registry.GetMainWindowState();
+        DialogHosts.SoundDialog.MusicVolume.Position = GameTables.GameEngine.Registry.GetMusicVolume();
+        DialogHosts.SoundDialog.SFXVolume.Position = GameTables.GameEngine.Registry.GetSfxVolume();
+        DialogHosts.SoundDialog.Settings.MusicEnabled = GameTables.GameEngine.Registry.GetMusicEnabled();
+        DialogHosts.SoundDialog.Settings.SfxEnabled = GameTables.GameEngine.Registry.GetSfxEnabled();
+        DialogHosts.SoundDialog.Settings.UseDirectSound = GameTables.GameEngine.Registry.GetUseDirectSound();
+        DialogHosts.SoundDialog.SoundQuality = GameTables.GameEngine.Registry.GetSoundQuality();
+        DialogHosts.SoundDialog.Settings.SampleVoices = 16;
+        DialogHosts.SoundDialog.Settings.SampleRate = DialogHosts.SoundDialog.SoundQuality == 1 ? 22050 : 44100;
+        DialogHosts.SoundDialog.Settings.OutputMode = DialogHosts.SoundDialog.SoundQuality switch
         {
             1 => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8),
             2 => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits16),
             3 => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16),
             _ => Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality)
         };
-        if (DialogHosts.SoundDlg.FSoundQuality != 0)
+        if (DialogHosts.SoundDialog.SoundQuality != 0)
         {
-            AudioPlayback.InitializeSoundSystem("SDL", DialogHosts.SoundDlg.FSettings);
-            AudioPlayback.SetMusicVolume(DialogHosts.SoundDlg.MusicVolume.Position);
-            AudioPlayback.SetSFXVolume(DialogHosts.SoundDlg.SFXVolume.Position);
+            AudioPlayback.InitializeSoundSystem("SDL", DialogHosts.SoundDialog.Settings);
+            AudioPlayback.SetMusicVolume(DialogHosts.SoundDialog.MusicVolume.Position);
+            AudioPlayback.SetSfxVolume(DialogHosts.SoundDialog.SFXVolume.Position);
         }
-        VideoDialog.SetVideoSize(DialogHosts.VideoDialog, GameTables.AoWEngine.FRegistry.GetDisplayWidth(), GameTables.AoWEngine.FRegistry.GetDisplayHeight());
-        VideoDialog.SetVideoMode(DialogHosts.VideoDialog, host.Fullscreen ? VideoDialog.ScreenMode.Game : VideoDialog.ScreenMode.Windowed);
+        VideoDialog.SetVideoSize(DialogHosts.VideoDialog, GameTables.GameEngine.Registry.GetDisplayWidth(), GameTables.GameEngine.Registry.GetDisplayHeight());
+        VideoDialog.SetVideoMode(DialogHosts.VideoDialog, _host.Fullscreen ? VideoDialog.ScreenMode.Game : VideoDialog.ScreenMode.Windowed);
         DialogHosts.General.Manager.WinWidth = Display.BackSurfaceWidth;
         DialogHosts.General.Manager.WinHeight = Display.BackSurfaceHeight;
-        DialogHosts.General.Manager.FAligned = false;
-        var name = GameTables.AoWEngine.FRegistry.GetString(0);
+        DialogHosts.General.Manager.Aligned = false;
+        var name = GameTables.GameEngine.Registry.GetString(0);
         if (!RtlUnit.IsEmpty(name)) { DialogHosts.MultiWindow.TCPName.Text = name; DialogHosts.MultiWindow.IPXName.Text = name; }
-        var address = GameTables.AoWEngine.FRegistry.GetString(1);
+        var address = GameTables.GameEngine.Registry.GetString(1);
         if (!RtlUnit.IsEmpty(address)) DialogHosts.MultiWindow.IPEdit.Text = address;
         WindowActions.RestoreWindowLayout(DialogHosts.General);
-        RtlUnit.SetCurrentDir(GameTables.AoWEngine.StartupDirectory);
-        GameTables.AoWEngine.FCombatFont = DialogHosts.FontModule.Age8;
+        RtlUnit.SetCurrentDir(GameTables.GameEngine.StartupDirectory);
+        GameTables.GameEngine.CombatFont = DialogHosts.UIFonts.Age8;
     }
 
     // A command-line save names a world or campaign save by its original or own extension (own-formats.md 2.9).
@@ -122,16 +122,16 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     private void FormShow(string argument)
     {
-        AudioHost.SongPlayer.OnSongChange = _ => DialogHosts.SoundDlg.SongChange();
-        GameTables.AoWEngine.OutputDebugStr("ParamStr: " + argument);
+        AudioHost.SongPlayer.OnSongChange = _ => DialogHosts.SoundDialog.SongChange();
+        GameTables.GameEngine.OutputDebugString("ParamStr: " + argument);
         if (argument.Length != 0 && RtlUnit.FileExists(argument) && IsSaveName(argument))
         {
             WindowActions.ShowTitleScene(DialogHosts.TitleScene, false);
             GameHost.DeferredSetupAction = 2;
-            DialogHosts.FileDlgWindow.FLastFileName = argument;
+            DialogHosts.FileDialogWindow.LastFileName = argument;
             return;
         }
-        if (!GameTables.AoWEngine.FRegistry.GetDebugMode() && !GameTables.AoWEngine.FRegistry.GetSkipIntro()) DialogHosts.IntroScene.Execute();
+        if (!GameTables.GameEngine.Registry.GetDebugMode() && !GameTables.GameEngine.Registry.GetSkipIntro()) DialogHosts.IntroScene.Execute();
         else WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
     }
 
@@ -149,28 +149,28 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         Display.StartUpdateFrameLoop();
     }
 
-    public void DisplayUpdateFrame(object sender, CustomDisplayController dc, int surfaceType)
+    public void DisplayUpdateFrame(object sender, CustomDisplayController displayController, int surfaceType)
     {
-        RtlUnit.Clock.WaitMilliseconds(GameTables.AoWEngine.FRegistry.GetDebugMode() ? 1 : 0);
+        RtlUnit.Clock.WaitMilliseconds(GameTables.GameEngine.Registry.GetDebugMode() ? 1 : 0);
         switch (GameHost.DeferredSetupAction)
         {
-            case 1: GameHost.DeferredSetupAction = 0; DialogHosts.ScenSetup.FSetupControl.hPlayerSetupDone(); break;
-            case 2: GameHost.DeferredSetupAction = 0; FileDialogWindow.OpenSelectedGame(DialogHosts.FileDlgWindow); break;
+            case 1: GameHost.DeferredSetupAction = 0; DialogHosts.ScenarioSetup.SetupControl.PlayerSetupDone(); break;
+            case 2: GameHost.DeferredSetupAction = 0; FileDialogWindow.OpenSelectedGame(DialogHosts.FileDialogWindow); break;
         }
         if (DialogHosts.SetupEvents.DPlay.DPlay is not null)
             DialogHosts.SetupEvents.DPlay.CheckMessages();
         AudioPlayback.ProcessSound();
         try { AoWHSMap.Current?.NewFrame(); }
         catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during AoWHSMap.NewFrame"); }
-        if (dc?.GetSurface(1) is Surface back)
+        if (displayController?.GetSurface(1) is Surface back)
         {
             int x = -1, y = -1;
-            Display.GetMousePos(ref x, ref y);
-            Rect rect = default;
-            GetCursorRect(x, y, ref rect);
+            Display.GetMousePosition(ref x, ref y);
+            Rect rectangle = default;
+            GetCursorRectangle(x, y, ref rectangle);
             FCursorChanged |= (AoWHSMap.Current is not null && AoWHSMap.Current.Mouse.CursorVisible) ||
-                FLastCursorRect.Left != rect.Left || FLastCursorRect.Top != rect.Top ||
-                FLastCursorRect.Right != rect.Right || FLastCursorRect.Bottom != rect.Bottom;
+                FLastCursorRectangle.Left != rectangle.Left || FLastCursorRectangle.Top != rectangle.Top ||
+                FLastCursorRectangle.Right != rectangle.Right || FLastCursorRectangle.Bottom != rectangle.Bottom;
             if (AoWHSMap.Current is not null) ScrollMap(x, y);
             try { DialogHosts.General.Manager.DrawSurface(back); }
             catch (Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during WinManager DrawSurface"); }
@@ -180,18 +180,18 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
                 try { DrawCursor(x, y, descriptor); }
                 finally { back.Unlock(); }
             }
-            FLastCursorRect = rect;
-            DialogHosts.DialogWin.FrameLbl.Text = RtlUnit.IntToStr(Display.CurrentFrameRate);
+            FLastCursorRectangle = rectangle;
+            DialogHosts.ConfirmationDialog.FrameLbl.Text = RtlUnit.IntToStr(Display.CurrentFrameRate);
         }
-        if (AoWHSMap.Current is not null && AoWHSMap.Current.FExitPending) DialogHosts.General.ReturnToTitle();
+        if (AoWHSMap.Current is not null && AoWHSMap.Current.ExitPending) DialogHosts.General.ReturnToTitle();
         VideoDialog.ApplyVideoSettings(DialogHosts.VideoDialog);
     }
 
     private int CursorIndex => FCursor == 9999 && AoWHSMap.Current is not null ? AoWHSMap.Current.Mouse.Cursor : FCursor;
 
-    public void GetCursorRect(int x, int y, ref Rect rect)
+    public void GetCursorRectangle(int x, int y, ref Rect rectangle)
     {
-        rect = default;
+        rectangle = default;
         if (x == -1) return;
         void Include(LibraryImage image, int dx, int dy)
         {
@@ -200,19 +200,19 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             image.GetVisualDimensions(ref bounds);
             bounds.Left += x + dx; bounds.Right += x + dx;
             bounds.Top += y + dy; bounds.Bottom += y + dy;
-            RtlUnit.UnionRect(ref FCursorBounds, FCursorBounds, bounds);
+            RtlUnit.UnionRect(ref _cursorBounds, _cursorBounds, bounds);
         }
-        FCursorBounds = default;
+        _cursorBounds = default;
         if (AoWHSMap.Current is not null)
         {
             Include(FCursorImage, -15, -20);
-            if (CursorIndex != 1) Include(AoWHSSet.Current.FCursorImages[CursorIndex], -25, -25);
+            if (CursorIndex != 1) Include(AoWHSSet.Current.CursorImages[CursorIndex], -25, -25);
         }
-        else if (FCursor != 1 && DialogHosts.IntGfxMod.Cursors.ImageExist(FCursor)) Include(DialogHosts.IntGfxMod.Cursors[FCursor], -25, -25);
-        rect = FCursorBounds;
+        else if (FCursor != 1 && DialogHosts.UIGraphics.Cursors.ImageExist(FCursor)) Include(DialogHosts.UIGraphics.Cursors[FCursor], -25, -25);
+        rectangle = _cursorBounds;
     }
 
-    private Rect FCursorBounds;
+    private Rect _cursorBounds;
 
     public void DrawCursor(int x, int y, in LockedSurface surface)
     {
@@ -220,12 +220,12 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
         if (AoWHSMap.Current is not null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             FCursorImage?.Show(x - 15, y - 20, surface);
-            var image = CursorIndex != 1 ? AoWHSSet.Current.FCursorImages[CursorIndex] : null;
+            var image = CursorIndex != 1 ? AoWHSSet.Current.CursorImages[CursorIndex] : null;
             if (image is null) return;
-            if (AoWHSMap.Current.FSeatedPlayer != -1 && AoWHSMap.Current.FCombatMap is null)
+            if (AoWHSMap.Current.SeatedPlayer != -1 && AoWHSMap.Current.CombatMap is null)
             {
-                var player = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
-                if (player.GetBusy() && player.FGameOverStatus == GameOverStatus.None)
+                var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
+                if (player.GetBusy() && player.GameOverStatus == GameOverStatus.None)
                 {
                     image.ShowBlended(x - 25, y - 25, surface, GraphicsState.AlphaBlendTable.GetLookupTables(Math.Abs((AoWHSMap.Current.Frame << 2) % 100 - 50) + 30));
                     FCursorChanged = true;
@@ -234,16 +234,16 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             }
             image.Show(x - 25, y - 25, surface);
         }
-        else if (FCursor != 1 && DialogHosts.IntGfxMod.Cursors.ImageExist(FCursor)) DialogHosts.IntGfxMod.Cursors[FCursor].ShowClipped(x - 25, y - 25, surface);
+        else if (FCursor != 1 && DialogHosts.UIGraphics.Cursors.ImageExist(FCursor)) DialogHosts.UIGraphics.Cursors[FCursor].ShowClipped(x - 25, y - 25, surface);
     }
 
     public void ScrollMap(int x, int y)
     {
-        if (General.HasModalWindow(DialogHosts.General) || x == -1 || !host.HasFocus) return;
-        if (x <= 1) { DialogHosts.MWindow.MapViewer.SceneX -= 16; DialogHosts.SWindow.Scanner.SetTLeft(DialogHosts.MWindow.MapViewer.SceneX / 32 - 6); }
-        if (x >= Display.ActiveDC.GetSurface(0).Width - 1) { DialogHosts.MWindow.MapViewer.SceneX += 16; DialogHosts.SWindow.Scanner.SetTLeft(DialogHosts.MWindow.MapViewer.SceneX / 32 - 6); }
-        if (y <= 1) { DialogHosts.MWindow.MapViewer.SceneY -= 16; DialogHosts.SWindow.Scanner.SetTTop(DialogHosts.MWindow.MapViewer.SceneY / 32 - 6); }
-        if (y >= Display.ActiveDC.GetSurface(0).Height - 1) { DialogHosts.MWindow.MapViewer.SceneY += 16; DialogHosts.SWindow.Scanner.SetTTop(DialogHosts.MWindow.MapViewer.SceneY / 32 - 6); }
+        if (General.HasModalWindow(DialogHosts.General) || x == -1 || !_host.HasFocus) return;
+        if (x <= 1) { DialogHosts.MapWindow.MapViewer.SceneX -= 16; DialogHosts.ScannerWindow.Scanner.SetTLeft(DialogHosts.MapWindow.MapViewer.SceneX / 32 - 6); }
+        if (x >= Display.ActiveDisplayController.GetSurface(0).Width - 1) { DialogHosts.MapWindow.MapViewer.SceneX += 16; DialogHosts.ScannerWindow.Scanner.SetTLeft(DialogHosts.MapWindow.MapViewer.SceneX / 32 - 6); }
+        if (y <= 1) { DialogHosts.MapWindow.MapViewer.SceneY -= 16; DialogHosts.ScannerWindow.Scanner.SetTTop(DialogHosts.MapWindow.MapViewer.SceneY / 32 - 6); }
+        if (y >= Display.ActiveDisplayController.GetSurface(0).Height - 1) { DialogHosts.MapWindow.MapViewer.SceneY += 16; DialogHosts.ScannerWindow.Scanner.SetTTop(DialogHosts.MapWindow.MapViewer.SceneY / 32 - 6); }
     }
 
     public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y) { Display.MouseButtons = shift; DialogHosts.General.Manager.CheckMouseDown(button, shift, x, y); }
@@ -261,14 +261,14 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
 
     public void KeyDown(ushort key, Set<ShiftState> shift)
     {
-        if (key == 13 && shift.Contains(ShiftState.Alt)) { Display.SwapDC(); return; }
+        if (key == 13 && shift.Contains(ShiftState.Alt)) { Display.SwapDisplayController(); return; }
         DialogHosts.General.Manager.CheckKeyDown(ref key, shift);
-        if (key == 112 && AoWHSMap.Current is not null && AoWHSMap.Current.FGameType == GameType.Tutorial) TutorialWindow.ShowTutorialMessage(GameLayouts.TutorialWindow);
+        if (key == 112 && AoWHSMap.Current is not null && AoWHSMap.Current.GameType == GameType.Tutorial) TutorialWindow.ShowTutorialMessage(GameLayouts.TutorialWindow);
     }
 
     public void KeyPress(byte key) => DialogHosts.General.Manager.CheckKeyPress(ref key);
 
-    public void DoubleClick() { if (AoWHSMap.Current is not null && !General.HasModalWindow(DialogHosts.General)) AoWHSMap.Current.Mouse.DblClick(); }
+    public void DoubleClick() { if (AoWHSMap.Current is not null && !General.HasModalWindow(DialogHosts.General)) AoWHSMap.Current.Mouse.DoubleClick(); }
 
     public void Resize(int width, int height) => Display.Resize();
 
@@ -277,38 +277,38 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
     public bool CloseRequested()
     {
         if (AoWHSMap.Current is null) return IsClosed = true;
-        if (AoWHSMap.Current.FCombatMap is null)
+        if (AoWHSMap.Current.CombatMap is null)
         {
             AoWHSMap.Current.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
-            return IsClosed |= AoWHSMap.Current.FExitPending;
+            return IsClosed |= AoWHSMap.Current.ExitPending;
         }
-        DialogHosts.DialogWin.Confirm(AbilityRules.TranslateRStr(PlayerControl.ConfirmRStr), AbilityRules.TranslateRStr(PopupWindows.QuitCombatRStr), 6);
+        DialogHosts.ConfirmationDialog.Confirm(AbilityRules.TranslateResourceString(PlayerControl.s_confirmText), AbilityRules.TranslateResourceString(PopupWindows.s_quitCombatText), 6);
         return false;
     }
 
     public void Dispose()
     {
-        if (disposed) return;
-        disposed = true;
+        if (_disposed) return;
+        _disposed = true;
         Display?.Dispose();
-        WinDC?.Dispose();
+        WinDisplayController?.Dispose();
         AudioPlayback.ReleaseSoundSystem();
-        if (created)
+        if (_created)
         {
             DialogHosts.General.SaveLayout();
-            var registry = GameTables.AoWEngine.FRegistry;
-            registry.SetMainWindowState(windowState);
+            var registry = GameTables.GameEngine.Registry;
+            registry.SetMainWindowState(_windowState);
             registry.SetString(0, DialogHosts.MultiWindow.TCPName.Text);
             registry.SetString(1, DialogHosts.MultiWindow.IPEdit.Text);
-            registry.SetDisplayWidth(DialogHosts.VideoDialog.FDisplayWidth);
-            registry.SetDisplayHeight(DialogHosts.VideoDialog.FDisplayHeight);
-            registry.SetDisplayMode(host.Fullscreen ? 1 : 0);
-            registry.SetUseDirectSound(DialogHosts.SoundDlg.FSettings.UseDirectSound);
-            registry.SetSFXEnabled(DialogHosts.SoundDlg.FSettings.SFXEnabled);
-            registry.SetMusicEnabled(DialogHosts.SoundDlg.FSettings.MusicEnabled);
-            registry.SetSoundQuality(DialogHosts.SoundDlg.FSoundQuality);
-            registry.SetSFXVolume(DialogHosts.SoundDlg.SFXVolume.Position);
-            registry.SetMusicVolume(DialogHosts.SoundDlg.MusicVolume.Position);
+            registry.SetDisplayWidth(DialogHosts.VideoDialog.DisplayWidth);
+            registry.SetDisplayHeight(DialogHosts.VideoDialog.DisplayHeight);
+            registry.SetDisplayMode(_host.Fullscreen ? 1 : 0);
+            registry.SetUseDirectSound(DialogHosts.SoundDialog.Settings.UseDirectSound);
+            registry.SetSfxEnabled(DialogHosts.SoundDialog.Settings.SfxEnabled);
+            registry.SetMusicEnabled(DialogHosts.SoundDialog.Settings.MusicEnabled);
+            registry.SetSoundQuality(DialogHosts.SoundDialog.SoundQuality);
+            registry.SetSfxVolume(DialogHosts.SoundDialog.SFXVolume.Position);
+            registry.SetMusicVolume(DialogHosts.SoundDialog.MusicVolume.Position);
         }
         if (GameHost.MainForm == this) GameHost.MainForm = null;
     }

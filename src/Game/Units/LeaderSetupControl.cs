@@ -16,57 +16,57 @@ public partial class LeaderSetupControl : EngineObject
     // { Return the final search index. }
     public LeaderSetupControl(ECustomNode owner) : base(owner)
     {
-        FItems = new Int32List();
-        FOriginalLeader = new Leader(null);
-        FLeader = new Leader(null);
-        FRefCount = 1;
-        FMode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Look, LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres);
-        FOnDone = null;
+        Items = new Int32List();
+        OriginalLeader = new Leader(null);
+        Leader = new Leader(null);
+        RefCount = 1;
+        Mode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Look, LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres);
+        OnDone = null;
     }
 
-    public int FRefCount;
-    public Leader FLeader;
-    public Set<LeaderSetupModeElement> FMode;
-    public Leader FOriginalLeader;
-    public Int32List FItems;
-    public LeaderSetupStatus FStatus;
-    public NotifyEvent<LeaderSetupControl> FOnDone;
+    public int RefCount;
+    public Leader Leader;
+    public Set<LeaderSetupModeElement> Mode;
+    public Leader OriginalLeader;
+    public Int32List Items;
+    public LeaderSetupStatus Status;
+    public NotifyEvent<LeaderSetupControl> OnDone;
 
     // Player.PAS:1766
     public override void Dispose()
     {
-        FOriginalLeader?.Dispose();
-        FLeader?.Dispose();
-        FItems?.Dispose();
+        OriginalLeader?.Dispose();
+        Leader?.Dispose();
+        Items?.Dispose();
         base.Dispose();
     }
 
     // Player.PAS:1774
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // Player.PAS:1780
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (Result == 0)
+        RefCount -= 1;
+        int result = RefCount;
+        if (result == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1787
     public virtual bool Done()
     {
-        if (FOnDone != null)
+        if (OnDone != null)
         {
-            FOnDone(this);
+            OnDone(this);
         }
 
         return true;

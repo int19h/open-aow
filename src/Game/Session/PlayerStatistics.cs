@@ -10,27 +10,27 @@ public partial class PlayerStatistics : EngineObject
     // Player.PAS:182
     public PlayerStatistics(ECustomNode owner) : base(owner)
     {
-        FTurnInfo = new TurnInfo(null);
+        TurnInfo = new TurnInfo(null);
     }
 
-    public TurnInfo FTurnInfo;
-    public int FUnitsKilled;
-    public int FUnitsLost;
+    public TurnInfo TurnInfo;
+    public int UnitsKilled;
+    public int UnitsLost;
 
     // Player.PAS:188
     public override void Dispose()
     {
-        FTurnInfo?.Dispose();
+        TurnInfo?.Dispose();
         base.Dispose();
     }
 
     // Player.PAS:194
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FTurnInfo, 20);
-        Stream.rwInteger(ref FUnitsKilled, 21);
-        Stream.rwInteger(ref FUnitsLost, 22);
+        base.ReadWrite(stream);
+        stream.rwEObject(TurnInfo, 20);
+        stream.rwInteger(ref UnitsKilled, 21);
+        stream.rwInteger(ref UnitsLost, 22);
     }
 
     // intf_P1_03.inc:133

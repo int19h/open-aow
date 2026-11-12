@@ -9,11 +9,11 @@ public partial class SmtpSender : Component
     public SmtpSender(Component owner) : base(owner)
     { }
 
-    public string FHost = "";
-    public MailMessage FMessage;
+    public string Host = "";
+    public MailMessage Message;
 
     // AoWSMTPDlg.pas:29
-    public void SetWinsockLoaded(bool Value)
+    public void SetWinsockLoaded(bool value)
     {
         /* TODO: Implement TmsSMTP.SetWinsockLoaded. */
         throw new NotImplementedException();

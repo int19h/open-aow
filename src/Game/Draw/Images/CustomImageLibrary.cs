@@ -11,110 +11,110 @@ namespace Aow.Game.Draw.Images;
 public partial class CustomImageLibrary : Component
 {
 
-    internal Set<ImageLibraryStatusElement> FStatus;
-    internal NotifyEvent<object> FOnChange;
-    internal byte FChangeLock;
-    internal bool FReloading;
-    internal bool FLoadOnDemand;
-    internal string FLoadedFileName = "";
-    internal string FFileName = "";
-    internal int FDataOffset;
-    internal int FCapacity;
-    internal int FCount;
-    internal ImageItem[] FImages;
-    internal PaletteManager FPaletteManager;
+    internal Set<ImageLibraryStatusElement> _status;
+    internal NotifyEvent<object> _onChange;
+    internal byte _changeLock;
+    internal bool _reloading;
+    internal bool _loadOnDemand;
+    internal string _loadedFileName = "";
+    internal string _fileName = "";
+    internal int _dataOffset;
+    internal int _capacity;
+    internal int _count;
+    internal ImageItem[] _images;
+    internal PaletteManager _paletteManager;
 
     // ImageLib.pas:9699
-    internal void SetCapacity(int NewCapacity)
+    internal void SetCapacity(int newCapacity)
     {
-        if (NewCapacity != 0)
+        if (newCapacity != 0)
         {
-            NewCapacity = NewCapacity | 7;
+            newCapacity = newCapacity | 7;
         }
 
-        if (NewCapacity != FCapacity)
+        if (newCapacity != _capacity)
         {
-            FImages = ReallocArray(FImages, NewCapacity);
-            if (NewCapacity > FCapacity)
+            _images = ReallocArray(_images, newCapacity);
+            if (newCapacity > _capacity)
             {
-                ClearElements(FImages, FCapacity, NewCapacity - FCapacity);
-                for (int I = FCapacity; I <= NewCapacity - 1; I++)
+                ClearElements(_images, _capacity, newCapacity - _capacity);
+                for (int I = _capacity; I <= newCapacity - 1; I++)
                 {
-                    FImages[I].Reference = -1;
+                    _images[I].Reference = -1;
                 }
             }
 
-            FCapacity = NewCapacity;
-            if (FCapacity < FCount)
+            _capacity = newCapacity;
+            if (_capacity < _count)
             {
-                FCount = FCapacity;
+                _count = _capacity;
             }
         }
     }
 
     // ImageLib.pas:9717
-    internal void SetCount(int Value)
+    internal void SetCount(int value)
     {
-        FCount = Value;
-        if (FCount > FCapacity)
+        _count = value;
+        if (_count > _capacity)
         {
-            SetCapacity(FCount);
+            SetCapacity(_count);
         }
     }
 
     // ImageLib.pas:9723
     internal string GetFullFileName()
     {
-        string Result;
-        string Drive;
-        string Path;
-        if (!IsEmpty(FFileName))
+        string result;
+        string drive;
+        string path;
+        if (!IsEmpty(_fileName))
         {
             if (ComponentState.Contains(Rtl.ComponentState.Designing))
             {
-                Path = ExtractFilePath(ToolServices.GetProjectName());
+                path = ExtractFilePath(ToolServices.GetProjectName());
             }
             else
             {
-                Path = ImageLibraries.BaseImageLibraryPath;
+                path = ImageLibraries.BaseImageLibraryPath;
             }
 
-            Drive = ExtractFileDrive(FFileName);
-            if (IsEmpty(Drive) || Drive == ExtractFileDrive(Path))
+            drive = ExtractFileDrive(_fileName);
+            if (IsEmpty(drive) || drive == ExtractFileDrive(path))
             {
-                Result = ExpandFileName(Path + FFileName);
+                result = ExpandFileName(path + _fileName);
             }
             else
             {
-                Result = FFileName;
+                result = _fileName;
             }
         }
         else
         {
-            Result = "";
+            result = "";
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9743
-    internal void SetFileName(string Value)
+    internal void SetFileName(string value)
     {
-        string Path;
+        string path;
         if (ComponentState.Contains(Rtl.ComponentState.Designing))
         {
-            Path = ExtractFilePath(ToolServices.GetProjectName());
+            path = ExtractFilePath(ToolServices.GetProjectName());
         }
         else
         {
-            Path = ImageLibraries.BaseImageLibraryPath;
+            path = ImageLibraries.BaseImageLibraryPath;
         }
 
-        Value = ExtractRelativePath(Path, Value);
-        if ((ComponentState.Contains(Rtl.ComponentState.Designing) || ComponentState.Contains(Rtl.ComponentState.Loading)) && Value != FFileName)
+        value = ExtractRelativePath(path, value);
+        if ((ComponentState.Contains(Rtl.ComponentState.Designing) || ComponentState.Contains(Rtl.ComponentState.Loading)) && value != _fileName)
         {
-            FFileName = Value;
-            if (!IsEmpty(FFileName))
+            _fileName = value;
+            if (!IsEmpty(_fileName))
             {
                 try
                 {
@@ -123,7 +123,7 @@ public partial class CustomImageLibrary : Component
                 catch
                 {
                     ShowMessage("Error loading: " + GetFullFileName());
-                    FFileName = "";
+                    _fileName = "";
                 }
             }
             else
@@ -133,44 +133,44 @@ public partial class CustomImageLibrary : Component
         }
         else
         {
-            FFileName = Value;
+            _fileName = value;
         }
     }
 
     // ImageLib.pas:9775
-    internal void DeleteItem(int Index)
+    internal void DeleteItem(int index)
     {
-        MoveElements(FImages, Index + 1, FImages, Index, FCount - Index - 1);
-        ClearElements(FImages, FCount - 1, 1);
-        FCount -= 1;
+        MoveElements(_images, index + 1, _images, index, _count - index - 1);
+        ClearElements(_images, _count - 1, 1);
+        _count -= 1;
         SetModified(true);
     }
 
     // ImageLib.pas:9783
-    internal void InsertItem(int Index)
+    internal void InsertItem(int index)
     {
-        SetCount(FCount + 1);
-        MoveElements(FImages, Index, FImages, Index + 1, FCount - Index - 1);
-        ClearElements(FImages, Index, 1);
+        SetCount(_count + 1);
+        MoveElements(_images, index, _images, index + 1, _count - index - 1);
+        ClearElements(_images, index, 1);
     }
 
     // ImageLib.pas:9877
-    internal void SetLoadOnDemand(bool Value)
+    internal void SetLoadOnDemand(bool value)
     {
-        if (!Value && FLoadOnDemand)
+        if (!value && _loadOnDemand)
         {
             DisableReloading();
         }
 
-        FLoadOnDemand = Value;
-        if (!Value)
+        _loadOnDemand = value;
+        if (!value)
         {
-            FReloading = false;
+            _reloading = false;
         }
     }
 
     // ImageLib.pas:9820
-    public override void DefineProperties(Filer Filer)
+    public override void DefineProperties(Filer filer)
     {
         /* TODO: Implement Classes.DefineBinaryProperty in the platform or editor service. */
         throw new NotImplementedException();
@@ -178,10 +178,10 @@ public partial class CustomImageLibrary : Component
 
     public CustomImageLibrary(Component owner) : base(owner)
     {
-        FPaletteManager = new PaletteManager();
-        FLoadOnDemand = true;
-        FFileName = "";
-        FStatus = Set<ImageLibraryStatusElement>.Of();
+        _paletteManager = new PaletteManager();
+        _loadOnDemand = true;
+        _fileName = "";
+        _status = Set<ImageLibraryStatusElement>.Of();
         Clear();
     }
 
@@ -189,79 +189,79 @@ public partial class CustomImageLibrary : Component
     public override void Dispose()
     {
         Clear();
-        FPaletteManager?.Dispose();
+        _paletteManager?.Dispose();
         base.Dispose();
     }
 
     // ImageLib.pas:9686
-    public virtual bool GetModified() => FStatus.Contains(ImageLibraryStatusElement.Modified);
+    public virtual bool GetModified() => _status.Contains(ImageLibraryStatusElement.Modified);
 
     // ImageLib.pas:9691
-    public virtual void SetModified(bool Value)
+    public virtual void SetModified(bool value)
     {
-        if (Value)
+        if (value)
         {
-            FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
+            _status = _status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
         }
         else
         {
-            FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
+            _status = _status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Modified);
         }
     }
 
     // ImageLib.pas:9826
     public virtual void Clear()
     {
-        for (int I = FCount - 1; I >= 0; I--)
+        for (int I = _count - 1; I >= 0; I--)
         {
-            if (FImages[I].Image != null)
+            if (_images[I].Image != null)
             {
-                FImages[I].Image?.Dispose();
+                _images[I].Image?.Dispose();
             }
         }
 
-        if (!FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile))
+        if (!_status.Contains(ImageLibraryStatusElement.LoadingFromFile))
         {
-            FFileName = "";
-            FLoadedFileName = "";
+            _fileName = "";
+            _loadedFileName = "";
         }
 
-        FReloading = false;
+        _reloading = false;
         SetCapacity(0);
-        FPaletteManager.Clear();
-        if (FChangeLock == 0)
+        _paletteManager.Clear();
+        if (_changeLock == 0)
         {
             CallOnChangeEvent();
         }
     }
 
     // ImageLib.pas:9960
-    public virtual void LoadFromStream(Stream Stream)
+    public virtual void LoadFromStream(Stream stream)
     {
-        int Index = default;
-        int Reference = default;
-        int StartPos;
-        MemoryStream MS;
-        ImageLibraryHeader Header = default;
-        int SubIndex;
-        LibraryImage Image;
-        FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
-        FChangeLock = (byte)(FChangeLock + 1);
+        int index = default;
+        int reference = default;
+        int startPosition;
+        MemoryStream milliseconds;
+        ImageLibraryHeader header = default;
+        int subIndex;
+        LibraryImage image;
+        _status = _status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
+        _changeLock = (byte)(_changeLock + 1);
         Clear();
-        FReloading = FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile) && FLoadOnDemand;
-        StartPos = (int)(Stream.Position);
-        Stream.ReadExactly(Bytes.Of(ref Header, 24));
-        Stream.Seek(Header.HeaderSize + StartPos, SeekOrigin.Begin);
-        if ((double)Header.Version < 4)
+        _reloading = _status.Contains(ImageLibraryStatusElement.LoadingFromFile) && _loadOnDemand;
+        startPosition = (int)(stream.Position);
+        stream.ReadExactly(Bytes.Of(ref header, 24));
+        stream.Seek(header.HeaderSize + startPosition, SeekOrigin.Begin);
+        if ((double)header.Version < 4)
         {
-            FDataOffset = 0;
-            if ((double)Header.Version > 1.5)
+            _dataOffset = 0;
+            if ((double)header.Version > 1.5)
             {
-                FPaletteManager.LoadFromStream(Stream);
+                _paletteManager.LoadFromStream(stream);
             }
             else
             {
-                FPaletteManager.Clear();
+                _paletteManager.Clear();
             }
 
             // The original reads each index with Stream.Read. A short read leaves the index without its
@@ -269,151 +269,151 @@ public partial class CustomImageLibrary : Component
             // ReadBuffer, which raises EndOfStreamException on a short read. Valid files always end with the -1
             // terminator. The version 4 path below reads its index region the same way, so a region
             // without the terminator raises there too.
-            if ((double)Header.Version <= 2)
+            if ((double)header.Version <= 2)
             {
-                Stream.ReadBuffer(Bytes.Of(ref Index, 4));
-                while (Index != -1)
+                stream.ReadBuffer(Bytes.Of(ref index, 4));
+                while (index != -1)
                 {
-                    SubIndex = 0;
-                    Image = ImageStreams.ReadImageFromStream(Stream, this);
-                    while (Image != null)
+                    subIndex = 0;
+                    image = ImageStreams.ReadImageFromStream(stream, this);
+                    while (image != null)
                     {
-                        SetSubImage(Index, SubIndex, Image);
-                        SubIndex += 1;
-                        Image = ImageStreams.ReadImageFromStream(Stream, this);
+                        SetSubImage(index, subIndex, image);
+                        subIndex += 1;
+                        image = ImageStreams.ReadImageFromStream(stream, this);
                     }
 
-                    Stream.ReadExactly(Bytes.Of(ref Reference, 4));
-                    SetImageReference(Index, Reference);
-                    Stream.ReadBuffer(Bytes.Of(ref Index, 4));
+                    stream.ReadExactly(Bytes.Of(ref reference, 4));
+                    SetImageReference(index, reference);
+                    stream.ReadBuffer(Bytes.Of(ref index, 4));
                 }
             }
             else
             {
-                if ((double)Header.Version == 3)
+                if ((double)header.Version == 3)
                 {
-                    Stream.ReadBuffer(Bytes.Of(ref Index, 4));
-                    while (Index != -1)
+                    stream.ReadBuffer(Bytes.Of(ref index, 4));
+                    while (index != -1)
                     {
-                        var readImageFromStream = ImageStreams.ReadImageFromStream(Stream, this);
-                        SetImage(Index, readImageFromStream);
-                        Stream.ReadExactly(Bytes.Of(ref Reference, 4));
-                        SetImageReference(Index, Reference);
-                        Stream.ReadBuffer(Bytes.Of(ref Index, 4));
+                        var readImageFromStream = ImageStreams.ReadImageFromStream(stream, this);
+                        SetImage(index, readImageFromStream);
+                        stream.ReadExactly(Bytes.Of(ref reference, 4));
+                        SetImageReference(index, reference);
+                        stream.ReadBuffer(Bytes.Of(ref index, 4));
                     }
                 }
             }
         }
         else
         {
-            FDataOffset = Header.IndexEnd + StartPos;
-            MS = new MemoryStream();
+            _dataOffset = header.IndexEnd + startPosition;
+            milliseconds = new MemoryStream();
             try
             {
-                MS.SetLength(Header.IndexEnd - Header.HeaderSize);
-                var size = (int)MS.Length;
-                Stream.ReadBuffer(MS.GetBuffer().AsSpan(0, size));
-                FPaletteManager.LoadFromStream(MS);
-                MS.ReadBuffer(Bytes.Of(ref Index, 4));
-                while (Index != -1)
+                milliseconds.SetLength(header.IndexEnd - header.HeaderSize);
+                var size = (int)milliseconds.Length;
+                stream.ReadBuffer(milliseconds.GetBuffer().AsSpan(0, size));
+                _paletteManager.LoadFromStream(milliseconds);
+                milliseconds.ReadBuffer(Bytes.Of(ref index, 4));
+                while (index != -1)
                 {
-                    var readImageFromStreamEx = ImageStreams.ReadImageFromStreamEx(MS, Stream, this);
-                    SetImage(Index, readImageFromStreamEx);
-                    MS.Read(Bytes.Of(ref Reference, 4));
-                    SetImageReference(Index, Reference);
-                    MS.ReadBuffer(Bytes.Of(ref Index, 4));
+                    var readImageFromStreamEx = ImageStreams.ReadImageFromStream(milliseconds, stream, this);
+                    SetImage(index, readImageFromStreamEx);
+                    milliseconds.Read(Bytes.Of(ref reference, 4));
+                    SetImageReference(index, reference);
+                    milliseconds.ReadBuffer(Bytes.Of(ref index, 4));
                 }
             }
             finally
             {
-                MS?.Dispose();
+                milliseconds?.Dispose();
             }
 
-            if (!FStatus.Contains(ImageLibraryStatusElement.LoadingFromFile))
+            if (!_status.Contains(ImageLibraryStatusElement.LoadingFromFile))
             {
-                Stream.Seek(Header.Size + StartPos, SeekOrigin.Begin);
+                stream.Seek(header.Size + startPosition, SeekOrigin.Begin);
             }
         }
 
-        FChangeLock = (byte)(FChangeLock - 1);
-        if (FChangeLock == 0)
+        _changeLock = (byte)(_changeLock - 1);
+        if (_changeLock == 0)
         {
             CallOnChangeEvent();
         }
 
-        FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
+        _status = _status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Loading);
     }
 
     // ImageLib.pas:10038
-    public virtual void SaveToStream(Stream Stream)
+    public virtual void SaveToStream(Stream stream)
     {
-        Stream Swap;
-        int StartPos;
-        string SwapName;
+        Stream swap;
+        int startPosition;
+        string swapName;
         int I;
-        ImageLibraryHeader Header = default;
-        StartPos = (int)(Stream.Position);
-        SwapName = ExtractFilePath(RtlUnit.Application.ExeName) + "\\SWAP.$$$";
-        Swap = OpenFile(SwapName, 65535);
+        ImageLibraryHeader header = default;
+        startPosition = (int)(stream.Position);
+        swapName = ExtractFilePath(RtlUnit.Application.ExeName) + "\\SWAP.$$$";
+        swap = OpenFile(swapName, 65535);
         try
         {
-            FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
-            Header.HeaderSize = 24;
-            Header.ID = "ILB\0";
-            Header.Version = 4;
-            Stream.Write(Bytes.Of(ref Header, 24));
-            FPaletteManager.SaveToStream(Stream);
+            _status = _status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
+            header.HeaderSize = 24;
+            header.Id = "ILB\0";
+            header.Version = 4;
+            stream.Write(Bytes.Of(ref header, 24));
+            _paletteManager.SaveToStream(stream);
             I = 0;
-            int last = FCount - 1;
+            int last = _count - 1;
             for (; I <= last; I += 1)
             {
-                if (FImages[I].Image != null || FImages[I].Reference != -1)
+                if (_images[I].Image != null || _images[I].Reference != -1)
                 {
-                    Stream.Write(Bytes.Of(ref I, 4));
-                    LibraryImage.WriteImageToStreamEx(FImages[I].Image, Stream, Swap);
-                    Stream.Write(Bytes.Of(ref FImages[I].Reference, 4));
+                    stream.Write(Bytes.Of(ref I, 4));
+                    LibraryImage.WriteImageToStream(_images[I].Image, stream, swap);
+                    stream.Write(Bytes.Of(ref _images[I].Reference, 4));
                 }
             }
 
             I = -1;
-            Stream.Write(Bytes.Of(ref I, 4));
-            var position = Stream.Position;
-            Header.IndexEnd = (int)(position) - StartPos;
-            Swap.Position = 0;
-            Stream.CopyFrom(Swap, (int)Swap.Length);
-            var streamPosition = Stream.Position;
-            Header.Size = (int)(streamPosition) - StartPos;
-            Stream.Position = StartPos;
-            Stream.Write(Bytes.Of(ref Header, 24));
-            Stream.Position = StartPos + Header.Size;
+            stream.Write(Bytes.Of(ref I, 4));
+            var position = stream.Position;
+            header.IndexEnd = (int)(position) - startPosition;
+            swap.Position = 0;
+            stream.CopyFrom(swap, (int)swap.Length);
+            var streamPosition = stream.Position;
+            header.Size = (int)(streamPosition) - startPosition;
+            stream.Position = startPosition;
+            stream.Write(Bytes.Of(ref header, 24));
+            stream.Position = startPosition + header.Size;
         }
         finally
         {
-            FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
-            Swap?.Dispose();
-            DeleteFile(SwapName);
+            _status = _status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.Saving);
+            swap?.Dispose();
+            DeleteFile(swapName);
         }
     }
 
     // ImageLib.pas:10079
-    public virtual void LoadFromFile(string AFileName)
+    public virtual void LoadFromFile(string fileName)
     {
-        Stream Stream;
-        Stream = new FastLoadFileStream(AFileName);
+        Stream stream;
+        stream = new FastLoadFileStream(fileName);
         try
         {
-            FChangeLock = (byte)(FChangeLock + 1);
-            FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
-            FileName = ExpandFileName(AFileName);
-            FLoadedFileName = GetFullFileName();
-            LoadFromStream(Stream);
+            _changeLock = (byte)(_changeLock + 1);
+            _status = _status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
+            FileName = ExpandFileName(fileName);
+            _loadedFileName = GetFullFileName();
+            LoadFromStream(stream);
         }
         finally
         {
-            FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
-            Stream?.Dispose();
-            FChangeLock = (byte)(FChangeLock - 1);
-            if (FChangeLock == 0)
+            _status = _status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
+            stream?.Dispose();
+            _changeLock = (byte)(_changeLock - 1);
+            if (_changeLock == 0)
             {
                 CallOnChangeEvent();
             }
@@ -421,95 +421,95 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:10098
-    public virtual void SaveToFile(string AFileName)
+    public virtual void SaveToFile(string fileName)
     {
-        Stream Stream;
-        string Name;
-        Name = ExpandFileName(AFileName);
-        if (Name == FLoadedFileName)
+        Stream stream;
+        string name;
+        name = ExpandFileName(fileName);
+        if (name == _loadedFileName)
         {
             DisableReloading();
         }
 
-        FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
-        Stream = OpenFile(Name, 65535);
+        _status = _status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
+        stream = OpenFile(name, 65535);
         try
         {
-            SaveToStream(Stream);
+            SaveToStream(stream);
         }
         finally
         {
-            FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
-            Stream?.Dispose();
+            _status = _status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.SavingToFile);
+            stream?.Dispose();
         }
     }
 
     // ImageLib.pas:9798
     public virtual void CallOnChangeEvent()
     {
-        if (FChangeLock == 0 && FOnChange != null && !ComponentState.Contains(Rtl.ComponentState.Destroying) && !ComponentState.Contains(Rtl.ComponentState.Reading))
+        if (_changeLock == 0 && _onChange != null && !ComponentState.Contains(Rtl.ComponentState.Destroying) && !ComponentState.Contains(Rtl.ComponentState.Reading))
         {
-            FChangeLock = (byte)(FChangeLock + 1);
-            FOnChange(this);
-            FChangeLock = (byte)(FChangeLock - 1);
+            _changeLock = (byte)(_changeLock + 1);
+            _onChange(this);
+            _changeLock = (byte)(_changeLock - 1);
         }
     }
 
     // ImageLib.pas:10152
     public virtual CustomImageLibrary Copy()
     {
-        CustomImageLibrary Result = default;
-        MemoryStream Stream;
-        Stream = new MemoryStream();
+        CustomImageLibrary result = default;
+        MemoryStream stream;
+        stream = new MemoryStream();
         try
         {
-            Result = (CustomImageLibrary)new Component(null);
-            SaveToStream(Stream);
-            Stream.Position = 0;
-            Result.LoadFromStream(Stream);
-            Result.FReloading = false;
+            result = (CustomImageLibrary)new Component(null);
+            SaveToStream(stream);
+            stream.Position = 0;
+            result.LoadFromStream(stream);
+            result._reloading = false;
         }
         finally
         {
-            Stream.Dispose();
+            stream.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9769
     public int ReduceCount()
     {
-        while (FCount > 0 && Get(FCount - 1) == null)
+        while (_count > 0 && Get(_count - 1) == null)
         {
-            FCount -= 1;
+            _count -= 1;
         }
 
-        return FCount;
+        return _count;
     }
 
     // ImageLib.pas:9790
-    public void UpdateImageItemSettings(int Index)
+    public void UpdateImageItemSettings(int index)
     {
-        LibraryImage Image;
-        Image = FImages[Index].Image;
-        if (Image != null && Image.ImageClass.ClassID == 256)
+        LibraryImage image;
+        image = _images[index].Image;
+        if (image != null && image.ImageClass.ClassId == 256)
         {
-            ((ImageNode)Image).UpdateDimensions();
+            ((ImageNode)image).UpdateDimensions();
         }
     }
 
     // ImageLib.pas:9809
     public void DisableOnChangeEvent()
     {
-        FChangeLock = (byte)(FChangeLock + 1);
+        _changeLock = (byte)(_changeLock + 1);
     }
 
     // ImageLib.pas:9814
     public void EnableOnChangeEvent()
     {
-        FChangeLock = (byte)(FChangeLock - 1);
-        if (FChangeLock == 0)
+        _changeLock = (byte)(_changeLock - 1);
+        if (_changeLock == 0)
         {
             CallOnChangeEvent();
         }
@@ -518,29 +518,29 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9843
     public void DisableReloading()
     {
-        for (int I = 0, last = FCount - 1; I <= last; I++)
+        for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            if (FImages[I].Image != null)
+            if (_images[I].Image != null)
             {
-                FImages[I].Image.SetReloadingEnabled(false);
+                _images[I].Image.SetReloadingEnabled(false);
             }
         }
 
-        FReloading = false;
+        _reloading = false;
     }
 
     // ImageLib.pas:9852
     public void ReleaseDiscardableImageData()
     {
-        LibraryImage Image;
-        if (FReloading)
+        LibraryImage image;
+        if (_reloading)
         {
-            for (int I = 0, last = FCount - 1; I <= last; I++)
+            for (int I = 0, last = _count - 1; I <= last; I++)
             {
-                Image = FImages[I].Image;
-                if (Image != null)
+                image = _images[I].Image;
+                if (image != null)
                 {
-                    Image.ReleaseDiscardableImageData();
+                    image.ReleaseDiscardableImageData();
                 }
             }
         }
@@ -549,88 +549,88 @@ public partial class CustomImageLibrary : Component
     // ImageLib.pas:9865
     public void LoadDiscardableImageData()
     {
-        LibraryImage Image;
-        for (int I = 0, last = FCount - 1; I <= last; I++)
+        LibraryImage image;
+        for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            Image = FImages[I].Image;
-            if (Image != null)
+            image = _images[I].Image;
+            if (image != null)
             {
-                Image.LoadDiscardableImageData();
+                image.LoadDiscardableImageData();
             }
         }
     }
 
     // ImageLib.pas:9884
-    public bool IsReference(int Index) => Index >= 0 && Index < FCount && FImages[Index].Image == null && FImages[Index].Reference != -1;
+    public bool IsReference(int index) => index >= 0 && index < _count && _images[index].Image == null && _images[index].Reference != -1;
 
     // ImageLib.pas:9922
-    public bool ImageExist(int Index)
+    public bool ImageExist(int index)
     {
-        bool Result;
+        bool result;
         int R;
-        if (Index < FCount && Index >= 0)
+        if (index < _count && index >= 0)
         {
-            Result = FImages[Index].Image != null;
-            if (!Result)
+            result = _images[index].Image != null;
+            if (!result)
             {
-                R = FImages[Index].Reference;
-                if (R >= 0 && R < FCount)
+                R = _images[index].Reference;
+                if (R >= 0 && R < _count)
                 {
-                    Result = FImages[R].Image != null;
+                    result = _images[R].Image != null;
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9942
-    public int GetImageReference(int Index) => FImages[Index].Reference;
+    public int GetImageReference(int index) => _images[index].Reference;
 
     // ImageLib.pas:9947
-    public void SetImageReference(int Index, int Value)
+    public void SetImageReference(int index, int value)
     {
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        if (Value != -1)
+        if (value != -1)
         {
-            if (FImages[Index].Image != null)
+            if (_images[index].Image != null)
             {
-                FImages[Index].Image.Dispose();
+                _images[index].Image.Dispose();
             }
 
-            FImages[Index].Image = null;
+            _images[index].Image = null;
         }
 
-        FImages[Index].Reference = Value;
-        UpdateImageItemSettings(Index);
+        _images[index].Reference = value;
+        UpdateImageItemSettings(index);
         SetModified(true);
     }
 
     // ImageLib.pas:10115
-    public void LoadFromFileStream(string AFileName, Stream Stream)
+    public void LoadFromFileStream(string fileName, Stream stream)
     {
-        FStatus = FStatus + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
+        _status = _status + Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
         try
         {
-            FileName = ExpandFileName(AFileName);
-            FLoadedFileName = GetFullFileName();
-            LoadFromStream(Stream);
+            FileName = ExpandFileName(fileName);
+            _loadedFileName = GetFullFileName();
+            LoadFromStream(stream);
         }
         finally
         {
-            FStatus = FStatus - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
+            _status = _status - Set<ImageLibraryStatusElement>.Of(ImageLibraryStatusElement.LoadingFromFile);
         }
     }
 
@@ -649,27 +649,27 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:10168
-    public override void Assign(Persistent Source)
+    public override void Assign(Persistent source)
     {
-        MemoryStream Stream;
-        if (Source is CustomImageLibrary)
+        MemoryStream stream;
+        if (source is CustomImageLibrary)
         {
-            Stream = new MemoryStream();
+            stream = new MemoryStream();
             try
             {
-                ((CustomImageLibrary)Source).SaveToStream(Stream);
-                Stream.Position = 0;
-                LoadFromStream(Stream);
-                FFileName = ((CustomImageLibrary)Source).FFileName;
-                FLoadedFileName = ((CustomImageLibrary)Source).FLoadedFileName;
-                if (FChangeLock == 0)
+                ((CustomImageLibrary)source).SaveToStream(stream);
+                stream.Position = 0;
+                LoadFromStream(stream);
+                _fileName = ((CustomImageLibrary)source)._fileName;
+                _loadedFileName = ((CustomImageLibrary)source)._loadedFileName;
+                if (_changeLock == 0)
                 {
                     CallOnChangeEvent();
                 }
             }
             finally
             {
-                Stream?.Dispose();
+                stream?.Dispose();
             }
         }
         else
@@ -679,17 +679,17 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:10190
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        if (Index < FCount)
+        if (index < _count)
         {
-            if (FImages[Index].Image != null)
+            if (_images[index].Image != null)
             {
-                FImages[Index].Image?.Dispose();
+                _images[index].Image?.Dispose();
             }
 
-            DeleteItem(Index);
-            if (FChangeLock == 0)
+            DeleteItem(index);
+            if (_changeLock == 0)
             {
                 CallOnChangeEvent();
             }
@@ -697,114 +697,114 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:10200
-    public int Remove(LibraryImage Image)
+    public int Remove(LibraryImage image)
     {
-        int Result = IndexOf(Image);
-        if (Result != -1)
+        int result = IndexOf(image);
+        if (result != -1)
         {
-            if (FImages[Result].Image != null)
+            if (_images[result].Image != null)
             {
-                FImages[Result].Image?.Dispose();
+                _images[result].Image?.Dispose();
             }
 
-            DeleteItem(Result);
-            if (FChangeLock == 0)
+            DeleteItem(result);
+            if (_changeLock == 0)
             {
                 CallOnChangeEvent();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:10211
-    public int IndexOf(LibraryImage Image)
+    public int IndexOf(LibraryImage image)
     {
-        int Result = 0;
-        while (Result < FCount && Image != FImages[Result].Image)
+        int result = 0;
+        while (result < _count && image != _images[result].Image)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:10218
-    public LibraryImage GetImage(int Index)
+    public LibraryImage GetImage(int index)
     {
-        LibraryImage Result;
-        if (FImages[Index].Image != null)
+        LibraryImage result;
+        if (_images[index].Image != null)
         {
-            Result = FImages[Index].Image;
-            Result.SetOwner(null);
-            FImages[Index].Image = null;
+            result = _images[index].Image;
+            result.SetOwner(null);
+            _images[index].Image = null;
             SetModified(true);
-            if (FChangeLock == 0)
+            if (_changeLock == 0)
             {
                 CallOnChangeEvent();
             }
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:10232
-    public void SetImage(int Index, LibraryImage Image)
+    public void SetImage(int index, LibraryImage image)
     {
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        if (FImages[Index].Image != null)
+        if (_images[index].Image != null)
         {
-            FImages[Index].Image.Dispose();
+            _images[index].Image.Dispose();
         }
 
-        FImages[Index].Image = Image;
-        FImages[Index].Reference = -1;
-        UpdateImageItemSettings(Index);
-        if (Image != null)
+        _images[index].Image = image;
+        _images[index].Reference = -1;
+        UpdateImageItemSettings(index);
+        if (image != null)
         {
-            Image.SetOwner(this);
+            image.SetOwner(this);
         }
 
         SetModified(true);
-        if (FChangeLock == 0)
+        if (_changeLock == 0)
         {
             CallOnChangeEvent();
         }
     }
 
     // ImageLib.pas:10244
-    public void Insert(int Index, LibraryImage Image)
+    public void Insert(int index, LibraryImage image)
     {
-        if (Index < 0)
+        if (index < 0)
         {
-            Index = 0;
+            index = 0;
         }
 
-        if (Index < FCount)
+        if (index < _count)
         {
-            InsertItem(Index);
+            InsertItem(index);
         }
 
-        SetImage(Index, Image);
+        SetImage(index, image);
     }
 
     // ImageLib.pas:10251
-    public void Add(LibraryImage Image)
+    public void Add(LibraryImage image)
     {
-        SetImage(FCount, Image);
+        SetImage(_count, image);
     }
 
     // ImageLib.pas:10256
@@ -812,19 +812,19 @@ public partial class CustomImageLibrary : Component
     {
         int I;
         I = 0;
-        while (I != FCount && FImages[I].Image == null)
+        while (I != _count && _images[I].Image == null)
         {
             I += 1;
         }
 
-        return I == FCount;
+        return I == _count;
     }
 
     // ImageLib.pas:10265
     public void Pack()
     {
         DisableOnChangeEvent();
-        for (int I = FCount - 1; I >= 0; I--)
+        for (int I = _count - 1; I >= 0; I--)
         {
             if (Get(I) == null)
             {
@@ -836,445 +836,445 @@ public partial class CustomImageLibrary : Component
     }
 
     // ImageLib.pas:10275
-    public int GetSubCount(int Index)
+    public int GetSubCount(int index)
     {
-        int Result;
-        LibraryImage Image;
-        Image = GetSafe(Index);
-        if (Image != null)
+        int result;
+        LibraryImage image;
+        image = GetSafe(index);
+        if (image != null)
         {
-            if (Image.ImageClass.ClassID != 256)
+            if (image.ImageClass.ClassId != 256)
             {
-                Result = 1;
+                result = 1;
             }
             else
             {
-                Result = ((ImageNode)Image).FCount;
+                result = ((ImageNode)image)._count;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:10291
-    public LibraryImage GetSub(int Index, int SubIndex)
+    public LibraryImage GetSub(int index, int subIndex)
     {
-        LibraryImage Result;
-        LibraryImage Image;
-        Image = FImages[Index].Image;
-        if (Image == null)
+        LibraryImage result;
+        LibraryImage image;
+        image = _images[index].Image;
+        if (image == null)
         {
-            Index = FImages[Index].Reference;
-            if (Index != -1)
+            index = _images[index].Reference;
+            if (index != -1)
             {
-                Image = FImages[Index].Image;
+                image = _images[index].Image;
             }
         }
 
-        if (Image != null)
+        if (image != null)
         {
-            if (Image.ImageClass.ClassID == 256)
+            if (image.ImageClass.ClassId == 256)
             {
-                Result = ((ImageNode)Image).FImages[SubIndex];
+                result = ((ImageNode)image)._images[subIndex];
             }
             else
             {
-                if (SubIndex == 0)
+                if (subIndex == 0)
                 {
-                    Result = Image;
+                    result = image;
                 }
                 else
                 {
-                    Result = null;
+                    result = null;
                 }
             }
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:10314
-    public LibraryImage GetSafeSub(int Index, int SubIndex)
+    public LibraryImage GetSafeSub(int index, int subIndex)
     {
-        LibraryImage Result;
-        LibraryImage Image;
-        Image = GetSafe(Index);
-        if (Image != null)
+        LibraryImage result;
+        LibraryImage image;
+        image = GetSafe(index);
+        if (image != null)
         {
-            if (Image.ImageClass.ClassID == 256)
+            if (image.ImageClass.ClassId == 256)
             {
-                Result = ((ImageNode)Image).GetSafeImage(SubIndex);
+                result = ((ImageNode)image).GetSafeImage(subIndex);
             }
             else
             {
-                if (SubIndex == 0)
+                if (subIndex == 0)
                 {
-                    Result = Image;
+                    result = image;
                 }
                 else
                 {
-                    Result = null;
+                    result = null;
                 }
             }
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:10332
-    public LibraryImage GetSubImage(int Index, int SubIndex)
+    public LibraryImage GetSubImage(int index, int subIndex)
     {
-        ImageNode Node;
-        LibraryImage Result = FImages[Index].Image;
-        if (Result != null)
+        ImageNode node;
+        LibraryImage result = _images[index].Image;
+        if (result != null)
         {
-            if (Result.ImageClass.ClassID == 256)
+            if (result.ImageClass.ClassId == 256)
             {
-                Node = (ImageNode)Result;
-                if (SubIndex >= 0 && SubIndex < Node.FCount)
+                node = (ImageNode)result;
+                if (subIndex >= 0 && subIndex < node._count)
                 {
-                    Result = Node.FImages[SubIndex];
-                    Result.SetOwner(null);
-                    Node.Delete(SubIndex);
-                    if (Node.FCount == 1)
+                    result = node._images[subIndex];
+                    result.SetOwner(null);
+                    node.Delete(subIndex);
+                    if (node._count == 1)
                     {
-                        var image = Node.GetImage(0);
-                        FImages[Index].Image = image;
-                        Node.Delete(0);
-                        Node?.Dispose();
+                        var image = node.GetImage(0);
+                        _images[index].Image = image;
+                        node.Delete(0);
+                        node?.Dispose();
                     }
 
                     SetModified(true);
                 }
                 else
                 {
-                    Result = null;
+                    result = null;
                 }
             }
             else
             {
-                if (SubIndex == 0)
+                if (subIndex == 0)
                 {
-                    Result.SetOwner(null);
-                    FImages[Index].Image = null;
+                    result.SetOwner(null);
+                    _images[index].Image = null;
                     SetModified(true);
                 }
                 else
                 {
-                    Result = null;
+                    result = null;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:10367
-    public void SetSubImage(int Index, int SubIndex, LibraryImage Image)
+    public void SetSubImage(int index, int subIndex, LibraryImage image)
     {
-        LibraryImage Old;
-        ImageNode Node;
-        if (Index < FCount)
+        LibraryImage old;
+        ImageNode node;
+        if (index < _count)
         {
-            Old = FImages[Index].Image;
+            old = _images[index].Image;
         }
         else
         {
-            Old = null;
+            old = null;
         }
 
-        if (Old != null)
+        if (old != null)
         {
-            if (Old.ImageClass.ClassID == 256)
+            if (old.ImageClass.ClassId == 256)
             {
-                Node = (ImageNode)Old;
-                if (SubIndex >= 0 && SubIndex < Node.FCount)
+                node = (ImageNode)old;
+                if (subIndex >= 0 && subIndex < node._count)
                 {
-                    Old = Node.FImages[SubIndex];
-                    if (Old != null)
+                    old = node._images[subIndex];
+                    if (old != null)
                     {
-                        Old.Dispose();
+                        old.Dispose();
                     }
 
-                    Node.FImages[SubIndex] = Image;
-                    Image.SetOwner(this);
+                    node._images[subIndex] = image;
+                    image.SetOwner(this);
                     SetModified(true);
                 }
                 else
                 {
-                    Node.Add(Image);
-                    Image.SetOwner(this);
+                    node.Add(image);
+                    image.SetOwner(this);
                     SetModified(true);
                 }
             }
             else
             {
-                if (SubIndex != 0)
+                if (subIndex != 0)
                 {
-                    Node = new ImageNode(this);
-                    Node.Add(Old);
-                    Node.Add(Image);
-                    FImages[Index].Image = Node;
-                    Image.SetOwner(this);
+                    node = new ImageNode(this);
+                    node.Add(old);
+                    node.Add(image);
+                    _images[index].Image = node;
+                    image.SetOwner(this);
                     SetModified(true);
                 }
                 else
                 {
-                    SetImage(Index, Image);
+                    SetImage(index, image);
                 }
             }
         }
         else
         {
-            SetImage(Index, Image);
+            SetImage(index, image);
         }
     }
 
     // ImageLib.pas:10414
     // { DeleteSub: the test of the node class is inverted (an original bug): a single image is treated
     //   as a node, and a node is freed whole when SubIndex is 0. }
-    public void DeleteSub(int Index, int SubIndex)
+    public void DeleteSub(int index, int subIndex)
     {
-        ImageNode Node;
-        Node = (ImageNode)FImages[Index].Image;
-        if (Node != null)
+        ImageNode node;
+        node = (ImageNode)_images[index].Image;
+        if (node != null)
         {
-            if (Node.ImageClass.ClassID != 256)
+            if (node.ImageClass.ClassId != 256)
             {
-                Node.GetImage(SubIndex).Dispose();
-                Node.Delete(SubIndex);
-                if (Node.FCount == 1)
+                node.GetImage(subIndex).Dispose();
+                node.Delete(subIndex);
+                if (node._count == 1)
                 {
-                    FImages[Index].Image = Node.FImages[0];
-                    Node.Delete(0);
-                    Node.Dispose();
+                    _images[index].Image = node._images[0];
+                    node.Delete(0);
+                    node.Dispose();
                 }
 
                 SetModified(true);
             }
             else
             {
-                if (SubIndex == 0)
+                if (subIndex == 0)
                 {
-                    Node?.Dispose();
-                    FImages[Index].Image = null;
+                    node?.Dispose();
+                    _images[index].Image = null;
                 }
             }
         }
     }
 
     // ImageLib.pas:10439
-    public int RemoveSub(int Index, LibraryImage Image)
+    public int RemoveSub(int index, LibraryImage image)
     {
-        int Result;
-        LibraryImage Old;
-        ImageNode Node;
-        Old = FImages[Index].Image;
-        if (Old != null)
+        int result;
+        LibraryImage old;
+        ImageNode node;
+        old = _images[index].Image;
+        if (old != null)
         {
-            if (Old.ImageClass.ClassID == 256)
+            if (old.ImageClass.ClassId == 256)
             {
-                Node = (ImageNode)Old;
-                Result = Node.IndexOf(Image);
-                if (Result != -1)
+                node = (ImageNode)old;
+                result = node.IndexOf(image);
+                if (result != -1)
                 {
-                    DeleteSub(Index, Result);
+                    DeleteSub(index, result);
                 }
             }
             else
             {
-                if (Old == Image)
+                if (old == image)
                 {
-                    Old?.Dispose();
-                    FImages[Index].Image = null;
+                    old?.Dispose();
+                    _images[index].Image = null;
                     SetModified(true);
-                    Result = 0;
+                    result = 0;
                 }
                 else
                 {
-                    Result = -1;
+                    result = -1;
                 }
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:10465
-    public int IndexOfSub(int Index, LibraryImage Image)
+    public int IndexOfSub(int index, LibraryImage image)
     {
-        int Result;
-        LibraryImage Old;
-        Old = FImages[Index].Image;
-        if (Old != null)
+        int result;
+        LibraryImage old;
+        old = _images[index].Image;
+        if (old != null)
         {
-            if (Old.ImageClass.ClassID == 256)
+            if (old.ImageClass.ClassId == 256)
             {
-                Result = ((ImageNode)Old).IndexOf(Image);
+                result = ((ImageNode)old).IndexOf(image);
             }
             else
             {
-                if (Old == Image)
+                if (old == image)
                 {
-                    Result = 0;
+                    result = 0;
                 }
                 else
                 {
-                    Result = -1;
+                    result = -1;
                 }
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:10483
-    public void InsertSub(int Index, int SubIndex, LibraryImage Image)
+    public void InsertSub(int index, int subIndex, LibraryImage image)
     {
-        LibraryImage Old;
-        ImageNode Node;
-        Old = FImages[Index].Image;
-        if (Old != null)
+        LibraryImage old;
+        ImageNode node;
+        old = _images[index].Image;
+        if (old != null)
         {
-            if (Old.ImageClass.ClassID == 256)
+            if (old.ImageClass.ClassId == 256)
             {
-                ((ImageNode)Old).Insert(SubIndex, Image);
-                Image.SetOwner(this);
+                ((ImageNode)old).Insert(subIndex, image);
+                image.SetOwner(this);
                 SetModified(true);
             }
             else
             {
-                Node = new ImageNode(this);
-                Node.Add(Old);
-                FImages[Index].Image = Node;
-                Node.Insert(SubIndex, Image);
-                Image.SetOwner(this);
+                node = new ImageNode(this);
+                node.Add(old);
+                _images[index].Image = node;
+                node.Insert(subIndex, image);
+                image.SetOwner(this);
                 SetModified(true);
             }
         }
         else
         {
-            AddSub(Index, Image);
+            AddSub(index, image);
         }
     }
 
     // ImageLib.pas:10511
-    public void AddSub(int Index, LibraryImage Image)
+    public void AddSub(int index, LibraryImage image)
     {
-        LibraryImage Old;
-        ImageNode Node;
-        Old = FImages[Index].Image;
-        if (Old != null)
+        LibraryImage old;
+        ImageNode node;
+        old = _images[index].Image;
+        if (old != null)
         {
-            if (Old.ImageClass.ClassID == 256)
+            if (old.ImageClass.ClassId == 256)
             {
-                ((ImageNode)Old).Add(Image);
-                Image.SetOwner(this);
+                ((ImageNode)old).Add(image);
+                image.SetOwner(this);
                 SetModified(true);
             }
             else
             {
-                Node = new ImageNode(this);
-                Node.Add(Old);
-                FImages[Index].Image = Node;
-                Image.SetOwner(this);
+                node = new ImageNode(this);
+                node.Add(old);
+                _images[index].Image = node;
+                image.SetOwner(this);
                 SetModified(true);
             }
         }
         else
         {
-            SetImage(Index, Image);
+            SetImage(index, image);
         }
     }
 
     // ImageLib.pas:10538
-    public bool SubImageExist(int Index, int SubIndex)
+    public bool SubImageExist(int index, int subIndex)
     {
-        bool Result;
-        LibraryImage Image;
-        Image = FImages[Index].Image;
-        if (Image != null && SubIndex >= 0)
+        bool result;
+        LibraryImage image;
+        image = _images[index].Image;
+        if (image != null && subIndex >= 0)
         {
-            if (Image.ImageClass.ClassID == 256)
+            if (image.ImageClass.ClassId == 256)
             {
-                Result = SubIndex < ((ImageNode)Image).FCount;
+                result = subIndex < ((ImageNode)image)._count;
             }
             else
             {
-                Result = SubIndex == 0;
+                result = subIndex == 0;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    public int Count { get => FCount; set => SetCount(value); }
+    public int Count { get => _count; set => SetCount(value); }
 
-    public LibraryImage this[int Index] { get => Get(Index); }
+    public LibraryImage this[int index] { get => Get(index); }
 
     public bool Modified { get => GetModified(); set => SetModified(value); }
-    public Set<ImageLibraryStatusElement> Status { get => FStatus; }
-    public PaletteManager PaletteManager { get => FPaletteManager; }
+    public Set<ImageLibraryStatusElement> Status { get => _status; }
+    public PaletteManager PaletteManager { get => _paletteManager; }
     public string FullFileName { get => GetFullFileName(); }
-    public string LoadedFileName { get => FLoadedFileName; }
-    public int DataOffset { get => FDataOffset; }
-    public bool Reloading { get => FReloading; }
-    public bool LoadOnDemand { get => FLoadOnDemand; set => SetLoadOnDemand(value); }
-    public NotifyEvent<object> OnChange { get => FOnChange; set => FOnChange = value; }
-    public string FileName { get => FFileName; set => SetFileName(value); }
+    public string LoadedFileName { get => _loadedFileName; }
+    public int DataOffset { get => _dataOffset; }
+    public bool Reloading { get => _reloading; }
+    public bool LoadOnDemand { get => _loadOnDemand; set => SetLoadOnDemand(value); }
+    public NotifyEvent<object> OnChange { get => _onChange; set => _onChange = value; }
+    public string FileName { get => _fileName; set => SetFileName(value); }
 
-    internal static int UpdateImage(CustomImageLibrary ImageLibrary, LibraryImage Image)
+    internal static int UpdateImage(CustomImageLibrary imageLibrary, LibraryImage image)
     {
-        LibraryImage Sub;
-        LibraryImage NewImage;
-        int Result = 0;
-        if (Image != null)
+        LibraryImage sub;
+        LibraryImage newImage;
+        int result = 0;
+        if (image != null)
         {
-            for (int I = 0, last = ImageLibrary.Count - 1; I <= last; I++)
+            for (int I = 0, last = imageLibrary.Count - 1; I <= last; I++)
             {
-                if (!ImageLibrary.IsReference(I))
+                if (!imageLibrary.IsReference(I))
                 {
-                    for (int J = 0, lastJ = ImageLibrary.GetSubCount(I) - 1; J <= lastJ; J++)
+                    for (int J = 0, lastJ = imageLibrary.GetSubCount(I) - 1; J <= lastJ; J++)
                     {
-                        Sub = ImageLibrary.GetSub(I, J);
-                        if (Sub != null && CompareText(Sub.FFileName, Image.FFileName) == 0 && Sub.FFileIndex == Image.FFileIndex)
+                        sub = imageLibrary.GetSub(I, J);
+                        if (sub != null && CompareText(sub._fileName, image._fileName) == 0 && sub._fileIndex == image._fileIndex)
                         {
-                            NewImage = Image.Copy();
-                            NewImage.Xshift = Sub.Xshift;
-                            NewImage.Yshift = Sub.Yshift;
-                            ImageLibrary.SetSubImage(I, J, NewImage);
-                            Result += 1;
+                            newImage = image.Copy();
+                            newImage.Xshift = sub.Xshift;
+                            newImage.Yshift = sub.Yshift;
+                            imageLibrary.SetSubImage(I, J, newImage);
+                            result += 1;
                         }
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     public struct ImageItem

@@ -29,10 +29,10 @@ Surveyed on main with `git grep` and a field-offset scan of every explicit-layou
 | `IntOrRef` slots | `EngineMessage.Payload` and `Param[3]` (`Engine.cs:6077`), `MapFieldMessage.Param[4]` and `Result` (`HSEngine.cs:5292`), `ShowInfo.Payload` (`ImageLib.cs:2474`), `HashItem.Key` (Delphi `THashItem`) (`Engine.cs:8682`, `HashTabU.cs:15`) |
 | byte views | `Unsafe.As` on 291 lines (211 views over `MapCoordinate`), `MemoryMarshal` on 102 lines |
 | `TVarRec` | `src/Rtl/Values.cs`, 335 `Format` lines in 49 Units files, one Units signature (`AoWE.cs:103537`) |
-| engine messages | 81 `MsgProc` overrides, 216 `MsgID ==` tests over 73 literal ids, 306 `Param` uses (80 `As<T>()`, 94 `.Value`), 59 Units files. The 10 typed payload objects of 9.2 ride in `Param` slots |
+| engine messages | 81 `MessageProc` overrides, 216 `MessageId ==` tests over 73 literal ids, 306 `Param` uses (80 `As<T>()`, 94 `.Value`), 59 Units files. The 10 typed payload objects of 9.2 ride in `Param` slots |
 | rules families (descendants) | `Spell` (Delphi `TSpell`) 117, `Ability` (Delphi `TAbility`) 83, `TokenEvent` (Delphi `TTokenEvent`) 63, `EventLog` (Delphi `TEventLog`) 43, `Structure` (Delphi `TStructure`) 41, `CombatAction` (Delphi `TCombatAction`) 36, `AIGroup` (Delphi `TAIGroup`) 18, `AIPlayerAction` (Delphi `TAIPlayerAction`) 14, `MoveOnEvent` (Delphi `TMoveOnEvent`) 3, `FlagEvent` (Delphi `TFlagEvent`) 2 |
 | type cascades | event logs: 28 arms in `TheMapExecuteEventLog` (`aowMapEvents.cs:348`) and 2 in the AI's `ProcessEventLogAIPlayerAction` (Delphi `TProcessEventlogAIPA`) (`AoWE.cs:69037`). Structures: 15 arms in `ShowStructureInfo` (`AoWInfoWin.cs:510`), 8 in `MainBtnClick` (`AoWInfoWin.cs:379`), 4 in `TheMapStructureDblClick` (`aowMapEvents.cs:1071`) |
-| class id dispatch | 1 `switch` on `EngineClass.ClassID`, 17 structure ids to tactical map names (`AoWTC.cs:12332`). 32 id comparisons and 152 `FindOwnedChild(id)` lines are queries, not dispatch |
+| class id dispatch | 1 `switch` on `EngineClass.ClassId`, 17 structure ids to tactical map names (`AoWTC.cs:12332`). 32 id comparisons and 152 `FindOwnedChild(id)` lines are queries, not dispatch |
 | kind-tagged objects | `ProductionItem` (Delphi `TProductionItem`) (`AoWE.cs:1273`): `FProductionID` in {1, 2, 10 to 14} decides what `FParameter` means, 10 switches, 20 comparisons, 6 files. `DiplomaticAction` (Delphi `TDiplomaticAction`) (`AoWE.cs:95552`): `FActionType` (10 kinds) decides which fields matter, 14 switches in 3 files |
 
 Facts that decide the design:
@@ -129,7 +129,7 @@ original slot holds 0 for it.
 What changes against `IntOrRef`: a reference no longer offers its identity hash as an integer, and
 `Int` on a reference throws. A compile-time scan of all 511 slot uses found no reference read as an
 integer. The census's three mixed reads, `Value` of a reference in `MapFieldMessage.Result`, were the
-answered test of `MapField.SendMapFieldMsg` (Delphi `TMapField`), which compares the result before and after each
+answered test of `MapField.SendMapFieldMessage` (Delphi `TMapField`), which compares the result before and after each
 handler. It compares with `MsgArg` equality, the equality of the original word: the same integer or
 the same object are equal, the empty slot, the integer 0 and the nil reference are all the word 0,
 and a nonzero integer never equals a reference. So an integer answer and a reference answer stop
@@ -151,7 +151,7 @@ public struct ShowInfo { public ShowMode ShowMode; public BlendMode BlendMode; p
 
 Brief 9.6-5 (PR #106). `BlendValue` sits beside the table type in the units, not in the shim. A
 nil table is the union's null. `BlendMode` stays a field: it picks one of five tables for a
-percentage, and `LibraryImage.ShowEx` (Delphi `TLibraryImage`) reads the image's own mode with the caller's value
+percentage, and `LibraryImage.Show` (Delphi `TLibraryImage`) reads the image's own mode with the caller's value
 (`transpiler.md` 4.3). The `bmUser` arm of `Show`, `ShowStretched` and `ShowEx` matches
 `Blend is BlendTable table`, the others read `Blend.Percentage`, which throws on a table. A
 `bmUser` image read from a file carries an int and draws nothing, as before. Only `ImageLib.cs` and
@@ -294,7 +294,7 @@ holds a `DiplomaticProposal`, the pattern of 3.6 keyed by the one-byte kind with
 `Catalog<byte, ...>` that rejects duplicates. `OfferProposal(Gold, Mana)` is the base of the five
 kinds that carry an offer (`OfferPeace`, `ProposeAlliance`, `MakeTribute`, `SuggestAllianceBreak`,
 `SuggestWarDeclaration`). Two fields that section 3 gave the kinds stay common, per roadmap X20 and the
-census. `FOtherPlayer` stays a field of `DiplomaticAction`, since the census finds it written for
+census. `OtherPlayer` stays a field of `DiplomaticAction`, since the census finds it written for
 every kind, 255 for the kinds that name no other player. `Message` is a member of the
 `DiplomaticProposal` base, which every kind carries. No subclass of `DiplomaticAction` per kind
 exists, because the original format names one class id for every kind. `TDiplomaticActionType`
@@ -402,7 +402,7 @@ The 13 layers of `tools/check.py` keep their counts. A count that moves is a fin
 |---|---|---|
 | 9.6-0 census and probe | private only. `cs15probe` gains the section 2 cases. `tools/rewrite/union-census` lists the property ids present per production and diplomacy kind in oracle saves, scenario states, shipped maps and campaigns. A throwaway instrumented build logs each message slot's case written and read through the oracle and scenario runs. Output `data/rewrite/9.6-census.json` and `.md` | the probe prints its line, the census covers every message slot and every kind |
 | 9.6-1 `FormatArg` | `src/Rtl` (six files and new `FormatArg.cs`, now `src/Rtl/Legacy/FormatArg.cs`), five `Rtl.Tests` files, `AoWE.cs:103537` | `git grep -n "TVarRec\|VarKind" -- src` is empty, `StringFormatTests` cover every case and conversion |
-| 9.6-2 structure views | new `Structure.Views.cs`, `AoWInfoWin.cs`, `aowMapEvents.cs` (double click), `AoWTC.cs` (the id switch), tests | no type test on a structure kind in the three screen methods, no switch on `EngineClass.ClassID`, the view and map name tests pass |
+| 9.6-2 structure views | new `Structure.Views.cs`, `AoWInfoWin.cs`, `aowMapEvents.cs` (double click), `AoWTC.cs` (the id switch), tests | no type test on a structure kind in the three screen methods, no switch on `EngineClass.ClassId`, the view and map name tests pass |
 | 9.6-3 event log views | new `EventLog.Views.cs`, `aowMapEvents.cs`, `AoWE.cs` (`ProcessEventLogAIPlayerAction`), tests | both cascades hold no type test, the view tests pass |
 | 9.6-4 `MsgArg`, buffers | `Engine.cs`, `HSEngine.cs`, `FixedArrays.cs`, new `src/Rtl/Legacy/MsgArg.cs`, `CoreTests.cs`, the 59 Units message files, `AoWTC.cs` | `IntOrRef` remains only in `HashItem`, `src/Rtl/Legacy/Pointers.cs` and their tests, the overlap scan finds 3 structs |
 | 9.6-5 `ShowInfo` | `ImageLib.cs`, 25 more Units files, `GraphicsConstructionTests.cs` | no `IntOrRef` in `ImageLib.cs`, the ILB round trip test passes |
@@ -437,7 +437,7 @@ arguments, which `FormatArg` takes over. Delphi `Char` remains `byte` until a la
    no mixed slot in the census, `Int` throwing on a reference through the whole gate run, reviewed
    reader code for each message id the gate never reaches, and for the buffers the cited lines
    showing that each `GetCombatInfo` override writes only `AbilityCombatInfo` fields.
-5. 9.6-5: the cross-record read in `ShowEx`. Evidence: a test that reads every ILB in `Images` and
+5. 9.6-5: the cross-record read in `Show`. Evidence: a test that reads every ILB in `Images` and
    `Int`, writes each image's 8-byte record back, compares with the file and counts `bmUser` images.
 6. 9.6-6 and 9.6-7: stale fields, step-by-step construction, arms that read control state.
    Evidence: the census, a check through the gate run that `FromFields` then `ToFields` returns the

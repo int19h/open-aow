@@ -23,7 +23,7 @@ public sealed class EventLogConstructionTests
 
         internal EventListOwner() : base(null!)
         {
-            FOnChanged = _ =>
+            OnChanged = _ =>
             {
                 Changes++;
                 var child = GetEvents(GetCount() - 1);
@@ -33,7 +33,7 @@ public sealed class EventLogConstructionTests
                     {
                         if (!field.FieldType.IsValueType && field.FieldType != typeof(string) && field.GetValue(child) is not null) nil = false;
                     }
-                Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child.FDay, child.FPlayer, child.FID, child.FRefCount, AddRefReturn = child.FRefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child) }));
+                Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child._day, child._player, child.Id, child.RefCount, AddRefReturn = child.RefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child) }));
             };
         }
 
@@ -47,14 +47,14 @@ public sealed class EventLogConstructionTests
         {
             DestroyEntries = Math.Max(DestroyEntries, new StackTrace().GetFrames().Count(x => x.GetMethod() is { Name: "Dispose", DeclaringType: { } t } && t == typeof(EngineObject)));
             // Record removal notifications without indexing an empty list.
-            var changed = FOnChanged;
-            FOnChanged = _ => Changes++;
+            var changed = OnChanged;
+            OnChanged = _ => Changes++;
             try { return base.RemoveChild(child); }
-            finally { FOnChanged = changed; }
+            finally { OnChanged = changed; }
         }
     }
 
-    private static readonly string[] Names =
+    private static readonly string[] s_names =
     [
         "Aow.Game.Events.ArmyEventLog",
         "Aow.Game.Events.ArmyInfoEventLog",
@@ -104,14 +104,14 @@ public sealed class EventLogConstructionTests
     public void StateInsertionAndOffsetsMatchBaseCommit()
     {
         var actual = new SortedDictionary<string, string>(StringComparer.Ordinal);
-        foreach (string name in Names)
+        foreach (string name in s_names)
             for (int mapped = 0; mapped < 2; mapped++)
                 for (int owned = 0; owned < 2; owned++)
                     for (int route = 0; route < 4; route++)
                     {
                         Type type = typeof(EventLog).Assembly.GetType(name)!;
                         using var fixture = new OrderingRecording.Fixture(type);
-                        if (mapped == 1) AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FDay = 7; value.FCurrentPlayer = unchecked((sbyte)200); });
+                        if (mapped == 1) AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.Day = 7; value.CurrentPlayer = unchecked((sbyte)200); });
                         var owner = owned == 1 ? new EventListOwner() : null;
                         EventLog? value = null;
                         string state;
@@ -123,9 +123,9 @@ public sealed class EventLogConstructionTests
                         }
                         catch (Exception error) when (error is not XunitException) { state = error.GetType().FullName + ":" + error.Message; }
                         Assert.NotNull(value);
-                        actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.FRefCount }));
-                        GameTables.AoWEngine.FDictionary = fixture.Dictionary;
-                        AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FStatus = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+                        actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.RefCount }));
+                        GameTables.GameEngine.Dictionary = fixture.Dictionary;
+                        AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                         if (owner is not null) value?.AddRef();
                         value?.Dispose();
                         owner?.Dispose();

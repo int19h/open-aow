@@ -8,9 +8,9 @@ public partial class SeducedAbility : CommandedAbility
     // AoWAb.PAS:5366
     public SeducedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 48;
-        FAbilityName = AbilityRules.TranslateRStr(SeducedRStr);
+        AbilityId = 48;
+        AbilityName = AbilityRules.TranslateResourceString(s_seducedText);
     }
 
-    private static readonly string SeducedRStr = "Seduced";
+    private static readonly string s_seducedText = "Seduced";
 }

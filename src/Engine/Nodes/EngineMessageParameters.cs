@@ -12,5 +12,5 @@ public struct EngineMessageParameters
 {
     public const int Arity = 3;
 
-    private MsgArg element0;
+    private MsgArg _element0;
 }

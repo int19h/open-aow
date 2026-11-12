@@ -15,10 +15,10 @@ public partial class HealingUnitSelector : UnitSelector
     { }
 
     // AoWAb.PAS:3894
-    public override bool CanSelectUnit(Troop AUnit)
+    public override bool CanSelectUnit(Troop troop)
     {
-        var unitType = AUnit.GetUnitType();
-        if (!(Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && AUnit.GetHits() != AUnit.GetHitPoints()))
+        var unitType = troop.GetUnitType();
+        if (!(Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && troop.GetHits() != troop.GetHitPoints()))
         {
             return false;
         }
@@ -29,49 +29,49 @@ public partial class HealingUnitSelector : UnitSelector
     // AoWAb.PAS:3904
     public override bool Select()
     {
-        bool Result;
-        Troop Source;
-        Troop Target;
-        string Error = "";
+        bool result;
+        Troop source;
+        Troop target;
+        string error = "";
         int I;
-        HealingTokenEvent Event;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FSourceUnitID);
-        if (CanSelect(ref Error) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        HealingTokenEvent eventValue;
+        source = AoWHSMap.Current.UnitControl.FindUnit(SourceUnitId);
+        if (CanSelect(ref error) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             I = 0;
-            Target = null;
-            while (Target == null && I != FUnits.GetCount())
+            target = null;
+            while (target == null && I != Units.GetCount())
             {
-                if ((FSelection & (1 << I)) != 0)
+                if ((Selection & (1 << I)) != 0)
                 {
-                    Target = FUnits.GetUnit(I);
+                    target = Units.GetUnit(I);
                 }
 
                 I += 1;
             }
 
-            if (Target != null)
+            if (target != null)
             {
-                Event = new HealingTokenEvent(null);
-                Event.FSourceID = Source.FUnitID;
-                Event.FSourcePlayer = (byte)Source.FPlayer;
-                Event.FTargetID = Target.FUnitID;
-                Event.FTargetPlayer = (byte)Target.FPlayer;
-                AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-                Event.Release();
-                Result = true;
+                eventValue = new HealingTokenEvent(null);
+                eventValue.SourceId = source.UnitId;
+                eventValue.SourcePlayer = (byte)source.Player;
+                eventValue.TargetId = target.UnitId;
+                eventValue.TargetPlayer = (byte)target.Player;
+                AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                eventValue.Release();
+                result = true;
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P1_08.inc:65

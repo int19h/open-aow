@@ -6,27 +6,27 @@ using Aow.Rtl;
 
 namespace Aow.Game.Net;
 
-// FConnectionMode (stored with id 5), FSystemID (id 6). One per player
+// _connectionMode (stored with id 5), _systemId (id 6). One per player
 public partial class PlayerCommunicationSettings : EngineObject
 {
-    internal ConnectionMode FConnectionMode;
-    internal int FSystemID;
+    internal ConnectionMode _connectionMode;
+    internal int _systemId;
 
     // NetworkE.pas:452
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref FConnectionMode, 1), 1, 5);
-        Stream.rwInteger(ref FSystemID, 6);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref _connectionMode, 1), 1, 5);
+        stream.rwInteger(ref _systemId, 6);
     }
 
     // NetworkE.pas:446
     public PlayerCommunicationSettings(ECustomNode owner) : base(owner)
     {
-        FConnectionMode = ConnectionMode.Local;
+        _connectionMode = ConnectionMode.Local;
     }
 
-    public ConnectionMode ConnectionMode { get => FConnectionMode; set => FConnectionMode = value; }
-    public int SystemID { get => FSystemID; set => FSystemID = value; }
+    public ConnectionMode ConnectionMode { get => _connectionMode; set => _connectionMode = value; }
+    public int SystemId { get => _systemId; set => _systemId = value; }
 
 }

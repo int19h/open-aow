@@ -25,102 +25,102 @@ public partial class GlobalEnchantment : EngineObject
     // Spells.PAS:2471
     public GlobalEnchantment(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
-        FEnchantmentMode = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
+        RefCount = 1;
+        EnchantmentMode = Set<GlobalEnchantmentModeElement>.Of(GlobalEnchantmentModeElement.TrueGlobal, GlobalEnchantmentModeElement.Owned);
     }
 
-    public int FEnchantmentID;
-    public int FRefCount;
-    public Set<GlobalEnchantmentStatusElement> FEnchantmentStatus;
-    public Set<GlobalEnchantmentModeElement> FEnchantmentMode;
-    public int FDispelMana;
-    public GlobalEnchantmentType FEnchantmentType;
-    public sbyte FPlayerIndex;
-    public string FName = "";
-    public int FEnchantmentManaUpkeep;
+    public int _enchantmentId;
+    public int RefCount;
+    public Set<GlobalEnchantmentStatusElement> EnchantmentStatus;
+    public Set<GlobalEnchantmentModeElement> EnchantmentMode;
+    public int DispelMana;
+    public GlobalEnchantmentType EnchantmentType;
+    public sbyte PlayerIndex;
+    public string Name = "";
+    public int EnchantmentManaUpkeep;
 
     // Spells.PAS:2520
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FEnchantmentID, 10);
-        Stream.rwData(Bytes.Of(ref FEnchantmentType, 1), 1, 11);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayerIndex), 12);
-        Stream.rwString(ref FName, 13);
-        Stream.rwInteger(ref FEnchantmentManaUpkeep, 14);
-        Stream.rwInteger(ref FDispelMana, 15);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref _enchantmentId, 10);
+        stream.rwData(Bytes.Of(ref EnchantmentType, 1), 1, 11);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref PlayerIndex), 12);
+        stream.rwString(ref Name, 13);
+        stream.rwInteger(ref EnchantmentManaUpkeep, 14);
+        stream.rwInteger(ref DispelMana, 15);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("TGlobalEnchantment.EnchantmentID", ref FEnchantmentID);
-        persister.Enum("EnchantmentType", ref FEnchantmentType);
-        PersistSupport.UnsignedByte(persister, "PlayerIndex", ref FPlayerIndex);
-        persister.String("Name", ref FName);
-        persister.Int("EnchantmentManaUpkeep", ref FEnchantmentManaUpkeep);
-        persister.Int("DispelMana", ref FDispelMana);
+        persister.Int32("TGlobalEnchantment.EnchantmentID", ref _enchantmentId);
+        persister.Enum("EnchantmentType", ref EnchantmentType);
+        PersistSupport.UnsignedByte(persister, "PlayerIndex", ref PlayerIndex);
+        persister.String("Name", ref Name);
+        persister.Int32("EnchantmentManaUpkeep", ref EnchantmentManaUpkeep);
+        persister.Int32("DispelMana", ref DispelMana);
     }
 
     // Spells.PAS:2477
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // Spells.PAS:2482
     public override int Release()
     {
-        int Count;
-        FRefCount -= 1;
-        Count = FRefCount;
-        int Result = Count;
-        if (Count == 0)
+        int count;
+        RefCount -= 1;
+        count = RefCount;
+        int result = count;
+        if (count == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2503
-    public virtual string GetName() => FName;
+    public virtual string GetName() => Name;
 
     // Spells.PAS:2505
-    public virtual int GetUpkeep() => FEnchantmentManaUpkeep;
+    public virtual int GetUpkeep() => EnchantmentManaUpkeep;
 
     // Spells.PAS:2490
     public virtual MapCoordinate GetLocation()
     {
-        MapCoordinate Result = default;
-        Result.Packed = 16777215;
-        return Result;
+        MapCoordinate result = default;
+        result.Packed = 16777215;
+        return result;
     }
 
     // Spells.PAS:2488
     public virtual int GetAIUpkeepPriority() => 0;
 
     // Spells.PAS:2563
-    public virtual bool CanDeactivate(byte Player, ref string Reason) => true;
+    public virtual bool CanDeactivate(byte player, ref string reason) => true;
 
     // Spells.PAS:2565
-    public virtual bool Deactivate(byte Player)
+    public virtual bool Deactivate(byte player)
     {
-        FEnchantmentStatus = FEnchantmentStatus - Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
-        if (FEnchantmentMode.Contains(GlobalEnchantmentModeElement.Owned))
+        EnchantmentStatus = EnchantmentStatus - Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
+        if (EnchantmentMode.Contains(GlobalEnchantmentModeElement.Owned))
         {
             Owner = null;
         }
         else
         {
-            AoWHSMap.Current.FGlobalMagicControl.FEnchantments.RemoveChild(this);
+            AoWHSMap.Current.GlobalMagicControl.Enchantments.RemoveChild(this);
         }
 
-        AoWHSMap.Current.FGlobalMagicControl.Update();
-        if (FEnchantmentManaUpkeep != 0)
+        AoWHSMap.Current.GlobalMagicControl.Update();
+        if (EnchantmentManaUpkeep != 0)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.Update();
+            AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
         }
 
         Release();
@@ -128,217 +128,217 @@ public partial class GlobalEnchantment : EngineObject
     }
 
     // Spells.PAS:2536
-    public virtual bool CanActivate(sbyte Player, ref string Reason)
+    public virtual bool CanActivate(sbyte player, ref string reason)
     {
-        bool Result;
-        if (FEnchantmentType != GlobalEnchantmentType.None && AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(FEnchantmentType))
+        bool result;
+        if (EnchantmentType != GlobalEnchantmentType.None && AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(EnchantmentType))
         {
-            Reason = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XIsAlreadyActiveRStr), [FName]);
-            Result = false;
+            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat), [Name]);
+            result = false;
         }
         else
         {
-            Reason = "";
-            Result = true;
+            reason = "";
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2550
-    public virtual bool Activate(sbyte Player)
+    public virtual bool Activate(sbyte player)
     {
-        FPlayerIndex = Player;
-        FEnchantmentStatus = FEnchantmentStatus + Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
-        AoWHSMap.Current.FGlobalMagicControl.ValidateEnchantmentID(this);
-        if (FEnchantmentMode.Contains(GlobalEnchantmentModeElement.Owned))
+        PlayerIndex = player;
+        EnchantmentStatus = EnchantmentStatus + Set<GlobalEnchantmentStatusElement>.Of(GlobalEnchantmentStatusElement.Activated);
+        AoWHSMap.Current.GlobalMagicControl.ValidateEnchantmentId(this);
+        if (EnchantmentMode.Contains(GlobalEnchantmentModeElement.Owned))
         {
-            Owner = AoWHSMap.Current.FGlobalMagicControl.FEnchantments;
+            Owner = AoWHSMap.Current.GlobalMagicControl.Enchantments;
         }
         else
         {
-            AoWHSMap.Current.FGlobalMagicControl.FEnchantments.AddChild(this);
+            AoWHSMap.Current.GlobalMagicControl.Enchantments.AddChild(this);
         }
 
         AddRef();
-        AoWHSMap.Current.FGlobalMagicControl.Update();
-        if (FEnchantmentManaUpkeep != 0)
+        AoWHSMap.Current.GlobalMagicControl.Update();
+        if (EnchantmentManaUpkeep != 0)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.Update();
+            AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.Update();
         }
 
         return true;
     }
 
     // Spells.PAS:2575
-    public virtual bool CanCast(sbyte Player, ref string Reason) => CanActivate(Player, ref Reason);
+    public virtual bool CanCast(sbyte player, ref string reason) => CanActivate(player, ref reason);
 
     // Spells.PAS:2577
-    public virtual bool Cast(sbyte Player)
+    public virtual bool Cast(sbyte player)
     {
-        bool Result;
-        string Reason = "";
-        GlobalEnchantmentEventLog Log;
-        if (CanCast(Player, ref Reason))
+        bool result;
+        string reason = "";
+        GlobalEnchantmentEventLog log;
+        if (CanCast(player, ref reason))
         {
-            Result = Activate(Player);
-            if (Result)
+            result = Activate(player);
+            if (result)
             {
-                Log = new GlobalEnchantmentEventLog(null);
-                Log.FEnchantmentPlayer = Player;
-                Log.FPlayer = Player;
-                Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XCastRStr), [FName]);
-                EventLog.DistributeEventLog(Log, false);
-                Log.Release();
+                log = new GlobalEnchantmentEventLog(null);
+                log.EnchantmentPlayer = player;
+                log._player = player;
+                log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_castFormat), [Name]);
+                EventLog.DistributeEventLog(log, false);
+                log.Release();
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2597
-    public virtual bool CanDispel(sbyte Player, ref string Reason) => CanDeactivate((byte)Player, ref Reason);
+    public virtual bool CanDispel(sbyte player, ref string reason) => CanDeactivate((byte)player, ref reason);
 
     // Spells.PAS:2599
-    public virtual bool Dispel(byte Player)
+    public virtual bool Dispel(byte player)
     {
-        bool Result;
-        string Reason = "";
-        MapCoordinate Location;
-        GlobalEnchantmentEventLog Log;
-        if (CanDispel((sbyte)Player, ref Reason))
+        bool result;
+        string reason = "";
+        MapCoordinate location;
+        GlobalEnchantmentEventLog log;
+        if (CanDispel((sbyte)player, ref reason))
         {
             AddRef();
-            Location = GetLocation();
-            for (int I = 1, last = AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
+            location = GetLocation();
+            for (int I = 1, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
             {
                 if (VisibleForPlayer((sbyte)I))
                 {
-                    Log = new GlobalEnchantmentEventLog(null);
-                    Log.FPlayer = (sbyte)Player;
-                    Log.FEnchantmentPlayer = FPlayerIndex;
-                    Log.SetLocation(Location.X, Location.Y, Location.L);
+                    log = new GlobalEnchantmentEventLog(null);
+                    log._player = (sbyte)player;
+                    log.EnchantmentPlayer = PlayerIndex;
+                    log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();
-                    Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(P4XDispelledRStr), [name]);
-                    AoWHSMap.Current.FPlayers.GetPlayers(I).FEventLogbook.AddEvent(Log);
-                    Log.Release();
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_dispelledFormat), [name]);
+                    AoWHSMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
+                    log.Release();
                 }
             }
 
-            Result = Deactivate(Player);
+            result = Deactivate(player);
             Release();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2626
-    public virtual bool CanRemove(sbyte Player, ref string Reason)
+    public virtual bool CanRemove(sbyte player, ref string reason)
     {
-        bool Result;
-        if (Player == FPlayerIndex)
+        bool result;
+        if (player == PlayerIndex)
         {
-            Result = CanDeactivate((byte)FPlayerIndex, ref Reason);
+            result = CanDeactivate((byte)PlayerIndex, ref reason);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2631
-    public virtual bool Remove(byte Player)
+    public virtual bool Remove(byte player)
     {
-        bool Result;
-        string Reason = "";
-        MapCoordinate Location;
-        GlobalEnchantmentEventLog Log;
-        if (CanRemove((sbyte)Player, ref Reason))
+        bool result;
+        string reason = "";
+        MapCoordinate location;
+        GlobalEnchantmentEventLog log;
+        if (CanRemove((sbyte)player, ref reason))
         {
             AddRef();
-            Location = GetLocation();
-            for (int I = 1, last = AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
+            location = GetLocation();
+            for (int I = 1, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
             {
                 if (VisibleForPlayer((sbyte)I))
                 {
-                    Log = new GlobalEnchantmentEventLog(null);
-                    Log.FPlayer = FPlayerIndex;
-                    Log.FEnchantmentPlayer = FPlayerIndex;
-                    Log.SetLocation(Location.X, Location.Y, Location.L);
+                    log = new GlobalEnchantmentEventLog(null);
+                    log._player = PlayerIndex;
+                    log.EnchantmentPlayer = PlayerIndex;
+                    log.SetLocation(location.X, location.Y, location.MapLevel);
                     var name = GetName();
-                    Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.P4XRemovedRStr), [name]);
-                    AoWHSMap.Current.FPlayers.GetPlayers(I).FEventLogbook.AddEvent(Log);
-                    Log.Release();
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_removedFormat), [name]);
+                    AoWHSMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
+                    log.Release();
                 }
             }
 
-            Result = Deactivate((byte)FPlayerIndex);
+            result = Deactivate((byte)PlayerIndex);
             Release();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2507
-    public virtual bool VisibleForPlayer(sbyte Player)
+    public virtual bool VisibleForPlayer(sbyte player)
     {
-        bool Result;
-        MapCoordinate Location;
-        if (!FEnchantmentMode.Contains(GlobalEnchantmentModeElement.TrueGlobal) && Player != FPlayerIndex)
+        bool result;
+        MapCoordinate location;
+        if (!EnchantmentMode.Contains(GlobalEnchantmentModeElement.TrueGlobal) && player != PlayerIndex)
         {
-            Location = GetLocation();
-            if (Location.X != -1)
+            location = GetLocation();
+            if (location.X != -1)
             {
-                Result = AoWHSMap.Current.VisibleForPlayer(Location.X, Location.Y, Location.L, Player);
+                result = AoWHSMap.Current.VisibleForPlayer(location.X, location.Y, location.MapLevel, player);
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:2492
     public virtual void CenterToLocation()
     {
-        MapCoordinate Location;
-        Location = GetLocation();
-        if (Location.X != -1)
+        MapCoordinate location;
+        location = GetLocation();
+        if (location.X != -1)
         {
-            AoWHSMap.Current.CenterViewTo(Location.X, Location.Y, Location.L);
-            AoWHSMap.Current.PlayCenterAnimation(Location.X, Location.Y, Location.L);
+            AoWHSMap.Current.CenterViewTo(location.X, location.Y, location.MapLevel);
+            AoWHSMap.Current.PlayCenterAnimation(location.X, location.Y, location.MapLevel);
         }
     }
 
     // Spells.PAS:2530
-    public void Setup(GlobalEnchantmentType Kind, string Name, int Upkeep)
+    public void Setup(GlobalEnchantmentType kind, string name, int upkeep)
     {
-        FEnchantmentType = Kind;
-        FName = Name;
-        FEnchantmentManaUpkeep = Upkeep;
+        EnchantmentType = kind;
+        Name = name;
+        EnchantmentManaUpkeep = upkeep;
     }
 
-    private static readonly string P4XDispelledRStr = "%s dispelled";
+    private static readonly string s_dispelledFormat = "%s dispelled";
 
     // intf_P4_01.inc:194
 

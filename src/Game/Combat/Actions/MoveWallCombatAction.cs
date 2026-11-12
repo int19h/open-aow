@@ -9,38 +9,38 @@ namespace Aow.Game.Combat.Actions;
 public partial class MoveWallCombatAction : CombatAction
 {
     // Combat2.pas:1072
-    public new const int ClassID = 131767;
+    public new const int ClassId = 131767;
 
     public MoveWallCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public byte F_MoveWallCA_0C;
-    public byte F_MoveWallCA_0D;
+    public byte CombatObjectId;
+    public byte InsideWall;
 
     // Combat2.pas:1075
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref F_MoveWallCA_0C, 1), 1, 20);
-        Stream.rwData(Bytes.Of(ref F_MoveWallCA_0D, 1), 1, 21);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref CombatObjectId, 1), 1, 20);
+        stream.rwData(Bytes.Of(ref InsideWall, 1), 1, 21);
     }
 
     // Combat2.pas:1082
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        FastBattleUnit Obj;
-        Obj = (FastBattleUnit)Combat.FCombatData.FindID(F_MoveWallCA_0C);
-        if (F_MoveWallCA_0D == 0)
+        FastBattleUnit objectValue;
+        objectValue = (FastBattleUnit)combat.CombatData.FindId(CombatObjectId);
+        if (InsideWall == 0)
         {
-            Obj.FState = Obj.FState + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+            objectValue.State = objectValue.State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
         }
 
-        if (F_MoveWallCA_0D == 1)
+        if (InsideWall == 1)
         {
-            Obj.FState = Obj.FState - Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+            objectValue.State = objectValue.State - Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
         }
     }
 
     // intf_P3_02.inc:38
-    public override bool Play(CombatViewer viewer) { Execute(viewer.FCombat); return false; }
+    public override bool Play(CombatViewer viewer) { Execute(viewer.Combat); return false; }
 }

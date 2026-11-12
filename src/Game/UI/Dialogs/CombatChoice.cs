@@ -27,8 +27,8 @@ public partial class CombatChoice : DataModule
     public Frame BCeltL;
     public Frame TCeltL;
     public Image TCeltLineL;
-    public Image AOWImage1;
-    public Image AOWImage2;
+    public Image Image1;
+    public Image Image2;
     public Label Tactical;
     public Label Automatic;
     public CheckBox TCchk;
@@ -37,27 +37,27 @@ public partial class CombatChoice : DataModule
     public UserDrawBox MapView;
     public Image InfoSep;
     public IvTranslator Translator;
-    public CombatTypeRequestEventLog FRequest;
-    public NotifyEvent<object> FOnDone;
+    public CombatTypeRequestEventLog Request;
+    public NotifyEvent<object> OnDone;
 
     // TCFCDlg.pas:119
     public void Finish()
     {
-        NotifyEvent<object> Done;
-        CombatTypeRequestEventLog Request;
+        NotifyEvent<object> done;
+        CombatTypeRequestEventLog request;
         DialogHosts.General.Manager.OverlayPriority = 0;
-        Done = FOnDone;
-        Request = FRequest;
-        FOnDone = null;
-        FRequest = null;
-        if (Done != null)
+        done = OnDone;
+        request = Request;
+        OnDone = null;
+        Request = null;
+        if (done != null)
         {
-            Done(Request);
+            done(request);
         }
 
-        if (Request != null)
+        if (request != null)
         {
-            Request.Release();
+            request.Release();
         }
     }
 
@@ -65,7 +65,7 @@ public partial class CombatChoice : DataModule
     public void CancelBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FRequest.Select(0);
+        Request.Select(0);
         Dlg.Visible = false;
     }
 
@@ -77,12 +77,12 @@ public partial class CombatChoice : DataModule
     }
 
     // TCFCDlg.pas:70
-    public void FCchkChange(CheckBox Sender)
+    public void FCchkChange(CheckBox sender)
     {
-        var checkBox = Sender;
+        var checkBox = sender;
         if (checkBox.Checked)
         {
-            FRequest.Select((CombatType)1);
+            Request.Select((CombatType)1);
         }
 
         if (checkBox.Checked)
@@ -96,12 +96,12 @@ public partial class CombatChoice : DataModule
     }
 
     // TCFCDlg.pas:79
-    public void TCchkChange(CheckBox Sender)
+    public void TCchkChange(CheckBox sender)
     {
-        var checkBox = Sender;
+        var checkBox = sender;
         if (checkBox.Checked)
         {
-            FRequest.Select((CombatType)2);
+            Request.Select((CombatType)2);
         }
 
         if (checkBox.Checked)
@@ -115,18 +115,18 @@ public partial class CombatChoice : DataModule
     }
 
     // TCFCDlg.pas:88
-    public void MapViewDraw(UserDrawBox Sender, LockedSurface SD)
+    public void MapViewDraw(UserDrawBox sender, LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        LockedSurface ViewSD = default;
+        LockedSurface viewSurfaceDescription = default;
         Rect R;
         int W;
         int H;
-        R = new Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
+        R = new Rect(Dlg.WinLeft + sender.WinLeft, Dlg.WinTop + sender.WinTop, Dlg.WinLeft + sender.WinLeft + sender.WinWidth, Dlg.WinTop + sender.WinTop + sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        HexGeometry.HXtoHP(FRequest.FX, FRequest.FY, ref X, ref Y);
+        HexGeometry.HexToPixel(Request.X, Request.Y, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -139,18 +139,18 @@ public partial class CombatChoice : DataModule
             Y = 16;
         }
 
-        LockedSurface.CreateSDfromSD(SD, R, ref ViewSD);
-        AoWHSMap.Current.SetViewPort(X, Y, FRequest.FL, R.Right - R.Left, R.Bottom - R.Top);
+        LockedSurface.CreateFrom(lockedSurface, R, ref viewSurfaceDescription);
+        AoWHSMap.Current.SetViewPort(X, Y, Request.MapLevel, R.Right - R.Left, R.Bottom - R.Top);
         AoWHSMap.Current.UpdateStaticScene();
         AoWHSMap.Current.UpdateDynamicScene();
-        AoWHSMap.Current.DrawStaticScene(ref ViewSD);
-        AoWHSMap.Current.DrawDynamicScene(ref ViewSD);
+        AoWHSMap.Current.DrawStaticScene(ref viewSurfaceDescription);
+        AoWHSMap.Current.DrawDynamicScene(ref viewSurfaceDescription);
     }
 
     // TCFCDlg.pas:113
     public void MapViewUpdate()
     {
-        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Current.Frame & 1) != 0;
+        MapView.Drawn = MapView.Drawn && (AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // TCFCDlg.pas:116
@@ -160,71 +160,71 @@ public partial class CombatChoice : DataModule
     }
 
     // TCFCDlg.pas:133
-    public void TCchkDoubleClick(CheckBox Sender)
+    public void TCchkDoubleClick(CheckBox sender)
     {
-        if (Sender.Checked)
+        if (sender.Checked)
         {
-            FRequest.Select((CombatType)2);
+            Request.Select((CombatType)2);
         }
 
         Dlg.Visible = false;
     }
 
     // TCFCDlg.pas:139
-    public void FCchkDoubleClick(CheckBox Sender)
+    public void FCchkDoubleClick(CheckBox sender)
     {
-        if (Sender.Checked)
+        if (sender.Checked)
         {
-            FRequest.Select((CombatType)1);
+            Request.Select((CombatType)1);
         }
 
         Dlg.Visible = false;
     }
 
-    internal static void ShowCombatType(CombatChoice Dialog, CombatTypeRequestEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowCombatType(CombatChoice dialog, CombatTypeRequestEventLog eventValue, ExecuteDoneEvent done)
     {
-        if (DialogHosts.DialogWin.FSkipCombatChoice)
+        if (DialogHosts.ConfirmationDialog.SkipCombatChoice)
         {
-            if (Dialog.TCchk.Checked)
+            if (dialog.TCchk.Checked)
             {
-                Event.Select((CombatType)2);
+                eventValue.Select((CombatType)2);
             }
             else
             {
-                Event.Select((CombatType)1);
+                eventValue.Select((CombatType)1);
             }
 
-            Done(Event);
+            done(eventValue);
         }
         else
         {
-            Dialog.FRequest = Event;
-            Dialog.FRequest.AddRef();
-            Dialog.FOnDone = RebindDelegate<NotifyEvent<object>>(Done);
+            dialog.Request = eventValue;
+            dialog.Request.AddRef();
+            dialog.OnDone = RebindDelegate<NotifyEvent<object>>(done);
             DialogHosts.General.Manager.OverlayPriority = 49;
-            if (Dialog.TCchk.Checked)
+            if (dialog.TCchk.Checked)
             {
-                Event.Select((CombatType)2);
+                eventValue.Select((CombatType)2);
             }
             else
             {
-                Event.Select((CombatType)1);
+                eventValue.Select((CombatType)1);
             }
 
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Dialog.FRequest.FPlayer).FPlayerType == PlayerType.Human)
+            if (AoWHSMap.Current.Players.GetPlayers(dialog.Request._player).PlayerType == PlayerType.Human)
             {
-                Dialog.CancelBtn.Visible = true;
-                Dialog.FightBtn.Alignment.AlignWidth = AlignWidth.Left;
+                dialog.CancelBtn.Visible = true;
+                dialog.FightBtn.Alignment.AlignWidth = AlignWidth.Left;
             }
             else
             {
-                Dialog.CancelBtn.Visible = false;
-                Dialog.FightBtn.Alignment.AlignWidth = AlignWidth.Center;
+                dialog.CancelBtn.Visible = false;
+                dialog.FightBtn.Alignment.AlignWidth = AlignWidth.Center;
             }
 
-            Dialog.Dlg.ReAlign();
-            Dialog.Dlg.Visible = true;
-            AoWHSMap.Current.FTutorialControl.ShowMessage(61, true, true);
+            dialog.Dlg.ReAlign();
+            dialog.Dlg.Visible = true;
+            AoWHSMap.Current.TutorialControl.ShowMessage(61, true, true);
         }
     }
 

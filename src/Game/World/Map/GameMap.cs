@@ -26,74 +26,74 @@ public partial class GameMap : HSMap
 
     public GameMap(ECustomNode owner) : base(owner)
     {
-        FShowMessageEventsStore = new();
-        FMapChangedEventsStore = new();
-        FScannerIconsChangedEventsStore = new();
-        FBackHexagonSelector = new CustomFixedVisibleHexSprite(null);
-        FBackHexagonSelector.OnShow = ShowBackHexagonSelector;
-        FFrontHexagonSelector = new CustomFixedVisibleHexSprite(null);
-        FFrontHexagonSelector.OnShow = ShowFrontHexagonSelector;
-        FHexagonSelectorVisible = false;
-        FExplorationEnabled = true;
-        FFogEnabled = true;
-        FSeatedPlayer = 1;
-        FFPS = 30;
+        _showMessageEventsStore = new();
+        _mapChangedEventsStore = new();
+        _scannerIconsChangedEventsStore = new();
+        BackHexSelector = new CustomFixedVisibleHexSprite(null);
+        BackHexSelector.OnShow = ShowBackHexSelector;
+        FrontHexSelector = new CustomFixedVisibleHexSprite(null);
+        FrontHexSelector.OnShow = ShowFrontHexSelector;
+        HexSelectorVisible = false;
+        ExplorationEnabled = true;
+        FogEnabled = true;
+        SeatedPlayer = 1;
+        FPS = 30;
     }
 
-    public sbyte FCurrentPlayer;
-    public sbyte FSeatedPlayer;
+    public sbyte CurrentPlayer;
+    public sbyte SeatedPlayer;
 
-    internal EventStore<ShowMessageNotification> FShowMessageEventsStore;
+    internal EventStore<ShowMessageNotification> _showMessageEventsStore;
 
     public event NotifyEvent<ShowMessageNotification> FShowMessageEvents
     {
-        add => FShowMessageEventsStore.Add(value);
-        remove => FShowMessageEventsStore.Remove(value);
+        add => _showMessageEventsStore.Add(value);
+        remove => _showMessageEventsStore.Remove(value);
     }
 
-    public string FMessageText = "";
-    public byte FMessageFrame;
-    public int FFPS;
-    public int FMapChangedLockCount;
+    public string MessageText = "";
+    public byte MessageFrame;
+    public int FPS;
+    public int MapChangedLockCount;
 
-    internal EventStore<MapChangedNotification> FMapChangedEventsStore;
+    internal EventStore<MapChangedNotification> _mapChangedEventsStore;
 
     public event NotifyEvent<MapChangedNotification> FMapChangedEvents
     {
-        add => FMapChangedEventsStore.Add(value);
-        remove => FMapChangedEventsStore.Remove(value);
+        add => _mapChangedEventsStore.Add(value);
+        remove => _mapChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<MapChangedNotification> FScannerIconsChangedEventsStore;
+    internal EventStore<MapChangedNotification> _scannerIconsChangedEventsStore;
 
     public event NotifyEvent<MapChangedNotification> FScannerIconsChangedEvents
     {
-        add => FScannerIconsChangedEventsStore.Add(value);
-        remove => FScannerIconsChangedEventsStore.Remove(value);
+        add => _scannerIconsChangedEventsStore.Add(value);
+        remove => _scannerIconsChangedEventsStore.Remove(value);
     }
 
-    public int FScannerIconsChangedLockCount;
-    public bool FFogEnabled;
-    public bool FExplorationEnabled;
-    public bool FShowGrid;
-    public CustomFixedVisibleHexSprite FBackHexagonSelector;
-    public CustomFixedVisibleHexSprite FFrontHexagonSelector;
-    public sbyte FSelectorX;
-    public sbyte FSelectorY;
-    public bool FHexagonSelectorVisible;
+    public int ScannerIconsChangedLockCount;
+    public bool FogEnabled;
+    public bool ExplorationEnabled;
+    public bool ShowGrid;
+    public CustomFixedVisibleHexSprite BackHexSelector;
+    public CustomFixedVisibleHexSprite FrontHexSelector;
+    public sbyte SelectorX;
+    public sbyte SelectorY;
+    public bool HexSelectorVisible;
 
     // AoWHSMap.PAS:383
     public override void Dispose()
     {
-        FShowMessageEventsStore.Clear();
-        FMapChangedEventsStore.Clear();
-        HideHexagonSelector();
-        FBackHexagonSelector?.Dispose();
-        FFrontHexagonSelector?.Dispose();
-        FScannerIconsChangedEventsStore.Clear();
+        _showMessageEventsStore.Clear();
+        _mapChangedEventsStore.Clear();
+        HideHexSelector();
+        BackHexSelector?.Dispose();
+        FrontHexSelector?.Dispose();
+        _scannerIconsChangedEventsStore.Clear();
         base.Dispose();
-        FShowMessageEventsStore.Clear();
-        FMapChangedEventsStore.Clear();
+        _showMessageEventsStore.Clear();
+        _mapChangedEventsStore.Clear();
     }
 
     // AoWHSMap.PAS:396
@@ -103,7 +103,7 @@ public partial class GameMap : HSMap
     public override void TriggerTerrainChangedEvent(in Rect R, sbyte L)
     {
         base.TriggerTerrainChangedEvent(R, L);
-        if (FMapChangedLockCount == 0)
+        if (MapChangedLockCount == 0)
         {
             TriggerMapChangedEvent(R, L);
         }
@@ -112,29 +112,29 @@ public partial class GameMap : HSMap
     // AoWHSMap.PAS:810
     public override void UpdateStaticScene()
     {
-        MapLevel Level;
-        int MaxX;
-        int MaxY;
-        AoWMapField Field;
-        if (FExplorationEnabled && FSeatedPlayer != -1 && !Status.Contains(HexSpriteMapStatusElement.Editting))
+        MapLevel level;
+        int maxX;
+        int maxY;
+        AoWMapField field;
+        if (ExplorationEnabled && SeatedPlayer != -1 && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            ResetVisibleStaticHS();
-            MaxX = ViewXhx + ViewWidthHX - 1;
-            MaxY = ViewYhx + ViewHeightHX - 1;
-            Level = MapContainer.GetMapLevel(ViewL);
-            for (int X = ViewXhx; X <= MaxX; X++)
+            ResetVisibleStaticHexSprite();
+            maxX = ViewHexX + ViewWidthHex - 1;
+            maxY = ViewHexY + ViewHeightHex - 1;
+            level = MapContainer.GetMapLevel(ViewL);
+            for (int X = ViewHexX; X <= maxX; X++)
             {
-                for (int Y = MaxY, last = ViewYhx; Y >= last; Y--)
+                for (int Y = maxY, last = ViewHexY; Y >= last; Y--)
                 {
-                    Field = (AoWMapField)Level.GetField(X, Y);
-                    if (Field.GetExplored(FSeatedPlayer))
+                    field = (AoWMapField)level.GetField(X, Y);
+                    if (field.GetExplored(SeatedPlayer))
                     {
-                        Field.CopyStaticVisibleHS(StaticVisibleHS);
+                        field.CopyStaticVisibleHexSprite(StaticVisibleHexSprite);
                     }
                 }
             }
 
-            StaticVisibleHS.Sort();
+            StaticVisibleHexSprite.Sort();
             StaticSceneInvalid = false;
         }
         else
@@ -146,36 +146,36 @@ public partial class GameMap : HSMap
     // AoWHSMap.PAS:833
     public override void UpdateDynamicScene()
     {
-        MapLevel Level;
-        int MaxX;
-        int MaxY;
-        AoWMapField Field;
-        if (FExplorationEnabled && !Status.Contains(HexSpriteMapStatusElement.Editting))
+        MapLevel level;
+        int maxX;
+        int maxY;
+        AoWMapField field;
+        if (ExplorationEnabled && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            ResetVisibleDynamicHS();
-            MaxX = ViewXhx + ViewWidthHX - 1;
-            MaxY = ViewYhx + ViewHeightHX - 1;
-            Level = MapContainer.GetMapLevel(ViewL);
-            if (FSeatedPlayer != -1)
+            ResetVisibleDynamicHexSprite();
+            maxX = ViewHexX + ViewWidthHex - 1;
+            maxY = ViewHexY + ViewHeightHex - 1;
+            level = MapContainer.GetMapLevel(ViewL);
+            if (SeatedPlayer != -1)
             {
-                for (int X = ViewXhx; X <= MaxX; X++)
+                for (int X = ViewHexX; X <= maxX; X++)
                 {
-                    for (int Y = MaxY, last = ViewYhx; Y >= last; Y--)
+                    for (int Y = maxY, last = ViewHexY; Y >= last; Y--)
                     {
-                        Field = (AoWMapField)Level.GetField(X, Y);
-                        if (Field.GetExplored(FSeatedPlayer))
+                        field = (AoWMapField)level.GetField(X, Y);
+                        if (field.GetExplored(SeatedPlayer))
                         {
-                            Field.CopyDynamicVisibleHS(DynamicVisibleHS);
+                            field.CopyDynamicVisibleHexSprite(DynamicVisibleHexSprite);
                         }
                     }
                 }
 
-                for (int X = 0, last = DynamicFixedVisibleHS.Count - 1; X <= last; X++)
+                for (int X = 0, last = DynamicFixedVisibleHexSprite.Count - 1; X <= last; X++)
                 {
-                    ((HexSprite)DynamicFixedVisibleHS.GetChild(X)).MakeVisible(DynamicVisibleHS);
+                    ((HexSprite)DynamicFixedVisibleHexSprite.GetChild(X)).MakeVisible(DynamicVisibleHexSprite);
                 }
 
-                DynamicVisibleHS.Sort();
+                DynamicVisibleHexSprite.Sort();
             }
 
             DynamicSceneInvalid = false;
@@ -191,238 +191,238 @@ public partial class GameMap : HSMap
     {
         base.NewFrame();
         UpdateShowMessage();
-        if (FHexagonSelectorVisible)
+        if (HexSelectorVisible)
         {
-            UpdateHexagonSelector();
+            UpdateHexSelector();
         }
     }
 
     // AoWHSMap.PAS:759
-    public virtual void ShowBackHexagonSelector(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public virtual void ShowBackHexSelector(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        if (FSelectorX != -1 && FSelectorY != -1 && AoWHSMap.Current.Mouse.Capture == AoWHSMap.Current.FSelectedArmy)
+        int pixelX = default;
+        int pixelY = default;
+        if (SelectorX != -1 && SelectorY != -1 && AoWHSMap.Current.Mouse.Capture == AoWHSMap.Current.SelectedArmy)
         {
-            HexGeometry.HXtoHP(FSelectorX, FSelectorY, ref Xhp, ref Yhp);
-            Xhp = Xhp - XhpSurf - 8;
-            Yhp = Yhp - YhpSurf - 32 + 2;
-            AoWHSSet.Current.FGeneralImages[7].Show(Xhp, Yhp, SurfaceDesc);
+            HexGeometry.HexToPixel(SelectorX, SelectorY, ref pixelX, ref pixelY);
+            pixelX = pixelX - pixelXSurface - 8;
+            pixelY = pixelY - pixelYSurface - 32 + 2;
+            AoWHSSet.Current.GeneralImages[7].Show(pixelX, pixelY, lockedSurface);
         }
     }
 
     // AoWHSMap.PAS:772
-    public virtual void ShowFrontHexagonSelector(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public virtual void ShowFrontHexSelector(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        if (FSelectorX != -1 && FSelectorY != -1 && AoWHSMap.Current.Mouse.Capture == AoWHSMap.Current.FSelectedArmy)
+        int pixelX = default;
+        int pixelY = default;
+        if (SelectorX != -1 && SelectorY != -1 && AoWHSMap.Current.Mouse.Capture == AoWHSMap.Current.SelectedArmy)
         {
-            HexGeometry.HXtoHP(FSelectorX, FSelectorY, ref Xhp, ref Yhp);
-            Xhp = Xhp - XhpSurf - 8;
-            Yhp = Yhp - YhpSurf - 32 + 2;
-            AoWHSSet.Current.FGeneralImages[6].Show(Xhp, Yhp, SurfaceDesc);
+            HexGeometry.HexToPixel(SelectorX, SelectorY, ref pixelX, ref pixelY);
+            pixelX = pixelX - pixelXSurface - 8;
+            pixelY = pixelY - pixelYSurface - 32 + 2;
+            AoWHSSet.Current.GeneralImages[6].Show(pixelX, pixelY, lockedSurface);
         }
     }
 
     // AoWHSMap.PAS:785
-    public virtual void UpdateHexagonSelector()
+    public virtual void UpdateHexSelector()
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexSprite HS;
-        if (FHexagonSelectorVisible)
+        int pixelX = default;
+        int pixelY = default;
+        HexSprite hexSprite;
+        if (HexSelectorVisible)
         {
-            FSelectorX = (sbyte)Mouse.Xhx;
-            FSelectorY = (sbyte)Mouse.Yhx;
-            if (FSelectorX != -1 && FSelectorY != -1)
+            SelectorX = (sbyte)Mouse.HexX;
+            SelectorY = (sbyte)Mouse.HexY;
+            if (SelectorX != -1 && SelectorY != -1)
             {
-                HexGeometry.HXtoHP(FSelectorX, FSelectorY, ref Xhp, ref Yhp);
-                HS = MapContainer.GetField(FSelectorX, FSelectorY, ViewL).GetMaxLevelNoneTransparentHS();
-                if (HS != null)
+                HexGeometry.HexToPixel(SelectorX, SelectorY, ref pixelX, ref pixelY);
+                hexSprite = MapContainer.GetField(SelectorX, SelectorY, ViewL).GetMaxLevelNoneTransparentHexSprite();
+                if (hexSprite != null)
                 {
-                    if (HS.GetShowPriority() > 1744830464)
+                    if (hexSprite.GetShowPriority() > 1744830464)
                     {
-                        var showPriority = HS.GetShowPriority();
-                        FFrontHexagonSelector.ShowPriority = showPriority + 100;
+                        var showPriority = hexSprite.GetShowPriority();
+                        FrontHexSelector.ShowPriority = showPriority + 100;
                     }
                     else
                     {
-                        FFrontHexagonSelector.ShowPriority = 1744830464 + ((Yhp + 32 + 32) << 13) + Xhp;
+                        FrontHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 + 32) << 13) + pixelX;
                     }
                 }
                 else
                 {
-                    FFrontHexagonSelector.ShowPriority = 1744830464 + ((Yhp + 32 + 32) << 13) + Xhp;
+                    FrontHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 + 32) << 13) + pixelX;
                 }
 
-                FBackHexagonSelector.ShowPriority = 1744830464 + ((Yhp + 32 - 8) << 13) + Xhp;
+                BackHexSelector.ShowPriority = 1744830464 + ((pixelY + 32 - 8) << 13) + pixelX;
             }
         }
         else
         {
-            FSelectorX = -1;
+            SelectorX = -1;
         }
     }
 
     // AoWHSMap.PAS:590
-    public virtual void SetSeatedPlayer(sbyte Player)
+    public virtual void SetSeatedPlayer(sbyte player)
     {
-        FSeatedPlayer = Player;
+        SeatedPlayer = player;
     }
 
     // AoWHSMap.PAS:594
-    public virtual void SetCurrentPlayer(sbyte Player)
+    public virtual void SetCurrentPlayer(sbyte player)
     {
-        FCurrentPlayer = Player;
+        CurrentPlayer = player;
     }
 
     // AoWHSMap.PAS:401
-    public virtual void SetFogEnabled(bool Value)
+    public virtual void SetFogEnabled(bool value)
     {
-        if (Value != FFogEnabled)
+        if (value != FogEnabled)
         {
-            FFogEnabled = Value;
+            FogEnabled = value;
             InvalidateMap();
         }
     }
 
     // AoWHSMap.PAS:410
-    public virtual void SetExplorationEnabled(bool Value)
+    public virtual void SetExplorationEnabled(bool value)
     {
-        if (Value != FExplorationEnabled)
+        if (value != ExplorationEnabled)
         {
-            FExplorationEnabled = Value;
+            ExplorationEnabled = value;
             StaticSceneInvalid = true;
             InvalidateMap();
         }
     }
 
     // AoWHSMap.PAS:871
-    public virtual void DropHeroItem(Hero Hero, Item Item)
+    public virtual void DropHeroItem(Hero hero, Item item)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        Hero.GetLocation(ref X, ref Y, ref L);
-        Item.PlaceOnMap(this, X, Y, L);
+        hero.GetLocation(ref X, ref Y, ref L);
+        item.PlaceOnMap(this, X, Y, L);
     }
 
     // AoWHSMap.PAS:878
-    public virtual ItemList GetHeroItemsOnGround(Hero Hero)
+    public virtual ItemList GetHeroItemsOnGround(Hero hero)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        ItemHexSprite Items;
-        ItemList Result = null;
-        Hero.GetLocation(ref X, ref Y, ref L);
+        ItemHexSprite items;
+        ItemList result = null;
+        hero.GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            Items = (ItemHexSprite)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
-            if (Items != null)
+            items = (ItemHexSprite)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+            if (items != null)
             {
-                Result = Items.FItems;
+                result = items.Items;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:578
-    public virtual void ShowMessage(string Text)
+    public virtual void ShowMessage(string text)
     {
         var notification = new ShowMessageNotification();
-        ref var Info = ref notification.Info;
-        if (!GameTables.AoWEngine.FRegistry.GetDebugMode() && !IsEmpty(Text))
+        ref var info = ref notification.Info;
+        if (!GameTables.GameEngine.Registry.GetDebugMode() && !IsEmpty(text))
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\INFO1.WAV");
         }
 
-        Info.Text = Text;
-        Info.Color = 16777215;
-        FShowMessageEventsStore.Raise(notification);
-        FMessageText = Text;
-        FMessageFrame = 128;
+        info.Text = text;
+        info.Color = 16777215;
+        _showMessageEventsStore.Raise(notification);
+        MessageText = text;
+        MessageFrame = 128;
     }
 
     // AoWHSMap.PAS:566
-    public virtual void ShowWarning(string Text)
+    public virtual void ShowWarning(string text)
     {
         var notification = new ShowMessageNotification();
-        ref var Info = ref notification.Info;
-        if (!GameTables.AoWEngine.FRegistry.GetDebugMode() && !IsEmpty(Text))
+        ref var info = ref notification.Info;
+        if (!GameTables.GameEngine.Registry.GetDebugMode() && !IsEmpty(text))
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\INFO2.WAV");
         }
 
-        Info.Text = Text;
-        Info.Color = 16777215;
-        FShowMessageEventsStore.Raise(notification);
-        FMessageText = Text;
-        FMessageFrame = 160;
+        info.Text = text;
+        info.Color = 16777215;
+        _showMessageEventsStore.Raise(notification);
+        MessageText = text;
+        MessageFrame = 160;
     }
 
     // AoWHSMap.PAS:420
     public void PlayCenterAnimation(sbyte X, sbyte Y, sbyte L)
     {
-        ImageSequenceAnimation Animation;
-        Animation = new ImageSequenceAnimation(null);
-        Animation.SetImageSequence(AoWHSSet.Current.FImageSequences.GetImageSequence(11));
-        PlaceHX(Animation, X, Y, L);
+        ImageSequenceAnimation animation;
+        animation = new ImageSequenceAnimation(null);
+        animation.SetImageSequence(AoWHSSet.Current.ImageSequences.GetImageSequence(11));
+        PlaceHex(animation, X, Y, L);
         AudioPlayback.PlaySample("SFX\\INT\\CENTER.WAV");
     }
 
     // AoWHSMap.PAS:430
     public void LockMapChangedEvent()
     {
-        FMapChangedLockCount += 1;
+        MapChangedLockCount += 1;
     }
 
     // AoWHSMap.PAS:435
     public void UnlockMapChangedEvent()
     {
-        Assert(FMapChangedLockCount != 0, "Invalid MapChanged Lock usage", "AoWHSMap.PAS", 437);
-        FMapChangedLockCount -= 1;
+        Assert(MapChangedLockCount != 0, "Invalid MapChanged Lock usage", "AoWHSMap.PAS", 437);
+        MapChangedLockCount -= 1;
     }
 
     // AoWHSMap.PAS:445
     public void MapChanged(in Rect R, int L)
     {
-        if (FMapChangedLockCount == 0 && Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (MapChangedLockCount == 0 && Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             TriggerTerrainChangedEvent(R, (sbyte)L);
         }
     }
 
     // AoWHSMap.PAS:451
-    public void MapChangedRad(int X, int Y, int L, int Radius)
+    public void MapChangedRadius(int X, int Y, int L, int radius)
     {
         Rect R = default;
-        MapLevel Level;
-        Level = MapContainer.GetMapLevel(L);
-        R.Left = X - Radius;
+        MapLevel level;
+        level = MapContainer.GetMapLevel(L);
+        R.Left = X - radius;
         if (R.Left < 0)
         {
             R.Left = 0;
         }
 
-        R.Right = X + Radius + 1;
-        if (R.Right > Level.Width)
+        R.Right = X + radius + 1;
+        if (R.Right > level.Width)
         {
-            R.Right = Level.Width;
+            R.Right = level.Width;
         }
 
-        R.Top = Y - Radius;
+        R.Top = Y - radius;
         if (R.Top < 0)
         {
             R.Top = 0;
         }
 
-        R.Bottom = Y + Radius + 1;
-        if (R.Bottom > Level.Height)
+        R.Bottom = Y + radius + 1;
+        if (R.Bottom > level.Height)
         {
-            R.Bottom = Level.Height;
+            R.Bottom = level.Height;
         }
 
         TerrainChanged(R, (sbyte)L);
@@ -446,67 +446,67 @@ public partial class GameMap : HSMap
     public void TriggerMapChangedEvent(in Rect R, int L)
     {
         var notification = new MapChangedNotification();
-        ref var Info = ref notification.Info;
-        Info.Bounds = R;
-        Info.Level = L;
+        ref var info = ref notification.Info;
+        info.Bounds = R;
+        info.Level = L;
         var mapLevel = MapContainer.GetMapLevel(L);
-        Info.MapLevel = mapLevel;
-        FMapChangedEventsStore.Raise(notification);
+        info.MapLevel = mapLevel;
+        _mapChangedEventsStore.Raise(notification);
     }
 
     // AoWHSMap.PAS:490
     public void LockScannerIconsChangedEvent()
     {
-        FScannerIconsChangedLockCount += 1;
+        ScannerIconsChangedLockCount += 1;
     }
 
     // AoWHSMap.PAS:495
     public void UnlockScannerIconsChangedEvent()
     {
-        Assert(FScannerIconsChangedLockCount != 0, "Invalid ScannerIcons Lock usage", "AoWHSMap.PAS", 497);
-        FScannerIconsChangedLockCount -= 1;
+        Assert(ScannerIconsChangedLockCount != 0, "Invalid ScannerIcons Lock usage", "AoWHSMap.PAS", 497);
+        ScannerIconsChangedLockCount -= 1;
     }
 
     // AoWHSMap.PAS:500
     public void ScannerIconsChanged(in Rect R, int L)
     {
-        if (FScannerIconsChangedLockCount == 0 && (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated, HexSpriteMapStatusElement.Destroying) & Status) == Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated))
+        if (ScannerIconsChangedLockCount == 0 && (Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated, HexSpriteMapStatusElement.Destroying) & Status) == Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Activated))
         {
             TriggerScannerIconsChangedEvent(R, L);
         }
     }
 
     // AoWHSMap.PAS:506
-    public void ScannerIconsChangedRad(int Xhx, int Yhx, int Lhx, int Radius)
+    public void ScannerIconsChangedRadius(int hexX, int hexY, int hexLevel, int radius)
     {
         Rect R = default;
-        MapLevel Level;
-        Level = MapContainer.GetMapLevel(Lhx);
-        R.Left = Xhx - Radius;
+        MapLevel level;
+        level = MapContainer.GetMapLevel(hexLevel);
+        R.Left = hexX - radius;
         if (R.Left < 0)
         {
             R.Left = 0;
         }
 
-        R.Right = Xhx + Radius + 1;
-        if (R.Right > Level.Width)
+        R.Right = hexX + radius + 1;
+        if (R.Right > level.Width)
         {
-            R.Right = Level.Width;
+            R.Right = level.Width;
         }
 
-        R.Top = Yhx - Radius;
+        R.Top = hexY - radius;
         if (R.Top < 0)
         {
             R.Top = 0;
         }
 
-        R.Bottom = Yhx + Radius + 1;
-        if (R.Bottom > Level.Height)
+        R.Bottom = hexY + radius + 1;
+        if (R.Bottom > level.Height)
         {
-            R.Bottom = Level.Height;
+            R.Bottom = level.Height;
         }
 
-        ScannerIconsChanged(R, Lhx);
+        ScannerIconsChanged(R, hexLevel);
     }
 
     // AoWHSMap.PAS:522
@@ -527,101 +527,101 @@ public partial class GameMap : HSMap
     public void TriggerScannerIconsChangedEvent(in Rect R, int L)
     {
         var notification = new MapChangedNotification();
-        ref var Info = ref notification.Info;
-        Info.Bounds = R;
-        Info.Level = L;
+        ref var info = ref notification.Info;
+        info.Bounds = R;
+        info.Level = L;
         var mapLevel = MapContainer.GetMapLevel(L);
-        Info.MapLevel = mapLevel;
-        FScannerIconsChangedEventsStore.Raise(notification);
+        info.MapLevel = mapLevel;
+        _scannerIconsChangedEventsStore.Raise(notification);
     }
 
     // AoWHSMap.PAS:542
     public void UpdateShowMessage()
     {
         var notification = new ShowMessageNotification();
-        ref var Info = ref notification.Info;
-        if (FMessageFrame != 0)
+        ref var info = ref notification.Info;
+        if (MessageFrame != 0)
         {
-            FMessageFrame = (byte)(FMessageFrame - 1);
-            if (((FMessageFrame & 16) == 0 && (FMessageFrame & 15) < 7) || ((FMessageFrame & 16) == 16 && (FMessageFrame & 15) < 11))
+            MessageFrame = (byte)(MessageFrame - 1);
+            if (((MessageFrame & 16) == 0 && (MessageFrame & 15) < 7) || ((MessageFrame & 16) == 16 && (MessageFrame & 15) < 11))
             {
-                Info.Text = FMessageText;
-                FMessageFrame = (byte)(FMessageFrame & 240);
-                if ((FMessageFrame & 16) == 0)
+                info.Text = MessageText;
+                MessageFrame = (byte)(MessageFrame & 240);
+                if ((MessageFrame & 16) == 0)
                 {
-                    Info.Color = 3487029;
+                    info.Color = 3487029;
                 }
                 else
                 {
-                    Info.Color = 16777215;
+                    info.Color = 16777215;
                 }
 
-                FShowMessageEventsStore.Raise(notification);
+                _showMessageEventsStore.Raise(notification);
             }
 
-            if (FMessageFrame == 0)
+            if (MessageFrame == 0)
             {
-                Info.Text = "";
-                Info.Color = 16777215;
-                FShowMessageEventsStore.Raise(notification);
+                info.Text = "";
+                info.Color = 16777215;
+                _showMessageEventsStore.Raise(notification);
             }
         }
     }
 
     // AoWHSMap.PAS:598
-    public bool FogArea(int X, int Y, int Level, int Range)
+    public bool FogArea(int X, int Y, int level, int range)
     {
-        Assert(Range <= 15, "Invalid Unfog Range", "AoWHSMap.PAS", 600);
-        bool Result = ((AoWMapLevel)MapContainer.GetMapLevel(Level)).FogArea(X, Y, Range);
-        if (Result && FMapChangedLockCount == 0 && FFogEnabled)
+        Assert(range <= 15, "Invalid Unfog Range", "AoWHSMap.PAS", 600);
+        bool result = ((AoWMapLevel)MapContainer.GetMapLevel(level)).FogArea(X, Y, range);
+        if (result && MapChangedLockCount == 0 && FogEnabled)
         {
-            MapChangedRad(X, Y, Level, Range);
+            MapChangedRadius(X, Y, level, range);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:605
-    public bool UnFogArea(int X, int Y, int Level, int Range)
+    public bool UnFogArea(int X, int Y, int level, int range)
     {
-        Assert(Range <= 15, "Invalid Unfog Range", "AoWHSMap.PAS", 607);
-        bool Result = ((AoWMapLevel)MapContainer.GetMapLevel(Level)).UnFogArea(X, Y, Range);
-        if (Result && FMapChangedLockCount == 0 && FFogEnabled)
+        Assert(range <= 15, "Invalid Unfog Range", "AoWHSMap.PAS", 607);
+        bool result = ((AoWMapLevel)MapContainer.GetMapLevel(level)).UnFogArea(X, Y, range);
+        if (result && MapChangedLockCount == 0 && FogEnabled)
         {
-            MapChangedRad(X, Y, Level, Range);
+            MapChangedRadius(X, Y, level, range);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:612
-    public bool ExploreArea(int X, int Y, int Level, sbyte Player, int Range)
+    public bool ExploreArea(int X, int Y, int level, sbyte player, int range)
     {
-        bool Result;
+        bool result;
         if (!Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            Result = ((AoWMapLevel)MapContainer.GetMapLevel(Level)).ExploreArea(X, Y, Player, Range);
-            if (Result && FMapChangedLockCount == 0 && FFogEnabled)
+            result = ((AoWMapLevel)MapContainer.GetMapLevel(level)).ExploreArea(X, Y, player, range);
+            if (result && MapChangedLockCount == 0 && FogEnabled)
             {
-                MapChangedRad(X, Y, Level, Range);
+                MapChangedRadius(X, Y, level, range);
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:622
-    public Set<FogExplorationChangedElement> UnFogExploreArea(int X, int Y, int Level, sbyte Player, int Range)
+    public Set<FogExplorationChangedElement> UnFogExploreArea(int X, int Y, int level, sbyte player, int range)
     {
-        Set<FogExplorationChangedElement> Result = default;
-        int Radius;
+        Set<FogExplorationChangedElement> result = default;
+        int radius;
         // { Preserve the original assertion diagnostic, independent of the build path. }
-        Radius = Range;
-        if (Radius > 15)
+        radius = range;
+        if (radius > 15)
         {
             /* TODO: Implement the inline assembly operation. */
             throw new NotImplementedException();
@@ -630,98 +630,98 @@ public partial class GameMap : HSMap
         // { Original leaves Result undefined when a fog-only operation changes nothing. }
         if (!Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            if (Player >= 0)
+            if (player >= 0)
             {
-                Result = ((AoWMapLevel)MapContainer.GetMapLevel(Level)).UnFogExploreArea(X, Y, Player, Radius);
+                result = ((AoWMapLevel)MapContainer.GetMapLevel(level)).UnFogExploreArea(X, Y, player, radius);
             }
             else
             {
-                if (((AoWMapLevel)MapContainer.GetMapLevel(Level)).UnFogArea(X, Y, Radius))
+                if (((AoWMapLevel)MapContainer.GetMapLevel(level)).UnFogArea(X, Y, radius))
                 {
-                    Result = Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Fog);
+                    result = Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Fog);
                 }
             }
         }
         else
         {
-            if (((AoWMapLevel)MapContainer.GetMapLevel(Level)).UnFogArea(X, Y, Radius))
+            if (((AoWMapLevel)MapContainer.GetMapLevel(level)).UnFogArea(X, Y, radius))
             {
-                Result = Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Fog);
+                result = Set<FogExplorationChangedElement>.Of(FogExplorationChangedElement.Fog);
             }
         }
 
-        if (FMapChangedLockCount == 0 && ((Result.Contains(FogExplorationChangedElement.Fog) && FFogEnabled) || (Result.Contains(FogExplorationChangedElement.Exploration) && FExplorationEnabled && Player == FSeatedPlayer)))
+        if (MapChangedLockCount == 0 && ((result.Contains(FogExplorationChangedElement.Fog) && FogEnabled) || (result.Contains(FogExplorationChangedElement.Exploration) && ExplorationEnabled && player == SeatedPlayer)))
         {
-            MapChangedRad(X, Y, Level, Radius);
+            MapChangedRadius(X, Y, level, radius);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWHSMap.PAS:738
-    public void ShowHexagonSelector()
+    public void ShowHexSelector()
     {
-        if (!FHexagonSelectorVisible)
+        if (!HexSelectorVisible)
         {
-            FHexagonSelectorVisible = true;
-            DynamicFixedVisibleHS.AddChild(FBackHexagonSelector);
-            DynamicFixedVisibleHS.AddChild(FFrontHexagonSelector);
-            UpdateHexagonSelector();
+            HexSelectorVisible = true;
+            DynamicFixedVisibleHexSprite.AddChild(BackHexSelector);
+            DynamicFixedVisibleHexSprite.AddChild(FrontHexSelector);
+            UpdateHexSelector();
         }
     }
 
     // AoWHSMap.PAS:748
-    public void HideHexagonSelector()
+    public void HideHexSelector()
     {
-        if (FHexagonSelectorVisible)
+        if (HexSelectorVisible)
         {
-            DynamicVisibleHS.RemoveChild(FBackHexagonSelector);
-            DynamicVisibleHS.RemoveChild(FFrontHexagonSelector);
-            DynamicFixedVisibleHS.RemoveChild(FBackHexagonSelector);
-            DynamicFixedVisibleHS.RemoveChild(FFrontHexagonSelector);
-            FHexagonSelectorVisible = false;
+            DynamicVisibleHexSprite.RemoveChild(BackHexSelector);
+            DynamicVisibleHexSprite.RemoveChild(FrontHexSelector);
+            DynamicFixedVisibleHexSprite.RemoveChild(BackHexSelector);
+            DynamicFixedVisibleHexSprite.RemoveChild(FrontHexSelector);
+            HexSelectorVisible = false;
         }
     }
 
     // AoWHSMap.PAS:867
-    public void UpdateFPS(int FPS)
+    public void UpdateFPS(int fPS)
     {
-        FFPS = FPS;
+        FPS = fPS;
     }
 
     // AoWHSMap.PAS:892
-    public void DrawSelectionRect(int XhpSurf, int YhpSurf, in Rect R, in LockedSurface SurfaceDesc)
+    public void DrawSelectionRectangle(int pixelXSurface, int pixelYSurface, in Rect R, in LockedSurface lockedSurface)
     {
-        int Color;
-        Color = 2134015;
-        if (R.Left > 0 && R.Top > 0 && XhpSurf < R.Right && YhpSurf < R.Bottom && R.Right < ViewWidth + XhpSurf && R.Bottom < ViewHeight + YhpSurf)
+        int color;
+        color = 2134015;
+        if (R.Left > 0 && R.Top > 0 && pixelXSurface < R.Right && pixelYSurface < R.Bottom && R.Right < ViewWidth + pixelXSurface && R.Bottom < ViewHeight + pixelYSurface)
         {
-            DrawLine(R.Left - XhpSurf, R.Top - YhpSurf, R.Right - XhpSurf, R.Top - YhpSurf, 0, Color, SurfaceDesc);
-            DrawLine(R.Right - XhpSurf, R.Top - YhpSurf, R.Right - XhpSurf, R.Bottom - YhpSurf, 0, Color, SurfaceDesc);
-            DrawLine(R.Right - XhpSurf, R.Bottom - YhpSurf, R.Left - XhpSurf, R.Bottom - YhpSurf, 0, Color, SurfaceDesc);
-            DrawLine(R.Left - XhpSurf, R.Bottom - YhpSurf, R.Left - XhpSurf, R.Top - YhpSurf, 0, Color, SurfaceDesc);
+            DrawLine(R.Left - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Top - pixelYSurface, 0, color, lockedSurface);
+            DrawLine(R.Right - pixelXSurface, R.Top - pixelYSurface, R.Right - pixelXSurface, R.Bottom - pixelYSurface, 0, color, lockedSurface);
+            DrawLine(R.Right - pixelXSurface, R.Bottom - pixelYSurface, R.Left - pixelXSurface, R.Bottom - pixelYSurface, 0, color, lockedSurface);
+            DrawLine(R.Left - pixelXSurface, R.Bottom - pixelYSurface, R.Left - pixelXSurface, R.Top - pixelYSurface, 0, color, lockedSurface);
         }
     }
 
     // AoWHSMap.PAS:666 advances a pointer one row. GetField retains that row order.
     public void DrawFog(in LockedSurface surface)
     {
-        bool exploration = FExplorationEnabled || AoWHSMap.Current.FSeatedPlayer == -1;
-        if (!FFogEnabled && !exploration) return;
+        bool exploration = ExplorationEnabled || AoWHSMap.Current.SeatedPlayer == -1;
+        if (!FogEnabled && !exploration) return;
         var level = MapContainer.GetMapLevel(ViewL);
-        for (int x = ViewXhx; x < ViewXhx + ViewWidthHX; x++)
+        for (int x = ViewHexX; x < ViewHexX + ViewWidthHex; x++)
         {
-            int xhp = 0, yhp = 0;
-            HexGeometry.HXtoHP(x, ViewYhx, ref xhp, ref yhp);
-            xhp -= ViewXhp + 8;
-            yhp -= ViewYhp + 4;
-            for (int y = ViewYhx; y < ViewYhx + ViewHeightHX; y++, yhp += 32)
+            int pixelX = 0, pixelY = 0;
+            HexGeometry.HexToPixel(x, ViewHexY, ref pixelX, ref pixelY);
+            pixelX -= ViewPixelX + 8;
+            pixelY -= ViewPixelY + 4;
+            for (int y = ViewHexY; y < ViewHexY + ViewHeightHex; y++, pixelY += 32)
             {
                 var field = (AoWMapField)level.GetField(x, y);
-                bool unexplored = exploration && (FSeatedPlayer == -1 || !field.GetExplored(FSeatedPlayer));
-                if (unexplored) AoWHSSet.Current.FGeneralImages[3].Show(xhp, yhp, surface);
-                else if (FFogEnabled && ((field.FFieldFlags >> 16) & 255) == 0)
-                    AoWHSSet.Current.FGeneralImages[1].Show(xhp, yhp, surface);
+                bool unexplored = exploration && (SeatedPlayer == -1 || !field.GetExplored(SeatedPlayer));
+                if (unexplored) AoWHSSet.Current.GeneralImages[3].Show(pixelX, pixelY, surface);
+                else if (FogEnabled && ((field.FieldFlags >> 16) & 255) == 0)
+                    AoWHSSet.Current.GeneralImages[1].Show(pixelX, pixelY, surface);
             }
         }
     }
@@ -729,32 +729,32 @@ public partial class GameMap : HSMap
     public void DrawGrid(in LockedSurface surface)
     {
         var level = MapContainer.GetMapLevel(ViewL);
-        int maxX = ViewXhx + ViewWidthHX - 1, maxY = ViewYhx + ViewHeightHX - 1;
-        for (int x = ViewXhx; x <= maxX; x++)
+        int maxX = ViewHexX + ViewWidthHex - 1, maxY = ViewHexY + ViewHeightHex - 1;
+        for (int x = ViewHexX; x <= maxX; x++)
         {
-            int xhp = 0, yhp = 0;
-            HexGeometry.HXtoHP(x, ViewYhx, ref xhp, ref yhp);
-            xhp = xhp - ViewXhp - 8;
-            yhp = yhp - ViewYhp - 4 + 4;
-            for (int y = ViewYhx; y <= maxY; y++, yhp += 32)
+            int pixelX = 0, pixelY = 0;
+            HexGeometry.HexToPixel(x, ViewHexY, ref pixelX, ref pixelY);
+            pixelX = pixelX - ViewPixelX - 8;
+            pixelY = pixelY - ViewPixelY - 4 + 4;
+            for (int y = ViewHexY; y <= maxY; y++, pixelY += 32)
                 if (level.GetField(x, y).TerrainType != 15)
-                    AoWHSSet.Current.FFlagControl.FFlags[7].Show(xhp, yhp, surface);
+                    AoWHSSet.Current.FlagControl.Flags[7].Show(pixelX, pixelY, surface);
         }
     }
 
-    private static void DrawLine(int X1, int Y1, int X2, int Y2, int Skip, int Color, in LockedSurface SD)
+    private static void DrawLine(int x1, int y1, int x2, int y2, int skip, int color, in LockedSurface lockedSurface)
     {
-        int pixelFormatID = SD.PixelFormatID;
-        int num = pixelFormatID;
-        if (num == 1431343888 || num == 1431409424 || num == 1448121104)
+        int pixelFormatId = lockedSurface.PixelFormatId;
+        int number = pixelFormatId;
+        if (number == 1431343888 || number == 1431409424 || number == 1448121104)
         {
-            int num2 = PixelFormats.Color2PixelInfo(Color, SD.PixelFormatID, null);
-            DrawLine16(X1, Y1, X2, Y2, 0, (ushort)num2, in SD);
+            int number2 = PixelFormats.Color2PixelInfo(color, lockedSurface.PixelFormatId, null);
+            DrawLine16(x1, y1, x2, y2, 0, (ushort)number2, in lockedSurface);
         }
     }
 
-    private static void DrawLine16(int X1, int Y1, int X2, int Y2, int Skip, ushort Color, in LockedSurface SD)
+    private static void DrawLine16(int x1, int y1, int x2, int y2, int skip, ushort color, in LockedSurface lockedSurface)
     {
-        Blit.DrawLine16(X1, Y1, X2, Y2, Skip, Color, SD.View());
+        Blit.DrawLine16(x1, y1, x2, y2, skip, color, lockedSurface.View());
     }
 }

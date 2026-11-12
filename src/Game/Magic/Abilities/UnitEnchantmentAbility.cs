@@ -21,212 +21,212 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     // AoWAb.PAS:601
     public UnitEnchantmentAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityType = AbilityType.Enchantment;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityType = AbilityType.Enchantment;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // AoWAb.PAS:613
-    public override string GetName(AbilityOwner Owner)
+    public override string GetName(AbilityOwner owner)
     {
-        string Result;
-        if (Owner != null)
+        string result;
+        if (owner != null)
         {
             switch (GetDurationMode())
             {
                 case DurationMode.Day:
-                    Result = base.GetName(Owner);
-                    if (GetDuration(Owner) != 0)
+                    result = base.GetName(owner);
+                    if (GetDuration(owner) != 0)
                     {
-                        var duration = GetDuration(Owner);
+                        var duration = GetDuration(owner);
                         var totalDuration = GetTotalDuration();
-                        var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.DurationDaysRStr), [IntToStr(duration), IntToStr(totalDuration)]);
-                        Result = Result + " " + format;
+                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_durationDaysFormat), [IntToStr(duration), IntToStr(totalDuration)]);
+                        result = result + " " + format;
                     }
 
                     break;
                 case DurationMode.CombatTurn:
-                    var duration2 = GetDuration(Owner);
+                    var duration2 = GetDuration(owner);
                     var totalDuration2 = GetTotalDuration();
-                    var aoWEFormat = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.DurationCombatTurnRStr), [IntToStr(duration2), IntToStr(totalDuration2)]);
-                    Result = base.GetName(Owner) + " " + aoWEFormat;
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_durationCombatTurnFormat), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                    result = base.GetName(owner) + " " + formattedText;
                     break;
                 case DurationMode.EntireCombat:
-                    var name = base.GetName(Owner);
-                    var durationEntireCombat = AbilityRules.TranslateRStr(GameText.DurationEntireCombatRStr);
-                    Result = name + " " + durationEntireCombat;
+                    var name = base.GetName(owner);
+                    var durationEntireCombat = AbilityRules.TranslateResourceString(GameText.s_durationEntireCombatText);
+                    result = name + " " + durationEntireCombat;
                     break;
                 default:
-                    Result = base.GetName(Owner);
+                    result = base.GetName(owner);
                     break;
             }
         }
         else
         {
-            Result = base.GetName(Owner);
+            result = base.GetName(owner);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:637
-    public override string GetSourceName(AbilityOwner Owner)
+    public override string GetSourceName(AbilityOwner owner)
     {
-        string Result;
-        UnitEnchantmentAbilityData Data;
-        Troop Source;
+        string result;
+        UnitEnchantmentAbilityData data;
+        Troop source;
         if (AoWHSMap.Current != null)
         {
-            Data = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
-            Source = AoWHSMap.Current.FUnitControl.FindUnit(Data.FEnchantment.FUnitID);
+            data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+            source = AoWHSMap.Current.UnitControl.FindUnit(data.Enchantment.UnitId);
             // { Original also reports player zero as unknown. }
-            if (Data.FEnchantment.FSource <= 0)
+            if (data.Enchantment.Source <= 0)
             {
-                Result = AbilityRules.TranslateRStr(GameTables.UnknownRStr);
+                result = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
             }
             else
             {
-                if (Source != null && Source.FPlayer == Data.FEnchantment.FSource)
+                if (source != null && source.Player == data.Enchantment.Source)
                 {
-                    Result = AbilityRules.TranslateRStr(P4ManaRStr);
+                    result = AbilityRules.TranslateResourceString(s_manaText);
                 }
                 else
                 {
-                    Result = AoWHSMap.Current.FPlayers.GetPlayers(Data.FEnchantment.FSource).FLeader.FHeroName;
+                    result = AoWHSMap.Current.Players.GetPlayers(data.Enchantment.Source).Leader.HeroName;
                 }
             }
         }
         else
         {
-            Result = AbilityRules.TranslateRStr(GameTables.UnknownRStr);
+            result = AbilityRules.TranslateResourceString(GameTables.s_unknownText);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:735
-    public override void NewTurn(AbilityOwner Owner, sbyte Player)
+    public override void NewTurn(AbilityOwner owner, sbyte player)
     {
-        UnitEnchantmentAbilityData Data;
+        UnitEnchantmentAbilityData data;
         if (GetDurationMode() == DurationMode.Day)
         {
-            Data = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
-            if (Data != null)
+            data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+            if (data != null)
             {
-                if (Data.FEnchantmentDuration > 0 && Player == Data.FEnchantmentPlayerIndex)
+                if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
                 {
-                    Data.FEnchantmentDuration = (sbyte)(Data.FEnchantmentDuration - 1);
-                    if (Data.FEnchantmentDuration == 0)
+                    data.EnchantmentDuration = (sbyte)(data.EnchantmentDuration - 1);
+                    if (data.EnchantmentDuration == 0)
                     {
-                        Owner.RemoveAbility(FAbilityID);
+                        owner.RemoveAbility(AbilityId);
                     }
                 }
             }
             else
             {
-                Owner.RemoveAbility(FAbilityID);
+                owner.RemoveAbility(AbilityId);
             }
         }
     }
 
     // AoWAb.PAS:668
-    public override bool Expand(AbilityOwner Owner)
+    public override bool Expand(AbilityOwner owner)
     {
-        UnitEnchantmentAbilityData Data;
-        UnitEnchantment Enchantment;
-        if (Owner is not Troop unit)
+        UnitEnchantmentAbilityData data;
+        UnitEnchantment enchantment;
+        if (owner is not Troop troop)
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46175);
             return false;
         }
 
-        bool Result = false;
-        Data = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
-        if (Data == null)
+        bool result = false;
+        data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+        if (data == null)
         {
-            if (unit.FUnitID <= 0)
+            if (troop.UnitId <= 0)
             {
                 // { Preserve the original assertion diagnostic. }
                 Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46181);
             }
 
-            Data = new UnitEnchantmentAbilityData(null);
-            Data.FEnchantmentAbilityID = (ushort)FAbilityID;
-            Data.FEnchantmentDuration = GetTotalDuration();
-            Enchantment = CreateEnchantment();
-            Data.FEnchantment = Enchantment;
-            Enchantment.FEnchantmentAbilityID = FAbilityID;
-            Enchantment.FUnitID = unit.FUnitID;
-            SetAb(Owner, FAbilityID, 1);
-            Owner.AddAbilityData(Data);
-            Result = true;
+            data = new UnitEnchantmentAbilityData(null);
+            data.EnchantmentAbilityId = (ushort)AbilityId;
+            data.EnchantmentDuration = GetTotalDuration();
+            enchantment = CreateEnchantment();
+            data.Enchantment = enchantment;
+            enchantment.EnchantmentAbilityId = AbilityId;
+            enchantment.UnitId = troop.UnitId;
+            SetAbility(owner, AbilityId, 1);
+            owner.AddAbilityData(data);
+            result = true;
         }
         else
         {
-            Data.FEnchantmentDuration = GetTotalDuration();
+            data.EnchantmentDuration = GetTotalDuration();
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:694
     public override bool Remove(AbilityOwner owner)
     {
-        UnitEnchantmentAbilityData Data;
-        bool Result = true;
-        Data = (UnitEnchantmentAbilityData)owner.GetAbilityData(FAbilityID);
-        if (Data != null)
+        UnitEnchantmentAbilityData data;
+        bool result = true;
+        data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+        if (data != null)
         {
-            if (AoWHSMap.Current != null && Data.FEnchantment.FSource > -1)
+            if (AoWHSMap.Current != null && data.Enchantment.Source > -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(Data.FEnchantment.FSource).FMagicControl.UnregisterEnchantment(Data.FEnchantment);
+                AoWHSMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
             }
 
-            SetAb(owner, FAbilityID, 0);
-            owner.RemoveAbilityData(Data);
+            SetAbility(owner, AbilityId, 0);
+            owner.RemoveAbilityData(data);
         }
         else
         {
-            SetAb(owner, FAbilityID, 0);
-            Result = false;
+            SetAbility(owner, AbilityId, 0);
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:756
-    public override void NewCombatTurn(CombatObject CombatObject, sbyte Player)
+    public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        UnitEnchantmentAbilityData Data;
+        UnitEnchantmentAbilityData data;
         if (GetDurationMode() == DurationMode.CombatTurn)
         {
-            Data = (UnitEnchantmentAbilityData)CombatObject.GetAbilityOwner().GetAbilityData(FAbilityID);
-            if (Data != null)
+            data = (UnitEnchantmentAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
+            if (data != null)
             {
-                if (Data.FEnchantmentDuration > 0 && Player == Data.FEnchantmentPlayerIndex)
+                if (data.EnchantmentDuration > 0 && player == data.EnchantmentPlayerIndex)
                 {
-                    Data.FEnchantmentDuration = (sbyte)(Data.FEnchantmentDuration - 1);
-                    if (Data.FEnchantmentDuration == 0)
+                    data.EnchantmentDuration = (sbyte)(data.EnchantmentDuration - 1);
+                    if (data.EnchantmentDuration == 0)
                     {
-                        CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
+                        combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
                     }
                 }
             }
             else
             {
-                CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
+                combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
             }
         }
     }
 
     // AoWAb.PAS:777
-    public override void CombatDone(CombatObject CombatObject)
+    public override void CombatDone(CombatObject combatObject)
     {
         switch (GetDurationMode())
         {
             case DurationMode.CombatTurn:
             case DurationMode.EntireCombat:
-                CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
+                combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
                 break;
         }
     }
@@ -235,25 +235,25 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     public virtual DurationMode GetDurationMode() => DurationMode.None;
 
     // AoWAb.PAS:719
-    public virtual byte GetDuration(AbilityOwner Owner)
+    public virtual byte GetDuration(AbilityOwner owner)
     {
-        byte Result;
-        UnitEnchantmentAbilityData Data;
-        Data = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
-        if (Data != null)
+        byte result;
+        UnitEnchantmentAbilityData data;
+        data = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+        if (data != null)
         {
-            Result = (byte)Data.FEnchantmentDuration;
+            result = (byte)data.EnchantmentDuration;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:608
-    public virtual int GetAIUpkeepPriority(AbilityOwner Owner) => 0;
+    public virtual int GetAIUpkeepPriority(AbilityOwner owner) => 0;
 
     // AoWAb.PAS:730
     public virtual sbyte GetTotalDuration() => -1;
@@ -264,6 +264,6 @@ public partial class UnitEnchantmentAbility : AdjustableAbility
     // AoWAb.PAS:658
     public override EngineClass AbilityDataClass() => EngineClass.Of<UnitEnchantmentAbilityData>();
 
-    private static readonly string P4ManaRStr = "Mana";
+    private static readonly string s_manaText = "Mana";
 
 }

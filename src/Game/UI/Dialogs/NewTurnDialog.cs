@@ -30,63 +30,63 @@ public partial class NewTurnDialog : DataModule
     public Image TCeltLineL;
     public Image TCeltLineR;
     public Image FaceFrame;
-    public ExecuteDoneEvent FDone;
-    public NewTurnEventLog FNewTurn;
+    public ExecuteDoneEvent Done;
+    public NewTurnEventLog NewTurn;
 
     // AoWNewTurnDialog.pas:50
     public void FinishDialog()
     {
-        ExecuteDoneEvent Done;
-        NewTurnEventLog Event;
+        ExecuteDoneEvent done;
+        NewTurnEventLog eventValue;
         DialogHosts.General.Manager.OverlayPriority = 0;
-        if (FNewTurn == null)
+        if (NewTurn == null)
         {
-            AoWHSMap.Current.SetSeatedPlayer(AoWHSMap.Current.FCurrentPlayer);
-            if (AoWHSMap.Current.FSeatedPlayer > -1)
+            AoWHSMap.Current.SetSeatedPlayer(AoWHSMap.Current.CurrentPlayer);
+            if (AoWHSMap.Current.SeatedPlayer > -1)
             {
-                DialogHosts.PInfoW.UpdateEvents();
+                DialogHosts.PlayerInfoWindow.UpdateEvents();
             }
         }
 
-        Done = FDone;
-        Event = FNewTurn;
-        FDone = null;
-        FNewTurn = null;
-        if (Done != null)
+        done = Done;
+        eventValue = NewTurn;
+        Done = null;
+        NewTurn = null;
+        if (done != null)
         {
-            Done(Event);
+            done(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
     // AoWNewTurnDialog.pas:69
-    public void ShowNewTurn(NewTurnEventLog Event, ExecuteDoneEvent Done)
+    public void ShowNewTurn(NewTurnEventLog eventValue, ExecuteDoneEvent done)
     {
-        sbyte Race;
+        sbyte race;
         int Day;
-        switch (Event.FMode)
+        switch (eventValue.Mode)
         {
-            case NewTurnEventLog.Mode.Dialog:
-                if (FNewTurn != null)
+            case NewTurnEventLogMode.Dialog:
+                if (NewTurn != null)
                 {
-                    FNewTurn.Release();
-                    FNewTurn = null;
+                    NewTurn.Release();
+                    NewTurn = null;
                 }
 
-                FDone = Done;
-                FNewTurn = Event;
-                FNewTurn.AddRef();
-                TurnMsg.Text = Event.FText;
-                var name = AoWHSMap.Current.FPlayers.GetPlayers(Event.FTurnPlayer).GetName();
+                Done = done;
+                NewTurn = eventValue;
+                NewTurn.AddRef();
+                TurnMsg.Text = eventValue.Text;
+                var name = AoWHSMap.Current.Players.GetPlayers(eventValue.TurnPlayer).GetName();
                 PlayerName.Text = name;
-                if (Event.FTurnPlayer != 0)
+                if (eventValue.TurnPlayer != 0)
                 {
-                    var player = AoWHSMap.Current.FPlayers.GetPlayers(Event.FTurnPlayer);
-                    var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[player.FPlayerRace]);
+                    var player = AoWHSMap.Current.Players.GetPlayers(eventValue.TurnPlayer);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[player.PlayerRace]);
                     PlayerRace.Text = raceNamesPlural;
                 }
                 else
@@ -94,81 +94,81 @@ public partial class NewTurnDialog : DataModule
                     PlayerRace.Text = "";
                 }
 
-                if (AoWHSMap.Current.FDay > 0)
+                if (AoWHSMap.Current.Day > 0)
                 {
-                    Day = AoWHSMap.Current.FDay;
+                    Day = AoWHSMap.Current.Day;
                 }
                 else
                 {
                     Day = 1;
                 }
 
-                var day = AbilityRules.TranslateRStr(GameText.DayRStr);
+                var day = AbilityRules.TranslateResourceString(GameText.s_dayText);
                 Turn.Text = day + " " + IntToStr(Day);
-                Race = AoWHSMap.Current.FPlayers.GetPlayers(Event.FTurnPlayer).FPlayerRace;
-                if (Race == -1)
+                race = AoWHSMap.Current.Players.GetPlayers(eventValue.TurnPlayer).PlayerRace;
+                if (race == -1)
                 {
-                    Race = 12;
+                    race = 12;
                 }
 
-                LShield.CurrentImage = Race + 26;
-                RShield.CurrentImage = Race + 26;
-                NewTDlg.FDrawn = false;
+                LShield.CurrentImage = race + 26;
+                RShield.CurrentImage = race + 26;
+                NewTDlg.Drawn = false;
                 NewTDlg.Visible = true;
-                if (FNewTurn.FDialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
+                if (NewTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
                 {
-                    var clickToBegin = AbilityRules.TranslateRStr(ClickToBeginRStr);
+                    var clickToBegin = AbilityRules.TranslateResourceString(s_clickToBeginText);
                     ClickMsg.Text = clickToBegin;
                 }
                 else
                 {
-                    var hiddenmovementPleaseWait = AbilityRules.TranslateRStr(HiddenmovementPleaseWaitRStr);
-                    ClickMsg.Text = hiddenmovementPleaseWait;
+                    var hiddenMovementPleaseWait = AbilityRules.TranslateResourceString(s_hiddenMovementPleaseWaitText);
+                    ClickMsg.Text = hiddenMovementPleaseWait;
                 }
 
                 break;
-            case NewTurnEventLog.Mode.Close:
+            case NewTurnEventLogMode.Close:
                 NewTDlg.Visible = false;
                 break;
         }
     }
 
     // AoWNewTurnDialog.pas:106
-    public void NewTDlgMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void NewTDlgMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (CombatMap.Current == null && FNewTurn.FDialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
+        if (CombatMap.Current == null && NewTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable))
         {
             NewTDlg.Visible = false;
         }
     }
 
     // AoWNewTurnDialog.pas:111
-    public void NewTDlgKeyPress(ref byte Key)
+    public void NewTDlgKeyPress(ref byte key)
     {
-        if (FNewTurn.FDialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable) && (Key == 32 || Key == 13 || Key == 27))
+        if (NewTurn.DialogStyle.Contains(NewTurnEventLogDialogStyleElement.Closeable) && (key == 32 || key == 13 || key == 27))
         {
             NewTDlg.Visible = false;
         }
     }
 
     // AoWNewTurnDialog.pas:116
-    public void FaceFramePreDraw(LockedSurface Surface)
+    public void FaceFramePreDraw(LockedSurface surface)
     {
         Rect R;
         if (CombatMap.Current != null)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(CombatMap.Current.FSeatedPlayer).FLeader != null)
+            if (AoWHSMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader != null)
             {
                 R = new Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
-                AoWHSMap.Current.FPlayers.GetPlayers(CombatMap.Current.FSeatedPlayer).FLeader.ShowFace(R, Surface);
+                AoWHSMap.Current.Players.GetPlayers(CombatMap.Current.SeatedPlayer).Leader.ShowFace(R, surface);
             }
         }
         else
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader != null)
+            if (AoWHSMap.Current.Players.GetPlayers(NewTurn.TurnPlayer).Leader != null)
             {
                 R = new Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
-                AoWHSMap.Current.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader.ShowFace(R, Surface);
+                AoWHSMap.Current.Players.GetPlayers(NewTurn.TurnPlayer).Leader.ShowFace(R, surface);
             }
         }
     }
@@ -179,6 +179,6 @@ public partial class NewTurnDialog : DataModule
         FinishDialog();
     }
 
-    private static readonly string ClickToBeginRStr = "Click to begin";
-    private static readonly string HiddenmovementPleaseWaitRStr = "Hidden movement, please wait";
+    private static readonly string s_clickToBeginText = "Click to begin";
+    private static readonly string s_hiddenMovementPleaseWaitText = "Hidden movement, please wait";
 }

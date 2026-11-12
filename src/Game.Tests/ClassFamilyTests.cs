@@ -47,9 +47,9 @@ public sealed class ClassFamilyTests
         Verify(typeof(IEngineObjectEditorClass), EditorClass.All.Select(c => c.Class.Type));
         Assert.Throws<AbstractErrorException>(() => AIPlayerActionClass.Of<AIPlayerAction>().Priority);
         Assert.Throws<AbstractErrorException>(() => AIPlayerActionClass.Of<StructureAIPlayerAction>().Priority);
-        Assert.Equal("EndTurnAIPlayerAction", AIPlayerActionClass.Of<EndTurnAIPlayerAction>().ClassName);
-        Assert.Equal("HuntAIGroup", AIGroupClass.Of<HuntAIGroup>().ClassName);
-        Assert.Equal("EngineObjectEditor", EditorClass.Of<EngineObjectEditor>().ClassName);
+        Assert.Equal("EndTurnAIPlayerAction", AIPlayerActionClass.Of<EndTurnAIPlayerAction>().StorageKey);
+        Assert.Equal("HuntAIGroup", AIGroupClass.Of<HuntAIGroup>().StorageKey);
+        Assert.Equal("EngineObjectEditor", EditorClass.Of<EngineObjectEditor>().StorageKey);
         Assert.Throws<InvalidOperationException>(() => AIPlayerActionClass.Register<EndTurnAIPlayerAction>());
         Assert.Throws<InvalidOperationException>(() => AIGroupClass.Register<HuntAIGroup>());
         Assert.Throws<InvalidOperationException>(() => EditorClass.Register<EngineObjectEditor>());
@@ -84,9 +84,9 @@ public sealed class ClassFamilyTests
         // which is the value the Delphi class method returned through the class reference.
         static object? Nearest(Type type, string name)
         {
-            const BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
+            const BindingFlags Flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly;
             for (var t = type; t != null; t = t.BaseType)
-                if (t.GetProperty(name, flags) is { } property) return property.GetValue(null);
+                if (t.GetProperty(name, Flags) is { } property) return property.GetValue(null);
             throw new InvalidOperationException(name);
         }
         var types = typeof(AIPlayerAction).Assembly.GetTypes();
@@ -122,7 +122,7 @@ public sealed class ClassFamilyTests
         for (int i = 1; i < registered.Count; i++) Assert.True(registered[i - 1].Priority >= registered[i].Priority);
         var error = Assert.Throws<InvalidOperationException>(() => manager.RegisterClasses([AIPlayerActionClass.Of<EndTurnAIPlayerAction>()]));
         Assert.Equal("AIPlayerAction already Registered", error.Message);
-        manager.UnRegisterClasses(classes);
+        manager.UnregisterClasses(classes);
         Assert.Equal(0, manager.GetCount());
     }
 
@@ -139,10 +139,10 @@ public sealed class ClassFamilyTests
         AIGroupClass[] classes = [hunt, AIGroupClass.Of<DefenderAIGroup>()];
         manager.RegisterAIGroupClasses(classes);
         manager.RegisterAIGroupClasses(classes);
-        Assert.Equal(2, manager.FRegisteredClasses.Count);
-        Assert.Same(classes[1], manager.FRegisteredClasses[1]);
+        Assert.Equal(2, manager.RegisteredClasses.Count);
+        Assert.Same(classes[1], manager.RegisteredClasses[1]);
         manager.UnregisterAIGroupClasses(classes);
-        Assert.Empty(manager.FRegisteredClasses);
+        Assert.Empty(manager.RegisteredClasses);
     }
 
     [Fact]
@@ -153,17 +153,17 @@ public sealed class ClassFamilyTests
         var mapObjectEditor = EditorClass.Of<MapObjectEditor>();
         Assert.Same(mapObjectEditor, EditorClass.Of(typeof(MapObjectEditor)));
         Assert.Same(EngineClass.Of<MapObjectEditor>(), mapObjectEditor.Class);
-        Assert.Equal(MapObject.ClassID, mapObjectEditor.EditorClassID);
-        Assert.Equal(0, EditorClass.Of<EngineObjectEditor>().EditorClassID);
+        Assert.Equal(MapObject.ClassId, mapObjectEditor.EditorClassId);
+        Assert.Equal(0, EditorClass.Of<EngineObjectEditor>().EditorClassId);
         engine.Editors.RegisterClass(mapObjectEditor);
         var error = Assert.Throws<InvalidOperationException>(() => engine.Editors.RegisterClass(mapObjectEditor));
         Assert.Equal("EObjectEditor Double Defined!", error.Message);
         Assert.Equal(1, engine.Editors.Count);
-        Assert.Same(mapObjectEditor, engine.Editors.FindEditor(MapObject.ClassID));
-        Assert.Null(engine.Editors.FindEditor(EngineObject.ClassID));
+        Assert.Same(mapObjectEditor, engine.Editors.FindEditor(MapObject.ClassId));
+        Assert.Null(engine.Editors.FindEditor(EngineObject.ClassId));
 
         var mapObject = new MapObject(engine.ControlNode);
-        var node = EngineClass.Of<ENode>().Create(engine.ControlNode);
+        var node = EngineClass.Of<ENode>().CreateInstance(engine.ControlNode);
         try
         {
             Assert.Same(mapObjectEditor, mapObject.Editor());
@@ -182,39 +182,39 @@ public sealed class ClassFamilyTests
     }
 
     [Fact]
-    public void IsometricHexagonBuildsItsDynamicSpriteInOneConstructor()
+    public void IsometricHexBuildsItsDynamicSpriteInOneConstructor()
     {
         using var map = new HSMap(null!);
         using var level = new MapLevel(map);
         level.CreateMapFieldList(3, 3);
         var field = level.GetField(1, 1);
         using var resource = new LowerIsometricHex.Resource(null!);
-        var hexagon = new LowerIsometricHex(field) { FResource = resource };
+        var hex = new LowerIsometricHex(field) { _resource = resource };
         try
         {
-            hexagon.UpdateTransitions();
+            hex.UpdateTransitions();
             // no neighbour of its kind: the sides in range are open and the dynamic sprite exists
-            Assert.NotEqual(0, hexagon.FOpenSides);
-            var dynamic = hexagon.FDynamic;
+            Assert.NotEqual(0, hex.OpenSides);
+            var dynamic = hex.Dynamic;
             Assert.NotNull(dynamic);
-            Assert.Null(dynamic.FOwner);
-            Assert.Contains(dynamic, field.HSList.Take(field.FCount));
-            Assert.Equal(field.Xhx, dynamic.GetXhx());
-            Assert.Equal(field.Yhx, dynamic.GetYhx());
-            Assert.Equal(resource.FDynamicLevel, dynamic.GetLevel());
+            Assert.Null(dynamic._owner);
+            Assert.Contains(dynamic, field.HexSpriteList.Take(field._count));
+            Assert.Equal(field.HexX, dynamic.GetHexX());
+            Assert.Equal(field.HexY, dynamic.GetHexY());
+            Assert.Equal(resource.DynamicLevel, dynamic.GetLevel());
             Assert.Equal(26, dynamic.GetLevel());
-            hexagon.Dispose();
-            hexagon = null!;
-            Assert.DoesNotContain(dynamic, field.HSList.Take(field.FCount));
+            hex.Dispose();
+            hex = null!;
+            Assert.DoesNotContain(dynamic, field.HexSpriteList.Take(field._count));
         }
         finally
         {
-            hexagon?.Dispose();
+            hex?.Dispose();
         }
     }
 
     [Fact]
-    public void WaterHexagonReadsTheShoreOfItsOpenSides()
+    public void WaterHexReadsTheShoreOfItsOpenSides()
     {
         using var map = new HSMap(null!);
         using var level = new MapLevel(map);
@@ -224,12 +224,12 @@ public sealed class ClassFamilyTests
                 level.GetField(x, y).TerrainType = 3;
         var field = level.GetField(1, 1);
         using var resource = new WaterHex.Resource(null!);
-        using var water = new WaterHex(field) { FResource = resource };
+        using var water = new WaterHex(field) { _resource = resource };
         water.UpdateTransitions();
-        Assert.NotNull(water.FDynamic);
-        Assert.NotEqual(0, water.FOpenSides);
-        for (int hn = 1; hn <= 6; hn++)
-            if ((water.FOpenSides & (1 << (hn - 1))) != 0)
-                Assert.Equal(40, water.FShoreTerrain[hn - 1]);
+        Assert.NotNull(water.Dynamic);
+        Assert.NotEqual(0, water.OpenSides);
+        for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
+            if ((water.OpenSides & (1 << (hexNumber - 1))) != 0)
+                Assert.Equal(40, water.ShoreTerrain[hexNumber - 1]);
     }
 }

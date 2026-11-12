@@ -18,18 +18,18 @@ public partial class PlayerConnectionEventLog : MessageEventLog
     public PlayerConnectionEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public byte FReason;
-    public sbyte FDisconnectedPlayer;
+    public byte Reason;
+    public sbyte DisconnectedPlayer;
 
     // PlayerC.PAS:1714
     public override bool Yes()
     {
-        SaveGameEventLog Log = default;
-        Log = new SaveGameEventLog(null);
-        Log.FDefaultName = "";
-        Log.FDirectory = GameTables.AoWEngine.StartupDirectory + "Save\\";
-        AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ExitSaveGameCallBack);
-        Log.Release();
+        SaveGameEventLog log = default;
+        log = new SaveGameEventLog(null);
+        log.DefaultName = "";
+        log.Directory = GameTables.GameEngine.StartupDirectory + "Save\\";
+        AoWHSMap.Current.TriggerExecuteEventLog(log, false, ExitSaveGameCallback);
+        log.Release();
         return true;
     }
 
@@ -41,61 +41,61 @@ public partial class PlayerConnectionEventLog : MessageEventLog
     }
 
     // PlayerC.PAS:1671
-    public void Setup(sbyte Player, byte Reason)
+    public void Setup(sbyte player, byte reason)
     {
-        FReason = Reason;
-        FDisconnectedPlayer = Player;
-        switch (FReason)
+        Reason = reason;
+        DisconnectedPlayer = player;
+        switch (Reason)
         {
             case 3:
-                FButtons = Buttons.YesNo;
-                var outOfSync = AbilityRules.TranslateRStr(OutOfSyncRStr);
-                FMessage.Text = outOfSync;
-                var aoWETranslateRStr = AbilityRules.TranslateRStr(TerminateGameSaveRStr);
-                FMessage.Add(aoWETranslateRStr);
+                Buttons = MessageEventLogButtons.YesNo;
+                var outOfSync = AbilityRules.TranslateResourceString(s_outOfSyncText);
+                Message.Text = outOfSync;
+                var translatedText = AbilityRules.TranslateResourceString(s_terminateGameSaveText);
+                Message.Add(translatedText);
                 break;
             case 1:
-                FButtons = Buttons.YesNo;
-                var name = AoWHSMap.Current.FPlayers.GetPlayers(FDisconnectedPlayer).GetName();
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(ConnectionXTimeOutRStr), [name]);
-                FMessage.Text = format;
-                FMessage.Add("");
-                var terminateGameSave = AbilityRules.TranslateRStr(TerminateGameSaveRStr);
-                FMessage.Add(terminateGameSave);
+                Buttons = MessageEventLogButtons.YesNo;
+                var name = AoWHSMap.Current.Players.GetPlayers(DisconnectedPlayer).GetName();
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_connectionTimeOutFormat), [name]);
+                Message.Text = format;
+                Message.Add("");
+                var terminateGameSave = AbilityRules.TranslateResourceString(s_terminateGameSaveText);
+                Message.Add(terminateGameSave);
                 break;
             case 2:
-                FButtons = Buttons.YesNo;
-                if (FDisconnectedPlayer != -1)
+                Buttons = MessageEventLogButtons.YesNo;
+                if (DisconnectedPlayer != -1)
                 {
-                    var name2 = AoWHSMap.Current.FPlayers.GetPlayers(FDisconnectedPlayer).GetName();
-                    var aoWEFormat = AbilityRules.Format(AbilityRules.TranslateRStr(ConnectionXLostRStr), [name2]);
-                    FMessage.Text = aoWEFormat;
+                    var name2 = AoWHSMap.Current.Players.GetPlayers(DisconnectedPlayer).GetName();
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_connectionLostFormat), [name2]);
+                    Message.Text = formattedText;
                 }
                 else
                 {
-                    var connectionLost = AbilityRules.TranslateRStr(ConnectionLostRStr);
-                    FMessage.Text = connectionLost;
+                    var connectionLost = AbilityRules.TranslateResourceString(s_connectionLostText);
+                    Message.Text = connectionLost;
                 }
 
-                FMessage.Add("");
-                var terminateGameSaveText = AbilityRules.TranslateRStr(TerminateGameSaveRStr);
-                FMessage.Add(terminateGameSaveText);
+                Message.Add("");
+                var terminateGameSaveText = AbilityRules.TranslateResourceString(s_terminateGameSaveText);
+                Message.Add(terminateGameSaveText);
                 break;
         }
     }
 
     // PlayerC.PAS:1703
-    public void ExitSaveGameCallBack(EventLog Log)
+    public void ExitSaveGameCallback(EventLog log)
     {
-        if (!IsEmpty(((SaveGameEventLog)Log).FFileName))
+        if (!IsEmpty(((SaveGameEventLog)log).FileName))
         {
-            if (GameTables.AoWEngine.FCampaign != null)
+            if (GameTables.GameEngine.Campaign != null)
             {
-                GameTables.AoWEngine.SaveCampaign(((SaveGameEventLog)Log).FFileName);
+                GameTables.GameEngine.SaveCampaign(((SaveGameEventLog)log).FileName);
             }
             else
             {
-                GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, GameProfile.WorldMap);
+                GameTables.GameEngine.SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
             }
         }
         else
@@ -107,10 +107,10 @@ public partial class PlayerConnectionEventLog : MessageEventLog
         AoWHSMap.Current.ExecuteExitGame();
     }
 
-    private static readonly string ConnectionLostRStr = "Connection Lost!";
-    private static readonly string ConnectionXLostRStr = "Connection to %s lost!";
-    private static readonly string ConnectionXTimeOutRStr = "Connection to %s timed out!";
-    private static readonly string OutOfSyncRStr = "Out of sync!";
-    private static readonly string TerminateGameSaveRStr = "The game will be terminated, do you want to save?";
+    private static readonly string s_connectionLostText = "Connection Lost!";
+    private static readonly string s_connectionLostFormat = "Connection to %s lost!";
+    private static readonly string s_connectionTimeOutFormat = "Connection to %s timed out!";
+    private static readonly string s_outOfSyncText = "Out of sync!";
+    private static readonly string s_terminateGameSaveText = "The game will be terminated, do you want to save?";
 
 }

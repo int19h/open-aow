@@ -6,24 +6,24 @@ namespace Aow.Game.Draw.Images;
 
 public partial class Picture16
 {
-    public override void ShowOpaqueStretched(in Rect R, in LockedSurface SD)
+    public override void ShowOpaqueStretched(in Rect R, in LockedSurface lockedSurface)
     {
-        Span<int> RowTable;
-        Span<int> ColTable;
+        Span<int> rowTable;
+        Span<int> columnTable;
         int W;
-        SurfaceView Dst;
-        int XPos;
-        int YPos;
-        int XStep;
-        int YStep;
-        int SX;
-        int SY;
-        float XScale;
-        float YScale;
+        SurfaceView destination;
+        int xPosition;
+        int yPosition;
+        int xStep;
+        int yStep;
+        int sx;
+        int sy;
+        float xScale;
+        float yScale;
         int H;
         int L;
         int T;
-        int Rt;
+        int rt;
         int B;
         int C;
         int D;
@@ -31,115 +31,115 @@ public partial class Picture16
         H = R.Bottom - R.Top;
         if (W > 0 && H > 0)
         {
-            XScale = (float)((double)W / FDataWidth);
-            YScale = (float)((double)H / FHeight);
+            xScale = (float)((double)W / _dataWidth);
+            yScale = (float)((double)H / _height);
             L = R.Left;
-            if (L < SD.ClipRect.Left)
+            if (L < lockedSurface.ClipRectangle.Left)
             {
-                SX = SD.ClipRect.Left - L;
-                L += SX;
+                sx = lockedSurface.ClipRectangle.Left - L;
+                L += sx;
             }
             else
             {
-                SX = 0;
+                sx = 0;
             }
 
             T = R.Top;
-            if (T < SD.ClipRect.Top)
+            if (T < lockedSurface.ClipRectangle.Top)
             {
-                SY = SD.ClipRect.Top - T;
-                T += SY;
+                sy = lockedSurface.ClipRectangle.Top - T;
+                T += sy;
             }
             else
             {
-                SY = 0;
+                sy = 0;
             }
 
-            Rt = R.Right;
-            if (Rt > SD.ClipRect.Right)
+            rt = R.Right;
+            if (rt > lockedSurface.ClipRectangle.Right)
             {
-                D = Rt - SD.ClipRect.Right;
-                Rt -= D;
+                D = rt - lockedSurface.ClipRectangle.Right;
+                rt -= D;
             }
 
             B = R.Bottom;
-            if (B > SD.ClipRect.Bottom)
+            if (B > lockedSurface.ClipRectangle.Bottom)
             {
-                D = B - SD.ClipRect.Bottom;
+                D = B - lockedSurface.ClipRectangle.Bottom;
                 B -= D;
             }
 
-            W = Rt - L;
+            W = rt - L;
             H = B - T;
             if (W > 0 && H > 0)
             {
-                Dst = SD.View(L * 2 + SD.Pitch * T);
+                destination = lockedSurface.View(L * 2 + lockedSurface.Pitch * T);
                 // One table of H row offsets followed by W columns, as the original's GetMem.
-                int[] Tables = new int[W + H];
-                RowTable = Tables.AsSpan(0, H);
-                ColTable = Tables.AsSpan(H, W);
-                XStep = RtlUnit.Round((double)65535 / XScale);
-                if (SX != 0)
+                int[] tables = new int[W + H];
+                rowTable = tables.AsSpan(0, H);
+                columnTable = tables.AsSpan(H, W);
+                xStep = RtlUnit.Round((double)65535 / xScale);
+                if (sx != 0)
                 {
-                    XPos = RtlUnit.Round((double)((double)SX / XScale) * 65535);
+                    xPosition = RtlUnit.Round((double)((double)sx / xScale) * 65535);
                 }
                 else
                 {
-                    XPos = 0;
+                    xPosition = 0;
                 }
 
                 for (int I = 0; I <= W - 1; I++)
                 {
-                    C = (int)(((uint)XPos) >> 16);
-                    if (C >= FDataWidth)
+                    C = (int)(((uint)xPosition) >> 16);
+                    if (C >= _dataWidth)
                     {
-                        C = FDataWidth - 1;
+                        C = _dataWidth - 1;
                     }
 
-                    ColTable[I] = C;
-                    XPos += XStep;
+                    columnTable[I] = C;
+                    xPosition += xStep;
                 }
 
-                YStep = RtlUnit.Round((double)65535 / YScale);
-                if (SY != 0)
+                yStep = RtlUnit.Round((double)65535 / yScale);
+                if (sy != 0)
                 {
-                    YPos = RtlUnit.Round((double)((double)SY / YScale) * 65535);
+                    yPosition = RtlUnit.Round((double)((double)sy / yScale) * 65535);
                 }
                 else
                 {
-                    YPos = 0;
+                    yPosition = 0;
                 }
 
-                if (!FDataLoaded)
+                if (!_dataLoaded)
                 {
                     LoadDiscardableImageData();
                     for (int I = 0; I <= H - 1; I++)
                     {
-                        C = (int)(((uint)YPos) >> 16);
-                        if (C >= FDataHeight)
+                        C = (int)(((uint)yPosition) >> 16);
+                        if (C >= _dataHeight)
                         {
-                            C = FDataHeight - 1;
+                            C = _dataHeight - 1;
                         }
 
-                        RowTable[I] = C * FPitch;
-                        YPos += YStep;
+                        rowTable[I] = C * _pitch;
+                        yPosition += yStep;
                     }
 
-                    if (SD.PixelFormatID == FPixelFormatID)
+                    if (lockedSurface.PixelFormatId == _pixelFormatId)
                     {
-                        BltStretched16(View, RowTable, ColTable, Dst, W, H);
+                        BlitStretched16(View, rowTable, columnTable, destination, W, H);
                     }
                     else
                     {
-                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BltStretched16(View, RowTable, ColTable, Dst, W, H);
+                        BlitStretched16(View, rowTable, columnTable, destination, W, H);
                     }
 
-                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
+                    if (_loadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -148,50 +148,50 @@ public partial class Picture16
                 {
                     for (int I = 0; I <= H - 1; I++)
                     {
-                        C = (int)(((uint)YPos) >> 16);
-                        if (C >= FDataHeight)
+                        C = (int)(((uint)yPosition) >> 16);
+                        if (C >= _dataHeight)
                         {
-                            C = FDataHeight - 1;
+                            C = _dataHeight - 1;
                         }
 
-                        RowTable[I] = C * FPitch;
-                        YPos += YStep;
+                        rowTable[I] = C * _pitch;
+                        yPosition += yStep;
                     }
 
-                    if (SD.PixelFormatID == FPixelFormatID)
+                    if (lockedSurface.PixelFormatId == _pixelFormatId)
                     {
-                        BltStretched16(View, RowTable, ColTable, Dst, W, H);
+                        BlitStretched16(View, rowTable, columnTable, destination, W, H);
                     }
                     else
                     {
-                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BltStretched16(View, RowTable, ColTable, Dst, W, H);
+                        BlitStretched16(View, rowTable, columnTable, destination, W, H);
                     }
                 }
             }
         }
     }
 
-    public override void ShowBlendedStretched(in Rect R, in LockedSurface SD, BlendTable Table)
+    public override void ShowBlendedStretched(in Rect R, in LockedSurface lockedSurface, BlendTable table)
     {
-        Span<int> RowTable;
-        Span<int> ColTable;
+        Span<int> rowTable;
+        Span<int> columnTable;
         int W;
         int H;
-        int Rt;
-        SurfaceView Dst;
-        int XPos;
-        int YPos;
-        int XStep;
-        int YStep;
-        int SX;
-        int SY;
-        float XScale;
-        float YScale;
+        int rt;
+        SurfaceView destination;
+        int xPosition;
+        int yPosition;
+        int xStep;
+        int yStep;
+        int sx;
+        int sy;
+        float xScale;
+        float yScale;
         int L;
         int T;
         int B;
@@ -201,131 +201,131 @@ public partial class Picture16
         H = R.Bottom - R.Top;
         if (W > 0 && H > 0)
         {
-            XScale = (float)((double)W / FDataWidth);
-            YScale = (float)((double)H / FHeight);
+            xScale = (float)((double)W / _dataWidth);
+            yScale = (float)((double)H / _height);
             L = R.Left;
-            if (L < SD.ClipRect.Left)
+            if (L < lockedSurface.ClipRectangle.Left)
             {
-                SX = SD.ClipRect.Left - L;
-                L += SX;
+                sx = lockedSurface.ClipRectangle.Left - L;
+                L += sx;
             }
             else
             {
-                SX = 0;
+                sx = 0;
             }
 
             T = R.Top;
-            if (T < SD.ClipRect.Top)
+            if (T < lockedSurface.ClipRectangle.Top)
             {
-                SY = SD.ClipRect.Top - T;
-                T += SY;
+                sy = lockedSurface.ClipRectangle.Top - T;
+                T += sy;
             }
             else
             {
-                SY = 0;
+                sy = 0;
             }
 
-            Rt = R.Right;
-            if (Rt > SD.ClipRect.Right)
+            rt = R.Right;
+            if (rt > lockedSurface.ClipRectangle.Right)
             {
-                D = Rt - SD.ClipRect.Right;
-                Rt -= D;
+                D = rt - lockedSurface.ClipRectangle.Right;
+                rt -= D;
             }
 
             B = R.Bottom;
-            if (B > SD.ClipRect.Bottom)
+            if (B > lockedSurface.ClipRectangle.Bottom)
             {
-                D = B - SD.ClipRect.Bottom;
+                D = B - lockedSurface.ClipRectangle.Bottom;
                 B -= D;
             }
 
-            W = Rt - L;
+            W = rt - L;
             H = B - T;
             if (W > 0 && H > 0)
             {
-                Dst = SD.View(L * 2 + SD.Pitch * T);
+                destination = lockedSurface.View(L * 2 + lockedSurface.Pitch * T);
                 // One table of H row offsets followed by W columns, as the original's GetMem.
-                int[] Tables = new int[W + H];
-                RowTable = Tables.AsSpan(0, H);
-                ColTable = Tables.AsSpan(H, W);
-                XStep = RtlUnit.Round((double)65535 / XScale);
-                if (SX != 0)
+                int[] tables = new int[W + H];
+                rowTable = tables.AsSpan(0, H);
+                columnTable = tables.AsSpan(H, W);
+                xStep = RtlUnit.Round((double)65535 / xScale);
+                if (sx != 0)
                 {
-                    XPos = RtlUnit.Round((double)((double)SX / XScale) * 65535);
+                    xPosition = RtlUnit.Round((double)((double)sx / xScale) * 65535);
                 }
                 else
                 {
-                    XPos = 0;
+                    xPosition = 0;
                 }
 
                 for (int I = 0; I <= W - 1; I++)
                 {
-                    C = (int)(((uint)XPos) >> 16);
-                    if (C >= FDataWidth)
+                    C = (int)(((uint)xPosition) >> 16);
+                    if (C >= _dataWidth)
                     {
-                        C = FDataWidth - 1;
+                        C = _dataWidth - 1;
                     }
 
-                    ColTable[I] = C;
-                    XPos += XStep;
+                    columnTable[I] = C;
+                    xPosition += xStep;
                 }
 
-                YStep = RtlUnit.Round((double)65535 / YScale);
-                if (SY != 0)
+                yStep = RtlUnit.Round((double)65535 / yScale);
+                if (sy != 0)
                 {
-                    YPos = RtlUnit.Round((double)((double)SY / YScale) * 65535);
+                    yPosition = RtlUnit.Round((double)((double)sy / yScale) * 65535);
                 }
                 else
                 {
-                    YPos = 0;
+                    yPosition = 0;
                 }
 
-                if (!FDataLoaded)
+                if (!_dataLoaded)
                 {
                     LoadDiscardableImageData();
                     for (int I = 0; I <= H - 1; I++)
                     {
-                        C = (int)(((uint)YPos) >> 16);
-                        if (C >= FDataHeight)
+                        C = (int)(((uint)yPosition) >> 16);
+                        if (C >= _dataHeight)
                         {
-                            C = FDataHeight - 1;
+                            C = _dataHeight - 1;
                         }
 
-                        RowTable[I] = C * FPitch;
-                        YPos += YStep;
+                        rowTable[I] = C * _pitch;
+                        yPosition += yStep;
                     }
 
-                    if (SD.PixelFormatID == FPixelFormatID)
+                    if (lockedSurface.PixelFormatId == _pixelFormatId)
                     {
-                        switch (SD.PixelFormatID)
+                        switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
                     else
                     {
-                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        switch (SD.PixelFormatID)
+                        switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
 
-                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
+                    if (_loadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -334,42 +334,42 @@ public partial class Picture16
                 {
                     for (int I = 0; I <= H - 1; I++)
                     {
-                        C = (int)(((uint)YPos) >> 16);
-                        if (C >= FDataHeight)
+                        C = (int)(((uint)yPosition) >> 16);
+                        if (C >= _dataHeight)
                         {
-                            C = FDataHeight - 1;
+                            C = _dataHeight - 1;
                         }
 
-                        RowTable[I] = C * FPitch;
-                        YPos += YStep;
+                        rowTable[I] = C * _pitch;
+                        yPosition += yStep;
                     }
 
-                    if (SD.PixelFormatID == FPixelFormatID)
+                    if (lockedSurface.PixelFormatId == _pixelFormatId)
                     {
-                        switch (SD.PixelFormatID)
+                        switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
                     else
                     {
-                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        switch (SD.PixelFormatID)
+                        switch (lockedSurface.PixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                BlendStretched555(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
+                                BlendStretched565(View, rowTable, columnTable, destination, W, H, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }

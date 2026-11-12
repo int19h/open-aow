@@ -14,19 +14,19 @@ public partial class UnitResourceList : EResourceList
     }
 
     // UnitRes.PAS:212
-    public UnitResource GetUnitResource(int Index)
+    public UnitResource GetUnitResource(int index)
     {
-        UnitResource Result;
-        if (Index >= 0 && Index < FChildren.Count)
+        UnitResource result;
+        if (index >= 0 && index < _children.Count)
         {
-            Result = (UnitResource)FChildren.List[Index];
+            result = (UnitResource)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P2_05.inc:260

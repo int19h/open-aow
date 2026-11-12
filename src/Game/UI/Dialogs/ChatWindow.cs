@@ -27,7 +27,7 @@ public partial class ChatWindow : DataModule
     public VerticalScrollBar NSBar;
     public VerticalScrollBar ChatSB;
     public IvTranslator Translator;
-    public bool FScrollPending;
+    public bool ScrollPending;
 
     // AOWChatWin.pas:47
     public void MinClick()
@@ -48,17 +48,17 @@ public partial class ChatWindow : DataModule
     {
         var alignment = this.ChatWin.Alignment;
         alignment.LeftOffset = this.ChatWin.WinLeft;
-        alignment.BottomOffset = this.ChatWin.FWinManager.WinHeight - this.ChatWin.WinTop - this.ChatWin.WinHeight;
+        alignment.BottomOffset = this.ChatWin._windowManager.WinHeight - this.ChatWin.WinTop - this.ChatWin.WinHeight;
         alignment.AlignWidth = AlignWidth.Left;
 
-        FScrollPending = true;
+        ScrollPending = true;
     }
 
     // AOWChatWin.pas:79
     public void ChatWinShow()
     {
         DialogHosts.General.RegisterDialog(ChatWin);
-        FScrollPending = true;
+        ScrollPending = true;
     }
 
     // AOWChatWin.pas:85
@@ -70,27 +70,27 @@ public partial class ChatWindow : DataModule
     // AOWChatWin.pas:88
     public void ChatMemoUpdate()
     {
-        if (FScrollPending)
+        if (ScrollPending)
         {
             this.ChatSB.Position = this.ChatSB.Max + 1 - this.ChatSB.NumberVisible;
 
-            FScrollPending = false;
+            ScrollPending = false;
         }
     }
 
     // AOWChatWin.pas:97
-    public void PlayerListPreDrawItem(in Rect DrawRect, int DrawItem, in LockedSurface SD)
+    public void PlayerListPreDrawItem(in Rect drawRectangle, int drawItem, in LockedSurface lockedSurface)
     {
         sbyte Player;
-        if (DrawItem != 0)
+        if (drawItem != 0)
         {
-            var objectValue = PlayerList.Items.Objects[DrawItem];
-            Player = (sbyte)AoWHSMap.Current.FPlayerCommunicator.PCC.IndexOfSystemID(ObjectToInt(objectValue));
+            var objectValue = PlayerList.Items.Objects[drawItem];
+            Player = (sbyte)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(ObjectToInt(objectValue));
             // { Original leaves player zero without a race color. }
-            if (Player > 0 && Player < AoWHSMap.Current.FPlayers.Count)
+            if (Player > 0 && Player < AoWHSMap.Current.Players.Count)
             {
-                var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                PlayerList.TextColor = AbilityRules.RaceColors[player.FPlayerRace];
+                var player = AoWHSMap.Current.Players.GetPlayers(Player);
+                PlayerList.TextColor = AbilityRules.RaceColors[player.PlayerRace];
             }
         }
         else

@@ -7,14 +7,14 @@ namespace Aow.Headless;
 
 internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellService
 {
-    private readonly string dialogFile;
+    private readonly string _dialogFile;
 
     public HeadlessHost(string root, string output, string? settings, string movementSpeed = "normal", string? input = null)
     {
         GameRoot = Path.GetFullPath(root);
         FilesForRun = new RunFiles(GameRoot, output, input);
-        dialogFile = Path.Combine(output, "dialogs.jsonl");
-        File.WriteAllText(dialogFile, "");
+        _dialogFile = Path.Combine(output, "dialogs.jsonl");
+        File.WriteAllText(_dialogFile, "");
         File.WriteAllText(Path.Combine(output, "urls.jsonl"), "");
         if (settings is not null)
             foreach (var property in JsonDocument.Parse(File.ReadAllText(settings)).RootElement.EnumerateObject())
@@ -58,7 +58,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
     public IClock Clock => this;
     public ISettingsStore Settings { get; } = new MemorySettingsStore();
     public string GameRoot { get; }
-    public string ExeName => Files.ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
+    public string ExecutableName => Files.ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
     public DateTime Now => new(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
     public uint TickCount => 0;
     public double ElapsedMilliseconds => 0;
@@ -70,14 +70,14 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
     // A headless run records the address and opens nothing.
     public void OpenUrl(string url)
     {
-        File.AppendAllText(Path.Combine(Path.GetDirectoryName(dialogFile)!, "urls.jsonl"), JsonSerializer.Serialize(new { url }) + "\n");
+        File.AppendAllText(Path.Combine(Path.GetDirectoryName(_dialogFile)!, "urls.jsonl"), JsonSerializer.Serialize(new { url }) + "\n");
         Console.WriteLine("open url: " + url);
     }
 
     public int Show(DialogRequest request)
     {
         DialogCount++;
-        File.AppendAllText(dialogFile, JsonSerializer.Serialize(new { index = DialogCount, request.Text, request.Caption, request.Flags, result = request.DefaultResult }) + "\n");
+        File.AppendAllText(_dialogFile, JsonSerializer.Serialize(new { index = DialogCount, request.Text, request.Caption, request.Flags, result = request.DefaultResult }) + "\n");
         Console.WriteLine($"dialog {DialogCount}: {request.Text} -> {request.DefaultResult}");
         return request.DefaultResult;
     }
@@ -85,25 +85,25 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
 
 internal sealed class RunFiles : IFileSystem
 {
-    private readonly LayeredFileSystem files;
-    private readonly string? input;
+    private readonly LayeredFileSystem _files;
+    private readonly string? _input;
 
     public RunFiles(string gameRoot, string runDirectory, string? inputFile = null)
     {
-        files = new(gameRoot, runDirectory);
-        input = inputFile is null ? null : Path.GetFullPath(inputFile);
+        _files = new(gameRoot, runDirectory);
+        _input = inputFile is null ? null : Path.GetFullPath(inputFile);
     }
 
-    private bool IsInput(string path) => input is not null && Path.IsPathFullyQualified(path) &&
-        string.Equals(Path.GetFullPath(path), input, StringComparison.OrdinalIgnoreCase);
+    private bool IsInput(string path) => _input is not null && Path.IsPathFullyQualified(path) &&
+        string.Equals(Path.GetFullPath(path), _input, StringComparison.OrdinalIgnoreCase);
 
     public string? AutoSaveTarget { get; set; }
-    public string CurrentDirectory => files.CurrentDirectory;
-    public string VirtualDrive => files.VirtualDrive;
+    public string CurrentDirectory => _files.CurrentDirectory;
+    public string VirtualDrive => _files.VirtualDrive;
 
-    public string ExtractRelativePath(string baseFile, string destination) => files.ExtractRelativePath(baseFile, destination);
-    public bool SetCurrentDirectory(string path) => files.SetCurrentDirectory(path);
-    public string ExpandPath(string path) => files.ExpandPath(path);
+    public string ExtractRelativePath(string baseFile, string destination) => _files.ExtractRelativePath(baseFile, destination);
+    public bool SetCurrentDirectory(string path) => _files.SetCurrentDirectory(path);
+    public string ExpandPath(string path) => _files.ExpandPath(path);
 
     // The autosave and its replacement temporary go to the day file of the run.
     private string Target(string path)
@@ -126,20 +126,20 @@ internal sealed class RunFiles : IFileSystem
     {
         bool writing = mode == RtlUnit.fmCreate || (mode & 3) != 0;
         // The command-line save is an explicit read-only input outside the virtual drive.
-        if (!writing && IsInput(path)) return File.Open(input!, FileMode.Open, FileAccess.Read, FileShare.Read);
-        return files.Open(writing ? Target(path) : path, mode);
+        if (!writing && IsInput(path)) return File.Open(_input!, FileMode.Open, FileAccess.Read, FileShare.Read);
+        return _files.Open(writing ? Target(path) : path, mode);
     }
 
-    public bool ReplaceFile(string source, string target) => files.ReplaceFile(Target(source), Target(target));
-    public string Layer(string path) => IsInput(path) ? "input" : files.Layer(Target(path));
-    public bool FileExists(string path) => IsInput(path) ? File.Exists(input) : files.FileExists(Target(path));
-    public bool DirectoryExists(string path) => files.DirectoryExists(path);
-    public bool DeleteFile(string path) => files.DeleteFile(Target(path));
-    public bool RenameFile(string source, string target) => files.RenameFile(source, target);
-    public bool CreateDirectory(string path) => files.CreateDirectory(path);
-    public bool RemoveDirectory(string path) => files.RemoveDirectory(path);
-    public int GetAttributes(string path) => files.GetAttributes(path);
-    public int SetAttributes(string path, int attributes) => files.SetAttributes(path, attributes);
-    public DateTime? LastWriteTime(string path) => files.LastWriteTime(path);
-    public IEnumerable<RtlFileEntry> Enumerate(string directory) => files.Enumerate(directory);
+    public bool ReplaceFile(string source, string target) => _files.ReplaceFile(Target(source), Target(target));
+    public string Layer(string path) => IsInput(path) ? "input" : _files.Layer(Target(path));
+    public bool FileExists(string path) => IsInput(path) ? File.Exists(_input) : _files.FileExists(Target(path));
+    public bool DirectoryExists(string path) => _files.DirectoryExists(path);
+    public bool DeleteFile(string path) => _files.DeleteFile(Target(path));
+    public bool RenameFile(string source, string target) => _files.RenameFile(source, target);
+    public bool CreateDirectory(string path) => _files.CreateDirectory(path);
+    public bool RemoveDirectory(string path) => _files.RemoveDirectory(path);
+    public int GetAttributes(string path) => _files.GetAttributes(path);
+    public int SetAttributes(string path, int attributes) => _files.SetAttributes(path, attributes);
+    public DateTime? LastWriteTime(string path) => _files.LastWriteTime(path);
+    public IEnumerable<RtlFileEntry> Enumerate(string directory) => _files.Enumerate(directory);
 }

@@ -27,97 +27,97 @@ public partial class TargetSelectionControl : IDisposable
     // change, target, text, title, cancel text, images
     public TargetSelectionControl()
     {
-        FOnChangeStore = new();
-        FHNs = new SByteList();
-        FText = new StringList();
+        _onChangeStore = new();
+        HexNumbers = new SByteList();
+        Text = new StringList();
     }
 
-    public CustomImageLibrary FImageLibrary;
-    public SByteList FHNs;
-    public Set<TargetSelectionStatusElement> FStatus;
-    public Set<TargetSelectionModeElement> FTargetMode;
-    public ShowTargetSelectionEvent FOnShow;
-    public ValidateTargetEvent FOnValidateTarget;
-    public int FRange;
-    public int FSourceX;
-    public int FSourceY;
-    public int FSourceL;
-    public object FSource;
+    public CustomImageLibrary ImageLibrary;
+    public SByteList HexNumbers;
+    public Set<TargetSelectionStatusElement> Status;
+    public Set<TargetSelectionModeElement> TargetMode;
+    public ShowTargetSelectionEvent OnShow;
+    public ValidateTargetEvent OnValidateTarget;
+    public int Range;
+    public int SourceX;
+    public int SourceY;
+    public int SourceL;
+    public object Source;
 
-    internal EventStore<TargetSelectionControl> FOnChangeStore;
+    internal EventStore<TargetSelectionControl> _onChangeStore;
 
     public event NotifyEvent<TargetSelectionControl> FOnChange
     {
-        add => FOnChangeStore.Add(value);
-        remove => FOnChangeStore.Remove(value);
+        add => _onChangeStore.Add(value);
+        remove => _onChangeStore.Remove(value);
     }
 
-    public TargetSelectionChange FChange;
-    public sbyte FTargetX;
-    public sbyte FTargetY;
-    public sbyte FTargetL;
-    public StringCollection FText;
-    public string FTitle = "";
-    public string FCancelText = "";
-    public int FSourceUnitID;
-    public LibraryImage FSourceImage;
-    public LibraryImage FValidTargetImage;
-    public LibraryImage FInvalidTargetImage;
+    public TargetSelectionChange Change;
+    public sbyte TargetX;
+    public sbyte TargetY;
+    public sbyte TargetL;
+    public StringCollection Text;
+    public string Title = "";
+    public string CancelText = "";
+    public int SourceUnitId;
+    public LibraryImage SourceImage;
+    public LibraryImage ValidTargetImage;
+    public LibraryImage InvalidTargetImage;
 
     // Structur.PAS:3793
     public virtual void Dispose()
     {
-        FText?.Dispose();
-        FOnChangeStore.Clear();
-        FHNs?.Dispose();
-        FHNs = null;
-        if (FImageLibrary != null)
+        Text?.Dispose();
+        _onChangeStore.Clear();
+        HexNumbers?.Dispose();
+        HexNumbers = null;
+        if (ImageLibrary != null)
         {
             // { Original links the image library again when destroying the control. }
-            AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
-            FImageLibrary = null;
+            AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
+            ImageLibrary = null;
         }
     }
 
     // Structur.PAS:3809
-    public void TriggerOnChangeEvent(TargetSelectionChange Change)
+    public void TriggerOnChangeEvent(TargetSelectionChange change)
     {
-        FChange = Change;
-        FOnChangeStore.Raise(this);
-        FChange = TargetSelectionChange.None;
+        Change = change;
+        _onChangeStore.Raise(this);
+        Change = TargetSelectionChange.None;
     }
 
     // Structur.PAS:3816
-    public void DeselectHS(object Sender)
+    public void DeselectHexSprite(object sender)
     {
-        if (FStatus.Contains(TargetSelectionStatusElement.Activated))
+        if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
             Deactivate();
         }
     }
 
     // Structur.PAS:3821
-    public void MouseDownEvent(object Sender)
+    public void MouseDownEvent(object sender)
     {
-        HexSpriteMapMouse Mouse;
-        if (FStatus.Contains(TargetSelectionStatusElement.Activated))
+        HexSpriteMapMouse mouse;
+        if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
             if (AoWHSMap.Current.Mouse.Capture != this || AoWHSMap.Current.Mouse.Button == MouseButton.Right)
             {
                 Deactivate();
-                AoWHSMap.Current.FSelectedArmy.FIgnoreMouseDown = true;
+                AoWHSMap.Current.SelectedArmy.IgnoreMouseDown = true;
             }
             else
             {
-                Mouse = AoWHSMap.Current.Mouse;
-                if (Mouse.Capture == this && Mouse.Button == MouseButton.Left)
+                mouse = AoWHSMap.Current.Mouse;
+                if (mouse.Capture == this && mouse.Button == MouseButton.Left)
                 {
-                    if (ValidTarget(FTargetX, FTargetY, FTargetL))
+                    if (ValidTarget(TargetX, TargetY, TargetL))
                     {
                         TriggerOnChangeEvent(TargetSelectionChange.Selected);
-                        if (!FStatus.Contains(TargetSelectionStatusElement.Activated))
+                        if (!Status.Contains(TargetSelectionStatusElement.Activated))
                         {
-                            AoWHSMap.Current.FSelectedArmy.FIgnoreMouseDown = true;
+                            AoWHSMap.Current.SelectedArmy.IgnoreMouseDown = true;
                         }
                     }
                 }
@@ -128,45 +128,45 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3845
     public bool ValidTarget(sbyte X, sbyte Y, sbyte L)
     {
-        bool Result = default;
-        MapField MapField;
+        bool result = default;
+        MapField mapField;
         if (X != -1 && Y != -1)
         {
-            if (FTargetMode.Contains(TargetSelectionModeElement.ValidateDistance))
+            if (TargetMode.Contains(TargetSelectionModeElement.ValidateDistance))
             {
-                Result = HexGeometry.dHXtoRad(FSourceX, FSourceY, X, Y) <= FRange;
+                result = HexGeometry.DeltaHexToRadius(SourceX, SourceY, X, Y) <= Range;
             }
             else
             {
-                Result = true;
+                result = true;
             }
 
-            if (FTargetMode.Contains(TargetSelectionModeElement.FixedLevel))
+            if (TargetMode.Contains(TargetSelectionModeElement.FixedLevel))
             {
-                Result = Result && L == FSourceL;
+                result = result && L == SourceL;
             }
 
-            MapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
-            Result = Result && MapField.TerrainType != 15;
-            if (Result && FOnValidateTarget != null)
+            mapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+            result = result && mapField.TerrainType != 15;
+            if (result && OnValidateTarget != null)
             {
-                FOnValidateTarget(this, X, Y, L, ref Result);
+                OnValidateTarget(this, X, Y, L, ref result);
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3862
-    public void NewFrameEvent(object Sender)
+    public void NewFrameEvent(object sender)
     {
-        if (FStatus.Contains(TargetSelectionStatusElement.Activated))
+        if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            if (FStatus.Contains(TargetSelectionStatusElement.Visible))
+            if (Status.Contains(TargetSelectionStatusElement.Visible))
             {
                 AoWHSMap.Current.Mouse.SetCursor(110 + (int)(((uint)AoWHSMap.Current.Frame) >> 2) % 10);
                 AoWHSMap.Current.Mouse.CursorVisible = true;
@@ -180,63 +180,63 @@ public partial class TargetSelectionControl : IDisposable
     }
 
     // Structur.PAS:3877
-    public void MouseMoveEvent(object Sender)
+    public void MouseMoveEvent(object sender)
     {
-        if (FStatus.Contains(TargetSelectionStatusElement.Activated))
+        if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            FTargetX = (sbyte)AoWHSMap.Current.Mouse.GetXhx();
-            FTargetY = (sbyte)AoWHSMap.Current.Mouse.GetYhx();
-            FTargetL = (sbyte)AoWHSMap.Current.ViewL;
-            bool condition = AoWHSMap.Current.Mouse.GetXhx() != -1 && AoWHSMap.Current.Mouse.GetYhx() != -1;
+            TargetX = (sbyte)AoWHSMap.Current.Mouse.GetHexX();
+            TargetY = (sbyte)AoWHSMap.Current.Mouse.GetHexY();
+            TargetL = (sbyte)AoWHSMap.Current.ViewL;
+            bool condition = AoWHSMap.Current.Mouse.GetHexX() != -1 && AoWHSMap.Current.Mouse.GetHexY() != -1;
             if (condition)
             {
-                var yhx = AoWHSMap.Current.Mouse.GetYhx();
-                condition = ValidTarget((sbyte)AoWHSMap.Current.Mouse.GetXhx(), (sbyte)yhx, (sbyte)AoWHSMap.Current.ViewL);
+                var hexY = AoWHSMap.Current.Mouse.GetHexY();
+                condition = ValidTarget((sbyte)AoWHSMap.Current.Mouse.GetHexX(), (sbyte)hexY, (sbyte)AoWHSMap.Current.ViewL);
             }
 
             if (condition)
             {
-                FStatus = FStatus + Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Visible);
+                Status = Status + Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Visible);
             }
             else
             {
-                FStatus = FStatus - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Visible);
+                Status = Status - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Visible);
             }
         }
     }
 
     // Structur.PAS:3891
-    public void ShowSelection(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowSelection(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int DX = default;
-        int DY = default;
+        int deltaX = default;
+        int deltaY = default;
         int X = default;
         int Y = default;
-        int XS;
-        int YS;
-        if (FStatus.Contains(TargetSelectionStatusElement.Activated) && FTargetX != -1 && FStatus.Contains(TargetSelectionStatusElement.Visible))
+        int xs;
+        int ys;
+        if (Status.Contains(TargetSelectionStatusElement.Activated) && TargetX != -1 && Status.Contains(TargetSelectionStatusElement.Visible))
         {
-            HexGeometry.HXtoHP(FTargetX, FTargetY, ref X, ref Y);
-            X -= XhpSurf;
-            Y -= YhpSurf;
-            for (int I = 0, last = FHNs.Count - 1; I <= last; I++)
+            HexGeometry.HexToPixel(TargetX, TargetY, ref X, ref Y);
+            X -= pixelXSurface;
+            Y -= pixelYSurface;
+            for (int I = 0, last = HexNumbers.Count - 1; I <= last; I++)
             {
-                if (FHNs[I] >= 0)
+                if (HexNumbers[I] >= 0)
                 {
-                    HexGeometry.HNtoHP(I, ref DX, ref DY);
-                    XS = X + DX;
-                    YS = Y + DY;
-                    if (FTargetMode.Contains(TargetSelectionModeElement.OwnerDraw))
+                    HexGeometry.HexNumberToPixel(I, ref deltaX, ref deltaY);
+                    xs = X + deltaX;
+                    ys = Y + deltaY;
+                    if (TargetMode.Contains(TargetSelectionModeElement.OwnerDraw))
                     {
-                        if (FOnShow != null)
+                        if (OnShow != null)
                         {
-                            FOnShow(this, I, XS, YS, SurfaceDesc);
+                            OnShow(this, I, xs, ys, lockedSurface);
                         }
                     }
                     else
                     {
-                        var item = FHNs[I];
-                        FImageLibrary.Get(item).Show(XS - 8, YS, SurfaceDesc);
+                        var item = HexNumbers[I];
+                        ImageLibrary.Get(item).Show(xs - 8, ys, lockedSurface);
                     }
                 }
             }
@@ -244,18 +244,18 @@ public partial class TargetSelectionControl : IDisposable
     }
 
     // Structur.PAS:3915
-    public void Initialize(object Source)
+    public void Initialize(object source)
     {
-        if (FImageLibrary == null)
+        if (ImageLibrary == null)
         {
-            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
+            ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TARGHEX.ILB");
         }
 
-        if (!FStatus.Contains(TargetSelectionStatusElement.Activated))
+        if (!Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            FHNs.Clear();
-            FSource = Source;
-            FTargetMode = Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel);
+            HexNumbers.Clear();
+            Source = source;
+            TargetMode = Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel);
         }
         else
         {
@@ -266,16 +266,16 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3928
     public void Activate()
     {
-        if (!FStatus.Contains(TargetSelectionStatusElement.Activated))
+        if (!Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            FStatus = FStatus + Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
+            Status = Status + Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
             AoWHSMap.Current.Mouse.SetCapture(this);
             AoWHSMap.Current.Mouse.OnDown += MouseDownEvent;
             AoWHSMap.Current.Mouse.OnMove += MouseMoveEvent;
             AoWHSMap.Current.NewFrameEvents += NewFrameEvent;
-            AoWHSMap.Current.Selection.OnDeselect += DeselectHS;
+            AoWHSMap.Current.Selection.OnDeselect += DeselectHexSprite;
             AoWHSMap.Current.Mouse.CursorMode = 256;
-            AoWHSMap.Current.FKeyboard.Lock();
+            AoWHSMap.Current.Keyboard.Lock();
             TriggerOnChangeEvent(TargetSelectionChange.Activated);
             MouseMoveEvent(this);
         }
@@ -288,22 +288,22 @@ public partial class TargetSelectionControl : IDisposable
     // Structur.PAS:3946
     public void Deactivate()
     {
-        ArmyHexSprite ArmyHS = default;
-        if (FStatus.Contains(TargetSelectionStatusElement.Activated))
+        ArmyHexSprite armyHexSprite = default;
+        if (Status.Contains(TargetSelectionStatusElement.Activated))
         {
-            FStatus = FStatus - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
+            Status = Status - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
             AoWHSMap.Current.Mouse.OnDown -= MouseDownEvent;
             AoWHSMap.Current.Mouse.OnMove -= MouseMoveEvent;
             AoWHSMap.Current.NewFrameEvents -= NewFrameEvent;
-            AoWHSMap.Current.Selection.OnDeselect -= DeselectHS;
+            AoWHSMap.Current.Selection.OnDeselect -= DeselectHexSprite;
             if (AoWHSMap.Current.Mouse.Capture == this)
             {
-                if (AoWHSMap.Current.FSelectedArmy.GetArmyHS() != null)
+                if (AoWHSMap.Current.SelectedArmy.GetArmyHexSprite() != null)
                 {
-                    ArmyHS = AoWHSMap.Current.FSelectedArmy.GetArmyHS();
+                    armyHexSprite = AoWHSMap.Current.SelectedArmy.GetArmyHexSprite();
                     AoWHSMap.Current.Mouse.SetCapture(null);
                     AoWHSMap.Current.Selection.UnselectLocation();
-                    AoWHSMap.Current.Selection.SelectLocationHS(ArmyHS);
+                    AoWHSMap.Current.Selection.SelectLocationHexSprite(armyHexSprite);
                 }
                 else
                 {
@@ -311,18 +311,18 @@ public partial class TargetSelectionControl : IDisposable
                 }
             }
 
-            AoWHSMap.Current.FKeyboard.Unlock();
+            AoWHSMap.Current.Keyboard.Unlock();
             TriggerOnChangeEvent(TargetSelectionChange.Deactivated);
-            FSource = null;
-            FOnShow = null;
-            FOnValidateTarget = null;
+            Source = null;
+            OnShow = null;
+            OnValidateTarget = null;
         }
     }
 
     // Structur.PAS:3974
-    public void UnitChanged(object AUnit)
+    public void UnitChanged(object unit)
     {
-        if (FStatus.Contains(TargetSelectionStatusElement.Activated) && FSource != null && AUnit == FSource && ((Troop)AUnit).FUnitStatus.Contains(UnitStatusElement.Killed))
+        if (Status.Contains(TargetSelectionStatusElement.Activated) && Source != null && unit == Source && ((Troop)unit).UnitStatus.Contains(UnitStatusElement.Killed))
         {
             Deactivate();
         }

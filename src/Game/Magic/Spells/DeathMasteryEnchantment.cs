@@ -15,27 +15,27 @@ namespace Aow.Game.Magic.Spells;
 public partial class DeathMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1483
-    public new const int ClassID = 135968;
+    public new const int ClassId = 135968;
 
     // GlobalEnchantmentSpells.pas:1475
     public DeathMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.DeathMasteryRStr);
-        FEnchantmentType = GlobalEnchantmentType.None;
-        FDispelMana = 175;
+        Name = AbilityRules.TranslateResourceString(GameText.s_deathMasteryText);
+        EnchantmentType = GlobalEnchantmentType.None;
+        DispelMana = 175;
     }
 
     // GlobalEnchantmentSpells.pas:1568
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986)
         {
-            if (Msg.Payload.Int != 0)
+            if (message.Payload.Int != 0)
             {
-                if (AoWHSMap.Current.FPlayers.GetPlayers(Msg.Payload.Int).FMagicControl.FEnemyEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
+                if (AoWHSMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
                 {
-                    NewTurn((sbyte)Msg.Payload.Int);
+                    NewTurn((sbyte)message.Payload.Int);
                 }
             }
         }
@@ -45,110 +45,110 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 1250;
 
     // GlobalEnchantmentSpells.pas:1509
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        EngineMessage Msg = default;
-        base.Deactivate(Player);
+        EngineMessage message = default;
+        base.Deactivate(player);
         // { Original doubles Life. }
-        AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(MagicSphere.Life);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
-        EngineMessage.InitMsg(ref Msg, 537002241, this);
-        AoWHSMap.Current.SendMsg(ref Msg, this);
+        AoWHSMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Life);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
+        EngineMessage.InitializeMessage(ref message, 537002241, this);
+        AoWHSMap.Current.SendMessage(ref message, this);
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:1489
-    public override bool CanActivate(sbyte Player, ref string Reason)
+    public override bool CanActivate(sbyte player, ref string reason)
     {
-        bool Result = base.CanActivate(Player, ref Reason);
-        if (Result)
+        bool result = base.CanActivate(player, ref reason);
+        if (result)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
+            if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateRStr(GameText.XIsAlreadyActiveRStr);
+                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat);
                 var name = GetName();
-                Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
-                Result = false;
+                reason = RtlUnit.Format(xIsAlreadyActive, [name]);
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1500
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        base.Activate(Player);
+        base.Activate(player);
         // { Original doubles Life. }
-        AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(MagicSphere.Life);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
+        AoWHSMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Life);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:1522
-    public void NewTurn(sbyte Player)
+    public void NewTurn(sbyte player)
     {
-        int Index;
-        byte[] Flags;
-        int Mask;
-        MapLevel MapLevel;
-        HexNumberWalkData Walk = default;
-        bool Border;
-        Flags = [];
-        Mask = 1 << (Player - 1);
+        int index;
+        byte[] flags;
+        int mask;
+        MapLevel mapLevel;
+        HexNumberWalkData walk = default;
+        bool border;
+        flags = [];
+        mask = 1 << (player - 1);
         for (int L = 0, last = AoWHSMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
         {
-            MapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-            Index = 0;
-            Array.Resize(ref Flags, MapLevel.Width * MapLevel.Height);
-            Array.Clear(Flags);
-            for (int Y = 1, lastY = MapLevel.Height - 1; Y <= lastY; Y++)
+            mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+            index = 0;
+            Array.Resize(ref flags, mapLevel.Width * mapLevel.Height);
+            Array.Clear(flags);
+            for (int Y = 1, lastY = mapLevel.Height - 1; Y <= lastY; Y++)
             {
-                for (int X = 1, lastX = MapLevel.Width - 2; X <= lastX; X++)
+                for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
                 {
-                    if ((((AoWMapField)MapLevel.GetField(X, Y)).FFieldFlags & Mask) != 0)
+                    if ((((AoWMapField)mapLevel.GetField(X, Y)).FieldFlags & mask) != 0)
                     {
-                        Border = false;
-                        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 1);
-                        while (Walk.Radius == 1 && !Border)
+                        border = false;
+                        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 1);
+                        while (walk.Radius == 1 && !border)
                         {
-                            if (Walk.X >= 0 && Walk.X < MapLevel.Width && Walk.Y >= 0 && Walk.Y < MapLevel.Height)
+                            if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y >= 0 && walk.Y < mapLevel.Height)
                             {
-                                Border = (((AoWMapField)MapLevel.GetField(Walk.X, Walk.Y)).FFieldFlags & Mask) == 0;
+                                border = (((AoWMapField)mapLevel.GetField(walk.X, walk.Y)).FieldFlags & mask) == 0;
                             }
 
-                            HexNumberWalkData.WalkToNextHN(ref Walk);
+                            HexNumberWalkData.WalkToNextHexNumber(ref walk);
                         }
 
-                        if (Border)
+                        if (border)
                         {
-                            Flags[Index] = 1;
+                            flags[index] = 1;
                         }
                     }
 
-                    Index += 1;
+                    index += 1;
                 }
             }
 
-            Index = 0;
-            for (int Y = 1, lastY = MapLevel.Height - 1; Y <= lastY; Y++)
+            index = 0;
+            for (int Y = 1, lastY = mapLevel.Height - 1; Y <= lastY; Y++)
             {
-                for (int X = 1, lastX = MapLevel.Width - 2; X <= lastX; X++)
+                for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
                 {
-                    if (Flags[Index] != 0)
+                    if (flags[index] != 0)
                     {
-                        ((AoWMapField)MapLevel.GetField(X, Y)).SetExplored(Player, false);
+                        ((AoWMapField)mapLevel.GetField(X, Y)).SetExplored(player, false);
                     }
 
-                    Index += 1;
+                    index += 1;
                 }
             }
         }
 
         AoWHSMap.Current.UpdateVisibility();
-        Array.Resize(ref Flags, 0);
+        Array.Resize(ref flags, 0);
     }
 
 }

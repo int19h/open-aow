@@ -19,20 +19,20 @@ public partial class CombatFire : SingleHexSprite
     }
 
     // CombatFire.pas:80
-    public new const int ClassID = 2229578;
+    public new const int ClassId = 2229578;
 
-    public int FXShift;
-    public int FYShift;
-    public int FPlayer;
-    public bool FFirstTurn;
+    public int XShift;
+    public int YShift;
+    public int Player;
+    public bool FirstTurn;
 
     // CombatFire.pas:60
 
     // CombatFire.pas:119
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537006081)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537006081)
         {
             if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
@@ -45,43 +45,43 @@ public partial class CombatFire : SingleHexSprite
     public override byte GetLevel() => 27;
 
     // CombatFire.pas:70
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        base.SetVisible(Value);
+        base.SetVisible(value);
     }
 
     // CombatFire.pas:86
     public override int GetShowPriority() => 1811939328;
 
     // CombatFire.pas:146
-    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        int Penalty;
-        if (Info.HN == 0)
+        int penalty;
+        if (info.HexNumber == 0)
         {
-            if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(7))
+            if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(7))
             {
-                Penalty = 0;
+                penalty = 0;
             }
             else
             {
-                if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(71))
+                if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(71))
                 {
-                    Penalty = 10;
+                    penalty = 10;
                 }
                 else
                 {
-                    Penalty = 20;
+                    penalty = 20;
                 }
             }
 
-            if (MoveResult.Code > 127 - Penalty)
+            if (moveResult.Code > 127 - penalty)
             {
-                MoveResult.Code = 127;
+                moveResult.Code = 127;
             }
             else
             {
-                MoveResult.Code += Penalty;
+                moveResult.Code += penalty;
             }
         }
     }
@@ -90,10 +90,10 @@ public partial class CombatFire : SingleHexSprite
     public override void Activate()
     {
         base.Activate();
-        FXShift = Random(10) + 11;
-        FYShift = Random(10) + 11;
-        FPlayer = CombatMap.Current.FCurrentCombatPlayer;
-        FFirstTurn = true;
+        XShift = Random(10) + 11;
+        YShift = Random(10) + 11;
+        Player = CombatMap.Current.CurrentCombatPlayer;
+        FirstTurn = true;
     }
 
     // CombatFire.pas:55
@@ -103,38 +103,38 @@ public partial class CombatFire : SingleHexSprite
     }
 
     // CombatFire.pas:75
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        base.MakeVisible(VisibilityList);
+        base.MakeVisible(visibilityList);
     }
 
     // CombatFire.pas:98
     public void NewTurn()
     {
-        int Xhx = default;
-        int Yhx = default;
-        MapFieldMessage Msg = default;
-        if (FFirstTurn)
+        int hexX = default;
+        int hexY = default;
+        MapFieldMessage message = default;
+        if (FirstTurn)
         {
-            FFirstTurn = false;
+            FirstTurn = false;
         }
         else
         {
-            if (CombatMap.Current.FCurrentCombatPlayer == FPlayer)
+            if (CombatMap.Current.CurrentCombatPlayer == Player)
             {
-                Msg.MsgID = 200711;
-                Msg.Param[0] = this;
-                Msg.Result = -1;
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMsg(ref Msg);
+                message.MessageId = 200711;
+                message.Param[0] = this;
+                message.Result = -1;
+                var yhx = GetHexY();
+                var xhx = GetHexX();
+                CombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMessage(ref message);
                 for (int I = 1; I <= 6; I++)
                 {
-                    var yhx2 = GetYhx();
-                    HexGeometry.CenterHNtoHX(GetXhx(), yhx2, I, ref Xhx, ref Yhx);
-                    if (Xhx > 0 && Yhx > 0)
+                    var hexY2 = GetHexY();
+                    HexGeometry.CenterHexNumberToHex(GetHexX(), hexY2, I, ref hexX, ref hexY);
+                    if (hexX > 0 && hexY > 0)
                     {
-                        EffectPaths.CreateFire(true, 50, Xhx, Yhx);
+                        EffectPaths.CreateFire(true, 50, hexX, hexY);
                     }
                 }
 
@@ -144,29 +144,29 @@ public partial class CombatFire : SingleHexSprite
     }
 
     // CombatFire.pas:26
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int ImageIndex;
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        XhpSurf = Xhp - XhpSurf;
-        YhpSurf = Yhp - YhpSurf;
-        Sequence = AoWHSSet.Current.FImageSequences.GetImageSequence(60);
-        if (Sequence != null)
+        ImageSequence sequence;
+        int imageIndex;
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        pixelXSurface = pixelX - pixelXSurface;
+        pixelYSurface = pixelY - pixelYSurface;
+        sequence = AoWHSSet.Current.ImageSequences.GetImageSequence(60);
+        if (sequence != null)
         {
             do
             {
-                ImageIndex = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
-                if (ImageIndex != -1)
+                imageIndex = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                if (imageIndex != -1)
                 {
-                    Sequence.ImageLibrary.Get(ImageIndex).Show(XhpSurf + Sequence.dXshift + FXShift, YhpSurf + Sequence.dYshift + FYShift, SurfaceDesc);
+                    sequence.ImageLibrary.Get(imageIndex).Show(pixelXSurface + sequence.OffsetX + XShift, pixelYSurface + sequence.OffsetY + YShift, lockedSurface);
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
-            while (!(Sequence == null));
+            while (!(sequence == null));
         }
     }
 }

@@ -7,41 +7,41 @@ public partial class Panel
 {
     public override bool ContainsPoint(int X, int Y)
     {
-        int left = FWinLeft;
-        int top = FWinTop;
-        if (FAOWWindow != null)
+        int left = _winLeft;
+        int top = _winTop;
+        if (_window != null)
         {
-            left += FAOWWindow.FWinLeft;
-            top += FAOWWindow.FWinTop;
+            left += _window._winLeft;
+            top += _window._winTop;
         }
 
-        return PointInside(X, Y, left, top, FWinWidth, FWinHeight);
+        return PointInside(X, Y, left, top, _winWidth, _winHeight);
     }
 
     // The panel moves by its window, as CheckMouseDown does, so a child hit test sees screen pixels.
     // A wheel that nobody handles is not consumed, so a book page can still turn.
-    public override bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (Steps == 0 || !FVisible) return false;
-        FOrgLeft = FWinLeft;
-        FOrgTop = FWinTop;
+        if (steps == 0 || !_visible) return false;
+        SavedLeft = _winLeft;
+        SavedTop = _winTop;
         try
         {
-            if (FAOWWindow != null)
+            if (_window != null)
             {
-                FWinLeft += FAOWWindow.FWinLeft;
-                FWinTop += FAOWWindow.FWinTop;
+                _winLeft += _window._winLeft;
+                _winTop += _window._winTop;
             }
 
             var child = TopWheelChild(X, Y);
-            if (child != null && child.CheckMouseWheel(Steps, Shift, X, Y)) return true;
-            if (!PointInside(X, Y, FWinLeft, FWinTop, FWinWidth, FWinHeight)) return false;
-            return ScrollOwnedBar(Steps);
+            if (child != null && child.CheckMouseWheel(steps, shift, X, Y)) return true;
+            if (!PointInside(X, Y, _winLeft, _winTop, _winWidth, _winHeight)) return false;
+            return ScrollOwnedBar(steps);
         }
         finally
         {
-            FWinLeft = FOrgLeft;
-            FWinTop = FOrgTop;
+            _winLeft = SavedLeft;
+            _winTop = SavedTop;
         }
     }
 }

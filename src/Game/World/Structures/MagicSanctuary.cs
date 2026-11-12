@@ -8,83 +8,83 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-// FOverlayHS
+// OverlayHexSprite
 public partial class MagicSanctuary : Structure
 {
     public MagicSanctuary(ECustomNode owner) : base(owner)
     {
-        FOverlayHS = new MagicSanctuaryOverlayHexSprite(null);
-        FOverlayHS.FStructure = this;
+        OverlayHexSprite = new MagicSanctuaryOverlayHexSprite(null);
+        OverlayHexSprite.Structure = this;
     }
 
     // MagicSanctuary.pas:124
-    public new const int ClassID = 133274;
+    public new const int ClassId = 133274;
 
-    public MagicSanctuaryOverlayHexSprite FOverlayHS;
+    public MagicSanctuaryOverlayHexSprite OverlayHexSprite;
 
     // MagicSanctuary.pas:117
     public override void Dispose()
     {
-        AoWHSMap.Current.DynamicVisibleHS.RemoveChild(FOverlayHS);
-        FOverlayHS?.Dispose();
+        AoWHSMap.Current.DynamicVisibleHexSprite.RemoveChild(OverlayHexSprite);
+        OverlayHexSprite?.Dispose();
         base.Dispose();
     }
 
     // MagicSanctuary.pas:110
 
     // MagicSanctuary.pas:136
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+        base.MapFieldMessageProc(ref message);
+        if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
         {
-            if (Msg.MsgID == 4393)
+            if (message.MessageId == 4393)
             {
-                Msg.Param[0] = 1;
+                message.Param[0] = 1;
             }
         }
     }
 
     // MagicSanctuary.pas:127
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!FStatus.Contains(MapObjectStatusElement.Visible))
+        if (!_status.Contains(MapObjectStatusElement.Visible))
         {
-            base.MakeVisible(VisibilityList);
-            FOverlayHS.MakeVisible(VisibilityList);
+            base.MakeVisible(visibilityList);
+            OverlayHexSprite.MakeVisible(visibilityList);
         }
     }
 
     // MagicSanctuary.pas:143
-    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
-        base.ArmyPlaced(PlacedArmy);
-        FOverlayHS.FadeUp();
+        base.ArmyPlaced(placedArmy);
+        OverlayHexSprite.FadeUp();
     }
 
     public new partial class Resource : StructureResource
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FTerrainBound = false;
-            FRazeable = false;
-            FConnectRoads = false;
+            TerrainBound = false;
+            Razeable = false;
+            ConnectRoads = false;
         }
 
         // MagicSanctuary.pas:160
-        public new const int ClassID = 133275;
+        public new const int ClassId = 133275;
 
         // MagicSanctuary.pas:149
 
         // MagicSanctuary.pas:163
-        public override int ResourceUserClassID() => 133274;
+        public override int ResourceUserClassId() => 133274;
 
         // MagicSanctuary.pas:43
 
         // MagicSanctuary.pas:157
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(MagicSanctuaryRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_magicSanctuaryText);
 
-        private static readonly string MagicSanctuaryRStr = "Magic Sanctuary";
+        private static readonly string s_magicSanctuaryText = "Magic Sanctuary";
 
     }
 

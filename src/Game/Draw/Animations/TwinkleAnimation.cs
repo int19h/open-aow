@@ -16,96 +16,96 @@ public partial class TwinkleAnimation : Animation
 {
     public TwinkleAnimation(ECustomNode owner) : base(owner)
     {
-        FAnimationLevel = 28;
+        AnimationLevel = 28;
     }
 
-    public ImageSequence FImageSequence;
-    public int FCount;
-    public int FRadius;
-    public int FDuration;
-    public int FStartDelay;
-    public Set<TwinkleModeElement> FMode;
+    public ImageSequence ImageSequence;
+    public int Count;
+    public int Radius;
+    public int Duration;
+    public int StartDelay;
+    public Set<TwinkleModeElement> Mode;
 
     // Animation.pas:532
 
     // Animation.pas:538
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int OldSeed;
-        int Delay;
+        ImageSequence sequence;
+        int oldSeed;
+        int delay;
         int X = default;
         int Y = default;
-        int DX = default;
-        int DY = default;
-        int Radius;
-        int Angle;
-        int Index;
-        OldSeed = RandSeed;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
-        XhpSurf = X - XhpSurf + 16;
-        YhpSurf = Y - YhpSurf + 16;
-        var xhx = GetXhx();
-        var yhx = GetYhx();
-        RandSeed = xhx + AoWHSMap.Current.FInitialRandomSeed + yhx * 3;
-        for (int I = 0, last = FCount - 1; I <= last; I++)
+        int deltaX = default;
+        int deltaY = default;
+        int radius;
+        int angle;
+        int index;
+        oldSeed = RandSeed;
+        HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+        pixelXSurface = X - pixelXSurface + 16;
+        pixelYSurface = Y - pixelYSurface + 16;
+        var hexX = GetHexX();
+        var hexY = GetHexY();
+        RandSeed = hexX + AoWHSMap.Current.InitialRandomSeed + hexY * 3;
+        for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Radius = Random(FRadius);
-            Angle = Random(360);
-            Delay = Random(FStartDelay);
-            if (FFrameCounter - Delay >= 0)
+            radius = Random(Radius);
+            angle = Random(360);
+            delay = Random(StartDelay);
+            if (FrameCounter - delay >= 0)
             {
-                if (FMode.Contains(TwinkleModeElement.Expand))
+                if (Mode.Contains(TwinkleModeElement.Expand))
                 {
-                    Radius = Round((double)(Radius * FFrameCounter) / FDuration) + Radius / 2;
+                    radius = Round((double)(radius * FrameCounter) / Duration) + radius / 2;
                 }
 
-                if (FMode.Contains(TwinkleModeElement.Explode))
+                if (Mode.Contains(TwinkleModeElement.Explode))
                 {
-                    Radius += Round((FFrameCounter - Delay) * (FFrameCounter - Delay));
+                    radius += Round((FrameCounter - delay) * (FrameCounter - delay));
                 }
 
-                if (FMode.Contains(TwinkleModeElement.Implode))
+                if (Mode.Contains(TwinkleModeElement.Implode))
                 {
-                    Radius += Round(FDuration - (FFrameCounter - Delay));
+                    radius += Round(Duration - (FrameCounter - delay));
                 }
 
-                if (FMode.Contains(TwinkleModeElement.Rotate))
+                if (Mode.Contains(TwinkleModeElement.Rotate))
                 {
-                    Angle += FFrameCounter * 4;
+                    angle += FrameCounter * 4;
                 }
 
-                AbilityRules.DegreesRadToCo(Angle, Radius, ref DX, ref DY);
-                Sequence = FImageSequence;
-                while (Sequence != null)
+                AbilityRules.PolarToCartesian(angle, radius, ref deltaX, ref deltaY);
+                sequence = ImageSequence;
+                while (sequence != null)
                 {
-                    Index = Sequence.GetUnloopedFrameIndex(FFrameCounter - Delay);
-                    if (Sequence.ImageLibrary.ImageExist(Index))
+                    index = sequence.GetUnloopedFrameIndex(FrameCounter - delay);
+                    if (sequence.ImageLibrary.ImageExist(index))
                     {
-                        Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift + DX, YhpSurf + Sequence.dYshift + DY, SurfaceDesc);
+                        sequence.ImageLibrary[index].Show(pixelXSurface + sequence.OffsetX + deltaX, pixelYSurface + sequence.OffsetY + deltaY, lockedSurface);
                     }
 
-                    Sequence = Sequence.Next;
+                    sequence = sequence.Next;
                 }
             }
         }
 
-        RandSeed = OldSeed;
-        if (FFrameCounter >= FDuration)
+        RandSeed = oldSeed;
+        if (FrameCounter >= Duration)
         {
             Dispose();
         }
     }
 
     // Animation.pas:575
-    public void Setup(ImageSequence Sequence, Set<TwinkleModeElement> Mode, int Count, int Radius, int Duration, int StartDelay)
+    public void Setup(ImageSequence sequence, Set<TwinkleModeElement> mode, int count, int radius, int duration, int startDelay)
     {
-        FImageSequence = Sequence;
-        FCount = Count;
-        FRadius = Radius;
-        FMode = Mode;
-        FStartDelay = StartDelay;
-        FDuration = Duration;
+        ImageSequence = sequence;
+        Count = count;
+        Radius = radius;
+        Mode = mode;
+        StartDelay = startDelay;
+        Duration = duration;
     }
 
     // Animation.pas:117

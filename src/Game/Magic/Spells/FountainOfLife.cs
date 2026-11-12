@@ -20,78 +20,78 @@ public partial class FountainOfLife : CityEnchantmentSpell
     // CitySpells.pas:649
     public FountainOfLife(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.FountainOfLifeRStr);
-        FSpellID = 52;
-        FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
-        FBaseManaCost = 1;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Water;
-        FEnchantmentID = CityEnchantmentId.FountainOfLife;
-        FCastDuration = 20;
-        FAIPriority = 500;
-        FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.LeaderInCity);
-        FAIBudget = 600;
-        FEnchantmentSpellID = 50;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_fountainOfLifeText);
+        SpellId = 52;
+        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
+        BaseManaCost = 1;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Water;
+        EnchantmentId = CityEnchantmentId.FountainOfLife;
+        CastDuration = 20;
+        AIPriority = 500;
+        AICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.LeaderInCity);
+        AIBudget = 600;
+        EnchantmentSpellId = 50;
     }
 
     // CitySpells.pas:692
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool Result = default;
-        City TargetCity = default;
+        bool result = default;
+        City targetCity = default;
         Animation A = default;
-        Result = base.ExecuteTE(Event, Source, ExecuteCount);
-        if (ExecuteCount == 0)
+        result = base.ExecuteTokenEvent(eventValue, source, executeCount);
+        if (executeCount == 0)
         {
-            TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
+            targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
             A = new Animation(null);
-            A.FAnimationLevel = 27;
-            A.FOnShow = ShowFountain;
-            A.FAnimationMap = AoWHSMap.Current;
-            A.FTag = (int)(((uint)(int)TargetCity.GetXhx()) | ((uint)(TargetCity.GetYhx() << 8)));
+            A.AnimationLevel = 27;
+            A.OnShow = ShowFountain;
+            A.AnimationMap = AoWHSMap.Current;
+            A.Tag = (int)(((uint)(int)targetCity.GetHexX()) | ((uint)(targetCity.GetHexY() << 8)));
             A.Activate();
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:666
-    public void ShowFountain(Animation Animation, int X, int Y, in LockedSurface SD)
+    public void ShowFountain(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
-        int DX;
-        int VY;
-        int Offset;
-        int CY = default;
-        int CX = default;
-        int VX;
+        int deltaX;
+        int vy;
+        int offset;
+        int cy = default;
+        int cx = default;
+        int vx;
         int T;
-        int DY;
-        HexGeometry.HXtoHP(Animation.FTag & 255, (int)(((uint)Animation.FTag) >> 8), ref CX, ref CY);
-        CX = CX + 10 - X;
-        CY = CY - Y + 10;
+        int deltaY;
+        HexGeometry.HexToPixel(animation.Tag & 255, (int)(((uint)animation.Tag) >> 8), ref cx, ref cy);
+        cx = cx + 10 - X;
+        cy = cy - Y + 10;
         // { Original resets the process-wide random seed for every draw. }
         RandSeed = 0;
         for (int I = 0; I <= 100; I++)
         {
-            VX = Random(100) - 50;
-            VY = Random(5) + 7;
-            Offset = Round((double)VX * 0.1);
+            vx = Random(100) - 50;
+            vy = Random(5) + 7;
+            offset = Round((double)vx * 0.1);
             T = Random(30);
-            if (T < Animation.FFrameCounter && Animation.FFrameCounter - T < 90)
+            if (T < animation.FrameCounter && animation.FrameCounter - T < 90)
             {
-                T = (Animation.FFrameCounter - T) % 30;
-                DX = Round((double)(T * VX) / 30);
-                DY = VY * T - Round((double)((double)T * 0.25) * T);
+                T = (animation.FrameCounter - T) % 30;
+                deltaX = Round((double)(T * vx) / 30);
+                deltaY = vy * T - Round((double)((double)T * 0.25) * T);
                 if (T > 0)
                 {
-                    AoWHSSet.Current.FSpellControl.GetSpell(52).FCastImages.Show(0, CX + DX + Offset, CY - DY, 0, SD);
+                    AoWHSSet.Current.SpellControl.GetSpell(52).CastImages.Show(0, cx + deltaX + offset, cy - deltaY, 0, lockedSurface);
                 }
             }
         }
 
-        if (Animation.FFrameCounter == 120)
+        if (animation.FrameCounter == 120)
         {
-            Animation?.Dispose();
+            animation?.Dispose();
         }
     }
 }

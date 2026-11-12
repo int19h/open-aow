@@ -26,58 +26,58 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Terrain;
 
 // { Interface declaration run owned by P1. }
-// FMode, FTurnsLeft, FAge, FShowPriority, FPlayer, FExplosionFrame
+// Mode, TurnsLeft, Age, _showPriority, Player, ExplosionFrame
 public partial class Fire : ImageLibraryTerrainMapObject
 {
 
-    public new const int ClassID = 132990;
+    public new const int ClassId = 132990;
 
-    public Set<ModeElement> FMode;
-    public sbyte FTurnsLeft;
-    public byte FAge;
-    public int FShowPriority;
-    public sbyte FPlayer;
-    public int FExplosionFrame;
+    public Set<ModeElement> Mode;
+    public sbyte TurnsLeft;
+    public byte Age;
+    public int _showPriority;
+    public sbyte Player;
+    public int ExplosionFrame;
 
     // Structur.PAS:3402
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FTurnsLeft), 5);
-        RwSet(ref FMode, 1, 6, Stream.rwData, 0);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 7);
-        Stream.rwByte(ref FAge, 8);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TurnsLeft), 5);
+        RwSet(ref Mode, 1, 6, stream.rwData, 0);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 7);
+        stream.rwByte(ref Age, 8);
     }
 
     // Structur.PAS:3386
     // mode, lifetime, age, priority, owner player, explosion frame
     public Fire(ECustomNode owner) : base(owner)
     {
-        FTurnsLeft = 3;
-        FAge = 0;
-        FPlayer = 0;
-        FShowPriority = 1744830464;
-        FMode = Set<ModeElement>.Of(ModeElement.Expandable);
-        FExplosionFrame = 0;
+        TurnsLeft = 3;
+        Age = 0;
+        Player = 0;
+        _showPriority = 1744830464;
+        Mode = Set<ModeElement>.Of(ModeElement.Expandable);
+        ExplosionFrame = 0;
     }
 
     // Structur.PAS:3672
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayer)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986 && message.Payload.Int == Player)
         {
             NewTurn();
             return;
         }
 
-        if (Msg.MsgID == 537001987 && Msg.Payload.Int == FPlayer)
+        if (message.MessageId == 537001987 && message.Payload.Int == Player)
         {
             NewTurnDone();
         }
         else
         {
-            if (Msg.MsgID == 537002242 && (byte)Msg.Param[1].Int == 6)
+            if (message.MessageId == 537002242 && (byte)message.Param[1].Int == 6)
             {
                 WaterMasteryCast();
             }
@@ -85,112 +85,112 @@ public partial class Fire : ImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:3411
-    public override sbyte GetTerrain(int Index)
+    public override sbyte GetTerrain(int index)
     {
-        sbyte Result = FResource.TerrainList.GetTerrain(Index);
-        if (Result >= 0)
+        sbyte result = _resource.TerrainList.GetTerrain(index);
+        if (result >= 0)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3417
-    public override int GetShowPriority() => FShowPriority;
+    public override int GetShowPriority() => _showPriority;
 
     // Structur.PAS:3472
     public override void Connect()
     {
-        CalcShowPriority((MapField)Owner);
+        CalculateShowPriority((MapField)Owner);
         base.Connect();
     }
 
     // Structur.PAS:3517
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Frame;
+        int frame;
         int X = default;
         int Y = default;
-        if (FExplosionFrame != 0)
+        if (ExplosionFrame != 0)
         {
-            Frame = AoWHSMap.Current.Frame - FExplosionFrame;
-            if (Frame >= 0 && Frame < FResource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
+            frame = AoWHSMap.Current.Frame - ExplosionFrame;
+            if (frame >= 0 && frame < _resource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
             {
-                HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-                FResource.ImageSequenceList.Show(20, X - XhpSurf, Y - YhpSurf, Frame, SurfaceDesc);
+                HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+                _resource.ImageSequenceList.Show(20, X - pixelXSurface, Y - pixelYSurface, frame, lockedSurface);
             }
             else
             {
-                if (Frame < -1000 || Frame >= 0)
+                if (frame < -1000 || frame >= 0)
                 {
-                    FExplosionFrame = 0;
-                    base.Show(XhpSurf, YhpSurf, SurfaceDesc);
+                    ExplosionFrame = 0;
+                    base.Show(pixelXSurface, pixelYSurface, lockedSurface);
                 }
             }
         }
         else
         {
-            base.Show(XhpSurf, YhpSurf, SurfaceDesc);
+            base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
     }
 
     // Structur.PAS:3478
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
-        if (Result)
+        bool result = base.PlaceOnMap();
+        if (result)
         {
             ((MapField)Owner).UpdateMapField();
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3484
     public override void RemoveFromMap()
     {
-        MapField MapField;
-        MapField = (MapField)Owner;
-        if (MapField != null)
+        MapField mapField;
+        mapField = (MapField)Owner;
+        if (mapField != null)
         {
             base.RemoveFromMap();
-            MapField.UpdateMapField();
+            mapField.UpdateMapField();
         }
     }
 
     // Structur.PAS:3589
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (Msg.MsgID != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            base.MapFieldMsgProc(ref Msg);
+            base.MapFieldMessageProc(ref message);
         }
 
-        if (Msg.MsgID == 4418 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+        if (message.MessageId == 4418 && _resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
         {
-            ArmyPlaced(Msg.Param[0].As<ArmyHexSprite>());
+            ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
             return;
         }
 
-        if (Msg.MsgID == 4384 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+        if (message.MessageId == 4384 && _resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
         {
-            if (!Msg.Param[0].As<ArmyHexSprite>().FArmy.ImmunityTypes(255).Contains(DamageType.Fire))
+            if (!message.Param[0].As<ArmyHexSprite>().Army.ImmunityTypes(255).Contains(DamageType.Fire))
             {
-                Msg.Result = 1;
+                message.Result = 1;
             }
         }
     }
 
     // Structur.PAS:3570
-    public override int CanMoveOver(in HexSpriteSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        int Result;
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        int result;
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            if (!CanDoDamage(((MoveControl)Info.Sender).FSettings.FUnits))
+            if (!CanDoDamage(((MoveControl)info.Sender).Settings.Units))
             {
-                Result = 1;
+                result = 1;
             }
             else
             {
@@ -199,210 +199,210 @@ public partial class Fire : ImageLibraryTerrainMapObject
         }
         else
         {
-            Result = 1;
+            result = 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3564
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 8192;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 8192;
         }
     }
 
     // Structur.PAS:3509
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!FStatus.Contains(MapObjectStatusElement.Visible) && FExplosionFrame != 0 && AoWHSMap.Current.Frame == FExplosionFrame)
+        if (!_status.Contains(MapObjectStatusElement.Visible) && ExplosionFrame != 0 && AoWHSMap.Current.Frame == ExplosionFrame)
         {
-            var xhx = GetXhx();
-            AudioPlayback.PlaySample(AbilityRules.ExplosionSFX[(xhx + AoWHSMap.Current.Frame) % 2]);
+            var hexX = GetHexX();
+            AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[(hexX + AoWHSMap.Current.Frame) % 2]);
         }
 
-        base.MakeVisible(VisibilityList);
+        base.MakeVisible(visibilityList);
     }
 
     // Structur.PAS:3497
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool Result = base.CanPlace(MapContainer, Xhx, Yhx, Lhx);
-        if (Result)
+        bool result = base.CanPlace(mapContainer, hexX, hexY, hexLevel);
+        if (result)
         {
-            var classID = EClass.ClassID;
-            Result = MapContainer.GetField(Xhx, Yhx, Lhx).FindOwnedChild(classID) == null;
+            var classId = EngineClass.ClassId;
+            result = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedChild(classId) == null;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3435
-    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        CalcShowPriority(MapContainer.GetField(Xhx, Yhx, Lhx));
-        return base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
+        CalculateShowPriority(mapContainer.GetField(hexX, hexY, hexLevel));
+        return base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
     }
 
     // Structur.PAS:3441
-    public override sbyte GetMostFrequentMapFieldTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx, sbyte Default)
+    public override sbyte GetMostFrequentMapFieldTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY, sbyte defaultValue)
     {
-        TerrainList Terrains;
-        ByteArray128 Counts;
-        HexNumberWalkData Walk = default;
-        sbyte TerrainType;
-        sbyte Result = Default;
-        Terrains = FResource.TerrainList;
-        if (Result < 0)
+        TerrainList terrains;
+        ByteArray128 counts;
+        HexNumberWalkData walk = default;
+        sbyte terrainType;
+        sbyte result = defaultValue;
+        terrains = _resource.TerrainList;
+        if (result < 0)
         {
-            Result = 0;
+            result = 0;
         }
 
-        Counts = default;
-        HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
-        while (Walk.HN < Terrains.Count)
+        counts = default;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        while (walk.HexNumber < terrains.Count)
         {
-            if (FResource.TerrainList.GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+            if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                TerrainType = MapLevel.GetField(Walk.X, Walk.Y).TerrainType;
-                if (TerrainType >= 0)
+                terrainType = mapLevel.GetField(walk.X, walk.Y).TerrainType;
+                if (terrainType >= 0)
                 {
-                    Counts[TerrainType] = (byte)(Counts[TerrainType] + 1);
-                    if (Counts[TerrainType] > Counts[Result])
+                    counts[terrainType] = (byte)(counts[terrainType] + 1);
+                    if (counts[terrainType] > counts[result])
                     {
-                        Result = TerrainType;
+                        result = terrainType;
                     }
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        if (Default >= 0)
+        if (defaultValue >= 0)
         {
-            if (Counts[Result] == Counts[Default])
+            if (counts[result] == counts[defaultValue])
             {
-                Result = Default;
+                result = defaultValue;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3422
-    public void CalcShowPriority(MapField MapField)
+    public void CalculateShowPriority(MapField mapField)
     {
         int X = default;
         int Y = default;
-        HexSprite HS;
-        HexGeometry.HXtoHP(MapField.Xhx, MapField.Yhx, ref X, ref Y);
-        HS = MapField.GetMaxLevelNoneTransparentHS();
-        FShowPriority = 1744830464 + ((Y + 36) << 13) + (X + 16);
-        if (HS != this && HS != null)
+        HexSprite hexSprite;
+        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, ref X, ref Y);
+        hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+        _showPriority = 1744830464 + ((Y + 36) << 13) + (X + 16);
+        if (hexSprite != this && hexSprite != null)
         {
-            if (HS.GetShowPriority() >= FShowPriority)
+            if (hexSprite.GetShowPriority() >= _showPriority)
             {
-                FShowPriority = HS.GetShowPriority() + 1;
+                _showPriority = hexSprite.GetShowPriority() + 1;
             }
         }
     }
 
     // Structur.PAS:3503
-    public void SetupExplosion(int Delay)
+    public void SetupExplosion(int delay)
     {
-        if (FResource.ImageSequenceList.GetImageSequence(20) != null)
+        if (_resource.ImageSequenceList.GetImageSequence(20) != null)
         {
-            FExplosionFrame = Delay + AoWHSMap.Current.Frame;
+            ExplosionFrame = delay + AoWHSMap.Current.Frame;
         }
     }
 
     // Structur.PAS:3539
     public void TriggerDamage()
     {
-        MapFieldMessage Msg = default;
-        Msg.MsgID = 4357;
-        Msg.Param[0] = this;
-        Msg.Result = 0;
-        ((MapField)Owner).SendMapFieldMsg(ref Msg);
+        MapFieldMessage message = default;
+        message.MessageId = 4357;
+        message.Param[0] = this;
+        message.Result = 0;
+        ((MapField)Owner).SendMapFieldMessage(ref message);
     }
 
     // Structur.PAS:3549
-    public bool CanDoDamage(UnitList Units)
+    public bool CanDoDamage(UnitList units)
     {
         int I;
-        Troop AUnit;
-        bool Result = false;
-        I = Units.GetCount();
-        while (!Result && I != 0)
+        Troop troop;
+        bool result = false;
+        I = units.GetCount();
+        while (!result && I != 0)
         {
             I -= 1;
-            AUnit = Units.GetUnit(I);
-            Result = !AUnit.GetImmunityTypes().Contains(DamageType.Fire);
+            troop = units.GetUnit(I);
+            result = !troop.GetImmunityTypes().Contains(DamageType.Fire);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3584
-    public void ArmyPlaced(ArmyHexSprite ArmyHS)
+    public void ArmyPlaced(ArmyHexSprite armyHexSprite)
     {
         if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            ArmyHS.FArmy.TriggerFireDamage();
+            armyHexSprite.Army.TriggerFireDamage();
         }
     }
 
     // Structur.PAS:3622
     public void NewTurn()
     {
-        if (FAge < 99)
+        if (Age < 99)
         {
-            FAge = (byte)(FAge + 1);
+            Age = (byte)(Age + 1);
         }
     }
 
     // Structur.PAS:3627
     public void NewTurnDone()
     {
-        HexNumberWalkData Walk = default;
-        MapLevel MapLevel;
-        int Chance;
-        Fire Fire;
-        if (FAge > 0)
+        HexNumberWalkData walk = default;
+        MapLevel mapLevel;
+        int chance;
+        Fire fire;
+        if (Age > 0)
         {
-            MapLevel = (MapLevel)Owner.Owner;
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 1);
-            while (Walk.Radius == 1)
+            mapLevel = (MapLevel)Owner.Owner;
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 1);
+            while (walk.Radius == 1)
             {
                 // { Original excludes the top row when spreading fire. }
-                if (Walk.X >= 0 && Walk.X < MapLevel.Width && Walk.Y > 0 && Walk.Y < MapLevel.Height)
+                if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y > 0 && walk.Y < mapLevel.Height)
                 {
-                    Chance = AoWMapField.IgnitionChance((AoWMapField)MapLevel.GetField(Walk.X, Walk.Y));
-                    if (Chance > AoWHSMap.Current.Random(1000))
+                    chance = AoWMapField.IgnitionChance((AoWMapField)mapLevel.GetField(walk.X, walk.Y));
+                    if (chance > AoWHSMap.Current.Random(1000))
                     {
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var lhx = GetLhx();
-                        Fire = AoWHSSet.Current.FFireControl.PlaceFire(Walk.X, Walk.Y, lhx, FireType.Large);
-                        if (Fire != null)
+                        var hexLevel = GetHexLevel();
+                        fire = AoWHSSet.Current.FireControl.PlaceFire(walk.X, walk.Y, hexLevel, FireType.Large);
+                        if (fire != null)
                         {
-                            Fire.FPlayer = FPlayer;
-                            Fire.FTurnsLeft = 3;
+                            fire.Player = Player;
+                            fire.TurnsLeft = 3;
                         }
                     }
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
 
-        if (FTurnsLeft != 0)
+        if (TurnsLeft != 0)
         {
-            FTurnsLeft = (sbyte)(FTurnsLeft - 1);
-            if (FTurnsLeft != 0)
+            TurnsLeft = (sbyte)(TurnsLeft - 1);
+            if (TurnsLeft != 0)
             {
                 TriggerDamage();
             }
@@ -420,7 +420,7 @@ public partial class Fire : ImageLibraryTerrainMapObject
     // Structur.PAS:3667
     public void WaterMasteryCast()
     {
-        if (FTurnsLeft != 0)
+        if (TurnsLeft != 0)
         {
             Dispose();
         }
@@ -431,50 +431,50 @@ public partial class Fire : ImageLibraryTerrainMapObject
         Expandable = 0
     }
 
-    // FFireType
+    // FireType
     public new partial class Resource : ImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }
 
-        public new const int ClassID = 132991;
+        public new const int ClassId = 132991;
 
-        public FireType FFireType;
+        public FireType FireType;
 
         // Structur.PAS:3685
-        // FFireType
+        // FireType
         public override void Dispose()
         {
-            if (FEngine != null && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
+            if (_engine != null && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
-                AoWHSSet.Current.FFireControl.UnregisterFireResource(this);
+                AoWHSSet.Current.FireControl.UnregisterFireResource(this);
             }
 
             base.Dispose();
         }
 
         // Structur.PAS:3707
-        public override void ReadWrite(EStorageStream Stream)
+        public override void ReadWrite(EStorageStream stream)
         {
-            base.ReadWrite(Stream);
-            Stream.rwData(Bytes.Of(ref FFireType, 1), 1, 20);
+            base.ReadWrite(stream);
+            stream.rwData(Bytes.Of(ref FireType, 1), 1, 20);
         }
 
         // Structur.PAS:3713
-        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+        public override void MessageProc(ref EngineMessage message, EngineObject sender)
         {
-            base.MsgProc(ref Msg, Sender);
-            if (Msg.MsgID == 536870920)
+            base.MessageProc(ref message, sender);
+            if (message.MessageId == 536870920)
             {
-                AoWHSSet.Current.FFireControl.RegisterFireResource(this);
+                AoWHSSet.Current.FireControl.RegisterFireResource(this);
             }
         }
 
         // Structur.PAS:3702
-        public override int ResourceUserClassID() => 132990;
+        public override int ResourceUserClassId() => 132990;
 
         // Structur.PAS:3692
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(GameTables.FireRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(GameTables.s_fireText);
 
     }
 

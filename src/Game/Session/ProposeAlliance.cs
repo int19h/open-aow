@@ -17,82 +17,82 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
 
     public override int Icon => 10;
 
-    public override string Name(DiplomaticAction Action) => AbilityRules.TranslateRStr(P5ProposeAllianceRStr);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_proposeAllianceText);
 
-    public override string LogText(DiplomaticAction Action)
+    public override string LogText(DiplomaticAction action)
     {
-        var subject = AbilityRules.TranslateRStr(P5AllianceProposalRStr);
-        var accepted = Action.FSource == AoWHSMap.Current.FSeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateRStr(P5MadeAllianceRStr);
-        return Outcome(Action, subject, subject, accepted, subject);
+        var subject = AbilityRules.TranslateResourceString(s_allianceProposalText);
+        var accepted = action.Source == AoWHSMap.Current.SeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateResourceString(s_madeAllianceText);
+        return Outcome(action, subject, subject, accepted, subject);
     }
 
     public override string LoggedSample => "SFX\\EVENTS\\MESSAGE2.WAV";
 
-    public override void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation) =>
-        Text.Exchange(Reaction, 106, 121, 124);
+    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
+        text.Exchange(reaction, 106, 121, 124);
 
-    public override void Sent(DiplomaticAction Action) => Deliver(Action);
+    public override void Sent(DiplomaticAction action) => Deliver(action);
 
-    public override bool LapsesUnanswered(DiplomaticAction Action) =>
-        Relation(Action.FSource, Action.FTarget) != DiplomaticRelation.Alliance;
+    public override bool LapsesUnanswered(DiplomaticAction action) =>
+        Relation(action.Source, action.Target) != DiplomaticRelation.Alliance;
 
-    public override void Accepted(DiplomaticAction Action)
+    public override void Accepted(DiplomaticAction action)
     {
-        AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.Alliance);
-        Broadcast(Action, -1, Action.FSource);
-        RemoveTargetLog(Action);
+        AoWHSMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Alliance);
+        Broadcast(action, -1, action.Source);
+        RemoveTargetLog(action);
     }
 
-    public override DiplomaticActionReaction RejectReaction(DiplomaticAction Action) =>
-        Relation(Action.FSource, Action.FTarget) != DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+    public override DiplomaticActionReaction RejectReaction(DiplomaticAction action) =>
+        Relation(action.Source, action.Target) != DiplomaticRelation.Alliance ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
-    public override void AnswerAI(DiplomaticAction Action, sbyte Player, DiplomaticRelation Relation, ByteList IdealPeace, ByteList IdealWar)
+    public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {
-        string ErrorText = "";
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FAIControl.CanProposeAlliance((byte)Action.FSource))
+        string errorText = "";
+        if (AoWHSMap.Current.Players.GetPlayers(action.Target).AIControl.CanProposeAlliance((byte)action.Source))
         {
-            RandSeed = (int)(((uint)(AoWHSMap.Current.FInitialRandomSeed + AoWHSMap.Current.FDay + Action.FSource + Action.FTarget)) >> 2);
-            int Chance = (Action.FEscrowGold + Action.FEscrowMana) / 25 + 30;
-            if (Chance > 60)
+            RandSeed = (int)(((uint)(AoWHSMap.Current.InitialRandomSeed + AoWHSMap.Current.Day + action.Source + action.Target)) >> 2);
+            int chance = (action.EscrowGold + action.EscrowMana) / 25 + 30;
+            if (chance > 60)
             {
-                Chance = 60;
+                chance = 60;
             }
 
-            if (Random(100) < Chance)
+            if (Random(100) < chance)
             {
-                Action.Accept(ref ErrorText);
+                action.Accept(ref errorText);
             }
             else
             {
-                Action.Reject(ref ErrorText);
+                action.Reject(ref errorText);
             }
         }
         else
         {
-            Action.Reject(ref ErrorText);
+            action.Reject(ref errorText);
         }
     }
 
-    public override int RelationModifier(DiplomaticAction Action, sbyte Player, sbyte Race)
+    public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
     {
-        if (Relation(Action.FSource, Action.FTarget) != DiplomaticRelation.Alliance)
+        if (Relation(action.Source, action.Target) != DiplomaticRelation.Alliance)
         {
-            int Modifier = Relation(Action.FSource, Action.FTarget) == DiplomaticRelation.War ? 30 : 20;
-            if (Player == Action.FSource)
+            int modifier = Relation(action.Source, action.Target) == DiplomaticRelation.War ? 30 : 20;
+            if (player == action.Source)
             {
-                return RaceModifier(Action.FTarget, Race, Modifier);
+                return RaceModifier(action.Target, race, modifier);
             }
 
-            if (Player == Action.FTarget)
+            if (player == action.Target)
             {
-                return RaceModifier(Action.FSource, Race, Modifier);
+                return RaceModifier(action.Source, race, modifier);
             }
         }
 
         return 0;
     }
 
-    internal static readonly string P5ProposeAllianceRStr = "Propose alliance";
-    internal static readonly string P5AllianceProposalRStr = "Alliance proposal";
-    internal static readonly string P5MadeAllianceRStr = "Made alliance";
+    internal static readonly string s_proposeAllianceText = "Propose alliance";
+    internal static readonly string s_allianceProposalText = "Alliance proposal";
+    internal static readonly string s_madeAllianceText = "Made alliance";
 }

@@ -15,9 +15,9 @@ public partial class Stoning : CombatSpell
     // CombatSpells.pas:1587
     public Stoning(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(StoningRStr);
-        FSpellID = 122;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_stoningText);
+        SpellId = 122;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 5;
         spellCombatInfo.Damage = 2;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
@@ -25,5 +25,5 @@ public partial class Stoning : CombatSpell
         spellCombatInfo.Range = 12;
     }
 
-    private static readonly string StoningRStr = "Stoning";
+    private static readonly string s_stoningText = "Stoning";
 }

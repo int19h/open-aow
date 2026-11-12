@@ -10,15 +10,15 @@ public partial class SummonEarthElemental : SummonSpell
     // SummonSpells.pas:379
     public SummonEarthElemental(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SummonEarthElementalRStr);
-        FSpellID = 28;
-        FBaseManaCost = 5;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Earth;
-        FUnitIndices.Add(225);
-        FCastDuration = 40;
-        FAIBasePriority = 750;
+        SpellName = AbilityRules.TranslateResourceString(s_summonEarthElementalText);
+        SpellId = 28;
+        BaseManaCost = 5;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Earth;
+        UnitIndices.Add(225);
+        CastDuration = 40;
+        AIBasePriority = 750;
     }
 
-    private static readonly string SummonEarthElementalRStr = "Summon Earth Elemental";
+    private static readonly string s_summonEarthElementalText = "Summon Earth Elemental";
 }

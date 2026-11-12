@@ -18,39 +18,39 @@ public partial class TownGateTokenEvent : CityTargetSpellTokenEvent
     { }
 
     // CitySpells.pas:397
-    public new const int ClassID = 135950;
+    public new const int ClassId = 135950;
 
-    public ArmyId FArmyID;
-    public MapCoordinate FTeleportLocation;
+    public ArmyId ArmyId;
+    public MapCoordinate TeleportLocation;
 
     // CitySpells.pas:391
     public override void Dispose()
     {
-        FArmyID?.Dispose();
+        ArmyId?.Dispose();
         base.Dispose();
     }
 
     // CitySpells.pas:400
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FTeleportLocation.Packed, 30);
-        Stream.rwCreateEObject(ref FArmyID, null, 31);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref TeleportLocation.Packed, 30);
+        stream.rwCreateEObject(ref ArmyId, null, 31);
     }
 
     // CitySpells.pas:407
     public override bool Validate(Hero source)
     {
-        byte Selection = default;
-        ArmyHexSprite Army = default;
-        bool Result = base.Validate(source) && FArmyID.Valid();
-        if (Result)
+        byte selection = default;
+        ArmyHexSprite army = default;
+        bool result = base.Validate(source) && ArmyId.Valid();
+        if (result)
         {
-            FArmyID.RetrieveArmy(ref Army, ref Selection);
-            Result = ((TownGate)AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID)).ValidTeleportLocation(Army, Selection, FTeleportLocation.X, FTeleportLocation.Y, FTeleportLocation.L);
+            ArmyId.RetrieveArmy(ref army, ref selection);
+            result = ((TownGate)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).ValidTeleportLocation(army, selection, TeleportLocation.X, TeleportLocation.Y, TeleportLocation.MapLevel);
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:230

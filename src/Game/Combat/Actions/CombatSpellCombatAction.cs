@@ -14,83 +14,83 @@ namespace Aow.Game.Combat.Actions;
 public partial class CombatSpellCombatAction : DamageCombatAction
 {
     // CombatSpells.pas:447
-    public new const int ClassID = 131778;
+    public new const int ClassId = 131778;
 
     public CombatSpellCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public int FSpellID;
-    public int FManaCost;
+    public int SpellId;
+    public int ManaCost;
 
     // CombatSpells.pas:452
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FSpellID, 30);
-        Stream.rwInteger(ref FManaCost, 31);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref SpellId, 30);
+        stream.rwInteger(ref ManaCost, 31);
     }
 
     // CombatSpells.pas:459
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatObject Source;
-        base.Execute(Combat);
-        if (FManaCost != 0 && Combat.FStatus.Contains(CombatStatusElement.Executing))
+        CombatObject source;
+        base.Execute(combat);
+        if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
-            Source = Combat.FCombatData.FindID(FSourceID);
-            AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CombatCastingDone(Source, FManaCost);
+            source = combat.CombatData.FindId(SourceId);
+            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, ManaCost);
         }
     }
 
     // CombatSpells.pas:471
-    public override bool Play(CombatViewer Viewer)
+    public override bool Play(CombatViewer viewer)
     {
-        if (Viewer.FTime == 0)
+        if (viewer.Time == 0)
         {
-            AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
 
-        if (Viewer.FDelay == Viewer.FTime)
+        if (viewer.Delay == viewer.Time)
         {
-            Execute(Viewer.FCombat);
+            Execute(viewer.Combat);
         }
 
-        return Viewer.FDelay * 2 > Viewer.FTime;
+        return viewer.Delay * 2 > viewer.Time;
     }
 
     // CombatSpells.pas:479
-    public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void ShowObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
-        if (Obj.FID == FSourceID)
+        base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
+        if (objectValue.Id == SourceId)
         {
-            var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-            GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
+            var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+            GameTables.GameEngine.CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
         }
         else
         {
-            if (Obj.FID == FTargetID)
+            if (objectValue.Id == TargetId)
             {
-                AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
             }
         }
     }
 
     // CombatSpells.pas:490
-    public override void ShowFieldObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void ShowFieldObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
         // { Original calls ShowObject here, bypassing inherited field markers. }
-        base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
-        if (Obj.FID == FSourceID)
+        base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
+        if (objectValue.Id == SourceId)
         {
-            var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-            GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.FSpellName, Surface);
+            var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+            GameTables.GameEngine.CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
         }
         else
         {
-            if (Obj.FID == FTargetID)
+            if (objectValue.Id == TargetId)
             {
-                AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.Show(11, X + 32, Y + 32, Viewer.FTime, Surface);
+                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
             }
         }
     }

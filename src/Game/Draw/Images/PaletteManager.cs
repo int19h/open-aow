@@ -6,124 +6,124 @@ namespace Aow.Game.Draw.Images;
 
 public partial class PaletteManager : IDisposable
 {
-    internal List<LibraryImagePalette> FPalettes;
+    internal List<LibraryImagePalette> _palettes;
 
     // ImageLib.pas:6984
-    internal int GetCount() => FPalettes.Count;
+    internal int GetCount() => _palettes.Count;
 
     // ImageLib.pas:6989
-    internal LibraryImagePalette GetPalette(int Index) => FPalettes[Index];
+    internal LibraryImagePalette GetPalette(int index) => _palettes[index];
 
     // ImageLib.pas:6994
     internal void UpdateIndices()
     {
-        for (int I = 0, last = FPalettes.Count - 1; I <= last; I++)
+        for (int I = 0, last = _palettes.Count - 1; I <= last; I++)
         {
-            (FPalettes[I]).FIndex = I;
+            (_palettes[I])._index = I;
         }
     }
 
     // ImageLib.pas:6971
     public PaletteManager()
     {
-        FPalettes = new List<LibraryImagePalette>();
+        _palettes = new List<LibraryImagePalette>();
     }
 
     // ImageLib.pas:6977
     public virtual void Dispose()
     {
         Clear();
-        FPalettes?.Clear();
+        _palettes?.Clear();
     }
 
     // ImageLib.pas:7001
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
         int N = default;
         LibraryImagePalette P;
         Clear();
-        Stream.ReadExactly(Bytes.Of(ref N, 4));
+        stream.ReadExactly(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
             P = new LibraryImagePalette();
-            P.LoadFromStream(Stream);
-            FPalettes.Add(P);
-            P.FIndex = I;
+            P.LoadFromStream(stream);
+            _palettes.Add(P);
+            P._index = I;
         }
     }
 
     // ImageLib.pas:7017
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        Stream.Write(ValueBytes(FPalettes.Count, 4));
-        for (int I = 0, last = FPalettes.Count - 1; I <= last; I++)
+        stream.Write(ValueBytes(_palettes.Count, 4));
+        for (int I = 0, last = _palettes.Count - 1; I <= last; I++)
         {
-            (FPalettes[I]).SaveToStream(Stream);
+            (_palettes[I]).SaveToStream(stream);
         }
     }
 
     // ImageLib.pas:7025
     public void Clear()
     {
-        for (int I = FPalettes.Count - 1; I >= 0; I--)
+        for (int I = _palettes.Count - 1; I >= 0; I--)
         {
-            (FPalettes[I])?.Dispose();
+            (_palettes[I])?.Dispose();
         }
 
-        FPalettes.Clear();
+        _palettes.Clear();
     }
 
     // ImageLib.pas:7033
-    public LibraryImagePalette LinkToPalette(int Index)
+    public LibraryImagePalette LinkToPalette(int index)
     {
-        LibraryImagePalette Result = FPalettes[Index];
-        Result.FRefCount += 1;
-        return Result;
+        LibraryImagePalette result = _palettes[index];
+        result._refCount += 1;
+        return result;
     }
 
     // ImageLib.pas:7039
-    public LibraryImagePalette RegisterPalette(Palette Palette)
+    public LibraryImagePalette RegisterPalette(Palette palette)
     {
-        LibraryImagePalette Result;
+        LibraryImagePalette result;
         int I;
-        bool Found;
+        bool found;
         LibraryImagePalette P;
-        I = FPalettes.Count;
-        Found = false;
-        while (I != 0 && !Found)
+        I = _palettes.Count;
+        found = false;
+        while (I != 0 && !found)
         {
             I -= 1;
-            Found = Palette.Compare((FPalettes[I]).FPalette);
+            found = palette.Compare((_palettes[I])._palette);
         }
 
-        if (!Found)
+        if (!found)
         {
             P = new LibraryImagePalette();
-            P.FPalette.Assign(Palette);
-            P.FIndex = FPalettes.Count;
-            P.FRefCount = 1;
-            FPalettes.Add(P);
-            Result = P;
+            P._palette.Assign(palette);
+            P._index = _palettes.Count;
+            P._refCount = 1;
+            _palettes.Add(P);
+            result = P;
         }
         else
         {
-            var libraryImagePalette = FPalettes[I];
-            ((LibraryImagePalette)libraryImagePalette).FRefCount += 1;
-            Result = FPalettes[I];
+            var libraryImagePalette = _palettes[I];
+            ((LibraryImagePalette)libraryImagePalette)._refCount += 1;
+            result = _palettes[I];
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:7068
-    public void UnregisterPalette(int Index)
+    public void UnregisterPalette(int index)
     {
         LibraryImagePalette P;
-        P = FPalettes[Index];
-        P.FRefCount -= 1;
-        if (P.FRefCount <= 0)
+        P = _palettes[index];
+        P._refCount -= 1;
+        if (P._refCount <= 0)
         {
-            FPalettes.RemoveAt(Index);
+            _palettes.RemoveAt(index);
             UpdateIndices();
             P?.Dispose();
         }
@@ -133,7 +133,7 @@ public partial class PaletteManager : IDisposable
 
     public sealed class PalettesAccessor(PaletteManager target)
     {
-        public LibraryImagePalette this[int Index] { get => target.GetPalette(Index); }
+        public LibraryImagePalette this[int index] { get => target.GetPalette(index); }
     }
 
     public PalettesAccessor Palettes => new PalettesAccessor(this);

@@ -18,26 +18,26 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat;
 
-// FUnit. FParty. FDisabled. FWallCombatFeatures. FUnitGFXResourceIndex. Inherited: FID.
+// Troop. Party. Disabled. WallCombatFeaturesValue. UnitGraphicsResourceIndex. Inherited: FID.
 // FPosition. FStatus. FControlMode
 public partial class CombatUnit : CombatObject
 {
     // Combat.pas:1084
-    public new const int ClassID = 131745;
+    public new const int ClassId = 131745;
 
     // Combat.pas:1071
     // { CombatDID is declared with the shared engine globals. }
     public CombatUnit(ECustomNode owner) : base(owner)
     {
-        FControlMode = Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
-        FUnitGFXResourceIndex = -1;
+        ControlMode = Set<CombatObjectControlModeElement>.Of(CombatObjectControlModeElement.ConquerObject);
+        UnitGraphicsResourceIndex = -1;
     }
 
-    public Troop FUnit;
-    public CombatParty FParty;
-    public bool FDisabled;
-    public Set<WallCombatFeaturesElement> FWallCombatFeatures;
-    public int FUnitGFXResourceIndex;
+    public Troop Troop;
+    public CombatParty Party;
+    public bool Disabled;
+    public Set<WallCombatFeaturesElement> WallCombatFeaturesValue;
+    public int UnitGraphicsResourceIndex;
 
     // Combat.pas:1078
     public override void Dispose()
@@ -47,13 +47,13 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1382
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
         Troop U = default;
-        base.ReadWrite(Stream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        base.ReadWrite(stream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            Stream.rwCreateEObject(ref U, null, 20);
+            stream.rwCreateEObject(ref U, null, 20);
             SetUnit(U);
             if (U != null)
             {
@@ -62,48 +62,48 @@ public partial class CombatUnit : CombatObject
         }
         else
         {
-            Stream.rwCreateEObject(ref FUnit, null, 20);
+            stream.rwCreateEObject(ref Troop, null, 20);
         }
 
-        Stream.rwBool(ref FDisabled, 21);
+        stream.rwBool(ref Disabled, 21);
     }
 
     // Combat.pas:1408
-    public override void GetTargetCVDV(CombatObject Target, ref int CV, ref int DV)
+    public override void GetTargetCombatValueDamageValue(CombatObject target, ref int combatValue, ref int damageValue)
     {
         Troop U;
-        AbilityTypeList Abilities;
-        AbilityDamageValues Values = default;
+        AbilityTypeList abilities;
+        AbilityDamageValues values = default;
         int V;
-        Ability Ability;
-        if (!FStatus.Contains(CombatObjectStatusElement.Destroyed))
+        Ability ability;
+        if (!Status.Contains(CombatObjectStatusElement.Destroyed))
         {
-            U = FUnit;
-            CV = 0;
-            DV = 0;
-            Abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
-            for (int I = Abilities.Count - 1; I >= 0; I--)
+            U = Troop;
+            combatValue = 0;
+            damageValue = 0;
+            abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+            for (int I = abilities.Count - 1; I >= 0; I--)
             {
-                Ability = Abilities.GetAbility(I);
-                if (U.GetAbilityEnabled(Ability.FAbilityID))
+                ability = abilities.GetAbility(I);
+                if (U.GetAbilityEnabled(ability.AbilityId))
                 {
-                    Ability.tcGetDamageValueEx(this, Target, ref Values);
-                    if (Values.SourceDamage > 0)
+                    ability.TacticalBattleGetDamageValues(this, target, ref values);
+                    if (values.SourceDamage > 0)
                     {
-                        V = Values.SourceDamage * Values.SourceDamage / (Values.TargetDamage + Values.SourceDamage);
+                        V = values.SourceDamage * values.SourceDamage / (values.TargetDamage + values.SourceDamage);
                         if (V <= 0)
                         {
                             V = 1;
                         }
 
-                        if (V > CV)
+                        if (V > combatValue)
                         {
-                            CV = V;
+                            combatValue = V;
                         }
 
-                        if (Values.SourceDamage > DV)
+                        if (values.SourceDamage > damageValue)
                         {
-                            DV = Values.SourceDamage;
+                            damageValue = values.SourceDamage;
                         }
                     }
                 }
@@ -111,258 +111,258 @@ public partial class CombatUnit : CombatObject
 
             if (U.GetAbilityEnabled(52))
             {
-                Ability = AoWHSSet.Current.FAbilityControl.GetAbility(52);
-                Ability.tcGetDamageValueEx(this, Target, ref Values);
-                if (Values.SourceDamage > 0)
+                ability = AoWHSSet.Current.AbilityControl.GetAbility(52);
+                ability.TacticalBattleGetDamageValues(this, target, ref values);
+                if (values.SourceDamage > 0)
                 {
-                    V = Values.SourceDamage * Values.SourceDamage / (Values.TargetDamage + Values.SourceDamage);
+                    V = values.SourceDamage * values.SourceDamage / (values.TargetDamage + values.SourceDamage);
                     if (V <= 0)
                     {
                         V = 1;
                     }
 
-                    if (V > CV)
+                    if (V > combatValue)
                     {
-                        CV = V;
+                        combatValue = V;
                     }
 
-                    if (Values.SourceDamage > DV)
+                    if (values.SourceDamage > damageValue)
                     {
-                        DV = Values.SourceDamage;
+                        damageValue = values.SourceDamage;
                     }
                 }
             }
         }
         else
         {
-            CV = 0;
-            DV = 0;
+            combatValue = 0;
+            damageValue = 0;
         }
     }
 
     // Combat.pas:1450
-    public override int GetTargetWallCV(CombatObject Target)
+    public override int GetTargetWallCombatValue(CombatObject target)
     {
-        int Result;
-        if (Target is CombatUnit && !Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+        int result;
+        if (target is CombatUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed))
         {
-            if (FCombat.FCombatData.FPlayers.GetPlayers(FCombatPlayer).FSideIndex == 1)
+            if (Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1)
             {
-                Result = FUnit.GetCombatValue(((CombatUnit)Target).FUnit, 1);
+                result = Troop.GetCombatValue(((CombatUnit)target).Troop, 1);
             }
             else
             {
-                Result = FUnit.GetCombatValue(((CombatUnit)Target).FUnit, 2);
+                result = Troop.GetCombatValue(((CombatUnit)target).Troop, 2);
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1554
     public override int GetTargetPriority()
     {
-        if (FTargetPriorityInvalid)
+        if (TargetPriorityInvalid)
         {
             base.GetTargetPriority();
             var commandingTargetPriority = CommandingTargetPriority();
-            FTargetPriority += commandingTargetPriority;
-            return FTargetPriority;
+            TargetPriority += commandingTargetPriority;
+            return TargetPriority;
         }
 
-        return FTargetPriority;
+        return TargetPriority;
     }
 
     // Combat.pas:1566
     public override int GetTargetStrength()
     {
-        if (FTargetStrengthInvalid)
+        if (TargetStrengthInvalid)
         {
             base.GetTargetStrength();
             var commandingTargetStrength = CommandingTargetStrength();
-            FTargetStrength += commandingTargetStrength;
-            return FTargetStrength;
+            TargetStrength += commandingTargetStrength;
+            return TargetStrength;
         }
 
-        return FTargetStrength;
+        return TargetStrength;
     }
 
     // Combat.pas:1136
-    public override bool GetEnabled() => FUnit != null && (Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & FStatus) == Set<CombatObjectStatusElement>.Of() && !FDisabled;
+    public override bool GetEnabled() => Troop != null && (Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & Status) == Set<CombatObjectStatusElement>.Of() && !Disabled;
 
     // Combat.pas:1142
-    public override bool GetLocked() => FUnit.GetAbilityEnabled(95) || FUnit.GetAbilityEnabled(97) || FUnit.GetAbilityEnabled(92) || FUnit.GetAbilityEnabled(94) || FUnit.GetAbilityEnabled(34);
+    public override bool GetLocked() => Troop.GetAbilityEnabled(95) || Troop.GetAbilityEnabled(97) || Troop.GetAbilityEnabled(92) || Troop.GetAbilityEnabled(94) || Troop.GetAbilityEnabled(34);
 
     // Combat.pas:1459
-    public override sbyte GetAttack() => FUnit.GetAttack();
+    public override sbyte GetAttack() => Troop.GetAttack();
 
     // Combat.pas:1462
-    public override sbyte GetDefense() => FUnit.GetDefense();
+    public override sbyte GetDefense() => Troop.GetDefense();
 
     // Combat.pas:1465
-    public override sbyte GetResistance() => FUnit.GetResistance();
+    public override sbyte GetResistance() => Troop.GetResistance();
 
     // Combat.pas:1468
-    public override sbyte GetDamage() => FUnit.GetDamage();
+    public override sbyte GetDamage() => Troop.GetDamage();
 
     // Combat.pas:1471
-    public override Set<DamageType> GetImmunityTypes() => FUnit.GetImmunityTypes() + FCombat.FCombatData.F_CombatData_22;
+    public override Set<DamageType> GetImmunityTypes() => Troop.GetImmunityTypes() + Combat.CombatData.ImmunityTypes;
 
     // Combat.pas:1474
-    public override Set<DamageType> GetProtectionTypes() => FUnit.GetProtectionTypes();
+    public override Set<DamageType> GetProtectionTypes() => Troop.GetProtectionTypes();
 
     // Combat.pas:1282
     public override sbyte GetHits()
     {
-        sbyte Result;
+        sbyte result;
         // { Direct field test retains the receiver. }
         // { No cast temporary. }
-        if (FUnit != null)
+        if (Troop != null)
         {
-            Result = FUnit.GetHits();
+            result = Troop.GetHits();
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1289
     public override sbyte GetHitPoints()
     {
-        sbyte Result;
+        sbyte result;
         // { Direct field test retains the receiver. }
         // { No cast temporary. }
-        if (FUnit != null)
+        if (Troop != null)
         {
-            Result = FUnit.GetHitPoints();
+            result = Troop.GetHitPoints();
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1296
-    public override void SetHitPoints(byte Value)
+    public override void SetHitPoints(byte value)
     {
         // { Direct nil guard. }
         // { No cast temporary. }
-        if (FUnit != null)
+        if (Troop != null)
         {
-            FUnit.SetHitPoints((sbyte)Value);
+            Troop.SetHitPoints((sbyte)value);
         }
     }
 
     // Combat.pas:1260
-    public override Alignment GetAlignment() => FUnit.GetAlignment();
+    public override Alignment GetAlignment() => Troop.GetAlignment();
 
     // Combat.pas:1257
-    public override int GetMoves() => FUnit.GetMoves();
+    public override int GetMoves() => Troop.GetMoves();
 
     // Combat.pas:1477
-    public override int GetExperience() => FUnit.GetExperience();
+    public override int GetExperience() => Troop.GetExperience();
 
     // Combat.pas:1480
-    public override void SetExperience(int Value)
+    public override void SetExperience(int value)
     {
-        FUnit.SetExperience(Value);
+        Troop.SetExperience(value);
     }
 
     // Combat.pas:1483
-    public override byte GetLevel() => (byte)FUnit.GetUnitLevel();
+    public override byte GetLevel() => (byte)Troop.GetUnitLevel();
 
     // Combat.pas:1095
     public override int GetVisibilityRange()
     {
-        int Result;
-        int Level;
+        int result;
+        int level;
         Troop U;
-        U = FUnit;
+        U = Troop;
         if (U != null)
         {
-            Level = U.GetAbilityLevel(64);
-            if (Level != 0)
+            level = U.GetAbilityLevel(64);
+            if (level != 0)
             {
-                Result = Level * 2 + 4;
+                result = level * 2 + 4;
             }
             else
             {
-                Result = 4;
+                result = 4;
             }
 
-            if (FCombat.FExplorationSite == 1 && !FUnit.GetAbilityEnabled(39))
+            if (Combat.ExplorationSite == 1 && !Troop.GetAbilityEnabled(39))
             {
-                Result = (Result + 1) / 2;
+                result = (result + 1) / 2;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1266
-    public override bool GetAbilityEnabled(int AbilityID)
+    public override bool GetAbilityEnabled(int abilityId)
     {
-        bool Result;
-        if (FUnit != null)
+        bool result;
+        if (Troop != null)
         {
-            Result = FUnit.GetAbilityEnabled(AbilityID);
+            result = Troop.GetAbilityEnabled(abilityId);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1271
-    public override void SetAbilityEnabled(int AbilityID, bool Enabled)
+    public override void SetAbilityEnabled(int abilityId, bool enabled)
     {
-        FUnit.SetAbSet(AbilityID, (byte)(Enabled ? 1 : 0));
+        Troop.SetAbilitySet(abilityId, (byte)(enabled ? 1 : 0));
     }
 
     // Combat.pas:1274
-    public override int GetAbilityLevel(int AbilityID) => FUnit.GetAbilityLevel(AbilityID);
+    public override int GetAbilityLevel(int abilityId) => Troop.GetAbilityLevel(abilityId);
 
     // Combat.pas:1277
     public override int GetAbilityCount()
     {
-        int Result;
-        if (FUnit != null)
+        int result;
+        if (Troop != null)
         {
-            Result = FUnit.GetAbilityCount();
+            result = Troop.GetAbilityCount();
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1263
-    public override AbilityOwner GetAbilityOwner() => FUnit;
+    public override AbilityOwner GetAbilityOwner() => Troop;
 
     // Combat.pas:1178
-    public override void Activate(Battle ACombat)
+    public override void Activate(Battle combat)
     {
-        base.Activate(ACombat);
+        base.Activate(combat);
         UpdateParty();
         UpdateWallCombatFeatures();
-        UpdateUnitGFXResource();
+        UpdateUnitGraphicsResource();
     }
 
     // Combat.pas:1186
@@ -370,20 +370,20 @@ public partial class CombatUnit : CombatObject
     {
         base.Deactivate();
         UpdateParty();
-        ReleaseUnitGFXResource();
+        ReleaseUnitGraphicsResource();
     }
 
     // Combat.pas:1396
-    public override void ObjectDestroyed(CombatObject Obj)
+    public override void ObjectDestroyed(CombatObject objectValue)
     {
         CombatUnit C;
         Troop U;
-        base.ObjectDestroyed(Obj);
-        if (FDisabled && Obj is CombatUnit)
+        base.ObjectDestroyed(objectValue);
+        if (Disabled && objectValue is CombatUnit)
         {
-            C = (CombatUnit)Obj;
-            U = C.FUnit;
-            if (U != null && U.GetTransporter() && (int)(((uint)C.FPosition) >> 4) == (int)(((uint)FPosition) >> 4))
+            C = (CombatUnit)objectValue;
+            U = C.Troop;
+            if (U != null && U.GetTransporter() && (int)(((uint)C.Position) >> 4) == (int)(((uint)Position) >> 4))
             {
                 DestroyObject();
             }
@@ -391,41 +391,41 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1193
-    public override void Initialize(Battle ACombat)
+    public override void Initialize(Battle combat)
     {
-        base.Initialize(ACombat);
-        if (FUnit is Leader)
+        base.Initialize(combat);
+        if (Troop is Leader)
         {
-            ACombat.FCombatData.FInvolvedLeaders.Add((byte)FCombatPlayer);
+            combat.CombatData.InvolvedLeaders.Add((byte)CombatPlayer);
         }
     }
 
     // Combat.pas:1200
-    public override void Finalize(FinalizeMode Mode)
+    public override void Finalize(FinalizeMode mode)
     {
-        CombatParty Party;
-        ArmyHexSprite Placed;
-        if (!FStatus.Contains(CombatObjectStatusElement.Destroyed) && !FUnit.GetAbilityEnabled(130) && !FUnit.GetAbilityEnabled(131))
+        CombatParty party;
+        ArmyHexSprite placed;
+        if (!Status.Contains(CombatObjectStatusElement.Destroyed) && !Troop.GetAbilityEnabled(130) && !Troop.GetAbilityEnabled(131))
         {
-            if (Mode != FinalizeMode.All)
+            if (mode != FinalizeMode.All)
             {
-                if ((FPosition & 15) <= 7)
+                if ((Position & 15) <= 7)
                 {
-                    Party = FCombat.FCombatData.FParties.GetParty((byte)(int)(((uint)FPosition) >> 4));
-                    if (Party != null && (sbyte)Party.FPlayerIndex == FCombatPlayer)
+                    party = Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4));
+                    if (party != null && (sbyte)party.PlayerIndex == CombatPlayer)
                     {
                         var player = GetPlayer();
-                        if (AoWHSMap.Current.FPlayers.GetPlayers(player).FGameOverStatus == GameOverStatus.Lost)
+                        if (AoWHSMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                         {
-                            Placed = FUnit.Place(Party.F_CombatParty_0C, Party.F_CombatParty_10, Party.F_CombatParty_14, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
+                            placed = Troop.Place(party.X, party.Y, party.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
                         }
                         else
                         {
                             var player2 = GetPlayer();
-                            Placed = FUnit.Place(Party.F_CombatParty_0C, Party.F_CombatParty_10, Party.F_CombatParty_14, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
+                            placed = Troop.Place(party.X, party.Y, party.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
                         }
 
-                        if (Placed != null)
+                        if (placed != null)
                         {
                             Dispose();
                         }
@@ -434,36 +434,36 @@ public partial class CombatUnit : CombatObject
             }
             else
             {
-                if ((FPosition & 15) <= 7)
+                if ((Position & 15) <= 7)
                 {
-                    Party = FCombat.FCombatData.FParties.GetParty((byte)(int)(((uint)FPosition) >> 4));
+                    party = Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4));
                 }
                 else
                 {
-                    Party = null;
+                    party = null;
                 }
 
-                if (Party == null || Party.F_CombatParty_0C != -1)
+                if (party == null || party.X != -1)
                 {
                     var player = GetPlayer();
-                    if (AoWHSMap.Current.FPlayers.GetPlayers(player).FGameOverStatus == GameOverStatus.Lost)
+                    if (AoWHSMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                     {
-                        FUnit.Place(FCombat.FCombatData.FX, FCombat.FCombatData.FY, FCombat.FCombatData.FL, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        Troop.Place(Combat.CombatData.X, Combat.CombatData.Y, Combat.CombatData.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
                     else
                     {
                         var player2 = GetPlayer();
-                        FUnit.Place(FCombat.FCombatData.FX, FCombat.FCombatData.FY, FCombat.FCombatData.FL, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        Troop.Place(Combat.CombatData.X, Combat.CombatData.Y, Combat.CombatData.MapLevel, player2, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
 
                     Dispose();
                 }
                 else
                 {
-                    if (Party != null && (sbyte)Party.FPlayerIndex != FCombatPlayer)
+                    if (party != null && (sbyte)party.PlayerIndex != CombatPlayer)
                     {
                         var player = GetPlayer();
-                        FUnit.Place(FCombat.FCombatData.FX, FCombat.FCombatData.FY, FCombat.FCombatData.FL, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                        Troop.Place(Combat.CombatData.X, Combat.CombatData.Y, Combat.CombatData.MapLevel, player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
                 }
             }
@@ -475,70 +475,70 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1494
-    public override bool SupportCombatMode(Set<CombatMode> Modes)
+    public override bool SupportCombatMode(Set<CombatMode> modes)
     {
-        bool Result;
+        bool result;
         Troop U;
         int I;
-        U = FUnit;
+        U = Troop;
         if (U != null && U.GetHitPoints() > 0)
         {
-            Result = false;
-            I = FUnit.GetAbilityCount();
-            while (I != 0 && !Result)
+            result = false;
+            I = Troop.GetAbilityCount();
+            while (I != 0 && !result)
             {
                 I -= 1;
-                Result = FUnit.GetAbilityEnabled(I) && Modes.Contains(AoWHSSet.Current.FAbilityControl.GetAbility(I).GetCombatMode(FUnit));
+                result = Troop.GetAbilityEnabled(I) && modes.Contains(AoWHSSet.Current.AbilityControl.GetAbility(I).GetCombatMode(Troop));
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1151
-    public override Set<WallCombatFeaturesElement> WallCombatFeatures() => FWallCombatFeatures;
+    public override Set<WallCombatFeaturesElement> WallCombatFeatures() => WallCombatFeaturesValue;
 
     // Combat.pas:1247
-    public override void PlaySFX(byte Sound)
+    public override void PlaySfx(byte sound)
     {
-        switch (Sound)
+        switch (sound)
         {
             case 0:
-                var unitGFXResourceIndex = FUnit.GetUnitGFXResourceIndex();
-                var unitGFXResource = AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex);
-                unitGFXResource.FSFXLibraries[2].Play(0);
+                var unitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
+                var unitGraphicsResource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                unitGraphicsResource.SfxLibraries[2].Play(0);
                 break;
             case 1:
-                var fUnitUnitGFXResourceIndex = FUnit.GetUnitGFXResourceIndex();
-                var fUnitGFXResourcesUnitGFXResource = AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(fUnitUnitGFXResourceIndex);
-                fUnitGFXResourcesUnitGFXResource.FSFXLibraries[2].Play(1);
+                var fUnitUnitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
+                var fUnitGraphicsResourcesUnitGraphicsResource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(fUnitUnitGraphicsResourceIndex);
+                fUnitGraphicsResourcesUnitGraphicsResource.SfxLibraries[2].Play(1);
                 break;
             case 2:
-                var unitGFXResourceIndex2 = FUnit.GetUnitGFXResourceIndex();
-                var unitGFXResource2 = AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex2);
-                unitGFXResource2.FSFXLibraries[3].Play(0);
+                var unitGraphicsResourceIndex2 = Troop.GetUnitGraphicsResourceIndex();
+                var unitGraphicsResource2 = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex2);
+                unitGraphicsResource2.SfxLibraries[3].Play(0);
                 break;
             case 3:
-                var unitGFXResourceIndex3 = FUnit.GetUnitGFXResourceIndex();
-                var unitGFXResource3 = AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(unitGFXResourceIndex3);
-                unitGFXResource3.FSFXLibraries[4].Play(0);
+                var unitGraphicsResourceIndex3 = Troop.GetUnitGraphicsResourceIndex();
+                var unitGraphicsResource3 = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex3);
+                unitGraphicsResource3.SfxLibraries[4].Play(0);
                 break;
         }
     }
 
     // Combat.pas:1115
-    public override void NewTurn(byte CombatPlayer)
+    public override void NewTurn(byte combatPlayer)
     {
         Troop U;
-        base.NewTurn(CombatPlayer);
-        U = FUnit;
+        base.NewTurn(combatPlayer);
+        U = Troop;
         if (U != null)
         {
-            U.TriggerNewCombatTurn(this, (sbyte)CombatPlayer);
+            U.TriggerNewCombatTurn(this, (sbyte)combatPlayer);
         }
     }
 
@@ -553,7 +553,7 @@ public partial class CombatUnit : CombatObject
     {
         Troop U;
         base.CombatDone();
-        U = FUnit;
+        U = Troop;
         if (U != null)
         {
             U.TriggerCombatDone(this);
@@ -561,83 +561,83 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1604
-    public override void Show(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void Show(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
         Troop U;
-        UnitShowInfo Info = default;
-        U = FUnit;
+        UnitShowInfo info = default;
+        U = Troop;
         if (U != null)
         {
-            Info.Direction = (byte)Direction;
-            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
-            Info.Animation = UnitAnimation.StandStill;
-            if ((Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & FStatus) != Set<CombatObjectStatusElement>.Of())
+            info.Direction = (byte)direction;
+            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
+            info.Animation = UnitAnimation.StandStill;
+            if ((Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & Status) != Set<CombatObjectStatusElement>.Of())
             {
-                Info.Frame = 0;
-                Info.Looped = false;
+                info.Frame = 0;
+                info.Looped = false;
             }
             else
             {
-                Info.Frame = Frame;
-                Info.Looped = true;
+                info.Frame = frame;
+                info.Looped = true;
             }
 
-            U.ShowEx(X, Y, Surface, Info);
-            if (FStatus.Contains(CombatObjectStatusElement.Fled))
+            U.Show(X, Y, surface, info);
+            if (Status.Contains(CombatObjectStatusElement.Fled))
             {
-                AoWHSSet.Current.FCombatImages[7].Show(X + 18, Y + 10, Surface);
+                AoWHSSet.Current.CombatImages[7].Show(X + 18, Y + 10, surface);
             }
         }
     }
 
     // Combat.pas:1628
-    public override int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override int ShowAttackAnimation(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        int Result;
-        UnitShowInfo Info = default;
+        int result;
+        UnitShowInfo info = default;
         // { Direct field receiver. }
-        if (FUnit != null)
+        if (Troop != null)
         {
-            Info.Direction = (byte)Direction;
-            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
-            Info.Animation = UnitAnimation.Attack;
-            Info.Frame = Frame;
-            Info.Looped = false;
-            Result = FUnit.ShowEx(X, Y, Surface, Info);
+            info.Direction = (byte)direction;
+            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
+            info.Animation = UnitAnimation.Attack;
+            info.Frame = frame;
+            info.Looped = false;
+            result = Troop.Show(X, Y, surface, info);
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1644
-    public override int ShowHitAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override int ShowHitAnimation(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        int Result;
-        UnitShowInfo Info = default;
+        int result;
+        UnitShowInfo info = default;
         // { Direct field receiver. }
-        if (FUnit != null)
+        if (Troop != null)
         {
-            Info.Direction = (byte)Direction;
-            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
-            Info.Animation = UnitAnimation.Hit;
-            Info.Frame = Frame;
-            Info.Looped = false;
-            Result = FUnit.ShowEx(X, Y, Surface, Info);
+            info.Direction = (byte)direction;
+            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank, UnitOverlayModesElement.Combat);
+            info.Animation = UnitAnimation.Hit;
+            info.Frame = frame;
+            info.Looped = false;
+            result = Troop.Show(X, Y, surface, info);
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1159
-    public override Set<DamageType> ExecuteDamageEffectsRole(Set<DamageType> DamageTypes) => FUnit.ExecuteDamageEffectsRole(DamageTypes);
+    public override Set<DamageType> ExecuteDamageEffectsRole(Set<DamageType> damageTypes) => Troop.ExecuteDamageEffectsRole(damageTypes);
 
     // Combat.pas:1544
     public override void Surrender()
@@ -647,15 +647,15 @@ public partial class CombatUnit : CombatObject
             SetHitPoints(0);
         }
 
-        FStatus = FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
         ResetTargets();
-        if (FUnit is Leader)
+        if (Troop is Leader)
         {
-            FCombat.FCombatData.FDefeatedLeaders.Add((byte)FCombatPlayer);
+            Combat.CombatData.DefeatedLeaders.Add((byte)CombatPlayer);
         }
 
-        FCombat.ObjectDestroyed(this);
-        if (FUnit != null)
+        Combat.ObjectDestroyed(this);
+        if (Troop != null)
         {
             KillUnit();
         }
@@ -670,29 +670,29 @@ public partial class CombatUnit : CombatObject
             SetHitPoints(0);
         }
 
-        FStatus = FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
-        U = FUnit;
+        Status = Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed);
+        U = Troop;
         if (U != null)
         {
             for (int I = U.GetAbilityCount() - 1; I >= 0; I--)
             {
-                if (FUnit.GetAbilityEnabled(I))
+                if (Troop.GetAbilityEnabled(I))
                 {
-                    AoWHSSet.Current.FAbilityControl.GetAbility(I).CombatObjectDestroyed(this);
+                    AoWHSSet.Current.AbilityControl.GetAbility(I).CombatObjectDestroyed(this);
                 }
             }
         }
 
-        if (FStatus.Contains(CombatObjectStatusElement.Destroyed))
+        if (Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             ResetTargets();
-            if (FUnit is Leader)
+            if (Troop is Leader)
             {
-                FCombat.FCombatData.FDefeatedLeaders.Add((byte)FCombatPlayer);
+                Combat.CombatData.DefeatedLeaders.Add((byte)CombatPlayer);
             }
 
-            FCombat.ObjectDestroyed(this);
-            if (FUnit != null)
+            Combat.ObjectDestroyed(this);
+            if (Troop != null)
             {
                 KillUnit();
             }
@@ -700,123 +700,123 @@ public partial class CombatUnit : CombatObject
     }
 
     // Combat.pas:1154
-    public override Set<DamageType> ExecuteDamageEffects(Set<DamageType> DamageTypes) => FUnit.ExecuteCombatDamageEffects(FCombat, DamageTypes);
+    public override Set<DamageType> ExecuteDamageEffects(Set<DamageType> damageTypes) => Troop.ExecuteCombatDamageEffects(Combat, damageTypes);
 
     // Combat.pas:1486
-    public override string IDStr()
+    public override string IdString()
     {
-        string Result;
-        if (FCombat.FCombatData.FPlayers.GetPlayers(FCombatPlayer).FSideIndex == 0)
+        string result;
+        if (Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 0)
         {
-            Result = "A";
+            result = "A";
         }
         else
         {
-            Result = "D";
+            result = "D";
         }
 
-        if (FUnit != null)
+        if (Troop != null)
         {
-            var name = FUnit.GetName();
-            Result = Result + "(" + IntToStr(FPosition) + ")=" + name;
+            var name = Troop.GetName();
+            result = result + "(" + IntToStr(Position) + ")=" + name;
         }
         else
         {
-            Result = Result + "(" + IntToStr(FPosition) + ")";
+            result = result + "(" + IntToStr(Position) + ")";
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1358
-    public virtual void SetUnit(Troop AUnit)
+    public virtual void SetUnit(Troop troop)
     {
         Troop U;
-        CombatParty Party;
-        U = FUnit;
-        if (U != AUnit)
+        CombatParty party;
+        U = Troop;
+        if (U != troop)
         {
             if (U != null)
             {
-                Party = FParty;
-                if (Party != null && FUnit.Owner == Party.FArmy)
+                party = Party;
+                if (party != null && Troop.Owner == party.Army)
                 {
-                    FUnit.SetOwner(null);
+                    Troop.SetOwner(null);
                 }
 
-                FUnit.Release();
+                Troop.Release();
             }
 
-            FUnit = AUnit;
-            U = FUnit;
+            Troop = troop;
+            U = Troop;
             if (U != null)
             {
                 U.AddRef();
-                Party = FParty;
-                if (Party != null && !FStatus.Contains(CombatObjectStatusElement.Destroyed))
+                party = Party;
+                if (party != null && !Status.Contains(CombatObjectStatusElement.Destroyed))
                 {
-                    Party.FArmy.AddUnit(FUnit);
+                    party.Army.AddUnit(Troop);
                 }
             }
         }
 
-        if (FStatus.Contains(CombatObjectStatusElement.Activated))
+        if (Status.Contains(CombatObjectStatusElement.Activated))
         {
-            UpdateUnitGFXResource();
+            UpdateUnitGraphicsResource();
         }
     }
 
     // Combat.pas:1522
     public virtual void KillUnit()
     {
-        FUnit.Killed();
+        Troop.Killed();
     }
 
     // Combat.pas:1087
-    public void Setup(byte ID, byte Side, Troop AUnit, byte Position, byte CombatPlayer)
+    public void Setup(byte id, byte side, Troop troop, byte position, byte combatPlayer)
     {
-        FID = ID;
-        FPosition = Position;
-        SetCombatPlayer(CombatPlayer);
-        SetUnit(AUnit);
+        Id = id;
+        Position = position;
+        SetCombatPlayer(combatPlayer);
+        SetUnit(troop);
     }
 
     // Combat.pas:1164
     public void UpdateWallCombatFeatures()
     {
         Troop U;
-        U = FUnit;
-        if (U != null && !FStatus.Contains(CombatObjectStatusElement.Destroyed))
+        U = Troop;
+        if (U != null && !Status.Contains(CombatObjectStatusElement.Destroyed))
         {
-            FWallCombatFeatures = U.GetWallCombatFeatures();
-            if (FUnit.GetAbilityEnabled(52) && ((SpellCastingAbility)AoWHSSet.Current.FAbilityControl.GetAbility(52)).CanCastBreachWallSpell(FUnit))
+            WallCombatFeaturesValue = U.GetWallCombatFeatures();
+            if (Troop.GetAbilityEnabled(52) && ((SpellCastingAbility)AoWHSSet.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(Troop))
             {
-                FWallCombatFeatures = FWallCombatFeatures + Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching);
+                WallCombatFeaturesValue = WallCombatFeaturesValue + Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching);
             }
         }
         else
         {
-            FWallCombatFeatures = Set<WallCombatFeaturesElement>.Of();
+            WallCombatFeaturesValue = Set<WallCombatFeaturesElement>.Of();
         }
     }
 
     // Combat.pas:1303
-    public void SetParty(CombatParty Party)
+    public void SetParty(CombatParty party)
     {
         CombatParty P;
-        if (Party != FParty)
+        if (party != Party)
         {
-            if (FParty != null && FUnit != null)
+            if (Party != null && Troop != null)
             {
-                FUnit.SetOwner(null);
+                Troop.SetOwner(null);
             }
 
-            FParty = Party;
-            P = FParty;
-            if (P != null && FUnit != null)
+            Party = party;
+            P = Party;
+            if (P != null && Troop != null)
             {
-                FUnit.SetOwner(P.FArmy);
-                FParty.FArmy.UpdateFormation();
+                Troop.SetOwner(P.Army);
+                Party.Army.UpdateFormation();
             }
         }
     }
@@ -824,113 +824,113 @@ public partial class CombatUnit : CombatObject
     // Combat.pas:1319
     public void UpdateParty()
     {
-        CombatParty Party;
-        if (FStatus.Contains(CombatObjectStatusElement.Activated))
+        CombatParty party;
+        if (Status.Contains(CombatObjectStatusElement.Activated))
         {
-            Party = FCombat.FCombatData.FParties.GetParty((byte)(int)(((uint)FPosition) >> 4));
-            if ((byte)FCombatPlayer != Party.FPlayerIndex || FStatus.Contains(CombatObjectStatusElement.Destroyed))
+            party = Combat.CombatData.Parties.GetParty((byte)(int)(((uint)Position) >> 4));
+            if ((byte)CombatPlayer != party.PlayerIndex || Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                Party = null;
+                party = null;
             }
         }
         else
         {
-            Party = null;
+            party = null;
         }
 
-        SetParty(Party);
+        SetParty(party);
     }
 
     // Combat.pas:1331
-    public void UpdateUnitGFXResource()
+    public void UpdateUnitGraphicsResource()
     {
-        int Index;
+        int index;
         Troop U;
-        U = FUnit;
+        U = Troop;
         if (U != null)
         {
-            Index = U.GetUnitGFXResourceIndex();
+            index = U.GetUnitGraphicsResourceIndex();
         }
         else
         {
-            Index = -1;
+            index = -1;
         }
 
-        if (Index != FUnitGFXResourceIndex)
+        if (index != UnitGraphicsResourceIndex)
         {
-            ReleaseUnitGFXResource();
-            if (Index != -1)
+            ReleaseUnitGraphicsResource();
+            if (index != -1)
             {
-                AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Index).AddRef();
-                FUnitGFXResourceIndex = Index;
+                AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).AddRef();
+                UnitGraphicsResourceIndex = index;
             }
         }
     }
 
     // Combat.pas:1347
-    public void ReleaseUnitGFXResource()
+    public void ReleaseUnitGraphicsResource()
     {
-        int Index;
-        Index = FUnitGFXResourceIndex;
-        if (Index != -1)
+        int index;
+        index = UnitGraphicsResourceIndex;
+        if (index != -1)
         {
-            AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Index).Release();
-            FUnitGFXResourceIndex = -1;
+            AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).Release();
+            UnitGraphicsResourceIndex = -1;
         }
     }
 
     // Combat.pas:1512
-    public void SetStatus(Set<CombatObjectStatusElement> Status)
+    public void SetStatus(Set<CombatObjectStatusElement> status)
     {
-        if (Status.Contains(CombatObjectStatusElement.Fled) && !FStatus.Contains(CombatObjectStatusElement.Fled))
+        if (status.Contains(CombatObjectStatusElement.Fled) && !Status.Contains(CombatObjectStatusElement.Fled))
         {
-            FStatus = Status;
-            FCombat.CheckTerminate();
+            Status = status;
+            Combat.CheckTerminate();
         }
         else
         {
-            FStatus = Status;
+            Status = status;
         }
     }
 
     // Combat.pas:1578
     public int CommandingTargetPriority()
     {
-        CommandAbilityData Data;
-        int Result = 0;
+        CommandAbilityData data;
+        int result = 0;
         for (int I = 0; I <= 2; I++)
         {
-            if (GetAbilityEnabled(CombatAbilityTables.TCombatUnit_CommandingTargetPriority__CommandAbilityIDs[I]))
+            if (GetAbilityEnabled(CombatAbilityTables.s_commandingPriorityAbilityIds[I]))
             {
-                Data = (CommandAbilityData)FUnit.GetAbilityData(CombatAbilityTables.TCombatUnit_CommandingTargetPriority__CommandAbilityIDs[I]);
-                if (Data != null)
+                data = (CommandAbilityData)Troop.GetAbilityData(CombatAbilityTables.s_commandingPriorityAbilityIds[I]);
+                if (data != null)
                 {
-                    Result += Data.CommandingTargetPriority(FCombat);
+                    result += data.CommandingTargetPriority(Combat);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:1591
     public int CommandingTargetStrength()
     {
-        CommandAbilityData Data;
-        int Result = 0;
+        CommandAbilityData data;
+        int result = 0;
         for (int I = 0; I <= 2; I++)
         {
-            if (GetAbilityEnabled(CombatAbilityTables.TCombatUnit_CommandingTargetStrength__CommandAbilityIDs[I]))
+            if (GetAbilityEnabled(CombatAbilityTables.s_commandingStrengthAbilityIds[I]))
             {
-                Data = (CommandAbilityData)FUnit.GetAbilityData(CombatAbilityTables.TCombatUnit_CommandingTargetStrength__CommandAbilityIDs[I]);
-                if (Data != null)
+                data = (CommandAbilityData)Troop.GetAbilityData(CombatAbilityTables.s_commandingStrengthAbilityIds[I]);
+                if (data != null)
                 {
-                    Result += Data.CommandingTargetStrength(FCombat);
+                    result += data.CommandingTargetStrength(Combat);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P3_01.inc:244

@@ -24,92 +24,92 @@ public partial class Anarchy : CityTargetSpell
     // CitySpells.pas:849
     public Anarchy(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(AnarchyRStr);
-        FSpellID = 72;
-        FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
+        SpellName = AbilityRules.TranslateResourceString(s_anarchyText);
+        SpellId = 72;
+        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
     }
 
     // CitySpells.pas:875
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool Result = default;
-        City TargetCity = default;
-        LocationTextEventLog Log = default;
+        bool result = default;
+        City targetCity = default;
+        LocationTextEventLog log = default;
         ImageSequenceAnimation A = default;
-        if (ExecuteCount == 0)
+        if (executeCount == 0)
         {
-            TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
-            Log = new LocationTextEventLog(null);
-            Log.FPlayer = Source.FPlayer;
-            Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XCastRStr), [FSpellName]);
-            var lhx = TargetCity.GetLhx();
-            var yhx = TargetCity.GetYhx();
-            Log.SetLocation(TargetCity.GetXhx(), yhx, lhx);
-            AoWHSMap.Current.FPlayers.GetPlayers(TargetCity.FPlayer).FEventLogbook.AddEvent(Log);
-            Log.Release();
-            PlayDefaultCityEffects(Source, TargetCity);
-            TargetCity.ValidateObservation(Source.FPlayer);
-            if (TargetCity.Resource.ImageSequenceList.ImageSequences[16] != null)
+            targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+            log = new LocationTextEventLog(null);
+            log._player = source.Player;
+            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_castFormat), [SpellName]);
+            var hexLevel = targetCity.GetHexLevel();
+            var hexY = targetCity.GetHexY();
+            log.SetLocation(targetCity.GetHexX(), hexY, hexLevel);
+            AoWHSMap.Current.Players.GetPlayers(targetCity.Player).EventLogbook.AddEvent(log);
+            log.Release();
+            PlayDefaultCityEffects(source, targetCity);
+            targetCity.ValidateObservation(source.Player);
+            if (targetCity.Resource.ImageSequenceList.ImageSequences[16] != null)
             {
                 A = new ImageSequenceAnimation(null);
-                A.SetImageSequence(TargetCity.Resource.ImageSequenceList.ImageSequences[16]);
-                A.SetXhpOffset(A.FXhpOffset - 16);
-                A.SetYhpOffset(A.FYhpOffset - 16);
-                A.FOnShow = ShowAnimation;
-                A.FLooped = true;
-                A.FFrameCount = 120;
-                var targetCityLhx = TargetCity.GetLhx();
-                var targetCityYhx = TargetCity.GetYhx();
-                var xhx = TargetCity.GetXhx();
-                AoWHSMap.Current.PlaceHX(A, xhx, targetCityYhx, targetCityLhx);
+                A.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[16]);
+                A.SetPixelXOffset(A.PixelXOffset - 16);
+                A.SetPixelYOffset(A.PixelYOffset - 16);
+                A.OnShow = ShowAnimation;
+                A.Looped = true;
+                A.FrameCount = 120;
+                var targetCityHexLevel = targetCity.GetHexLevel();
+                var targetCityHexY = targetCity.GetHexY();
+                var hexX = targetCity.GetHexX();
+                AoWHSMap.Current.PlaceHex(A, hexX, targetCityHexY, targetCityHexLevel);
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            if (ExecuteCount == 50)
+            if (executeCount == 50)
             {
-                TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
-                TargetCity.ExecuteAnarchy();
-                CastingDone(Source, Event.FEventMana);
-                Result = false;
+                targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+                targetCity.ExecuteAnarchy();
+                CastingDone(source, eventValue.EventMana);
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:858
-    public override bool ValidTargetCity(Troop Source, City TargetCity)
+    public override bool ValidTargetCity(Troop source, City targetCity)
     {
-        bool Result = base.ValidTargetCity(Source, TargetCity);
-        if (!Result || TargetCity.FPlayer == 0 || TargetCity.FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
+        bool result = base.ValidTargetCity(source, targetCity);
+        if (!result || targetCity.Player == 0 || targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:867
-    public void ShowAnimation(Animation Animation, int X, int Y, in LockedSurface SD)
+    public void ShowAnimation(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
-        var imageSequenceAnimation = (ImageSequenceAnimation)Animation;
-        if (imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter) == 0 && GameTables.AoWEngine.FAnimationDetail != 0)
+        var imageSequenceAnimation = (ImageSequenceAnimation)animation;
+        if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GameTables.GameEngine.AnimationDetail != 0)
         {
             var random = Random(2);
-            AudioPlayback.PlaySample(AbilityRules.ExplosionSFX[random]);
+            AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[random]);
         }
     }
 
-    private static readonly string AnarchyRStr = "Anarchy";
+    private static readonly string s_anarchyText = "Anarchy";
 }

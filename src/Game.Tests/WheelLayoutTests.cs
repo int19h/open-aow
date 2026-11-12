@@ -17,35 +17,35 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
 {
-    private readonly Host host;
+    private readonly Host _host;
 
-    public WheelLayoutTests(Host host) => this.host = host;
+    public WheelLayoutTests(Host host) => this._host = host;
 
     public sealed class Host : IDisposable
     {
-        private readonly Action<string> previousMessage = Runtime.MessageHandler;
-        private readonly UIGraphics? previousGfx = DialogHosts.IntGfxMod;
-        private readonly UIFonts? previousFont = DialogHosts.FontModule;
-        private readonly General? previousGeneral = DialogHosts.General;
-        private readonly TitleWindow? previousTitle = DialogHosts.TitleWindow;
-        private readonly SpellBook? previousSpell = DialogHosts.SpellBook;
-        private readonly WorldMap? previousWorld = DialogHosts.WorldMap;
-        private readonly FileDialogWindow? previousFiles = DialogHosts.FileDlgWindow;
-        private readonly RealmWindow? previousRealm = DialogHosts.RealmWin;
-        private readonly UnitBanner? previousBanner = DialogHosts.UnitBanner;
-        private readonly StringList? previousDirectories = FileDialogWindow.Directories;
-        private readonly StringList? previousFileList = FileDialogWindow.Files;
-        private readonly StringList? previousDrives = FileDialogWindow.Drives;
+        private readonly Action<string> _previousMessage = Runtime.MessageHandler;
+        private readonly UIGraphics? _previousGraphics = DialogHosts.UIGraphics;
+        private readonly UIFonts? _previousFont = DialogHosts.UIFonts;
+        private readonly General? _previousGeneral = DialogHosts.General;
+        private readonly TitleWindow? _previousTitle = DialogHosts.TitleWindow;
+        private readonly SpellBook? _previousSpell = DialogHosts.SpellBook;
+        private readonly WorldMap? _previousWorld = DialogHosts.WorldMap;
+        private readonly FileDialogWindow? _previousFiles = DialogHosts.FileDialogWindow;
+        private readonly RealmWindow? _previousRealm = DialogHosts.RealmWindow;
+        private readonly UnitBanner? _previousBanner = DialogHosts.UnitBanner;
+        private readonly StringList? _previousDirectories = FileDialogWindow.Directories;
+        private readonly StringList? _previousFileList = FileDialogWindow.Files;
+        private readonly StringList? _previousDrives = FileDialogWindow.Drives;
 
         internal SpellBook Spell = null!;
         internal WorldMap World = null!;
         internal FileDialogWindow Files = null!;
         internal RealmWindow Realm = null!;
-        private UIGraphics gfx = null!;
-        private UIFonts font = null!;
-        private General general = null!;
-        private TitleWindow title = null!;
-        private UnitBanner banner = null!;
+        private UIGraphics _graphics = null!;
+        private UIFonts _font = null!;
+        private General _general = null!;
+        private TitleWindow _title = null!;
+        private UnitBanner _banner = null!;
 
         public Host()
         {
@@ -53,15 +53,15 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             try
             {
                 var session = new LayoutSession();
-                gfx = Load(session, new UIGraphics(null), module => DialogHosts.IntGfxMod = module);
-                font = Load(session, new UIFonts(null), module => DialogHosts.FontModule = module);
-                general = Load(session, new General(null), module => DialogHosts.General = module);
-                title = Load(session, new TitleWindow(null), module => DialogHosts.TitleWindow = module);
-                banner = Load(session, new UnitBanner(null), module => DialogHosts.UnitBanner = module);
+                _graphics = Load(session, new UIGraphics(null), module => DialogHosts.UIGraphics = module);
+                _font = Load(session, new UIFonts(null), module => DialogHosts.UIFonts = module);
+                _general = Load(session, new General(null), module => DialogHosts.General = module);
+                _title = Load(session, new TitleWindow(null), module => DialogHosts.TitleWindow = module);
+                _banner = Load(session, new UnitBanner(null), module => DialogHosts.UnitBanner = module);
                 Spell = Load(session, new SpellBook(null), module => DialogHosts.SpellBook = module);
                 World = Load(session, new WorldMap(null), module => DialogHosts.WorldMap = module);
-                Files = Load(session, new FileDialogWindow(null), module => DialogHosts.FileDlgWindow = module);
-                Realm = Load(session, new RealmWindow(null), module => DialogHosts.RealmWin = module);
+                Files = Load(session, new FileDialogWindow(null), module => DialogHosts.FileDialogWindow = module);
+                Realm = Load(session, new RealmWindow(null), module => DialogHosts.RealmWindow = module);
             }
             catch
             {
@@ -70,7 +70,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             }
             finally
             {
-                Runtime.MessageHandler = previousMessage;
+                Runtime.MessageHandler = _previousMessage;
             }
         }
 
@@ -89,123 +89,123 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
                 World?.Dispose();
                 Files?.Dispose();
                 Realm?.Dispose();
-                title?.Dispose();
-                banner?.Dispose();
-                general?.Dispose();
-                font?.Dispose();
-                gfx?.Dispose();
+                _title?.Dispose();
+                _banner?.Dispose();
+                _general?.Dispose();
+                _font?.Dispose();
+                _graphics?.Dispose();
             }
             finally
             {
-                DialogHosts.IntGfxMod = previousGfx;
-                DialogHosts.FontModule = previousFont;
-                DialogHosts.General = previousGeneral;
-                DialogHosts.TitleWindow = previousTitle;
-                DialogHosts.SpellBook = previousSpell;
-                DialogHosts.WorldMap = previousWorld;
-                DialogHosts.FileDlgWindow = previousFiles;
-                DialogHosts.RealmWin = previousRealm;
-                DialogHosts.UnitBanner = previousBanner;
-                FileDialogWindow.Directories = previousDirectories;
-                FileDialogWindow.Files = previousFileList;
-                FileDialogWindow.Drives = previousDrives;
-                Runtime.MessageHandler = previousMessage;
+                DialogHosts.UIGraphics = _previousGraphics;
+                DialogHosts.UIFonts = _previousFont;
+                DialogHosts.General = _previousGeneral;
+                DialogHosts.TitleWindow = _previousTitle;
+                DialogHosts.SpellBook = _previousSpell;
+                DialogHosts.WorldMap = _previousWorld;
+                DialogHosts.FileDialogWindow = _previousFiles;
+                DialogHosts.RealmWindow = _previousRealm;
+                DialogHosts.UnitBanner = _previousBanner;
+                FileDialogWindow.Directories = _previousDirectories;
+                FileDialogWindow.Files = _previousFileList;
+                FileDialogWindow.Drives = _previousDrives;
+                Runtime.MessageHandler = _previousMessage;
             }
         }
     }
 
     private void Show(Window window)
     {
-        host.Spell.Dlg.FVisible = false;
-        host.World.BookWin.FVisible = false;
-        host.Files.FileDialog.FVisible = false;
-        host.Realm.Dlg.FVisible = false;
-        DialogHosts.TitleWindow.TitleWin.FVisible = false;
-        window.FVisible = true;
+        _host.Spell.Dlg._visible = false;
+        _host.World.BookWin._visible = false;
+        _host.Files.FileDialog._visible = false;
+        _host.Realm.Dlg._visible = false;
+        DialogHosts.TitleWindow.TitleWin._visible = false;
+        window._visible = true;
     }
 
     [Fact]
     public void SpellBookTurnsOnePagePerEventAndStopsAtTheEnds()
     {
-        Show(host.Spell.Dlg);
-        var book = host.Spell;
-        book.FMode = 4;
-        book.FPage = 0;
-        book.FPageKind = 0;
-        book.PrevBtn.FVisible = true;
-        book.NextBtn.FVisible = true;
-        book.PrevBtn.FCaptureInput = true;
-        book.NextBtn.FCaptureInput = true;
-        book.Dlg.FAnimating = false;
+        Show(_host.Spell.Dlg);
+        var book = _host.Spell;
+        book.Mode = 4;
+        book.Page = 0;
+        book.PageKind = 0;
+        book.PrevBtn._visible = true;
+        book.NextBtn._visible = true;
+        book.PrevBtn._captureInput = true;
+        book.NextBtn._captureInput = true;
+        book.Dlg.Animating = false;
         Assert.Same(book.PrevBtn, book.Dlg.PageBack);
         Assert.Same(book.NextBtn, book.Dlg.PageForward);
-        int x = book.Dlg.FWinLeft + 8;
-        int y = book.Dlg.FWinTop + 200;
+        int x = book.Dlg._winLeft + 8;
+        int y = book.Dlg._winTop + 200;
         Set<ShiftState> shift = default;
 
         Assert.True(DialogHosts.General.Manager.CheckMouseWheel(-5, shift, x, y));
-        Assert.Equal(1, book.FPage);
+        Assert.Equal(1, book.Page);
         Assert.True(DialogHosts.General.Manager.CheckMouseWheel(-1, shift, x, y));
-        Assert.Equal(2, book.FPage);
-        book.NextBtn.FVisible = false;
+        Assert.Equal(2, book.Page);
+        book.NextBtn._visible = false;
         Assert.False(book.Dlg.CheckMouseWheel(-1, shift, x, y));
-        Assert.Equal(2, book.FPage);
+        Assert.Equal(2, book.Page);
 
-        book.PrevBtn.FVisible = true;
-        book.PrevBtn.FCaptureInput = true;
+        book.PrevBtn._visible = true;
+        book.PrevBtn._captureInput = true;
         Assert.True(book.Dlg.CheckMouseWheel(5, shift, x, y));
-        Assert.Equal(1, book.FPage);
-        book.PrevBtn.FVisible = false;
+        Assert.Equal(1, book.Page);
+        book.PrevBtn._visible = false;
         Assert.False(book.Dlg.CheckMouseWheel(1, shift, x, y));
-        Assert.Equal(1, book.FPage);
+        Assert.Equal(1, book.Page);
     }
 
     [Fact]
     public void WorldMapBookScrollsALongIntroAndTurnsThePageOverEmptySpace()
     {
-        Show(host.World.BookWin);
-        var map = host.World;
-        map.FBookAction = 0;
-        map.Back.FCaptureInput = true;
-        map.Next.FCaptureInput = true;
-        map.MemoL.FItems.Text = new string('a', 40) + " " + new string('b', 40);
-        map.leftSB.FMax = 40;
-        map.leftSB.FNumberVisible = 5;
-        map.leftSB.FPosition = 0;
-        map.leftSB.FVisible = true;
+        Show(_host.World.BookWin);
+        var map = _host.World;
+        map.BookAction = 0;
+        map.Back._captureInput = true;
+        map.Next._captureInput = true;
+        map.MemoL._items.Text = new string('a', 40) + " " + new string('b', 40);
+        map.leftSB._max = 40;
+        map.leftSB._numberVisible = 5;
+        map.leftSB._position = 0;
+        map.leftSB._visible = true;
         Assert.Same(map.Back, map.BookWin.PageBack);
         Assert.Same(map.Next, map.BookWin.PageForward);
-        int x = map.BookWin.FWinLeft + map.MemoL.FWinLeft + 20;
-        int y = map.BookWin.FWinTop + map.MemoL.FWinTop + 40;
+        int x = map.BookWin._winLeft + map.MemoL._winLeft + 20;
+        int y = map.BookWin._winTop + map.MemoL._winTop + 40;
         Set<ShiftState> shift = default;
 
         Assert.True(map.BookWin.CheckMouseWheel(-3, shift, x, y));
-        Assert.Equal(3, map.leftSB.FPosition);
-        Assert.Equal(0, map.FBookAction);
+        Assert.Equal(3, map.leftSB._position);
+        Assert.Equal(0, map.BookAction);
 
-        map.leftSB.FMax = 0;
-        map.leftSB.FNumberVisible = 1;
-        map.leftSB.FPosition = 0;
-        map.leftSB.FVisible = false;
+        map.leftSB._max = 0;
+        map.leftSB._numberVisible = 1;
+        map.leftSB._position = 0;
+        map.leftSB._visible = false;
         Assert.True(map.BookWin.CheckMouseWheel(-5, shift, x, y));
-        Assert.Equal(0, map.leftSB.FPosition);
-        Assert.Equal(2, map.FBookAction);
+        Assert.Equal(0, map.leftSB._position);
+        Assert.Equal(2, map.BookAction);
 
-        map.FBookAction = 0;
-        map.Next.FCaptureInput = true;
-        int emptyX = map.BookWin.FWinLeft + 300;
-        int emptyY = map.BookWin.FWinTop + 20;
+        map.BookAction = 0;
+        map.Next._captureInput = true;
+        int emptyX = map.BookWin._winLeft + 300;
+        int emptyY = map.BookWin._winTop + 20;
         Assert.True(map.BookWin.CheckMouseWheel(-1, shift, emptyX, emptyY));
-        Assert.Equal(2, map.FBookAction);
+        Assert.Equal(2, map.BookAction);
     }
 
     [Fact]
     public void FileDialogSaveListAndDateListScrollTogether()
     {
-        Show(host.Files.FileDialog);
-        var dialog = host.Files;
+        Show(_host.Files.FileDialog);
+        var dialog = _host.Files;
         Assert.Same(dialog.SSBar, dialog.SaveLB.WheelScrollBar);
-        Assert.Same(dialog.SSBar, dialog.DateLB.VScrollBar);
+        Assert.Same(dialog.SSBar, dialog.DateLB.VerticalScrollBar);
         dialog.SaveLB.Items.Clear();
         dialog.DateLB.Items.Clear();
         for (int i = 0; i < 8; i++)
@@ -214,19 +214,19 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             dialog.DateLB.Items.Add("date" + i);
         }
 
-        dialog.SSBar.FPosition = 0;
-        int x = dialog.FileDialog.FWinLeft + dialog.SavePnl.FWinLeft + dialog.SaveLBFr.FWinLeft + dialog.SaveLB.FWinLeft + 4;
-        int y = dialog.FileDialog.FWinTop + dialog.SavePnl.FWinTop + dialog.SaveLBFr.FWinTop + dialog.SaveLB.FWinTop + 8;
+        dialog.SSBar._position = 0;
+        int x = dialog.FileDialog._winLeft + dialog.SavePnl._winLeft + dialog.SaveLBFr._winLeft + dialog.SaveLB._winLeft + 4;
+        int y = dialog.FileDialog._winTop + dialog.SavePnl._winTop + dialog.SaveLBFr._winTop + dialog.SaveLB._winTop + 8;
         Set<ShiftState> shift = default;
         Assert.True(dialog.FileDialog.CheckMouseWheel(-1, shift, x, y));
-        Assert.Equal(1, dialog.SSBar.FPosition);
+        Assert.Equal(1, dialog.SSBar._position);
         Assert.Equal(1, dialog.SaveLB.ListOffset);
         dialog.DateLB.Update();
         Assert.Equal(1, dialog.DateLB.ListOffset);
 
-        int dateX = dialog.FileDialog.FWinLeft + dialog.SavePnl.FWinLeft + dialog.SaveLBFr.FWinLeft + dialog.DateLB.FWinLeft + 4;
+        int dateX = dialog.FileDialog._winLeft + dialog.SavePnl._winLeft + dialog.SaveLBFr._winLeft + dialog.DateLB._winLeft + 4;
         Assert.True(dialog.FileDialog.CheckMouseWheel(-1, shift, dateX, y));
-        Assert.Equal(2, dialog.SSBar.FPosition);
+        Assert.Equal(2, dialog.SSBar._position);
         Assert.Equal(2, dialog.SaveLB.ListOffset);
         dialog.DateLB.Update();
         Assert.Equal(2, dialog.DateLB.ListOffset);
@@ -235,33 +235,33 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
     [Fact]
     public void RealmColumnListScrollsTheSharedBar()
     {
-        Show(host.Realm.Dlg);
-        var realm = host.Realm;
-        realm.T2Pnl.FVisible = true;
+        Show(_host.Realm.Dlg);
+        var realm = _host.Realm;
+        realm.T2Pnl._visible = true;
         Assert.Same(realm.CitySB, realm.T2NameLB.WheelScrollBar);
         realm.T2NameLB.Items.Clear();
         for (int i = 0; i < 12; i++) realm.T2NameLB.Items.Add("city" + i);
-        realm.CitySB.FPosition = 0;
-        int x = realm.Dlg.FWinLeft + realm.T2Pnl.FWinLeft + realm.T2LBPnl.FWinLeft + realm.T2NameLB.FWinLeft + 4;
-        int y = realm.Dlg.FWinTop + realm.T2Pnl.FWinTop + realm.T2LBPnl.FWinTop + realm.T2NameLB.FWinTop + 8;
+        realm.CitySB._position = 0;
+        int x = realm.Dlg._winLeft + realm.T2Pnl._winLeft + realm.T2LBPnl._winLeft + realm.T2NameLB._winLeft + 4;
+        int y = realm.Dlg._winTop + realm.T2Pnl._winTop + realm.T2LBPnl._winTop + realm.T2NameLB._winTop + 8;
         Assert.True(realm.Dlg.CheckMouseWheel(-1, default, x, y));
-        Assert.Equal(1, realm.CitySB.FPosition);
+        Assert.Equal(1, realm.CitySB._position);
         Assert.Equal(1, realm.T2NameLB.ListOffset);
     }
 
     [Fact]
     public void MapPickerKeepsNameOrderAndTheFilledMapName()
     {
-        Show(host.Files.FileDialog);
-        var dialog = host.Files;
+        Show(_host.Files.FileDialog);
+        var dialog = _host.Files;
         string directory = Path.Combine(Path.GetTempPath(), "open-aow-map-" + Guid.NewGuid().ToString("N"));
         string root = Path.Combine(directory, "root");
         string user = Path.Combine(directory, "user");
-        string settingsDir = Path.Combine(directory, "settings");
+        string settingsDirectory = Path.Combine(directory, "settings");
         try
         {
             Directory.CreateDirectory(root);
-            Directory.CreateDirectory(settingsDir);
+            Directory.CreateDirectory(settingsDirectory);
             Directory.CreateDirectory(Path.Combine(user, "one"));
             string older = Path.Combine(user, "one", "aaa.asg");
             string newer = Path.Combine(user, "one", "zzz.asg");
@@ -271,10 +271,10 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             File.SetLastWriteTimeUtc(newer, new DateTime(2001, 6, 1, 0, 0, 0, DateTimeKind.Utc));
             Directory.CreateDirectory(Path.Combine(user, "one", "alpha"));
             Runtime.Files = new LayeredFileSystem(root, user);
-            Runtime.Settings = new JsonSettingsStore(settingsDir);
-            GameTables.AoWEngine.FRegistry = new GameSettings();
-            GameTables.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
-            dialog.FMode = 2;
+            Runtime.Settings = new JsonSettingsStore(settingsDirectory);
+            GameTables.GameEngine.Registry = new GameSettings();
+            GameTables.GameEngine.Registry.SetFileDialogSortByDate(true);
+            dialog.Mode = 2;
             dialog.FileName.Text = "valley.map";
             dialog.SFileName.Text = "stale.asg";
             Assert.True(Runtime.SetCurrentDir("one"));

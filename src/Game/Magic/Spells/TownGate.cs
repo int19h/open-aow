@@ -21,194 +21,194 @@ public partial class TownGate : CityTargetSpell
     // CitySpells.pas:421
     public TownGate(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(TownGateRStr);
-        FSpellID = 38;
-        FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own, CityTargetModeElement.SkipSource);
-        FBaseManaCost = 5;
-        FSpellLevel = 3;
-        FMagicSphere = MagicSphere.Cosmos;
+        SpellName = AbilityRules.TranslateResourceString(s_townGateText);
+        SpellId = 38;
+        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own, CityTargetModeElement.SkipSource);
+        BaseManaCost = 5;
+        SpellLevel = 3;
+        MagicSphere = MagicSphere.Cosmos;
     }
 
     // CitySpells.pas:486
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool ShowSource;
-        bool ShowTarget;
-        byte Selection = default;
-        ArmyHexSprite Army = default;
-        AoWMapField Field;
-        ArmyHexSprite NewArmy;
+        bool showSource;
+        bool showTarget;
+        byte selection = default;
+        ArmyHexSprite army = default;
+        AoWMapField field;
+        ArmyHexSprite newArmy;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
         ImageSequenceAnimation A;
-        Source.GetLocation(ref X, ref Y, ref L);
-        ((TownGateTokenEvent)Event).FArmyID.RetrieveArmy(ref Army, ref Selection);
-        Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(((TownGateTokenEvent)Event).FTeleportLocation.Packed);
-        Army.FArmy.ResetDestinationPos();
-        if (AoWHSMap.Current.FSelectedArmy.GetArmyHS() == Army)
+        source.GetLocation(ref X, ref Y, ref L);
+        ((TownGateTokenEvent)eventValue).ArmyId.RetrieveArmy(ref army, ref selection);
+        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(((TownGateTokenEvent)eventValue).TeleportLocation.Packed);
+        army.Army.ResetDestinationPosition();
+        if (AoWHSMap.Current.SelectedArmy.GetArmyHexSprite() == army)
         {
-            AoWHSMap.Current.FSelectedArmy.Select(Army);
+            AoWHSMap.Current.SelectedArmy.Select(army);
         }
 
-        if (Army.FArmy.ValidateSelection(Selection) != Army.FArmy.ValidateSelection(255))
+        if (army.Army.ValidateSelection(selection) != army.Army.ValidateSelection(255))
         {
-            NewArmy = new ArmyHexSprite(null);
-            NewArmy.FArmy.SetPlayer(Army.FArmy.FPlayer);
-            NewArmy.FArmy.AddUnitSelection(Army.FArmy, Selection);
-            AoWHSMap.Current.PlaceHX(NewArmy, ((TownGateTokenEvent)Event).FTeleportLocation.X, ((TownGateTokenEvent)Event).FTeleportLocation.Y, ((TownGateTokenEvent)Event).FTeleportLocation.L);
+            newArmy = new ArmyHexSprite(null);
+            newArmy.Army.SetPlayer(army.Army.Player);
+            newArmy.Army.AddUnitSelection(army.Army, selection);
+            AoWHSMap.Current.PlaceHex(newArmy, ((TownGateTokenEvent)eventValue).TeleportLocation.X, ((TownGateTokenEvent)eventValue).TeleportLocation.Y, ((TownGateTokenEvent)eventValue).TeleportLocation.MapLevel);
         }
         else
         {
-            if (Field.GetArmyHS() != null)
+            if (field.GetArmyHexSprite() != null)
             {
-                Field.GetArmyHS().FArmy.AddUnitSelection(Army.FArmy, Selection);
+                field.GetArmyHexSprite().Army.AddUnitSelection(army.Army, selection);
             }
             else
             {
-                Army.MoveTo(Field, 0);
+                army.MoveTo(field, 0);
             }
         }
 
-        ShowSource = AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || AoWHSMap.Current.Visible(X, Y, L, 0);
-        ShowTarget = AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || AoWHSMap.Current.Visible(Field.Xhx, Field.Yhx, Field.Lhx, 0);
-        if (ShowSource)
+        showSource = AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.Visible(X, Y, L, 0);
+        showTarget = AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.Visible(field.HexX, field.HexY, field.HexLevel, 0);
+        if (showSource)
         {
-            if (AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0] != null)
+            if (AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
             {
                 A = new ImageSequenceAnimation(null);
-                A.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0]);
-                AoWHSMap.Current.PlaceHX(A, X, Y, L);
+                A.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                AoWHSMap.Current.PlaceHex(A, X, Y, L);
             }
         }
 
-        if (ShowTarget)
+        if (showTarget)
         {
-            if (AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0] != null)
+            if (AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0] != null)
             {
                 A = new ImageSequenceAnimation(null);
-                A.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0]);
-                AoWHSMap.Current.PlaceHX(A, Field.Xhx, Field.Yhx, Field.Lhx);
+                A.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                AoWHSMap.Current.PlaceHex(A, field.HexX, field.HexY, field.HexLevel);
             }
         }
 
-        if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
+        if (AoWHSMap.Current.SeatedPlayer == source.Player)
         {
-            AoWHSMap.Current.CenterViewTo(Field.Xhx, Field.Yhx, Field.Lhx);
+            AoWHSMap.Current.CenterViewTo(field.HexX, field.HexY, field.HexLevel);
         }
         else
         {
-            if (!AoWHSMap.Current.ValidateObservation(Source.FPlayer, Field.Xhx, Field.Yhx, Field.Lhx, 0))
+            if (!AoWHSMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0))
             {
-                AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+                AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
             }
         }
 
-        if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || AoWHSMap.Current.Watching(X, Y, L, 0) || AoWHSMap.Current.Watching(Field.Xhx, Field.Yhx, Field.Lhx, 0))
+        if (AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.Watching(X, Y, L, 0) || AoWHSMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
         {
-            AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
 
-        CastingDone(Source, Event.FEventMana);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 
     // CitySpells.pas:540
-    public override bool CanActivate(Troop Source, ref string MessageText) => base.CanActivate(Source, ref MessageText);
+    public override bool CanActivate(Troop source, ref string messageText) => base.CanActivate(source, ref messageText);
 
     // CitySpells.pas:545
-    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        base.SetupTargetSelection(Source, TargetSelection);
-        TargetSelection.FTargetMode = TargetSelection.FTargetMode - Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
+        base.SetupTargetSelection(source, targetSelection);
+        targetSelection.TargetMode = targetSelection.TargetMode - Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
     }
 
     // CitySpells.pas:445
-    public override CityTargetSpellTokenEvent CreateTE() => new TownGateTokenEvent(null);
+    public override CityTargetSpellTokenEvent CreateTokenEvent() => new TownGateTokenEvent(null);
 
     // CitySpells.pas:450
-    public override bool SetupTE(CityTargetSpellTokenEvent Event, Troop Source, int X, int Y, int L)
+    public override bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)
     {
-        byte Selection;
-        ArmyHexSprite Army;
-        bool Found;
-        MapLevel Level;
-        HexNumberWalkData Walk = default;
-        bool Result = base.SetupTE(Event, Source, X, Y, L);
-        if (Result)
+        byte selection;
+        ArmyHexSprite army;
+        bool found;
+        MapLevel level;
+        HexNumberWalkData walk = default;
+        bool result = base.SetupTokenEvent(eventValue, source, X, Y, L);
+        if (result)
         {
-            if (Source.Owner is HeroList)
+            if (source.Owner is HeroList)
             {
                 return false;
             }
 
-            Army = Source.ArmyOwner.GetArmyHS();
-            if (Army.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer && AoWHSMap.Current.FSelectedArmy.GetArmyHS() == Army)
+            army = source.ArmyOwner.GetArmyHexSprite();
+            if (army.Army.Player == AoWHSMap.Current.SeatedPlayer && AoWHSMap.Current.SelectedArmy.GetArmyHexSprite() == army)
             {
-                Selection = AoWHSMap.Current.FSelectedArmy.GetSelection();
+                selection = AoWHSMap.Current.SelectedArmy.GetSelection();
             }
             else
             {
-                Selection = 255;
+                selection = 255;
             }
 
-            HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-            Found = false;
-            Level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-            while (Walk.Radius < 4 && !Found)
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            found = false;
+            level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+            while (walk.Radius < 4 && !found)
             {
-                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    Found = ValidTeleportLocation(Army, Selection, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L);
+                    found = ValidTeleportLocation(army, selection, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
                 }
 
-                if (!Found)
+                if (!found)
                 {
-                    HexNumberWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHexNumber(ref walk);
                 }
             }
 
-            if (Found)
+            if (found)
             {
-                var id = Army.FArmy.CreateID(Selection);
-                ((TownGateTokenEvent)Event).FArmyID = id;
-                var packXYL = HexGeometry.PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L);
-                ((TownGateTokenEvent)Event).FTeleportLocation = packXYL;
-                Result = true;
+                var id = army.Army.CreateId(selection);
+                ((TownGateTokenEvent)eventValue).ArmyId = id;
+                var packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, (sbyte)L);
+                ((TownGateTokenEvent)eventValue).TeleportLocation = packMapCoordinate;
+                result = true;
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:432
-    public bool ValidTeleportLocation(ArmyHexSprite Army, byte Selection, sbyte X, sbyte Y, sbyte L)
+    public bool ValidTeleportLocation(ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L)
     {
-        bool Result;
-        AoWMapField Field;
-        Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L);
-        if (Field.GetPlayer() != -1 && Field.GetPlayer() != Army.FArmy.FPlayer)
+        bool result;
+        AoWMapField field;
+        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+        if (field.GetPlayer() != -1 && field.GetPlayer() != army.Army.Player)
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        if (Result)
+        if (result)
         {
-            Result = Army.FArmy.ValidTerrainEx(Selection, Field.TerrainType, Field.OverlayType);
+            result = army.Army.ValidTerrain(selection, field.TerrainType, field.OverlayType);
             // { CanAddUnitSelection returns arOK (zero) when the destination accepts the selection. }
-            Result = Result && (Field.GetArmyHS() == null || Field.GetArmyHS().FArmy.CanAddUnitSelection(Army.FArmy, Selection) == AddUnitsResult.OK);
+            result = result && (field.GetArmyHexSprite() == null || field.GetArmyHexSprite().Army.CanAddUnitSelection(army.Army, selection) == AddUnitsResult.Ok);
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string TownGateRStr = "Town Gate";
+    private static readonly string s_townGateText = "Town Gate";
 }

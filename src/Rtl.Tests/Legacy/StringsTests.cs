@@ -16,23 +16,23 @@ public sealed class StringsTests
     public void ObjectsNamesValuesAndAssignmentPreserveSourceRules()
     {
         // CLASSES.PAS:2125..2163 and :2263..2354.
-        var list = new StringList(); var obj = new TrackObject(); var other = new TrackObject();
-        Assert.Equal(0, list.AddObject("First=one", obj)); list.InsertObject(1, "blank", other); list.Add("FIRST=two"); list.Add("=emptyname");
+        var list = new StringList(); var objectValue = new TrackObject(); var other = new TrackObject();
+        Assert.Equal(0, list.AddObject("First=one", objectValue)); list.InsertObject(1, "blank", other); list.Add("FIRST=two"); list.Add("=emptyname");
         Assert.Equal("First", list.Names[0]); Assert.Equal("", list.Names[1]); Assert.Equal(0, list.IndexOfName("first")); Assert.Equal(3, list.IndexOfName(""));
         Assert.Equal(1, list.IndexOfObject(other)); Assert.Equal(2, list.IndexOfObject(null)); Assert.Equal(-1, list.IndexOfObject(new object()));
         Assert.Equal("one", list.Values["FIRST"]); Assert.Equal("", list.Values["missing"]);
-        list.Values["FIRST"] = "updated"; Assert.Equal("FIRST=updated", list.Strings[0]); Assert.Same(obj, list.Objects[0]);
+        list.Values["FIRST"] = "updated"; Assert.Equal("FIRST=updated", list.Strings[0]); Assert.Same(objectValue, list.Objects[0]);
         list.Values["added"] = "new"; Assert.Equal("new", list.Values["added"]); list.Values["added"] = ""; Assert.Equal(-1, list.IndexOfName("added")); list.Values["absent"] = "";
         list.Strings[1] = "changed"; Assert.Equal("changed", list[1]);
-        list.Objects[1] = obj; Assert.Same(obj, list.Objects[1]);
-        var copy = new StringList(); copy.Assign(list); Assert.Equal(list.Text, copy.Text); Assert.Same(obj, copy.Objects[0]);
+        list.Objects[1] = objectValue; Assert.Same(objectValue, list.Objects[1]);
+        var copy = new StringList(); copy.Assign(list); Assert.Equal(list.Text, copy.Text); Assert.Same(objectValue, copy.Objects[0]);
         copy.AddStrings(list); Assert.Equal(list.Count * 2, copy.Count);
-        list.Move(0, 2); Assert.Equal("FIRST=updated", list[2]); Assert.Same(obj, list.Objects[2]);
-        list.Exchange(0, 2); Assert.Equal("FIRST=updated", list[0]); Assert.Same(obj, list.Objects[0]);
+        list.Move(0, 2); Assert.Equal("FIRST=updated", list[2]); Assert.Same(objectValue, list.Objects[2]);
+        list.Exchange(0, 2); Assert.Equal("FIRST=updated", list[0]); Assert.Same(objectValue, list.Objects[0]);
         list.Move(-1, -1);
         Assert.Throws<FormatException>(() => copy.Assign(new Persistent()));
         copy.Assign(copy); Assert.Equal(0, copy.Count);
-        list.Dispose(); Assert.False(obj.Destroyed); Assert.False(other.Destroyed);
+        list.Dispose(); Assert.False(objectValue.Destroyed); Assert.False(other.Destroyed);
     }
 
     [Fact]
@@ -84,14 +84,14 @@ public sealed class StringsTests
     // A minimal TStrings descendant exercises the base implementations separately from TStringList.
     private sealed class PlainStrings : StringCollection
     {
-        private readonly List<string> items = [];
+        private readonly List<string> _items = [];
 
-        public override int Count => items.Count;
-        public override string this[int index] { get => items[index]; set => items[index] = value; }
+        public override int Count => _items.Count;
+        public override string this[int index] { get => _items[index]; set => _items[index] = value; }
 
-        public override void Insert(int index, string value) => items.Insert(index, value);
-        public override void Delete(int index) => items.RemoveAt(index);
-        public override void Clear() => items.Clear();
+        public override void Insert(int index, string value) => _items.Insert(index, value);
+        public override void Delete(int index) => _items.RemoveAt(index);
+        public override void Clear() => _items.Clear();
     }
 
     [Fact]

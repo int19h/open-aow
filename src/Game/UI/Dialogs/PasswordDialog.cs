@@ -23,27 +23,27 @@ public partial class PasswordDialog : DataModule
     public Label PasswordLbl;
     public Edit PasswordEdit;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FDone;
-    public PasswordEventLog FPasswordEvent;
+    public ExecuteDoneEvent Done;
+    public PasswordEventLog PasswordEvent;
 
     // AoWPasswordDlg.pas:43
     public void Finish()
     {
-        ExecuteDoneEvent Done;
-        PasswordEventLog Event;
+        ExecuteDoneEvent done;
+        PasswordEventLog eventValue;
         Dlg.Visible = false;
-        Done = FDone;
-        Event = FPasswordEvent;
-        FDone = null;
-        FPasswordEvent = null;
-        if (Done != null)
+        done = Done;
+        eventValue = PasswordEvent;
+        Done = null;
+        PasswordEvent = null;
+        if (done != null)
         {
-            Done(Event);
+            done(eventValue);
         }
 
-        if (Event != null)
+        if (eventValue != null)
         {
-            Event.Release();
+            eventValue.Release();
         }
     }
 
@@ -61,41 +61,41 @@ public partial class PasswordDialog : DataModule
     // AoWPasswordDlg.pas:58
     public void OKBtnClick()
     {
-        FPasswordEvent.FPassword = PasswordEdit.Text;
-        FPasswordEvent.FPressedButton = PressedEventLogButton.Ok;
+        PasswordEvent.Password = PasswordEdit.Text;
+        PasswordEvent.PressedButton = PressedEventLogButton.Ok;
         Dlg.Visible = false;
     }
 
     // AoWPasswordDlg.pas:65
     public void CancelBtnClick()
     {
-        FPasswordEvent.FPassword = "";
-        FPasswordEvent.FPressedButton = PressedEventLogButton.Cancel;
+        PasswordEvent.Password = "";
+        PasswordEvent.PressedButton = PressedEventLogButton.Cancel;
         Dlg.Visible = false;
     }
 
     // AoWPasswordDlg.pas:72
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             CancelBtnClick();
         }
     }
 
-    internal static void ShowPasswordEvent(PasswordDialog Dialog, PasswordEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowPasswordEvent(PasswordDialog dialog, PasswordEventLog eventValue, ExecuteDoneEvent done)
     {
-        PasswordEventLog Log;
-        Dialog.Reset();
-        Dialog.FDone = Done;
-        Dialog.FPasswordEvent = Event;
-        Dialog.FPasswordEvent.AddRef();
-        Log = Dialog.FPasswordEvent;
-        Dialog.TitleLbl.Text = Log.FTitle;
-        Dialog.PasswordLbl.Text = Log.FPrompt;
-        Dialog.PasswordEdit.Text = Log.FPassword;
-        Dialog.PasswordEdit.FRedraw = true;
-        Dialog.Dlg.Visible = true;
+        PasswordEventLog log;
+        dialog.Reset();
+        dialog.Done = done;
+        dialog.PasswordEvent = eventValue;
+        dialog.PasswordEvent.AddRef();
+        log = dialog.PasswordEvent;
+        dialog.TitleLbl.Text = log.Title;
+        dialog.PasswordLbl.Text = log.Prompt;
+        dialog.PasswordEdit.Text = log.Password;
+        dialog.PasswordEdit.Redraw = true;
+        dialog.Dlg.Visible = true;
     }
 
 }

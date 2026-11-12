@@ -33,41 +33,41 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-// FStatus. FMode. FPlayer. location. FIndependentRelation. FUnfogRange. FUpkeep. FOnUpdate.
-// FOldAIBehavior. destination. FUserMode. FVisibilityRanges. FConcealedUnits
+// Status. Mode. Player. location. IndependentRelation. UnfogRange. Upkeep. OnUpdate.
+// OldAIBehavior. destination. UserMode. VisibilityRanges. ConcealedUnits
 public partial class Army : UnitList
 {
-    public new const int ClassID = 131606;
+    public new const int ClassId = 131606;
 
     // Army.PAS:324
     public Army(ECustomNode owner) : base(owner)
     {
-        FX = -1;
-        FY = -1;
-        FL = -1;
-        FDestinationX = -1;
-        FDestinationY = -1;
-        FDestinationL = -1;
-        FIndependentRelation = -1;
+        X = -1;
+        Y = -1;
+        MapLevel = -1;
+        DestinationX = -1;
+        DestinationY = -1;
+        DestinationL = -1;
+        IndependentRelation = -1;
     }
 
-    public Set<ArmyStatusElement> FStatus;
-    public Set<ArmyModeElement> FMode;
-    public sbyte FPlayer;
-    public sbyte FX;
-    public sbyte FY;
-    public sbyte FL;
-    public sbyte FIndependentRelation;
-    public byte FUnfogRange;
-    public byte FUpkeep;
-    public NotifyEvent<object> FOnUpdate;
-    public GroupBehavior FOldAIBehavior;
-    public sbyte FDestinationX;
-    public sbyte FDestinationY;
-    public sbyte FDestinationL;
-    public Set<ArmyUserModeElement> FUserMode;
-    public byte FVisibilityRanges;
-    public byte FConcealedUnits;
+    public Set<ArmyStatusElement> Status;
+    public Set<ArmyModeElement> Mode;
+    public sbyte Player;
+    public sbyte X;
+    public sbyte Y;
+    public sbyte MapLevel;
+    public sbyte IndependentRelation;
+    public byte UnfogRange;
+    public byte Upkeep;
+    public NotifyEvent<object> OnUpdate;
+    public GroupBehavior OldAIBehavior;
+    public sbyte DestinationX;
+    public sbyte DestinationY;
+    public sbyte DestinationL;
+    public Set<ArmyUserModeElement> UserMode;
+    public byte VisibilityRanges;
+    public byte ConcealedUnits;
 
     // Army.PAS:336
     public override void Dispose()
@@ -77,97 +77,97 @@ public partial class Army : UnitList
             AoWHSMap.Current.ArmyDestroyed(this);
         }
 
-        FOnUpdate = null;
+        OnUpdate = null;
         base.Dispose();
     }
 
     // Army.PAS:588
-    public override GameEngine GetEngine() => GameTables.AoWEngine;
+    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Army.PAS:1898
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 4);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FX), 5);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FY), 6);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FL), 7);
-        if (!Stream.StorageMode().Contains(StorageModeElement.Write) || AoWHSMap.Current == null || AoWHSMap.Current.FConnectionType != (PlayerConnectionType)1)
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 4);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref X), 5);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 6);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 7);
+        if (!stream.StorageMode().Contains(StorageModeElement.Write) || AoWHSMap.Current == null || AoWHSMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
-            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationX), 8);
-            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationY), 9);
-            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationL), 10);
-            RwSet(ref FUserMode, 1, 13, Stream.rwData, 0);
+            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationX), 8);
+            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationY), 9);
+            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationL), 10);
+            RwSet(ref UserMode, 1, 13, stream.rwData, 0);
         }
 
-        Stream.rwData(Bytes.Of(ref FOldAIBehavior, 1), 1, 11);
-        RwSet(ref FMode, 1, 12, Stream.rwData, 0);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read) && FMode.Contains(ArmyModeElement.Moving))
+        stream.rwData(Bytes.Of(ref OldAIBehavior, 1), 1, 11);
+        RwSet(ref Mode, 1, 12, stream.rwData, 0);
+        if (stream.StorageMode().Contains(StorageModeElement.Read) && Mode.Contains(ArmyModeElement.Moving))
         {
-            FMode = FMode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+            Mode = Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
         }
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.UnsignedByte(persister, "Player", ref FPlayer);
-        PersistSupport.UnsignedByte(persister, "X", ref FX);
-        PersistSupport.UnsignedByte(persister, "Y", ref FY);
-        PersistSupport.UnsignedByte(persister, "L", ref FL);
-        if (persister.Loading || AoWHSMap.Current == null || AoWHSMap.Current.FConnectionType != (PlayerConnectionType)1)
+        PersistSupport.UnsignedByte(persister, "Player", ref Player);
+        PersistSupport.UnsignedByte(persister, "X", ref X);
+        PersistSupport.UnsignedByte(persister, "Y", ref Y);
+        PersistSupport.UnsignedByte(persister, "L", ref MapLevel);
+        if (persister.Loading || AoWHSMap.Current == null || AoWHSMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
-            PersistSupport.UnsignedByte(persister, "DestinationX", ref FDestinationX);
-            PersistSupport.UnsignedByte(persister, "DestinationY", ref FDestinationY);
-            PersistSupport.UnsignedByte(persister, "DestinationL", ref FDestinationL);
-            persister.Set("UserMode", ref FUserMode);
+            PersistSupport.UnsignedByte(persister, "DestinationX", ref DestinationX);
+            PersistSupport.UnsignedByte(persister, "DestinationY", ref DestinationY);
+            PersistSupport.UnsignedByte(persister, "DestinationL", ref DestinationL);
+            persister.Set("UserMode", ref UserMode);
         }
 
-        persister.Enum("OldAIBehavior", ref FOldAIBehavior);
-        persister.Set("Mode", ref FMode);
-        if (persister.Loading && FMode.Contains(ArmyModeElement.Moving))
+        persister.Enum("OldAIBehavior", ref OldAIBehavior);
+        persister.Set("Mode", ref Mode);
+        if (persister.Loading && Mode.Contains(ArmyModeElement.Moving))
         {
-            FMode = FMode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+            Mode = Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
         }
     }
 
     // Army.PAS:2259
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        if (Msg.MsgID == 537001987)
+        if (message.MessageId == 537001987)
         {
-            NewTurnDone((sbyte)Msg.Payload.Int);
+            NewTurnDone((sbyte)message.Payload.Int);
         }
 
-        if (Msg.MsgID == 537001986)
+        if (message.MessageId == 537001986)
         {
             LockChanged();
         }
 
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986)
         {
             UnlockChanged();
         }
 
-        if (Msg.MsgID == 537001989)
+        if (message.MessageId == 537001989)
         {
-            SetPlayer(FPlayer);
+            SetPlayer(Player);
         }
         else
         {
-            if (Msg.MsgID == 537001990 && AoWHSMap.Current.FSeatedPlayer != -1)
+            if (message.MessageId == 537001990 && AoWHSMap.Current.SeatedPlayer != -1)
             {
                 UpdateUnfog();
                 UpdateConcealment();
             }
             else
             {
-                if (Msg.MsgID == 537001992)
+                if (message.MessageId == 537001992)
                 {
                     UpdateVisibilityRanges();
                     UpdateExploration();
-                    if (AoWHSMap.Current.FSeatedPlayer != -1)
+                    if (AoWHSMap.Current.SeatedPlayer != -1)
                     {
                         UpdateUnfog();
                         UpdateConcealment();
@@ -175,19 +175,19 @@ public partial class Army : UnitList
                 }
                 else
                 {
-                    if (Msg.MsgID == 537001986)
+                    if (message.MessageId == 537001986)
                     {
-                        NewTurn((sbyte)Msg.Payload.Int);
+                        NewTurn((sbyte)message.Payload.Int);
                     }
                     else
                     {
-                        if (Msg.MsgID == 537001985)
+                        if (message.MessageId == 537001985)
                         {
                             NewDay();
                         }
                         else
                         {
-                            if (Msg.MsgID == 537001987 && Msg.Payload.Int == FPlayer)
+                            if (message.MessageId == 537001987 && message.Payload.Int == Player)
                             {
                                 ValidateCrusaders();
                             }
@@ -199,43 +199,43 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1844
-    public override int RemoveChild(EngineObject Child)
+    public override int RemoveChild(EngineObject child)
     {
         BeginUpdate();
-        var unit = Child;
+        var unit = child;
         unit.AddRef();
 
-        int Result = base.RemoveChild(Child);
-        var unit2 = Child;
+        int result = base.RemoveChild(child);
+        var unit2 = child;
         unit2.Release();
 
         EndUpdate();
-        return Result;
+        return result;
     }
 
     // Army.PAS:1853
-    public override int AddChild(EngineObject Child)
+    public override int AddChild(EngineObject child)
     {
-        int Result;
-        if (!FStatus.Contains(ArmyStatusElement.Activated) || ((Troop)Child).CanActivate())
+        int result;
+        if (!Status.Contains(ArmyStatusElement.Activated) || ((Troop)child).CanActivate())
         {
-            Result = base.AddChild(Child);
-            if (Result != -1)
+            result = base.AddChild(child);
+            if (result != -1)
             {
-                if (FStatus.Contains(ArmyStatusElement.Activated) && !((Troop)Child).FUnitStatus.Contains(UnitStatusElement.Activated))
+                if (Status.Contains(ArmyStatusElement.Activated) && !((Troop)child).UnitStatus.Contains(UnitStatusElement.Activated))
                 {
-                    ((Troop)Child).Activate();
+                    ((Troop)child).Activate();
                 }
 
-                ((Troop)Child).SetPlayer(FPlayer);
+                ((Troop)child).SetPlayer(Player);
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:716
@@ -245,152 +245,152 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1241
-    public override sbyte GetPlayer() => FPlayer;
+    public override sbyte GetPlayer() => Player;
 
     // Army.PAS:1874
-    public override void GetLocation(ref sbyte Xhx, ref sbyte Yhx, ref sbyte Lhx)
+    public override void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
     {
-        if (FStatus.Contains(ArmyStatusElement.Activated))
+        if (Status.Contains(ArmyStatusElement.Activated))
         {
-            Xhx = FX;
-            Yhx = FY;
-            Lhx = FL;
+            hexX = X;
+            hexY = Y;
+            hexLevel = MapLevel;
         }
         else
         {
-            Xhx = -1;
-            Yhx = -1;
-            Lhx = -1;
+            hexX = -1;
+            hexY = -1;
+            hexLevel = -1;
         }
     }
 
     // Army.PAS:1719
-    public override bool CanAddUnit(Troop AUnit)
+    public override bool CanAddUnit(Troop troop)
     {
-        bool Result;
-        bool HasTransporter;
-        MapField Field;
-        if (FStatus.Contains(ArmyStatusElement.Activated))
+        bool result;
+        bool hasTransporter;
+        MapField field;
+        if (Status.Contains(ArmyStatusElement.Activated))
         {
-            Result = GetCount() < MaxSize() && AUnit.CanAddToList(this);
-            HasTransporter = IndexOfTransporter(255) != -1;
-            if (Result && !HasTransporter && FX != -1 && FX != 0 && !FMode.Contains(ArmyModeElement.DisableTerrainValidation))
+            result = GetCount() < MaxSize() && troop.CanAddToList(this);
+            hasTransporter = IndexOfTransporter(255) != -1;
+            if (result && !hasTransporter && X != -1 && X != 0 && !Mode.Contains(ArmyModeElement.DisableTerrainValidation))
             {
                 // { Original skips terrain validation on the zero X column. }
-                Field = AoWHSMap.Current.MapContainer.GetField(FX, FY, FL);
-                Result = AUnit.ValidTerrain(Field.TerrainType, Field.OverlayType);
+                field = AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
+                result = troop.ValidTerrain(field.TerrainType, field.OverlayType);
             }
 
-            if (Result && AUnit.GetTransporter())
+            if (result && troop.GetTransporter())
             {
-                Result = !HasTransporter && AUnit.GetTransportCapacity() >= GetCount();
+                result = !hasTransporter && troop.GetTransportCapacity() >= GetCount();
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1836
-    public override bool CanDeleteUnit(Troop AUnit)
+    public override bool CanDeleteUnit(Troop troop)
     {
-        bool Result;
+        bool result;
         if (IndexOfTransporter(255) != -1)
         {
-            if (AUnit.GetTransporter() && UnitsInTransporter() != 0)
+            if (troop.GetTransporter() && UnitsInTransporter() != 0)
             {
-                Result = false;
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1868
-    public override bool AddUnit(Troop AUnit)
+    public override bool AddUnit(Troop troop)
     {
-        AUnit.SetOwner(this);
-        return this == AUnit.Owner;
+        troop.SetOwner(this);
+        return this == troop.Owner;
     }
 
     // Army.PAS:1770
-    public override bool AddUnits(UnitList Units)
+    public override bool AddUnits(UnitList units)
     {
-        bool Result = CanAddUnits(Units) == AddUnitsResult.OK;
-        if (Result)
+        bool result = CanAddUnits(units) == AddUnitsResult.Ok;
+        if (result)
         {
             BeginUpdate();
-            for (int I = Units.GetCount() - 1; I >= 0; I--)
+            for (int I = units.GetCount() - 1; I >= 0; I--)
             {
-                AddUnit(Units.GetUnit(I));
+                AddUnit(units.GetUnit(I));
             }
 
             EndUpdate();
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1269
-    public virtual bool GetConcealedForPlayer(sbyte Player)
+    public virtual bool GetConcealedForPlayer(sbyte player)
     {
-        bool Result;
-        MapLevel Level;
-        AoWMapField Field;
-        MapFieldMessage Msg = default;
-        HexNumberWalkData Walk = default;
-        if (Player != -1)
+        bool result;
+        MapLevel level;
+        AoWMapField field;
+        MapFieldMessage message = default;
+        HexNumberWalkData walk = default;
+        if (player != -1)
         {
-            Result = true;
-            Level = AoWHSMap.Current.MapContainer.MapLevels[FL];
-            Msg.MsgID = 4363;
-            Msg.Result = 0;
-            Msg.Param[1] = Player;
-            HexNumberWalkData.InitHNWalk(ref Walk, FX, FY, 0);
-            while (Result && Walk.Radius < 8)
+            result = true;
+            level = AoWHSMap.Current.MapContainer.MapLevels[MapLevel];
+            message.MessageId = 4363;
+            message.Result = 0;
+            message.Param[1] = player;
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+            while (result && walk.Radius < 8)
             {
-                if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
-                    Field = (AoWMapField)Level.GetField(Walk.X, Walk.Y);
-                    if ((Field.FFieldFlags & 4096) != 0)
+                    field = (AoWMapField)level.GetField(walk.X, walk.Y);
+                    if ((field.FieldFlags & 4096) != 0)
                     {
-                        Msg.Param[0] = Walk.Radius;
-                        Field.SendMapFieldMsg(ref Msg);
-                        Result = Msg.Result.Int == 0;
+                        message.Param[0] = walk.Radius;
+                        field.SendMapFieldMessage(ref message);
+                        result = message.Result.Int == 0;
                     }
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:343
-    public void Kill(byte Selection)
+    public void Kill(byte selection)
     {
         BeginUpdate();
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            if ((((int)(((uint)Selection) >> I)) & 1) != 0)
+            if ((((int)(((uint)selection) >> I)) & 1) != 0)
             {
-                ((Troop)FChildren.List[I]).Killed();
+                ((Troop)_children.List[I]).Killed();
             }
         }
 
@@ -398,233 +398,233 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:352
-    public int GetStrengthEx(byte Selection, DamageType DamageType)
+    public int GetStrength(byte selection, DamageType damageType)
     {
-        int Result = 0;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            if (((1 << I) & Selection) != 0)
+            if (((1 << I) & selection) != 0)
             {
-                Result += ((Troop)FChildren.List[I]).GetStrength(DamageType);
+                result += ((Troop)_children.List[I]).GetStrength(damageType);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:361
-    public int GetStrengthMaxEx(byte Selection, Set<DamageType> DamageTypes)
+    public int GetStrengthMax(byte selection, Set<DamageType> damageTypes)
     {
-        int Result = 0;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            if (((1 << I) & Selection) != 0)
+            if (((1 << I) & selection) != 0)
             {
-                Result += ((Troop)FChildren.List[I]).GetStrengthMax(DamageTypes);
+                result += ((Troop)_children.List[I]).GetStrengthMax(damageTypes);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:370
-    public void ReturnBattleFieldInfo(ref BattleFieldInfo Info)
+    public void ReturnBattleFieldInfo(ref BattleFieldInfo info)
     {
-        int Strength;
-        Troop AUnit;
-        DiplomaticRelation Relation;
-        GroupBehavior Behavior;
-        bool IncludeUnit;
-        Relation = AbilityRules.DiplomaticRelation(Info.Player, Info.IndependentRelation, FPlayer, FIndependentRelation);
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        int strength;
+        Troop troop;
+        DiplomaticRelation relation;
+        GroupBehavior behavior;
+        bool includeUnit;
+        relation = AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, Player, IndependentRelation);
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            AUnit = (Troop)FChildren.List[I];
-            if (AUnit.FGroup != null)
+            troop = (Troop)_children.List[I];
+            if (troop.Group != null)
             {
-                Behavior = AUnit.FGroup.GroupClass.Behavior;
+                behavior = troop.Group.GroupClass.Behavior;
             }
             else
             {
-                Behavior = GroupBehavior.Passive;
+                behavior = GroupBehavior.Passive;
             }
 
-            IncludeUnit = Info.Units == null || Info.Units.FChildren.IndexOf(AUnit) == -1;
-            if (IncludeUnit && Info.Requests.Contains(BattleFieldInfoRequestsElement.IgnorePassiveIndependents))
+            includeUnit = info.Units == null || info.Units._children.IndexOf(troop) == -1;
+            if (includeUnit && info.Requests.Contains(BattleFieldInfoRequestsElement.IgnorePassiveIndependents))
             {
-                IncludeUnit = AUnit.FPlayer != 0 || AUnit.FGroup != null && AUnit.FGroup.GroupClass.Behavior != GroupBehavior.Passive && AUnit.FGroup.GroupClass.Behavior != GroupBehavior.Guard;
+                includeUnit = troop.Player != 0 || troop.Group != null && troop.Group.GroupClass.Behavior != GroupBehavior.Passive && troop.Group.GroupClass.Behavior != GroupBehavior.Guard;
             }
 
-            if (IncludeUnit && Info.Requests.Contains(BattleFieldInfoRequestsElement.IgnoreIndependents) && AUnit.FPlayer == 0)
+            if (includeUnit && info.Requests.Contains(BattleFieldInfoRequestsElement.IgnoreIndependents) && troop.Player == 0)
             {
-                IncludeUnit = false;
+                includeUnit = false;
             }
 
-            if (IncludeUnit)
+            if (includeUnit)
             {
-                Strength = AUnit.GetStrengthMax(Info.DamageTypes);
-                if (Info.FriendlyRelations.Contains((byte)(int)Relation))
+                strength = troop.GetStrengthMax(info.DamageTypes);
+                if (info.FriendlyRelations.Contains((byte)(int)relation))
                 {
-                    Info.FriendlyStrength += Strength;
+                    info.FriendlyStrength += strength;
                 }
 
-                if (Info.EnemyRelations.Contains((byte)(int)Relation) || Behavior == GroupBehavior.GuardArea)
+                if (info.EnemyRelations.Contains((byte)(int)relation) || behavior == GroupBehavior.GuardArea)
                 {
-                    Info.Strength += Strength;
+                    info.Strength += strength;
                 }
             }
         }
     }
 
     // Army.PAS:394
-    public bool HealUnits(byte Selection)
+    public bool HealUnits(byte selection)
     {
-        Troop AUnit;
-        bool Result = false;
+        Troop troop;
+        bool result = false;
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                AUnit = (Troop)FChildren.List[I];
-                if (AUnit.GetHitPoints() != AUnit.GetHits())
+                troop = (Troop)_children.List[I];
+                if (troop.GetHitPoints() != troop.GetHits())
                 {
-                    Result = true;
-                    AUnit.SetHitPoints(AUnit.GetHits());
+                    result = true;
+                    troop.SetHitPoints(troop.GetHits());
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:410
-    public int CreateGroupID(byte Selection)
+    public int CreateGroupId(byte selection)
     {
-        int Result;
+        int result;
         int I;
         I = 0;
-        while ((Selection & 1) == 0 && I != FChildren.Count)
+        while ((selection & 1) == 0 && I != _children.Count)
         {
             I += 1;
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (I != FChildren.Count)
+        if (I != _children.Count)
         {
-            Result = ((Troop)FChildren.List[I]).FUnitID;
+            result = ((Troop)_children.List[I]).UnitId;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:423
-    public AIGroup GetGroup(byte Selection)
+    public AIGroup GetGroup(byte selection)
     {
-        bool Different;
+        bool different;
         int I;
-        bool Found;
-        AIGroup Result = null;
-        Different = false;
+        bool found;
+        AIGroup result = null;
+        different = false;
         I = 0;
-        Found = false;
-        while (I != FChildren.Count && !Different)
+        found = false;
+        while (I != _children.Count && !different)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                if (!Found)
+                if (!found)
                 {
-                    Result = ((Troop)FChildren.List[I]).FGroup;
-                    Found = true;
+                    result = ((Troop)_children.List[I]).Group;
+                    found = true;
                 }
                 else
                 {
-                    Different = Result != ((Troop)FChildren.List[I]).FGroup;
+                    different = result != ((Troop)_children.List[I]).Group;
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
             I += 1;
         }
 
-        if (!Found || Different)
+        if (!found || different)
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:445
-    public void SetGroup(byte Selection, AIGroup Group)
+    public void SetGroup(byte selection, AIGroup group)
     {
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                Group.AddUnit((Troop)FChildren.List[I]);
+                group.AddUnit((Troop)_children.List[I]);
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
     }
 
     // Army.PAS:455
-    public byte GetGroupSelection(int GroupID)
+    public byte GetGroupSelection(int groupId)
     {
-        byte Result = 0;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        byte result = 0;
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            Result = (byte)(Result << 1);
-            if (GroupID == ((Troop)FChildren.List[I]).FGroupID)
+            result = (byte)(result << 1);
+            if (groupId == ((Troop)_children.List[I]).GroupId)
             {
-                Result = (byte)(Result | 1);
+                result = (byte)(result | 1);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:466
-    public GroupBehavior GetBehavior(byte Selection)
+    public GroupBehavior GetBehavior(byte selection)
     {
-        GroupBehavior Result;
-        AIGroup Group;
-        Group = GetGroup(Selection);
-        if (Group != null)
+        GroupBehavior result;
+        AIGroup group;
+        group = GetGroup(selection);
+        if (group != null)
         {
-            Result = Group.GroupClass.Behavior;
+            result = group.GroupClass.Behavior;
         }
         else
         {
-            Result = GroupBehavior.None;
+            result = GroupBehavior.None;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:473
-    public void SetBehavior(byte Selection, GroupBehavior Behavior)
+    public void SetBehavior(byte selection, GroupBehavior behavior)
     {
-        AIGroup Group;
-        Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(FPlayer, FIndependentRelation, Behavior);
-        if (Group != null)
+        AIGroup group;
+        group = AoWHSMap.Current.AIGroupManager.CreateGroup(Player, IndependentRelation, behavior);
+        if (group != null)
         {
-            for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+            for (int I = 0, last = _children.Count - 1; I <= last; I++)
             {
-                if ((Selection & 1) != 0)
+                if ((selection & 1) != 0)
                 {
-                    Group.AddUnit((Troop)FChildren.List[I]);
+                    group.AddUnit((Troop)_children.List[I]);
                 }
 
-                Selection = (byte)(int)(((uint)Selection) >> 1);
+                selection = (byte)(int)(((uint)selection) >> 1);
             }
 
-            Group.Release();
+            group.Release();
         }
     }
 
@@ -632,268 +632,268 @@ public partial class Army : UnitList
     public GroupBehavior GetOldAIBehavior()
     {
         int I;
-        GroupBehavior Result = GroupBehavior.None;
+        GroupBehavior result = GroupBehavior.None;
         I = GetCount();
-        while (Result == GroupBehavior.None && I != 0)
+        while (result == GroupBehavior.None && I != 0)
         {
             I -= 1;
-            Result = (GroupBehavior)GetUnit(I).F_AbstractUnit_38;
+            result = (GroupBehavior)GetUnit(I).LegacyGroupBehavior;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:500
     public void InitializeGroupBehavior()
     {
-        byte Selection;
-        int Index;
-        GroupBehavior Behavior;
-        Hero AHero;
-        Selection = 255;
-        AHero = Hero(Selection, Set<HeroType>.Of(HeroType.Leader, HeroType.HeroLeader));
-        if (AHero != null)
+        byte selection;
+        int index;
+        GroupBehavior behavior;
+        Hero hero;
+        selection = 255;
+        hero = Hero(selection, Set<HeroType>.Of(HeroType.Leader, HeroType.HeroLeader));
+        if (hero != null)
         {
-            Index = IndexOf(AHero);
-            if (Index != -1)
+            index = IndexOf(hero);
+            if (index != -1)
             {
-                SetBehavior((byte)(1 << Index), GroupBehavior.Fortify);
-                Selection = (byte)(Selection & ~(1 << Index));
+                SetBehavior((byte)(1 << index), GroupBehavior.Fortify);
+                selection = (byte)(selection & ~(1 << index));
             }
         }
 
-        Index = IndexOfTransporter(Selection);
-        if (Index != -1 && FOldAIBehavior == GroupBehavior.None)
+        index = IndexOfTransporter(selection);
+        if (index != -1 && OldAIBehavior == GroupBehavior.None)
         {
-            Selection = (byte)(Selection & ~(1 << Index));
+            selection = (byte)(selection & ~(1 << index));
         }
 
-        if (Selection != 0)
+        if (selection != 0)
         {
-            Behavior = FOldAIBehavior;
-            if (Behavior == GroupBehavior.None)
+            behavior = OldAIBehavior;
+            if (behavior == GroupBehavior.None)
             {
-                if (FPlayer == 0 && AoWHSMap.Current.GetIndependentAIMode() != AoWHSMap.IndependentAIMode.Off)
+                if (Player == 0 && AoWHSMap.Current.GetIndependentAIMode() != AoWHSMapIndependentAIMode.Off)
                 {
-                    if (FX != -1 && AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindNoneTransparentHS(typeof(PlayerStructure)) == null)
+                    if (X != -1 && AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
                     {
-                        if (FIndependentRelation >= 0)
+                        if (IndependentRelation >= 0)
                         {
-                            Behavior = GroupBehavior.Patrol;
+                            behavior = GroupBehavior.Patrol;
                         }
                         else
                         {
-                            Behavior = GroupBehavior.GuardArea;
+                            behavior = GroupBehavior.GuardArea;
                         }
                     }
                     else
                     {
-                        Behavior = GroupBehavior.Passive;
+                        behavior = GroupBehavior.Passive;
                     }
                 }
                 else
                 {
-                    Behavior = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIControl.GetRandomGroupBehavior();
+                    behavior = AoWHSMap.Current.Players.GetPlayers(Player).AIControl.GetRandomGroupBehavior();
                 }
             }
 
-            SetBehavior(Selection, Behavior);
+            SetBehavior(selection, behavior);
         }
     }
 
     // Army.PAS:533
     public void UpdateGroupBehavior()
     {
-        byte Selection;
-        int Index;
-        GroupBehavior Behavior;
-        Selection = GetGroupSelection(0);
-        if (Selection != 0)
+        byte selection;
+        int index;
+        GroupBehavior behavior;
+        selection = GetGroupSelection(0);
+        if (selection != 0)
         {
-            Index = IndexOfTransporter(Selection);
-            if (Index != -1)
+            index = IndexOfTransporter(selection);
+            if (index != -1)
             {
-                Selection = (byte)(Selection & ~(1 << Index));
-                if (((Troop)FChildren.List[Index]).FGroupID == 0)
+                selection = (byte)(selection & ~(1 << index));
+                if (((Troop)_children.List[index]).GroupId == 0)
                 {
-                    SetBehavior((byte)(1 << Index), GroupBehavior.Transport);
+                    SetBehavior((byte)(1 << index), GroupBehavior.Transport);
                 }
             }
 
-            Behavior = GroupBehavior.Passive;
-            if (FPlayer == 0 && Hero(Selection, Set<HeroType>.Of(HeroType.Hero)) != null)
+            behavior = GroupBehavior.Passive;
+            if (Player == 0 && Hero(selection, Set<HeroType>.Of(HeroType.Hero)) != null)
             {
-                Behavior = GroupBehavior.Scout;
+                behavior = GroupBehavior.Scout;
             }
             else
             {
-                if (FPlayer == 0 && AoWHSMap.Current.GetIndependentAIMode() != AoWHSMap.IndependentAIMode.Off && FX != -1)
+                if (Player == 0 && AoWHSMap.Current.GetIndependentAIMode() != AoWHSMapIndependentAIMode.Off && X != -1)
                 {
-                    if (AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindNoneTransparentHS(typeof(PlayerStructure)) == null)
+                    if (AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel).FindNoneTransparentHexSprite(typeof(PlayerStructure)) == null)
                     {
-                        if (FIndependentRelation >= 0)
+                        if (IndependentRelation >= 0)
                         {
-                            Behavior = GroupBehavior.Patrol;
+                            behavior = GroupBehavior.Patrol;
                         }
                         else
                         {
-                            Behavior = GroupBehavior.GuardArea;
+                            behavior = GroupBehavior.GuardArea;
                         }
                     }
                 }
             }
 
-            if (Selection != 0)
+            if (selection != 0)
             {
-                Index = IndexOfBehavior(Behavior);
-                if (Index == -1)
+                index = IndexOfBehavior(behavior);
+                if (index == -1)
                 {
-                    SetBehavior(Selection, Behavior);
+                    SetBehavior(selection, behavior);
                 }
                 else
                 {
-                    SetGroup(Selection, ((Troop)FChildren.List[Index]).FGroup);
+                    SetGroup(selection, ((Troop)_children.List[index]).Group);
                 }
             }
         }
     }
 
     // Army.PAS:560
-    public ArmyId CreateID(byte Selection)
+    public ArmyId CreateId(byte selection)
     {
-        ArmyId ID;
-        ID = new ArmyId(null);
-        ID.FX = FX;
-        ID.FY = FY;
-        ID.FL = FL;
-        ID.FPlayer = FPlayer;
+        ArmyId id;
+        id = new ArmyId(null);
+        id.X = X;
+        id.Y = Y;
+        id.MapLevel = MapLevel;
+        id.Player = Player;
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                ID.FUnitIDs.Add(((Troop)FChildren.List[I]).FUnitID);
+                id.UnitIds.Add(((Troop)_children.List[I]).UnitId);
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        return ID;
+        return id;
     }
 
     // Army.PAS:579
-    public ArmyHexSprite GetArmyHS()
+    public ArmyHexSprite GetArmyHexSprite()
     {
-        ArmyHexSprite Result;
+        ArmyHexSprite result;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            Result = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
+            result = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:591
-    public void AssignSettings(Army Army)
+    public void AssignSettings(Army army)
     {
-        FDestinationX = Army.FDestinationX;
-        FDestinationY = Army.FDestinationY;
-        FDestinationL = Army.FDestinationL;
-        FPlayer = Army.FPlayer;
+        DestinationX = army.DestinationX;
+        DestinationY = army.DestinationY;
+        DestinationL = army.DestinationL;
+        Player = army.Player;
     }
 
     // Army.PAS:599
-    public void SetFullyConcealed(bool Value)
+    public void SetFullyConcealed(bool value)
     {
-        if (Value != FStatus.Contains(ArmyStatusElement.FullyConcealed))
+        if (value != Status.Contains(ArmyStatusElement.FullyConcealed))
         {
-            if (Value)
+            if (value)
             {
-                FStatus = FStatus + Set<ArmyStatusElement>.Of(ArmyStatusElement.FullyConcealed);
+                Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.FullyConcealed);
             }
             else
             {
-                FStatus = FStatus - Set<ArmyStatusElement>.Of(ArmyStatusElement.FullyConcealed);
+                Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.FullyConcealed);
             }
 
-            if (FStatus.Contains(ArmyStatusElement.Activated) && FX != -1)
+            if (Status.Contains(ArmyStatusElement.Activated) && X != -1)
             {
-                AoWHSMap.Current.ScannerIconsChangedRad(FX, FY, FL, 0);
+                AoWHSMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
             }
         }
     }
 
     // Army.PAS:610
-    public bool GetFullyConcealed() => FStatus.Contains(ArmyStatusElement.FullyConcealed);
+    public bool GetFullyConcealed() => Status.Contains(ArmyStatusElement.FullyConcealed);
 
     // Army.PAS:613
     public void UpdateConcealment()
     {
-        bool Concealed;
-        Leader ALeader;
-        bool Changed;
-        bool ShowCrown;
-        if (FStatus.Contains(ArmyStatusElement.Activated))
+        bool concealed;
+        Leader leader;
+        bool changed;
+        bool showCrown;
+        if (Status.Contains(ArmyStatusElement.Activated))
         {
-            if (FConcealedUnits != 0 && AoWHSMap.Current.FSeatedPlayer != FPlayer && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (ConcealedUnits != 0 && AoWHSMap.Current.SeatedPlayer != Player && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
-                Concealed = GetConcealedForPlayer(AoWHSMap.Current.FSeatedPlayer);
+                concealed = GetConcealedForPlayer(AoWHSMap.Current.SeatedPlayer);
             }
             else
             {
-                Concealed = false;
+                concealed = false;
             }
 
-            ALeader = Leader(255);
-            ShowCrown = ALeader != null;
-            if (ShowCrown && Concealed)
+            leader = Leader(255);
+            showCrown = leader != null;
+            if (showCrown && concealed)
             {
-                var indexOf = IndexOf(ALeader);
-                if ((((int)(((uint)FConcealedUnits) >> indexOf)) & 1) != 0)
+                var indexOf = IndexOf(leader);
+                if ((((int)(((uint)ConcealedUnits) >> indexOf)) & 1) != 0)
                 {
-                    ShowCrown = false;
+                    showCrown = false;
                 }
             }
 
-            Changed = false;
-            if (ShowCrown)
+            changed = false;
+            if (showCrown)
             {
-                FStatus = FStatus + Set<ArmyStatusElement>.Of(ArmyStatusElement.ShowCrown);
+                Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.ShowCrown);
             }
             else
             {
-                FStatus = FStatus - Set<ArmyStatusElement>.Of(ArmyStatusElement.ShowCrown);
+                Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.ShowCrown);
             }
 
-            if (Concealed != FStatus.Contains(ArmyStatusElement.Concealed))
+            if (concealed != Status.Contains(ArmyStatusElement.Concealed))
             {
-                if (Concealed)
+                if (concealed)
                 {
-                    FStatus = FStatus + Set<ArmyStatusElement>.Of(ArmyStatusElement.Concealed);
+                    Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.Concealed);
                 }
                 else
                 {
-                    FStatus = FStatus - Set<ArmyStatusElement>.Of(ArmyStatusElement.Concealed);
+                    Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.Concealed);
                 }
 
-                Changed = true;
+                changed = true;
             }
 
-            Concealed = Concealed && GetCount() == ConcealedUnitsCount();
-            if (Concealed != GetFullyConcealed())
+            concealed = concealed && GetCount() == ConcealedUnitsCount();
+            if (concealed != GetFullyConcealed())
             {
-                SetFullyConcealed(Concealed);
-                Changed = true;
+                SetFullyConcealed(concealed);
+                changed = true;
             }
 
-            if (Changed)
+            if (changed)
             {
                 TriggerOnUpdateEvent();
             }
@@ -901,11 +901,11 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:639
-    public void SetXYL(sbyte X, sbyte Y, sbyte L)
+    public void SetMapCoordinate(sbyte X, sbyte Y, sbyte L)
     {
-        FX = X;
-        FY = Y;
-        FL = L;
+        this.X = X;
+        this.Y = Y;
+        MapLevel = L;
         if (UpdateCount == 0)
         {
             UpdateConcealedUnits();
@@ -913,96 +913,96 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:647
-    public int GetRace(byte Selection)
+    public int GetRace(byte selection)
     {
-        bool Same;
-        int Race;
-        int Result = -1;
-        Same = true;
+        bool same;
+        int race;
+        int result = -1;
+        same = true;
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                Race = ((Troop)FChildren.List[I]).GetRace();
-                if (Race != -1)
+                race = ((Troop)_children.List[I]).GetRace();
+                if (race != -1)
                 {
-                    if (Result != -1)
+                    if (result != -1)
                     {
-                        Same = Same && Race == Result;
+                        same = same && race == result;
                     }
                     else
                     {
-                        Result = Race;
+                        result = race;
                     }
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (!Same)
+        if (!same)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:666
-    public byte GetUpkeep() => FUpkeep;
+    public byte GetUpkeep() => Upkeep;
 
     // Army.PAS:669
-    public void ResetDestinationPos()
+    public void ResetDestinationPosition()
     {
-        FDestinationX = -1;
-        FDestinationY = -1;
-        FDestinationL = -1;
+        DestinationX = -1;
+        DestinationY = -1;
+        DestinationL = -1;
     }
 
     // Army.PAS:672
-    public void SetDestinationPos(sbyte X, sbyte Y, sbyte L)
+    public void SetDestinationPosition(sbyte X, sbyte Y, sbyte L)
     {
-        FDestinationX = X;
-        FDestinationY = Y;
-        FDestinationL = L;
+        DestinationX = X;
+        DestinationY = Y;
+        DestinationL = L;
     }
 
     // Army.PAS:675
     public int ConcealedUnitsCount()
     {
-        byte Selection;
-        Selection = FConcealedUnits;
-        int Result = 0;
-        while (Selection != 0)
+        byte selection;
+        selection = ConcealedUnits;
+        int result = 0;
+        while (selection != 0)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                Result += 1;
+                result += 1;
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:687
     public void UpdateConcealedUnits()
     {
         int I;
-        AoWMapField Field;
-        if (FX != -1 && FL != -1 && FStatus.Contains(ArmyStatusElement.Activated))
+        AoWMapField field;
+        if (X != -1 && MapLevel != -1 && Status.Contains(ArmyStatusElement.Activated))
         {
-            FConcealedUnits = 0;
-            I = FChildren.Count;
-            Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL);
+            ConcealedUnits = 0;
+            I = _children.Count;
+            field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
             while (I != 0)
             {
                 I -= 1;
-                FConcealedUnits = (byte)(FConcealedUnits << 1);
-                if (((Troop)FChildren.List[I]).ConcealedOnMapF(Field))
+                ConcealedUnits = (byte)(ConcealedUnits << 1);
+                if (((Troop)_children.List[I]).ConcealedOnMapField(field))
                 {
-                    FConcealedUnits = (byte)(FConcealedUnits | 1);
+                    ConcealedUnits = (byte)(ConcealedUnits | 1);
                 }
             }
         }
@@ -1011,105 +1011,105 @@ public partial class Army : UnitList
     // Army.PAS:705
     public void UpdateUpkeep()
     {
-        byte Upkeep;
-        byte Previous;
-        int Delta;
-        Upkeep = 0;
+        byte upkeep;
+        byte previous;
+        int delta;
+        upkeep = 0;
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            Upkeep = (byte)(Upkeep + ((Troop)FChildren.List[I]).GetUpkeep());
+            upkeep = (byte)(upkeep + ((Troop)_children.List[I]).GetUpkeep());
         }
 
-        Previous = FUpkeep;
-        if (Previous != Upkeep && FStatus.Contains(ArmyStatusElement.Activated))
+        previous = Upkeep;
+        if (previous != upkeep && Status.Contains(ArmyStatusElement.Activated))
         {
-            Delta = Upkeep - Previous;
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).SetArmyUpkeep(players.FArmyUpkeep + Delta);
+            delta = upkeep - previous;
+            var players = AoWHSMap.Current.Players.GetPlayers(Player);
+            AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + delta);
         }
 
-        FUpkeep = Upkeep;
+        Upkeep = upkeep;
     }
 
     // Army.PAS:719
-    public void ValidateTerrainEx(sbyte TerrainType, sbyte OverlayType, sbyte Player)
+    public void ValidateTerrain(sbyte terrainType, sbyte overlayType, sbyte player)
     {
-        Troop Transport;
-        byte Selection;
-        ArmyEventLog Log;
-        Troop AUnit;
-        Transport = Transporter(255);
-        if (Transport == null || !Transport.ValidTerrain(TerrainType, OverlayType))
+        Troop transport;
+        byte selection;
+        ArmyEventLog log;
+        Troop troop;
+        transport = Transporter(255);
+        if (transport == null || !transport.ValidTerrain(terrainType, overlayType))
         {
-            Selection = 0;
+            selection = 0;
             for (int I = GetCount() - 1; I >= 0; I--)
             {
-                Selection = (byte)(Selection << 1);
-                if (!((Troop)FChildren.List[I]).ValidTerrain(TerrainType, OverlayType))
+                selection = (byte)(selection << 1);
+                if (!((Troop)_children.List[I]).ValidTerrain(terrainType, overlayType))
                 {
-                    Selection = (byte)(Selection | 1);
+                    selection = (byte)(selection | 1);
                 }
             }
         }
         else
         {
-            Selection = 0;
+            selection = 0;
         }
 
-        if (Selection != 0)
+        if (selection != 0)
         {
-            if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && AoWHSMap.Current.FDay != 0)
+            if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && AoWHSMap.Current.Day != 0)
             {
                 BeginUpdate();
-                Log = new ArmyEventLog(null);
-                Log.FPlayer = Player;
-                if (Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)TerrainType))
+                log = new ArmyEventLog(null);
+                log._player = player;
+                if (Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)terrainType))
                 {
-                    Log.FArmyText = AbilityRules.TranslateRStr(UnitsDrownRStr);
-                    var unitsDrown = AbilityRules.TranslateRStr(UnitsDrownRStr);
-                    Log.FArmyMessages.Add(unitsDrown);
-                    Log.FArmyIcon = 3;
+                    log.ArmyText = AbilityRules.TranslateResourceString(s_unitsDrownText);
+                    var unitsDrown = AbilityRules.TranslateResourceString(s_unitsDrownText);
+                    log.ArmyMessages.Add(unitsDrown);
+                    log.ArmyIcon = 3;
                 }
                 else
                 {
-                    switch (TerrainType)
+                    switch (terrainType)
                     {
                         case 9:
-                            Log.FArmyText = AbilityRules.TranslateRStr(UnitsBurnedRStr);
-                            var unitsBurned = AbilityRules.TranslateRStr(UnitsBurnedRStr);
-                            Log.FArmyMessages.Add(unitsBurned);
-                            Log.FArmyIcon = 0;
+                            log.ArmyText = AbilityRules.TranslateResourceString(s_unitsBurnedText);
+                            var unitsBurned = AbilityRules.TranslateResourceString(s_unitsBurnedText);
+                            log.ArmyMessages.Add(unitsBurned);
+                            log.ArmyIcon = 0;
                             break;
                         default:
-                            Log.FArmyText = AbilityRules.TranslateRStr(UnitsCrushedRStr);
-                            var aoWETranslateRStr = AbilityRules.TranslateRStr(UnitsCrushedRStr);
-                            Log.FArmyMessages.Add(aoWETranslateRStr);
-                            Log.FArmyIcon = 2;
+                            log.ArmyText = AbilityRules.TranslateResourceString(s_unitsCrushedText);
+                            var translatedText = AbilityRules.TranslateResourceString(s_unitsCrushedText);
+                            log.ArmyMessages.Add(translatedText);
+                            log.ArmyIcon = 2;
                             break;
                     }
                 }
 
-                Log.FArmyView.Setup(this, 255);
+                log.ArmyView.Setup(this, 255);
                 for (int I = 0, last = GetCount() - 1; I <= last; I++)
                 {
-                    AUnit = GetUnit(I);
-                    if ((((int)(((uint)Selection) >> I)) & 1) != 0)
+                    troop = GetUnit(I);
+                    if ((((int)(((uint)selection) >> I)) & 1) != 0)
                     {
-                        var hitPoints = AUnit.GetHitPoints();
-                        Log.FDamageValues.Add((byte)hitPoints);
-                        Log.FDamageTypes.Add(9);
-                        AUnit.SetHitPoints(0);
+                        var hitPoints = troop.GetHitPoints();
+                        log.DamageValues.Add((byte)hitPoints);
+                        log.DamageTypes.Add(9);
+                        troop.SetHitPoints(0);
                     }
                     else
                     {
-                        Log.FDamageValues.Add(0);
-                        Log.FDamageTypes.Add(9);
+                        log.DamageValues.Add(0);
+                        log.DamageTypes.Add(9);
                     }
                 }
 
-                Log.ValidateGameOver();
-                EventLog.DistributeLocationEventLog(Log, FPlayer, FX, FY, FL, true);
-                Log.Release();
+                log.ValidateGameOver();
+                EventLog.DistributeLocationEventLog(log, Player, X, Y, MapLevel, true);
+                log.Release();
                 EndUpdate();
             }
 
@@ -1118,33 +1118,33 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:785
-    public void ValidateTerrain(sbyte TerrainType, sbyte OverlayType)
+    public void ValidateTerrain(sbyte terrainType, sbyte overlayType)
     {
-        ValidateTerrainEx(TerrainType, OverlayType, FPlayer);
+        ValidateTerrain(terrainType, overlayType, Player);
     }
 
     // Army.PAS:790
     public void Validate()
     {
-        Troop AUnit;
-        Unit NewUnit;
+        Troop troop;
+        Unit newUnit;
         AoWHSMap.Current.LockGameOverEvent();
         BeginUpdate();
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            AUnit = (Troop)FChildren.List[I];
-            if (AUnit.GetHitPoints() == 0)
+            troop = (Troop)_children.List[I];
+            if (troop.GetHitPoints() == 0)
             {
-                if (AUnit.GetAbilityEnabled(107))
+                if (troop.GetAbilityEnabled(107))
                 {
-                    NewUnit = new Unit(null);
-                    NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(152));
-                    AUnit.Killed();
-                    AddUnit(NewUnit);
+                    newUnit = new Unit(null);
+                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(152));
+                    troop.Killed();
+                    AddUnit(newUnit);
                 }
                 else
                 {
-                    AUnit.Killed();
+                    troop.Killed();
                 }
             }
         }
@@ -1156,39 +1156,39 @@ public partial class Army : UnitList
     // Army.PAS:812
     public void UpdateFormation()
     {
-        int Level;
-        int UnitLevel;
-        Troop AUnit;
-        string SourceName = "";
-        Level = 0;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        int level;
+        int unitLevel;
+        Troop troop;
+        string sourceName = "";
+        level = 0;
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            AUnit = (Troop)FChildren.List[I];
-            AUnit.UpdateMoraleValue();
-            if (AUnit.GetAbilityEnabled(46) || AUnit.GetAbilityLevel(46) > 0)
+            troop = (Troop)_children.List[I];
+            troop.UpdateMoraleValue();
+            if (troop.GetAbilityEnabled(46) || troop.GetAbilityLevel(46) > 0)
             {
-                ((LeadershipAbility)AoWHSSet.Current.FAbilityControl.GetAbility(46)).ResetExternalSource(AUnit);
-                UnitLevel = AUnit.GetAbilityLevel(46);
-                if (UnitLevel > Level)
+                ((LeadershipAbility)AoWHSSet.Current.AbilityControl.GetAbility(46)).ResetExternalSource(troop);
+                unitLevel = troop.GetAbilityLevel(46);
+                if (unitLevel > level)
                 {
-                    Level = UnitLevel;
-                    SourceName = AUnit.GetAbilityOwner(46).GetOwnerName();
-                    if (SourceName == AbilityRules.TranslateRStr(ArmyInherentRStr))
+                    level = unitLevel;
+                    sourceName = troop.GetAbilityOwner(46).GetOwnerName();
+                    if (sourceName == AbilityRules.TranslateResourceString(s_armyInherentText))
                     {
-                        SourceName = AUnit.GetName();
+                        sourceName = troop.GetName();
                     }
                 }
             }
         }
 
-        if (Level > 0)
+        if (level > 0)
         {
-            for (int I = FChildren.Count - 1; I >= 0; I--)
+            for (int I = _children.Count - 1; I >= 0; I--)
             {
-                AUnit = (Troop)FChildren.List[I];
-                if (AUnit.GetAbilityLevel(46) < Level)
+                troop = (Troop)_children.List[I];
+                if (troop.GetAbilityLevel(46) < level)
                 {
-                    ((LeadershipAbility)AoWHSSet.Current.FAbilityControl.GetAbility(46)).SetExternalSource(AUnit, (byte)Level, SourceName);
+                    ((LeadershipAbility)AoWHSSet.Current.AbilityControl.GetAbility(46)).SetExternalSource(troop, (byte)level, sourceName);
                 }
             }
         }
@@ -1197,7 +1197,7 @@ public partial class Army : UnitList
     // Army.PAS:841
     public void Update()
     {
-        if (UpdateCount == 0 && FStatus.Contains(ArmyStatusElement.Activated))
+        if (UpdateCount == 0 && Status.Contains(ArmyStatusElement.Activated))
         {
             LockChanged();
             SortUnits();
@@ -1208,9 +1208,9 @@ public partial class Army : UnitList
             UpdateConcealment();
             UpdateFormation();
             UpdateIndependentRelation();
-            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && FX != -1)
+            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && X != -1)
             {
-                AoWHSMap.Current.ScannerIconsChangedRad(FX, FY, FL, 0);
+                AoWHSMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
             }
 
             UnlockChanged();
@@ -1221,12 +1221,12 @@ public partial class Army : UnitList
     // Army.PAS:861
     public void TriggerOnUpdateEvent()
     {
-        if (UpdateCount == 0 && FStatus.Contains(ArmyStatusElement.Activated))
+        if (UpdateCount == 0 && Status.Contains(ArmyStatusElement.Activated))
         {
             AoWHSMap.Current.ArmyChanged(this);
-            if (FOnUpdate != null)
+            if (OnUpdate != null)
             {
-                FOnUpdate(this);
+                OnUpdate(this);
             }
         }
     }
@@ -1234,35 +1234,35 @@ public partial class Army : UnitList
     // Army.PAS:870
     public void Activate()
     {
-        Troop AUnit;
-        Assert(!FStatus.Contains(ArmyStatusElement.Activated), "Army already activated", "Army.PAS", 1171);
-        if (FOldAIBehavior == GroupBehavior.None)
+        Troop troop;
+        Assert(!Status.Contains(ArmyStatusElement.Activated), "Army already activated", "Army.PAS", 1171);
+        if (OldAIBehavior == GroupBehavior.None)
         {
-            FOldAIBehavior = GetOldAIBehavior();
+            OldAIBehavior = GetOldAIBehavior();
         }
 
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            AUnit = (Troop)FChildren.List[I];
-            if (!AUnit.FUnitStatus.Contains(UnitStatusElement.Activated))
+            troop = (Troop)_children.List[I];
+            if (!troop.UnitStatus.Contains(UnitStatusElement.Activated))
             {
-                AUnit.Activate();
+                troop.Activate();
             }
         }
 
-        FStatus = FStatus + Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
-        FUpkeep = 0;
-        if (FPlayer != -1)
+        Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
+        Upkeep = 0;
+        if (Player != -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FArmies.AddChild(this);
+            AoWHSMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
         }
 
         // { Original treats X = 0 as an unset location. }
-        if (FX == 0)
+        if (X == 0)
         {
-            FX = -1;
-            FY = -1;
-            FL = -1;
+            X = -1;
+            Y = -1;
+            MapLevel = -1;
         }
 
         Update();
@@ -1271,147 +1271,147 @@ public partial class Army : UnitList
     // Army.PAS:1186
     public void Deactivate()
     {
-        Troop AUnit;
-        if (FStatus.Contains(ArmyStatusElement.Activated))
+        Troop troop;
+        if (Status.Contains(ArmyStatusElement.Activated))
         {
-            if (FUnfogRange != 0)
+            if (UnfogRange != 0)
             {
-                AoWHSMap.Current.FogArea(FX, FY, FL, FUnfogRange);
-                FUnfogRange = 0;
+                AoWHSMap.Current.FogArea(X, Y, MapLevel, UnfogRange);
+                UnfogRange = 0;
             }
 
-            for (int I = FChildren.Count - 1; I >= 0; I--)
+            for (int I = _children.Count - 1; I >= 0; I--)
             {
-                AUnit = (Troop)FChildren.List[I];
-                if (AUnit.FUnitStatus.Contains(UnitStatusElement.Activated))
+                troop = (Troop)_children.List[I];
+                if (troop.UnitStatus.Contains(UnitStatusElement.Activated))
                 {
-                    AUnit.Deactivate();
+                    troop.Deactivate();
                 }
             }
 
-            if (FPlayer != -1)
+            if (Player != -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FArmies.RemoveChild(this);
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).SetArmyUpkeep(players.FArmyUpkeep - FUpkeep);
+                AoWHSMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
+                var players = AoWHSMap.Current.Players.GetPlayers(Player);
+                AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - Upkeep);
             }
 
-            FStatus = FStatus - Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
+            Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.Activated);
         }
     }
 
     // Army.PAS:1211
-    public byte ValidateSelection(byte Selection) => (byte)(Selection & AbilityRules.ArmySelectionMasks[FChildren.Count]);
+    public byte ValidateSelection(byte selection) => (byte)(selection & AbilityRules.ArmySelectionMasks[_children.Count]);
 
     // Army.PAS:1216
-    public int SelectionCount(byte Selection)
+    public int SelectionCount(byte selection)
     {
-        Selection = (byte)(Selection & AbilityRules.ArmySelectionMasks[FChildren.Count]);
-        int Result = 0;
-        while (Selection != 0)
+        selection = (byte)(selection & AbilityRules.ArmySelectionMasks[_children.Count]);
+        int result = 0;
+        while (selection != 0)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                Result += 1;
+                result += 1;
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1227
-    public byte ValidateMoveSelection(byte Selection)
+    public byte ValidateMoveSelection(byte selection)
     {
-        byte Result = ValidateSelection(Selection);
-        if (IndexOfTransporter(255) != -1 && (UnitsInTransporter() & ~Selection) != 0 && Transporter(Selection) != null)
+        byte result = ValidateSelection(selection);
+        if (IndexOfTransporter(255) != -1 && (UnitsInTransporter() & ~selection) != 0 && Transporter(selection) != null)
         {
             var transporter = Transporter(255);
-            Result = (byte)(Result & ~(1 << FChildren.IndexOf(transporter)));
+            result = (byte)(result & ~(1 << _children.IndexOf(transporter)));
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1235
     public void Select()
     {
-        FStatus = FStatus + Set<ArmyStatusElement>.Of(ArmyStatusElement.Selected);
+        Status = Status + Set<ArmyStatusElement>.Of(ArmyStatusElement.Selected);
     }
 
     // Army.PAS:1238
     public void Unselect()
     {
-        FStatus = FStatus - Set<ArmyStatusElement>.Of(ArmyStatusElement.Selected);
+        Status = Status - Set<ArmyStatusElement>.Of(ArmyStatusElement.Selected);
     }
 
     // Army.PAS:1244
-    public bool GetUnitConcealed(int Index)
+    public bool GetUnitConcealed(int index)
     {
-        AoWMapField Field;
-        Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL);
-        return ((Troop)FChildren.List[Index]).ConcealedOnMapF(Field);
+        AoWMapField field;
+        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
+        return ((Troop)_children.List[index]).ConcealedOnMapField(field);
     }
 
     // Army.PAS:1262
-    public bool GetUnitsConcealedForPlayer(byte Selection, sbyte Player)
+    public bool GetUnitsConcealedForPlayer(byte selection, sbyte player)
     {
-        bool Result;
-        Selection = ValidateSelection(Selection);
-        if (Selection == (FConcealedUnits & Selection))
+        bool result;
+        selection = ValidateSelection(selection);
+        if (selection == (ConcealedUnits & selection))
         {
-            Result = GetConcealedForPlayer(Player);
+            result = GetConcealedForPlayer(player);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1298
-    public void SetPlayer(sbyte Player)
+    public void SetPlayer(sbyte player)
     {
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Player) == null)
+        if (AoWHSMap.Current.Players.GetPlayers(player) == null)
         {
-            Player = 0;
+            player = 0;
         }
 
-        if (Player != FPlayer)
+        if (player != Player)
         {
             BeginUpdate();
-            if (FStatus.Contains(ArmyStatusElement.Activated))
+            if (Status.Contains(ArmyStatusElement.Activated))
             {
-                if (FPlayer != -1)
+                if (Player != -1)
                 {
-                    var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).SetArmyUpkeep(players.FArmyUpkeep - FUpkeep);
-                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FArmies.RemoveChild(this);
+                    var players = AoWHSMap.Current.Players.GetPlayers(Player);
+                    AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep - Upkeep);
+                    AoWHSMap.Current.Players.GetPlayers(Player).Armies.RemoveChild(this);
                 }
 
-                FPlayer = Player;
-                if (FPlayer != -1)
+                Player = player;
+                if (Player != -1)
                 {
-                    var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).SetArmyUpkeep(players.FArmyUpkeep + FUpkeep);
-                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FArmies.AddChild(this);
+                    var players = AoWHSMap.Current.Players.GetPlayers(Player);
+                    AoWHSMap.Current.Players.GetPlayers(Player).SetArmyUpkeep(players.ArmyUpkeep + Upkeep);
+                    AoWHSMap.Current.Players.GetPlayers(Player).Armies.AddChild(this);
                 }
 
-                for (int I = FChildren.Count - 1; I >= 0; I--)
+                for (int I = _children.Count - 1; I >= 0; I--)
                 {
-                    ((Troop)FChildren.List[I]).SetPlayer(FPlayer);
+                    ((Troop)_children.List[I]).SetPlayer(Player);
                 }
 
-                if (FX != -1)
+                if (X != -1)
                 {
-                    AoWHSMap.Current.ScannerIconsChangedRad(FX, FY, FL, 0);
+                    AoWHSMap.Current.ScannerIconsChangedRadius(X, Y, MapLevel, 0);
                 }
 
-                if (FPlayer > 0 && AoWHSMap.Current.FDay > 0)
+                if (Player > 0 && AoWHSMap.Current.Day > 0)
                 {
-                    if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
+                    if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
                     {
                         SetBehavior(255, GroupBehavior.Passive);
                     }
@@ -1422,7 +1422,7 @@ public partial class Army : UnitList
             }
             else
             {
-                FPlayer = Player;
+                Player = player;
             }
 
             EndUpdate();
@@ -1430,198 +1430,198 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:1332
-    public Set<DamageType> ImmunityTypes(byte Selection)
+    public Set<DamageType> ImmunityTypes(byte selection)
     {
         int I;
-        Set<DamageType> Result = AbilityRules.dtAll;
+        Set<DamageType> result = AbilityRules.s_allDamageTypes;
         I = 0;
-        while (Result != Set<DamageType>.Of() && I != GetCount())
+        while (result != Set<DamageType>.Of() && I != GetCount())
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                Result = Result & ((Troop)FChildren.List[I]).GetImmunityTypes();
+                result = result & ((Troop)_children.List[I]).GetImmunityTypes();
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1346
-    public int ObtainValue(byte Selection)
+    public int ObtainValue(byte selection)
     {
-        int Result = 0;
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        int result = 0;
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                Result += ((Troop)FChildren.List[I]).GetObtainValue();
+                result += ((Troop)_children.List[I]).GetObtainValue();
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1357
-    public sbyte MovePoints(byte Selection)
+    public sbyte MovePoints(byte selection)
     {
-        sbyte Result;
-        Troop Transport;
-        Troop AUnit;
-        Transport = Transporter(Selection);
-        if (Transport != null)
+        sbyte result;
+        Troop transport;
+        Troop troop;
+        transport = Transporter(selection);
+        if (transport != null)
         {
-            Result = Transport.GetMovePoints();
+            result = transport.GetMovePoints();
         }
         else
         {
-            if (Selection != 0)
+            if (selection != 0)
             {
-                Result = 50;
+                result = 50;
                 for (int I = 0, last = GetCount() - 1; I <= last; I++)
                 {
-                    if ((Selection & 1) != 0)
+                    if ((selection & 1) != 0)
                     {
-                        AUnit = (Troop)FChildren.List[I];
-                        if (AUnit.GetMovePoints() < Result)
+                        troop = (Troop)_children.List[I];
+                        if (troop.GetMovePoints() < result)
                         {
-                            Result = AUnit.GetMovePoints();
+                            result = troop.GetMovePoints();
                         }
                     }
 
-                    Selection = (byte)(int)(((uint)Selection) >> 1);
+                    selection = (byte)(int)(((uint)selection) >> 1);
                 }
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1378
-    public sbyte Moves(byte Selection)
+    public sbyte Moves(byte selection)
     {
-        sbyte Result;
-        Troop Transport;
-        Troop AUnit;
-        Transport = Transporter(Selection);
-        if (Transport != null)
+        sbyte result;
+        Troop transport;
+        Troop troop;
+        transport = Transporter(selection);
+        if (transport != null)
         {
-            Result = Transport.GetMoves();
+            result = transport.GetMoves();
         }
         else
         {
-            if (Selection != 0)
+            if (selection != 0)
             {
-                Result = 50;
+                result = 50;
                 for (int I = 0, last = GetCount() - 1; I <= last; I++)
                 {
-                    if ((Selection & 1) != 0)
+                    if ((selection & 1) != 0)
                     {
-                        AUnit = (Troop)FChildren.List[I];
-                        if (AUnit.GetMoves() < Result)
+                        troop = (Troop)_children.List[I];
+                        if (troop.GetMoves() < result)
                         {
-                            Result = AUnit.GetMoves();
+                            result = troop.GetMoves();
                         }
                     }
 
-                    Selection = (byte)(int)(((uint)Selection) >> 1);
+                    selection = (byte)(int)(((uint)selection) >> 1);
                 }
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1399
-    public Set<MoveType> MoveTypes(byte Selection)
+    public Set<MoveType> MoveTypes(byte selection)
     {
-        Set<MoveType> Result;
-        Troop Transport;
-        Transport = Transporter(Selection);
-        if (Transport != null)
+        Set<MoveType> result;
+        Troop transport;
+        transport = Transporter(selection);
+        if (transport != null)
         {
-            Result = Transport.GetMoveTypes();
+            result = transport.GetMoveTypes();
         }
         else
         {
-            Result = Set<MoveType>.Of();
+            result = Set<MoveType>.Of();
             for (int I = 0, last = GetCount() - 1; I <= last; I++)
             {
-                if ((Selection & 1) != 0)
+                if ((selection & 1) != 0)
                 {
-                    Result = Result + ((Troop)FChildren.List[I]).GetMoveTypes();
+                    result = result + ((Troop)_children.List[I]).GetMoveTypes();
                 }
 
-                Selection = (byte)(int)(((uint)Selection) >> 1);
+                selection = (byte)(int)(((uint)selection) >> 1);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1416
-    public Set<MoveType> GetPartyMoves(byte Selection)
+    public Set<MoveType> GetPartyMoves(byte selection)
     {
-        Set<MoveType> Result = default;
-        Troop Transport;
-        Set<MoveType> Common;
-        Set<MoveType> Moves;
-        int MoveType;
-        Transport = Transporter(Selection);
-        if (Transport == null)
+        Set<MoveType> result = default;
+        Troop transport;
+        Set<MoveType> common;
+        Set<MoveType> moves;
+        int moveType;
+        transport = Transporter(selection);
+        if (transport == null)
         {
-            Common = Set<MoveType>.Of().WithRange(World.Movement.MoveType.Walking, World.Movement.MoveType.Tunneling);
-            MoveType = (int)World.Movement.MoveType.Flying;
+            common = Set<MoveType>.Of().WithRange(World.Movement.MoveType.Walking, World.Movement.MoveType.Tunneling);
+            moveType = (int)World.Movement.MoveType.Flying;
             for (int I = 0, last = GetCount() - 1; I <= last; I++)
             {
-                if (((1 << I) & Selection) != 0)
+                if (((1 << I) & selection) != 0)
                 {
-                    Moves = ((Troop)FChildren.List[I]).GetMoveTypes();
-                    Common = Common & Moves;
-                    if (MoveType != -1)
+                    moves = ((Troop)_children.List[I]).GetMoveTypes();
+                    common = common & moves;
+                    if (moveType != -1)
                     {
-                        if ((MoveType)MoveType == World.Movement.MoveType.Flying)
+                        if ((MoveType)moveType == World.Movement.MoveType.Flying)
                         {
-                            if (!Moves.Contains(World.Movement.MoveType.Flying))
+                            if (!moves.Contains(World.Movement.MoveType.Flying))
                             {
-                                if (Moves.Contains(World.Movement.MoveType.Swimming))
+                                if (moves.Contains(World.Movement.MoveType.Swimming))
                                 {
-                                    MoveType = (int)World.Movement.MoveType.Swimming;
+                                    moveType = (int)World.Movement.MoveType.Swimming;
                                 }
                                 else
                                 {
-                                    MoveType = (int)World.Movement.MoveType.Walking;
+                                    moveType = (int)World.Movement.MoveType.Walking;
                                 }
                             }
                         }
                         else
                         {
-                            if ((MoveType)MoveType == World.Movement.MoveType.Swimming)
+                            if ((MoveType)moveType == World.Movement.MoveType.Swimming)
                             {
-                                if ((Set<MoveType>.Of(World.Movement.MoveType.Flying, World.Movement.MoveType.Swimming) & Moves) == Set<MoveType>.Of())
+                                if ((Set<MoveType>.Of(World.Movement.MoveType.Flying, World.Movement.MoveType.Swimming) & moves) == Set<MoveType>.Of())
                                 {
-                                    MoveType = (int)World.Movement.MoveType.Walking;
+                                    moveType = (int)World.Movement.MoveType.Walking;
                                 }
                             }
                             else
                             {
-                                if ((MoveType)MoveType == World.Movement.MoveType.Walking)
+                                if ((MoveType)moveType == World.Movement.MoveType.Walking)
                                 {
-                                    if ((Set<MoveType>.Of(World.Movement.MoveType.Walking, World.Movement.MoveType.Flying).WithRange(World.Movement.MoveType.Forestry, World.Movement.MoveType.LavaCrossing) & Moves) == Set<MoveType>.Of())
+                                    if ((Set<MoveType>.Of(World.Movement.MoveType.Walking, World.Movement.MoveType.Flying).WithRange(World.Movement.MoveType.Forestry, World.Movement.MoveType.LavaCrossing) & moves) == Set<MoveType>.Of())
                                     {
-                                        MoveType = -1;
+                                        moveType = -1;
                                     }
                                 }
                             }
@@ -1631,101 +1631,101 @@ public partial class Army : UnitList
             }
 
             // { Original leaves Result uninitialized when the units share no movement mode. }
-            if (MoveType != -1)
+            if (moveType != -1)
             {
-                Result = Set<MoveType>.Of((MoveType)MoveType);
+                result = Set<MoveType>.Of((MoveType)moveType);
             }
 
-            Result = Result + Common;
+            result = result + common;
         }
         else
         {
-            Result = Transport.GetMoveTypes();
+            result = transport.GetMoveTypes();
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1450
-    public int MoveOnMovePoints(byte Selection, sbyte TerrainType, sbyte OverlayType)
+    public int MoveOnMovePoints(byte selection, sbyte terrainType, sbyte overlayType)
     {
-        SByteArray16By16 Table = default;
-        SByteArray16By16 UnitTable = default;
-        Troop Transport;
-        FillBytes(Bytes.Of(ref Table, 256), 1);
-        Transport = Transporter(Selection);
-        if (Transport != null)
+        SByteArray16By16 table = default;
+        SByteArray16By16 unitTable = default;
+        Troop transport;
+        FillBytes(Bytes.Of(ref table, 256), 1);
+        transport = Transporter(selection);
+        if (transport != null)
         {
-            Transport.CreateMovePointTable(ref Table);
+            transport.CreateMovePointTable(ref table);
         }
         else
         {
             for (int I = 0, last = GetCount() - 1; I <= last; I++)
             {
-                if ((Selection & 1) != 0)
+                if ((selection & 1) != 0)
                 {
-                    ((Troop)FChildren.List[I]).CreateMovePointTable(ref UnitTable);
-                    AbilityRules.MaximizeMovePointTable(Bytes.Of(ref Table), Bytes.Of(ref UnitTable));
+                    ((Troop)_children.List[I]).CreateMovePointTable(ref unitTable);
+                    AbilityRules.MaximizeMovePointTable(Bytes.Of(ref table), Bytes.Of(ref unitTable));
                 }
 
-                Selection = (byte)(int)(((uint)Selection) >> 1);
+                selection = (byte)(int)(((uint)selection) >> 1);
             }
         }
 
-        return Table[TerrainType][OverlayType - -1];
+        return table[terrainType][overlayType - -1];
     }
 
     // Army.PAS:1469
-    public void CreateMovePointTable(byte Selection, Span<byte> Table)
+    public void CreateMovePointTable(byte selection, Span<byte> table)
     {
-        int Count;
-        SByteArray16By16 UnitTable = default;
-        Troop Transport;
-        Count = 0;
-        FillBytes(Table.Slice(0, 256), 1);
-        Transport = Transporter(Selection);
-        if (Transport != null)
+        int count;
+        SByteArray16By16 unitTable = default;
+        Troop transport;
+        count = 0;
+        FillBytes(table.Slice(0, 256), 1);
+        transport = Transporter(selection);
+        if (transport != null)
         {
-            Transport.CreateMovePointTable(ref MemoryMarshal.Cast<byte, SByteArray16By16>(Table)[0]);
-            Count += 1;
+            transport.CreateMovePointTable(ref MemoryMarshal.Cast<byte, SByteArray16By16>(table)[0]);
+            count += 1;
         }
         else
         {
             for (int I = 0, last = GetCount() - 1; I <= last; I++)
             {
-                if ((Selection & 1) != 0)
+                if ((selection & 1) != 0)
                 {
-                    ((Troop)FChildren.List[I]).CreateMovePointTable(ref UnitTable);
-                    AbilityRules.MaximizeMovePointTable(Table, Bytes.Of(ref UnitTable));
-                    Count += 1;
+                    ((Troop)_children.List[I]).CreateMovePointTable(ref unitTable);
+                    AbilityRules.MaximizeMovePointTable(table, Bytes.Of(ref unitTable));
+                    count += 1;
                 }
 
-                Selection = (byte)(int)(((uint)Selection) >> 1);
+                selection = (byte)(int)(((uint)selection) >> 1);
             }
         }
 
-        if (Count == 0)
+        if (count == 0)
         {
-            FillBytes(Table.Slice(0, 256), -1);
+            FillBytes(table.Slice(0, 256), -1);
         }
     }
 
     // Army.PAS:1494
-    public bool ValidTerrainEx(byte Selection, sbyte TerrainType, sbyte OverlayType)
+    public bool ValidTerrain(byte selection, sbyte terrainType, sbyte overlayType)
     {
-        bool Result;
+        bool result;
         int I;
-        Troop Transport;
-        Transport = Transporter(Selection);
-        if (Transport == null)
+        Troop transport;
+        transport = Transporter(selection);
+        if (transport == null)
         {
             I = 0;
-            Result = true;
-            while (I != GetCount() && Result)
+            result = true;
+            while (I != GetCount() && result)
             {
-                if (((1 << I) & Selection) != 0)
+                if (((1 << I) & selection) != 0)
                 {
-                    Result = ((Troop)FChildren.List[I]).ValidTerrain(TerrainType, OverlayType);
+                    result = ((Troop)_children.List[I]).ValidTerrain(terrainType, overlayType);
                 }
 
                 I += 1;
@@ -1733,80 +1733,80 @@ public partial class Army : UnitList
         }
         else
         {
-            Result = Transport.ValidTerrain(TerrainType, OverlayType);
+            result = transport.ValidTerrain(terrainType, overlayType);
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1512
-    public bool ValidTerrain(sbyte TerrainType, sbyte OverlayType)
+    public bool ValidTerrain(sbyte terrainType, sbyte overlayType)
     {
-        bool Result;
+        bool result;
         int I;
-        Troop Transport;
-        Transport = Transporter(255);
-        if (Transport == null)
+        Troop transport;
+        transport = Transporter(255);
+        if (transport == null)
         {
             I = 0;
-            Result = true;
-            while (I != GetCount() && Result)
+            result = true;
+            while (I != GetCount() && result)
             {
-                Result = ((Troop)FChildren.List[I]).ValidTerrain(TerrainType, OverlayType);
+                result = ((Troop)_children.List[I]).ValidTerrain(terrainType, overlayType);
                 I += 1;
             }
         }
         else
         {
-            Result = Transport.ValidTerrain(TerrainType, OverlayType);
+            result = transport.ValidTerrain(terrainType, overlayType);
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1529
     public bool CanPlace(sbyte X, sbyte Y, sbyte L)
     {
-        MapField Field;
+        MapField field;
         int I;
-        Field = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
-        bool Result = ValidTerrain(Field.TerrainType, Field.OverlayType);
+        field = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+        bool result = ValidTerrain(field.TerrainType, field.OverlayType);
         I = 0;
-        if (!FStatus.Contains(ArmyStatusElement.Activated))
+        if (!Status.Contains(ArmyStatusElement.Activated))
         {
-            while (Result && I != FChildren.Count)
+            while (result && I != _children.Count)
             {
-                Result = ((Troop)FChildren.List[I]).CanActivate();
+                result = ((Troop)_children.List[I]).CanActivate();
                 I += 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1543
-    public void MovedTo(MapField OldField, MapField NewField, int MaxCost)
+    public void MovedTo(MapField oldField, MapField newField, int maxCost)
     {
-        Troop AUnit;
+        Troop troop;
         BeginUpdate();
-        FUserMode = FUserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
-        AUnit = Transporter(255);
-        if (AUnit == null)
+        UserMode = UserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
+        troop = Transporter(255);
+        if (troop == null)
         {
-            for (int I = FChildren.Count - 1; I >= 0; I--)
+            for (int I = _children.Count - 1; I >= 0; I--)
             {
-                ((Troop)FChildren.List[I]).MovedTo(OldField, NewField, MaxCost);
+                ((Troop)_children.List[I]).MovedTo(oldField, newField, maxCost);
             }
         }
         else
         {
-            AUnit.MovedTo(OldField, NewField, MaxCost);
-            for (int I = FChildren.Count - 1; I >= 0; I--)
+            troop.MovedTo(oldField, newField, maxCost);
+            for (int I = _children.Count - 1; I >= 0; I--)
             {
-                AUnit = (Troop)FChildren.List[I];
-                if (!AUnit.GetTransporter())
+                troop = (Troop)_children.List[I];
+                if (!troop.GetTransporter())
                 {
-                    AUnit.MovedTo(OldField, NewField, 0);
+                    troop.MovedTo(oldField, newField, 0);
                 }
             }
         }
@@ -1818,101 +1818,101 @@ public partial class Army : UnitList
     // Army.PAS:1565
     public int MaxSize()
     {
-        int Capacity;
-        int Result = 8;
+        int capacity;
+        int result = 8;
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            Capacity = ((Troop)FChildren.List[I]).GetTransportCapacity();
-            if (Capacity != 0 && Result > Capacity + 1)
+            capacity = ((Troop)_children.List[I]).GetTransportCapacity();
+            if (capacity != 0 && result > capacity + 1)
             {
-                Result = Capacity + 1;
+                result = capacity + 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1576
-    public Hero Hero(byte Selection, Set<HeroType> Types)
+    public Hero Hero(byte selection, Set<HeroType> types)
     {
         int I;
-        Troop AUnit;
+        Troop troop;
         I = 0;
-        Hero Result = null;
-        while (I != GetCount() && Result == null)
+        Hero result = null;
+        while (I != GetCount() && result == null)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                AUnit = (Troop)FChildren.List[I];
-                if (AUnit is Hero && Types.Contains(((Hero)AUnit).GetHeroType()))
+                troop = (Troop)_children.List[I];
+                if (troop is Hero && types.Contains(((Hero)troop).GetHeroType()))
                 {
-                    Result = (Hero)AUnit;
+                    result = (Hero)troop;
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1593
-    public Leader Leader(byte Selection)
+    public Leader Leader(byte selection)
     {
         int I;
         I = 0;
-        Leader Result = null;
-        while (I != GetCount() && Result == null)
+        Leader result = null;
+        while (I != GetCount() && result == null)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                if (((EngineObject)FChildren.List[I]).EClass.ClassID == 131634)
+                if (((EngineObject)_children.List[I]).EngineClass.ClassId == 131634)
                 {
-                    Result = (Leader)FChildren.List[I];
+                    result = (Leader)_children.List[I];
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1608
-    public Troop Transporter(byte Selection)
+    public Troop Transporter(byte selection)
     {
         int I;
         I = 0;
-        Troop Result = null;
-        while (I != GetCount() && Result == null)
+        Troop result = null;
+        while (I != GetCount() && result == null)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                if (((Troop)FChildren.List[I]).GetTransporter())
+                if (((Troop)_children.List[I]).GetTransporter())
                 {
-                    Result = (Troop)FChildren.List[I];
+                    result = (Troop)_children.List[I];
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1623
-    public int IndexOfTransporter(byte Selection)
+    public int IndexOfTransporter(byte selection)
     {
-        int Result = GetCount();
-        while (Result != 0)
+        int result = GetCount();
+        while (result != 0)
         {
-            Result -= 1;
-            if (((1 << Result) & Selection) != 0 && ((Troop)FChildren.List[Result]).GetTransporter())
+            result -= 1;
+            if (((1 << result) & selection) != 0 && ((Troop)_children.List[result]).GetTransporter())
             {
-                return Result;
+                return result;
             }
         }
 
@@ -1922,19 +1922,19 @@ public partial class Army : UnitList
     // Army.PAS:1634
     public byte UnitsInTransporter()
     {
-        byte Result;
+        byte result;
         int I;
-        MapField Field;
-        if (FX != -1)
+        MapField field;
+        if (X != -1)
         {
-            Field = AoWHSMap.Current.MapContainer.GetField(FX, FY, FL);
+            field = AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
             I = 0;
-            Result = 0;
+            result = 0;
             while (I != GetCount())
             {
-                if (!((Troop)FChildren.List[I]).ValidTerrain(Field.TerrainType, Field.OverlayType))
+                if (!((Troop)_children.List[I]).ValidTerrain(field.TerrainType, field.OverlayType))
                 {
-                    Result = (byte)(Result + (1 << I));
+                    result = (byte)(result + (1 << I));
                 }
 
                 I += 1;
@@ -1942,55 +1942,55 @@ public partial class Army : UnitList
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1652
     public void UpdateVisibilityRanges()
     {
-        byte TrueVision;
-        byte Vision;
-        byte Range;
-        Vision = 0;
-        TrueVision = 0;
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        byte trueVision;
+        byte vision;
+        byte range;
+        vision = 0;
+        trueVision = 0;
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            Range = (byte)((Troop)FChildren.List[I]).VisibilityRange();
-            if (Range > Vision)
+            range = (byte)((Troop)_children.List[I]).VisibilityRange();
+            if (range > vision)
             {
-                Vision = Range;
+                vision = range;
             }
 
-            Range = (byte)((Troop)FChildren.List[I]).TrueVisionRange();
-            if (Range > TrueVision)
+            range = (byte)((Troop)_children.List[I]).TrueVisionRange();
+            if (range > trueVision)
             {
-                TrueVision = Range;
+                trueVision = range;
             }
         }
 
-        FVisibilityRanges = (byte)((TrueVision << 4) + Vision);
+        VisibilityRanges = (byte)((trueVision << 4) + vision);
     }
 
     // Army.PAS:1667
-    public byte VisibilityRange() => (byte)(FVisibilityRanges & 15);
+    public byte VisibilityRange() => (byte)(VisibilityRanges & 15);
 
     // Army.PAS:1670
-    public byte TrueVisionRange() => (byte)(int)(((uint)FVisibilityRanges) >> 4);
+    public byte TrueVisionRange() => (byte)(int)(((uint)VisibilityRanges) >> 4);
 
     // Army.PAS:1673
     public void TurnUnFogOff()
     {
-        byte Range;
-        if (FStatus.Contains(ArmyStatusElement.Activated))
+        byte range;
+        if (Status.Contains(ArmyStatusElement.Activated))
         {
-            Range = FUnfogRange;
-            if (Range != 0)
+            range = UnfogRange;
+            if (range != 0)
             {
-                AoWHSMap.Current.FogArea(FX, FY, FL, Range);
-                FUnfogRange = 0;
+                AoWHSMap.Current.FogArea(X, Y, MapLevel, range);
+                UnfogRange = 0;
             }
         }
     }
@@ -1998,14 +1998,14 @@ public partial class Army : UnitList
     // Army.PAS:1687
     public void UpdateExploration()
     {
-        if (FStatus.Contains(ArmyStatusElement.Activated))
+        if (Status.Contains(ArmyStatusElement.Activated))
         {
-            for (int Player = 1, last = AoWHSMap.Current.FPlayers.GetCount() - 1; Player <= last; Player++)
+            for (int player = 1, last = AoWHSMap.Current.Players.GetCount() - 1; player <= last; player++)
             {
-                if (Player == FPlayer || AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Player) == DiplomaticRelation.Alliance)
+                if (player == Player || AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
                 {
                     var visibilityRange = VisibilityRange();
-                    AoWHSMap.Current.ExploreArea(FX, FY, FL, (sbyte)Player, visibilityRange);
+                    AoWHSMap.Current.ExploreArea(X, Y, MapLevel, (sbyte)player, visibilityRange);
                 }
             }
         }
@@ -2014,390 +2014,390 @@ public partial class Army : UnitList
     // Army.PAS:1697
     public void UpdateUnfog()
     {
-        int Range;
-        if (FStatus.Contains(ArmyStatusElement.Activated))
+        int range;
+        if (Status.Contains(ArmyStatusElement.Activated))
         {
-            if (AoWHSMap.Current.FSeatedPlayer != -1 && (AoWHSMap.Current.FSeatedPlayer == FPlayer || AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation(AoWHSMap.Current.FSeatedPlayer) == DiplomaticRelation.Alliance))
+            if (AoWHSMap.Current.SeatedPlayer != -1 && (AoWHSMap.Current.SeatedPlayer == Player || AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(AoWHSMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance))
             {
-                Range = VisibilityRange();
+                range = VisibilityRange();
             }
             else
             {
-                Range = 0;
+                range = 0;
             }
 
-            if (Range != FUnfogRange)
+            if (range != UnfogRange)
             {
-                if (FUnfogRange != 0)
+                if (UnfogRange != 0)
                 {
-                    AoWHSMap.Current.FogArea(FX, FY, FL, FUnfogRange);
+                    AoWHSMap.Current.FogArea(X, Y, MapLevel, UnfogRange);
                 }
 
-                FUnfogRange = (byte)Range;
-                if (FX != -1)
+                UnfogRange = (byte)range;
+                if (X != -1)
                 {
-                    if (FUnfogRange != 0)
+                    if (UnfogRange != 0)
                     {
-                        AoWHSMap.Current.UnFogArea(FX, FY, FL, FUnfogRange);
+                        AoWHSMap.Current.UnFogArea(X, Y, MapLevel, UnfogRange);
                     }
                 }
                 else
                 {
-                    FUnfogRange = 0;
+                    UnfogRange = 0;
                 }
             }
         }
     }
 
     // Army.PAS:1739
-    public AddUnitsResult CanAddUnits(UnitList Units)
+    public AddUnitsResult CanAddUnits(UnitList units)
     {
-        AddUnitsResult Result;
+        AddUnitsResult result;
         int I;
-        int TransportCount;
-        Troop Transport;
-        TransportCount = 0;
+        int transportCount;
+        Troop transport;
+        transportCount = 0;
         I = 0;
-        int last = Units.GetCount() - 1;
+        int last = units.GetCount() - 1;
         for (; I <= last; I += 1)
         {
-            if (Units.GetUnit(I).GetTransporter())
+            if (units.GetUnit(I).GetTransporter())
             {
-                TransportCount += 1;
+                transportCount += 1;
             }
         }
 
         if (IndexOfTransporter(255) != -1)
         {
-            TransportCount += 1;
+            transportCount += 1;
         }
 
-        if (TransportCount <= 1)
+        if (transportCount <= 1)
         {
-            if (TransportCount == 1)
+            if (transportCount == 1)
             {
-                Transport = Transporter(255);
-                if (Transport == null)
+                transport = Transporter(255);
+                if (transport == null)
                 {
                     I = 0;
-                    int limit = Units.GetCount() - 1;
+                    int limit = units.GetCount() - 1;
                     for (; I <= limit; I += 1)
                     {
-                        if (Units.GetUnit(I).GetTransporter())
+                        if (units.GetUnit(I).GetTransporter())
                         {
-                            Transport = Units.GetUnit(I);
+                            transport = units.GetUnit(I);
                         }
                     }
                 }
 
-                if (Units.GetCount() + GetCount() <= Transport.GetTransportCapacity() + 1)
+                if (units.GetCount() + GetCount() <= transport.GetTransportCapacity() + 1)
                 {
-                    Result = AddUnitsResult.OK;
+                    result = AddUnitsResult.Ok;
                 }
                 else
                 {
-                    Result = AddUnitsResult.TooManyUnits;
+                    result = AddUnitsResult.TooManyUnits;
                 }
             }
             else
             {
-                if (Units.GetCount() + GetCount() <= 8)
+                if (units.GetCount() + GetCount() <= 8)
                 {
                     I = 0;
                     // { Original repeats the list count test before testing each candidate. }
-                    if (I != Units.GetCount())
+                    if (I != units.GetCount())
                     {
-                        while (I != Units.GetCount() && CanAddUnit(Units.GetUnit(I)))
+                        while (I != units.GetCount() && CanAddUnit(units.GetUnit(I)))
                         {
                             I += 1;
                         }
                     }
 
-                    if (I != Units.GetCount())
+                    if (I != units.GetCount())
                     {
-                        Result = AddUnitsResult.InvalidMoveType;
+                        result = AddUnitsResult.InvalidMoveType;
                     }
                     else
                     {
-                        Result = AddUnitsResult.OK;
+                        result = AddUnitsResult.Ok;
                     }
                 }
                 else
                 {
-                    Result = AddUnitsResult.TooManyUnits;
+                    result = AddUnitsResult.TooManyUnits;
                 }
             }
         }
         else
         {
-            Result = AddUnitsResult.MultipleTransporters;
+            result = AddUnitsResult.MultipleTransporters;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1782
-    public AddUnitsResult CanAddUnitSelection(UnitList Units, byte Selection)
+    public AddUnitsResult CanAddUnitSelection(UnitList units, byte selection)
     {
-        AddUnitsResult Result;
-        DelphiList List;
+        AddUnitsResult result;
+        DelphiList list;
         int I;
-        int TransportCount;
-        Troop Transport;
-        List = new DelphiList();
+        int transportCount;
+        Troop transport;
+        list = new DelphiList();
         I = 0;
-        int last = Units.GetCount() - 1;
+        int last = units.GetCount() - 1;
         for (; I <= last; I += 1)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                List.Add(Units.GetUnit(I));
+                list.Add(units.GetUnit(I));
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        TransportCount = 0;
+        transportCount = 0;
         I = 0;
-        int limit = List.Count - 1;
+        int limit = list.Count - 1;
         for (; I <= limit; I += 1)
         {
-            if (((Troop)List[I]).GetTransporter())
+            if (((Troop)list[I]).GetTransporter())
             {
-                TransportCount += 1;
+                transportCount += 1;
             }
         }
 
         if (IndexOfTransporter(255) != -1)
         {
-            TransportCount += 1;
+            transportCount += 1;
         }
 
-        if (TransportCount <= 1)
+        if (transportCount <= 1)
         {
-            if (TransportCount == 1)
+            if (transportCount == 1)
             {
-                Transport = Transporter(255);
-                if (Transport == null)
+                transport = Transporter(255);
+                if (transport == null)
                 {
                     I = 0;
-                    int last2 = List.Count - 1;
+                    int last2 = list.Count - 1;
                     for (; I <= last2; I += 1)
                     {
-                        if (((Troop)List[I]).GetTransporter())
+                        if (((Troop)list[I]).GetTransporter())
                         {
-                            Transport = (Troop)List[I];
+                            transport = (Troop)list[I];
                         }
                     }
                 }
 
                 var count = GetCount();
-                var transportCapacity = Transport.GetTransportCapacity();
-                if (List.Count + count <= transportCapacity + 1)
+                var transportCapacity = transport.GetTransportCapacity();
+                if (list.Count + count <= transportCapacity + 1)
                 {
-                    Result = AddUnitsResult.OK;
+                    result = AddUnitsResult.Ok;
                 }
                 else
                 {
-                    Result = AddUnitsResult.TooManyUnits;
+                    result = AddUnitsResult.TooManyUnits;
                 }
             }
             else
             {
                 var count = GetCount();
-                if (List.Count + count <= 8)
+                if (list.Count + count <= 8)
                 {
                     I = 0;
-                    while (I != List.Count && CanAddUnit((Troop)List[I]))
+                    while (I != list.Count && CanAddUnit((Troop)list[I]))
                     {
                         I += 1;
                     }
 
-                    if (I != List.Count)
+                    if (I != list.Count)
                     {
-                        Result = AddUnitsResult.InvalidMoveType;
+                        result = AddUnitsResult.InvalidMoveType;
                     }
                     else
                     {
-                        Result = AddUnitsResult.OK;
+                        result = AddUnitsResult.Ok;
                     }
                 }
                 else
                 {
-                    Result = AddUnitsResult.TooManyUnits;
+                    result = AddUnitsResult.TooManyUnits;
                 }
             }
         }
         else
         {
-            Result = AddUnitsResult.MultipleTransporters;
+            result = AddUnitsResult.MultipleTransporters;
         }
 
-        List?.Dispose();
-        return Result;
+        list?.Dispose();
+        return result;
     }
 
     // Army.PAS:1818
-    public AddUnitsResult AddUnitSelection(UnitList Units, byte Selection)
+    public AddUnitsResult AddUnitSelection(UnitList units, byte selection)
     {
-        UnitUserList List;
-        AddUnitsResult Result = CanAddUnitSelection(Units, Selection);
-        if (Result == AddUnitsResult.OK)
+        UnitUserList list;
+        AddUnitsResult result = CanAddUnitSelection(units, selection);
+        if (result == AddUnitsResult.Ok)
         {
-            Units.BeginUpdate();
-            List = new UnitUserList(null);
-            for (int I = Units.GetCount() - 1; I >= 0; I--)
+            units.BeginUpdate();
+            list = new UnitUserList(null);
+            for (int I = units.GetCount() - 1; I >= 0; I--)
             {
-                if (((1 << I) & Selection) != 0)
+                if (((1 << I) & selection) != 0)
                 {
-                    if (!Units.GetUnit(I).GetTransporter())
+                    if (!units.GetUnit(I).GetTransporter())
                     {
-                        List.AddUnit(Units.GetUnit(I));
+                        list.AddUnit(units.GetUnit(I));
                     }
                     else
                     {
-                        AddUnit(Units.GetUnit(I));
+                        AddUnit(units.GetUnit(I));
                     }
                 }
             }
 
-            for (int I = List.GetCount() - 1; I >= 0; I--)
+            for (int I = list.GetCount() - 1; I >= 0; I--)
             {
-                AddUnit(List.GetUnit(I));
+                AddUnit(list.GetUnit(I));
             }
 
-            Units.EndUpdate();
-            List?.Dispose();
+            units.EndUpdate();
+            list?.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1881
-    public Troop SelectionUnit(byte Selection, int Index)
+    public Troop SelectionUnit(byte selection, int index)
     {
         int I;
-        Troop Result = null;
+        Troop result = null;
         I = 0;
-        while (I != FChildren.Count && Result == null)
+        while (I != _children.Count && result == null)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                if (Index == 0)
+                if (index == 0)
                 {
-                    Result = (Troop)FChildren.List[I];
+                    result = (Troop)_children.List[I];
                 }
 
-                Index -= 1;
+                index -= 1;
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:1919
-    public void MakeIndependent(byte Selection, ref ArmyHSList Armies)
+    public void MakeIndependent(byte selection, ref ArmyHSList armies)
     {
         sbyte X;
         sbyte Y;
         sbyte L;
-        Army GoodArmy;
-        Army EvilArmy;
-        DelphiList Races;
-        DelphiList Units;
+        Army goodArmy;
+        Army evilArmy;
+        DelphiList races;
+        DelphiList units;
         int Race;
-        Troop AUnit;
-        Alignment Alignment;
-        ArmyHexSprite ArmyHS;
-        ArmyHexSprite PlaceIndependentArmy(sbyte AX, sbyte AY, sbyte AL, Army Army)
+        Troop troop;
+        Alignment alignment;
+        ArmyHexSprite armyHexSprite;
+        ArmyHexSprite PlaceIndependentArmy(sbyte x, sbyte y, sbyte l, Army army)
         {
-            ArmyHexSprite Result;
+            ArmyHexSprite result;
             try
             {
-                if (Army.GetCount() != 0)
+                if (army.GetCount() != 0)
                 {
-                    Result = new ArmyHexSprite(null);
-                    Result.FArmy.BeginUpdate();
-                    Result.FArmy.AddUnits(Army);
-                    if (Result.PlaceEx(X, Y, L, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
+                    result = new ArmyHexSprite(null);
+                    result.Army.BeginUpdate();
+                    result.Army.AddUnits(army);
+                    if (result.Place(X, Y, L, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
                     {
-                        Result.Activate();
-                        Result.FArmy.EndUpdate();
+                        result.Activate();
+                        result.Army.EndUpdate();
                     }
                     else
                     {
-                        Result.FArmy.Kill(255);
-                        Result?.Dispose();
-                        Result = null;
+                        result.Army.Kill(255);
+                        result?.Dispose();
+                        result = null;
                     }
                 }
                 else
                 {
-                    Result = null;
+                    result = null;
                 }
             }
             catch
             {
                 // { Original suppresses placement failures without releasing a partly built army. }
-                Result = null;
+                result = null;
             }
 
-            return Result;
+            return result;
         }
 
         BeginUpdate();
-        GoodArmy = null;
-        EvilArmy = null;
-        Races = new DelphiList();
-        Units = new DelphiList();
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        goodArmy = null;
+        evilArmy = null;
+        races = new DelphiList();
+        units = new DelphiList();
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                Units.Add(FChildren.List[I]);
+                units.Add(_children.List[I]);
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        for (int I = Units.Count - 1; I >= 0; I--)
+        for (int I = units.Count - 1; I >= 0; I--)
         {
-            AUnit = (Troop)Units.List[I];
-            if (AUnit.GetRace() != -1 && !AUnit.GetAbilityEnabled(107))
+            troop = (Troop)units.List[I];
+            if (troop.GetRace() != -1 && !troop.GetAbilityEnabled(107))
             {
-                if (AUnit.GetRace() >= Races.Count)
+                if (troop.GetRace() >= races.Count)
                 {
-                    Races.Count = AUnit.GetRace() + 1;
+                    races.Count = troop.GetRace() + 1;
                 }
 
-                var race = AUnit.GetRace();
-                if (Races.List[race] == null)
+                var race = troop.GetRace();
+                if (races.List[race] == null)
                 {
                     var army = new Army(null);
-                    var aUnitRace = AUnit.GetRace();
-                    Races.List[aUnitRace] = army;
+                    var aUnitRace = troop.GetRace();
+                    races.List[aUnitRace] = army;
                 }
 
-                var race2 = AUnit.GetRace();
-                ((UnitList)Races.List[race2]).AddUnit(AUnit);
-                Units.Delete(I);
+                var race2 = troop.GetRace();
+                ((UnitList)races.List[race2]).AddUnit(troop);
+                units.Delete(I);
             }
         }
 
-        for (int I = Units.Count - 1; I >= 0; I--)
+        for (int I = units.Count - 1; I >= 0; I--)
         {
-            AUnit = (Troop)Units.List[I];
-            Alignment = AUnit.GetAlignment();
+            troop = (Troop)units.List[I];
+            alignment = troop.GetAlignment();
             Race = -1;
-            for (int J = Races.Count - 1; J >= 0; J--)
+            for (int J = races.Count - 1; J >= 0; J--)
             {
-                if (Races.List[J] != null && AoWHSSet.Current.FRaceResources.GetRaceResource(J).FAlignments.Contains(Alignment))
+                if (races.List[J] != null && AoWHSSet.Current.RaceResources.GetRaceResource(J).Alignments.Contains(alignment))
                 {
                     // { Original chooses the largest compatible race group. }
-                    if (Race == -1 || ((ECustomNode)Races.List[Race]).GetCount() <= ((ECustomNode)Races.List[J]).GetCount())
+                    if (Race == -1 || ((ECustomNode)races.List[Race]).GetCount() <= ((ECustomNode)races.List[J]).GetCount())
                     {
                         Race = J;
                     }
@@ -2406,447 +2406,447 @@ public partial class Army : UnitList
 
             if (Race != -1)
             {
-                ((UnitList)Races.List[Race]).AddUnit(AUnit);
-                Units.Delete(I);
+                ((UnitList)races.List[Race]).AddUnit(troop);
+                units.Delete(I);
             }
             else
             {
-                if (AlignmentTables.alsGood.Contains(Alignment) && (!AlignmentTables.alsEvil.Contains(Alignment) || (GoodArmy != null && EvilArmy == null) || (GoodArmy == null && EvilArmy == null) || GoodArmy != null && EvilArmy != null && GoodArmy.GetCount() >= EvilArmy.GetCount()))
+                if (AlignmentTables.s_goodAlignments.Contains(alignment) && (!AlignmentTables.s_evilAlignments.Contains(alignment) || (goodArmy != null && evilArmy == null) || (goodArmy == null && evilArmy == null) || goodArmy != null && evilArmy != null && goodArmy.GetCount() >= evilArmy.GetCount()))
                 {
-                    if (GoodArmy == null)
+                    if (goodArmy == null)
                     {
-                        GoodArmy = new Army(null);
+                        goodArmy = new Army(null);
                     }
 
-                    GoodArmy.AddUnit(AUnit);
-                    Units.Delete(I);
+                    goodArmy.AddUnit(troop);
+                    units.Delete(I);
                 }
                 else
                 {
-                    if (EvilArmy == null)
+                    if (evilArmy == null)
                     {
-                        EvilArmy = new Army(null);
+                        evilArmy = new Army(null);
                     }
 
-                    EvilArmy.AddUnit(AUnit);
-                    Units.Delete(I);
+                    evilArmy.AddUnit(troop);
+                    units.Delete(I);
                 }
             }
         }
 
-        X = FX;
-        Y = FY;
-        L = FL;
+        X = this.X;
+        Y = this.Y;
+        L = MapLevel;
         EndUpdate();
-        for (int I = 0, last = Races.Count - 1; I <= last; I++)
+        for (int I = 0, last = races.Count - 1; I <= last; I++)
         {
-            if (Races.List[I] != null)
+            if (races.List[I] != null)
             {
-                ArmyHS = PlaceIndependentArmy(X, Y, L, (Army)Races.List[I]);
-                if (Armies != null && ArmyHS != null)
+                armyHexSprite = PlaceIndependentArmy(X, Y, L, (Army)races.List[I]);
+                if (armies != null && armyHexSprite != null)
                 {
-                    Armies.AddChild(ArmyHS);
+                    armies.AddChild(armyHexSprite);
                 }
 
-                ((Army)Races.List[I])?.Dispose();
-                Races.List[I] = null;
+                ((Army)races.List[I])?.Dispose();
+                races.List[I] = null;
             }
         }
 
-        if (GoodArmy != null)
+        if (goodArmy != null)
         {
-            ArmyHS = PlaceIndependentArmy(X, Y, L, GoodArmy);
-            if (Armies != null && ArmyHS != null)
+            armyHexSprite = PlaceIndependentArmy(X, Y, L, goodArmy);
+            if (armies != null && armyHexSprite != null)
             {
-                Armies.AddChild(ArmyHS);
+                armies.AddChild(armyHexSprite);
             }
 
-            GoodArmy?.Dispose();
+            goodArmy?.Dispose();
         }
 
-        if (EvilArmy != null)
+        if (evilArmy != null)
         {
-            ArmyHS = PlaceIndependentArmy(X, Y, L, EvilArmy);
-            if (Armies != null && ArmyHS != null)
+            armyHexSprite = PlaceIndependentArmy(X, Y, L, evilArmy);
+            if (armies != null && armyHexSprite != null)
             {
-                Armies.AddChild(ArmyHS);
+                armies.AddChild(armyHexSprite);
             }
 
-            EvilArmy?.Dispose();
+            evilArmy?.Dispose();
         }
 
-        Units?.Dispose();
-        Races?.Dispose();
+        units?.Dispose();
+        races?.Dispose();
     }
 
     // Army.PAS:2029
     public void UpdateIndependentRelation()
     {
-        sbyte Race;
-        bool Valid;
-        bool Evil;
-        bool Good;
-        bool Neutral;
+        sbyte race;
+        bool valid;
+        bool evil;
+        bool good;
+        bool neutral;
         int I;
-        int UnitRace;
-        Troop AUnit;
+        int unitRace;
+        Troop troop;
         Alignment Alignment;
-        if (FPlayer == 0)
+        if (Player == 0)
         {
-            Race = -1;
-            Valid = true;
-            I = FChildren.Count;
-            while (Valid && I != 0)
+            race = -1;
+            valid = true;
+            I = _children.Count;
+            while (valid && I != 0)
             {
                 I -= 1;
-                if (!((Troop)FChildren.List[I]).GetAbilityEnabled(107))
+                if (!((Troop)_children.List[I]).GetAbilityEnabled(107))
                 {
-                    UnitRace = ((Troop)FChildren.List[I]).GetRace();
+                    unitRace = ((Troop)_children.List[I]).GetRace();
                 }
                 else
                 {
-                    UnitRace = -1;
+                    unitRace = -1;
                 }
 
-                if (UnitRace != -1 && UnitRace != Race)
+                if (unitRace != -1 && unitRace != race)
                 {
-                    if (Race == -1)
+                    if (race == -1)
                     {
-                        Race = (sbyte)UnitRace;
+                        race = (sbyte)unitRace;
                     }
                     else
                     {
-                        Valid = false;
+                        valid = false;
                     }
                 }
             }
 
-            if (Valid && Race == -1)
+            if (valid && race == -1)
             {
-                if (FX != -1)
+                if (X != -1)
                 {
-                    Race = FIndependentRelation;
-                    FIndependentRelation = -1;
-                    FIndependentRelation = (sbyte)((AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL)).GetIndependentRelation();
-                    if (FIndependentRelation >= 0)
+                    race = IndependentRelation;
+                    IndependentRelation = -1;
+                    IndependentRelation = (sbyte)((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel)).GetIndependentRelation();
+                    if (IndependentRelation >= 0)
                     {
-                        Race = FIndependentRelation;
+                        race = IndependentRelation;
                     }
                     else
                     {
-                        FIndependentRelation = Race;
-                        Race = -1;
+                        IndependentRelation = race;
+                        race = -1;
                     }
                 }
 
-                if (Race == -1)
+                if (race == -1)
                 {
-                    if (FIndependentRelation >= 0)
+                    if (IndependentRelation >= 0)
                     {
-                        Race = FIndependentRelation;
+                        race = IndependentRelation;
                     }
                     else
                     {
-                        Valid = false;
+                        valid = false;
                     }
                 }
             }
 
-            I = FChildren.Count;
-            while (Valid && I != 0)
+            I = _children.Count;
+            while (valid && I != 0)
             {
                 I -= 1;
-                bool condition = Race == ((Troop)FChildren.List[I]).GetRace();
+                bool condition = race == ((Troop)_children.List[I]).GetRace();
                 if (!condition)
                 {
-                    var alignment = ((Troop)FChildren.List[I]).GetAlignment();
-                    condition = AoWHSSet.Current.FRaceResources.GetRaceResource(Race).FAlignments.Contains(alignment);
+                    var alignment = ((Troop)_children.List[I]).GetAlignment();
+                    condition = AoWHSSet.Current.RaceResources.GetRaceResource(race).Alignments.Contains(alignment);
                 }
 
-                Valid = condition;
+                valid = condition;
             }
 
-            if (!Valid)
+            if (!valid)
             {
-                Evil = true;
-                Good = true;
-                Neutral = true;
+                evil = true;
+                good = true;
+                neutral = true;
                 I = 0;
-                int last = FChildren.Count - 1;
+                int last = _children.Count - 1;
                 for (; I <= last; I += 1)
                 {
-                    AUnit = (Troop)FChildren.List[I];
-                    Alignment = AUnit.GetAlignment();
-                    Evil = Evil && AlignmentTables.alsEvil.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.Evil, Units.Alignment.PureEvil).Contains(Alignment));
-                    Good = Good && AlignmentTables.alsGood.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.PureGood, Units.Alignment.Good).Contains(Alignment));
-                    Neutral = Neutral && AlignmentTables.alsNeutral.Contains(Alignment);
+                    troop = (Troop)_children.List[I];
+                    Alignment = troop.GetAlignment();
+                    evil = evil && AlignmentTables.s_evilAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.Evil, Units.Alignment.PureEvil).Contains(Alignment));
+                    good = good && AlignmentTables.s_goodAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Units.Alignment.PureGood, Units.Alignment.Good).Contains(Alignment));
+                    neutral = neutral && AlignmentTables.s_neutralAlignments.Contains(Alignment);
                 }
 
-                if (Good && !Evil)
+                if (good && !evil)
                 {
-                    FIndependentRelation = -2;
+                    IndependentRelation = -2;
                 }
                 else
                 {
-                    if (Evil && !Good)
+                    if (evil && !good)
                     {
-                        FIndependentRelation = -4;
+                        IndependentRelation = -4;
                     }
                     else
                     {
-                        FIndependentRelation = -3;
+                        IndependentRelation = -3;
                     }
                 }
             }
             else
             {
-                FIndependentRelation = Race;
+                IndependentRelation = race;
             }
         }
         else
         {
-            FIndependentRelation = -1;
+            IndependentRelation = -1;
         }
     }
 
     // Army.PAS:2091
-    public void Desert(byte Selection)
+    public void Desert(byte selection)
     {
-        DelphiList Units;
-        sbyte Player;
-        ArmyHSList Armies;
-        int Count;
-        int Bit;
-        ArmyInfoEventLog Log;
-        Troop AUnit;
+        DelphiList units;
+        sbyte player;
+        ArmyHSList armies;
+        int count;
+        int bit;
+        ArmyInfoEventLog log;
+        Troop troop;
         AoWHSMap.Current.LockGameOverEvent();
-        Units = new DelphiList();
-        Count = SelectionCount(Selection);
-        Log = new ArmyInfoEventLog(null);
-        Log.FArmyView.Setup(this, 255);
-        Log.FSelection = Selection;
-        Log.FPlayer = FPlayer;
-        Log.FTitle = AbilityRules.TranslateRStr(DesertionRStr);
-        Log.FTriggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.User);
-        if (AoWHSMap.Current.FPlayMode == PlayMode.Turn && GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
+        units = new DelphiList();
+        count = SelectionCount(selection);
+        log = new ArmyInfoEventLog(null);
+        log.ArmyView.Setup(this, 255);
+        log.Selection = selection;
+        log._player = Player;
+        log.Title = AbilityRules.TranslateResourceString(s_desertionText);
+        log.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.User);
+        if (AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
         {
-            Log.FTriggers = Log.FTriggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
-            if (AoWHSMap.Current.FRequestCombatType)
+            log.Triggers = log.Triggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
+            if (AoWHSMap.Current.RequestCombatType)
             {
-                Log.FTriggers = Log.FTriggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.NewTurn);
+                log.Triggers = log.Triggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.NewTurn);
             }
         }
 
-        if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
+        if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
         {
-            Log.FTriggers = Log.FTriggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.NewTurn);
+            log.Triggers = log.Triggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.NewTurn);
         }
 
-        Log.FDescription = AbilityRules.TranslateRStr(TheLeaderOfThePartyStepsForwardRStr);
-        if (Count == 1)
+        log.Description = AbilityRules.TranslateResourceString(s_leaderOfPartyStepsForwardText);
+        if (count == 1)
         {
-            Log.FText = AbilityRules.TranslateRStr(OneUnitDesertedRStr);
+            log.Text = AbilityRules.TranslateResourceString(s_oneUnitDesertedText);
         }
         else
         {
-            Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(XUnitsDesertedRStr), [IntToStr(Count)]);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitsDesertedFormat), [IntToStr(count)]);
         }
 
-        if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FGems == 0 && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetUpkeep() > AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FIncome)
+        if (AoWHSMap.Current.Players.GetPlayers(Player).Gems == 0 && AoWHSMap.Current.Players.GetPlayers(Player).GetUpkeep() > AoWHSMap.Current.Players.GetPlayers(Player).Income)
         {
-            if (Count == 1)
+            if (count == 1)
             {
-                var desertUnitNoUpkeep = AbilityRules.TranslateRStr(DesertUnitNoUpkeepRStr);
-                Log.FMessages.Text = desertUnitNoUpkeep;
+                var desertUnitNoUpkeep = AbilityRules.TranslateResourceString(s_desertUnitNoUpkeepText);
+                log.Messages.Text = desertUnitNoUpkeep;
             }
             else
             {
-                var desertUnitsNoUpkeep = AbilityRules.TranslateRStr(DesertUnitsNoUpkeepRStr);
-                Log.FMessages.Text = desertUnitsNoUpkeep;
+                var desertUnitsNoUpkeep = AbilityRules.TranslateResourceString(s_desertUnitsNoUpkeepText);
+                log.Messages.Text = desertUnitsNoUpkeep;
             }
         }
         else
         {
-            if (ValidateSelection(255) == Selection)
+            if (ValidateSelection(255) == selection)
             {
-                if (Count == 1)
+                if (count == 1)
                 {
-                    var desertUnitLowMorale = AbilityRules.TranslateRStr(DesertUnitLowMoraleRStr);
-                    Log.FMessages.Text = desertUnitLowMorale;
+                    var desertUnitLowMorale = AbilityRules.TranslateResourceString(s_desertUnitLowMoraleText);
+                    log.Messages.Text = desertUnitLowMorale;
                 }
                 else
                 {
-                    var desertUnitsLowMorale = AbilityRules.TranslateRStr(DesertUnitsLowMoraleRStr);
-                    Log.FMessages.Text = desertUnitsLowMorale;
+                    var desertUnitsLowMorale = AbilityRules.TranslateResourceString(s_desertUnitsLowMoraleText);
+                    log.Messages.Text = desertUnitsLowMorale;
                 }
             }
             else
             {
-                if (Count == 1)
+                if (count == 1)
                 {
-                    var desertUnitLowMoraleSplit = AbilityRules.TranslateRStr(DesertUnitLowMoraleSplitRStr);
-                    Log.FMessages.Text = desertUnitLowMoraleSplit;
+                    var desertUnitLowMoraleSplit = AbilityRules.TranslateResourceString(s_desertUnitLowMoraleSplitText);
+                    log.Messages.Text = desertUnitLowMoraleSplit;
                 }
                 else
                 {
-                    var desertUnitsLowMoraleSplit = AbilityRules.TranslateRStr(DesertUnitsLowMoraleSplitRStr);
-                    Log.FMessages.Text = desertUnitsLowMoraleSplit;
+                    var desertUnitsLowMoraleSplit = AbilityRules.TranslateResourceString(s_desertUnitsLowMoraleSplitText);
+                    log.Messages.Text = desertUnitsLowMoraleSplit;
                 }
             }
         }
 
-        EventLog.DistributeLocationEventLog(Log, -1, FX, FY, FL, true);
-        Log.Release();
+        EventLog.DistributeLocationEventLog(log, -1, X, Y, MapLevel, true);
+        log.Release();
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            Bit = 1 << I;
-            if ((Bit & Selection) != 0 && GetUnit(I).GetAbilityEnabled(155))
+            bit = 1 << I;
+            if ((bit & selection) != 0 && GetUnit(I).GetAbilityEnabled(155))
             {
-                Units.Add(GetUnit(I));
-                Selection = (byte)(Selection & ~(byte)Bit);
+                units.Add(GetUnit(I));
+                selection = (byte)(selection & ~(byte)bit);
             }
         }
 
-        Armies = new ArmyHSList(null);
-        Player = FPlayer;
-        MakeIndependent(Selection, ref Armies);
-        while (Units.Count != 0)
+        armies = new ArmyHSList(null);
+        player = Player;
+        MakeIndependent(selection, ref armies);
+        while (units.Count != 0)
         {
-            AUnit = (Troop)Units[0];
-            AUnit.AddRef();
-            AUnit.Killed();
-            AUnit.SetOwner(null);
-            AUnit.Release();
-            Units.Delete(0);
+            troop = (Troop)units[0];
+            troop.AddRef();
+            troop.Killed();
+            troop.SetOwner(null);
+            troop.Release();
+            units.Delete(0);
         }
 
-        for (int I = 0, last = Armies.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = armies.GetCount() - 1; I <= last; I++)
         {
-            if (AbilityRules.DiplomaticRelation(0, Armies.GetArmyHS(I).FArmy.FIndependentRelation, Player, 0) == DiplomaticRelation.War)
+            if (AbilityRules.DiplomaticRelation(0, armies.GetArmyHexSprite(I).Army.IndependentRelation, player, 0) == DiplomaticRelation.War)
             {
-                Armies.GetArmyHS(I).FArmy.SetBehavior(255, GroupBehavior.Raid);
+                armies.GetArmyHexSprite(I).Army.SetBehavior(255, GroupBehavior.Raid);
             }
             else
             {
-                Armies.GetArmyHS(I).FArmy.SetBehavior(255, GroupBehavior.Scout);
+                armies.GetArmyHexSprite(I).Army.SetBehavior(255, GroupBehavior.Scout);
             }
         }
 
-        Armies?.Dispose();
-        Units?.Dispose();
+        armies?.Dispose();
+        units?.Dispose();
         AoWHSMap.Current.UnlockGameOverEvent();
     }
 
     // Army.PAS:2155
-    public PartyStatus GetPartyStatus(byte Selection)
+    public PartyStatus GetPartyStatus(byte selection)
     {
-        PartyStatus Result;
-        int Morale;
-        int Count;
-        CombatPredictor Predictor;
-        int UnitMorale;
-        Troop AUnit;
-        Morale = 100;
-        Count = 0;
-        Predictor = new CombatPredictor();
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        PartyStatus result;
+        int morale;
+        int count;
+        CombatPredictor predictor;
+        int unitMorale;
+        Troop troop;
+        morale = 100;
+        count = 0;
+        predictor = new CombatPredictor();
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                AUnit = (Troop)FChildren.List[I];
-                UnitMorale = AUnit.FMoraleValue;
-                if (AUnit.GetUnitType() != UnitType.Machine)
+                troop = (Troop)_children.List[I];
+                unitMorale = troop.MoraleValue;
+                if (troop.GetUnitType() != UnitType.Machine)
                 {
-                    if (UnitMorale < Morale)
+                    if (unitMorale < morale)
                     {
-                        Morale = UnitMorale;
+                        morale = unitMorale;
                     }
 
-                    Count += 1;
+                    count += 1;
                 }
 
-                if (UnitMorale <= 40)
+                if (unitMorale <= 40)
                 {
-                    Predictor.AddOpponent(AUnit, 0);
+                    predictor.AddOpponent(troop, 0);
                 }
                 else
                 {
-                    Predictor.AddUnit(AUnit);
+                    predictor.AddUnit(troop);
                 }
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        if (Predictor.Execute() == CombatResult.Defeat)
+        if (predictor.Execute() == CombatResult.Defeat)
         {
-            if (Predictor.GetSuperiority() < 50)
+            if (predictor.GetSuperiority() < 50)
             {
-                Result = PartyStatus.Unruly;
+                result = PartyStatus.Unruly;
             }
             else
             {
-                Result = PartyStatus.Unrest;
+                result = PartyStatus.Unrest;
             }
         }
         else
         {
-            if (Count == 0 || Morale <= 60)
+            if (count == 0 || morale <= 60)
             {
-                Result = PartyStatus.Stable;
+                result = PartyStatus.Stable;
             }
             else
             {
-                if (Morale <= 80)
+                if (morale <= 80)
                 {
-                    Result = PartyStatus.Content;
+                    result = PartyStatus.Content;
                 }
                 else
                 {
-                    Result = PartyStatus.Cheerful;
+                    result = PartyStatus.Cheerful;
                 }
             }
         }
 
-        Predictor?.Dispose();
-        return Result;
+        predictor?.Dispose();
+        return result;
     }
 
     // Army.PAS:2185
     public void UpdateDesertion()
     {
-        PartyStatus Status;
-        int Chance;
-        byte Selection;
-        if (FX != -1 && FPlayer != 0)
+        PartyStatus status;
+        int chance;
+        byte selection;
+        if (X != -1 && Player != 0)
         {
-            Status = GetPartyStatus(255);
-            if (Set<PartyStatus>.Of(PartyStatus.Unruly, PartyStatus.Unrest).Contains(Status))
+            status = GetPartyStatus(255);
+            if (Set<PartyStatus>.Of(PartyStatus.Unruly, PartyStatus.Unrest).Contains(status))
             {
-                if (Status == PartyStatus.Unrest)
+                if (status == PartyStatus.Unrest)
                 {
-                    Chance = 10;
+                    chance = 10;
                 }
                 else
                 {
-                    Chance = 50;
+                    chance = 50;
                 }
 
-                if (Chance > AoWHSMap.Current.Random(100))
+                if (chance > AoWHSMap.Current.Random(100))
                 {
-                    Selection = 0;
-                    for (int I = FChildren.Count - 1; I >= 0; I--)
+                    selection = 0;
+                    for (int I = _children.Count - 1; I >= 0; I--)
                     {
-                        Selection = (byte)(Selection << 1);
-                        if (((Troop)FChildren.List[I]).FMoraleValue <= 40)
+                        selection = (byte)(selection << 1);
+                        if (((Troop)_children.List[I]).MoraleValue <= 40)
                         {
-                            Selection = (byte)(Selection | 1);
+                            selection = (byte)(selection | 1);
                         }
                     }
 
-                    if (Selection != 0)
+                    if (selection != 0)
                     {
-                        Desert(Selection);
+                        Desert(selection);
                     }
                 }
             }
@@ -2858,45 +2858,45 @@ public partial class Army : UnitList
     {
         int I;
         I = GetCount();
-        bool Result = false;
-        while (I != 0 && !Result)
+        bool result = false;
+        while (I != 0 && !result)
         {
             I -= 1;
-            if (((Troop)FChildren.List[I]).GetAbilityEnabled(101))
+            if (((Troop)_children.List[I]).GetAbilityEnabled(101))
             {
-                Result = true;
+                result = true;
             }
         }
 
-        if (Result)
+        if (result)
         {
             BeginUpdate();
             I = GetCount() - 1;
             for (; I >= 0; I -= 1)
             {
-                if (((Troop)FChildren.List[I]).GetAbilityEnabled(101))
+                if (((Troop)_children.List[I]).GetAbilityEnabled(101))
                 {
-                    ((Troop)FChildren.List[I]).ValidateCrusader();
+                    ((Troop)_children.List[I]).ValidateCrusader();
                 }
             }
 
-            Result = GetCount() != 0;
+            result = GetCount() != 0;
             EndUpdate();
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:2230
-    public void NewTurn(sbyte Player)
+    public void NewTurn(sbyte player)
     {
-        if (Player == FPlayer)
+        if (player == Player)
         {
-            FUserMode = FUserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.TurnDone);
+            UserMode = UserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.TurnDone);
             if (ValidateCrusaders())
             {
                 UpdateDesertion();
@@ -2905,11 +2905,11 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:2239
-    public void NewTurnDone(sbyte Player)
+    public void NewTurnDone(sbyte player)
     {
-        if (Player == FPlayer)
+        if (player == Player)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human)
+            if (AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
             {
                 UpdateGroupBehavior();
             }
@@ -2919,16 +2919,16 @@ public partial class Army : UnitList
     // Army.PAS:2245
     public void NewDay()
     {
-        if (AoWHSMap.Current.FDay == 1)
+        if (AoWHSMap.Current.Day == 1)
         {
-            ResetDestinationPos();
-            if (FX != -1 && FPlayer > 0)
+            ResetDestinationPosition();
+            if (X != -1 && Player > 0)
             {
                 var visibilityRange = VisibilityRange();
-                AoWHSMap.Current.ExploreArea(FX, FY, FL, FPlayer, visibilityRange);
+                AoWHSMap.Current.ExploreArea(X, Y, MapLevel, Player, visibilityRange);
                 var visibilityRange2 = VisibilityRange();
                 var trueVisionRange = TrueVisionRange();
-                AoWHSMap.Current.UpdatePlayerSeen(FPlayer, FX, FY, FL, visibilityRange2, trueVisionRange);
+                AoWHSMap.Current.UpdatePlayerSeen(Player, X, Y, MapLevel, visibilityRange2, trueVisionRange);
             }
 
             InitializeGroupBehavior();
@@ -2939,225 +2939,225 @@ public partial class Army : UnitList
     public bool CanActivate() => true;
 
     // Army.PAS:2288
-    public MoveAction GetMoveAction(sbyte Player)
+    public MoveAction GetMoveAction(sbyte player)
     {
-        MoveAction Result = MoveAction.Normal;
-        if (Player != FPlayer)
+        MoveAction result = MoveAction.Normal;
+        if (player != Player)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
-                if (!FStatus.Contains(ArmyStatusElement.FullyConcealed))
+                if (!Status.Contains(ArmyStatusElement.FullyConcealed))
                 {
-                    if (FPlayer == 0 && GetJoinSelection(Player) != 0)
+                    if (Player == 0 && GetJoinSelection(player) != 0)
                     {
-                        Result = MoveAction.Negotiate;
+                        result = MoveAction.Negotiate;
                     }
                     else
                     {
-                        Result = MoveAction.Attack;
+                        result = MoveAction.Attack;
                     }
                 }
             }
             else
             {
-                if (FPlayer == 0 && GetJoinSelection(Player) != 0)
+                if (Player == 0 && GetJoinSelection(player) != 0)
                 {
-                    Result = MoveAction.Negotiate;
+                    result = MoveAction.Negotiate;
                 }
                 else
                 {
-                    Result = MoveAction.Attack;
+                    result = MoveAction.Attack;
                 }
             }
         }
         else
         {
-            Result = MoveAction.Combine;
+            result = MoveAction.Combine;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:2306
-    public byte GetCanJoinSelection(sbyte Player)
+    public byte GetCanJoinSelection(sbyte player)
     {
-        byte Result;
-        Troop AUnit;
-        if (Player > 0)
+        byte result;
+        Troop troop;
+        if (player > 0)
         {
-            Result = 0;
+            result = 0;
             for (int I = Count - 1; I >= 0; I--)
             {
-                Result = (byte)(Result << 1);
-                AUnit = (Troop)FChildren.List[I];
-                if (AUnit.CanJoin(Player))
+                result = (byte)(result << 1);
+                troop = (Troop)_children.List[I];
+                if (troop.CanJoin(player))
                 {
-                    Result = (byte)(Result | 1);
+                    result = (byte)(result | 1);
                 }
             }
 
             if (IndexOfTransporter(255) != -1)
             {
-                if (Result != ValidateSelection(255))
+                if (result != ValidateSelection(255))
                 {
-                    Result = 0;
+                    result = 0;
                 }
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:2324
-    public byte GetJoinSelection(sbyte Player)
+    public byte GetJoinSelection(sbyte player)
     {
-        bool WantsJoin;
+        bool wantsJoin;
         int I;
-        byte Result = 0;
-        if (Player > 0)
+        byte result = 0;
+        if (player > 0)
         {
-            WantsJoin = false;
+            wantsJoin = false;
             I = Count;
-            while (!WantsJoin && I != 0)
+            while (!wantsJoin && I != 0)
             {
                 I -= 1;
-                WantsJoin = ((Troop)FChildren.List[I]).OfferToJoin(Player);
+                wantsJoin = ((Troop)_children.List[I]).OfferToJoin(player);
             }
 
-            if (WantsJoin)
+            if (wantsJoin)
             {
-                Result = GetCanJoinSelection(Player);
+                result = GetCanJoinSelection(player);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:2341
-    public int JoinAmount(sbyte Player, byte Selection)
+    public int JoinAmount(sbyte player, byte selection)
     {
-        int Result = 0;
+        int result = 0;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            if ((Selection & 1) != 0)
+            if ((selection & 1) != 0)
             {
-                Result += ((Troop)FChildren.List[I]).JoinAmount(Player);
+                result += ((Troop)_children.List[I]).JoinAmount(player);
             }
 
-            Selection = (byte)(int)(((uint)Selection) >> 1);
+            selection = (byte)(int)(((uint)selection) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:2353
-    public bool IncommingNegotiateRequest(NegotiateRequestEventLog Log)
+    public bool IncomingNegotiateRequest(NegotiateRequestEventLog log)
     {
-        bool Result = false;
-        if (FPlayer == 0)
+        bool result = false;
+        if (Player == 0)
         {
-            Log.SetupJoinArmy(this, Log.FPlayer, JoinMode.Default);
-            Log.FObject = NegotiateObject.Army;
-            Log.FText = AbilityRules.TranslateRStr(P2PartyJoinHeaderRStr);
-            Result = Log.FSelection != 0;
+            log.SetupJoinArmy(this, log._player, JoinMode.Default);
+            log.Object = NegotiateObject.Army;
+            log.Text = AbilityRules.TranslateResourceString(s_partyJoinHeaderText);
+            result = log.Selection != 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:2365
-    public bool IncommingNegotiateOffer(NegotiateTokenEvent Offer)
+    public bool IncomingNegotiateOffer(NegotiateTokenEvent offer)
     {
-        bool Result;
-        ArmyInfoEventLog Log;
-        byte Selection;
-        Hero AHero;
-        MapCoordinateList Locations;
+        bool result;
+        ArmyInfoEventLog log;
+        byte selection;
+        Hero hero;
+        MapCoordinateList locations;
         int I;
         int J;
-        int Direction;
+        int direction;
         int X = default;
         int Y = default;
-        int JoinCount;
-        int Side;
-        bool Placed;
-        if (Offer.FObject == NegotiateObject.Army)
+        int joinCount;
+        int side;
+        bool placed;
+        if (offer.Object == NegotiateObject.Army)
         {
-            if (Offer.FResult == NegotiateTokenEvent.NegotiateResult.Accept)
+            if (offer.Result == NegotiateTokenEvent.NegotiateResult.Accept)
             {
-                Selection = GetJoinSelection(Offer.FPlayer);
-                JoinCount = SelectionCount(Selection);
-                if (Offer.FMode.Contains(NegotiateModeElement.PrisonerJoin) || JoinAmount(Offer.FPlayer, Selection) <= Offer.FGold)
+                selection = GetJoinSelection(offer.Player);
+                joinCount = SelectionCount(selection);
+                if (offer.Mode.Contains(NegotiateModeElement.PrisonerJoin) || JoinAmount(offer.Player, selection) <= offer.Gold)
                 {
                     BeginUpdate();
-                    Offer.FMode = Offer.FMode + Set<NegotiateModeElement>.Of(NegotiateModeElement.MoveOnAccept);
-                    Log = new ArmyInfoEventLog(null);
-                    Log.FArmyView.Setup(this, Selection);
-                    Log.FSelection = 255;
-                    Log.FDescription = "";
-                    Log.FTitle = AbilityRules.TranslateRStr(P2PartyJoinRStr);
-                    Log.FTriggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.User);
-                    AHero = Hero(Selection, Set<HeroType>.Of(HeroType.Hero));
-                    if (AHero == null)
+                    offer.Mode = offer.Mode + Set<NegotiateModeElement>.Of(NegotiateModeElement.MoveOnAccept);
+                    log = new ArmyInfoEventLog(null);
+                    log.ArmyView.Setup(this, selection);
+                    log.Selection = 255;
+                    log.Description = "";
+                    log.Title = AbilityRules.TranslateResourceString(s_partyJoinText);
+                    log.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.User);
+                    hero = Hero(selection, Set<HeroType>.Of(HeroType.Hero));
+                    if (hero == null)
                     {
-                        if (JoinCount == 1)
+                        if (joinCount == 1)
                         {
-                            Log.FText = AbilityRules.TranslateRStr(P2OneUnitJoinedRStr);
-                            var name = AoWHSMap.Current.FPlayers.GetPlayers(Offer.FPlayer).GetName();
-                            var format = AbilityRules.Format(AbilityRules.TranslateRStr(P2AUnitJoinedTheForcesofYRStr), [name]);
-                            Log.FMessages.Text = format;
+                            log.Text = AbilityRules.TranslateResourceString(s_oneUnitJoinedText);
+                            var name = AoWHSMap.Current.Players.GetPlayers(offer.Player).GetName();
+                            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitJoinedForcesFormat), [name]);
+                            log.Messages.Text = format;
                         }
                         else
                         {
-                            Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(P2XUnitsJoinedRStr), [IntToStr(JoinCount)]);
-                            var selectionCount = SelectionCount(Selection);
-                            var name = AoWHSMap.Current.FPlayers.GetPlayers(Offer.FPlayer).GetName();
-                            var format = AbilityRules.Format(AbilityRules.TranslateRStr(P2XUnitsJoinedTheForcesofYRStr), [selectionCount, name]);
-                            Log.FMessages.Text = format;
+                            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitsJoinedFormat), [IntToStr(joinCount)]);
+                            var selectionCount = SelectionCount(selection);
+                            var name = AoWHSMap.Current.Players.GetPlayers(offer.Player).GetName();
+                            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_unitsJoinedForcesFormat), [selectionCount, name]);
+                            log.Messages.Text = format;
                         }
                     }
                     else
                     {
-                        Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(P2XJoinedRStr), [AHero.FHeroName]);
-                        var name = AoWHSMap.Current.FPlayers.GetPlayers(Offer.FPlayer).GetName();
-                        var format = AbilityRules.Format(AbilityRules.TranslateRStr(P2XJoinedTheForcesOfYRStr), [AHero.FHeroName, name]);
-                        Log.FMessages.Text = format;
+                        log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_joinedFormat), [hero.HeroName]);
+                        var name = AoWHSMap.Current.Players.GetPlayers(offer.Player).GetName();
+                        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_joinedForcesFormat), [hero.HeroName, name]);
+                        log.Messages.Text = format;
                     }
 
-                    EventLog.DistributeLocationEventLog(Log, -1, FX, FY, FL, false);
-                    Log.Release();
-                    if (ValidateSelection(255) != Selection)
+                    EventLog.DistributeLocationEventLog(log, -1, this.X, this.Y, MapLevel, false);
+                    log.Release();
+                    if (ValidateSelection(255) != selection)
                     {
-                        Locations = new MapCoordinateList();
-                        if (Offer.FArmyHS != null)
+                        locations = new MapCoordinateList();
+                        if (offer.ArmyHexSprite != null)
                         {
-                            var yhx = Offer.FArmyHS.GetYhx();
-                            var xhx = Offer.FArmyHS.GetXhx();
-                            Direction = HexGeometry.dHXtoHNfast(FX, FY, xhx, yhx);
-                            if (Direction > 0 && Direction <= 6)
+                            var hexY = offer.ArmyHexSprite.GetHexY();
+                            var hexX = offer.ArmyHexSprite.GetHexX();
+                            direction = HexGeometry.DeltaHexToHexNumberFast(this.X, this.Y, hexX, hexY);
+                            if (direction > 0 && direction <= 6)
                             {
-                                Locations.AddXYL(FX, FY, FL);
-                                Side = Direction + 1;
-                                if (Side > 6)
+                                locations.AddMapCoordinate(this.X, this.Y, MapLevel);
+                                side = direction + 1;
+                                if (side > 6)
                                 {
-                                    Side = 1;
+                                    side = 1;
                                 }
 
                                 // { Original sign extends the wrapped byte coordinates here. }
-                                HexGeometry.CenterHNtoHX((sbyte)Offer.FX, (sbyte)Offer.FY, Side, ref X, ref Y);
-                                Locations.AddXYL((sbyte)X, (sbyte)Y, FL);
-                                Side = Direction - 1;
-                                if (Side == 0)
+                                HexGeometry.CenterHexNumberToHex((sbyte)offer.X, (sbyte)offer.Y, side, ref X, ref Y);
+                                locations.AddMapCoordinate((sbyte)X, (sbyte)Y, MapLevel);
+                                side = direction - 1;
+                                if (side == 0)
                                 {
-                                    Side = 6;
+                                    side = 6;
                                 }
 
-                                HexGeometry.CenterHNtoHX((sbyte)Offer.FX, (sbyte)Offer.FY, Side, ref X, ref Y);
-                                Locations.AddXYL((sbyte)X, (sbyte)Y, FL);
+                                HexGeometry.CenterHexNumberToHex((sbyte)offer.X, (sbyte)offer.Y, side, ref X, ref Y);
+                                locations.AddMapCoordinate((sbyte)X, (sbyte)Y, MapLevel);
                             }
                         }
 
@@ -3166,179 +3166,179 @@ public partial class Army : UnitList
                         while (I != 0)
                         {
                             I -= 1;
-                            if ((Selection & (1 << I)) != 0)
+                            if ((selection & (1 << I)) != 0)
                             {
-                                Placed = false;
-                                while (!Placed && J < Locations.Count)
+                                placed = false;
+                                while (!placed && J < locations.Count)
                                 {
-                                    var item = Locations[J];
-                                    var locationsItem = Locations[J];
-                                    var item2 = Locations[J];
-                                    Placed = GetUnit(I).Place(item2.X, locationsItem.Y, item.L, Offer.FPlayer, Set<UnitPlaceModeElement>.Of()) != null;
-                                    if (!Placed)
+                                    var item = locations[J];
+                                    var locationsItem = locations[J];
+                                    var item2 = locations[J];
+                                    placed = GetUnit(I).Place(item2.X, locationsItem.Y, item.MapLevel, offer.Player, Set<UnitPlaceModeElement>.Of()) != null;
+                                    if (!placed)
                                     {
                                         J += 1;
                                     }
                                 }
 
-                                if (!Placed)
+                                if (!placed)
                                 {
-                                    GetUnit(I).Place(FX, FY, FL, Offer.FPlayer, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                                    GetUnit(I).Place(this.X, this.Y, MapLevel, offer.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                                 }
                             }
                         }
 
-                        Locations?.Dispose();
+                        locations?.Dispose();
                     }
                     else
                     {
-                        SetPlayer(Offer.FPlayer);
+                        SetPlayer(offer.Player);
                     }
 
                     EndUpdate();
-                    Offer.Accept();
+                    offer.Accept();
                 }
                 else
                 {
-                    Offer.FMode = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject);
-                    Offer.Reject();
+                    offer.Mode = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject);
+                    offer.Reject();
                 }
             }
             else
             {
-                if (Offer.FResult == NegotiateTokenEvent.NegotiateResult.Reject && !Offer.FMode.Contains(NegotiateModeElement.PrisonerJoin))
+                if (offer.Result == NegotiateTokenEvent.NegotiateResult.Reject && !offer.Mode.Contains(NegotiateModeElement.PrisonerJoin))
                 {
-                    Offer.Reject();
+                    offer.Reject();
                 }
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:2468
     public void TriggerFireDamage()
     {
-        ArmyEventLog Log;
-        Troop AUnit;
-        int Damage;
-        bool Damaged;
+        ArmyEventLog log;
+        Troop troop;
+        int damage;
+        bool damaged;
         RandSeed = AoWHSMap.Current.Random(16777215);
-        Log = new ArmyEventLog(null);
-        Log.FArmyText = AbilityRules.TranslateRStr(P2FireDamageRStr);
-        Log.FPlayer = GetArmyHS().FArmy.FPlayer;
-        var p2FireDamage = AbilityRules.TranslateRStr(P2FireDamageRStr);
-        Log.FArmyMessages.Add(p2FireDamage);
-        Log.FArmyIcon = 0;
-        var armyHS = GetArmyHS();
-        Log.FArmyView.Setup(armyHS.FArmy, 255);
+        log = new ArmyEventLog(null);
+        log.ArmyText = AbilityRules.TranslateResourceString(s_fireDamageText);
+        log._player = GetArmyHexSprite().Army.Player;
+        var fireDamage = AbilityRules.TranslateResourceString(s_fireDamageText);
+        log.ArmyMessages.Add(fireDamage);
+        log.ArmyIcon = 0;
+        var armyHexSprite = GetArmyHexSprite();
+        log.ArmyView.Setup(armyHexSprite.Army, 255);
         BeginUpdate();
-        Damaged = false;
+        damaged = false;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            AUnit = GetUnit(I);
-            if (!AUnit.GetImmunityTypes().Contains(DamageType.Fire))
+            troop = GetUnit(I);
+            if (!troop.GetImmunityTypes().Contains(DamageType.Fire))
             {
-                Damage = AUnit.ExecuteDamageRole(4, 4, Set<DamageType>.Of(DamageType.Fire));
-                if (Damage > AUnit.GetHitPoints())
+                damage = troop.ExecuteDamageRole(4, 4, Set<DamageType>.Of(DamageType.Fire));
+                if (damage > troop.GetHitPoints())
                 {
-                    Damage = AUnit.GetHitPoints();
+                    damage = troop.GetHitPoints();
                 }
 
-                if (Damage != 0)
+                if (damage != 0)
                 {
-                    Damaged = true;
-                    AUnit.SetHitPoints((sbyte)(AUnit.GetHitPoints() - (sbyte)Damage));
+                    damaged = true;
+                    troop.SetHitPoints((sbyte)(troop.GetHitPoints() - (sbyte)damage));
                 }
 
-                Log.FDamageValues.Add((byte)Damage);
-                Log.FDamageTypes.Add((int)DamageType.Fire);
+                log.DamageValues.Add((byte)damage);
+                log.DamageTypes.Add((int)DamageType.Fire);
             }
             else
             {
-                Log.FDamageValues.Add(0);
-                Log.FDamageTypes.Add((int)DamageType.None);
+                log.DamageValues.Add(0);
+                log.DamageTypes.Add((int)DamageType.None);
             }
         }
 
-        Log.ValidateGameOver();
-        if (Damaged)
+        log.ValidateGameOver();
+        if (damaged)
         {
-            EventLog.DistributeLocationEventLog(Log, -1, FX, FY, FL, true);
+            EventLog.DistributeLocationEventLog(log, -1, X, Y, MapLevel, true);
         }
 
-        Log.Release();
+        log.Release();
         Validate();
         EndUpdate();
     }
 
     // Army.PAS:2508
-    public void RetrieveStormDamageInfo(StormType Storm, int Distance, ref StormDamageInfo Info)
+    public void RetrieveStormDamageInfo(StormType storm, int distance, ref StormDamageInfo info)
     {
-        int Attack;
-        int Damage;
-        byte Relation;
-        int Value = default;
-        int Amount = default;
-        Troop AUnit;
-        Relation = (byte)(int)AbilityRules.DiplomaticRelation(Info.Player, Info.IndependentRelation, FPlayer, FIndependentRelation);
-        if (Info.FriendlyRelations.Contains(Relation) || Info.EnemyRelations.Contains(Relation))
+        int attack;
+        int damage;
+        byte relation;
+        int value = default;
+        int amount = default;
+        Troop troop;
+        relation = (byte)(int)AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, Player, IndependentRelation);
+        if (info.FriendlyRelations.Contains(relation) || info.EnemyRelations.Contains(relation))
         {
-            switch (Storm)
+            switch (storm)
             {
                 case StormType.Ice:
-                    Attack = 7;
-                    Damage = 5;
+                    attack = 7;
+                    damage = 5;
                     break;
                 case StormType.Lightning:
-                    Attack = 8;
-                    Damage = 7;
+                    attack = 8;
+                    damage = 7;
                     break;
                 case StormType.Death:
-                    Attack = 7;
-                    Damage = 4;
+                    attack = 7;
+                    damage = 4;
                     break;
                 case StormType.Holy:
-                    Attack = 7;
-                    Damage = 5;
+                    attack = 7;
+                    damage = 5;
                     break;
                 case StormType.Fire:
-                    Attack = 7;
-                    Damage = 5;
+                    attack = 7;
+                    damage = 5;
                     break;
                 case StormType.Pestilence:
-                    Attack = 4;
-                    Damage = 3;
+                    attack = 4;
+                    damage = 3;
                     break;
                 default:
-                    Attack = 0;
-                    Damage = 0;
+                    attack = 0;
+                    damage = 0;
                     break;
             }
 
             for (int I = Count - 1; I >= 0; I--)
             {
-                AUnit = GetUnit(I);
-                if (AUnit.FPlayer != 0 || AUnit.FGroup != null && AUnit.FGroup.GroupClass.Behavior != GroupBehavior.Passive)
+                troop = GetUnit(I);
+                if (troop.Player != 0 || troop.Group != null && troop.Group.GroupClass.Behavior != GroupBehavior.Passive)
                 {
-                    AUnit.RetrieveDamageInfo((sbyte)Attack, (sbyte)Damage, Set<DamageType>.Of(StormDamageType[(int)Storm]), ref Value, ref Amount);
-                    if (Info.FriendlyRelations.Contains(Relation))
+                    troop.RetrieveDamageInfo((sbyte)attack, (sbyte)damage, Set<DamageType>.Of(StormDamageType[(int)storm]), ref value, ref amount);
+                    if (info.FriendlyRelations.Contains(relation))
                     {
-                        Info.FriendlyDamage += Amount;
+                        info.FriendlyDamage += amount;
                         // { Original assigns the second return to damage. }
-                        Info.FriendlyValue += Value;
+                        info.FriendlyValue += value;
                     }
 
-                    if (Info.EnemyRelations.Contains(Relation))
+                    if (info.EnemyRelations.Contains(relation))
                     {
-                        Info.EnemyDamage += Amount;
-                        Info.EnemyValue += Value;
+                        info.EnemyDamage += amount;
+                        info.EnemyValue += value;
                     }
                 }
             }
@@ -3346,97 +3346,97 @@ public partial class Army : UnitList
     }
 
     // Army.PAS:2538
-    public void IncommingStorm(StormType Storm, int Distance, sbyte Player)
+    public void IncomingStorm(StormType storm, int distance, sbyte player)
     {
-        ArmyEventLog Log;
-        bool Damaged;
-        int Damage;
+        ArmyEventLog log;
+        bool damaged;
+        int damage;
         RandSeed = AoWHSMap.Current.Random(16777215);
-        Log = new ArmyEventLog(null);
-        Log.FArmyText = AbilityRules.TranslateRStr(GameTables.TStormTypeRStr[(int)Storm]);
-        Log.FPlayer = Player;
+        log = new ArmyEventLog(null);
+        log.ArmyText = AbilityRules.TranslateResourceString(GameTables.s_stormTypeTexts[(int)storm]);
+        log._player = player;
         // { Original appends the storm message. }
-        var stormType = AbilityRules.TranslateRStr(GameTables.TStormTypeRStr[(int)Storm]);
-        Log.FArmyMessages.Add(stormType);
-        Log.FArmyIcon = 2;
-        Log.FArmyView.Setup(this, 255);
+        var stormType = AbilityRules.TranslateResourceString(GameTables.s_stormTypeTexts[(int)storm]);
+        log.ArmyMessages.Add(stormType);
+        log.ArmyIcon = 2;
+        log.ArmyView.Setup(this, 255);
         BeginUpdate();
-        Damaged = false;
+        damaged = false;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Damage = ((Troop)FChildren.List[I]).ExecuteStormDamage(Storm, Distance);
-            if (Damage != 0)
+            damage = ((Troop)_children.List[I]).ExecuteStormDamage(storm, distance);
+            if (damage != 0)
             {
-                Damaged = true;
+                damaged = true;
             }
 
-            Log.FDamageValues.Add((byte)Damage);
-            Log.FDamageTypes.Add((byte)(int)StormDamageType[(int)Storm]);
+            log.DamageValues.Add((byte)damage);
+            log.DamageTypes.Add((byte)(int)StormDamageType[(int)storm]);
         }
 
-        if (Damaged)
+        if (damaged)
         {
-            Log.ValidateGameOver();
-            EventLog.DistributeLocationEventLog(Log, FPlayer, FX, FY, FL, true);
+            log.ValidateGameOver();
+            EventLog.DistributeLocationEventLog(log, Player, X, Y, MapLevel, true);
         }
 
-        Log.Release();
+        log.Release();
         Validate();
         EndUpdate();
     }
 
     // Army.PAS:2567
-    public void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
+    public void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        byte Selection;
-        switch (Info.Mode)
+        byte selection;
+        switch (info.Mode)
         {
             case AITargetMode.Attack:
             case AITargetMode.Raid:
             case AITargetMode.AttackArmies:
-                if (!GetUnitsConcealedForPlayer(255, Info.Player) && Info.Player != FPlayer)
+                if (!GetUnitsConcealedForPlayer(255, info.Player) && info.Player != Player)
                 {
-                    if (FPlayer > 0)
+                    if (Player > 0)
                     {
-                        if (AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, FIndependentRelation) || Info.Mode == AITargetMode.Raid)
+                        if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, IndependentRelation) || info.Mode == AITargetMode.Raid)
                         {
-                            if (Info.Player != 0 && Leader(255) != null)
+                            if (info.Player != 0 && Leader(255) != null)
                             {
-                                Data.Priority = 300;
+                                data.Priority = 300;
                             }
                             else
                             {
-                                if (Info.Player != 0 && Hero(255, Set<HeroType>.Of(HeroType.Hero)) != null)
+                                if (info.Player != 0 && Hero(255, Set<HeroType>.Of(HeroType.Hero)) != null)
                                 {
-                                    Data.Priority = 100;
+                                    data.Priority = 100;
                                 }
                                 else
                                 {
-                                    Data.Priority = 50;
+                                    data.Priority = 50;
                                 }
                             }
                         }
                         else
                         {
-                            Data.Priority = 0;
+                            data.Priority = 0;
                         }
                     }
                     else
                     {
-                        if (FPlayer == 0)
+                        if (Player == 0)
                         {
-                            Selection = GetJoinSelection(Info.Player);
-                            if (Selection != 0)
+                            selection = GetJoinSelection(info.Player);
+                            if (selection != 0)
                             {
-                                var joinAmount = JoinAmount(Info.Player, Selection);
-                                Data.Cost = joinAmount;
-                                Data.TargetType = AITargetType.Negotiate;
+                                var joinAmount = JoinAmount(info.Player, selection);
+                                data.Cost = joinAmount;
+                                data.TargetType = AITargetType.Negotiate;
                             }
                             else
                             {
-                                if (AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, FIndependentRelation))
+                                if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, IndependentRelation))
                                 {
-                                    Data.Priority = 50;
+                                    data.Priority = 50;
                                 }
                             }
                         }
@@ -3445,23 +3445,23 @@ public partial class Army : UnitList
 
                 break;
             case AITargetMode.GuardArea:
-                if (!GetUnitsConcealedForPlayer(255, Info.Player) && Info.Player != FPlayer)
+                if (!GetUnitsConcealedForPlayer(255, info.Player) && info.Player != Player)
                 {
-                    Data.Priority = 50;
+                    data.Priority = 50;
                 }
                 else
                 {
-                    Data.Priority = 0;
+                    data.Priority = 0;
                 }
 
                 break;
             case AITargetMode.Hunt:
-                Data.Priority = 10;
+                data.Priority = 10;
                 break;
             case AITargetMode.Recruit:
-                if (Info.Player == FPlayer && (FPlayer != 0 || AbilityRules.DiplomaticRelation(Info.Player, Info.IndependentRelation, FPlayer, FIndependentRelation) != DiplomaticRelation.War))
+                if (info.Player == Player && (Player != 0 || AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, Player, IndependentRelation) != DiplomaticRelation.War))
                 {
-                    Data.Priority = Data.Priority | 1;
+                    data.Priority = data.Priority | 1;
                 }
 
                 break;
@@ -3471,91 +3471,91 @@ public partial class Army : UnitList
     // Army.PAS:2605
     public int AIMovePriority()
     {
-        int Result = 0;
+        int result = 0;
         if (Leader(255) != null)
         {
-            Result += 50000;
+            result += 50000;
         }
 
         if (Hero(255, Set<HeroType>.Of(HeroType.Hero, HeroType.HeroLeader)) != null)
         {
-            Result += 10000;
+            result += 10000;
         }
 
-        Result += ObtainValue(255);
-        return Result;
+        result += ObtainValue(255);
+        return result;
     }
 
     // Army.PAS:2613
     public void ResetMoveDone()
     {
-        Troop AUnit;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        Troop troop;
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            AUnit = (Troop)FChildren.List[I];
-            AUnit.FUnitStatus = AUnit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.MoveDone);
+            troop = (Troop)_children.List[I];
+            troop.UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.MoveDone);
         }
     }
 
     // Army.PAS:2623
-    public bool CanCombine(Army Army, byte Selection)
+    public bool CanCombine(Army army, byte selection)
     {
-        bool Result;
+        bool result;
         int I;
-        int MaxCount;
-        byte Temp;
-        Troop OwnTransporter;
-        Troop OtherTransporter;
-        Selection = Army.ValidateSelection(Selection);
+        int maxCount;
+        byte temporary;
+        Troop ownTransporter;
+        Troop otherTransporter;
+        selection = army.ValidateSelection(selection);
         I = 0;
-        Temp = Selection;
-        while (Temp != 0)
+        temporary = selection;
+        while (temporary != 0)
         {
-            if ((Temp & 1) != 0)
+            if ((temporary & 1) != 0)
             {
                 I += 1;
             }
 
-            Temp = (byte)(int)(((uint)Temp) >> 1);
+            temporary = (byte)(int)(((uint)temporary) >> 1);
         }
 
-        OwnTransporter = Transporter(255);
-        if (OwnTransporter != null)
+        ownTransporter = Transporter(255);
+        if (ownTransporter != null)
         {
-            MaxCount = OwnTransporter.GetTransportCapacity() + 1;
+            maxCount = ownTransporter.GetTransportCapacity() + 1;
         }
         else
         {
-            MaxCount = 8;
+            maxCount = 8;
         }
 
         I += Count;
-        if (I <= MaxCount)
+        if (I <= maxCount)
         {
-            OtherTransporter = Army.Transporter(Selection);
-            if (OtherTransporter != null && (I > OtherTransporter.GetTransportCapacity() + 1 || OwnTransporter != null))
+            otherTransporter = army.Transporter(selection);
+            if (otherTransporter != null && (I > otherTransporter.GetTransportCapacity() + 1 || ownTransporter != null))
             {
-                Result = false;
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P2_07.inc:445
     public virtual bool GetUnitConcealedForPlayer(int index, sbyte player)
     {
-        if (player == FPlayer || player == -1 || FX == -1) return false;
-        var field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL);
-        return GetUnit(index).ConcealedOnMapF(field) && GetConcealedForPlayer(player);
+        if (player == Player || player == -1 || X == -1) return false;
+        var field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel);
+        return GetUnit(index).ConcealedOnMapField(field) && GetConcealedForPlayer(player);
     }
 
     internal static DamageTypeArray7 StormDamageType = DamageTypeArray7.From((ReadOnlySpan<DamageType>)new DamageType[7]
@@ -3569,29 +3569,29 @@ public partial class Army : UnitList
         DamageType.Poison
     });
 
-    private static readonly string UnitsDrownRStr = "Units Drowned";
-    private static readonly string UnitsBurnedRStr = "Units Burned";
-    private static readonly string UnitsCrushedRStr = "Units Crushed";
-    private static readonly string ArmyInherentRStr = "Inherent";
-    private static readonly string DesertionRStr = "Desertion";
-    private static readonly string TheLeaderOfThePartyStepsForwardRStr = "The leader of the party steps forward";
-    private static readonly string OneUnitDesertedRStr = "1 unit deserted";
-    private static readonly string XUnitsDesertedRStr = "%s units deserted";
-    private static readonly string DesertUnitNoUpkeepRStr = "This one abandons you, refusing a voucher for pay.";
-    private static readonly string DesertUnitsNoUpkeepRStr = "Without sufficient funds for support, these troops desert you.";
-    private static readonly string DesertUnitLowMoraleRStr = "With no common cause, this one deserts you.";
-    private static readonly string DesertUnitsLowMoraleRStr = "No longer sharing your cause, these desert you.";
-    private static readonly string DesertUnitLowMoraleSplitRStr = "Lacking faith, this one abandons your ranks";
-    private static readonly string DesertUnitsLowMoraleSplitRStr = "Troubled and weary, these abandon your ranks.";
-    private static readonly string P2PartyJoinHeaderRStr = "The leader of the party steps forward:";
-    private static readonly string P2PartyJoinRStr = "Party Join";
-    private static readonly string P2OneUnitJoinedRStr = "1 unit joined";
-    private static readonly string P2AUnitJoinedTheForcesofYRStr = "A unit joined the forces of %s";
-    private static readonly string P2XUnitsJoinedRStr = "%s units joined";
-    private static readonly string P2XUnitsJoinedTheForcesofYRStr = "%d units joined the forces of %s";
-    private static readonly string P2XJoinedRStr = "%s joined";
-    private static readonly string P2XJoinedTheForcesOfYRStr = "%0:s joined the forces of %1:s";
-    private static readonly string P2FireDamageRStr = "Fire Damage";
+    private static readonly string s_unitsDrownText = "Units Drowned";
+    private static readonly string s_unitsBurnedText = "Units Burned";
+    private static readonly string s_unitsCrushedText = "Units Crushed";
+    private static readonly string s_armyInherentText = "Inherent";
+    private static readonly string s_desertionText = "Desertion";
+    private static readonly string s_leaderOfPartyStepsForwardText = "The leader of the party steps forward";
+    private static readonly string s_oneUnitDesertedText = "1 unit deserted";
+    private static readonly string s_unitsDesertedFormat = "%s units deserted";
+    private static readonly string s_desertUnitNoUpkeepText = "This one abandons you, refusing a voucher for pay.";
+    private static readonly string s_desertUnitsNoUpkeepText = "Without sufficient funds for support, these troops desert you.";
+    private static readonly string s_desertUnitLowMoraleText = "With no common cause, this one deserts you.";
+    private static readonly string s_desertUnitsLowMoraleText = "No longer sharing your cause, these desert you.";
+    private static readonly string s_desertUnitLowMoraleSplitText = "Lacking faith, this one abandons your ranks";
+    private static readonly string s_desertUnitsLowMoraleSplitText = "Troubled and weary, these abandon your ranks.";
+    private static readonly string s_partyJoinHeaderText = "The leader of the party steps forward:";
+    private static readonly string s_partyJoinText = "Party Join";
+    private static readonly string s_oneUnitJoinedText = "1 unit joined";
+    private static readonly string s_unitJoinedForcesFormat = "A unit joined the forces of %s";
+    private static readonly string s_unitsJoinedFormat = "%s units joined";
+    private static readonly string s_unitsJoinedForcesFormat = "%d units joined the forces of %s";
+    private static readonly string s_joinedFormat = "%s joined";
+    private static readonly string s_joinedForcesFormat = "%0:s joined the forces of %1:s";
+    private static readonly string s_fireDamageText = "Fire Damage";
 
     public enum PartyStatus : byte
     {

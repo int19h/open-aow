@@ -7,8 +7,8 @@ namespace Aow.Engine.Nodes;
 
 public struct EngineMessage
 {
-    public int MsgID;
-    public int Seq;
+    public int MessageId;
+    public int Sequence;
     public EngineObject Sender;
     public EngineMessageParameters Param;
     public MsgArg Payload;
@@ -16,12 +16,12 @@ public struct EngineMessage
     public Int32Array4 Data;
     public int Result;
 
-    internal static void InitMsg(ref EngineMessage Msg, int MsgID, EngineObject Sender)
+    internal static void InitializeMessage(ref EngineMessage message, int messageId, EngineObject sender)
     {
-        Msg = default;
-        Msg.MsgID = MsgID;
-        Msg.Sender = Sender;
-        Msg.Result = -1;
+        message = default;
+        message.MessageId = messageId;
+        message.Sender = sender;
+        message.Result = -1;
     }
 
 }

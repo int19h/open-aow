@@ -26,102 +26,102 @@ public partial class AnimateRuins : CityTargetSpell
     // CitySpells.pas:915
     public AnimateRuins(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(AnimateRuinsRStr);
-        FSpellID = 76;
-        FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy, CityTargetModeElement.Razed);
+        SpellName = AbilityRules.TranslateResourceString(s_animateRuinsText);
+        SpellId = 76;
+        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy, CityTargetModeElement.Razed);
     }
 
     // CitySpells.pas:938
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool Result = default;
-        City TargetCity = default;
-        LocationTextEventLog Log = default;
+        bool result = default;
+        City targetCity = default;
+        LocationTextEventLog log = default;
         ImageSequenceAnimation A = default;
-        int Count = default;
-        Unit AUnit = default;
-        if (ExecuteCount == 0)
+        int count = default;
+        Unit unit = default;
+        if (executeCount == 0)
         {
-            TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
-            Log = new LocationTextEventLog(null);
-            Log.FPlayer = Source.FPlayer;
-            var animateRuins = AbilityRules.TranslateRStr(AnimateRuinsRStr);
-            Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XCastRStr), [animateRuins]);
-            var lhx = TargetCity.GetLhx();
-            var yhx = TargetCity.GetYhx();
-            Log.SetLocation(TargetCity.GetXhx(), yhx, lhx);
-            var targetCityYhx = TargetCity.GetYhx();
-            var targetCityLhx = TargetCity.GetLhx();
-            var xhx = TargetCity.GetXhx();
-            EventLog.DistributeLocationEventLog(Log, Source.FPlayer, xhx, targetCityYhx, targetCityLhx, false);
-            Log.Release();
-            PlayDefaultCityEffects(Source, TargetCity);
-            TargetCity.ValidateObservation(Source.FPlayer);
-            if (TargetCity.Resource.ImageSequenceList.ImageSequences[20] != null)
+            targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+            log = new LocationTextEventLog(null);
+            log._player = source.Player;
+            var animateRuins = AbilityRules.TranslateResourceString(s_animateRuinsText);
+            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_castFormat), [animateRuins]);
+            var hexLevel = targetCity.GetHexLevel();
+            var hexY = targetCity.GetHexY();
+            log.SetLocation(targetCity.GetHexX(), hexY, hexLevel);
+            var targetCityHexY = targetCity.GetHexY();
+            var targetCityHexLevel = targetCity.GetHexLevel();
+            var hexX = targetCity.GetHexX();
+            EventLog.DistributeLocationEventLog(log, source.Player, hexX, targetCityHexY, targetCityHexLevel, false);
+            log.Release();
+            PlayDefaultCityEffects(source, targetCity);
+            targetCity.ValidateObservation(source.Player);
+            if (targetCity.Resource.ImageSequenceList.ImageSequences[20] != null)
             {
                 A = new ImageSequenceAnimation(null);
-                A.SetImageSequence(TargetCity.Resource.ImageSequenceList.ImageSequences[20]);
-                A.SetXhpOffset(A.FXhpOffset - 16);
-                A.SetYhpOffset(A.FYhpOffset - 16);
-                A.FOnShow = ShowAnimation;
-                var lhx2 = TargetCity.GetLhx();
-                var yhx2 = TargetCity.GetYhx();
-                var targetCityXhx = TargetCity.GetXhx();
-                AoWHSMap.Current.PlaceHX(A, targetCityXhx, yhx2, lhx2);
+                A.SetImageSequence(targetCity.Resource.ImageSequenceList.ImageSequences[20]);
+                A.SetPixelXOffset(A.PixelXOffset - 16);
+                A.SetPixelYOffset(A.PixelYOffset - 16);
+                A.OnShow = ShowAnimation;
+                var hexLevel2 = targetCity.GetHexLevel();
+                var hexY2 = targetCity.GetHexY();
+                var targetCityHexX = targetCity.GetHexX();
+                AoWHSMap.Current.PlaceHex(A, targetCityHexX, hexY2, hexLevel2);
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            if (ExecuteCount == 50)
+            if (executeCount == 50)
             {
-                TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
-                TargetCity.SetRace(AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FPlayerRace);
-                TargetCity.SetRazed(false);
-                var size = TargetCity.GetSize();
-                Count = AoWHSMap.Current.Random(size * 2) + 1;
-                for (int I = 0; I <= Count; I++)
+                targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+                targetCity.SetRace(AoWHSMap.Current.Players.GetPlayers(source.Player).PlayerRace);
+                targetCity.SetRazed(false);
+                var size = targetCity.GetSize();
+                count = AoWHSMap.Current.Random(size * 2) + 1;
+                for (int I = 0; I <= count; I++)
                 {
-                    AUnit = new Unit(null);
+                    unit = new Unit(null);
                     var random = AoWHSMap.Current.Random(2);
-                    AUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(TAnimateRuins_ExecuteTE__UndeadUnits[random]));
-                    var lhx = TargetCity.GetLhx();
-                    var yhx = TargetCity.GetYhx();
-                    AUnit.Place(TargetCity.GetXhx(), yhx, lhx, Source.FPlayer, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
-                    AUnit.Release();
+                    unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(s_undeadUnitResourceIds[random]));
+                    var hexLevel = targetCity.GetHexLevel();
+                    var hexY = targetCity.GetHexY();
+                    unit.Place(targetCity.GetHexX(), hexY, hexLevel, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
+                    unit.Release();
                 }
 
-                CastingDone(Source, Event.FEventMana);
-                Result = false;
+                CastingDone(source, eventValue.EventMana);
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:924
-    public override bool ValidTargetCity(Troop Source, City TargetCity)
+    public override bool ValidTargetCity(Troop source, City targetCity)
     {
-        bool Result = base.ValidTargetCity(Source, TargetCity);
-        return Result && TargetCity.GetRazed();
+        bool result = base.ValidTargetCity(source, targetCity);
+        return result && targetCity.GetRazed();
     }
 
     // CitySpells.pas:930
-    public void ShowAnimation(Animation Animation, int X, int Y, in LockedSurface SD)
+    public void ShowAnimation(Animation animation, int X, int Y, in LockedSurface lockedSurface)
     {
-        var imageSequenceAnimation = (ImageSequenceAnimation)Animation;
-        if (imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter) == 0 && GameTables.AoWEngine.FAnimationDetail != 0)
+        var imageSequenceAnimation = (ImageSequenceAnimation)animation;
+        if (imageSequenceAnimation.ImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FrameCounter) == 0 && GameTables.GameEngine.AnimationDetail != 0)
         {
             var random = Random(2);
-            AudioPlayback.PlaySample(AbilityRules.ExplosionSFX[random]);
+            AudioPlayback.PlaySample(AbilityRules.s_explosionSfx[random]);
         }
     }
 
-    private static readonly string AnimateRuinsRStr = "Animate Ruins";
-    private static Int32Array2 TAnimateRuins_ExecuteTE__UndeadUnits = Int32Array2.From([198, 201]);
+    private static readonly string s_animateRuinsText = "Animate Ruins";
+    private static Int32Array2 s_undeadUnitResourceIds = Int32Array2.From([198, 201]);
 }

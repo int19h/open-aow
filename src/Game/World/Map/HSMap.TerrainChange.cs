@@ -10,41 +10,41 @@ public partial class HSMap
     {
         bool result = true;
         var saved = new TerrainList();
-        saved.SetCount(terrain.FCount);
-        var mapLevel = FMapContainer.GetMapLevel(level);
+        saved.SetCount(terrain._count);
+        var mapLevel = _mapContainer.GetMapLevel(level);
         HexNumberWalkData walk = default;
-        HexNumberWalkData.InitHNWalk(ref walk, x, y, 0);
-        bool InRange() => terrain.GetUsed(walk.HN) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.FWidth && walk.Y < mapLevel.FHeight;
-        while (walk.HN < terrain.FCount)
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
+        bool InRange() => terrain.GetUsed(walk.HexNumber) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel._width && walk.Y < mapLevel._height;
+        while (walk.HexNumber < terrain._count)
         {
             if (InRange())
             {
                 var field = mapLevel.GetField(walk.X, walk.Y);
-                saved.SetTandO(walk.HN, (ushort)((byte)field.FTerrainType | (byte)field.FOverlayType << 8));
-                sbyte value = terrain.GetTerrain(walk.HN);
-                if (value >= 0) field.FTerrainType = value;
-                value = terrain.GetOverlay(walk.HN);
-                if (value >= 0) field.FOverlayType = value;
+                saved.SetTandO(walk.HexNumber, (ushort)((byte)field._terrainType | (byte)field._overlayType << 8));
+                sbyte value = terrain.GetTerrain(walk.HexNumber);
+                if (value >= 0) field._terrainType = value;
+                value = terrain.GetOverlay(walk.HexNumber);
+                if (value >= 0) field._overlayType = value;
             }
-            HexNumberWalkData.WalkToNextHN(ref walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
-        HexNumberWalkData.InitHNWalk(ref walk, x, y, 0);
-        while (walk.HN < terrain.FCount && result)
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
+        while (walk.HexNumber < terrain._count && result)
         {
-            if (InRange()) result = mapLevel.GetField(walk.X, walk.Y).CanChangeTerrainEx(sender);
-            HexNumberWalkData.WalkToNextHN(ref walk);
+            if (InRange()) result = mapLevel.GetField(walk.X, walk.Y).CanChangeTerrain(sender);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
-        HexNumberWalkData.InitHNWalk(ref walk, x, y, 0);
-        while (walk.HN < terrain.FCount)
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
+        while (walk.HexNumber < terrain._count)
         {
             if (InRange())
             {
                 var field = mapLevel.GetField(walk.X, walk.Y);
-                ushort pair = saved.GetTandO(walk.HN);
-                field.FTerrainType = (sbyte)pair;
-                field.FOverlayType = (sbyte)(pair >> 8);
+                ushort pair = saved.GetTandO(walk.HexNumber);
+                field._terrainType = (sbyte)pair;
+                field._overlayType = (sbyte)(pair >> 8);
             }
-            HexNumberWalkData.WalkToNextHN(ref walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
         saved?.Dispose();
         return result;

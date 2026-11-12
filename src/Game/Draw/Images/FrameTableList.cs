@@ -8,96 +8,96 @@ namespace Aow.Game.Draw.Images;
 
 public partial class FrameTableList : Persistent
 {
-    internal int[] FList;
-    internal int FCount;
-    internal int FCapacity;
-    internal int FDefaultValue;
+    internal int[] _list;
+    internal int _count;
+    internal int _capacity;
+    internal int _defaultValue;
 
     // ImageLib.pas:9434
-    protected internal int Get(int Index)
+    protected internal int Get(int index)
     {
-        if (Index < 0 || Index >= FCount)
+        if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        return FList[Index];
+        return _list[index];
     }
 
     // ImageLib.pas:9440
     protected internal virtual void Grow()
     {
-        int Delta;
-        if (FCapacity > 64)
+        int delta;
+        if (_capacity > 64)
         {
-            Delta = FCapacity / 4;
+            delta = _capacity / 4;
         }
         else
         {
-            if (FCapacity > 8)
+            if (_capacity > 8)
             {
-                Delta = 16;
+                delta = 16;
             }
             else
             {
-                Delta = 4;
+                delta = 4;
             }
         }
 
-        SetCapacity(FCapacity + Delta);
+        SetCapacity(_capacity + delta);
     }
 
     // ImageLib.pas:9486
     // { Unlike TList.Put, an index past the end grows the list }
-    protected internal void Put(int Index, int Item)
+    protected internal void Put(int index, int item)
     {
-        if (Index < 0)
+        if (index < 0)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        FList[Index] = Item;
+        _list[index] = item;
     }
 
     // ImageLib.pas:9506
-    protected internal void SetCapacity(int NewCapacity)
+    protected internal void SetCapacity(int newCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > 134217727)
+        if (newCapacity < _count || newCapacity > 134217727)
         {
-            Error("List capacity out of bounds (%d)", NewCapacity);
+            Error("List capacity out of bounds (%d)", newCapacity);
         }
 
-        if (NewCapacity != FCapacity)
+        if (newCapacity != _capacity)
         {
-            FList = ReallocArray(FList, NewCapacity);
-            FCapacity = NewCapacity;
+            _list = ReallocArray(_list, newCapacity);
+            _capacity = newCapacity;
         }
     }
 
     // ImageLib.pas:9517
-    protected internal void SetCount(int NewCount)
+    protected internal void SetCount(int newCount)
     {
-        if (NewCount < 0 || NewCount > 134217727)
+        if (newCount < 0 || newCount > 134217727)
         {
-            Error("List count out of bounds (%d)", NewCount);
+            Error("List count out of bounds (%d)", newCount);
         }
 
-        if (NewCount > FCapacity)
+        if (newCount > _capacity)
         {
-            SetCapacity(NewCount);
+            SetCapacity(newCount);
         }
 
-        if (NewCount > FCount)
+        if (newCount > _count)
         {
-            FillBytes(MemoryMarshal.AsBytes(FList.AsSpan(FCount, NewCount - FCount)), FDefaultValue);
+            FillBytes(MemoryMarshal.AsBytes(_list.AsSpan(_count, newCount - _count)), _defaultValue);
         }
 
-        FCount = NewCount;
+        _count = newCount;
     }
 
     // ImageLib.pas:9360
@@ -107,34 +107,34 @@ public partial class FrameTableList : Persistent
     }
 
     // ImageLib.pas:9365
-    public override void Assign(Persistent Source)
+    public override void Assign(Persistent source)
     {
-        if (Source is FrameTableList)
+        if (source is FrameTableList)
         {
-            var frameTableList = (FrameTableList)Source;
-            this.SetCapacity(frameTableList.FCount);
-            this.FCount = frameTableList.FCount;
-            MoveElements(frameTableList.FList, 0, this.FList, 0, this.FCount);
-            this.FDefaultValue = frameTableList.FDefaultValue;
+            var frameTableList = (FrameTableList)source;
+            this.SetCapacity(frameTableList._count);
+            this._count = frameTableList._count;
+            MoveElements(frameTableList._list, 0, this._list, 0, this._count);
+            this._defaultValue = frameTableList._defaultValue;
         }
         else
         {
-            base.Assign(Source);
+            base.Assign(source);
         }
     }
 
     // ImageLib.pas:9379
-    public int Add(int Item)
+    public int Add(int item)
     {
-        int Result = FCount;
-        if (Result == FCapacity)
+        int result = _count;
+        if (result == _capacity)
         {
             Grow();
         }
 
-        FList[Result] = Item;
-        FCount += 1;
-        return Result;
+        _list[result] = item;
+        _count += 1;
+        return result;
     }
 
     // ImageLib.pas:9387
@@ -145,43 +145,43 @@ public partial class FrameTableList : Persistent
     }
 
     // ImageLib.pas:9393
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        if (Index < 0 || Index >= FCount)
+        if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        FCount -= 1;
-        if (Index < FCount)
+        _count -= 1;
+        if (index < _count)
         {
-            MoveElements(FList, Index + 1, FList, Index, FCount - Index);
+            MoveElements(_list, index + 1, _list, index, _count - index);
         }
     }
 
     // ImageLib.pas:9412
-    public void Exchange(int Index1, int Index2)
+    public void Exchange(int index1, int index2)
     {
-        int Item;
-        if (Index1 < 0 || Index1 >= FCount)
+        int item;
+        if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", Index1);
+            Error("List index out of bounds (%d)", index1);
         }
 
-        if (Index2 < 0 || Index2 >= FCount)
+        if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", Index2);
+            Error("List index out of bounds (%d)", index2);
         }
 
-        Item = FList[Index1];
-        FList[Index1] = FList[Index2];
-        FList[Index2] = Item;
+        item = _list[index1];
+        _list[index1] = _list[index2];
+        _list[index2] = item;
     }
 
     // ImageLib.pas:9423
     public FrameTableList Expand()
     {
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
@@ -193,80 +193,80 @@ public partial class FrameTableList : Persistent
     public int First() => Get(0);
 
     // ImageLib.pas:9450
-    public int IndexOf(int Item)
+    public int IndexOf(int item)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result] != Item)
+        int result = 0;
+        while (result < _count && _list[result] != item)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9457
-    public void Insert(int Index, int Item)
+    public void Insert(int index, int item)
     {
-        if (Index < 0 || Index > FCount)
+        if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
 
-        if (Index < FCount)
+        if (index < _count)
         {
-            MoveElements(FList, Index, FList, Index + 1, FCount - Index);
+            MoveElements(_list, index, _list, index + 1, _count - index);
         }
 
-        FList[Index] = Item;
-        FCount += 1;
+        _list[index] = item;
+        _count += 1;
     }
 
     // ImageLib.pas:9467
-    public int Last() => Get(FCount - 1);
+    public int Last() => Get(_count - 1);
 
     // ImageLib.pas:9472
-    public void Move(int CurIndex, int NewIndex)
+    public void Move(int currentIndex, int newIndex)
     {
-        int Item;
-        if (CurIndex != NewIndex)
+        int item;
+        if (currentIndex != newIndex)
         {
-            if (NewIndex < 0 || NewIndex >= FCount)
+            if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", NewIndex);
+                Error("List index out of bounds (%d)", newIndex);
             }
 
-            Item = Get(CurIndex);
-            Delete(CurIndex);
-            Insert(NewIndex, Item);
+            item = Get(currentIndex);
+            Delete(currentIndex);
+            Insert(newIndex, item);
         }
     }
 
     // ImageLib.pas:9493
-    public int Remove(int Item)
+    public int Remove(int item)
     {
-        int Result = IndexOf(Item);
-        if (Result != -1)
+        int result = IndexOf(item);
+        if (result != -1)
         {
-            Delete(Result);
+            Delete(result);
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9499
     public void Pack()
     {
-        for (int I = FCount - 1; I >= 0; I--)
+        for (int I = _count - 1; I >= 0; I--)
         {
             if (this[I] == 0)
             {
@@ -276,85 +276,85 @@ public partial class FrameTableList : Persistent
     }
 
     // ImageLib.pas:9554
-    public void Sort(FrameTableSortCompare Compare)
+    public void Sort(FrameTableSortCompare compare)
     {
-        if (FList != null && Count > 0)
+        if (_list != null && Count > 0)
         {
-            FrameTableQuickSort(FList, 0, Count - 1, Compare);
+            FrameTableQuickSort(_list, 0, Count - 1, compare);
         }
     }
 
     // ImageLib.pas:9560
-    public bool Compare(FrameTableList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
+    public bool Compare(FrameTableList list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 4);
 
     // ImageLib.pas:9566
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
         int N = default;
         Clear();
-        Stream.ReadExactly(Bytes.Of(ref FDefaultValue, 4));
-        Stream.ReadExactly(Bytes.Of(ref N, 4));
+        stream.ReadExactly(Bytes.Of(ref _defaultValue, 4));
+        stream.ReadExactly(Bytes.Of(ref N, 4));
         SetCapacity(N);
-        Stream.ReadExactly(MemoryMarshal.AsBytes(FList.AsSpan(0, N)));
-        FCount = N;
+        stream.ReadExactly(MemoryMarshal.AsBytes(_list.AsSpan(0, N)));
+        _count = N;
     }
 
     // ImageLib.pas:9578
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        Stream.Write(Bytes.Of(ref FDefaultValue, 4));
-        Stream.Write(Bytes.Of(ref FCount, 4));
-        Stream.Write(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)));
+        stream.Write(Bytes.Of(ref _defaultValue, 4));
+        stream.Write(Bytes.Of(ref _count, 4));
+        stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)));
     }
 
     // ImageLib.pas:9586
     // { The items separated by commas }
     public string GetItemString()
     {
-        string Result = "";
-        for (int I = 0, last = FCount - 1; I <= last; I++)
+        string result = "";
+        for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            Result = Result + IntToStr(FList[I]) + ",";
+            result = result + IntToStr(_list[I]) + ",";
         }
 
-        if (!IsEmpty(Result))
+        if (!IsEmpty(result))
         {
-            Result = Copy(Result, 1, Result.Length - 1);
+            result = Copy(result, 1, result.Length - 1);
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:9597
     // { Reads items separated by commas; other characters than digits are dropped, an empty item
     //   is 0 }
-    public void SetItemString(string Value)
+    public void SetItemString(string value)
     {
         int I;
         int N;
         string S;
-        I = Value.Length;
+        I = value.Length;
         for (; I >= 1; I -= 1)
         {
-            if (!Set<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(Value[I - 1])))
+            if (!Set<byte>.WithBounds(0, 255).With(44).WithRange(48, 57).Contains(Cp1252.Byte(value[I - 1])))
             {
-                Value = RtlUnit.Delete(Value, I, 1);
+                value = RtlUnit.Delete(value, I, 1);
             }
         }
 
         Clear();
-        I = Pos(",", Value);
-        while (!IsEmpty(Value))
+        I = Pos(",", value);
+        while (!IsEmpty(value))
         {
             if (I != 0)
             {
-                S = Copy(Value, 1, I - 1);
-                Value = RtlUnit.Delete(Value, 1, I);
+                S = Copy(value, 1, I - 1);
+                value = RtlUnit.Delete(value, 1, I);
             }
             else
             {
-                S = Value;
-                Value = "";
+                S = value;
+                value = "";
             }
 
             if (!IsEmpty(S))
@@ -367,65 +367,65 @@ public partial class FrameTableList : Persistent
             }
 
             Add(N);
-            I = Pos(",", Value);
+            I = Pos(",", value);
         }
     }
 
-    public int Capacity { get => FCapacity; set => SetCapacity(value); }
-    public int Count { get => FCount; set => SetCount(value); }
+    public int Capacity { get => _capacity; set => SetCapacity(value); }
+    public int Count { get => _count; set => SetCount(value); }
 
-    public int this[int Index] { get => Get(Index); set => Put(Index, value); }
+    public int this[int index] { get => Get(index); set => Put(index, value); }
 
-    public int[] List { get => FList; }
-    public int DefaultValue { get => FDefaultValue; set => FDefaultValue = value; }
+    public int[] List { get => _list; }
+    public int DefaultValue { get => _defaultValue; set => _defaultValue = value; }
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
 
     // ImageLib.pas:9401
-    public static void Error(string Msg, int Data)
+    public static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
     }
 
-    private static void FrameTableQuickSort(int[] SortList, int L, int R, FrameTableSortCompare SCompare)
+    private static void FrameTableQuickSort(int[] sortList, int L, int R, FrameTableSortCompare sCompare)
     {
-        int num = 0;
-        int num2;
+        int number = 0;
+        int number2;
         do
         {
-            num2 = L;
-            int num3 = R;
-            int item = SortList[L + R >>> 1];
+            number2 = L;
+            int number3 = R;
+            int item = sortList[L + R >>> 1];
             while (true)
             {
-                if (SCompare(SortList[num2], item) < 0)
+                if (sCompare(sortList[number2], item) < 0)
                 {
-                    num2++;
+                    number2++;
                     continue;
                 }
-                while (SCompare(SortList[num3], item) > 0)
+                while (sCompare(sortList[number3], item) > 0)
                 {
-                    num3--;
+                    number3--;
                 }
-                if (num2 <= num3)
+                if (number2 <= number3)
                 {
-                    num = SortList[num2];
-                    SortList[num2] = SortList[num3];
-                    SortList[num3] = num;
-                    num2++;
-                    num3--;
+                    number = sortList[number2];
+                    sortList[number2] = sortList[number3];
+                    sortList[number3] = number;
+                    number2++;
+                    number3--;
                 }
-                if (num2 > num3)
+                if (number2 > number3)
                 {
                     break;
                 }
             }
-            if (L < num3)
+            if (L < number3)
             {
-                FrameTableQuickSort(SortList, L, num3, SCompare);
+                FrameTableQuickSort(sortList, L, number3, sCompare);
             }
-            L = num2;
+            L = number2;
         }
-        while (num2 < R);
+        while (number2 < R);
     }
 
     public delegate int FrameTableSortCompare(int Item1, int Item2);

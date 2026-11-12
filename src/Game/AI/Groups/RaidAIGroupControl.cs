@@ -13,18 +13,18 @@ public partial class RaidAIGroupControl : AIGroupControl
     { }
 
     // IndependentAG.pas:589
-    public override void MoveExecuterDone(object Sender)
+    public override void MoveExecutorDone(object sender)
     {
-        switch (FState)
+        switch (State)
         {
             case 1:
-                if (FMoveExecuter.FStatus == AIMoveExecutor.Status.OutOfMovePoints)
+                if (MoveExecutor.Status == AIMoveExecutorStatus.OutOfMovePoints)
                 {
                     Done();
                 }
                 else
                 {
-                    if (FMoveExecuter.FStatus == AIMoveExecutor.Status.Invalidated)
+                    if (MoveExecutor.Status == AIMoveExecutorStatus.Invalidated)
                     {
                         Done();
                     }
@@ -35,45 +35,45 @@ public partial class RaidAIGroupControl : AIGroupControl
     }
 
     // IndependentAG.pas:576
-    public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        SetupCP(Target);
+        SetupCP(target);
         // { Original also accepts crDefeat when the efficiency test passes. }
-        var execute = FCombatPredictor.Execute();
+        var execute = CombatPredictor.Execute();
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
         {
-            if (FCombatPredictor.GetEfficiency() > 0)
+            if (CombatPredictor.GetEfficiency() > 0)
             {
-                var efficiency = FCombatPredictor.GetEfficiency();
-                Target.FData.Priority = efficiency / 10 + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
-                base.TargetFoundEvent(Sender, Target, ref SearchDone);
+                var efficiency = CombatPredictor.GetEfficiency();
+                target.Data.Priority = efficiency / 10 + (target.Data.Priority * 100 - target.MovePoints * 5);
+                base.TargetFoundEvent(sender, target, ref searchDone);
             }
         }
     }
 
     public override void ProcessStates()
     {
-        switch (FState)
+        switch (State)
         {
             case 0:
                 var finder = new AIGroupTargetFinder(null!);
                 finder.Setup(this);
-                finder.FSelector.FMovePointsMax = 100;
-                finder.FSelector.FTargetInfo.Mode = AITargetMode.Raid;
+                finder.Selector.MovePointsMax = 100;
+                finder.Selector.TargetInfo.Mode = AITargetMode.Raid;
                 ActivatePlugin(finder);
                 finder.Release();
-                FState++;
+                State++;
                 break;
             case 1:
-                FTargets.Validate();
-                if (FTargets.Count != 0)
+                Targets.Validate();
+                if (Targets.Count != 0)
                 {
-                    FTargets.SortOnPriority();
+                    Targets.SortOnPriority();
                     SetupME();
-                    var target = FTargets.GetTargets(0);
-                    ExecuteME(target.FLocation.X, target.FLocation.Y, target.FLocation.L);
-                    FTargets.Delete(0);
-                    FState++;
+                    var target = Targets.GetTargets(0);
+                    ExecuteME(target.Location.X, target.Location.Y, target.Location.MapLevel);
+                    Targets.Delete(0);
+                    State++;
                 }
                 else Done();
                 break;
@@ -81,10 +81,10 @@ public partial class RaidAIGroupControl : AIGroupControl
                 var raze = new AIGroupRazeControl(null!);
                 raze.Setup(this);
                 // loads the set byte 04 from in the original
-                raze.FMode = Set<AIGroupRazeControlModeElement>.Of(AIGroupRazeControlModeElement.Always);
+                raze.Mode = Set<AIGroupRazeControlModeElement>.Of(AIGroupRazeControlModeElement.Always);
                 ActivatePlugin(raze);
                 raze.Release();
-                FState = 1;
+                State = 1;
                 break;
         }
     }

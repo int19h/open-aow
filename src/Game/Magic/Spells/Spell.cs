@@ -28,142 +28,142 @@ public partial class Spell : EngineObject
     // Spells.PAS:10
     public Spell(ECustomNode owner) : base(owner)
     {
-        FSpellText = new StringList();
-        FCastSounds = new SfxLibrary(null);
-        FCastImages = new ImageSequenceList(AoWHSSet.Current.ImageLibraryManager, null);
-        FResearchCost = 1;
-        FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
+        SpellText = new StringList();
+        CastSounds = new SfxLibrary(null);
+        CastImages = new ImageSequenceList(AoWHSSet.Current.ImageLibraryManager, null);
+        ResearchCost = 1;
+        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
     }
 
-    public string FSpellName = "";
-    public Set<SpellControlTypeElement> FSpellControlTypes;
-    public int FSpellID;
-    public int FBaseManaCost;
-    public int FResearchCost;
-    public int FManaUpkeep;
-    public MagicSphere FMagicSphere;
-    public byte FSpellLevel;
-    public SpellType FSpellType;
+    public string SpellName = "";
+    public Set<SpellControlTypeElement> SpellControlTypes;
+    public int SpellId;
+    public int BaseManaCost;
+    public int ResearchCost;
+    public int ManaUpkeep;
+    public MagicSphere MagicSphere;
+    public byte SpellLevel;
+    public SpellType SpellType;
     // stGlobal guard
-    public StringList FSpellText;
-    public SfxLibrary FCastSounds;
-    public ImageSequenceList FCastImages;
-    public int FCastDuration;
+    public StringList SpellText;
+    public SfxLibrary CastSounds;
+    public ImageSequenceList CastImages;
+    public int CastDuration;
 
     // Spells.PAS:20
     public override void Dispose()
     {
-        FCastSounds?.Dispose();
-        FCastImages?.Dispose();
-        FSpellText?.Dispose();
+        CastSounds?.Dispose();
+        CastImages?.Dispose();
+        SpellText?.Dispose();
         base.Dispose();
     }
 
     // Spells.PAS:31
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStrings(FSpellText, 10);
-        Stream.rwEObject(FCastSounds, 11);
-        Stream.rwStreamProc(12, FCastImages.LoadFromStream, FCastImages.SaveToStream);
-        Stream.rwInteger(ref FBaseManaCost, 13);
-        Stream.rwInteger(ref FManaUpkeep, 14);
-        Stream.rwInteger(ref FResearchCost, 15);
-        Stream.rwData(Bytes.Of(ref FMagicSphere, 1), 1, 16);
-        Stream.rwByte(ref FSpellLevel, 17);
+        base.ReadWrite(stream);
+        stream.rwStrings(SpellText, 10);
+        stream.rwEObject(CastSounds, 11);
+        stream.rwStreamProc(12, CastImages.LoadFromStream, CastImages.SaveToStream);
+        stream.rwInteger(ref BaseManaCost, 13);
+        stream.rwInteger(ref ManaUpkeep, 14);
+        stream.rwInteger(ref ResearchCost, 15);
+        stream.rwData(Bytes.Of(ref MagicSphere, 1), 1, 16);
+        stream.rwByte(ref SpellLevel, 17);
     }
 
     // Spells.PAS:224
-    public virtual void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
+    public virtual void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
     {
-        ImageSequenceAnimation Animation;
-        if (AoWHSMap.Current.Visible(X, Y, Layer, 0))
+        ImageSequenceAnimation animation;
+        if (AoWHSMap.Current.Visible(X, Y, layer, 0))
         {
-            AoWHSMap.Current.ValidateObservation(Player, X, Y, Layer, 0);
-            if (AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(0) != null)
+            AoWHSMap.Current.ValidateObservation(player, X, Y, layer, 0);
+            if (AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
             {
-                Animation = new ImageSequenceAnimation(null);
-                Animation.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(0));
-                AoWHSMap.Current.PlaceHX(Animation, X, Y, Layer);
+                animation = new ImageSequenceAnimation(null);
+                animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
+                AoWHSMap.Current.PlaceHex(animation, X, Y, layer);
             }
 
-            if (AoWHSMap.Current.FSeatedPlayer == Player || AoWHSMap.Current.Watching(X, Y, Layer, 0))
+            if (AoWHSMap.Current.SeatedPlayer == player || AoWHSMap.Current.Watching(X, Y, layer, 0))
             {
-                AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
             }
         }
     }
 
     // Spells.PAS:312
-    public virtual bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount) => false;
+    public virtual bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount) => false;
 
     // Spells.PAS:413
-    public virtual void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
+    public virtual void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
     }
 
     // Spells.PAS:415
-    public virtual bool AIExecuteCastSpellAction(Troop Source) => false;
+    public virtual bool AIExecuteCastSpellAction(Troop source) => false;
 
     // Spells.PAS:27
     public virtual bool GetEnabled() => true;
 
     // Spells.PAS:43
-    public virtual bool CanActivate(Troop Source, ref string MessageText)
+    public virtual bool CanActivate(Troop source, ref string messageText)
     {
-        bool Result;
-        if (FSpellType == SpellType.Global)
+        bool result;
+        if (SpellType == SpellType.Global)
         {
-            if (AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
+            if (AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
-                MessageText = AbilityRules.TranslateRStr(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveRStr);
-                Result = false;
+                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
-    public bool CanActivate__static(Troop Source, ref string MessageText)
+    public bool CanActivateStatic(Troop source, ref string messageText)
     {
-        bool Result;
-        if (FSpellType == SpellType.Global)
+        bool result;
+        if (SpellType == SpellType.Global)
         {
-            if (AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
+            if (AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
-                MessageText = AbilityRules.TranslateRStr(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveRStr);
-                Result = false;
+                messageText = AbilityRules.TranslateResourceString(GameText.s_cannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:54
-    public virtual bool Activate(Troop Source)
+    public virtual bool Activate(Troop source)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
+        if (AoWHSMap.Current.SeatedPlayer == source.Player)
         {
-            Source.GetLocation(ref X, ref Y, ref L);
+            source.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
                 AoWHSMap.Current.MakeVisible(X, Y, L, 3);
@@ -174,14 +174,14 @@ public partial class Spell : EngineObject
         return false;
     }
 
-    public bool Activate__static(Troop Source)
+    public bool ActivateStatic(Troop source)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
+        if (AoWHSMap.Current.SeatedPlayer == source.Player)
         {
-            Source.GetLocation(ref X, ref Y, ref L);
+            source.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
                 AoWHSMap.Current.MakeVisible(X, Y, L, 3);
@@ -193,141 +193,141 @@ public partial class Spell : EngineObject
     }
 
     // Spells.PAS:90
-    public virtual bool ActivateCombat(Troop Source)
+    public virtual bool ActivateCombat(Troop source)
     {
-        bool Result;
-        CombatSpellCaster Caster;
-        string Reason = "";
-        if (CanActivateCombat(Source, ref Reason))
+        bool result;
+        CombatSpellCaster caster;
+        string reason = "";
+        if (CanActivateCombat(source, ref reason))
         {
-            Caster = new CombatSpellCaster(null);
-            Caster.FCombatCasterSpellID = FSpellID;
-            Caster.FCombatCasterSourceID = Source.FUnitID;
-            AoWHSMap.Current.FCombatMap.FCombatStartedEventsStore.Raise(Caster);
-            Caster.Release();
-            Result = true;
+            caster = new CombatSpellCaster(null);
+            caster.CombatCasterSpellId = SpellId;
+            caster.CombatCasterSourceId = source.UnitId;
+            AoWHSMap.Current.CombatMap._combatStartedEventsStore.Raise(caster);
+            caster.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:158
-    public virtual CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana) => default;
+    public virtual CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana) => default;
 
     // Spells.PAS:178
-    public virtual int GetCombatDamageValue(CombatObject Source, CombatObject Target) => 0;
+    public virtual int GetCombatDamageValue(CombatObject source, CombatObject target) => 0;
 
     // Spells.PAS:182
-    public virtual void GetCombatDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
+    public virtual void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        Values.SourceDamage = 0;
-        Values.SourceCost = 0;
-        Values.TargetDamage = 0;
-        Values.TargetCost = 0;
-        Values.DamageTypes = Set<DamageType>.Of();
+        values.SourceDamage = 0;
+        values.SourceCost = 0;
+        values.TargetDamage = 0;
+        values.TargetCost = 0;
+        values.DamageTypes = Set<DamageType>.Of();
     }
 
     // Spells.PAS:326
-    public virtual void tcGetDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values) => this.GetCombatDamageValueEx(Source, Target, ref Values);
+    public virtual void TacticalBattleGetDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values) => this.GetCombatDamageValues(source, target, ref values);
 
     // Spells.PAS:339
-    public virtual int tcGetDamageValue(CombatObject Source, CombatObject Target) => this.GetCombatDamageValue(Source, Target);
+    public virtual int TacticalBattleGetDamageValue(CombatObject source, CombatObject target) => this.GetCombatDamageValue(source, target);
 
     // Spells.PAS:320
-    public virtual void fcPrefetchCombatCommands(FastBattleCommandList Commands)
+    public virtual void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
     }
 
     // Spells.PAS:322
-    public virtual bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command) => false;
+    public virtual bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command) => false;
 
     // Spells.PAS:316
-    public virtual void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
+    public virtual void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        Values = default;
+        values = default;
     }
 
     // Spells.PAS:193
-    public void CastingDone(Troop Source, int Mana)
+    public void CastingDone(Troop source, int mana)
     {
-        if (Source is Hero)
+        if (source is Hero)
         {
-            ((Hero)Source).CastingDone(FSpellID, Mana);
+            ((Hero)source).CastingDone(SpellId, mana);
         }
     }
 
     // Spells.PAS:198
-    public void CombatCastingDone(CombatObject Source, int Mana)
+    public void CombatCastingDone(CombatObject source, int mana)
     {
-        if (Source is CombatUnit && ((CombatUnit)Source).FUnit is Hero)
+        if (source is CombatUnit && ((CombatUnit)source).Troop is Hero)
         {
-            var combatUnit = (CombatUnit)Source;
-            ((Hero)combatUnit.FUnit).CastingDone(FSpellID, Mana);
+            var combatUnit = (CombatUnit)source;
+            ((Hero)combatUnit.Troop).CastingDone(SpellId, mana);
             combatUnit.UpdateWallCombatFeatures();
-            if (Source.FCombat is FastBattle)
+            if (source.Combat is FastBattle)
             {
-                ((FastBattleUnit)Source).UpdateWallSiegeObjectRegistration();
+                ((FastBattleUnit)source).UpdateWallSiegeObjectRegistration();
             }
         }
     }
 
     // Spells.PAS:371
-    public bool AIRequestCastSpellExpense(Troop Source, int Budget, int Mana, int Upkeep)
+    public bool AIRequestCastSpellExpense(Troop source, int budget, int mana, int upkeep)
     {
-        bool Result;
-        AIBudgetManager Manager;
-        if (Upkeep > 0)
+        bool result;
+        AIBudgetManager manager;
+        if (upkeep > 0)
         {
-            Mana -= AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.AIRequestOverrideUpkeep(Round((double)Upkeep * 0.8));
-            if (Mana < 0)
+            mana -= AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.AIRequestOverrideUpkeep(Round((double)upkeep * 0.8));
+            if (mana < 0)
             {
-                Mana = 0;
+                mana = 0;
             }
         }
 
-        Manager = AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FAIBudget;
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
+        manager = AoWHSMap.Current.Players.GetPlayers(source.Player).AIBudget;
+        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
         {
-            Result = Manager.RequestBudgetExpenseEx(0, Budget, 0, Mana, Manager.FDefaultBudget, 1 != 0);
+            result = manager.RequestBudgetExpense(0, budget, 0, mana, manager.DefaultBudget, 1 != 0);
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:396
-    public bool AICastSpellExpenseMade(Troop Source, int Budget, int Mana, int Upkeep)
+    public bool AICastSpellExpenseMade(Troop source, int budget, int mana, int upkeep)
     {
-        bool Result;
-        AIBudgetManager Manager;
-        if (AIRequestCastSpellExpense(Source, Budget, Mana, Upkeep))
+        bool result;
+        AIBudgetManager manager;
+        if (AIRequestCastSpellExpense(source, budget, mana, upkeep))
         {
-            Manager = AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FAIBudget;
-            if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
+            manager = AoWHSMap.Current.Players.GetPlayers(source.Player).AIBudget;
+            if (!AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
             {
-                Result = Manager.BudgetExpenseMadeEx(0, Budget, 0, Mana, Manager.FDefaultBudget, (AIBudgetManager.ExpenseMode)2);
+                result = manager.BudgetExpenseMade(0, budget, 0, mana, manager.DefaultBudget, (AIBudgetManager.ExpenseMode)2);
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    public virtual bool CanActivateCombat(Troop source, ref string reason) => AoWHSMap.Current.FCombat != null;
+    public virtual bool CanActivateCombat(Troop source, ref string reason) => AoWHSMap.Current.Combat != null;
 
     public virtual void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {
@@ -344,9 +344,9 @@ public partial class Spell : EngineObject
     }
 
     public virtual void SetupCastSpellAction(Troop source, AICastSpellAction action)
-    { action.FSpellID = FSpellID; action.FSourceUnitID = source.FUnitID; }
+    { action.SpellId = SpellId; action.SourceUnitId = source.UnitId; }
 
     // Spells.PAS:215. The casting view aliases the combat unit's hero.
     public void CombatSpellCast(CombatUnit source) =>
-        CombatCastingDone(source, ((Hero)source.FUnit).CastingMana(this));
+        CombatCastingDone(source, ((Hero)source.Troop).CastingMana(this));
 }

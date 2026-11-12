@@ -16,66 +16,66 @@ public partial class Fury : UnitSpell
     // UnitSpells.pas:336
     public Fury(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.FuryRStr);
-        FSpellID = 33;
-        FAIValue = 175;
-        FBaseManaCost = 5;
-        FSpellLevel = 1;
-        FMagicSphere = MagicSphere.Fire;
-        FTargetRange = 12;
-        FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
-        FUnitDispelResistance = 3;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_furyText);
+        SpellId = 33;
+        AIValue = 175;
+        BaseManaCost = 5;
+        SpellLevel = 1;
+        MagicSphere = MagicSphere.Fire;
+        TargetRange = 12;
+        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+        UnitDispelResistance = 3;
     }
 
     // UnitSpells.pas:369
-    public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
+    public override void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
     {
-        base.PlayDefaultCastEffects(Player, X, Y, Layer);
-        if (Player == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(X, Y, Layer, 0))
+        base.PlayDefaultCastEffects(player, X, Y, layer);
+        if (player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(X, Y, layer, 0))
         {
-            AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
+            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(1);
         }
     }
 
     // UnitSpells.pas:376
-    public override bool ValidTargetUnit(Troop Source, Troop Target)
+    public override bool ValidTargetUnit(Troop source, Troop target)
     {
-        bool Result = base.ValidTargetUnit(Source, Target);
-        Result = Result && !Target.GetAbilityEnabled(156);
-        if (Result)
+        bool result = base.ValidTargetUnit(source, target);
+        result = result && !target.GetAbilityEnabled(156);
+        if (result)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Target.FPlayer).FPlayerType != PlayerType.Human && Target is Leader)
+            if (AoWHSMap.Current.Players.GetPlayers(target.Player).PlayerType != PlayerType.Human && target is Leader)
             {
-                Result = false;
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // UnitSpells.pas:350
-    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
     {
-        bool Result;
-        UnitEnchantment Enchantment;
-        if (ValidTargetUnit(Source, Target))
+        bool result;
+        UnitEnchantment enchantment;
+        if (ValidTargetUnit(source, target))
         {
-            if (Target.ExpandAbility(156))
+            if (target.ExpandAbility(156))
             {
-                Enchantment = ((UnitEnchantmentAbilityData)Target.GetAbilityData(156)).FEnchantment;
-                Enchantment.SetUpkeep(FManaUpkeep);
-                Enchantment.SetSource(Source.FPlayer);
-                Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
+                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(156)).Enchantment;
+                enchantment.SetUpkeep(ManaUpkeep);
+                enchantment.SetSource(source.Player);
+                enchantment.DispelResistance = (sbyte)UnitDispelResistance;
             }
 
             // { Original succeeds even when expansion fails. }
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 }

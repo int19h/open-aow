@@ -11,7 +11,7 @@ public partial class BattleAIMove
     public short Spell;
     public int Value;
     public int GroupValue;
-    public TacticalBattleUnitHexSprite UnitHS;
+    public TacticalBattleUnitHexSprite UnitHexSprite;
     public CombatObject Target;
     public ushort X;
     public ushort Y;

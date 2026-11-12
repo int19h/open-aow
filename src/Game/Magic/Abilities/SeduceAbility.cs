@@ -14,30 +14,30 @@ public partial class SeduceAbility : CommandAbility
     // AoWAb.PAS:5372
     public SeduceAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 29;
-        FAbilityName = AbilityRules.TranslateRStr(SeduceRStr);
-        FCommandedAbilityID = 48;
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
+        AbilityId = 29;
+        AbilityName = AbilityRules.TranslateResourceString(s_seduceText);
+        CommandedAbilityId = 48;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }
 
     // AoWAb.PAS:5380
-    public override sbyte GetTouchAttack(int Level) => 4;
+    public override sbyte GetTouchAttack(int level) => 4;
 
     // AoWAb.PAS:5389
-    public override bool CanTouch(CombatObject Source, CombatObject Target)
+    public override bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool Result = base.CanTouch(Source, Target);
-        if (Result)
+        bool result = base.CanTouch(source, target);
+        if (result)
         {
-            var combatUnit = (CombatUnit)Target;
-            Result = combatUnit.FUnit.GetGender() == UnitGender.Male && combatUnit.FUnit.GetUnitType() == UnitType.Humanoid;
+            var combatUnit = (CombatUnit)target;
+            result = combatUnit.Troop.GetGender() == UnitGender.Male && combatUnit.Troop.GetUnitType() == UnitType.Humanoid;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5384
-    public override bool CanTouchUnit(Troop Source, Troop Target) => base.CanTouchUnit(Source, Target) && (Target.GetGender() == UnitGender.Male && Target.GetUnitType() == UnitType.Humanoid);
+    public override bool CanTouchUnit(Troop source, Troop target) => base.CanTouchUnit(source, target) && (target.GetGender() == UnitGender.Male && target.GetUnitType() == UnitType.Humanoid);
 
-    private static readonly string SeduceRStr = "Seduce";
+    private static readonly string s_seduceText = "Seduce";
 }

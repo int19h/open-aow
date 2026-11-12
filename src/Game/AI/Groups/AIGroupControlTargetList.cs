@@ -13,83 +13,83 @@ public partial class AIGroupControlTargetList : EReferenceNode
     public AIGroupControlTargetList(ECustomNode owner) : base(owner)
     { }
 
-    public AIGroupControl FControl;
+    public AIGroupControl Control;
 
     // AIGroup.pas:684
-    public AIGroupControlTarget GetTargets(int Index)
+    public AIGroupControlTarget GetTargets(int index)
     {
-        Assert(Index >= 0 && Index < FChildren.Count, "", "AIGroup.pas", 687);
-        return (AIGroupControlTarget)FChildren.List[Index];
+        Assert(index >= 0 && index < _children.Count, "", "AIGroup.pas", 687);
+        return (AIGroupControlTarget)_children.List[index];
     }
 
     // AIGroup.pas:696
     public void SortOnPriority()
     {
-        FChildren.Sort(CompareAIGroupTargetPriority);
+        _children.Sort(CompareAIGroupTargetPriority);
     }
 
     // AIGroup.pas:706
     public void SortOnDataB()
     {
-        FChildren.Sort(CompareAIGroupTargetDataB);
+        _children.Sort(CompareAIGroupTargetDataB);
     }
 
     // AIGroup.pas:711
-    public void Add(AIGroupControlTarget Target)
+    public void Add(AIGroupControlTarget target)
     {
-        AddChild(Target);
+        AddChild(target);
     }
 
     // AIGroup.pas:716
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        RemoveChild(GetTargets(Index));
+        RemoveChild(GetTargets(index));
     }
 
     // AIGroup.pas:721
     public bool Validate()
     {
-        AIGroupControlTarget Target;
-        bool Result = true;
+        AIGroupControlTarget target;
+        bool result = true;
         var count = Count;
-        AoWHSMap.Current.FAIExecuter.UseProcessTime(count * 20);
+        AoWHSMap.Current.AIExecutor.UseProcessTime(count * 20);
         for (int I = Count - 1; I >= 0; I--)
         {
-            Target = (AIGroupControlTarget)FChildren.List[I];
-            if (!Target.Validate(FControl))
+            target = (AIGroupControlTarget)_children.List[I];
+            if (!target.Validate(Control))
             {
-                RemoveChild(Target);
-                Result = false;
+                RemoveChild(target);
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:739
-    public int IndexOfXYL(int Location)
+    public int IndexOfMapCoordinate(int location)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (Location == ((AIGroupControlTarget)FChildren.List[Result]).FLocation.Packed)
+            result -= 1;
+            if (location == ((AIGroupControlTarget)_children.List[result]).Location.Packed)
             {
-                return Result;
+                return result;
             }
         }
 
         return -1;
     }
 
-    private static int CompareAIGroupTargetPriority(object Item1, object Item2)
+    private static int CompareAIGroupTargetPriority(object item1, object item2)
     {
-        return ((AIGroupControlTarget)Item2).FData.Priority - ((AIGroupControlTarget)Item1).FData.Priority;
+        return ((AIGroupControlTarget)item2).Data.Priority - ((AIGroupControlTarget)item1).Data.Priority;
     }
 
-    private static int CompareAIGroupTargetDataB(object Item1, object Item2)
+    private static int CompareAIGroupTargetDataB(object item1, object item2)
     {
-        return ((AIGroupControlTarget)Item2).FDataB - ((AIGroupControlTarget)Item1).FDataB;
+        return ((AIGroupControlTarget)item2).DataB - ((AIGroupControlTarget)item1).DataB;
     }
 
     // Engine.pas:631

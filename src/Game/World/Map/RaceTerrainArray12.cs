@@ -6,7 +6,7 @@ namespace Aow.Game.World.Map;
 [InlineArray(12)]
 public struct RaceTerrainArray12
 {
-    private RaceTerrain element0;
+    private RaceTerrain _element0;
 
     public static RaceTerrainArray12 From(ReadOnlySpan<RaceTerrain> values)
     {

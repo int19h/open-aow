@@ -12,9 +12,9 @@ namespace Aow.Game.Draw.Images;
 public struct ImageLibraryHeader
 {
     [FieldOffset(0)]
-    public ByteArray5 ID__image;
+    public ByteArray5 IdImage;
 
-    public string ID { get => ReadShortString(ID__image); set => WriteShortString(ID__image, value); }
+    public string Id { get => ReadShortString(IdImage); set => WriteShortString(IdImage, value); }
 
     [FieldOffset(8)]
     public float Version;

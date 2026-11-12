@@ -10,18 +10,18 @@ public sealed class FilesProbeTests
         using var directory = new ProbeDirectory();
         var p = new ProbeLines("files");
         Directory.CreateDirectory("probe-files"); File.SetAttributes("probe-files", FileAttributes.Directory);
-        static int Attrs(int n) => (n & 7) | ((n & 8) != 0 ? 32 : 0);
-        void Make(string name, int attrs)
+        static int Attributes(int n) => (n & 7) | ((n & 8) != 0 ? 32 : 0);
+        void Make(string name, int attributes)
         {
-            File.WriteAllBytes(Path.Combine("probe-files", name), [65, 0, 255]); File.SetAttributes(Path.Combine("probe-files", name), (FileAttributes)attrs);
+            File.WriteAllBytes(Path.Combine("probe-files", name), [65, 0, 255]); File.SetAttributes(Path.Combine("probe-files", name), (FileAttributes)attributes);
         }
         foreach (string name in new[] { "zeta.txt", "alpha.TXT", "Beta.txt", "a-2.txt", "a_1.TXT", ".dot", "NoExt" }) Make(name, 0);
-        for (int i = 15; i >= 0; i--) Make($"f{i:X2}.dat", Attrs(i));
-        for (int i = 7; i >= 0; i--) { string path = Path.Combine("probe-files", $"d{i:X2}"); Directory.CreateDirectory(path); File.SetAttributes(path, (FileAttributes)(faDirectory | Attrs(i))); }
-        void Enumerate(string tag, string pattern, int attr)
+        for (int i = 15; i >= 0; i--) Make($"f{i:X2}.dat", Attributes(i));
+        for (int i = 7; i >= 0; i--) { string path = Path.Combine("probe-files", $"d{i:X2}"); Directory.CreateDirectory(path); File.SetAttributes(path, (FileAttributes)(faDirectory | Attributes(i))); }
+        void Enumerate(string tag, string pattern, int attribute)
         {
             SearchRec search = default;
-            int code = FindFirst("probe-files\\" + pattern, attr, ref search); p.Fact(tag + "_first_code", code); int n = 0;
+            int code = FindFirst("probe-files\\" + pattern, attribute, ref search); p.Fact(tag + "_first_code", code); int n = 0;
             if (code == 0)
             {
                 try

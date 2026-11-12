@@ -21,9 +21,9 @@ public static class GateSwitches
         "or set \"System.Globalization.Invariant\": true in its runtimeconfig.json.";
 
     /// <summary>Starts the census and reads the strict switch. Call it first thing in a host.</summary>
-    public static void Enter(string host, string[] args)
+    public static void Enter(string host, string[] arguments)
     {
-        ExceptionCensus.Start(host, args);
+        ExceptionCensus.Start(host, arguments);
         if (Environment.GetEnvironmentVariable(StrictStringsVariable) == "1") RtlUnit.StrictStrings = true;
     }
 }

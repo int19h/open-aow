@@ -9,75 +9,75 @@ namespace Aow.Game.Layout;
 
 public static class ImageLibraryMethods
 {
-    public static ImageLibrary CheckIL(this ImageLibrary library, int Index, int Count, Component Sender)
+    public static ImageLibrary CheckImageLibrary(this ImageLibrary library, int index, int count, Component sender)
     {
-        ImageLibrary Result = library;
-        if (Index + Count > library.Count)
+        ImageLibrary result = library;
+        if (index + count > library.Count)
         {
-            Result = null;
-            MessageBox(0, library.Name + " must have " + IntToStr(Index + Count) + " Images", "Error - " + Sender.Name, 0);
+            result = null;
+            MessageBox(0, library.Name + " must have " + IntToStr(index + count) + " Images", "Error - " + sender.Name, 0);
         }
         else
         {
-            for (int I = Index; I <= Index + Count - 1; I++)
+            for (int I = index; I <= index + count - 1; I++)
             {
                 if (!library.ImageExist(I))
                 {
-                    MessageBox(0, library.Name + " Image # " + IntToStr(I) + " is invalid", "Error - " + Sender.Name, 0);
-                    Result = null;
+                    MessageBox(0, library.Name + " Image # " + IntToStr(I) + " is invalid", "Error - " + sender.Name, 0);
+                    result = null;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
-    public static void DrawILT(this ImageLibrary library, int Index, in Rect R, ref LockedSurface SurfDesc)
+    public static void DrawTiled(this ImageLibrary library, int index, in Rect R, ref LockedSurface lockedSurface)
     {
-        int ClipRight;
-        int ClipBottom;
-        Rect OldClip;
-        OldClip = SurfDesc.ClipRect;
-        if (R.Left + R.Right > SurfDesc.ClipRect.Right)
+        int clipRight;
+        int clipBottom;
+        Rect oldClip;
+        oldClip = lockedSurface.ClipRectangle;
+        if (R.Left + R.Right > lockedSurface.ClipRectangle.Right)
         {
-            ClipRight = SurfDesc.ClipRect.Right;
+            clipRight = lockedSurface.ClipRectangle.Right;
         }
         else
         {
-            ClipRight = R.Left + R.Right;
+            clipRight = R.Left + R.Right;
         }
 
-        if (R.Top + R.Bottom > SurfDesc.ClipRect.Bottom)
+        if (R.Top + R.Bottom > lockedSurface.ClipRectangle.Bottom)
         {
-            ClipBottom = SurfDesc.ClipRect.Bottom;
+            clipBottom = lockedSurface.ClipRectangle.Bottom;
         }
         else
         {
-            ClipBottom = R.Top + R.Bottom;
+            clipBottom = R.Top + R.Bottom;
         }
 
-        var rect = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
-        SurfDesc.ClipRect = rect;
-        if (R.Left + R.Right < OldClip.Right)
+        var rectangle = new Rect(lockedSurface.ClipRectangle.Left, lockedSurface.ClipRectangle.Top, clipRight, clipBottom);
+        lockedSurface.ClipRectangle = rectangle;
+        if (R.Left + R.Right < oldClip.Right)
         {
-            SurfDesc.ClipRect.Right = R.Left + R.Right;
+            lockedSurface.ClipRectangle.Right = R.Left + R.Right;
         }
 
-        if (R.Top + R.Bottom < OldClip.Bottom)
+        if (R.Top + R.Bottom < oldClip.Bottom)
         {
-            SurfDesc.ClipRect.Bottom = R.Top + R.Bottom;
+            lockedSurface.ClipRectangle.Bottom = R.Top + R.Bottom;
         }
 
-        for (int J = 0, last = R.Bottom / library[Index].Height; J <= last; J++)
+        for (int J = 0, last = R.Bottom / library[index].Height; J <= last; J++)
         {
-            for (int I = 0, lastI = R.Right / library[Index].Width; I <= lastI; I++)
+            for (int I = 0, lastI = R.Right / library[index].Width; I <= lastI; I++)
             {
-                var item = library[Index];
-                var item2 = library[Index];
-                library[Index].ShowClipped(R.Left + item2.Width * I, R.Top + item.Height * J, SurfDesc);
+                var item = library[index];
+                var item2 = library[index];
+                library[index].ShowClipped(R.Left + item2.Width * I, R.Top + item.Height * J, lockedSurface);
             }
         }
 
-        SurfDesc.ClipRect = OldClip;
+        lockedSurface.ClipRectangle = oldClip;
     }
 }

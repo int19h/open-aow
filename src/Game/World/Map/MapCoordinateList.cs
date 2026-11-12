@@ -14,109 +14,109 @@ namespace Aow.Game.World.Map;
 // out-of-range items and a run-length encoded stream form) for map locations
 public partial class MapCoordinateList : Persistent
 {
-    internal MapCoordinate[] FList = [];
-    internal int FCount;
-    internal int FCapacity;
-    internal MapCoordinate FDefault;
+    internal MapCoordinate[] _list = [];
+    internal int _count;
+    internal int _capacity;
+    internal MapCoordinate _default;
 
     // HSEngine.pas:1673
-    internal MapCoordinate Get(int Index)
+    internal MapCoordinate Get(int index)
     {
-        MapCoordinate Result;
-        if (Index < 0 || Index >= FCount)
+        MapCoordinate result;
+        if (index < 0 || index >= _count)
         {
-            Result = FDefault;
+            result = _default;
         }
         else
         {
-            Result = FList[Index];
+            result = _list[index];
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:1746
-    internal void Put(int Index, MapCoordinate Item)
+    internal void Put(int index, MapCoordinate item)
     {
-        if (Index < 0)
+        if (index < 0)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        FList[Index] = Item;
+        _list[index] = item;
     }
 
     // HSEngine.pas:1767
-    internal void SetCapacity(int NewCapacity)
+    internal void SetCapacity(int newCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
+        if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", NewCapacity);
+            Error("List capacity out of bounds (%d)", newCapacity);
         }
 
-        if (NewCapacity != FCapacity)
+        if (newCapacity != _capacity)
         {
-            Array.Resize(ref FList, NewCapacity);
-            FCapacity = NewCapacity;
+            Array.Resize(ref _list, newCapacity);
+            _capacity = newCapacity;
         }
     }
 
     // HSEngine.pas:1778
-    internal void SetCount(int NewCount)
+    internal void SetCount(int newCount)
     {
-        if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
+        if (newCount < 0 || newCount > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", NewCount);
+            Error("List count out of bounds (%d)", newCount);
         }
 
-        if (NewCount > FCapacity)
+        if (newCount > _capacity)
         {
-            SetCapacity(NewCount);
+            SetCapacity(newCount);
         }
 
-        if (NewCount > FCount)
+        if (newCount > _count)
         {
-            FList.AsSpan(FCount, NewCount - FCount).Fill(FDefault);
+            _list.AsSpan(_count, newCount - _count).Fill(_default);
         }
 
-        FCount = NewCount;
+        _count = newCount;
     }
 
     // HSEngine.pas:1681
     protected internal virtual void Grow()
     {
-        int Delta;
-        if (FCapacity > 64)
+        int delta;
+        if (_capacity > 64)
         {
-            Delta = FCapacity / 4;
+            delta = _capacity / 4;
         }
         else
         {
-            if (FCapacity > 8)
+            if (_capacity > 8)
             {
-                Delta = 16;
+                delta = 16;
             }
             else
             {
-                Delta = 4;
+                delta = 4;
             }
         }
 
-        SetCapacity(FCapacity + Delta);
+        SetCapacity(_capacity + delta);
     }
 
     // HSEngine.pas:1578
     public MapCoordinateList()
     {
-        FDefault.X = -1;
-        FDefault.Y = -1;
-        FDefault.L = -1;
-        FDefault.Flag = 0;
+        _default.X = -1;
+        _default.Y = -1;
+        _default.MapLevel = -1;
+        _default.Tag = 0;
     }
 
     // HSEngine.pas:1587
@@ -126,51 +126,51 @@ public partial class MapCoordinateList : Persistent
     }
 
     // HSEngine.pas:1592
-    public override void Assign(Persistent Source)
+    public override void Assign(Persistent source)
     {
-        if (Source is MapCoordinateList)
+        if (source is MapCoordinateList)
         {
-            var xylList = (MapCoordinateList)Source;
-            this.FCount = xylList.FCount;
-            this.SetCapacity(xylList.FCapacity);
-            Array.Copy(xylList.FList, 0, this.FList, 0, this.FCount);
-            this.FDefault = xylList.FDefault;
+            var mapCoordinateList = (MapCoordinateList)source;
+            this._count = mapCoordinateList._count;
+            this.SetCapacity(mapCoordinateList._capacity);
+            Array.Copy(mapCoordinateList._list, 0, this._list, 0, this._count);
+            this._default = mapCoordinateList._default;
         }
         else
         {
-            base.Assign(Source);
+            base.Assign(source);
         }
     }
 
     // HSEngine.pas:1606
-    public int Add(MapCoordinate Item)
+    public int Add(MapCoordinate item)
     {
-        int Result = FCount;
-        if (Result == FCapacity)
+        int result = _count;
+        if (result == _capacity)
         {
             Grow();
         }
 
-        FList[Result] = Item;
-        FCount += 1;
-        return Result;
+        _list[result] = item;
+        _count += 1;
+        return result;
     }
 
     // HSEngine.pas:1614
-    public int AddXYL(sbyte X, sbyte Y, sbyte L)
+    public int AddMapCoordinate(sbyte X, sbyte Y, sbyte L)
     {
-        int Result = FCount;
-        if (Result == FCapacity)
+        int result = _count;
+        if (result == _capacity)
         {
             Grow();
         }
 
-        FList[Result].X = X;
-        FList[Result].Y = Y;
-        FList[Result].L = L;
-        FList[Result].Flag = 0;
-        FCount += 1;
-        return Result;
+        _list[result].X = X;
+        _list[result].Y = Y;
+        _list[result].MapLevel = L;
+        _list[result].Tag = 0;
+        _count += 1;
+        return result;
     }
 
     // HSEngine.pas:1625
@@ -181,43 +181,43 @@ public partial class MapCoordinateList : Persistent
     }
 
     // HSEngine.pas:1631
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        if (Index < 0 || Index >= FCount)
+        if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        FCount -= 1;
-        if (Index < FCount)
+        _count -= 1;
+        if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), (FCount - Index) * 4);
+            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), (_count - index) * 4);
         }
     }
 
     // HSEngine.pas:1651
-    public void Exchange(int Index1, int Index2)
+    public void Exchange(int index1, int index2)
     {
-        MapCoordinate Item;
-        if (Index1 < 0 || Index1 >= FCount)
+        MapCoordinate item;
+        if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", Index1);
+            Error("List index out of bounds (%d)", index1);
         }
 
-        if (Index2 < 0 || Index2 >= FCount)
+        if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", Index2);
+            Error("List index out of bounds (%d)", index2);
         }
 
-        Item = FList[Index1];
-        FList[Index1] = FList[Index2];
-        FList[Index2] = Item;
+        item = _list[index1];
+        _list[index1] = _list[index2];
+        _list[index2] = item;
     }
 
     // HSEngine.pas:1662
     public MapCoordinateList Expand()
     {
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
@@ -229,119 +229,119 @@ public partial class MapCoordinateList : Persistent
     public MapCoordinate First() => Get(0);
 
     // HSEngine.pas:1691
-    public int IndexOf(MapCoordinate Item)
+    public int IndexOf(MapCoordinate item)
     {
-        int Result = 0;
-        while (Result < FCount && Unsafe.As<MapCoordinate, int>(ref FList[Result]) != Unsafe.As<MapCoordinate, int>(ref Item))
+        int result = 0;
+        while (result < _count && Unsafe.As<MapCoordinate, int>(ref _list[result]) != Unsafe.As<MapCoordinate, int>(ref item))
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:1698
     public int IndexOfXY(sbyte X, sbyte Y)
     {
-        MapCoordinate Item = default;
-        Item.X = X;
-        Item.Y = Y;
-        int Result = 0;
-        while (Result < FCount && FList[Result].XY != Item.XY)
+        MapCoordinate item = default;
+        item.X = X;
+        item.Y = Y;
+        int result = 0;
+        while (result < _count && _list[result].XY != item.XY)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:1709
-    public int IndexOfXYL(sbyte X, sbyte Y, sbyte L)
+    public int IndexOfMapCoordinate(sbyte X, sbyte Y, sbyte L)
     {
-        int Result = 0;
-        while (Result < FCount && (FList[Result].X != X || FList[Result].Y != Y || FList[Result].L != L))
+        int result = 0;
+        while (result < _count && (_list[result].X != X || _list[result].Y != Y || _list[result].MapLevel != L))
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:1717
-    public void Insert(int Index, MapCoordinate Item)
+    public void Insert(int index, MapCoordinate item)
     {
-        if (Index < 0 || Index > FCount)
+        if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
 
-        if (Index < FCount)
+        if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), (FCount - Index) * 4);
+            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), (_count - index) * 4);
         }
 
-        FList[Index] = Item;
-        FCount += 1;
+        _list[index] = item;
+        _count += 1;
     }
 
     // HSEngine.pas:1728
-    public MapCoordinate Last() => Get(FCount - 1);
+    public MapCoordinate Last() => Get(_count - 1);
 
     // HSEngine.pas:1733
-    public void Move(int CurIndex, int NewIndex)
+    public void Move(int currentIndex, int newIndex)
     {
-        MapCoordinate Item;
-        if (CurIndex != NewIndex)
+        MapCoordinate item;
+        if (currentIndex != newIndex)
         {
-            if (NewIndex < 0 || NewIndex >= FCount)
+            if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", NewIndex);
+                Error("List index out of bounds (%d)", newIndex);
             }
 
-            Item = Get(CurIndex);
-            Delete(CurIndex);
-            Insert(NewIndex, Item);
+            item = Get(currentIndex);
+            Delete(currentIndex);
+            Insert(newIndex, item);
         }
     }
 
     // HSEngine.pas:1753
-    public int Remove(MapCoordinate Item)
+    public int Remove(MapCoordinate item)
     {
-        int Result = IndexOf(Item);
-        if (Result != -1)
+        int result = IndexOf(item);
+        if (result != -1)
         {
-            Delete(Result);
+            Delete(result);
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:1759
     public void Pack()
     {
-        for (int I = FCount - 1; I >= 0; I--)
+        for (int I = _count - 1; I >= 0; I--)
         {
-            if (Unsafe.BitCast<MapCoordinate, int>(this[I]) == Unsafe.As<MapCoordinate, int>(ref FDefault))
+            if (Unsafe.BitCast<MapCoordinate, int>(this[I]) == Unsafe.As<MapCoordinate, int>(ref _default))
             {
                 Delete(I);
             }
@@ -349,96 +349,96 @@ public partial class MapCoordinateList : Persistent
     }
 
     // HSEngine.pas:1815
-    public void Sort(XYLSortCompare Compare)
+    public void Sort(XYLSortCompare compare)
     {
-        if (FList.Length != 0 && Count > 0)
+        if (_list.Length != 0 && Count > 0)
         {
-            QuickSortXYL(FList, 0, Count - 1, Compare);
+            QuickSortMapCoordinate(_list, 0, Count - 1, compare);
         }
     }
 
     // HSEngine.pas:1821
-    public bool Compare(MapCoordinateList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
+    public bool Compare(MapCoordinateList list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 4);
 
     // HSEngine.pas:1828
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        int Count = default;
-        int Run = default;
-        MapCoordinate Item = default;
+        int count = default;
+        int run = default;
+        MapCoordinate item = default;
         Clear();
-        Stream.ReadExactly(Bytes.Of(ref FDefault, 4));
-        Stream.ReadExactly(Bytes.Of(ref Count, 4));
-        SetCapacity(Count);
-        while (Count != FCount)
+        stream.ReadExactly(Bytes.Of(ref _default, 4));
+        stream.ReadExactly(Bytes.Of(ref count, 4));
+        SetCapacity(count);
+        while (count != _count)
         {
-            Stream.ReadExactly(Bytes.Of(ref Item, 4));
-            if (Unsafe.As<MapCoordinate, int>(ref Item) == Unsafe.As<MapCoordinate, int>(ref FDefault))
+            stream.ReadExactly(Bytes.Of(ref item, 4));
+            if (Unsafe.As<MapCoordinate, int>(ref item) == Unsafe.As<MapCoordinate, int>(ref _default))
             {
-                Stream.ReadExactly(Bytes.Of(ref Run, 4));
-                SetCount(FCount + Run);
+                stream.ReadExactly(Bytes.Of(ref run, 4));
+                SetCount(_count + run);
             }
             else
             {
-                Add(Item);
+                Add(item);
             }
         }
     }
 
     // HSEngine.pas:1850
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
         int I;
-        int Run = default;
+        int run = default;
         int DefaultRun()
         {
             int J;
-            int Result = 0;
+            int result = 0;
             J = I;
-            while (J < FCount && Unsafe.As<MapCoordinate, int>(ref FList[J]) == Unsafe.As<MapCoordinate, int>(ref FDefault))
+            while (J < _count && Unsafe.As<MapCoordinate, int>(ref _list[J]) == Unsafe.As<MapCoordinate, int>(ref _default))
             {
-                Result += 1;
+                result += 1;
                 J += 1;
             }
 
-            return Result;
+            return result;
         }
 
         I = 0;
-        Stream.Write(Bytes.Of(ref FDefault, 4));
-        Stream.Write(Bytes.Of(ref FCount, 4));
-        while (FCount != I)
+        stream.Write(Bytes.Of(ref _default, 4));
+        stream.Write(Bytes.Of(ref _count, 4));
+        while (_count != I)
         {
-            Run = DefaultRun();
-            if (Run > 0)
+            run = DefaultRun();
+            if (run > 0)
             {
-                Stream.Write(Bytes.Of(ref FDefault, 4));
-                Stream.Write(Bytes.Of(ref Run, 4));
-                I += Run;
+                stream.Write(Bytes.Of(ref _default, 4));
+                stream.Write(Bytes.Of(ref run, 4));
+                I += run;
             }
             else
             {
-                Stream.Write(MemoryMarshal.AsBytes(FList.AsSpan(I, 1)));
+                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(I, 1)));
                 I += 1;
             }
         }
     }
 
-    public int Capacity { get => FCapacity; set => SetCapacity(value); }
-    public int Count { get => FCount; set => SetCount(value); }
-    public MapCoordinate Default { get => FDefault; set => FDefault = value; }
+    public int Capacity { get => _capacity; set => SetCapacity(value); }
+    public int Count { get => _count; set => SetCount(value); }
+    public MapCoordinate Default { get => _default; set => _default = value; }
 
-    public MapCoordinate this[int Index] { get => Get(Index); set => Put(Index, value); }
+    public MapCoordinate this[int index] { get => Get(index); set => Put(index, value); }
 
-    public MapCoordinate[] List { get => FList; }
+    public MapCoordinate[] List { get => _list; }
 
     // HSEngine.pas:1640
-    protected internal static void Error(string Msg, int Data)
+    protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
     }
 
-    private static void QuickSortXYL(Span<MapCoordinate> SortList, int L, int R, XYLSortCompare SCompare)
+    private static void QuickSortMapCoordinate(Span<MapCoordinate> sortList, int L, int R, XYLSortCompare sCompare)
     {
         int I;
         int J;
@@ -448,24 +448,24 @@ public partial class MapCoordinateList : Persistent
         {
             I = L;
             J = R;
-            P = SortList[(int)(((uint)(L + R)) >> 1)];
+            P = sortList[(int)(((uint)(L + R)) >> 1)];
             do
             {
-                while (SCompare(SortList[I], P) < 0)
+                while (sCompare(sortList[I], P) < 0)
                 {
                     I += 1;
                 }
 
-                while (SCompare(SortList[J], P) > 0)
+                while (sCompare(sortList[J], P) > 0)
                 {
                     J -= 1;
                 }
 
                 if (I <= J)
                 {
-                    T = SortList[I];
-                    SortList[I] = SortList[J];
-                    SortList[J] = T;
+                    T = sortList[I];
+                    sortList[I] = sortList[J];
+                    sortList[J] = T;
                     I += 1;
                     J -= 1;
                 }
@@ -473,7 +473,7 @@ public partial class MapCoordinateList : Persistent
             while (!(I > J));
             if (L < J)
             {
-                QuickSortXYL(SortList, L, J, SCompare);
+                QuickSortMapCoordinate(sortList, L, J, sCompare);
             }
 
             L = I;
@@ -481,73 +481,73 @@ public partial class MapCoordinateList : Persistent
         while (!(I >= R));
     }
 
-    internal static bool LocationsConnected(MapCoordinateList List)
+    internal static bool LocationsConnected(MapCoordinateList list)
     {
-        bool Result = default;
-        MapCoordinateList Locations;
-        MapCoordinate XYL = default;
-        void Connect(MapCoordinate XYL)
+        bool result = default;
+        MapCoordinateList locations;
+        MapCoordinate mapCoordinate = default;
+        void Connect(MapCoordinate mapCoordinate)
         {
-            HexNumberWalkData Walk = default;
-            HexNumberWalkData.InitHNWalk(ref Walk, XYL.X, XYL.Y, 1);
-            while (Walk.Radius <= 1)
+            HexNumberWalkData walk = default;
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, mapCoordinate.X, mapCoordinate.Y, 1);
+            while (walk.Radius <= 1)
             {
-                for (int I = 0, last = Locations.Count - 1; I <= last; I++)
+                for (int I = 0, last = locations.Count - 1; I <= last; I++)
                 {
-                    if (Locations[I].Flag == 0)
+                    if (locations[I].Tag == 0)
                     {
-                        var item = Locations[I];
-                        var packXYL = HexGeometry.PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, XYL.L);
-                        if (Unsafe.BitCast<MapCoordinate, int>(item) == Unsafe.BitCast<MapCoordinate, int>(packXYL))
+                        var item = locations[I];
+                        var packMapCoordinate = HexGeometry.PackMapCoordinate((sbyte)walk.X, (sbyte)walk.Y, mapCoordinate.MapLevel);
+                        if (Unsafe.BitCast<MapCoordinate, int>(item) == Unsafe.BitCast<MapCoordinate, int>(packMapCoordinate))
                         {
-                            Locations.FList[I].Flag = 1;
-                            Connect(Locations[I]);
+                            locations._list[I].Tag = 1;
+                            Connect(locations[I]);
                         }
                     }
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
 
-        Locations = new MapCoordinateList();
-        for (int I = 0, last = List.Count - 1; I <= last; I++)
+        locations = new MapCoordinateList();
+        for (int I = 0, last = list.Count - 1; I <= last; I++)
         {
-            XYL = List[I];
-            XYL.Flag = 0;
-            if (Locations.IndexOf(XYL) == -1)
+            mapCoordinate = list[I];
+            mapCoordinate.Tag = 0;
+            if (locations.IndexOf(mapCoordinate) == -1)
             {
-                Locations.Add(XYL);
+                locations.Add(mapCoordinate);
             }
         }
 
-        if (Locations.Count > 0)
+        if (locations.Count > 0)
         {
-            if (Locations.Count > 1)
+            if (locations.Count > 1)
             {
-                Locations.FList[0].Flag = 1;
-                Connect(Locations[0]);
-                Result = true;
-                for (int I = 0, last = Locations.Count - 1; I <= last; I++)
+                locations._list[0].Tag = 1;
+                Connect(locations[0]);
+                result = true;
+                for (int I = 0, last = locations.Count - 1; I <= last; I++)
                 {
-                    if (Locations[I].Flag != 1)
+                    if (locations[I].Tag != 1)
                     {
-                        Result = false;
+                        result = false;
                     }
                 }
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        Locations?.Dispose();
-        return Result;
+        locations?.Dispose();
+        return result;
     }
 
     public delegate int XYLSortCompare(MapCoordinate Item1, MapCoordinate Item2);

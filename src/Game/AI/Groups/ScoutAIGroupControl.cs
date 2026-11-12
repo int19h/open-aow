@@ -15,18 +15,18 @@ public partial class ScoutAIGroupControl : AIGroupControl
     { }
 
     // IndependentAG.pas:671
-    public override void MoveExecuterDone(object Sender)
+    public override void MoveExecutorDone(object sender)
     {
-        switch (FState)
+        switch (State)
         {
             case 1:
-                if (FMoveExecuter.FStatus == AIMoveExecutor.Status.OutOfMovePoints)
+                if (MoveExecutor.Status == AIMoveExecutorStatus.OutOfMovePoints)
                 {
                     Done();
                 }
                 else
                 {
-                    if (FMoveExecuter.FStatus == AIMoveExecutor.Status.Invalidated)
+                    if (MoveExecutor.Status == AIMoveExecutorStatus.Invalidated)
                     {
                         Done();
                     }
@@ -37,17 +37,17 @@ public partial class ScoutAIGroupControl : AIGroupControl
     }
 
     // IndependentAG.pas:659
-    public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        SetupCP(Target);
-        var execute = FCombatPredictor.Execute();
+        SetupCP(target);
+        var execute = CombatPredictor.Execute();
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(execute))
         {
-            if (FCombatPredictor.GetEfficiency() > 50)
+            if (CombatPredictor.GetEfficiency() > 50)
             {
-                var efficiency = FCombatPredictor.GetEfficiency();
-                Target.FData.Priority = efficiency + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
-                base.TargetFoundEvent(Sender, Target, ref SearchDone);
+                var efficiency = CombatPredictor.GetEfficiency();
+                target.Data.Priority = efficiency + (target.Data.Priority * 100 - target.MovePoints * 5);
+                base.TargetFoundEvent(sender, target, ref searchDone);
             }
         }
     }
@@ -55,12 +55,12 @@ public partial class ScoutAIGroupControl : AIGroupControl
     // IndependentAG.pas:680
     public override void ProcessStates()
     {
-        AIGroupTargetFinder Finder;
-        AIGroupWanderControl Wander;
-        switch (FState)
+        AIGroupTargetFinder finder;
+        AIGroupWanderControl wander;
+        switch (State)
         {
             case 0:
-                bool condition = FGroup.FPlayer != 0;
+                bool condition = Group.Player != 0;
                 if (!condition)
                 {
                     var independentAIMode = AoWHSMap.Current.GetIndependentAIMode();
@@ -69,13 +69,13 @@ public partial class ScoutAIGroupControl : AIGroupControl
 
                 if (condition)
                 {
-                    Finder = new AIGroupTargetFinder(null);
-                    Finder.Setup(this);
-                    var movePointsMin = FGroup.GetMovePointsMin();
-                    Finder.FSelector.FMovePointsMax = movePointsMin;
-                    ActivatePlugin(Finder);
-                    Finder.Release();
-                    FState += 1;
+                    finder = new AIGroupTargetFinder(null);
+                    finder.Setup(this);
+                    var movePointsMin = Group.GetMovePointsMin();
+                    finder.Selector.MovePointsMax = movePointsMin;
+                    ActivatePlugin(finder);
+                    finder.Release();
+                    State += 1;
                 }
                 else
                 {
@@ -84,29 +84,29 @@ public partial class ScoutAIGroupControl : AIGroupControl
 
                 break;
             case 1:
-                FTargets.Validate();
-                if (FTargets.Count != 0)
+                Targets.Validate();
+                if (Targets.Count != 0)
                 {
-                    FTargets.SortOnPriority();
+                    Targets.SortOnPriority();
                     SetupME();
-                    var targetLocation = FTargets.GetTargets(0);
-                    var target = FTargets.GetTargets(0);
-                    ExecuteME(FTargets.GetTargets(0).FLocation.X, target.FLocation.Y, targetLocation.FLocation.L);
-                    FTargets.Delete(0);
+                    var targetLocation = Targets.GetTargets(0);
+                    var target = Targets.GetTargets(0);
+                    ExecuteME(Targets.GetTargets(0).Location.X, target.Location.Y, targetLocation.Location.MapLevel);
+                    Targets.Delete(0);
                 }
                 else
                 {
-                    FState += 1;
+                    State += 1;
                 }
 
                 break;
             case 2:
-                Wander = new AIGroupWanderControl(null);
-                Wander.Setup(this);
-                Wander.FMovePointsMax = 125;
-                ActivatePlugin(Wander);
-                Wander.Release();
-                FState += 1;
+                wander = new AIGroupWanderControl(null);
+                wander.Setup(this);
+                wander.MovePointsMax = 125;
+                ActivatePlugin(wander);
+                wander.Release();
+                State += 1;
                 break;
             case 3:
                 Done();

@@ -10,15 +10,15 @@ public partial class CombatObstacleShadow : HexSprite
     public CombatObstacleShadow(ECustomNode owner) : base(owner)
     { }
 
-    public CombatObstacle FObstacle;
+    public CombatObstacle Obstacle;
 
     // CombatObstacle.pas:74
-    public override int GetShowPriority() => (FObstacle.GetShowPriority() & 67108863) - 1677721600;
+    public override int GetShowPriority() => (Obstacle.GetShowPriority() & 67108863) - 1677721600;
 
     // CombatObstacle.pas:79
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        FObstacle.ShowShadow(XhpSurf, YhpSurf, SurfaceDesc);
+        Obstacle.ShowShadow(pixelXSurface, pixelYSurface, lockedSurface);
     }
 
     // Engine.pas:524

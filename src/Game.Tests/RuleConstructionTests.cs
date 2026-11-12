@@ -2,7 +2,7 @@ namespace Aow.Game.Tests;
 
 public sealed partial class RuleConstructionTests
 {
-    private static readonly string[] Names =
+    private static readonly string[] s_names =
     [
         "AIBudget",
         "AIBudgetList",

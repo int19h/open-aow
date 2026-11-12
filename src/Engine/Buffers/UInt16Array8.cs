@@ -6,5 +6,5 @@ namespace Aow.Engine.Buffers;
 [InlineArray(8)]
 public struct UInt16Array8
 {
-    private ushort element0;
+    private ushort _element0;
 }

@@ -30,24 +30,24 @@ public partial class ConstructDialog : DataModule
     public ListBox ConstructionCostList;
     public ListBox ConstructionTurnsList;
     public Button SortConstructionTurnsBtn;
-    public Label AOWLabel1;
+    public Label Label1;
     public VerticalScrollBar ConSB;
     public Image CeltM;
-    public Button AOWButton2;
+    public Button Button2;
     public VerticalScrollBar T4VSB;
     public IvTranslator Translator;
-    public AbilityActivation FRequest;
+    public AbilityActivation Request;
 
     // AoWConstructDlg.pas:117
-    public void Execute(AbilityActivation Request)
+    public void Execute(AbilityActivation request)
     {
-        if (FRequest != null)
+        if (Request != null)
         {
-            FRequest.Release();
+            Request.Release();
         }
 
-        FRequest = Request;
-        FRequest.AddRef();
+        Request = request;
+        Request.AddRef();
         UpdateConstructions();
         Dlg.Visible = true;
     }
@@ -55,45 +55,45 @@ public partial class ConstructDialog : DataModule
     // AoWConstructDlg.pas:108
     public void Finish()
     {
-        if (FRequest != null)
+        if (Request != null)
         {
-            FRequest.Release();
-            FRequest = null;
+            Request.Release();
+            Request = null;
         }
     }
 
     // AoWConstructDlg.pas:142
     public void UpdateConstructions()
     {
-        int Days = default;
-        int Gold = default;
+        int days = default;
+        int gold = default;
         Troop U;
-        string Name = "";
-        ConstructAbility Ability;
-        ConstructionControl Control;
-        Dlg.FDrawn = false;
-        U = AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
+        string name = "";
+        ConstructAbility ability;
+        ConstructionControl control;
+        Dlg.Drawn = false;
+        U = AoWHSMap.Current.UnitControl.FindUnit(Request.UnitId);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
-        Ability = (ConstructAbility)AoWHSSet.Current.FAbilityControl.GetAbility(125);
-        for (int I = 0, last = Ability.FConstructionControls.Count - 1; I <= last; I++)
+        ability = (ConstructAbility)AoWHSSet.Current.AbilityControl.GetAbility(125);
+        for (int I = 0, last = ability.ConstructionControls.Count - 1; I <= last; I++)
         {
-            Control = Ability.FConstructionControls.GetConstructionControl(I);
-            Control.GetInfo(U, ref Name, ref Gold, ref Days);
-            ConstructionList.Items.AddObject(Name, Control);
-            if (Gold != 0)
+            control = ability.ConstructionControls.GetConstructionControl(I);
+            control.GetInfo(U, ref name, ref gold, ref days);
+            ConstructionList.Items.AddObject(name, control);
+            if (gold != 0)
             {
-                ConstructionCostList.Items.Add(IntToStr(Gold));
+                ConstructionCostList.Items.Add(IntToStr(gold));
             }
             else
             {
                 ConstructionCostList.Items.Add("-");
             }
 
-            if (Days != 0)
+            if (days != 0)
             {
-                ConstructionTurnsList.Items.Add(IntToStr(Days));
+                ConstructionTurnsList.Items.Add(IntToStr(days));
             }
             else
             {
@@ -103,13 +103,13 @@ public partial class ConstructDialog : DataModule
     }
 
     // AoWConstructDlg.pas:126
-    public void SelectConstruction(int Index)
+    public void SelectConstruction(int index)
     {
-        if (Index >= 0 && Index < ConstructionList.Items.Count)
+        if (index >= 0 && index < ConstructionList.Items.Count)
         {
-            ConstructionList.Selected = Index;
-            ConstructionCostList.Selected = Index;
-            ConstructionTurnsList.Selected = Index;
+            ConstructionList.Selected = index;
+            ConstructionCostList.Selected = index;
+            ConstructionTurnsList.Selected = index;
         }
         else
         {
@@ -147,8 +147,8 @@ public partial class ConstructDialog : DataModule
     // AoWConstructDlg.pas:77
     public void ConstructBtnClick()
     {
-        string Reason = "";
-        ConstructionControl Control;
+        string reason = "";
+        ConstructionControl control;
         Troop U;
         DialogHosts.General.PlayButtonSound(0);
         bool condition = ConstructionList.Selected >= 0;
@@ -160,18 +160,18 @@ public partial class ConstructDialog : DataModule
 
         if (condition)
         {
-            U = AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
-            Control = (ConstructionControl)ConstructionList.Items.Objects[ConstructionList.Selected];
-            if (Control.CanConstruct(U, ref Reason))
+            U = AoWHSMap.Current.UnitControl.FindUnit(Request.UnitId);
+            control = (ConstructionControl)ConstructionList.Items.Objects[ConstructionList.Selected];
+            if (control.CanConstruct(U, ref reason))
             {
-                if (Control.Construct(U))
+                if (control.Construct(U))
                 {
                     Dlg.Visible = false;
                 }
             }
             else
             {
-                AoWHSMap.Current.ShowWarning(Reason);
+                AoWHSMap.Current.ShowWarning(reason);
             }
         }
     }
@@ -201,9 +201,9 @@ public partial class ConstructDialog : DataModule
     }
 
     // AoWConstructDlg.pas:169
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }

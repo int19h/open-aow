@@ -9,76 +9,76 @@ using Aow.Rtl;
 namespace Aow.Game.World;
 
 // { ot=1 }
-// FTriggerMode, FTriggerPlayers (player 1 is bit 0)
+// TriggerMode, TriggerPlayers (player 1 is bit 0)
 public partial class FlagEvent : MapObject
 {
     public FlagEvent(ECustomNode owner) : base(owner)
     { }
 
-    public TriggerMode FTriggerMode;
-    public int FTriggerPlayers;
+    public FlagEventTriggerMode TriggerMode;
+    public int TriggerPlayers;
 
     // FlagEvents.pas:98
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FTriggerPlayers, 30);
-        Stream.rwData(Bytes.Of(ref FTriggerMode, 1), 1, 31);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref TriggerPlayers, 30);
+        stream.rwData(Bytes.Of(ref TriggerMode, 1), 1, 31);
     }
 
     // FlagEvents.pas:157
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001987 && FTriggerMode == TriggerMode.NewTurn)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001987 && TriggerMode == FlagEventTriggerMode.NewTurn)
         {
-            UpdateNewTurnTrigger((sbyte)Msg.Payload.Int);
+            UpdateNewTurnTrigger((sbyte)message.Payload.Int);
         }
     }
 
     // FlagEvents.pas:164
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            base.Show(XhpSurf, YhpSurf, SurfaceDesc);
+            base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
     }
 
     // FlagEvents.pas:150
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.MsgID == 4365 && FTriggerMode == TriggerMode.Instant)
+        base.MapFieldMessageProc(ref message);
+        if (message.MessageId == 4365 && TriggerMode == FlagEventTriggerMode.Instant)
         {
             UpdateInstantTrigger();
         }
     }
 
     // FlagEvents.pas:110
-    public override bool CanSelect(int Xhp, int Yhp) => AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
+    public override bool CanSelect(int pixelX, int pixelY) => AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
 
     // FlagEvents.pas:105
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
 
     // FlagEvents.pas:129
-    public virtual bool Trigger(sbyte Player) => true;
+    public virtual bool Trigger(sbyte player) => true;
 
     // FlagEvents.pas:115
-    public bool GetTriggerPlayer(sbyte Player) => Player > 0 && (FTriggerPlayers & (1 << (Player - 1))) != 0;
+    public bool GetTriggerPlayer(sbyte player) => player > 0 && (TriggerPlayers & (1 << (player - 1))) != 0;
 
     // FlagEvents.pas:120
-    public void SetTriggerPlayer(sbyte Player, bool Value)
+    public void SetTriggerPlayer(sbyte player, bool value)
     {
-        if (Player > 0)
+        if (player > 0)
         {
-            if (!Value)
+            if (!value)
             {
-                FTriggerPlayers = FTriggerPlayers & ~(1 << (Player - 1));
+                TriggerPlayers = TriggerPlayers & ~(1 << (player - 1));
             }
             else
             {
-                FTriggerPlayers = FTriggerPlayers | (1 << (Player - 1));
+                TriggerPlayers = TriggerPlayers | (1 << (player - 1));
             }
         }
     }
@@ -86,25 +86,25 @@ public partial class FlagEvent : MapObject
     // FlagEvents.pas:134
     public void UpdateInstantTrigger()
     {
-        sbyte Player;
-        Player = ((AoWMapField)Owner).GetPlayer();
-        if (Player != -1 && GetTriggerPlayer(Player) && Trigger(Player))
+        sbyte player;
+        player = ((AoWMapField)Owner).GetPlayer();
+        if (player != -1 && GetTriggerPlayer(player) && Trigger(player))
         {
-            SetTriggerPlayer(Player, false);
+            SetTriggerPlayer(player, false);
         }
     }
 
     // FlagEvents.pas:143
-    public void UpdateNewTurnTrigger(sbyte Player)
+    public void UpdateNewTurnTrigger(sbyte player)
     {
-        if (Player == ((AoWMapField)Owner).GetPlayer() && GetTriggerPlayer(Player) && Trigger(Player))
+        if (player == ((AoWMapField)Owner).GetPlayer() && GetTriggerPlayer(player) && Trigger(player))
         {
-            SetTriggerPlayer(Player, false);
+            SetTriggerPlayer(player, false);
         }
     }
+}
 
-    public enum TriggerMode : byte
-    {
-        Instant = 0, NewTurn = 1
-    }
+public enum FlagEventTriggerMode : byte
+{
+    Instant = 0, NewTurn = 1
 }

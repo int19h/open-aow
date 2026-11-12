@@ -19,105 +19,105 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
 
     public override int? UnitProductionIndex => Index;
 
-    public override string Name(ProductionControl Control)
+    public override string Name(ProductionControl control)
     {
-        var production = Control.FUnitProductions.GetItem(Index);
+        var production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
-            return AbilityRules.TranslateRStr(GameTables.UnknownRStr);
+            return AbilityRules.TranslateResourceString(GameTables.s_unknownText);
         }
 
-        var format = Control.UnitProductionGold(Index) != 0 ? GameText.ProduceXRStr : GameText.SummonXRStr;
-        var unitName = AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateRStr(format), [unitName]);
+        var format = control.UnitProductionGold(Index) != 0 ? GameText.s_produceFormat : GameText.s_summonFormat;
+        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(format), [unitName]);
     }
 
-    public override string NameProgressive(ProductionControl Control)
+    public override string NameProgressive(ProductionControl control)
     {
-        var production = Control.FUnitProductions.GetItem(Index);
+        var production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
-            return AbilityRules.TranslateRStr(GameTables.UnknownRStr);
+            return AbilityRules.TranslateResourceString(GameTables.s_unknownText);
         }
 
-        var format = Control.UnitProductionGold(Index) != 0 ? GameText.ProducingXRStr : GameText.SummoningXRStr;
-        var unitName = AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateRStr(format), [unitName]);
+        var format = control.UnitProductionGold(Index) != 0 ? GameText.s_producingFormat : GameText.s_summoningFormat;
+        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(format), [unitName]);
     }
 
-    public override bool CanExecute(ProductionControl Control, ref string Reason)
+    public override bool CanExecute(ProductionControl control, ref string reason)
     {
-        bool Result;
-        Waiting(Control, ref Reason);
-        var players = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
-        if (Control.UnitProductionGold(Index) <= players.FGems)
+        bool result;
+        Waiting(control, ref reason);
+        var players = AoWHSMap.Current.Players.GetPlayers(control.GetPlayer());
+        if (control.UnitProductionGold(Index) <= players.Gems)
         {
-            var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
-            if (Control.UnitProductionMana(Index) <= fPlayersPlayers.FMagicControl.FMana)
+            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(control.GetPlayer());
+            if (control.UnitProductionMana(Index) <= fPlayersPlayers.MagicControl.Mana)
             {
-                Result = true;
+                result = true;
             }
             else
             {
-                Result = false;
-                Reason = AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
+                result = false;
+                reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
             }
         }
         else
         {
-            Result = false;
-            Reason = AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
+            result = false;
+            reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
         }
 
-        return Result;
+        return result;
     }
 
-    public override void Execute(ProductionControl Control)
+    public override void Execute(ProductionControl control)
     {
-        var settings = Control.FSettings;
+        var settings = control.Settings;
         settings.Clear();
-        settings.FUnitProductionIndex = Index;
-        settings.FUnit = Control.CreateUnitProduction(Index);
-        settings.FGold = Control.UnitProductionGold(Index);
-        settings.FMana = Control.UnitProductionMana(Index);
-        settings.FGoldUpkeep = Control.UnitProductionGoldUpkeep(Index);
-        settings.FManaUpkeep = Control.UnitProductionManaUpkeep(Index);
-        settings.FGroupID = GroupId;
-        settings.FTurnsTotal = (sbyte)Control.UnitProductionTime(Index);
-        settings.FPlayer = Control.GetPlayer();
-        settings.FTurnsLeft = settings.FTurnsTotal;
-        Pay(Control);
-        Control.FStatus = ProductionControl.Status.Producing;
-        if (settings.FGroupID != 0)
+        settings.UnitProductionIndex = Index;
+        settings.Unit = control.CreateUnitProduction(Index);
+        settings.Gold = control.UnitProductionGold(Index);
+        settings.Mana = control.UnitProductionMana(Index);
+        settings.GoldUpkeep = control.UnitProductionGoldUpkeep(Index);
+        settings.ManaUpkeep = control.UnitProductionManaUpkeep(Index);
+        settings.GroupId = GroupId;
+        settings.TurnsTotal = (sbyte)control.UnitProductionTime(Index);
+        settings.Player = control.GetPlayer();
+        settings.TurnsLeft = settings.TurnsTotal;
+        Pay(control);
+        control.Status = ProductionControlStatus.Producing;
+        if (settings.GroupId != 0)
         {
-            Control.RegisterGroupProduction();
+            control.RegisterGroupProduction();
         }
     }
 
-    public override void Complete(ProductionControl Control, sbyte Player)
+    public override void Complete(ProductionControl control, sbyte player)
     {
-        if (Control.UnitProduced())
+        if (control.UnitProduced())
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human && Control.FSettings.FGroupID != 0)
+            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human && control.Settings.GroupId != 0)
             {
-                Control.GroupProductionProduced(Control.FSettings.FUnit, Control.FSettings.FGroupID);
+                control.GroupProductionProduced(control.Settings.Unit, control.Settings.GroupId);
             }
 
-            Control.FSettings.Clear();
-            Control.ProductionDone();
+            control.Settings.Clear();
+            control.ProductionDone();
         }
     }
 
-    public override int ActivityImage(City City) => 4;
+    public override int ActivityImage(City city) => 4;
 
-    public override string RealmActivity(City City) => "5";
+    public override string RealmActivity(City city) => "5";
 
-    public override void ActivityLines(ProductionControl Control, StringCollection Lines)
+    public override void ActivityLines(ProductionControl control, StringCollection lines)
     {
-        var unit = Control.CreateUnitProduction(Index);
-        Lines.Clear();
-        Lines.Add(AbilityRules.TranslateRStr(GameText.ProducingRStr));
-        Lines.Add(unit.GetName());
+        var unit = control.CreateUnitProduction(Index);
+        lines.Clear();
+        lines.Add(AbilityRules.TranslateResourceString(GameText.s_producingText));
+        lines.Add(unit.GetName());
         unit.Release();
     }
 }

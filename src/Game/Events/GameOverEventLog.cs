@@ -15,89 +15,89 @@ public partial class GameOverEventLog : EventLog
     // EventLog.pas:771
     public GameOverEventLog(ECustomNode owner) : base(owner)
     {
-        FMessage = new StringList();
+        Message = new StringList();
     }
 
     // EventLog.pas:777
-    public new const int ClassID = 131812;
+    public new const int ClassId = 131812;
 
-    public StringList FMessage;
-    public sbyte FTargetPlayer;
+    public StringList Message;
+    public sbyte TargetPlayer;
 
     // EventLog.pas:774
     public override void Dispose()
     {
-        FMessage?.Dispose();
+        Message?.Dispose();
         base.Dispose();
     }
 
     // EventLog.pas:780
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStrings(FMessage, 20);
+        base.ReadWrite(stream);
+        stream.rwStrings(Message, 20);
     }
 
     // EventLog.pas:783
     public override string GetText()
     {
-        string Result = "";
-        switch (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FGameOverStatus)
+        string result = "";
+        switch (AoWHSMap.Current.Players.GetPlayers(_player).GameOverStatus)
         {
             case GameOverStatus.Lost:
-                var name = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetName();
-                Result = RtlUnit.Format(AbilityRules.TranslateRStr(GameOverDefeatEventLogRStr), [name]);
+                var name = AoWHSMap.Current.Players.GetPlayers(_player).GetName();
+                result = RtlUnit.Format(AbilityRules.TranslateResourceString(s_gameOverDefeatEventLogFormat), [name]);
                 break;
             case GameOverStatus.Won:
-                var name2 = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetName();
-                Result = RtlUnit.Format(AbilityRules.TranslateRStr(GameOverVictoryEventLogRStr), [name2]);
+                var name2 = AoWHSMap.Current.Players.GetPlayers(_player).GetName();
+                result = RtlUnit.Format(AbilityRules.TranslateResourceString(s_gameOverVictoryEventLogFormat), [name2]);
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // EventLog.pas:794
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Result = default;
-        switch (Trigger)
+        bool result = default;
+        switch (trigger)
         {
             case ExecuteTrigger.User:
-                if (AoWHSMap.Current.FSeatedPlayer != FPlayer)
+                if (AoWHSMap.Current.SeatedPlayer != _player)
                 {
-                    AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
-                    Result = true;
+                    AoWHSMap.Current.TriggerExecuteEventLog(this, mode, done);
+                    result = true;
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
 
                 break;
             case ExecuteTrigger.Event:
-                AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
-                Result = true;
+                AoWHSMap.Current.TriggerExecuteEventLog(this, mode, done);
+                result = true;
                 break;
             case ExecuteTrigger.NewTurn:
-                AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
-                Result = true;
+                AoWHSMap.Current.TriggerExecuteEventLog(this, mode, done);
+                result = true;
                 break;
             default:
-                Result = false;
+                result = false;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // EventLog.pas:791
     public void Handled()
     {
-        AoWHSMap.Current.GameOverEventHandled(FPlayer);
+        AoWHSMap.Current.GameOverEventHandled(_player);
     }
 
-    private static readonly string GameOverDefeatEventLogRStr = "%s is defeated!";
-    private static readonly string GameOverVictoryEventLogRStr = "%s is victorious!";
+    private static readonly string s_gameOverDefeatEventLogFormat = "%s is defeated!";
+    private static readonly string s_gameOverVictoryEventLogFormat = "%s is victorious!";
 
 }

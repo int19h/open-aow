@@ -56,331 +56,331 @@ public static class AbilityRules
         Text = ByteArray128.From([73, 110, 118, 97, 108, 105, 100, 32, 83, 112, 101, 108, 108, 73, 68, 0])
     };
 
-    internal static Set<DamageType> TWallUnit_GetImmunityTypes__AllDamageTypes = Set<DamageType>.FromMask(1023UL);
+    internal static Set<DamageType> s_allDamageTypesForWallImmunity = Set<DamageType>.FromMask(1023UL);
 
-    internal static Set<DamageType> TWallUnit_GetImmunityTypes__WallDamageTypes = Set<DamageType>.FromMask(256UL);
+    internal static Set<DamageType> s_wallDamageTypes = Set<DamageType>.FromMask(256UL);
 
-    internal static string TranslateRStr(string S)
+    internal static string TranslateResourceString(string S)
     {
-        if (GameTables.AoWEngine != null)
+        if (GameTables.GameEngine != null)
         {
-            return GameTables.AoWEngine.TranslateRStr(S);
+            return GameTables.GameEngine.TranslateResourceString(S);
         }
 
         return S;
     }
 
-    internal static int DMmaxDCtoDV(int Damage, int AttackDefense, int Maximum)
+    internal static int ExpectedDamageCapped(int damage, int attackDefense, int maximum)
     {
-        int Result;
-        if (Damage > 0)
+        int result;
+        if (damage > 0)
         {
-            Result = DMDCtoDV(Damage, AttackDefense);
+            result = ExpectedDamage(damage, attackDefense);
             // { Original updates only the unused Maximum parameter, leaving Result uncapped. }
-            if (Damage > Maximum)
+            if (damage > maximum)
             {
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int DMDCtoDV(int Damage, int AttackDefense)
+    internal static int ExpectedDamage(int damage, int attackDefense)
     {
-        int Result;
-        int Threshold;
-        int Correction;
-        if (Damage > 0)
+        int result;
+        int threshold;
+        int correction;
+        if (damage > 0)
         {
-            Threshold = 10 - AttackDefense * 2;
-            if (Threshold > 18)
+            threshold = 10 - attackDefense * 2;
+            if (threshold > 18)
             {
-                Result = Damage;
+                result = damage;
             }
             else
             {
-                if (Threshold >= 0)
+                if (threshold >= 0)
                 {
-                    Result = (int)(((uint)((Damage - 1) * (18 - Threshold) + 1)) >> 1) + (Damage + (18 - Threshold));
-                    if (Threshold != 0)
+                    result = (int)(((uint)((damage - 1) * (18 - threshold) + 1)) >> 1) + (damage + (18 - threshold));
+                    if (threshold != 0)
                     {
-                        Result += 1;
+                        result += 1;
                     }
                 }
                 else
                 {
-                    Result = Damage + 1 + (18 - Threshold) + (int)(((uint)((Damage - 1) * (18 - Threshold) + 1)) >> 1);
-                    Threshold = -Threshold;
-                    Correction = (int)(((uint)(((Damage - 1) * Threshold * Threshold + (Threshold + 19)) / (Threshold + 19))) >> 1);
-                    Threshold = Correction + Threshold + 1;
-                    Result = Result - Threshold;
+                    result = damage + 1 + (18 - threshold) + (int)(((uint)((damage - 1) * (18 - threshold) + 1)) >> 1);
+                    threshold = -threshold;
+                    correction = (int)(((uint)(((damage - 1) * threshold * threshold + (threshold + 19)) / (threshold + 19))) >> 1);
+                    threshold = correction + threshold + 1;
+                    result = result - threshold;
                 }
             }
 
-            Result = Result * 5;
+            result = result * 5;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int ExecuteDamageRole(int Damage, int AttackDefense)
+    internal static int ExecuteDamageRole(int damage, int attackDefense)
     {
-        int Result;
-        int Roll;
-        if (Damage > 0)
+        int result;
+        int roll;
+        if (damage > 0)
         {
-            Roll = Random(20);
-            if (Roll <= 1)
+            roll = Random(20);
+            if (roll <= 1)
             {
-                Result = 0;
+                result = 0;
             }
             else
             {
-                if (Roll >= 18)
+                if (roll >= 18)
                 {
-                    Result = Damage;
+                    result = damage;
                 }
                 else
                 {
-                    AttackDefense = 10 - AttackDefense * 2;
-                    if (Roll >= AttackDefense && AttackDefense < 18)
+                    attackDefense = 10 - attackDefense * 2;
+                    if (roll >= attackDefense && attackDefense < 18)
                     {
-                        Result = ((Damage - 1) * (Roll - AttackDefense) + (int)(((uint)(18 - AttackDefense)) >> 1)) / (18 - AttackDefense) + 1;
+                        result = ((damage - 1) * (roll - attackDefense) + (int)(((uint)(18 - attackDefense)) >> 1)) / (18 - attackDefense) + 1;
                     }
                     else
                     {
-                        Result = 0;
+                        result = 0;
                     }
                 }
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int DVtoDEV(int SourceDV, int TargetDV, CombatObject Source, CombatObject Target)
+    internal static int DamageValueToDamageEvaluation(int sourceDamageValue, int targetDamageValue, CombatObject source, CombatObject target)
     {
-        int Result;
-        if (Target.GetTargetPriority() != 0)
+        int result;
+        if (target.GetTargetPriority() != 0)
         {
-            var targetPriority = Target.GetTargetPriority();
-            var hitPoints = Target.GetHitPoints();
-            Result = Target.GetTargetPriority() + Round((double)targetPriority * ((double)SourceDV / (hitPoints * 100)));
-            if (TargetDV != 0)
+            var targetPriority = target.GetTargetPriority();
+            var hitPoints = target.GetHitPoints();
+            result = target.GetTargetPriority() + Round((double)targetPriority * ((double)sourceDamageValue / (hitPoints * 100)));
+            if (targetDamageValue != 0)
             {
-                var sourceTargetPriority = Source.GetTargetPriority();
-                var sourceHitPoints = Source.GetHitPoints();
-                Result = Result - (Source.GetTargetPriority() + Round((double)sourceTargetPriority * ((double)TargetDV / (sourceHitPoints * 100))));
+                var sourceTargetPriority = source.GetTargetPriority();
+                var sourceHitPoints = source.GetHitPoints();
+                result = result - (source.GetTargetPriority() + Round((double)sourceTargetPriority * ((double)targetDamageValue / (sourceHitPoints * 100))));
             }
         }
         else
         {
-            Result = SourceDV + -99999 - Source.GetTargetPriority() * TargetDV;
+            result = sourceDamageValue + -99999 - source.GetTargetPriority() * targetDamageValue;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int StatisticsToMaxDamage(int Damage, Set<DamageType> DamageTypes, Set<DamageType> ImmunityTypes, Set<DamageType> ProtectionTypes)
+    internal static int StatisticsToMaxDamage(int damage, Set<DamageType> damageTypes, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
     {
-        int Result;
-        DamageTypes = DamageTypes - ImmunityTypes;
-        if (DamageTypes != Set<DamageType>.Of())
+        int result;
+        damageTypes = damageTypes - immunityTypes;
+        if (damageTypes != Set<DamageType>.Of())
         {
-            if (DamageTypes - ProtectionTypes == Set<DamageType>.Of())
+            if (damageTypes - protectionTypes == Set<DamageType>.Of())
             {
-                Result = (int)(((uint)(Damage + 1)) >> 1);
+                result = (int)(((uint)(damage + 1)) >> 1);
             }
             else
             {
-                Result = Damage;
+                result = damage;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int StatisticsToLimitedDV(int Attack, int Damage, Set<DamageType> DamageTypes, int Maximum, int Defense, int Resistance, Set<DamageType> ImmunityTypes, Set<DamageType> ProtectionTypes)
+    internal static int StatisticsToLimitedDamageValue(int attack, int damage, Set<DamageType> damageTypes, int maximum, int defense, int resistance, Set<DamageType> immunityTypes, Set<DamageType> protectionTypes)
     {
-        int Result;
-        int Limit;
-        int Limit100;
-        Limit = Maximum;
-        DamageTypes = DamageTypes - ImmunityTypes;
-        if (DamageTypes != Set<DamageType>.Of())
+        int result;
+        int limit;
+        int limit100;
+        limit = maximum;
+        damageTypes = damageTypes - immunityTypes;
+        if (damageTypes != Set<DamageType>.Of())
         {
-            Attack = Attack - Defense;
-            if (DamageTypes - ProtectionTypes == Set<DamageType>.Of())
+            attack = attack - defense;
+            if (damageTypes - protectionTypes == Set<DamageType>.Of())
             {
-                Damage = (int)(((uint)(Damage + 1)) >> 1);
+                damage = (int)(((uint)(damage + 1)) >> 1);
             }
 
-            Result = DMmaxDCtoDV(Damage, Attack, Limit);
-            Limit100 = Limit * 100;
-            if (Result > Limit100)
+            result = ExpectedDamageCapped(damage, attack, limit);
+            limit100 = limit * 100;
+            if (result > limit100)
             {
-                Result = Limit100;
+                result = limit100;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void MaximizeMovePointTable(Span<byte> Table, ReadOnlySpan<byte> Other)
+    internal static void MaximizeMovePointTable(Span<byte> table, ReadOnlySpan<byte> other)
     {
-        sbyte OldValue;
-        sbyte Value;
+        sbyte oldValue;
+        sbyte value;
         for (int I = 0; I <= 12; I++)
         {
             for (int J = 0; J <= 15; J++)
             {
-                OldValue = MemoryMarshal.Cast<byte, SByteArray16By16>(Table)[0][J][I];
-                Value = MemoryMarshal.Cast<byte, SByteArray16By16>(Other)[0][J][I];
-                if (OldValue != -1 && (OldValue < Value || Value == -1))
+                oldValue = MemoryMarshal.Cast<byte, SByteArray16By16>(table)[0][J][I];
+                value = MemoryMarshal.Cast<byte, SByteArray16By16>(other)[0][J][I];
+                if (oldValue != -1 && (oldValue < value || value == -1))
                 {
-                    MemoryMarshal.Cast<byte, SByteArray16By16>(Table)[0][J][I] = Value;
+                    MemoryMarshal.Cast<byte, SByteArray16By16>(table)[0][J][I] = value;
                 }
             }
         }
     }
 
-    internal static int RoadConstructionCost(sbyte Player, MovePath Path, int MovePoints)
+    internal static int RoadConstructionCost(sbyte player, MovePath path, int movePoints)
     {
         int I;
-        int Points;
-        AoWMapField Field;
-        int Result = 0;
-        I = Path.Count;
-        Points = 0;
-        while (I != 0 && Points <= MovePoints)
+        int points;
+        AoWMapField field;
+        int result = 0;
+        I = path.Count;
+        points = 0;
+        while (I != 0 && points <= movePoints)
         {
             I -= 1;
-            Points += Path[I].Flag;
-            if (Points <= MovePoints)
+            points += path[I].Tag;
+            if (points <= movePoints)
             {
-                var item = Path[I];
-                Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(item.Packed);
-                if (CanConstructRoad(Player, Field))
+                var item = path[I];
+                field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(item.Packed);
+                if (CanConstructRoad(player, field))
                 {
-                    Result += 10;
+                    result += 10;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static string Format(string S, params ReadOnlySpan<FormatArg> Args)
+    internal static string Format(string S, params ReadOnlySpan<FormatArg> arguments)
     {
-        string Result;
+        string result;
         try
         {
-            Result = RtlUnit.Format(S, Args);
+            result = RtlUnit.Format(S, arguments);
         }
         catch
         {
-            Result = S;
+            result = S;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void ShowDamageIcon(int X, int Y, in LockedSurface Surface, int Damage, DamageType DamageType)
+    internal static void ShowDamageIcon(int X, int Y, in LockedSurface surface, int damage, DamageType damageType)
     {
-        if (DamageType != DamageType.None)
+        if (damageType != DamageType.None)
         {
-            AoWHSSet.Current.FCombatImages[(int)DamageType + 10].Show(X + 15, Y + 10, Surface);
-            if (Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(DamageType))
+            AoWHSSet.Current.CombatImages[(int)damageType + 10].Show(X + 15, Y + 10, surface);
+            if (Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(damageType))
             {
-                GameTables.AoWEngine.FCombatFont.Color = 0;
+                GameTables.GameEngine.CombatFont.Color = 0;
             }
             else
             {
-                GameTables.AoWEngine.FCombatFont.Color = 16777215;
+                GameTables.GameEngine.CombatFont.Color = 16777215;
             }
 
-            GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 34, Y + 36, IntToStr(Damage), Surface);
+            GameTables.GameEngine.CombatFont.SetTextCentered(X + 34, Y + 36, IntToStr(damage), surface);
         }
     }
 
-    internal static int MoraleToMoraleValue(int Value)
+    internal static int MoraleToMoraleValue(int value)
     {
-        int Result;
-        switch (Value & 127)
+        int result;
+        switch (value & 127)
         {
             case 0:
-                Result = 10;
+                result = 10;
                 break;
             case 1:
-                Result = 30;
+                result = 30;
                 break;
             case 2:
-                Result = 50;
+                result = 50;
                 break;
             case 3:
-                Result = 70;
+                result = 70;
                 break;
             case 4:
-                Result = 90;
+                result = 90;
                 break;
             default:
-                Result = 50;
+                result = 50;
                 // { Original leaks the exception without raising it. }
                 new ArgumentException("Invalid TMoral Value");
                 break;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static Troop.Morale MoraleValueToMorale(int Value)
+    internal static Troop.Morale MoraleValueToMorale(int value)
     {
-        Troop.Morale Result;
-        if (Value <= 20)
+        Troop.Morale result;
+        if (value <= 20)
         {
-            Result = Troop.Morale.Terrible;
+            result = Troop.Morale.Terrible;
         }
         else
         {
-            if (Value > 80)
+            if (value > 80)
             {
-                Result = Troop.Morale.High;
+                result = Troop.Morale.High;
             }
             else
             {
-                switch (Value)
+                switch (value)
                 {
                     case >= 21 and <= 40:
-                        Result = Troop.Morale.Poor;
+                        result = Troop.Morale.Poor;
                         break;
                     case >= 41 and <= 60:
-                        Result = Troop.Morale.OK;
+                        result = Troop.Morale.Ok;
                         break;
                     case >= 61 and <= 80:
-                        Result = Troop.Morale.Good;
+                        result = Troop.Morale.Good;
                         break;
                     default:
-                        Result = Troop.Morale.OK;
+                        result = Troop.Morale.Ok;
                         // { Original leaks the exception without raising it. }
                         new ArgumentException("Invalid MoralValue");
                         break;
@@ -388,342 +388,342 @@ public static class AbilityRules
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static Status dAlignmentsToStatus(Set<Alignment> A, Set<Alignment> B)
+    internal static Status AlignmentsToStatus(Set<Alignment> A, Set<Alignment> B)
     {
-        Status Result;
+        Status result;
         if (A == B)
         {
-            Result = Status.Friendly;
+            result = Status.Friendly;
         }
         else
         {
             if ((A & B) == Set<Alignment>.Of())
             {
-                Result = Status.Hostile;
+                result = Status.Hostile;
             }
             else
             {
-                Result = Status.Neutral;
+                result = Status.Neutral;
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int AlsToInt(Set<Alignment> Alignments)
+    internal static int AlignmentsToInt32(Set<Alignment> alignments)
     {
-        int Result;
+        int result;
         /* TODO: Implement cell or array backing for this address. */
         throw new NotImplementedException();
-        return Result;
+        return result;
     }
 
-    internal static Set<Alignment> IntToAls(int Value)
+    internal static Set<Alignment> ToAlignments(int value)
     {
-        Set<Alignment> Result;
+        Set<Alignment> result;
         /* TODO: Implement cell or array backing for this address. */
         throw new NotImplementedException();
-        return Result;
+        return result;
     }
 
-    internal static int PlaceRandomUnits(int X, int Y, int L, sbyte Player, UnitIndexList Units, int Level, int Value, Set<UnitType> Types)
+    internal static int PlaceRandomUnits(int X, int Y, int L, sbyte player, UnitIndexList units, int level, int value, Set<UnitType> types)
     {
-        int Index;
-        int Tries;
-        int Difference;
-        int BestIndex;
+        int index;
+        int tries;
+        int difference;
+        int bestIndex;
         int I;
-        int Delta;
-        Unit Unit_;
-        int Result = 0;
-        Tries = 50;
-        if (Units.Count != 0)
+        int delta;
+        Unit unit;
+        int result = 0;
+        tries = 50;
+        if (units.Count != 0)
         {
-            while (Result < Value && Tries != 0)
+            while (result < value && tries != 0)
             {
-                Tries -= 1;
-                Index = Units[Random(Units.Count)];
-                if (Index != -1 && Types.Contains(AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitType) && AoWHSSet.Current.FUnitResources.GetUnitResource(Index).GetObtainValue() + Result > Value && AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FLevel <= Level)
+                tries -= 1;
+                index = units[Random(units.Count)];
+                if (index != -1 && types.Contains(AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitType) && AoWHSSet.Current.UnitResources.GetUnitResource(index).GetObtainValue() + result > value && AoWHSSet.Current.UnitResources.GetUnitResource(index).Level <= level)
                 {
-                    BestIndex = Index;
+                    bestIndex = index;
                     I = 20;
-                    Difference = Math.Abs(AoWHSSet.Current.FUnitResources.GetUnitResource(Index).GetObtainValue() - (Value - Result));
+                    difference = Math.Abs(AoWHSSet.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
                     do
                     {
-                        Index = Units[Random(Units.Count)];
-                        if (Index != -1 && Types.Contains(AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitType))
+                        index = units[Random(units.Count)];
+                        if (index != -1 && types.Contains(AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitType))
                         {
-                            Delta = Math.Abs(AoWHSSet.Current.FUnitResources.GetUnitResource(Index).GetObtainValue() - (Value - Result));
-                            if (Delta < Difference)
+                            delta = Math.Abs(AoWHSSet.Current.UnitResources.GetUnitResource(index).GetObtainValue() - (value - result));
+                            if (delta < difference)
                             {
-                                Difference = Delta;
-                                BestIndex = Index;
+                                difference = delta;
+                                bestIndex = index;
                             }
                         }
 
                         I -= 1;
                     }
                     while (!(I == 0));
-                    Index = BestIndex;
+                    index = bestIndex;
                 }
 
-                if (Index != -1 && Types.Contains(AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitType) && AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FLevel <= Level)
+                if (index != -1 && types.Contains(AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitType) && AoWHSSet.Current.UnitResources.GetUnitResource(index).Level <= level)
                 {
-                    Unit_ = new Unit(null);
-                    Unit_.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
-                    if (Unit_.Place(X, Y, L, Player, Set<UnitPlaceModeElement>.Of()) != null)
+                    unit = new Unit(null);
+                    unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(index));
+                    if (unit.Place(X, Y, L, player, Set<UnitPlaceModeElement>.Of()) != null)
                     {
-                        Result += Unit_.GetObtainValue();
-                        Tries = 50;
+                        result += unit.GetObtainValue();
+                        tries = 50;
                     }
 
-                    Unit_.Release();
+                    unit.Release();
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static Alignment IRtoAlignment(sbyte Relation)
+    internal static Alignment IndependentRelationToAlignment(sbyte relation)
     {
-        Alignment Result;
-        if (Relation < 0)
+        Alignment result;
+        if (relation < 0)
         {
-            switch (Relation)
+            switch (relation)
             {
                 case -2:
-                    Result = Alignment.Good;
+                    result = Alignment.Good;
                     break;
                 case -4:
-                    Result = Alignment.Evil;
+                    result = Alignment.Evil;
                     break;
                 case -3:
-                    Result = Alignment.Neutral;
+                    result = Alignment.Neutral;
                     break;
                 default:
-                    Result = Alignment.Neutral;
+                    result = Alignment.Neutral;
                     break;
             }
         }
         else
         {
-            Result = AoWHSSet.Current.FRaceResources.GetRaceResource(Relation).GetAlignment();
+            result = AoWHSSet.Current.RaceResources.GetRaceResource(relation).GetAlignment();
         }
 
-        return Result;
+        return result;
     }
 
-    internal static DiplomaticRelation DiplomaticRelation(sbyte Player, sbyte IndependentRelation, sbyte OtherPlayer, sbyte OtherIndependentRelation)
+    internal static DiplomaticRelation DiplomaticRelation(sbyte player, sbyte independentRelation, sbyte otherPlayer, sbyte otherIndependentRelation)
     {
-        DiplomaticRelation Result;
-        sbyte Race;
-        sbyte OtherRace;
-        Alignment Alignment;
-        Alignment OtherAlignment;
-        if (Player == 0 || OtherPlayer == 0)
+        DiplomaticRelation result;
+        sbyte race;
+        sbyte otherRace;
+        Alignment alignment;
+        Alignment otherAlignment;
+        if (player == 0 || otherPlayer == 0)
         {
-            if (Player != 0)
+            if (player != 0)
             {
-                Race = AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerRace;
+                race = AoWHSMap.Current.Players.GetPlayers(player).PlayerRace;
             }
             else
             {
-                if (IndependentRelation >= 0)
+                if (independentRelation >= 0)
                 {
-                    Race = IndependentRelation;
+                    race = independentRelation;
                 }
                 else
                 {
-                    Race = -1;
+                    race = -1;
                 }
             }
 
-            if (OtherPlayer != 0)
+            if (otherPlayer != 0)
             {
-                OtherRace = AoWHSMap.Current.FPlayers.GetPlayers(OtherPlayer).FPlayerRace;
-            }
-            else
-            {
-                if (OtherIndependentRelation >= 0)
-                {
-                    OtherRace = OtherIndependentRelation;
-                }
-                else
-                {
-                    OtherRace = -1;
-                }
-            }
-
-            if (Race == -1 || OtherRace == -1)
-            {
-                if (Race != -1)
-                {
-                    Alignment = AoWHSSet.Current.FRaceResources.GetRaceResource(Race).GetAlignment();
-                }
-                else
-                {
-                    Alignment = IRtoAlignment(IndependentRelation);
-                }
-
-                if (OtherRace != -1)
-                {
-                    OtherAlignment = AoWHSSet.Current.FRaceResources.GetRaceResource(OtherRace).GetAlignment();
-                }
-                else
-                {
-                    OtherAlignment = IRtoAlignment(OtherIndependentRelation);
-                }
-
-                Result = AlignmentTables.dAlignmentToDiplomaticRelation(Alignment, OtherAlignment);
+                otherRace = AoWHSMap.Current.Players.GetPlayers(otherPlayer).PlayerRace;
             }
             else
             {
-                Result = AlignmentTables.StatusToDiplomaticRelation(AoWHSMap.Current.FRaces.GetRace(Race).GetRelation(OtherRace));
+                if (otherIndependentRelation >= 0)
+                {
+                    otherRace = otherIndependentRelation;
+                }
+                else
+                {
+                    otherRace = -1;
+                }
+            }
+
+            if (race == -1 || otherRace == -1)
+            {
+                if (race != -1)
+                {
+                    alignment = AoWHSSet.Current.RaceResources.GetRaceResource(race).GetAlignment();
+                }
+                else
+                {
+                    alignment = IndependentRelationToAlignment(independentRelation);
+                }
+
+                if (otherRace != -1)
+                {
+                    otherAlignment = AoWHSSet.Current.RaceResources.GetRaceResource(otherRace).GetAlignment();
+                }
+                else
+                {
+                    otherAlignment = IndependentRelationToAlignment(otherIndependentRelation);
+                }
+
+                result = AlignmentTables.AlignmentToDiplomaticRelation(alignment, otherAlignment);
+            }
+            else
+            {
+                result = AlignmentTables.StatusToDiplomaticRelation(AoWHSMap.Current.Races.GetRace(race).GetRelation(otherRace));
             }
         }
         else
         {
-            if (Player != OtherPlayer)
+            if (player != otherPlayer)
             {
-                Result = AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, OtherPlayer);
+                result = AoWHSMap.Current.Players.GetDiplomaticRelation(player, otherPlayer);
             }
             else
             {
-                Result = Session.DiplomaticRelation.Alliance;
+                result = Session.DiplomaticRelation.Alliance;
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static bool ValidAttackRelation(sbyte Player, sbyte IndependentRelation, sbyte TargetPlayer, sbyte TargetRace)
+    internal static bool ValidAttackRelation(sbyte player, sbyte independentRelation, sbyte targetPlayer, sbyte targetRace)
     {
-        bool Result;
-        DiplomaticRelation Relation;
-        if (Player == 0)
+        bool result;
+        DiplomaticRelation relation;
+        if (player == 0)
         {
-            if (TargetPlayer != 0)
+            if (targetPlayer != 0)
             {
-                Relation = DiplomaticRelation(Player, IndependentRelation, TargetPlayer, TargetRace);
-                Result = Set<DiplomaticRelation>.Of(Session.DiplomaticRelation.War, Session.DiplomaticRelation.Unknown).Contains(Relation);
+                relation = DiplomaticRelation(player, independentRelation, targetPlayer, targetRace);
+                result = Set<DiplomaticRelation>.Of(Session.DiplomaticRelation.War, Session.DiplomaticRelation.Unknown).Contains(relation);
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = AoWHSMap.Current.FPlayers.GetPlayers(Player).ValidAttackRelation(TargetPlayer, TargetRace);
+            result = AoWHSMap.Current.Players.GetPlayers(player).ValidAttackRelation(targetPlayer, targetRace);
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void DegreesRadToCo(int Degrees, int Radius, ref int X, ref int Y)
+    internal static void PolarToCartesian(int degrees, int radius, ref int X, ref int Y)
     {
-        float Radians;
-        Radians = (float)((double)((double)Degrees * Math.PI) / 180);
-        X = Round((double)Math.Cos(Radians) * Radius);
-        Y = Round((double)Math.Sin(Radians) * Radius);
+        float radians;
+        radians = (float)((double)((double)degrees * Math.PI) / 180);
+        X = Round((double)Math.Cos(radians) * radius);
+        Y = Round((double)Math.Sin(radians) * radius);
     }
 
-    internal static string Encode(string Text, int Mode)
+    internal static string Encode(string text, int mode)
     {
-        string Result = "";
-        for (int I = 1; I <= Text.Length; I++)
+        string result = "";
+        for (int I = 1; I <= text.Length; I++)
         {
-            Result = Result + Cp1252.Text((byte)(Cp1252.Byte(Text[I - 1]) ^ ((Text.Length + (I + 5)) & 255)));
+            result = result + Cp1252.Text((byte)(Cp1252.Byte(text[I - 1]) ^ ((text.Length + (I + 5)) & 255)));
         }
 
-        return Result;
+        return result;
     }
 
-    internal static Set<DamageType> InvertDamageTypes(Set<DamageType> Types)
+    internal static Set<DamageType> InvertDamageTypes(Set<DamageType> types)
     {
-        DamageType DamageType;
-        Set<DamageType> Result = Set<DamageType>.Of();
+        DamageType damageType;
+        Set<DamageType> result = Set<DamageType>.Of();
         for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
         {
-            DamageType = (DamageType)damageTypeOrdinal;
-            if (!Types.Contains(DamageType))
+            damageType = (DamageType)damageTypeOrdinal;
+            if (!types.Contains(damageType))
             {
-                Result = Result + Set<DamageType>.Of(DamageType);
+                result = result + Set<DamageType>.Of(damageType);
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int GetMovepathBattleFieldStrength(sbyte Player, sbyte IndependentRelation, MovePath Movepath, int TargetRange, int Range, int Step)
+    internal static int GetMovePathBattleFieldStrength(sbyte player, sbyte independentRelation, MovePath movePath, int targetRange, int range, int step)
     {
-        int Result;
-        UnitUserList Units;
+        int result;
+        UnitUserList units;
         int I;
         int J;
-        int Distance;
-        HexNumberWalkData Walk = default;
-        BattleFieldInfo Info = default;
-        MapLevel Level;
-        AoWMapField Field;
-        ArmyHexSprite Army;
-        if (Movepath != null && Movepath.Count > 0)
+        int distance;
+        HexNumberWalkData walk = default;
+        BattleFieldInfo info = default;
+        MapLevel level;
+        AoWMapField field;
+        ArmyHexSprite army;
+        if (movePath != null && movePath.Count > 0)
         {
-            Distance = Round((double)Range * 0.5);
-            Result = 0;
-            I = Movepath.Count - 1;
-            Units = null;
-            if (Movepath.Count - TargetRange < I)
+            distance = Round((double)range * 0.5);
+            result = 0;
+            I = movePath.Count - 1;
+            units = null;
+            if (movePath.Count - targetRange < I)
             {
-                I = Movepath.Count - TargetRange;
+                I = movePath.Count - targetRange;
             }
 
-            BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), dtAll - Set<DamageType>.Of(DamageType.Wall));
-            Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
-            Info.Requests = Info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents, BattleFieldInfoRequestsElement.EffectiveStrength);
-            if (Step > 0)
+            BattleFieldInfo.SetupBattleFieldInfo(ref info, player, independentRelation, Set<BattleFieldInfoRequestsElement>.Of(), s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+            info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
+            info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents, BattleFieldInfoRequestsElement.EffectiveStrength);
+            if (step > 0)
             {
-                Units = new UnitUserList(null);
-                var item = Movepath[Movepath.Count - 1];
-                Level = AoWHSMap.Current.MapContainer.MapLevels[item.L];
-                var movepathItem = Movepath[Movepath.Count - 1];
-                var item2 = Movepath[Movepath.Count - 1];
-                HexNumberWalkData.InitHNWalk(ref Walk, item2.X, movepathItem.Y, 0);
-                while (Walk.Radius <= Step)
+                units = new UnitUserList(null);
+                var item = movePath[movePath.Count - 1];
+                level = AoWHSMap.Current.MapContainer.MapLevels[item.MapLevel];
+                var movePathItem = movePath[movePath.Count - 1];
+                var item2 = movePath[movePath.Count - 1];
+                HexNumberWalkData.InitializeHexNumberWalk(ref walk, item2.X, movePathItem.Y, 0);
+                while (walk.Radius <= step)
                 {
-                    if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+                    if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                     {
-                        Field = (AoWMapField)Level.GetField(Walk.X, Walk.Y);
-                        if ((Field.FFieldFlags & 67108864) != 0)
+                        field = (AoWMapField)level.GetField(walk.X, walk.Y);
+                        if ((field.FieldFlags & 67108864) != 0)
                         {
-                            Army = Field.GetArmyHS();
-                            if (Army != null && Army.FArmy.FPlayer != Player)
+                            army = field.GetArmyHexSprite();
+                            if (army != null && army.Army.Player != player)
                             {
-                                Units.AddUnits(Army.FArmy);
+                                units.AddUnits(army.Army);
                             }
                         }
                     }
 
-                    HexNumberWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHexNumber(ref walk);
                 }
 
-                Info.Units = Units;
+                info.Units = units;
             }
 
             while (I >= 0)
             {
-                Info.Strength = 0;
-                var item = Movepath[I];
-                var movepathItem = Movepath[I];
-                var item2 = Movepath[I];
-                AoWHSMap.Current.RetrieveBattleFieldInfo(item2.X, movepathItem.Y, item.L, Range, ref Info);
-                if (Info.Strength > Result)
+                info.Strength = 0;
+                var item = movePath[I];
+                var movePathItem = movePath[I];
+                var item2 = movePath[I];
+                AoWHSMap.Current.RetrieveBattleFieldInfo(item2.X, movePathItem.Y, item.MapLevel, range, ref info);
+                if (info.Strength > result)
                 {
-                    Result = Info.Strength;
+                    result = info.Strength;
                 }
 
                 J = I;
@@ -732,12 +732,12 @@ public static class AbilityRules
                     bool condition = J >= 0;
                     if (condition)
                     {
-                        var item3 = Movepath[J];
-                        var item4 = Movepath[I];
-                        condition = item3.L == item4.L;
+                        var item3 = movePath[J];
+                        var item4 = movePath[I];
+                        condition = item3.MapLevel == item4.MapLevel;
                     }
 
-                    if (!(condition && J > I - Distance))
+                    if (!(condition && J > I - distance))
                         break;
                     J -= 1;
                 }
@@ -745,23 +745,23 @@ public static class AbilityRules
                 bool test = J == 0;
                 if (!test)
                 {
-                    var item3 = Movepath[I];
-                    var item4 = Movepath[J];
-                    test = item3.L != item4.L;
+                    var item3 = movePath[I];
+                    var item4 = movePath[J];
+                    test = item3.MapLevel != item4.MapLevel;
                 }
 
                 if (test)
                 {
                     if (J - 1 != I)
                     {
-                        Info.Strength = 0;
-                        var item3 = Movepath[J + 1];
-                        var item4 = Movepath[J + 1];
-                        var item5 = Movepath[J + 1];
-                        AoWHSMap.Current.RetrieveBattleFieldInfo(item5.X, item4.Y, item3.L, Range, ref Info);
-                        if (Info.Strength > Result)
+                        info.Strength = 0;
+                        var item3 = movePath[J + 1];
+                        var item4 = movePath[J + 1];
+                        var item5 = movePath[J + 1];
+                        AoWHSMap.Current.RetrieveBattleFieldInfo(item5.X, item4.Y, item3.MapLevel, range, ref info);
+                        if (info.Strength > result)
                         {
-                            Result = Info.Strength;
+                            result = info.Strength;
                         }
                     }
                 }
@@ -769,100 +769,100 @@ public static class AbilityRules
                 I = J;
             }
 
-            if (Units != null)
+            if (units != null)
             {
-                Units?.Dispose();
+                units?.Dispose();
             }
 
-            AoWHSMap.Current.FAIExecuter.UseProcessTime(50);
+            AoWHSMap.Current.AIExecutor.UseProcessTime(50);
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static EnhancementAbility CreateEnhancementAbility(int ID, string Name, Set<AbilitySelectionType> SelectionTypes)
+    internal static EnhancementAbility CreateEnhancementAbility(int id, string name, Set<AbilitySelectionType> selectionTypes)
     {
-        EnhancementAbility Ability;
-        Ability = new EnhancementAbility(null);
-        Ability.FAbilityID = ID;
-        Ability.FAbilityName = Name;
-        Ability.FSelectionTypes = SelectionTypes;
-        return Ability;
+        EnhancementAbility ability;
+        ability = new EnhancementAbility(null);
+        ability.AbilityId = id;
+        ability.AbilityName = name;
+        ability.SelectionTypes = selectionTypes;
+        return ability;
     }
 
-    internal static Int32Array3 CommandAbilityIDs = Int32Array3.From([29, 28, 148]);
+    internal static Int32Array3 s_commandAbilityIds = Int32Array3.From([29, 28, 148]);
 
     internal static Int32Array13 RaceColors = Int32Array13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
 
-    internal static Set<DamageType> dtAll = Set<DamageType>.FromMask(1023UL);
+    internal static Set<DamageType> s_allDamageTypes = Set<DamageType>.FromMask(1023UL);
 
-    internal static StringArray2 ExplosionSFX = StringArray2.From(["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"]);
+    internal static StringArray2 s_explosionSfx = StringArray2.From(["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"]);
 
     internal static Set<AbilitySelectionType> astAll = Set<AbilitySelectionType>.Of().WithRange(AbilitySelectionType.Unit, AbilitySelectionType.Editor);
 
-    internal static Set<MagicSphere> msAll = Set<MagicSphere>.Of().WithRange(MagicSphere.Cosmos, MagicSphere.None);
+    internal static Set<MagicSphere> s_millisecondsAll = Set<MagicSphere>.Of().WithRange(MagicSphere.Cosmos, MagicSphere.None);
 
-    internal static int AIDID;
+    internal static int s_aiDebugChannel;
 
-    internal static RaceTerrainArray12 P2RaceTerrain = RaceTerrainArray12.From([new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Desert), Disliked = Set<TerrainType>.Of(TerrainType.Snow, TerrainType.Ice, TerrainType.UndergroundIce) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Water), Disliked = Set<TerrainType>.Of(TerrainType.Desert, TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Snow, TerrainType.Ice, TerrainType.UndergroundIce), Disliked = Set<TerrainType>.Of(TerrainType.Desert) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Grass), Disliked = Set<TerrainType>.Of(TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Grass), Disliked = Set<TerrainType>.Of(TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Wasteland), Disliked = Set<TerrainType>.Of(TerrainType.Grass) }]);
+    internal static RaceTerrainArray12 s_raceTerrain = RaceTerrainArray12.From([new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Desert), Disliked = Set<TerrainType>.Of(TerrainType.Snow, TerrainType.Ice, TerrainType.UndergroundIce) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Water), Disliked = Set<TerrainType>.Of(TerrainType.Desert, TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Snow, TerrainType.Ice, TerrainType.UndergroundIce), Disliked = Set<TerrainType>.Of(TerrainType.Desert) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Grass), Disliked = Set<TerrainType>.Of(TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Grass), Disliked = Set<TerrainType>.Of(TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Wasteland), Disliked = Set<TerrainType>.Of(TerrainType.Grass) }]);
 
-    internal static StringArray5 P2AbilityTypeNames = StringArray5.From(["Enhancement", "Handicap", "Movement", "Combat", "Enchantment"]);
+    internal static StringArray5 s_abilityTypeNames = StringArray5.From(["Enhancement", "Handicap", "Movement", "Combat", "Enchantment"]);
 
     internal static ByteArray9 ArmySelectionMasks = ByteArray9.From([0, 1, 3, 7, 15, 31, 63, 127, 255]);
 
-    internal static int TMPDID;
+    internal static int s_temporaryDebugChannel;
 
-    internal static EngineClass P4DurationDataClass = EngineClass.Of<DurationAbilityData>();
+    internal static EngineClass s_durationDataClass = EngineClass.Of<DurationAbilityData>();
 
-    internal static EngineClass P4MultiLevelDataClass = EngineClass.Of<MultiLevelAbilityData>();
+    internal static EngineClass s_multiLevelDataClass = EngineClass.Of<MultiLevelAbilityData>();
 
-    internal static EngineClass P4CastSpellActionClass = EngineClass.Of<AICastSpellAction>();
+    internal static EngineClass s_castSpellActionClass = EngineClass.Of<AICastSpellAction>();
 
-    internal static EngineClass P4ImageAnimationClass = EngineClass.Of<ImageSequenceAnimation>();
+    internal static EngineClass s_imageAnimationClass = EngineClass.Of<ImageSequenceAnimation>();
 
-    internal static int P3LimitedDamage(int Attack, int Defense, int Damage)
+    internal static int LimitedDamage(int attack, int defense, int damage)
     {
-        if (Defense > 10)
+        if (defense > 10)
         {
-            Defense = 10;
+            defense = 10;
         }
 
-        return Attack * Defense * Damage / 2;
+        return attack * defense * damage / 2;
     }
 
-    internal static bool EndPlayerTurn(sbyte Player)
+    internal static bool EndPlayerTurn(sbyte player)
     {
-        EndTurnTokenEvent Event;
-        Event = new EndTurnTokenEvent(null);
-        Event.FPlayer = Player;
-        Event.FDay = AoWHSMap.Current.FDay;
-        Event.FMode = EndTurnTokenEvent.Mode.EndTurn;
-        AoWHSMap.Current.FTokenManager.TokenControls[Player].AddEvent(Event);
-        Event.Release();
+        EndTurnTokenEvent eventValue;
+        eventValue = new EndTurnTokenEvent(null);
+        eventValue.Player = player;
+        eventValue.Day = AoWHSMap.Current.Day;
+        eventValue.Mode = EndTurnTokenEventMode.EndTurn;
+        AoWHSMap.Current.TokenManager.TokenControls[player].AddEvent(eventValue);
+        eventValue.Release();
         return true;
     }
 
-    internal static int P4OffensiveStrength(int Attack, int Damage, int Repeats)
+    internal static int OffensiveStrength(int attack, int damage, int repeats)
     {
-        if (Damage > 10)
+        if (damage > 10)
         {
-            Damage = 10;
+            damage = 10;
         }
 
-        return Attack * Damage * Repeats / 2;
+        return attack * damage * repeats / 2;
     }
 
-    internal static bool CanConstructRoad(sbyte Player, AoWMapField Field)
+    internal static bool CanConstructRoad(sbyte player, AoWMapField field)
     {
-        bool Result = Player == Field.GetPlayer() || Field.GetPlayer() == -1;
-        Result = Result && Set<byte>.WithBounds(0, 255).WithRange(1, 5).Contains((byte)Field.TerrainType);
-        Result = Result && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(4).With(5).Contains((byte)Field.OverlayType);
+        bool result = player == field.GetPlayer() || field.GetPlayer() == -1;
+        result = result && Set<byte>.WithBounds(0, 255).WithRange(1, 5).Contains((byte)field.TerrainType);
+        result = result && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(4).With(5).Contains((byte)field.OverlayType);
         // Original shared helper
-        return Result && Field.FindNoneTransparentHS(typeof(Structure)) == null;
+        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
     }
 
     public static void RetrieveStormDamageInfo(sbyte player, StormType storm, sbyte x, sbyte y,
@@ -878,11 +878,11 @@ public static class AbilityRules
             }
         };
         var mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(level);
-        var message = new MapFieldMessage { MsgID = 0x1151 };
+        var message = new MapFieldMessage { MessageId = 0x1151 };
         message.Param[0] = (int)storm;
         message.Param[2] = query;
         HexNumberWalkData walk = default;
-        HexNumberWalkData.InitHNWalk(ref walk, x, y, innerRadius);
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, innerRadius);
         try
         {
             while (walk.Radius <= outerRadius)
@@ -890,37 +890,37 @@ public static class AbilityRules
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
                     message.Param[1] = walk.Radius;
-                    mapLevel.GetField(walk.X, walk.Y).SendMapFieldMsg(ref message);
+                    mapLevel.GetField(walk.X, walk.Y).SendMapFieldMessage(ref message);
                 }
-                HexNumberWalkData.WalkToNextHN(ref walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
         finally { info = query.Info; }
     }
 
-    internal static Set<MoveType> IntToMoveTypes(int value) => Set<MoveType>.FromMask((byte)value);
+    internal static Set<MoveType> ToMoveTypes(int value) => Set<MoveType>.FromMask((byte)value);
 
     internal static Set<DamageType> AllDamageTypes = Set<DamageType>.FromMask(1023UL);
 
-    internal static void TriggerStormDamage(StormType Storm, sbyte X, sbyte Y, sbyte L, sbyte InnerRadius, sbyte OuterRadius, sbyte Player)
+    internal static void TriggerStormDamage(StormType storm, sbyte X, sbyte Y, sbyte L, sbyte innerRadius, sbyte outerRadius, sbyte player)
     {
-        MapFieldMessage Msg = default;
-        HexNumberWalkData Walk = default;
-        MapLevel Level;
-        Level = AoWHSMap.Current.MapContainer.MapLevels[L];
-        Msg.MsgID = 4432;
-        Msg.Param[0] = (int)Storm;
-        Msg.Param[2] = Player;
-        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, InnerRadius);
-        while (Walk.Radius <= OuterRadius)
+        MapFieldMessage message = default;
+        HexNumberWalkData walk = default;
+        MapLevel level;
+        level = AoWHSMap.Current.MapContainer.MapLevels[L];
+        message.MessageId = 4432;
+        message.Param[0] = (int)storm;
+        message.Param[2] = player;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, innerRadius);
+        while (walk.Radius <= outerRadius)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                Msg.Param[1] = Walk.Radius;
-                Level.Field[Walk.X, Walk.Y].SendMapFieldMsg(ref Msg);
+                message.Param[1] = walk.Radius;
+                level.Field[walk.X, walk.Y].SendMapFieldMessage(ref message);
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 

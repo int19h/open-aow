@@ -11,34 +11,34 @@ public partial class NaturesBlessingAbility : DurationAbility
     // PassiveAb.pas:514
     public NaturesBlessingAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(NaturesBlessingRStr);
-        FAbilityID = 99;
-        FAbilityType = AbilityType.Enchantment;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
-        FDurationMode = DurationMode.Day;
+        AbilityName = AbilityRules.TranslateResourceString(s_naturesBlessingText);
+        AbilityId = 99;
+        AbilityType = AbilityType.Enchantment;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
+        DurationMode = DurationMode.Day;
     }
 
     // PassiveAb.pas:524
-    public override sbyte GetAttack(AbilityOwner Owner) => 1;
+    public override sbyte GetAttack(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:529
-    public override sbyte GetDefense(AbilityOwner Owner) => 1;
+    public override sbyte GetDefense(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:534
-    public override sbyte GetResistance(AbilityOwner Owner) => 1;
+    public override sbyte GetResistance(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:539
-    public override bool Expand(AbilityOwner Owner)
+    public override bool Expand(AbilityOwner owner)
     {
-        bool Result = base.Expand(Owner);
-        if (Owner is Troop)
+        bool result = base.Expand(owner);
+        if (owner is Troop)
         {
-            var unit = (Troop)Owner;
-            unit.SetHitPoints(unit.GetHits());
+            var troop = (Troop)owner;
+            troop.SetHitPoints(troop.GetHits());
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string NaturesBlessingRStr = "Nature's Blessing";
+    private static readonly string s_naturesBlessingText = "Nature's Blessing";
 }

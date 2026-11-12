@@ -18,62 +18,62 @@ public partial class ProductionTokenEvent : TokenEvent
     public ProductionTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131736;
+    public new const int ClassId = 131736;
 
-    public sbyte FX;
-    public sbyte FY;
-    public sbyte FL;
-    public sbyte FPlayer;
-    public int FCommand;
-    public ProductionItem FItem;
-    public bool FQueue;
-    public int FIndex;
-    public int FReserved;
+    public sbyte X;
+    public sbyte Y;
+    public sbyte MapLevel;
+    public sbyte Player;
+    public int Command;
+    public ProductionItem Item;
+    public bool Queue;
+    public int Index;
+    public int Reserved;
 
     // Structur.PAS:155
     // { Original leaves the upkeep fields unchanged. }
     public override void Dispose()
     {
-        if (FItem != null)
+        if (Item != null)
         {
-            FItem?.Dispose();
-            FItem = null;
+            Item?.Dispose();
+            Item = null;
         }
 
         base.Dispose();
     }
 
     // Structur.PAS:168
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FCommand, 20);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FX), 21);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FY), 22);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FL), 23);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 24);
-        Stream.rwCreateEObject(ref FItem, null, 25);
-        Stream.rwInteger(ref FIndex, 26);
-        Stream.rwInteger(ref FReserved, 27);
-        Stream.rwBool(ref FQueue, 28);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Command, 20);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref X), 21);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 22);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 23);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 24);
+        stream.rwCreateEObject(ref Item, null, 25);
+        stream.rwInteger(ref Index, 26);
+        stream.rwInteger(ref Reserved, 27);
+        stream.rwBool(ref Queue, 28);
     }
 
     // Structur.PAS:182
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        ProductionControl Control;
-        Control = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(FX, FY, FL)).GetProductionControl();
-        if (Control != null)
+        ExecuteResult result;
+        ProductionControl control;
+        control = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel)).GetProductionControl();
+        if (control != null)
         {
-            Result = Control.ExecuteProductionTE(this);
+            result = control.ExecuteProductionTokenEvent(this);
         }
         else
         {
-            Result = ExecuteResult.DoneHalt;
+            result = ExecuteResult.DoneHalt;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:230

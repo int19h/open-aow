@@ -25,24 +25,24 @@ namespace Aow.Game.Combat;
 // samples. tag samples. resource lists. FHomePosition
 public partial class RandomBattleMapGenerator : IDisposable
 {
-    public ItemList FItems;
+    public ItemList Items;
     // calls GetItem
-    public bool FRandomTerrain;
-    public Int32Array20 FNeighborWeights;
-    public Int32Array305 FTerrainWeights;
-    public Int32Array308 FTagWeights;
-    public SByteArray7 FTerrain;
-    public SByteArray7 FTags;
-    public MapObjectResourceListArray286 FResources;
+    public bool RandomTerrain;
+    public Int32Array20 NeighborWeights;
+    public Int32Array305 TerrainWeights;
+    public Int32Array308 TagWeights;
+    public SByteArray7 Terrain;
+    public SByteArray7 Tags;
+    public MapObjectResourceListArray286 Resources;
     // original allocates one extra list
-    public int FHomePosition;
+    public int HomePosition;
 
     // AoWTC.pas:4149
     public virtual void Dispose()
     {
         for (int I = 0; I <= 285; I++)
         {
-            FResources[I]?.Clear();
+            Resources[I]?.Clear();
         }
     }
 
@@ -52,98 +52,98 @@ public partial class RandomBattleMapGenerator : IDisposable
         for (int I = 0; I <= 285; I++)
         {
             var list = new List<MapObjectResource>();
-            FResources[I] = list;
+            Resources[I] = list;
         }
 
-        for (int J = 0, last = AoWHSSet.Current.FCombatResources.GetCount() - 1; J <= last; J++)
+        for (int J = 0, last = AoWHSSet.Current.CombatResources.GetCount() - 1; J <= last; J++)
         {
-            if (AoWHSSet.Current.FCombatResources.MORs[J] is CombatTerrain.Resource)
+            if (AoWHSSet.Current.CombatResources.Resources[J] is CombatTerrain.Resource)
             {
-                var mor = AoWHSSet.Current.FCombatResources.MORs[J];
-                var mor2 = AoWHSSet.Current.FCombatResources.MORs[J];
-                var mor3 = AoWHSSet.Current.FCombatResources.MORs[J];
-                FResources[(sbyte)((TerrainMapObjectResource)mor2).TerrainType * 19 + ((TerrainMapObjectResource)mor3).DecorationType].Add(mor);
+                var mapObjectResource = AoWHSSet.Current.CombatResources.Resources[J];
+                var mapObjectResource2 = AoWHSSet.Current.CombatResources.Resources[J];
+                var mapObjectResource3 = AoWHSSet.Current.CombatResources.Resources[J];
+                Resources[(sbyte)((TerrainMapObjectResource)mapObjectResource2).TerrainType * 19 + ((TerrainMapObjectResource)mapObjectResource3).DecorationType].Add(mapObjectResource);
             }
         }
 
-        InitTables();
+        InitializeTables();
     }
 
     // AoWTC.pas:4156
-    public CombatMap RandomMap(TacticalBattle Combat, int X, int Y, int L)
+    public CombatMap RandomMap(TacticalBattle combat, int X, int Y, int L)
     {
-        byte[] TerrainBuffer = [];
+        byte[] terrainBuffer = [];
         int I;
         int J = default;
         int K = default;
-        int NX = default;
-        int TerrainType = default;
-        int Tag = default;
-        byte[] ShapeBuffer = [];
-        byte Shape = default;
-        bool HasUnit = default;
-        bool SiteCombat;
-        bool RandomTerrain;
-        string FileName;
-        Structure Structure;
-        HexBridge Bridge;
-        Int32Array20 Weights = default;
-        bool Blocked(int X, int Y, int First, int Last)
+        int hexX = default;
+        int terrainType = default;
+        int tag = default;
+        byte[] shapeBuffer = [];
+        byte shape = default;
+        bool hasUnit = default;
+        bool siteCombat;
+        bool randomTerrain;
+        string fileName;
+        Structure structure;
+        HexBridge bridge;
+        Int32Array20 weights = default;
+        bool Blocked(int X, int Y, int first, int last)
         {
-            int Kind;
-            int NX = default;
-            int NY = default;
-            bool Result = false;
-            for (int I = First; I <= Last; I++)
+            int kind;
+            int hexX = default;
+            int hexY = default;
+            bool result = false;
+            for (int I = first; I <= last; I++)
             {
-                HexGeometry.CenterHNtoHX(X, Y, clusterChk[I], ref NX, ref NY);
-                Kind = TerrainBuffer[NY * 65 + NX];
-                Result = Result || Kind == 1 || Kind == 2 || Kind == 3 || Kind == 5 || Kind == 6 || Kind == 7 || Kind == 11 || Kind == 14 || Kind == 15 || Kind == 16 || Kind == 17 || Kind == 18 || Kind == 252 || Kind == 253 || Kind == 254;
+                HexGeometry.CenterHexNumberToHex(X, Y, s_clusterCheckBox[I], ref hexX, ref hexY);
+                kind = terrainBuffer[hexY * 65 + hexX];
+                result = result || kind == 1 || kind == 2 || kind == 3 || kind == 5 || kind == 6 || kind == 7 || kind == 11 || kind == 14 || kind == 15 || kind == 16 || kind == 17 || kind == 18 || kind == 252 || kind == 253 || kind == 254;
             }
 
-            return Result;
+            return result;
         }
 
-        FItems = null;
-        if (Combat == null)
+        Items = null;
+        if (combat == null)
         {
-            SiteCombat = false;
+            siteCombat = false;
         }
         else
         {
-            SiteCombat = Combat.FExplorationSite == 1;
+            siteCombat = combat.ExplorationSite == 1;
         }
 
-        if (Combat == null)
+        if (combat == null)
         {
-            RandomTerrain = true;
+            randomTerrain = true;
         }
         else
         {
-            RandomTerrain = !(SiteCombat || Combat.FExplorationSite == 2);
+            randomTerrain = !(siteCombat || combat.ExplorationSite == 2);
         }
 
-        FRandomTerrain = RandomTerrain;
-        CombatPlacement.CombatXLoc = X;
-        CombatPlacement.CombatYLoc = Y;
-        CombatPlacement.CombatLLoc = L;
-        RandSeed = Y * 128 + X + L * 16384 + AoWHSMap.Current.FInitialRandomSeed;
+        RandomTerrain = randomTerrain;
+        CombatPlacement.s_combatXLocation = X;
+        CombatPlacement.s_combatYLocation = Y;
+        CombatPlacement.s_combatLLocation = L;
+        RandSeed = Y * 128 + X + L * 16384 + AoWHSMap.Current.InitialRandomSeed;
         I = 0;
         for (; I <= 6; I += 1)
         {
-            HexGeometry.CenterHNtoHX(X, Y, I, ref J, ref K);
+            HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
             var mapField = AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K];
-            FTerrain[I] = mapField.TerrainType;
+            Terrain[I] = mapField.TerrainType;
             var combatTerrainTag = ((AoWMapField)AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K]).GetCombatTerrainTag();
-            FTags[I] = (sbyte)combatTerrainTag;
+            Tags[I] = (sbyte)combatTerrainTag;
         }
 
-        if (FTerrain[0] == 0 || FTerrain[0] == 9 || FTerrain[0] == 10)
+        if (Terrain[0] == 0 || Terrain[0] == 9 || Terrain[0] == 10)
         {
             I = 1;
             for (; I <= 6; I += 1)
             {
-                FTerrain[I] = FTerrain[0];
+                Terrain[I] = Terrain[0];
             }
         }
         else
@@ -151,259 +151,259 @@ public partial class RandomBattleMapGenerator : IDisposable
             I = 1;
             for (; I <= 6; I += 1)
             {
-                if (FTerrain[I] == 0 || FTerrain[I] == 15 || FTerrain[I] == 10 || FTerrain[I] == 9)
+                if (Terrain[I] == 0 || Terrain[I] == 15 || Terrain[I] == 10 || Terrain[I] == 9)
                 {
-                    FTerrain[I] = FTerrain[0];
+                    Terrain[I] = Terrain[0];
                 }
             }
         }
 
-        FileName = "TCMaps\\";
-        Structure = (Structure)AoWHSMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(Structure));
-        Bridge = null;
-        if (Structure == null)
+        fileName = "TCMaps\\";
+        structure = (Structure)AoWHSMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite(typeof(Structure));
+        bridge = null;
+        if (structure == null)
         {
-            Bridge = (HexBridge)AoWHSMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHS(typeof(HexBridge));
+            bridge = (HexBridge)AoWHSMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite(typeof(HexBridge));
         }
 
-        if (Structure != null)
+        if (structure != null)
         {
             // The kind names the map (Structure.Views.cs) and reports what the map takes from the combat.
-            var site = new CombatMapSite(SiteCombat, RandomTerrain, (Direction, Kind) =>
+            var site = new CombatMapSite(siteCombat, randomTerrain, (direction, kind) =>
             {
-                HexGeometry.CenterHNtoHX(X, Y, Direction, ref J, ref K);
-                return AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K].FindNoneTransparentHS(Kind) != null;
+                HexGeometry.CenterHexNumberToHex(X, Y, direction, ref J, ref K);
+                return AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K].FindNoneTransparentHexSprite(kind) != null;
             });
-            FileName = FileName + Structure.CombatMapName(site);
-            RandomTerrain = site.RandomTerrain;
+            fileName = fileName + structure.CombatMapName(site);
+            randomTerrain = site.RandomTerrain;
             // Prisoners are an army on the same field. Only an item list is laid out.
-            if (site.TakesCombatItems && Combat.FItems is ItemList items)
+            if (site.TakesCombatItems && combat.Items is ItemList items)
             {
-                FItems = items;
+                Items = items;
             }
 
-            for (int Direction = 1; Direction <= 6; Direction++)
+            for (int direction = 1; direction <= 6; direction++)
             {
-                if ((site.FixedTags & (1 << Direction)) != 0)
+                if ((site.FixedTags & (1 << direction)) != 0)
                 {
-                    FTags[Direction] = 127;
+                    Tags[direction] = 127;
                 }
             }
 
-            FTags[0] = 127;
+            Tags[0] = 127;
         }
-        else if (Bridge != null)
+        else if (bridge != null)
         {
+            randomTerrain = false;
             RandomTerrain = false;
-            FRandomTerrain = false;
-            FileName = FileName + "Br";
-            switch (FTerrain[0])
+            fileName = fileName + "Br";
+            switch (Terrain[0])
             {
                 case 10:
-                    FileName = FileName + "UW";
+                    fileName = fileName + "UW";
                     break;
                 case 6:
-                    FileName = FileName + "Ic";
+                    fileName = fileName + "Ic";
                     break;
                 case 9:
-                    FileName = FileName + "La";
+                    fileName = fileName + "La";
                     break;
                 case 13:
-                    FileName = FileName + "UI";
+                    fileName = fileName + "UI";
                     break;
                 default:
-                    FileName = FileName + "Wa";
+                    fileName = fileName + "Wa";
                     break;
             }
 
-            switch (Bridge.FDirection)
+            switch (bridge.Direction)
             {
                 case 1:
-                    FileName = FileName + "A000";
+                    fileName = fileName + "A000";
                     break;
                 case 2:
-                    FileName = FileName + "B000";
+                    fileName = fileName + "B000";
                     break;
                 default:
-                    FileName = FileName + "C000";
+                    fileName = fileName + "C000";
                     break;
             }
 
-            FTags[0] = 127;
+            Tags[0] = 127;
         }
 
-        if (FTags[0] != 127)
+        if (Tags[0] != 127)
         {
-            FileName = FileName + "Blank000";
+            fileName = fileName + "Blank000";
         }
 
-        FileName = FileName + ".HSM";
-        if (Combat == null)
+        fileName = fileName + ".HSM";
+        if (combat == null)
         {
-            GameTables.AoWEngine.LoadHSMEx(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FileName), false, null, GameProfile.TacticalMap);
+            GameTables.GameEngine.LoadHsmMap(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
         }
         else
         {
-            AoWHSMap.Current.InitializeCombatMap(Combat, FileName);
+            AoWHSMap.Current.InitializeCombatMap(combat, fileName);
         }
 
-        CombatMap.Current.SetCombat(Combat);
-        CombatMap.Current.SetExplorationEnabled(SiteCombat);
+        CombatMap.Current.SetCombat(combat);
+        CombatMap.Current.SetExplorationEnabled(siteCombat);
         CombatMap.Current.SetFogEnabled(false);
-        if (Combat != null)
+        if (combat != null)
         {
             PlaceCombatUnits();
         }
 
-        if (RandomTerrain)
+        if (randomTerrain)
         {
             CombatMap.Current.LockMapChangedEvent();
-            ShapeBuffer = new byte[3770];
-            TerrainBuffer = new byte[3770];
-            for (int Row = 6; Row <= 52; Row++)
+            shapeBuffer = new byte[3770];
+            terrainBuffer = new byte[3770];
+            for (int row = 6; row <= 52; row++)
             {
-                for (int Col = 6; Col <= 58; Col++)
+                for (int column = 6; column <= 58; column++)
                 {
-                    Shape = MapShape[Row * 65 + Col];
-                    switch (Shape)
+                    shape = s_mapShape[row * 65 + column];
+                    switch (shape)
                     {
                         case 14:
                             if (Random(100) < 50)
                             {
-                                Shape = 1;
+                                shape = 1;
                             }
                             else
                             {
-                                Shape = 2;
+                                shape = 2;
                             }
 
                             break;
                         case 15:
                             if (Random(100) < 50)
                             {
-                                Shape = 1;
+                                shape = 1;
                             }
                             else
                             {
-                                Shape = 3;
+                                shape = 3;
                             }
 
                             break;
                         case 16:
                             if (Random(100) < 50)
                             {
-                                Shape = 1;
+                                shape = 1;
                             }
                             else
                             {
-                                Shape = 4;
+                                shape = 4;
                             }
 
                             break;
                         case 17:
                             if (Random(100) < 50)
                             {
-                                Shape = 1;
+                                shape = 1;
                             }
                             else
                             {
-                                Shape = 5;
+                                shape = 5;
                             }
 
                             break;
                         case 18:
                             if (Random(100) < 50)
                             {
-                                Shape = 1;
+                                shape = 1;
                             }
                             else
                             {
-                                Shape = 6;
+                                shape = 6;
                             }
 
                             break;
                         case 19:
                             if (Random(100) < 50)
                             {
-                                Shape = 1;
+                                shape = 1;
                             }
                             else
                             {
-                                Shape = 7;
+                                shape = 7;
                             }
 
                             break;
                         case 11:
                             if (Random(100) < 50)
                             {
-                                Shape = 2;
+                                shape = 2;
                             }
                             else
                             {
-                                Shape = 3;
+                                shape = 3;
                             }
 
                             break;
                         case 9:
                             if (Random(100) < 50)
                             {
-                                Shape = 3;
+                                shape = 3;
                             }
                             else
                             {
-                                Shape = 4;
+                                shape = 4;
                             }
 
                             break;
                         case 13:
                             if (Random(100) < 50)
                             {
-                                Shape = 5;
+                                shape = 5;
                             }
                             else
                             {
-                                Shape = 4;
+                                shape = 4;
                             }
 
                             break;
                         case 12:
                             if (Random(100) < 50)
                             {
-                                Shape = 5;
+                                shape = 5;
                             }
                             else
                             {
-                                Shape = 6;
+                                shape = 6;
                             }
 
                             break;
                         case 8:
                             if (Random(100) < 50)
                             {
-                                Shape = 7;
+                                shape = 7;
                             }
                             else
                             {
-                                Shape = 6;
+                                shape = 6;
                             }
 
                             break;
                         case 10:
                             if (Random(100) < 50)
                             {
-                                Shape = 2;
+                                shape = 2;
                             }
                             else
                             {
-                                Shape = 7;
+                                shape = 7;
                             }
 
                             break;
                     }
 
-                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[Col, Row].GetDecorationType() == 9)
+                    if (CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].GetDecorationType() == 9)
                     {
-                        switch (Shape)
+                        switch (shape)
                         {
                             case 1:
                                 J = 0;
@@ -433,15 +433,15 @@ public partial class RandomBattleMapGenerator : IDisposable
 
                         if (J > -1)
                         {
-                            HexGeometry.CenterHNtoHX(X, Y, J, ref K, ref NX);
-                            if (AoWHSMap.Current.MapContainer.MapLevels[L].Field[K, NX].FindOwnedChild(131946) == null)
+                            HexGeometry.CenterHexNumberToHex(X, Y, J, ref K, ref hexX);
+                            if (AoWHSMap.Current.MapContainer.MapLevels[L].Field[K, hexX].FindOwnedChild(131946) == null)
                             {
-                                CombatMap.Current.ClearTerrain(Col, Row, 0, 0, -1);
+                                CombatMap.Current.ClearTerrain(column, row, 0, 0, -1);
                             }
                         }
                     }
 
-                    ShapeBuffer[Row * 65 + Col] = Shape;
+                    shapeBuffer[row * 65 + column] = shape;
                 }
             }
 
@@ -450,106 +450,106 @@ public partial class RandomBattleMapGenerator : IDisposable
                 I = 0;
                 for (; I <= 6; I += 1)
                 {
-                    HexGeometry.CenterHNtoHX(X, Y, I, ref J, ref K);
+                    HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
                     var item = AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K];
-                    Weights[I] = item.OverlayType;
+                    weights[I] = item.OverlayType;
                 }
 
-                for (int Row = 6; Row <= 52; Row++)
+                for (int row = 6; row <= 52; row++)
                 {
-                    for (int Col = 6; Col <= 58; Col++)
+                    for (int column = 6; column <= 58; column++)
                     {
-                        Shape = MapRoads[Row * 65 + Col];
-                        switch (Shape)
+                        shape = s_mapRoads[row * 65 + column];
+                        switch (shape)
                         {
                             case 21:
                                 if (Random(100) < 50)
                                 {
-                                    Shape = 0;
+                                    shape = 0;
                                 }
                                 else
                                 {
-                                    Shape = 2;
+                                    shape = 2;
                                 }
 
                                 break;
                             case 22:
                                 if (Random(100) < 50)
                                 {
-                                    Shape = 0;
+                                    shape = 0;
                                 }
                                 else
                                 {
-                                    Shape = 3;
+                                    shape = 3;
                                 }
 
                                 break;
                             case 23:
                                 if (Random(100) < 50)
                                 {
-                                    Shape = 0;
+                                    shape = 0;
                                 }
                                 else
                                 {
-                                    Shape = 4;
+                                    shape = 4;
                                 }
 
                                 break;
                             case 24:
                                 if (Random(100) < 50)
                                 {
-                                    Shape = 0;
+                                    shape = 0;
                                 }
                                 else
                                 {
-                                    Shape = 5;
+                                    shape = 5;
                                 }
 
                                 break;
                             case 25:
                                 if (Random(100) < 50)
                                 {
-                                    Shape = 0;
+                                    shape = 0;
                                 }
                                 else
                                 {
-                                    Shape = 6;
+                                    shape = 6;
                                 }
 
                                 break;
                             case 26:
                                 if (Random(100) < 50)
                                 {
-                                    Shape = 0;
+                                    shape = 0;
                                 }
                                 else
                                 {
-                                    Shape = 7;
+                                    shape = 7;
                                 }
 
                                 break;
                         }
 
-                        if (Set<byte>.WithBounds(0, 255).WithRange(1, 7).Contains(Shape))
+                        if (Set<byte>.WithBounds(0, 255).WithRange(1, 7).Contains(shape))
                         {
-                            if (FTags[Shape - 1] != 127 && Weights[Shape - 1] == 4)
+                            if (Tags[shape - 1] != 127 && weights[shape - 1] == 4)
                             {
-                                AoWHSSet.Current.FCombatRoads.Place(CombatMap.Current.MapContainer, (sbyte)Col, (sbyte)Row, 0, 1);
-                                TerrainBuffer[Row * 65 + Col] = 251;
+                                AoWHSSet.Current.CombatRoads.Place(CombatMap.Current.MapContainer, (sbyte)column, (sbyte)row, 0, 1);
+                                terrainBuffer[row * 65 + column] = 251;
                             }
                         }
                     }
                 }
             }
 
-            for (int Row = 6; Row <= 52; Row++)
+            for (int row = 6; row <= 52; row++)
             {
-                for (int Col = 3; Col <= 29; Col++)
+                for (int column = 3; column <= 29; column++)
                 {
-                    I = ShapeBuffer[Row * 65 + Col * 2];
+                    I = shapeBuffer[row * 65 + column * 2];
                     if (I > 0)
                     {
-                        if (FTags[I - 1] == 127 || TerrainBuffer[Row * 65 + Col * 2] == 251)
+                        if (Tags[I - 1] == 127 || terrainBuffer[row * 65 + column * 2] == 251)
                         {
                             I = 0;
                         }
@@ -557,68 +557,68 @@ public partial class RandomBattleMapGenerator : IDisposable
 
                     if (I > 0)
                     {
-                        TerrainType = FTerrain[I - 1];
-                        Tag = FTags[I - 1];
+                        terrainType = Terrain[I - 1];
+                        tag = Tags[I - 1];
                         I = 0;
                         for (; I <= 18; I += 1)
                         {
-                            Weights[I] = FTerrainWeights[TerrainType * 19 + I];
-                            if (Tag < 14)
+                            weights[I] = TerrainWeights[terrainType * 19 + I];
+                            if (tag < 14)
                             {
-                                Weights[I] += FTagWeights[Tag * 19 + I];
+                                weights[I] += TagWeights[tag * 19 + I];
                             }
                         }
 
                         I = 0;
                         for (; I <= 2; I += 1)
                         {
-                            HexGeometry.CenterHNtoHX(Col * 2, Row, clusterChk[I], ref J, ref K);
-                            Tag = TerrainBuffer[K * 65 + J];
-                            if (Tag <= 19)
+                            HexGeometry.CenterHexNumberToHex(column * 2, row, s_clusterCheckBox[I], ref J, ref K);
+                            tag = terrainBuffer[K * 65 + J];
+                            if (tag <= 19)
                             {
-                                Weights[Tag] += FNeighborWeights[Tag];
+                                weights[tag] += NeighborWeights[tag];
                             }
 
-                            switch (Tag)
+                            switch (tag)
                             {
                                 case >= 1 and <= 3:
-                                    Weights[5] += 10;
-                                    Weights[10] += 10;
-                                    Weights[4] += 10;
+                                    weights[5] += 10;
+                                    weights[10] += 10;
+                                    weights[4] += 10;
                                     break;
                                 case 14:
                                 case 16:
-                                    Weights[11] += FNeighborWeights[11];
+                                    weights[11] += NeighborWeights[11];
                                     break;
                             }
                         }
 
-                        HasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[Col * 2, Row].FindChild(2228484) != null;
-                        if (HasUnit || Blocked(Col * 2, Row, 0, 2))
+                        hasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[column * 2, row].FindChild(2228484) != null;
+                        if (hasUnit || Blocked(column * 2, row, 0, 2))
                         {
-                            if ((HasUnit || Blocked(Col * 2, Row, 4, 8)) && (HasUnit || Blocked(Col * 2, Row, 9, 17)))
+                            if ((hasUnit || Blocked(column * 2, row, 4, 8)) && (hasUnit || Blocked(column * 2, row, 9, 17)))
                             {
-                                Weights[1] = 0;
-                                Weights[2] = 0;
-                                Weights[3] = 0;
-                                Weights[5] = 0;
-                                Weights[6] = 0;
-                                Weights[7] = 0;
-                                Weights[11] = 0;
-                                Weights[14] = 0;
-                                Weights[15] = 0;
-                                Weights[16] = 0;
-                                Weights[17] = 0;
-                                Weights[18] = 0;
+                                weights[1] = 0;
+                                weights[2] = 0;
+                                weights[3] = 0;
+                                weights[5] = 0;
+                                weights[6] = 0;
+                                weights[7] = 0;
+                                weights[11] = 0;
+                                weights[14] = 0;
+                                weights[15] = 0;
+                                weights[16] = 0;
+                                weights[17] = 0;
+                                weights[18] = 0;
                             }
                         }
                         else
                         {
-                            if ((HasUnit || Blocked(Col * 2, Row, 4, 8)) && (HasUnit || Blocked(Col * 2, Row, 9, 17)))
+                            if ((hasUnit || Blocked(column * 2, row, 4, 8)) && (hasUnit || Blocked(column * 2, row, 9, 17)))
                             {
-                                Weights[14] = 0;
-                                Weights[15] = 0;
-                                Weights[16] = 0;
+                                weights[14] = 0;
+                                weights[15] = 0;
+                                weights[16] = 0;
                             }
                         }
 
@@ -626,18 +626,18 @@ public partial class RandomBattleMapGenerator : IDisposable
                         I = 0;
                         for (; I <= 18; I += 1)
                         {
-                            J += Weights[I];
+                            J += weights[I];
                         }
 
-                        Tag = Random(J) - Weights[0];
+                        tag = Random(J) - weights[0];
                         J = 0;
-                        while (Tag > 0 && J < 18)
+                        while (tag > 0 && J < 18)
                         {
                             J += 1;
-                            Tag -= Weights[J];
+                            tag -= weights[J];
                         }
 
-                        if (TerrainType == 8)
+                        if (terrainType == 8)
                         {
                             J = 17;
                         }
@@ -645,33 +645,33 @@ public partial class RandomBattleMapGenerator : IDisposable
                         switch (J)
                         {
                             case 14:
-                                HexGeometry.CenterHNtoHX(Col * 2, Row, 6, ref K, ref NX);
-                                TerrainBuffer[NX * 65 + K] = 252;
+                                HexGeometry.CenterHexNumberToHex(column * 2, row, 6, ref K, ref hexX);
+                                terrainBuffer[hexX * 65 + K] = 252;
                                 break;
                             case 15:
-                                HexGeometry.CenterHNtoHX(Col * 2, Row, 6, ref K, ref NX);
-                                TerrainBuffer[NX * 65 + K] = 253;
+                                HexGeometry.CenterHexNumberToHex(column * 2, row, 6, ref K, ref hexX);
+                                terrainBuffer[hexX * 65 + K] = 253;
                                 break;
                             case 16:
-                                HexGeometry.CenterHNtoHX(Col * 2, Row, 1, ref K, ref NX);
-                                TerrainBuffer[NX * 65 + K] = 254;
-                                HexGeometry.CenterHNtoHX(Col * 2, Row, 2, ref K, ref NX);
-                                TerrainBuffer[NX * 65 + K] = 254;
-                                HexGeometry.CenterHNtoHX(Col * 2, Row, 6, ref K, ref NX);
-                                TerrainBuffer[NX * 65 + K] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2, row, 1, ref K, ref hexX);
+                                terrainBuffer[hexX * 65 + K] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2, row, 2, ref K, ref hexX);
+                                terrainBuffer[hexX * 65 + K] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2, row, 6, ref K, ref hexX);
+                                terrainBuffer[hexX * 65 + K] = 254;
                                 break;
                         }
 
-                        TerrainBuffer[Row * 65 + Col * 2] = (byte)J;
+                        terrainBuffer[row * 65 + column * 2] = (byte)J;
                     }
                 }
 
-                for (int Col = 3; Col <= 29; Col++)
+                for (int column = 3; column <= 29; column++)
                 {
-                    I = ShapeBuffer[Row * 65 + Col * 2 + 1];
+                    I = shapeBuffer[row * 65 + column * 2 + 1];
                     if (I > 0)
                     {
-                        if (FTags[I - 1] == 127 || TerrainBuffer[Row * 65 + Col * 2 + 1] == 251)
+                        if (Tags[I - 1] == 127 || terrainBuffer[row * 65 + column * 2 + 1] == 251)
                         {
                             I = 0;
                         }
@@ -679,68 +679,68 @@ public partial class RandomBattleMapGenerator : IDisposable
 
                     if (I > 0)
                     {
-                        TerrainType = FTerrain[I - 1];
-                        Tag = FTags[I - 1];
+                        terrainType = Terrain[I - 1];
+                        tag = Tags[I - 1];
                         I = 0;
                         for (; I <= 18; I += 1)
                         {
-                            Weights[I] = FTerrainWeights[TerrainType * 19 + I];
-                            if (Tag < 14)
+                            weights[I] = TerrainWeights[terrainType * 19 + I];
+                            if (tag < 14)
                             {
-                                Weights[I] += FTagWeights[Tag * 19 + I];
+                                weights[I] += TagWeights[tag * 19 + I];
                             }
                         }
 
                         I = 0;
                         for (; I <= 2; I += 1)
                         {
-                            HexGeometry.CenterHNtoHX(Col * 2 + 1, Row, clusterChk[I], ref J, ref K);
-                            Tag = TerrainBuffer[K * 65 + J];
-                            if (Tag <= 19)
+                            HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, s_clusterCheckBox[I], ref J, ref K);
+                            tag = terrainBuffer[K * 65 + J];
+                            if (tag <= 19)
                             {
-                                Weights[Tag] += FNeighborWeights[Tag];
+                                weights[tag] += NeighborWeights[tag];
                             }
 
-                            switch (Tag)
+                            switch (tag)
                             {
                                 case >= 1 and <= 3:
-                                    Weights[5] += 10;
-                                    Weights[10] += 10;
-                                    Weights[4] += 10;
+                                    weights[5] += 10;
+                                    weights[10] += 10;
+                                    weights[4] += 10;
                                     break;
                                 case 14:
                                 case 16:
-                                    Weights[11] += FNeighborWeights[11];
+                                    weights[11] += NeighborWeights[11];
                                     break;
                             }
                         }
 
-                        HasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[Col * 2 + 1, Row].FindChild(2228484) != null;
-                        if (HasUnit || Blocked(Col * 2 + 1, Row, 0, 2))
+                        hasUnit = CombatMap.Current.MapContainer.MapLevels[0].Field[column * 2 + 1, row].FindChild(2228484) != null;
+                        if (hasUnit || Blocked(column * 2 + 1, row, 0, 2))
                         {
-                            if ((HasUnit || Blocked(Col * 2 + 1, Row, 4, 8)) && (HasUnit || Blocked(Col * 2 + 1, Row, 9, 17)))
+                            if ((hasUnit || Blocked(column * 2 + 1, row, 4, 8)) && (hasUnit || Blocked(column * 2 + 1, row, 9, 17)))
                             {
-                                Weights[1] = 0;
-                                Weights[2] = 0;
-                                Weights[3] = 0;
-                                Weights[5] = 0;
-                                Weights[6] = 0;
-                                Weights[7] = 0;
-                                Weights[11] = 0;
-                                Weights[14] = 0;
-                                Weights[15] = 0;
-                                Weights[16] = 0;
-                                Weights[17] = 0;
-                                Weights[18] = 0;
+                                weights[1] = 0;
+                                weights[2] = 0;
+                                weights[3] = 0;
+                                weights[5] = 0;
+                                weights[6] = 0;
+                                weights[7] = 0;
+                                weights[11] = 0;
+                                weights[14] = 0;
+                                weights[15] = 0;
+                                weights[16] = 0;
+                                weights[17] = 0;
+                                weights[18] = 0;
                             }
                         }
                         else
                         {
-                            if ((HasUnit || Blocked(Col * 2 + 1, Row, 4, 8)) && (HasUnit || Blocked(Col * 2 + 1, Row, 9, 17)))
+                            if ((hasUnit || Blocked(column * 2 + 1, row, 4, 8)) && (hasUnit || Blocked(column * 2 + 1, row, 9, 17)))
                             {
-                                Weights[14] = 0;
-                                Weights[15] = 0;
-                                Weights[16] = 0;
+                                weights[14] = 0;
+                                weights[15] = 0;
+                                weights[16] = 0;
                             }
                         }
 
@@ -748,18 +748,18 @@ public partial class RandomBattleMapGenerator : IDisposable
                         I = 0;
                         for (; I <= 18; I += 1)
                         {
-                            J += Weights[I];
+                            J += weights[I];
                         }
 
-                        Tag = Random(J) - Weights[0];
+                        tag = Random(J) - weights[0];
                         J = 0;
-                        while (Tag > 0 && J < 18)
+                        while (tag > 0 && J < 18)
                         {
                             J += 1;
-                            Tag -= Weights[J];
+                            tag -= weights[J];
                         }
 
-                        if (TerrainType == 8)
+                        if (terrainType == 8)
                         {
                             J = 17;
                         }
@@ -767,49 +767,49 @@ public partial class RandomBattleMapGenerator : IDisposable
                         switch (J)
                         {
                             case 14:
-                                HexGeometry.CenterHNtoHX(Col * 2 + 1, Row, 6, ref K, ref NX);
-                                TerrainBuffer[NX * 65 + K] = 252;
+                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 6, ref K, ref hexX);
+                                terrainBuffer[hexX * 65 + K] = 252;
                                 break;
                             case 15:
-                                HexGeometry.CenterHNtoHX(Col * 2 + 1, Row, 6, ref K, ref NX);
-                                TerrainBuffer[NX * 65 + K] = 253;
+                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 6, ref K, ref hexX);
+                                terrainBuffer[hexX * 65 + K] = 253;
                                 break;
                             case 16:
-                                HexGeometry.CenterHNtoHX(Col * 2 + 1, Row, 1, ref K, ref NX);
-                                TerrainBuffer[NX * 65 + K] = 254;
-                                HexGeometry.CenterHNtoHX(Col * 2 + 1, Row, 2, ref K, ref NX);
-                                TerrainBuffer[NX * 65 + K] = 254;
-                                HexGeometry.CenterHNtoHX(Col * 2 + 1, Row, 6, ref K, ref NX);
-                                TerrainBuffer[NX * 65 + K] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 1, ref K, ref hexX);
+                                terrainBuffer[hexX * 65 + K] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 2, ref K, ref hexX);
+                                terrainBuffer[hexX * 65 + K] = 254;
+                                HexGeometry.CenterHexNumberToHex(column * 2 + 1, row, 6, ref K, ref hexX);
+                                terrainBuffer[hexX * 65 + K] = 254;
                                 break;
                         }
 
-                        TerrainBuffer[Row * 65 + Col * 2 + 1] = (byte)J;
+                        terrainBuffer[row * 65 + column * 2 + 1] = (byte)J;
                     }
                 }
             }
 
-            for (int Row = 6; Row <= 52; Row++)
+            for (int row = 6; row <= 52; row++)
             {
-                for (int Col = 6; Col <= 58; Col++)
+                for (int column = 6; column <= 58; column++)
                 {
-                    I = ShapeBuffer[Row * 65 + Col];
+                    I = shapeBuffer[row * 65 + column];
                     if (I > 0)
                     {
-                        J = TerrainBuffer[Row * 65 + Col];
+                        J = terrainBuffer[row * 65 + column];
                         if (J == 17)
                         {
-                            CombatMap.Current.MapContainer.MapLevels[0].Field[Col, Row].TerrainType = 7;
+                            CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainType = 7;
                         }
                         else
                         {
-                            CombatMap.Current.MapContainer.MapLevels[0].Field[Col, Row].TerrainType = FTerrain[I - 1];
+                            CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainType = Terrain[I - 1];
                             if (J > 0 && J < 19)
                             {
-                                if (FResources[FTerrain[I - 1] * 19 + J].Count > 0)
+                                if (Resources[Terrain[I - 1] * 19 + J].Count > 0)
                                 {
-                                    var random = Random(FResources[FTerrain[I - 1] * 19 + J].Count);
-                                    (FResources[FTerrain[I - 1] * 19 + J][random]).PlaceResourceUser(CombatMap.Current, (sbyte)Col, (sbyte)Row, 0);
+                                    var random = Random(Resources[Terrain[I - 1] * 19 + J].Count);
+                                    (Resources[Terrain[I - 1] * 19 + J][random]).PlaceResourceUser(CombatMap.Current, (sbyte)column, (sbyte)row, 0);
                                 }
                             }
                         }
@@ -817,15 +817,15 @@ public partial class RandomBattleMapGenerator : IDisposable
                 }
             }
 
-            for (int Row = 6; Row <= 52; Row++)
+            for (int row = 6; row <= 52; row++)
             {
-                for (int Col = 6; Col <= 58; Col++)
+                for (int column = 6; column <= 58; column++)
                 {
-                    CombatMap.Current.MapContainer.MapLevels[0].Field[Col, Row].TerrainChanged();
+                    CombatMap.Current.MapContainer.MapLevels[0].Field[column, row].TerrainChanged();
                 }
             }
 
-            TerrainBuffer = default;
+            terrainBuffer = default;
             CombatMap.Current.UnlockMapChangedEvent();
         }
 
@@ -835,238 +835,238 @@ public partial class RandomBattleMapGenerator : IDisposable
     // AoWTC.pas:4519
     public void PlaceCombatUnits()
     {
-        int Position;
+        int position;
         int I;
         int J = default;
-        int Temp = default;
-        DelphiList Units;
+        int temporary = default;
+        DelphiList units;
         TacticalBattleUnit U;
-        TacticalBattleUnit Other;
-        int Direction;
-        BooleanArray8 Used = default;
-        TacticalBattleItemHexSprite ItemHS;
-        Direction = 32;
-        FHomePosition = -1;
-        Units = new DelphiList();
-        Position = 0;
-        for (; Position <= 7; Position += 1)
+        TacticalBattleUnit other;
+        int direction;
+        BooleanArray8 used = default;
+        TacticalBattleItemHexSprite itemHexSprite;
+        direction = 32;
+        HomePosition = -1;
+        units = new DelphiList();
+        position = 0;
+        for (; position <= 7; position += 1)
         {
-            Units.Clear();
+            units.Clear();
             I = 0;
-            int last = CombatMap.Current.FCombat.FCombatData.GetCount() - 1;
+            int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
             for (; I <= last; I += 1)
             {
-                if (CombatMap.Current.FCombat.FCombatData.GetObjects(I) is CombatUnit)
+                if (CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit)
                 {
-                    if (CombatMap.Current.FCombat.FCombatData.GetObjects(I).GetEnabled())
+                    if (CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled())
                     {
-                        if ((int)(((uint)CombatMap.Current.FCombat.FCombatData.GetObjects(I).FPosition) >> 4) == Position)
+                        if ((int)(((uint)CombatMap.Current.Combat.CombatData.GetObjects(I).Position) >> 4) == position)
                         {
-                            Units.Add(CombatMap.Current.FCombat.FCombatData.GetObjects(I));
-                            U = (TacticalBattleUnit)Units[Units.Count - 1];
-                            U.FPositionIndex = (byte)(U.FPosition & 15);
-                            U.FPositionGroup = (byte)(int)(((uint)U.FPosition) >> 4);
-                            if (U.FPositionGroup == 7)
+                            units.Add(CombatMap.Current.Combat.CombatData.GetObjects(I));
+                            U = (TacticalBattleUnit)units[units.Count - 1];
+                            U.PositionIndex = (byte)(U.Position & 15);
+                            U.PositionGroup = (byte)(int)(((uint)U.Position) >> 4);
+                            if (U.PositionGroup == 7)
                             {
-                                U.FPositionGroup = 1;
+                                U.PositionGroup = 1;
                             }
 
-                            if (U.FPositionGroup == 0)
+                            if (U.PositionGroup == 0)
                             {
-                                FHomePosition = 0;
+                                HomePosition = 0;
                             }
 
-                            if (FHomePosition == -1)
+                            if (HomePosition == -1)
                             {
                                 if (U.GetSide() == CombatSideIndex.Defender)
                                 {
-                                    if (AoWHSMap.Current.MapContainer.MapLevels[CombatMap.Current.FCombat.FCombatData.FL].Field[CombatMap.Current.FCombat.FCombatData.FX, CombatMap.Current.FCombat.FCombatData.FY].FindNoneTransparentHS(typeof(City)) != null)
+                                    if (AoWHSMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y].FindNoneTransparentHexSprite(typeof(City)) != null)
                                     {
                                     }
                                 }
                             }
 
-                            if (FHomePosition > 0 && U.FPositionGroup == FHomePosition)
+                            if (HomePosition > 0 && U.PositionGroup == HomePosition)
                             {
-                                U.FPositionGroup = 0;
+                                U.PositionGroup = 0;
                             }
 
                             var side = U.GetSide();
-                            CombatMap.Current.FPositionStatus[U.FPositionGroup] = (byte)side;
+                            CombatMap.Current.PositionStatus[U.PositionGroup] = (byte)side;
                         }
                     }
                 }
             }
 
             I = 0;
-            int limit = Units.Count - 1;
+            int limit = units.Count - 1;
             for (; I <= limit; I += 1)
             {
-                U = (TacticalBattleUnit)Units[I];
+                U = (TacticalBattleUnit)units[I];
                 J = I + 1;
-                int last2 = Units.Count - 1;
+                int last2 = units.Count - 1;
                 for (; J <= last2; J += 1)
                 {
-                    Other = (TacticalBattleUnit)Units[J];
-                    if (U.GetPosValue() < Other.GetPosValue())
+                    other = (TacticalBattleUnit)units[J];
+                    if (U.GetPositionValue() < other.GetPositionValue())
                     {
-                        Temp = U.FPositionIndex;
-                        U.FPositionIndex = Other.FPositionIndex;
-                        Other.FPositionIndex = (byte)Temp;
+                        temporary = U.PositionIndex;
+                        U.PositionIndex = other.PositionIndex;
+                        other.PositionIndex = (byte)temporary;
                     }
                 }
             }
         }
 
-        if (CombatMap.Current.FPositionStatus[0] != 1)
+        if (CombatMap.Current.PositionStatus[0] != 1)
         {
-            if (AoWHSMap.Current.MapContainer.MapLevels[CombatMap.Current.FCombat.FCombatData.FL].Field[CombatMap.Current.FCombat.FCombatData.FX, CombatMap.Current.FCombat.FCombatData.FY].FindNoneTransparentHS(typeof(City)) != null && CombatMap.Current.FCombat.FCombatData.FWallType != 0)
+            if (AoWHSMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y].FindNoneTransparentHexSprite(typeof(City)) != null && CombatMap.Current.Combat.CombatData.WallType != 0)
             {
-                Position = 1;
-                while (Position < 7)
+                position = 1;
+                while (position < 7)
                 {
-                    if (CombatMap.Current.FPositionStatus[Position] == 1)
+                    if (CombatMap.Current.PositionStatus[position] == 1)
                     {
-                        HexGeometry.CenterHNtoHX(CombatMap.Current.FCombat.FCombatData.FX, CombatMap.Current.FCombat.FCombatData.FY, Position, ref J, ref Temp);
-                        if (AoWHSMap.Current.MapContainer.MapLevels[CombatMap.Current.FCombat.FCombatData.FL].Field[J, Temp].FindNoneTransparentHS(typeof(City)) != null)
+                        HexGeometry.CenterHexNumberToHex(CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, position, ref J, ref temporary);
+                        if (AoWHSMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[J, temporary].FindNoneTransparentHexSprite(typeof(City)) != null)
                         {
-                            FHomePosition = Position;
-                            CombatMap.Current.FPositionStatus[Position] = (int)CombatSideIndex.Neutral;
-                            CombatMap.Current.FPositionStatus[0] = 1;
-                            Position = 7;
+                            HomePosition = position;
+                            CombatMap.Current.PositionStatus[position] = (int)CombatSideIndex.Neutral;
+                            CombatMap.Current.PositionStatus[0] = 1;
+                            position = 7;
                         }
                     }
 
-                    Position += 1;
+                    position += 1;
                 }
             }
         }
 
-        Position = 0;
-        int last3 = CombatMap.Current.FCombat.FSides[(int)CombatSideIndex.Attacker].GetCount() - 1;
-        for (; Position <= last3; Position += 1)
+        position = 0;
+        int last3 = CombatMap.Current.Combat.Sides[(int)CombatSideIndex.Attacker].GetCount() - 1;
+        for (; position <= last3; position += 1)
         {
-            if (CombatMap.Current.FCombat.FSides[(int)CombatSideIndex.Attacker].GetObjects(Position).GetEnabled())
+            if (CombatMap.Current.Combat.Sides[(int)CombatSideIndex.Attacker].GetObjects(position).GetEnabled())
             {
-                SetupUnit(CombatSideIndex.Attacker, Position, ref Direction);
+                SetupUnit(CombatSideIndex.Attacker, position, ref direction);
             }
         }
 
-        Position = 0;
-        int last4 = CombatMap.Current.FCombat.FSides[(int)CombatSideIndex.Defender].GetCount() - 1;
-        for (; Position <= last4; Position += 1)
+        position = 0;
+        int last4 = CombatMap.Current.Combat.Sides[(int)CombatSideIndex.Defender].GetCount() - 1;
+        for (; position <= last4; position += 1)
         {
-            if (CombatMap.Current.FCombat.FSides[(int)CombatSideIndex.Defender].GetObjects(Position) is CombatUnit)
+            if (CombatMap.Current.Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(position) is CombatUnit)
             {
-                if (CombatMap.Current.FCombat.FSides[(int)CombatSideIndex.Defender].GetObjects(Position).GetEnabled())
+                if (CombatMap.Current.Combat.Sides[(int)CombatSideIndex.Defender].GetObjects(position).GetEnabled())
                 {
-                    SetupUnit(CombatSideIndex.Defender, Position, ref Direction);
+                    SetupUnit(CombatSideIndex.Defender, position, ref direction);
                 }
             }
         }
 
-        Units?.Dispose();
-        if (FItems != null)
+        units?.Dispose();
+        if (Items != null)
         {
-            Position = 0;
-            for (; Position <= 7; Position += 1)
+            position = 0;
+            for (; position <= 7; position += 1)
             {
-                Used[Position] = false;
+                used[position] = false;
             }
 
-            Position = 0;
-            while (Position < FItems.GetCount())
+            position = 0;
+            while (position < Items.GetCount())
             {
-                I = Random(CombatMap.Current.FUnitPositions.FPositions.Count - 16);
+                I = Random(CombatMap.Current.UnitPositions.Positions.Count - 16);
                 J = I - 1;
                 if (J < 0)
                 {
-                    J = CombatMap.Current.FUnitPositions.FPositions.Count - 17;
+                    J = CombatMap.Current.UnitPositions.Positions.Count - 17;
                 }
 
                 // { Original indexes its eight-slot occupancy array with the position-list index. }
-                while (Used[I] && I != J)
+                while (used[I] && I != J)
                 {
                     I += 1;
-                    if (I > CombatMap.Current.FUnitPositions.FPositions.Count - 17)
+                    if (I > CombatMap.Current.UnitPositions.Positions.Count - 17)
                     {
                         I = 0;
                     }
                 }
 
-                Used[I] = true;
-                J = CombatMap.Current.FUnitPositions.GetUnitPosition(2, I).X;
-                Temp = CombatMap.Current.FUnitPositions.GetUnitPosition(2, I).Y;
-                ItemHS = new TacticalBattleItemHexSprite(null);
-                if (CombatMap.Current.PlaceHX(ItemHS, J, Temp, 0))
+                used[I] = true;
+                J = CombatMap.Current.UnitPositions.GetUnitPosition(2, I).X;
+                temporary = CombatMap.Current.UnitPositions.GetUnitPosition(2, I).Y;
+                itemHexSprite = new TacticalBattleItemHexSprite(null);
+                if (CombatMap.Current.PlaceHex(itemHexSprite, J, temporary, 0))
                 {
-                    FItems.GetItem(Position).SetOwner(ItemHS.FItems);
+                    Items.GetItem(position).SetOwner(itemHexSprite.Items);
                 }
                 else
                 {
-                    Position += 1;
+                    position += 1;
                 }
             }
         }
     }
 
     // AoWTC.pas:4610
-    public void SetupUnit(CombatSideIndex Side, int Index, ref int Direction)
+    public void SetupUnit(CombatSideIndex side, int index, ref int direction)
     {
-        TacticalBattleUnitHexSprite UnitHS;
-        TacticalBattleUnitHexSprite TargetHS;
+        TacticalBattleUnitHexSprite unitHexSprite;
+        TacticalBattleUnitHexSprite targetHexSprite;
         int X;
         int Y;
-        int Position;
-        int Slot;
-        int HN;
-        int NX = default;
-        int NY = default;
-        UnitHS = new TacticalBattleUnitHexSprite(null);
-        UnitHS.Initialize((TacticalBattleUnit)CombatMap.Current.FCombat.FSides[(int)Side].GetObjects(Index));
-        if (UnitHS.FUnit.FPositionGroup == FHomePosition)
+        int position;
+        int slot;
+        int hexNumber;
+        int hexX = default;
+        int hexY = default;
+        unitHexSprite = new TacticalBattleUnitHexSprite(null);
+        unitHexSprite.Initialize((TacticalBattleUnit)CombatMap.Current.Combat.Sides[(int)side].GetObjects(index));
+        if (unitHexSprite.Unit.PositionGroup == HomePosition)
         {
-            UnitHS.FUnit.FPositionGroup = 0;
+            unitHexSprite.Unit.PositionGroup = 0;
         }
 
-        Position = UnitHS.FUnit.FPositionGroup;
-        Slot = UnitHS.FUnit.FPositionIndex;
-        X = CombatMap.Current.FUnitPositions.GetUnitPosition(Position, Slot).X;
-        Y = CombatMap.Current.FUnitPositions.GetUnitPosition(Position, Slot).Y;
-        if (Side == CombatSideIndex.Defender && FRandomTerrain)
+        position = unitHexSprite.Unit.PositionGroup;
+        slot = unitHexSprite.Unit.PositionIndex;
+        X = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).X;
+        Y = CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Y;
+        if (side == CombatSideIndex.Defender && RandomTerrain)
         {
-            switch (Position)
+            switch (position)
             {
                 case 0:
-                    if (Direction > 0)
+                    if (direction > 0)
                     {
-                        X = DefPosX[(Direction - 1) * 8 + Slot];
-                        Y = DefPosY[(Direction - 1) * 8 + Slot];
-                        UnitHS.SetDirection((byte)Direction);
+                        X = s_defensePositionX[(direction - 1) * 8 + slot];
+                        Y = s_defensePositionY[(direction - 1) * 8 + slot];
+                        unitHexSprite.SetDirection((byte)direction);
                     }
                     else
                     {
-                        switch (Slot)
+                        switch (slot)
                         {
                             case 0:
-                                UnitHS.SetDirection(1);
+                                unitHexSprite.SetDirection(1);
                                 break;
                             case 1:
-                                UnitHS.SetDirection(4);
+                                unitHexSprite.SetDirection(4);
                                 break;
                             case 2:
                             case 6:
-                                UnitHS.SetDirection(5);
+                                unitHexSprite.SetDirection(5);
                                 break;
                             case 3:
                             case 7:
-                                UnitHS.SetDirection(2);
+                                unitHexSprite.SetDirection(2);
                                 break;
                             case 4:
-                                UnitHS.SetDirection(3);
+                                unitHexSprite.SetDirection(3);
                                 break;
                             case 5:
-                                UnitHS.SetDirection(6);
+                                unitHexSprite.SetDirection(6);
                                 break;
                         }
                     }
@@ -1098,244 +1098,244 @@ public partial class RandomBattleMapGenerator : IDisposable
         }
         else
         {
-            if (Direction != Position)
+            if (direction != position)
             {
-                if (Direction == 32)
+                if (direction == 32)
                 {
-                    Direction = Position;
+                    direction = position;
                 }
                 else
                 {
-                    Direction = 0;
+                    direction = 0;
                 }
             }
         }
 
-        if (!FRandomTerrain)
+        if (!RandomTerrain)
         {
-            UnitHS.SetDirection((byte)CombatMap.Current.FUnitPositions.GetUnitPosition(Position, Slot).Flag);
+            unitHexSprite.SetDirection((byte)CombatMap.Current.UnitPositions.GetUnitPosition(position, slot).Tag);
         }
         else
         {
-            switch (Position)
+            switch (position)
             {
                 case 1:
-                    UnitHS.SetDirection(4);
+                    unitHexSprite.SetDirection(4);
                     break;
                 case 2:
-                    UnitHS.SetDirection(5);
+                    unitHexSprite.SetDirection(5);
                     break;
                 case 3:
-                    UnitHS.SetDirection(6);
+                    unitHexSprite.SetDirection(6);
                     break;
                 case 4:
-                    UnitHS.SetDirection(1);
+                    unitHexSprite.SetDirection(1);
                     break;
                 case 5:
-                    UnitHS.SetDirection(2);
+                    unitHexSprite.SetDirection(2);
                     break;
                 case 6:
-                    UnitHS.SetDirection(3);
+                    unitHexSprite.SetDirection(3);
                     break;
             }
         }
 
-        HN = 0;
+        hexNumber = 0;
         do
         {
-            HexGeometry.CenterHNtoHX(X, Y, HN, ref NX, ref NY);
-            Slot = CombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].OverlayType;
-            TargetHS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2228484);
-            HN += 1;
+            HexGeometry.CenterHexNumberToHex(X, Y, hexNumber, ref hexX, ref hexY);
+            slot = CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].OverlayType;
+            targetHexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484);
+            hexNumber += 1;
         }
-        while (!(Slot != 8 && TargetHS == null));
-        CombatMap.Current.PlaceHX(UnitHS, NX, NY, 0);
-        if (HexGeometry.dHXtoHN(CombatMap.Current.FCombat.FCombatData.FX, CombatMap.Current.FCombat.FCombatData.FY, CombatMap.Current.FCombat.FCombatData.FAttackerX, CombatMap.Current.FCombat.FCombatData.FAttackerY) == Position && CombatMap.Current.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastX == 0)
+        while (!(slot != 8 && targetHexSprite == null));
+        CombatMap.Current.PlaceHex(unitHexSprite, hexX, hexY, 0);
+        if (HexGeometry.DeltaHexToHexNumber(CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, CombatMap.Current.Combat.CombatData.AttackerX, CombatMap.Current.Combat.CombatData.AttackerY) == position && CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX == 0)
         {
-            var xhx = UnitHS.GetXhx();
-            CombatMap.Current.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastX = xhx;
-            var yhx = UnitHS.GetYhx();
-            CombatMap.Current.FPlayers.GetPlayers(UnitHS.FUnit.FCombatPlayer).FLastY = yhx;
+            var xhx = unitHexSprite.GetHexX();
+            CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastX = xhx;
+            var yhx = unitHexSprite.GetHexY();
+            CombatMap.Current.Players.GetPlayers(unitHexSprite.Unit.CombatPlayer).LastY = yhx;
         }
     }
 
     // AoWTC.pas:4667
-    public void InitTables()
+    public void InitializeTables()
     {
-        FNeighborWeights[1] = 500;
-        FNeighborWeights[2] = 500;
-        FNeighborWeights[4] = 1500;
-        FNeighborWeights[5] = 200;
-        FNeighborWeights[10] = 1500;
-        FNeighborWeights[11] = 500;
-        FNeighborWeights[17] = 2000;
-        FNeighborWeights[18] = 1500;
-        FTerrainWeights[19] = 2500;
-        FTerrainWeights[20] = 0;
-        FTerrainWeights[21] = 35;
-        FTerrainWeights[22] = 0;
-        FTerrainWeights[23] = 6;
-        FTerrainWeights[24] = 2;
-        FTerrainWeights[25] = 1;
-        FTerrainWeights[26] = 2;
-        FTerrainWeights[27] = 5;
-        FTerrainWeights[29] = 90;
-        FTerrainWeights[30] = 60;
-        FTerrainWeights[31] = 2;
-        FTerrainWeights[32] = 30;
-        FTerrainWeights[33] = 10;
-        FTerrainWeights[34] = 0;
-        FTerrainWeights[35] = 3;
-        FTerrainWeights[38] = 2500;
-        FTerrainWeights[39] = 5;
-        FTerrainWeights[40] = 0;
-        FTerrainWeights[41] = 0;
-        FTerrainWeights[42] = 6;
-        FTerrainWeights[43] = 0;
-        FTerrainWeights[44] = 5;
-        FTerrainWeights[45] = 5;
-        FTerrainWeights[46] = 2;
-        FTerrainWeights[48] = 35;
-        FTerrainWeights[49] = 20;
-        FTerrainWeights[50] = 5;
-        FTerrainWeights[51] = 30;
-        FTerrainWeights[52] = 5;
-        FTerrainWeights[53] = 2;
-        FTerrainWeights[54] = 1;
-        FTerrainWeights[57] = 2500;
-        FTerrainWeights[58] = 8;
-        FTerrainWeights[59] = 0;
-        FTerrainWeights[60] = 0;
-        FTerrainWeights[61] = 6;
-        FTerrainWeights[62] = 0;
-        FTerrainWeights[63] = 2;
-        FTerrainWeights[64] = 2;
-        FTerrainWeights[65] = 1;
-        FTerrainWeights[67] = 15;
-        FTerrainWeights[68] = 20;
-        FTerrainWeights[69] = 2;
-        FTerrainWeights[70] = 30;
-        FTerrainWeights[71] = 5;
-        FTerrainWeights[72] = 1;
-        FTerrainWeights[73] = 1;
-        FTerrainWeights[76] = 2500;
-        FTerrainWeights[77] = 8;
-        FTerrainWeights[78] = 0;
-        FTerrainWeights[79] = 0;
-        FTerrainWeights[80] = 6;
-        FTerrainWeights[81] = 0;
-        FTerrainWeights[82] = 2;
-        FTerrainWeights[83] = 2;
-        FTerrainWeights[84] = 1;
-        FTerrainWeights[86] = 15;
-        FTerrainWeights[87] = 20;
-        FTerrainWeights[88] = 2;
-        FTerrainWeights[89] = 20;
-        FTerrainWeights[90] = 5;
-        FTerrainWeights[91] = 1;
-        FTerrainWeights[92] = 1;
-        FTerrainWeights[95] = 2500;
-        FTerrainWeights[96] = 5;
-        FTerrainWeights[97] = 0;
-        FTerrainWeights[98] = 1;
-        FTerrainWeights[99] = 3;
-        FTerrainWeights[100] = 0;
-        FTerrainWeights[101] = 5;
-        FTerrainWeights[102] = 5;
-        FTerrainWeights[103] = 4;
-        FTerrainWeights[105] = 10;
-        FTerrainWeights[106] = 45;
-        FTerrainWeights[107] = 5;
-        FTerrainWeights[108] = 12;
-        FTerrainWeights[109] = 10;
-        FTerrainWeights[110] = 4;
-        FTerrainWeights[111] = 3;
-        FTerrainWeights[114] = 2500;
-        FTerrainWeights[115] = 0;
-        FTerrainWeights[116] = 0;
-        FTerrainWeights[117] = 0;
-        FTerrainWeights[118] = 0;
-        FTerrainWeights[119] = 0;
-        FTerrainWeights[120] = 0;
-        FTerrainWeights[121] = 0;
-        FTerrainWeights[122] = 0;
-        FTerrainWeights[124] = 0;
-        FTerrainWeights[125] = 0;
-        FTerrainWeights[126] = 0;
-        FTerrainWeights[127] = 0;
-        FTerrainWeights[128] = 0;
-        FTerrainWeights[129] = 0;
-        FTerrainWeights[130] = 0;
-        FTerrainWeights[228] = 2500;
-        FTerrainWeights[229] = 0;
-        FTerrainWeights[230] = 0;
-        FTerrainWeights[231] = 0;
-        FTerrainWeights[232] = 0;
-        FTerrainWeights[233] = 10;
-        FTerrainWeights[234] = 0;
-        FTerrainWeights[235] = 0;
-        FTerrainWeights[236] = 0;
-        FTerrainWeights[238] = 30;
-        FTerrainWeights[239] = 70;
-        FTerrainWeights[240] = 4;
-        FTerrainWeights[241] = 0;
-        FTerrainWeights[242] = 50;
-        FTerrainWeights[243] = 4;
-        FTerrainWeights[244] = 10;
-        FTerrainWeights[245] = 80;
-        FTagWeights[20] = 800;
-        FTagWeights[21] = 100;
-        FTagWeights[29] = 300;
-        FTagWeights[25] = 20;
-        FTagWeights[26] = 40;
-        FTagWeights[27] = 10;
-        FTagWeights[40] = 900;
-        FTagWeights[48] = 400;
-        FTagWeights[44] = 20;
-        FTagWeights[45] = 40;
-        FTagWeights[46] = 10;
-        FTagWeights[60] = 250;
-        FTagWeights[61] = 200;
-        FTagWeights[86] = 300;
-        FTagWeights[80] = 500;
-        FTagWeights[100] = 500;
-        FTagWeights[105] = 200;
-        FTagWeights[99] = 100;
-        FTagWeights[120] = 250;
-        FTagWeights[121] = 250;
-        FTagWeights[122] = 100;
-        FTagWeights[144] = 600;
-        FTagWeights[147] = 250;
-        FTagWeights[149] = 150;
-        FTagWeights[164] = 250;
-        FTagWeights[167] = 100;
-        FTagWeights[163] = 200;
-        FTagWeights[162] = 200;
-        FTagWeights[181] = 500;
-        FTagWeights[191] = 450;
-        FTagWeights[200] = 150;
-        FTagWeights[196] = 40;
-        FTagWeights[197] = 20;
-        FTagWeights[198] = 10;
-        FTagWeights[211] = 450;
-        FTagWeights[219] = 150;
-        FTagWeights[215] = 20;
-        FTagWeights[216] = 20;
-        FTagWeights[217] = 40;
-        FTagWeights[241] = 500;
-        FTagWeights[239] = 200;
-        FTagWeights[242] = 50;
-        FTagWeights[244] = 20;
-        FTagWeights[258] = 600;
-        FTagWeights[261] = 350;
-        FTagWeights[263] = 300;
-        FTagWeights[181] = 600;
+        NeighborWeights[1] = 500;
+        NeighborWeights[2] = 500;
+        NeighborWeights[4] = 1500;
+        NeighborWeights[5] = 200;
+        NeighborWeights[10] = 1500;
+        NeighborWeights[11] = 500;
+        NeighborWeights[17] = 2000;
+        NeighborWeights[18] = 1500;
+        TerrainWeights[19] = 2500;
+        TerrainWeights[20] = 0;
+        TerrainWeights[21] = 35;
+        TerrainWeights[22] = 0;
+        TerrainWeights[23] = 6;
+        TerrainWeights[24] = 2;
+        TerrainWeights[25] = 1;
+        TerrainWeights[26] = 2;
+        TerrainWeights[27] = 5;
+        TerrainWeights[29] = 90;
+        TerrainWeights[30] = 60;
+        TerrainWeights[31] = 2;
+        TerrainWeights[32] = 30;
+        TerrainWeights[33] = 10;
+        TerrainWeights[34] = 0;
+        TerrainWeights[35] = 3;
+        TerrainWeights[38] = 2500;
+        TerrainWeights[39] = 5;
+        TerrainWeights[40] = 0;
+        TerrainWeights[41] = 0;
+        TerrainWeights[42] = 6;
+        TerrainWeights[43] = 0;
+        TerrainWeights[44] = 5;
+        TerrainWeights[45] = 5;
+        TerrainWeights[46] = 2;
+        TerrainWeights[48] = 35;
+        TerrainWeights[49] = 20;
+        TerrainWeights[50] = 5;
+        TerrainWeights[51] = 30;
+        TerrainWeights[52] = 5;
+        TerrainWeights[53] = 2;
+        TerrainWeights[54] = 1;
+        TerrainWeights[57] = 2500;
+        TerrainWeights[58] = 8;
+        TerrainWeights[59] = 0;
+        TerrainWeights[60] = 0;
+        TerrainWeights[61] = 6;
+        TerrainWeights[62] = 0;
+        TerrainWeights[63] = 2;
+        TerrainWeights[64] = 2;
+        TerrainWeights[65] = 1;
+        TerrainWeights[67] = 15;
+        TerrainWeights[68] = 20;
+        TerrainWeights[69] = 2;
+        TerrainWeights[70] = 30;
+        TerrainWeights[71] = 5;
+        TerrainWeights[72] = 1;
+        TerrainWeights[73] = 1;
+        TerrainWeights[76] = 2500;
+        TerrainWeights[77] = 8;
+        TerrainWeights[78] = 0;
+        TerrainWeights[79] = 0;
+        TerrainWeights[80] = 6;
+        TerrainWeights[81] = 0;
+        TerrainWeights[82] = 2;
+        TerrainWeights[83] = 2;
+        TerrainWeights[84] = 1;
+        TerrainWeights[86] = 15;
+        TerrainWeights[87] = 20;
+        TerrainWeights[88] = 2;
+        TerrainWeights[89] = 20;
+        TerrainWeights[90] = 5;
+        TerrainWeights[91] = 1;
+        TerrainWeights[92] = 1;
+        TerrainWeights[95] = 2500;
+        TerrainWeights[96] = 5;
+        TerrainWeights[97] = 0;
+        TerrainWeights[98] = 1;
+        TerrainWeights[99] = 3;
+        TerrainWeights[100] = 0;
+        TerrainWeights[101] = 5;
+        TerrainWeights[102] = 5;
+        TerrainWeights[103] = 4;
+        TerrainWeights[105] = 10;
+        TerrainWeights[106] = 45;
+        TerrainWeights[107] = 5;
+        TerrainWeights[108] = 12;
+        TerrainWeights[109] = 10;
+        TerrainWeights[110] = 4;
+        TerrainWeights[111] = 3;
+        TerrainWeights[114] = 2500;
+        TerrainWeights[115] = 0;
+        TerrainWeights[116] = 0;
+        TerrainWeights[117] = 0;
+        TerrainWeights[118] = 0;
+        TerrainWeights[119] = 0;
+        TerrainWeights[120] = 0;
+        TerrainWeights[121] = 0;
+        TerrainWeights[122] = 0;
+        TerrainWeights[124] = 0;
+        TerrainWeights[125] = 0;
+        TerrainWeights[126] = 0;
+        TerrainWeights[127] = 0;
+        TerrainWeights[128] = 0;
+        TerrainWeights[129] = 0;
+        TerrainWeights[130] = 0;
+        TerrainWeights[228] = 2500;
+        TerrainWeights[229] = 0;
+        TerrainWeights[230] = 0;
+        TerrainWeights[231] = 0;
+        TerrainWeights[232] = 0;
+        TerrainWeights[233] = 10;
+        TerrainWeights[234] = 0;
+        TerrainWeights[235] = 0;
+        TerrainWeights[236] = 0;
+        TerrainWeights[238] = 30;
+        TerrainWeights[239] = 70;
+        TerrainWeights[240] = 4;
+        TerrainWeights[241] = 0;
+        TerrainWeights[242] = 50;
+        TerrainWeights[243] = 4;
+        TerrainWeights[244] = 10;
+        TerrainWeights[245] = 80;
+        TagWeights[20] = 800;
+        TagWeights[21] = 100;
+        TagWeights[29] = 300;
+        TagWeights[25] = 20;
+        TagWeights[26] = 40;
+        TagWeights[27] = 10;
+        TagWeights[40] = 900;
+        TagWeights[48] = 400;
+        TagWeights[44] = 20;
+        TagWeights[45] = 40;
+        TagWeights[46] = 10;
+        TagWeights[60] = 250;
+        TagWeights[61] = 200;
+        TagWeights[86] = 300;
+        TagWeights[80] = 500;
+        TagWeights[100] = 500;
+        TagWeights[105] = 200;
+        TagWeights[99] = 100;
+        TagWeights[120] = 250;
+        TagWeights[121] = 250;
+        TagWeights[122] = 100;
+        TagWeights[144] = 600;
+        TagWeights[147] = 250;
+        TagWeights[149] = 150;
+        TagWeights[164] = 250;
+        TagWeights[167] = 100;
+        TagWeights[163] = 200;
+        TagWeights[162] = 200;
+        TagWeights[181] = 500;
+        TagWeights[191] = 450;
+        TagWeights[200] = 150;
+        TagWeights[196] = 40;
+        TagWeights[197] = 20;
+        TagWeights[198] = 10;
+        TagWeights[211] = 450;
+        TagWeights[219] = 150;
+        TagWeights[215] = 20;
+        TagWeights[216] = 20;
+        TagWeights[217] = 40;
+        TagWeights[241] = 500;
+        TagWeights[239] = 200;
+        TagWeights[242] = 50;
+        TagWeights[244] = 20;
+        TagWeights[258] = 600;
+        TagWeights[261] = 350;
+        TagWeights[263] = 300;
+        TagWeights[181] = 600;
     }
 
-    private static Int32Array48 DefPosX = Int32Array48.From([32, 30, 34, 32, 28, 36, 30, 34, 34, 36, 32, 38, 30, 36, 32, 34, 36, 34, 38, 32, 36, 30, 34, 32, 32, 34, 30, 32, 36, 28, 34, 30, 30, 28, 32, 26, 34, 28, 32, 30, 28, 30, 26, 32, 28, 34, 30, 32]);
-    private static Int32Array48 DefPosY = Int32Array48.From([26, 27, 27, 28, 28, 28, 29, 29, 27, 28, 26, 29, 27, 30, 28, 29, 30, 31, 29, 32, 28, 31, 29, 30, 32, 31, 31, 30, 30, 30, 29, 29, 31, 30, 32, 29, 31, 28, 30, 29, 28, 27, 29, 26, 30, 27, 29, 28]);
+    private static Int32Array48 s_defensePositionX = Int32Array48.From([32, 30, 34, 32, 28, 36, 30, 34, 34, 36, 32, 38, 30, 36, 32, 34, 36, 34, 38, 32, 36, 30, 34, 32, 32, 34, 30, 32, 36, 28, 34, 30, 30, 28, 32, 26, 34, 28, 32, 30, 28, 30, 26, 32, 28, 34, 30, 32]);
+    private static Int32Array48 s_defensePositionY = Int32Array48.From([26, 27, 27, 28, 28, 28, 29, 29, 27, 28, 26, 29, 27, 30, 28, 29, 30, 31, 29, 32, 28, 31, 29, 30, 32, 31, 31, 30, 30, 30, 29, 29, 31, 30, 32, 29, 31, 28, 30, 29, 28, 27, 29, 26, 30, 27, 29, 28]);
 
-    private static ByteArray3770 MapShape = ByteArray3770.From((ReadOnlySpan<byte>)new byte[3770]
+    private static ByteArray3770 s_mapShape = ByteArray3770.From((ReadOnlySpan<byte>)new byte[3770]
     {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -1716,7 +1716,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     });
 
-    private static ByteArray3770 MapRoads = ByteArray3770.From((ReadOnlySpan<byte>)new byte[3770]
+    private static ByteArray3770 s_mapRoads = ByteArray3770.From((ReadOnlySpan<byte>)new byte[3770]
     {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -2097,6 +2097,6 @@ public partial class RandomBattleMapGenerator : IDisposable
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     });
 
-    private static Int32Array18 clusterChk = Int32Array18.From([1, 2, 6, 16, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 33, 34, 35, 36]);
+    private static Int32Array18 s_clusterCheckBox = Int32Array18.From([1, 2, 6, 16, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 33, 34, 35, 36]);
 
 }

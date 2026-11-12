@@ -11,12 +11,12 @@ namespace Aow.Rtl;
 // A type with no row stores that declaring-type chain and reports its simple name as the Delphi name.
 public static class NameTable
 {
-    private static readonly object gate = new();
-    private static Table? product;
-    private static Table? active;
-    private static List<Type>? scanned;
-    private static int generation;
-    private static int scannedGeneration = -1;
+    private static readonly object s_gate = new();
+    private static Table? s_product;
+    private static Table? s_active;
+    private static List<Type>? s_scanned;
+    private static int s_generation;
+    private static int s_scannedGeneration = -1;
 
     public static string Delphi(Type type)
     {
@@ -155,35 +155,35 @@ public static class NameTable
     {
         ArgumentNullException.ThrowIfNull(text);
         var parsed = Table.Parse(text);
-        lock (gate)
+        lock (s_gate)
         {
-            var previous = active ?? Product();
-            active = parsed;
-            generation++;
+            var previous = s_active ?? Product();
+            s_active = parsed;
+            s_generation++;
             return new Restorer(previous);
         }
     }
 
     private static Table Current()
     {
-        lock (gate) return active ?? Product();
+        lock (s_gate) return s_active ?? Product();
     }
 
     private static Table Product()
     {
-        if (product is not null) return product;
+        if (s_product is not null) return s_product;
         using var stream = typeof(NameTable).Assembly.GetManifestResourceStream("Aow.Rtl.names.csv")
             ?? throw new InvalidOperationException("The name table is missing.");
         using var reader = new StreamReader(stream, Encoding.UTF8);
-        product = Table.Parse(reader.ReadToEnd());
-        return product;
+        s_product = Table.Parse(reader.ReadToEnd());
+        return s_product;
     }
 
     private static List<Type> Scan()
     {
-        lock (gate)
+        lock (s_gate)
         {
-            if (scanned is not null && scannedGeneration == generation) return scanned;
+            if (s_scanned is not null && s_scannedGeneration == s_generation) return s_scanned;
             var list = new List<Type>();
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
@@ -203,8 +203,8 @@ public static class NameTable
                     list.Add(type);
                 }
             }
-            scanned = list;
-            scannedGeneration = generation;
+            s_scanned = list;
+            s_scannedGeneration = s_generation;
             return list;
         }
     }
@@ -233,10 +233,10 @@ public static class NameTable
     {
         public void Dispose()
         {
-            lock (gate)
+            lock (s_gate)
             {
-                active = previous;
-                generation++;
+                s_active = previous;
+                s_generation++;
             }
         }
     }
@@ -358,6 +358,14 @@ public static class NameTable
                     if (row.Kind == "type" && typeByCurrent.ContainsKey(row.Current))
                     {
                         Add(typeByDelphi, row.Delphi, row);
+                        continue;
+                    }
+                    // A later member row for the same current name is an alias. Its last segment is an old
+                    // stored member name that still loads. The first row keeps the Delphi name.
+                    if (row.Kind == "member" && row.Current.LastIndexOf('.') is int aliasDot and > 0 && row.Delphi.LastIndexOf('.') is int oldDot and > 0)
+                    {
+                        if (!memberCurrent.TryAdd((row.Current[..aliasDot], row.Delphi[(oldDot + 1)..]), row.Current[(aliasDot + 1)..]))
+                            throw new InvalidOperationException("The name table repeats member " + row.Delphi + ".");
                         continue;
                     }
                     throw new InvalidOperationException("The name table repeats " + row.Current + ".");

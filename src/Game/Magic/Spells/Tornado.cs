@@ -20,119 +20,119 @@ public partial class Tornado : GlobalTargetSpell
     // GlobalTargetSpells.pas:1798
     public Tornado(ECustomNode owner) : base(owner)
     {
-        this.FSpellName = AbilityRules.TranslateRStr(GameText.TornadoRStr);
-        FSpellID = 68;
-        FAboveGroundOnly = true;
+        this.SpellName = AbilityRules.TranslateResourceString(GameText.s_tornadoText);
+        SpellId = 68;
+        AboveGroundOnly = true;
     }
 
     // GlobalTargetSpells.pas:1885
-    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        TargetSelectionControl Target;
-        Target = TargetSelection;
-        base.SetupTargetSelection(Source, Target);
-        Target.FHNs.Clear();
+        TargetSelectionControl target;
+        target = targetSelection;
+        base.SetupTargetSelection(source, target);
+        target.HexNumbers.Clear();
     }
 
     // GlobalTargetSpells.pas:1865
-    public override bool TargetSelected(Troop Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        bool Result;
-        TornadoTokenEvent Event;
-        ArmyHexSprite Army;
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        bool result;
+        TornadoTokenEvent eventValue;
+        ArmyHexSprite army;
+        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            Event = new TornadoTokenEvent(null);
-            Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-            Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHS();
-            if (Army != null)
+            eventValue = new TornadoTokenEvent(null);
+            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+            army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHexSprite();
+            if (army != null)
             {
-                Event.FArmyID = Army.FArmy.CreateID(255);
+                eventValue.ArmyId = army.Army.CreateId(255);
             }
 
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
-            Event.Release();
-            Result = true;
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalTargetSpells.pas:1806
-    public bool ValidWarpLocation(ArmyHexSprite Army, sbyte X, sbyte Y, sbyte Layer)
+    public bool ValidWarpLocation(ArmyHexSprite army, sbyte X, sbyte Y, sbyte layer)
     {
-        AoWMapField MapF;
-        MapFieldMessage Msg = default;
-        MapF = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, Layer);
-        bool Result = MapF.GetArmyHS() == null && MapF.GetPlayer() == -1;
-        if (Result)
+        AoWMapField mapField;
+        MapFieldMessage message = default;
+        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, layer);
+        bool result = mapField.GetArmyHexSprite() == null && mapField.GetPlayer() == -1;
+        if (result)
         {
-            Msg.MsgID = 4384;
-            Msg.Param[0] = Army;
-            Msg.Result = 0;
-            MapF.SendMapFieldMsg(ref Msg);
-            Result = Msg.Result.Int == 0 && Army.FArmy.CanPlace(X, Y, Layer);
+            message.MessageId = 4384;
+            message.Param[0] = army;
+            message.Result = 0;
+            mapField.SendMapFieldMessage(ref message);
+            result = message.Result.Int == 0 && army.Army.CanPlace(X, Y, layer);
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalTargetSpells.pas:1823
-    public int CalculateWarpLocation(ArmyHexSprite Army, byte Selection)
+    public int CalculateWarpLocation(ArmyHexSprite army, byte selection)
     {
-        SpellMoveTable Table = default;
-        HexNumberWalkData Walk = default;
-        MapLevel MapLevel;
-        MapField MapF;
-        DelphiList Locations;
-        bool Found;
-        int Index;
+        SpellMoveTable table = default;
+        HexNumberWalkData walk = default;
+        MapLevel mapLevel;
+        MapField mapField;
+        DelphiList locations;
+        bool found;
+        int index;
         int X;
-        Locations = new DelphiList();
-        Army.FArmy.CreateMovePointTable(Selection, Bytes.Of(ref Table));
-        var yhx = Army.Yhx;
-        var xhx = Army.Xhx;
-        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 10);
-        MapLevel = AoWHSMap.Current.MapContainer.MapLevels[Army.Lhx];
-        while (Walk.Radius < 15)
+        locations = new DelphiList();
+        army.Army.CreateMovePointTable(selection, Bytes.Of(ref table));
+        var hexY = army.HexY;
+        var hexX = army.HexX;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 10);
+        mapLevel = AoWHSMap.Current.MapContainer.MapLevels[army.HexLevel];
+        while (walk.Radius < 15)
         {
-            X = Walk.X;
-            if (X >= 0 && Walk.Y >= 0 && X < MapLevel.Width && Walk.Y < MapLevel.Height)
+            X = walk.X;
+            if (X >= 0 && walk.Y >= 0 && X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                MapF = MapLevel.GetField(X, Walk.Y);
-                if (Table.Cost[MapF.TerrainType][MapF.OverlayType] != -1)
+                mapField = mapLevel.GetField(X, walk.Y);
+                if (table.Cost[mapField.TerrainType][mapField.OverlayType] != -1)
                 {
-                    Locations.Add(MapF);
+                    locations.Add(mapField);
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        Found = false;
-        int Result = 16777215;
-        while (Locations.Count != 0 && !Found)
+        found = false;
+        int result = 16777215;
+        while (locations.Count != 0 && !found)
         {
-            Index = Random(Locations.Count);
-            MapF = (MapField)Locations[Index];
-            if (ValidWarpLocation(Army, MapF.Xhx, MapF.Yhx, MapF.Lhx))
+            index = Random(locations.Count);
+            mapField = (MapField)locations[index];
+            if (ValidWarpLocation(army, mapField.HexX, mapField.HexY, mapField.HexLevel))
             {
-                Found = true;
-                Result = MapF.XYL;
+                found = true;
+                result = mapField.MapCoordinate;
             }
             else
             {
-                Locations.Delete(Index);
+                locations.Delete(index);
             }
         }
 
-        Locations?.Dispose();
-        return Result;
+        locations?.Dispose();
+        return result;
     }
 }

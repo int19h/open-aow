@@ -22,121 +22,121 @@ public partial class TownQuake : CityTargetSpell
     // CitySpells.pas:764
     public TownQuake(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(TownQuakeRStr);
-        FSpellID = 71;
-        FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
+        SpellName = AbilityRules.TranslateResourceString(s_townQuakeText);
+        SpellId = 71;
+        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
     }
 
     // CitySpells.pas:820
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool Result;
-        City TargetCity;
-        ArmyHSList Armies;
-        if (ExecuteCount == 0)
+        bool result;
+        City targetCity;
+        ArmyHSList armies;
+        if (executeCount == 0)
         {
-            TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
-            PlayDefaultCityEffects(Source, TargetCity);
-            TargetCity.StartTownQuake();
-            TargetCity.ValidateObservation(Source.FPlayer);
-            Result = true;
+            targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+            PlayDefaultCityEffects(source, targetCity);
+            targetCity.StartTownQuake();
+            targetCity.ValidateObservation(source.Player);
+            result = true;
         }
         else
         {
-            if (ExecuteCount == 50)
+            if (executeCount == 50)
             {
-                TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
-                TargetCity.StopTownQuake();
-                Armies = new ArmyHSList(null);
+                targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+                targetCity.StopTownQuake();
+                armies = new ArmyHSList(null);
                 if (AoWHSMap.Current.Random(10) < 7)
                 {
-                    TargetCity.SetWallType(0);
+                    targetCity.SetWallType(0);
                 }
 
-                TargetCity.ListArmies(Armies);
-                for (int I = 0, last = Armies.Count - 1; I <= last; I++)
+                targetCity.ListArmies(armies);
+                for (int I = 0, last = armies.Count - 1; I <= last; I++)
                 {
-                    TriggerArmyDamage(Source, Armies.GetArmyHS(I));
+                    TriggerArmyDamage(source, armies.GetArmyHexSprite(I));
                 }
 
-                Armies?.Dispose();
-                CastingDone(Source, Event.FEventMana);
-                Result = false;
+                armies?.Dispose();
+                CastingDone(source, eventValue.EventMana);
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:812
-    public override bool ValidTargetCity(Troop Source, City TargetCity)
+    public override bool ValidTargetCity(Troop source, City targetCity)
     {
-        bool Result = base.ValidTargetCity(Source, TargetCity);
-        if (!Result || TargetCity.FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
+        bool result = base.ValidTargetCity(source, targetCity);
+        if (!result || targetCity.Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:773
-    public void TriggerArmyDamage(Troop Source, ArmyHexSprite Army)
+    public void TriggerArmyDamage(Troop source, ArmyHexSprite army)
     {
-        ArmyEventLog Log;
-        bool Damaged;
-        int Damage;
-        Troop AUnit;
-        Log = new ArmyEventLog(null);
-        Log.FArmyText = AbilityRules.TranslateRStr(TownQuakeDamageRStr);
-        Log.FPlayer = Source.FPlayer;
-        var townQuake = AbilityRules.TranslateRStr(TownQuakeRStr);
-        Log.FArmyMessages.Add(townQuake);
-        Log.FArmyIcon = 2;
-        Log.FArmyView.Setup(Army.FArmy, 255);
-        Army.FArmy.BeginUpdate();
-        Damaged = false;
-        for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
+        ArmyEventLog log;
+        bool damaged;
+        int damage;
+        Troop troop;
+        log = new ArmyEventLog(null);
+        log.ArmyText = AbilityRules.TranslateResourceString(s_townQuakeDamageText);
+        log._player = source.Player;
+        var townQuake = AbilityRules.TranslateResourceString(s_townQuakeText);
+        log.ArmyMessages.Add(townQuake);
+        log.ArmyIcon = 2;
+        log.ArmyView.Setup(army.Army, 255);
+        army.Army.BeginUpdate();
+        damaged = false;
+        for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
         {
-            AUnit = Army.FArmy.GetUnit(I);
-            Damage = AUnit.ExecuteDamageRole(7, 5, Set<DamageType>.Of(DamageType.Physical));
-            if (Damage > AUnit.GetHitPoints())
+            troop = army.Army.GetUnit(I);
+            damage = troop.ExecuteDamageRole(7, 5, Set<DamageType>.Of(DamageType.Physical));
+            if (damage > troop.GetHitPoints())
             {
-                Damage = AUnit.GetHitPoints();
+                damage = troop.GetHitPoints();
             }
 
-            if (Damage > 0)
+            if (damage > 0)
             {
-                AUnit.SetHitPoints((sbyte)(AUnit.GetHitPoints() - Damage));
-                Damaged = true;
+                troop.SetHitPoints((sbyte)(troop.GetHitPoints() - damage));
+                damaged = true;
             }
 
-            Log.FDamageValues.Add((byte)Damage);
-            Log.FDamageTypes.Add(7);
+            log.DamageValues.Add((byte)damage);
+            log.DamageTypes.Add(7);
         }
 
-        if (Damaged)
+        if (damaged)
         {
-            Log.ValidateGameOver();
-            var yhx = Army.GetYhx();
-            var lhx = Army.GetLhx();
-            var xhx = Army.GetXhx();
-            EventLog.DistributeLocationEventLog(Log, Army.FArmy.FPlayer, xhx, yhx, lhx, true);
+            log.ValidateGameOver();
+            var hexY = army.GetHexY();
+            var hexLevel = army.GetHexLevel();
+            var hexX = army.GetHexX();
+            EventLog.DistributeLocationEventLog(log, army.Army.Player, hexX, hexY, hexLevel, true);
         }
 
-        Log.Release();
-        Army.FArmy.Validate();
-        Army.FArmy.EndUpdate();
+        log.Release();
+        army.Army.Validate();
+        army.Army.EndUpdate();
     }
 
-    private static readonly string TownQuakeDamageRStr = "Town Quake Damage";
-    private static readonly string TownQuakeRStr = "Town Quake";
+    private static readonly string s_townQuakeDamageText = "Town Quake Damage";
+    private static readonly string s_townQuakeText = "Town Quake";
 }

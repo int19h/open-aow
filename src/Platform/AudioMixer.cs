@@ -19,21 +19,21 @@ public sealed class AudioMixer : IDisposable
     {
         public float Value { get; private set; } = 127;
 
-        private float target, step;
-        private int remaining;
+        private float _target, _step;
+        private int _remaining;
 
         public void Set(float value, int speed)
         {
-            target = value;
-            remaining = Math.Clamp(speed, 0, 100);
-            if (remaining == 0) Value = value;
-            else step = (target - Value) / remaining;
+            _target = value;
+            _remaining = Math.Clamp(speed, 0, 100);
+            if (_remaining == 0) Value = value;
+            else _step = (_target - Value) / _remaining;
         }
 
-        public void Tick() { if (remaining > 0) { Value += step; if (--remaining == 0) Value = target; } }
+        public void Tick() { if (_remaining > 0) { Value += _step; if (--_remaining == 0) Value = _target; } }
     }
 
-    private readonly List<Voice> voices = [];
+    private readonly List<Voice> _voices = [];
 
     public Ramp MusicGain { get; } = new();
     public Ramp SfxGain { get; } = new();
@@ -49,17 +49,17 @@ public sealed class AudioMixer : IDisposable
 
     public Voice? Play(WaveData data)
     {
-        voices.RemoveAll(v => !v.Playing);
-        if (voices.Count >= VoiceLimit || data.Frames == 0) return null;
+        _voices.RemoveAll(v => !v.Playing);
+        if (_voices.Count >= VoiceLimit || data.Frames == 0) return null;
         var voice = new Voice(data);
-        voices.Add(voice);
+        _voices.Add(voice);
         return voice;
     }
 
-    public void StopVoices() { foreach (var voice in voices) voice.Playing = false; voices.Clear(); }
+    public void StopVoices() { foreach (var voice in _voices) voice.Playing = false; _voices.Clear(); }
 
-    // One ramp step per 50 ms mixer block, independent of SDL callback size.
-    private int blockRemaining;
+    // One ramp _step per 50 ms mixer block, independent of SDL callback size.
+    private int _blockRemaining;
 
     public void Render(Span<float> output)
     {
@@ -70,8 +70,8 @@ public sealed class AudioMixer : IDisposable
             output.Clear();
             while (!output.IsEmpty)
             {
-                if (blockRemaining == 0) { MusicGain.Tick(); SfxGain.Tick(); blockRemaining = Math.Max(1, Rate / 20); }
-                int frames = Math.Min(blockRemaining, output.Length / 2);
+                if (_blockRemaining == 0) { MusicGain.Tick(); SfxGain.Tick(); _blockRemaining = Math.Max(1, Rate / 20); }
+                int frames = Math.Min(_blockRemaining, output.Length / 2);
                 var block = output[..(frames * 2)];
                 if (Song is not null && !SongEnded)
                 {
@@ -80,7 +80,7 @@ public sealed class AudioMixer : IDisposable
                 }
                 float music = MusicEnabled ? MusicGain.Value / 127 : 0;
                 for (int i = 0; i < block.Length; i++) block[i] *= music;
-                foreach (var voice in voices)
+                foreach (var voice in _voices)
                 {
                     if (!voice.Playing) continue;
                     var wave = voice.Wave;
@@ -106,7 +106,7 @@ public sealed class AudioMixer : IDisposable
                     if (!voice.Loop && voice.Position >= wave.Frames) voice.Playing = false;
                 }
                 for (int i = 0; i < block.Length; i++) block[i] = Math.Clamp(block[i], -1, 1);
-                blockRemaining -= frames;
+                _blockRemaining -= frames;
                 output = output[(frames * 2)..];
             }
         }

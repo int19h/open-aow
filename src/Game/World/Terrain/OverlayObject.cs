@@ -12,33 +12,33 @@ public partial class OverlayObject : FixedImageLibraryTerrainMapObject
     { }
 
     // OverlayObject.pas:36
-    public new const int ClassID = 131228;
+    public new const int ClassId = 131228;
 
-    // FOverlayType
+    // OverlayType
     public new partial class Resource : FixedImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }
 
         // OverlayObject.pas:42
-        public new const int ClassID = 131229;
+        public new const int ClassId = 131229;
 
-        public int FOverlayType;
+        public int OverlayType;
 
         // OverlayObject.pas:48
-        public override void ReadWrite(EStorageStream Stream)
+        public override void ReadWrite(EStorageStream stream)
         {
-            base.ReadWrite(Stream);
-            Stream.rwInteger(ref FOverlayType, 40);
+            base.ReadWrite(stream);
+            stream.rwInteger(ref OverlayType, 40);
         }
 
         // OverlayObject.pas:45
-        public override int ResourceUserClassID() => 131228;
+        public override int ResourceUserClassId() => 131228;
 
         // OverlayObject.pas:39
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(OverlayObjectRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_overlayObjectText);
 
-        private static readonly string OverlayObjectRStr = "Overlay Object";
+        private static readonly string s_overlayObjectText = "Overlay Object";
 
     }
 

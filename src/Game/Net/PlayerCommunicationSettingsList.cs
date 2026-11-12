@@ -10,11 +10,11 @@ public partial class PlayerCommunicationSettingsList : ENode
     { }
 
     // NetworkE.pas:461
-    public PlayerCommunicationSettings GetPlayers(int Index) => (PlayerCommunicationSettings)this.FChildren.List[Index];
+    public PlayerCommunicationSettings GetPlayers(int index) => (PlayerCommunicationSettings)this._children.List[index];
 
     public sealed class PlayersAccessor(PlayerCommunicationSettingsList target)
     {
-        public PlayerCommunicationSettings this[int Index] { get => target.GetPlayers(Index); }
+        public PlayerCommunicationSettings this[int index] { get => target.GetPlayers(index); }
     }
 
     public PlayersAccessor Players => new PlayersAccessor(this);

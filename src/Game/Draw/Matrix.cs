@@ -7,36 +7,36 @@ namespace Aow.Game.Draw;
 // size 0 gives nil.
 public partial class Matrix : IDisposable
 {
-    internal byte[] FData;
-    internal byte FWidth;
-    internal byte FHeight;
+    internal byte[] _data;
+    internal byte _width;
+    internal byte _height;
 
     // DisplayC.pas:3145
     // { TMatrix (DCTypes in the original) }
-    public Matrix(byte AWidth, byte AHeight)
+    public Matrix(byte width, byte height)
     {
-        FWidth = AWidth;
-        FHeight = AHeight;
-        FData = FWidth * FHeight == 0 ? null : new byte[FWidth * FHeight];
+        _width = width;
+        _height = height;
+        _data = _width * _height == 0 ? null : new byte[_width * _height];
     }
 
     // DisplayC.pas:3155
     public virtual void Dispose()
     {
-        FData = null;
+        _data = null;
     }
 
     // DisplayC.pas:3166
     // { The value at X, Y, clipped to 2. }
-    public int GetVal(byte X, byte Y)
+    public int GetValue(byte X, byte Y)
     {
-        int Result;
-        if (X < FWidth && Y < FHeight)
+        int result;
+        if (X < _width && Y < _height)
         {
-            Result = FData[X + Y * FWidth];
-            if (Result > 2)
+            result = _data[X + Y * _width];
+            if (result > 2)
             {
-                Result = 2;
+                result = 2;
             }
         }
         else
@@ -44,19 +44,19 @@ public partial class Matrix : IDisposable
             throw new ArgumentOutOfRangeException(paramName: null, "TMatrix out of bounds (DCTypes)");
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:3178
-    public void SetVal(byte X, byte Y, byte Value)
+    public void SetValue(byte X, byte Y, byte value)
     {
-        if (X < FWidth && Y < FHeight)
+        if (X < _width && Y < _height)
         {
-            FData[X + Y * FWidth] = Value;
+            _data[X + Y * _width] = value;
         }
     }
 
-    public byte Width { get => FWidth; }
-    public byte Height { get => FHeight; }
+    public byte Width { get => _width; }
+    public byte Height { get => _height; }
 
 }

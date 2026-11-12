@@ -13,68 +13,68 @@ namespace Aow.Game.UI.Controls;
 //   down or lit (mouse over) state, with its text centred on it; and TAOWButton, the push button,
 //   which calls OnClick when the left button is released over it. }
 // Fields: FBorderHeightSelected (the text offset from the top when the button is down.
-// FBorderHeight when it is up), FButtonType (btText: drawn from FILButton, btIcon: from
-// FILIcon. set by Validate), FILButton, FILIcon, FILIndexUp, FILIndexDown, FILIndexLit,
+// FBorderHeight when it is up), ButtonType (btText: drawn from _imageLibraryButton, btIcon: from
+// _imageLibraryIcon. set by Validate), _imageLibraryButton, _imageLibraryIcon, _imageLibraryIndexUp, _imageLibraryIndexDown, _imageLibraryIndexLit,
 // FPopupMenu, FLit (the mouse is over the button). FChecked is the down state
 public partial class BaseButton : Control
 {
     public BaseButton(Component owner) : base(owner)
     { }
 
-    public int FBorderHeightSelected;
-    public ButtonType FButtonType;
-    public InterfaceImageLibrary FILButton;
-    public InterfaceImageLibrary FILIcon;
-    public int FILIndexUp;
-    public int FILIndexDown;
-    public int FILIndexLit;
-    public Menu FPopupMenu;
-    public bool FLit;
+    public int _borderHeightSelected;
+    public UIComponentButtonType ButtonType;
+    public InterfaceImageLibrary _imageLibraryButton;
+    public InterfaceImageLibrary _imageLibraryIcon;
+    public int _imageLibraryIndexUp;
+    public int _imageLibraryIndexDown;
+    public int _imageLibraryIndexLit;
+    public Menu _popupMenu;
+    public bool Lit;
 
     // AoWButton.pas:85
     public override void Validate()
     {
-        if (FILButton != null)
+        if (_imageLibraryButton != null)
         {
-            FILButton = FILButton.CheckIL(FILIndexUp, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexUp, 3, this);
         }
 
-        if (FILButton != null)
+        if (_imageLibraryButton != null)
         {
-            FILButton = FILButton.CheckIL(FILIndexDown, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, 3, this);
         }
 
-        if (FILButton != null && FILIndexLit != FILIndexUp)
+        if (_imageLibraryButton != null && _imageLibraryIndexLit != _imageLibraryIndexUp)
         {
-            FILButton = FILButton.CheckIL(FILIndexLit, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexLit, 3, this);
         }
 
-        if (FILIcon != null)
+        if (_imageLibraryIcon != null)
         {
-            FILIcon = FILIcon.CheckIL(FILIndexUp, 1, this);
+            _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexUp, 1, this);
         }
 
-        if (FILIcon != null)
+        if (_imageLibraryIcon != null)
         {
-            FILIcon = FILIcon.CheckIL(FILIndexDown, 1, this);
+            _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexDown, 1, this);
         }
 
-        if (FILIcon != null && FILIndexLit != FILIndexUp)
+        if (_imageLibraryIcon != null && _imageLibraryIndexLit != _imageLibraryIndexUp)
         {
-            FILIcon = FILIcon.CheckIL(FILIndexLit, 1, this);
+            _imageLibraryIcon = _imageLibraryIcon.CheckImageLibrary(_imageLibraryIndexLit, 1, this);
         }
 
-        if (FILButton != null)
+        if (_imageLibraryButton != null)
         {
-            FButtonType = ButtonType.Text;
-            FValid = true;
+            ButtonType = UIComponentButtonType.Text;
+            Valid = true;
         }
         else
         {
-            if (FILIcon != null)
+            if (_imageLibraryIcon != null)
             {
-                FButtonType = ButtonType.Icon;
-                FValid = true;
+                ButtonType = UIComponentButtonType.Icon;
+                Valid = true;
             }
         }
 
@@ -84,23 +84,23 @@ public partial class BaseButton : Control
     // AoWButton.pas:112
     public override void SetSize()
     {
-        switch (FButtonType)
+        switch (ButtonType)
         {
-            case ButtonType.Text:
-                var ilButtonWidth = FILButton[FILIndexUp];
-                var ilButton = FILButton[FILIndexUp + 2];
-                if (ilButtonWidth.Width + ilButton.Width > FWinWidth)
+            case UIComponentButtonType.Text:
+                var imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
+                var imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
+                if (imageLibraryButtonWidth.Width + imageLibraryButton.Width > _winWidth)
                 {
-                    var ilButton2 = FILButton[FILIndexUp];
-                    var ilButton3 = FILButton[FILIndexUp + 2];
-                    FWinWidth = ilButton2.Width + ilButton3.Width;
+                    var imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
+                    var imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
+                    _winWidth = imageLibraryButton2.Width + imageLibraryButton3.Width;
                 }
 
-                FWinHeight = FILButton[FILIndexUp].Height;
+                _winHeight = _imageLibraryButton[_imageLibraryIndexUp].Height;
                 break;
-            case ButtonType.Icon:
-                FWinWidth = FILIcon[FILIndexUp].Width;
-                FWinHeight = FILIcon[FILIndexUp].Height;
+            case UIComponentButtonType.Icon:
+                _winWidth = _imageLibraryIcon[_imageLibraryIndexUp].Width;
+                _winHeight = _imageLibraryIcon[_imageLibraryIndexUp].Height;
                 break;
         }
 
@@ -108,88 +108,88 @@ public partial class BaseButton : Control
     }
 
     // AoWButton.pas:78
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        if (Value != FVisible)
+        if (value != _visible)
         {
-            FLit = false;
+            Lit = false;
         }
 
-        base.SetVisible(Value);
+        base.SetVisible(value);
     }
 
     // AoWButton.pas:183
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
         try
         {
-            if (FVisible && FValid)
+            if (_visible && Valid)
             {
-                if (FOnPreDraw != null)
+                if (_onPreDraw != null)
                 {
-                    FOnPreDraw(this, SurfDesc);
+                    _onPreDraw(this, lockedSurface);
                 }
 
-                if (FChecked)
+                if (_checked)
                 {
-                    if (FButtonType == ButtonType.Text)
+                    if (ButtonType == UIComponentButtonType.Text)
                     {
-                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                        FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
+                        var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                     }
                     else
                     {
-                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                        FILIcon.DrawILI(FILIndexDown, rect, ref SurfDesc);
+                        var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        _imageLibraryIcon.DrawImage(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                     }
 
-                    if (FAOWFont != null)
+                    if (_font != null)
                     {
-                        FAOWFont.Color = FSelColor;
-                        var textWidth = FAOWFont.GetTextWidth(FText);
-                        FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth / 2 - textWidth / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeightSelected, FText, SurfDesc);
+                        _font.Color = SelectedColor;
+                        var textWidth = _font.GetTextWidth(_text);
+                        _font.SetText(_window._winLeft + _winLeft + _winWidth / 2 - textWidth / 2, _window._winTop + _winTop + _borderHeightSelected, _text, lockedSurface);
                     }
                 }
                 else
                 {
-                    if (FButtonType == ButtonType.Text)
+                    if (ButtonType == UIComponentButtonType.Text)
                     {
-                        if (FLit)
+                        if (Lit)
                         {
-                            var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILButton.DrawILLh(FILIndexLit, rect, ref SurfDesc);
+                            var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                            _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexLit, rectangle, ref lockedSurface);
                         }
                         else
                         {
-                            var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
+                            var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                            _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         }
                     }
                     else
                     {
-                        if (FLit)
+                        if (Lit)
                         {
-                            var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILIcon.DrawILI(FILIndexLit, rect, ref SurfDesc);
+                            var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                            _imageLibraryIcon.DrawImage(_imageLibraryIndexLit, rectangle, ref lockedSurface);
                         }
                         else
                         {
-                            var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                            FILIcon.DrawILI(FILIndexUp, rect, ref SurfDesc);
+                            var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                            _imageLibraryIcon.DrawImage(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         }
                     }
 
-                    if (FAOWFont != null)
+                    if (_font != null)
                     {
-                        FAOWFont.Color = FColor;
-                        var textWidth = FAOWFont.GetTextWidth(FText);
-                        FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth / 2 - textWidth / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeight, FText, SurfDesc);
+                        _font.Color = Color;
+                        var textWidth = _font.GetTextWidth(_text);
+                        _font.SetText(_window._winLeft + _winLeft + _winWidth / 2 - textWidth / 2, _window._winTop + _winTop + _borderHeight, _text, lockedSurface);
                     }
                 }
 
-                if (FOnDraw != null)
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
             }
         }
@@ -200,145 +200,145 @@ public partial class BaseButton : Control
     }
 
     // AoWButton.pas:136
-    public virtual void SetILButton(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryButton(InterfaceImageLibrary value)
     {
-        if (Value != FILButton)
+        if (value != _imageLibraryButton)
         {
-            FILIcon = null;
-            FValid = false;
-            FILButton = Value;
+            _imageLibraryIcon = null;
+            Valid = false;
+            _imageLibraryButton = value;
         }
     }
 
     // AoWButton.pas:146
-    public virtual void SetILIcon(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryIcon(InterfaceImageLibrary value)
     {
-        if (Value != FILIcon)
+        if (value != _imageLibraryIcon)
         {
-            FILButton = null;
-            FValid = false;
-            FILIcon = Value;
+            _imageLibraryButton = null;
+            Valid = false;
+            _imageLibraryIcon = value;
         }
     }
 
     // AoWButton.pas:156
-    public virtual void SetILUIndex(int Value)
+    public virtual void SetImageLibraryUIndex(int value)
     {
-        if (Value != FILIndexUp)
+        if (value != _imageLibraryIndexUp)
         {
-            FILIndexUp = Value;
-            FValid = false;
+            _imageLibraryIndexUp = value;
+            Valid = false;
         }
     }
 
     // AoWButton.pas:165
-    public virtual void SetILDIndex(int Value)
+    public virtual void SetILDIndex(int value)
     {
-        if (Value != FILIndexDown)
+        if (value != _imageLibraryIndexDown)
         {
-            FILIndexDown = Value;
-            FValid = false;
+            _imageLibraryIndexDown = value;
+            Valid = false;
         }
     }
 
     // AoWButton.pas:174
-    public virtual void SetILHIndex(int Value)
+    public virtual void SetILHIndex(int value)
     {
-        if (Value != FILIndexLit)
+        if (value != _imageLibraryIndexLit)
         {
-            FILIndexLit = Value;
-            FValid = false;
+            _imageLibraryIndexLit = value;
+            Valid = false;
         }
     }
 
     // AoWButton.pas:130
-    public void SetGText(string Value)
+    public void SetGText(string value)
     {
-        FText = Value;
-        FDrawn = false;
+        _text = value;
+        Drawn = false;
     }
 
     [Published]
-    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont Font { get => _font; set => _font = value; }
 
     [Published]
-    public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
+    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
-    public int BorderHeightSelected { get => FBorderHeightSelected; set => FBorderHeightSelected = value; }
+    public int BorderHeightSelected { get => _borderHeightSelected; set => _borderHeightSelected = value; }
 
     [Published]
-    public InterfaceImageLibrary ILButton { get => FILButton; set => SetILButton(value); }
+    public InterfaceImageLibrary ImageLibraryButton { get => _imageLibraryButton; set => SetImageLibraryButton(value); }
 
     [Published]
-    public InterfaceImageLibrary ILIcon { get => FILIcon; set => SetILIcon(value); }
+    public InterfaceImageLibrary ImageLibraryIcon { get => _imageLibraryIcon; set => SetImageLibraryIcon(value); }
 
     [Published]
-    public int ILIndexDown { get => FILIndexDown; set => SetILDIndex(value); }
+    public int ImageLibraryIndexDown { get => _imageLibraryIndexDown; set => SetILDIndex(value); }
 
     [Published]
-    public int ILIndexLit { get => FILIndexLit; set => SetILHIndex(value); }
+    public int ImageLibraryIndexLit { get => _imageLibraryIndexLit; set => SetILHIndex(value); }
 
     [Published]
-    public int ILIndexUp { get => FILIndexUp; set => SetILUIndex(value); }
+    public int ImageLibraryIndexUp { get => _imageLibraryIndexUp; set => SetImageLibraryUIndex(value); }
 
     [Published]
-    public Menu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
+    public Menu PopupMenu { get => _popupMenu; set => _popupMenu = value; }
 
     [Published]
-    public string Text { get => FText; set => SetGText(value); }
+    public string Text { get => _text; set => SetGText(value); }
 
     public new NotifyEvent<BaseButton> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<BaseButton> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<BaseButton> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<BaseButton> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<BaseButton> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<BaseButton> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<BaseButton> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<BaseButton> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<BaseButton> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

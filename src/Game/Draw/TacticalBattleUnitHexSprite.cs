@@ -19,263 +19,263 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-// FUnit. FMoveIndicator. FIndicatorStep. FAction. FActionDone. FActionFrame. FOffsetX.
-// FOffsetY. FSelectedAbility. FSelectedSpell. FCombatAbilityCount. FAbilities. FBusy
+// Unit. MoveIndicator. IndicatorStep. Action. ActionDone. ActionFrame. OffsetX.
+// OffsetY. SelectedAbility. SelectedSpell. CombatAbilityCount. Abilities. Busy
 public partial class TacticalBattleUnitHexSprite : UnitHexSprite
 {
     public TacticalBattleUnitHexSprite(ECustomNode owner) : base(owner)
     { }
 
     // AoWTC.pas:3348
-    public new const int ClassID = 2228484;
+    public new const int ClassId = 2228484;
 
-    public TacticalBattleUnit FUnit;
-    public short FMoveIndicator;
-    public short FIndicatorStep;
-    public SpriteAction FAction;
-    public bool FActionDone;
-    public short FActionFrame;
-    public int FOffsetX;
-    public int FOffsetY;
-    public int FSelectedAbility;
-    public int FSelectedSpell;
-    public int FCombatAbilityCount;
-    public List<CombatAbilityRef> FAbilities;
-    public bool FBusy;
+    public TacticalBattleUnit Unit;
+    public short MoveIndicator;
+    public short IndicatorStep;
+    public SpriteAction Action;
+    public bool ActionDone;
+    public short ActionFrame;
+    public int OffsetX;
+    public int OffsetY;
+    public int SelectedAbility;
+    public int SelectedSpell;
+    public int CombatAbilityCount;
+    public List<CombatAbilityRef> Abilities;
+    public bool Busy;
 
     // AoWTC.pas:3566
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID != 536936471 && (Msg.MsgID & 1073741824) == 0 && FUnit != null)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId != 536936471 && (message.MessageId & 1073741824) == 0 && Unit != null)
         {
-            FUnit.MsgProc(ref Msg, Sender);
+            Unit.MessageProc(ref message, sender);
         }
     }
 
     // AoWTC.pas:3461
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        SelfDestructCombatAction SelfDestruct;
-        DamageCombatAction SpellDamage;
-        RangedAttackCombatAction RangedDamage;
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.MsgID == 4364)
+        SelfDestructCombatAction selfDestruct;
+        DamageCombatAction spellDamage;
+        RangedAttackCombatAction rangedDamage;
+        base.MapFieldMessageProc(ref message);
+        if (message.MessageId == 4364)
         {
-            if (Msg.HN == 0 && (!CombatMap.Current.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo != 0))
+            if (message.HexNumber == 0 && (!CombatMap.Current.FogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FieldFlags).Hi).Lo != 0))
             {
-                if (FUnit.GetPlayer() != 0)
+                if (Unit.GetPlayer() != 0)
                 {
-                    var player = FUnit.GetPlayer();
-                    var playerPlayerRace = AoWHSMap.Current.FPlayers.GetPlayers(player);
-                    Msg.Param[0] = Msg.Param[0].Int | (playerPlayerRace.FPlayerRace + 1);
+                    var player = Unit.GetPlayer();
+                    var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(player);
+                    message.Param[0] = message.Param[0].Int | (playerPlayerRace.PlayerRace + 1);
                 }
                 else
                 {
-                    Msg.Param[0] = Msg.Param[0].Int | 13;
+                    message.Param[0] = message.Param[0].Int | 13;
                 }
             }
         }
         else
         {
-            if (Msg.MsgID == 4352 && Msg.HN == 0)
+            if (message.MessageId == 4352 && message.HexNumber == 0)
             {
-                var player = FUnit.GetPlayer();
-                Msg.Result = player;
+                var player = Unit.GetPlayer();
+                message.Result = player;
             }
             else
             {
-                if (Msg.MsgID == 200704 && Msg.HN == 0)
+                if (message.MessageId == 200704 && message.HexNumber == 0)
                 {
                     RandSeed = AoWHSMap.Current.Random(16777215);
-                    SelfDestruct = ((SelfDestructAbility)AoWHSSet.Current.FAbilityControl.GetAbility(65)).CreateSelfDestructCA(Msg.Param[0].As<CombatObject>(), FUnit);
-                    if (SelfDestruct.FDamage > 0)
+                    selfDestruct = ((SelfDestructAbility)AoWHSSet.Current.AbilityControl.GetAbility(65)).CreateSelfDestructCombatAction(message.Param[0].As<CombatObject>(), Unit);
+                    if (selfDestruct.Damage > 0)
                     {
                         SetAction(SpriteAction.Hit);
                     }
 
-                    CombatMap.Current.FCombat.ExecuteCombatAction(SelfDestruct);
-                    SelfDestruct.Release();
+                    CombatMap.Current.Combat.ExecuteCombatAction(selfDestruct);
+                    selfDestruct.Release();
                 }
                 else
                 {
-                    if (Msg.MsgID == 200707 && Msg.HN == 0)
+                    if (message.MessageId == 200707 && message.HexNumber == 0)
                     {
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        SpellDamage = (DamageCombatAction)AoWHSSet.Current.FSpellControl.GetSpell(117).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                        if (SpellDamage.FDamage > 0)
+                        spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(117).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                        if (spellDamage.Damage > 0)
                         {
                             SetAction(SpriteAction.Hit);
                         }
 
-                        CombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
-                        SpellDamage.Release();
+                        CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
+                        spellDamage.Release();
                     }
                     else
                     {
-                        if (Msg.MsgID == 200715 && Msg.HN == 0)
+                        if (message.MessageId == 200715 && message.HexNumber == 0)
                         {
                             RandSeed = AoWHSMap.Current.Random(16777215);
-                            SpellDamage = (DamageCombatAction)AoWHSSet.Current.FSpellControl.GetSpell(113).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                            if (SpellDamage.FDamage > 0)
+                            spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(113).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            if (spellDamage.Damage > 0)
                             {
                                 SetAction(SpriteAction.Hit);
                             }
 
-                            CombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
-                            SpellDamage.Release();
+                            CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
+                            spellDamage.Release();
                         }
                         else
                         {
-                            if (Msg.MsgID == 200714 && Msg.HN == 0)
+                            if (message.MessageId == 200714 && message.HexNumber == 0)
                             {
                                 RandSeed = AoWHSMap.Current.Random(16777215);
-                                RangedDamage = ((RangedAttackAbility)AoWHSSet.Current.FAbilityControl.GetAbility(31)).CreateRangedAttackCA(Msg.Param[0].As<CombatObject>(), FUnit, 0);
-                                if (RangedDamage.FDamage > 0)
+                                rangedDamage = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(31)).CreateRangedAttackCombatAction(message.Param[0].As<CombatObject>(), Unit, 0);
+                                if (rangedDamage.Damage > 0)
                                 {
                                     SetAction(SpriteAction.Hit);
                                 }
 
-                                CombatMap.Current.FCombat.ExecuteCombatAction(RangedDamage);
-                                RangedDamage.Release();
+                                CombatMap.Current.Combat.ExecuteCombatAction(rangedDamage);
+                                rangedDamage.Release();
                             }
                             else
                             {
-                                if (Msg.MsgID == 200723 && Msg.HN == 0)
+                                if (message.MessageId == 200723 && message.HexNumber == 0)
                                 {
                                     RandSeed = AoWHSMap.Current.Random(16777215);
-                                    SpellDamage = (DamageCombatAction)AoWHSSet.Current.FSpellControl.GetSpell(Msg.Param[1].Int).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                                    if (SpellDamage.FDamage > 0)
+                                    spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(message.Param[1].Int).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                    if (spellDamage.Damage > 0)
                                     {
                                         SetAction(SpriteAction.Hit);
                                     }
 
-                                    CombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
-                                    SpellDamage.Release();
+                                    CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
+                                    spellDamage.Release();
                                 }
                                 else
                                 {
-                                    if (Msg.MsgID == 200722 && Msg.HN == 0)
+                                    if (message.MessageId == 200722 && message.HexNumber == 0)
                                     {
                                         RandSeed = AoWHSMap.Current.Random(16777215);
-                                        RangedDamage = ((RangedAttackAbility)AoWHSSet.Current.FAbilityControl.GetAbility(Msg.Param[1].Int)).CreateRangedAttackCA(Msg.Param[0].As<CombatObject>(), FUnit, 0);
-                                        if (RangedDamage.FDamage > 0)
+                                        rangedDamage = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(message.Param[1].Int)).CreateRangedAttackCombatAction(message.Param[0].As<CombatObject>(), Unit, 0);
+                                        if (rangedDamage.Damage > 0)
                                         {
                                             SetAction(SpriteAction.Hit);
                                         }
 
-                                        CombatMap.Current.FCombat.ExecuteCombatAction(RangedDamage);
-                                        RangedDamage.Release();
+                                        CombatMap.Current.Combat.ExecuteCombatAction(rangedDamage);
+                                        rangedDamage.Release();
                                     }
                                     else
                                     {
-                                        if (Msg.MsgID == 200709 && Msg.HN == 0)
+                                        if (message.MessageId == 200709 && message.HexNumber == 0)
                                         {
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            SpellDamage = (DamageCombatAction)AoWHSSet.Current.FSpellControl.GetSpell(104).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                                            if (SpellDamage.FDamage > 0)
+                                            spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(104).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                            if (spellDamage.Damage > 0)
                                             {
                                                 SetAction(SpriteAction.Hit);
                                             }
 
-                                            CombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
-                                            SpellDamage.Release();
+                                            CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
+                                            spellDamage.Release();
                                         }
                                         else
                                         {
-                                            if (Msg.MsgID == 200716 && Msg.HN == 0)
+                                            if (message.MessageId == 200716 && message.HexNumber == 0)
                                             {
                                                 RandSeed = AoWHSMap.Current.Random(16777215);
-                                                SpellDamage = (DamageCombatAction)AoWHSSet.Current.FSpellControl.GetSpell(120).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                                                if (SpellDamage.FDamage > 0)
+                                                spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(120).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                if (spellDamage.Damage > 0)
                                                 {
                                                     SetAction(SpriteAction.Hit);
                                                 }
 
-                                                CombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
-                                                SpellDamage.Release();
+                                                CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
+                                                spellDamage.Release();
                                             }
                                             else
                                             {
-                                                if (Msg.MsgID == 200710 && Msg.HN == 0)
+                                                if (message.MessageId == 200710 && message.HexNumber == 0)
                                                 {
                                                     RandSeed = AoWHSMap.Current.Random(16777215);
-                                                    SpellDamage = (DamageCombatAction)AoWHSSet.Current.FSpellControl.GetSpell(116).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                                                    if (SpellDamage.FDamage > 0)
+                                                    spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(116).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                    if (spellDamage.Damage > 0)
                                                     {
                                                         SetAction(SpriteAction.Hit);
                                                     }
 
-                                                    CombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
-                                                    SpellDamage.Release();
+                                                    CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
+                                                    spellDamage.Release();
                                                 }
                                                 else
                                                 {
-                                                    if (Msg.MsgID == 200717 && Msg.HN == 0)
+                                                    if (message.MessageId == 200717 && message.HexNumber == 0)
                                                     {
                                                         RandSeed = AoWHSMap.Current.Random(16777215);
-                                                        SpellDamage = (DamageCombatAction)AoWHSSet.Current.FSpellControl.GetSpell(127).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                                                        if (SpellDamage.FDamage > 0)
+                                                        spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(127).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                        if (spellDamage.Damage > 0)
                                                         {
                                                             SetAction(SpriteAction.Hit);
                                                         }
 
-                                                        CombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
-                                                        SpellDamage.Release();
+                                                        CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
+                                                        spellDamage.Release();
                                                     }
                                                     else
                                                     {
-                                                        if (Msg.MsgID == 200718 && Msg.HN == 0)
+                                                        if (message.MessageId == 200718 && message.HexNumber == 0)
                                                         {
                                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                                            SpellDamage = (DamageCombatAction)AoWHSSet.Current.FSpellControl.GetSpell(128).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                                                            if (SpellDamage.FDamage > 0)
+                                                            spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(128).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                            if (spellDamage.Damage > 0)
                                                             {
                                                                 SetAction(SpriteAction.Hit);
                                                             }
 
-                                                            CombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
-                                                            SpellDamage.Release();
+                                                            CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
+                                                            spellDamage.Release();
                                                         }
                                                         else
                                                         {
-                                                            if (Msg.MsgID == 200719 && Msg.HN == 0)
+                                                            if (message.MessageId == 200719 && message.HexNumber == 0)
                                                             {
-                                                                SetDirection((byte)(FDirection + 1));
-                                                                if (FDirection > 6)
+                                                                SetDirection((byte)(Direction + 1));
+                                                                if (Direction > 6)
                                                                 {
                                                                     SetDirection(1);
                                                                 }
                                                             }
                                                             else
                                                             {
-                                                                if (Msg.MsgID == 200720 && Msg.HN == 0)
+                                                                if (message.MessageId == 200720 && message.HexNumber == 0)
                                                                 {
-                                                                    FOffsetX = Random(Msg.Param[0].Int * 2 + 1) - Msg.Param[0].Int;
-                                                                    FOffsetY = Random(Msg.Param[0].Int * 2 + 1) - Msg.Param[0].Int;
+                                                                    OffsetX = Random(message.Param[0].Int * 2 + 1) - message.Param[0].Int;
+                                                                    OffsetY = Random(message.Param[0].Int * 2 + 1) - message.Param[0].Int;
                                                                 }
                                                                 else
                                                                 {
-                                                                    if (Msg.MsgID == 200721 && Msg.HN == 0)
+                                                                    if (message.MessageId == 200721 && message.HexNumber == 0)
                                                                     {
-                                                                        FOffsetX = 0;
-                                                                        FOffsetY = 0;
+                                                                        OffsetX = 0;
+                                                                        OffsetY = 0;
                                                                     }
                                                                     else
                                                                     {
-                                                                        if (Msg.MsgID == 200708 && Msg.HN == 0)
+                                                                        if (message.MessageId == 200708 && message.HexNumber == 0)
                                                                         {
-                                                                            if (!FUnit.FUnit.GetMoveTypes().Contains(MoveType.Flying) && ((MapField)Owner).TerrainType != 0 && ((MapField)Owner).TerrainType != 9)
+                                                                            if (!Unit.Troop.GetMoveTypes().Contains(MoveType.Flying) && ((MapField)Owner).TerrainType != 0 && ((MapField)Owner).TerrainType != 9)
                                                                             {
                                                                                 RandSeed = AoWHSMap.Current.Random(16777215);
-                                                                                SpellDamage = (DamageCombatAction)AoWHSSet.Current.FSpellControl.GetSpell(112).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                                                                                if (SpellDamage.FDamage > 0)
+                                                                                spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(112).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                                                if (spellDamage.Damage > 0)
                                                                                 {
                                                                                     SetAction(SpriteAction.Hit);
                                                                                 }
 
-                                                                                CombatMap.Current.FCombat.ExecuteCombatAction(SpellDamage);
-                                                                                SpellDamage.Release();
+                                                                                CombatMap.Current.Combat.ExecuteCombatAction(spellDamage);
+                                                                                spellDamage.Release();
                                                                             }
                                                                         }
                                                                     }
@@ -297,146 +297,146 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     }
 
     // AoWTC.pas:3370
-    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
         int X = default;
         int Y = default;
-        MovementHexSprite Movement;
-        AbilityCombatInfo AbilityInfo = default;
-        AbilityCombatInfo EnemyInfo = default;
-        if (Info.HN == 0)
+        MovementHexSprite movement;
+        AbilityCombatInfo abilityInfo = default;
+        AbilityCombatInfo enemyInfo = default;
+        if (info.HexNumber == 0)
         {
-            MoveResult.Code = -1;
-            MoveResult.Done = true;
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            Movement = (MovementHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228490);
-            if (Movement != null && Movement.FEnabled)
+            moveResult.Code = -1;
+            moveResult.Done = true;
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            movement = (MovementHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228490);
+            if (movement != null && movement.Enabled)
             {
-                if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == FUnit.GetSide())
+                if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide() == Unit.GetSide())
                 {
-                    MoveResult.Code = 0;
-                    MoveResult.Done = false;
+                    moveResult.Code = 0;
+                    moveResult.Done = false;
                     return;
                 }
             }
 
-            if (GetXhx() != ((MoveControl)Info.Sender).FDestinationX && ((MoveControl)Info.Sender).FDestinationX != -1)
+            if (GetHexX() != ((MoveControl)info.Sender).DestinationX && ((MoveControl)info.Sender).DestinationX != -1)
             {
                 return;
             }
 
-            if (GetYhx() != ((MoveControl)Info.Sender).FDestinationY && ((MoveControl)Info.Sender).FDestinationY != -1)
+            if (GetHexY() != ((MoveControl)info.Sender).DestinationY && ((MoveControl)info.Sender).DestinationY != -1)
             {
                 return;
             }
 
-            if (!((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Move) && !((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.MoveRanged) && CombatMap.Current.FUnitSelection.FMoveSettingsList.GetCount() >= 2)
+            if (!((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Move) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.MoveRanged) && CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() >= 2)
             {
                 return;
             }
 
-            if (((CombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility <= -1 && (CombatObject.MeleeDamageTypes(((CombatMoveControl)Info.Sender).FUnitHS.FUnit) == Set<DamageType>.Of() || FUnit.GetAbilityEnabled(1) && !((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1)) && !((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.MoveRanged) && !((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Move))
+            if (((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility <= -1 && (CombatObject.MeleeDamageTypes(((CombatMoveControl)info.Sender).UnitHexSprite.Unit) == Set<DamageType>.Of() || Unit.GetAbilityEnabled(1) && !((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1)) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.MoveRanged) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Move))
             {
                 return;
             }
 
-            if (((CombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility == -1)
+            if (((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility == -1)
             {
-                if (!((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.Move) && !((CombatMoveControl)Info.Sender).FMoveFlags.Contains(CombatMoveModeElement.MoveRanged))
+                if (!((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.Move) && !((CombatMoveControl)info.Sender).MoveFlags.Contains(CombatMoveModeElement.MoveRanged))
                 {
-                    if (FUnit.GetSide() == ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
+                    if (Unit.GetSide() == ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide())
                     {
                         return;
                     }
                 }
 
-                MoveResult.Code = 0;
+                moveResult.Code = 0;
                 return;
             }
 
-            AoWHSSet.Current.FAbilityControl.GetAbility(((CombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility).GetCombatInfo(((CombatMoveControl)Info.Sender).FUnitHS.FUnit.FUnit, ref AbilityInfo);
-            if (AbilityInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend) && FUnit.GetSide() == ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
+            AoWHSSet.Current.AbilityControl.GetAbility(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility).GetCombatInfo(((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Troop, ref abilityInfo);
+            if (abilityInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend) && Unit.GetSide() == ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide())
             {
                 goto Touch;
             }
 
-            AoWHSSet.Current.FAbilityControl.GetAbility(((CombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility).GetCombatInfo(((CombatMoveControl)Info.Sender).FUnitHS.FUnit.FUnit, ref EnemyInfo);
-            if (!EnemyInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
+            AoWHSSet.Current.AbilityControl.GetAbility(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility).GetCombatInfo(((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Troop, ref enemyInfo);
+            if (!enemyInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
             {
                 return;
             }
 
-            if (FUnit.GetSide() == ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
+            if (Unit.GetSide() == ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide())
             {
                 return;
             }
 
         Touch:
-            if (((TouchAbility)AoWHSSet.Current.FAbilityControl.GetAbility(((CombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility)).CanTouch(((CombatMoveControl)Info.Sender).FUnitHS.FUnit, FUnit))
+            if (((TouchAbility)AoWHSSet.Current.AbilityControl.GetAbility(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility)).CanTouch(((CombatMoveControl)info.Sender).UnitHexSprite.Unit, Unit))
             {
-                MoveResult.Code = 0;
+                moveResult.Code = 0;
             }
         }
         else
         {
-            var yhx = GetYhx();
-            HexGeometry.CenterHNtoHX(GetXhx(), yhx, Info.HN, ref X, ref Y);
-            if (MoveResult.Code < 30)
+            var hexY = GetHexY();
+            HexGeometry.CenterHexNumberToHex(GetHexX(), hexY, info.HexNumber, ref X, ref Y);
+            if (moveResult.Code < 30)
             {
-                MoveResult.Code = ((MoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][Info.MapField.OverlayType - -1];
+                moveResult.Code = ((MoveControl)info.Sender).MovePointTable[info.MapField.TerrainType][info.MapField.OverlayType - -1];
             }
 
-            if (MoveResult.Code <= -1)
+            if (moveResult.Code <= -1)
             {
                 return;
             }
 
-            if (Info.HN >= 7)
+            if (info.HexNumber >= 7)
             {
                 return;
             }
 
-            if (GetXhx() == ((MoveControl)Info.Sender).FDestinationX && GetYhx() == ((MoveControl)Info.Sender).FDestinationY)
+            if (GetHexX() == ((MoveControl)info.Sender).DestinationX && GetHexY() == ((MoveControl)info.Sender).DestinationY)
             {
                 return;
             }
 
-            if (FUnit.GetSide() == ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide())
+            if (Unit.GetSide() == ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide())
             {
                 return;
             }
 
-            if (CombatObject.MeleeDamageTypes(FUnit) == Set<DamageType>.Of())
+            if (CombatObject.MeleeDamageTypes(Unit) == Set<DamageType>.Of())
             {
                 return;
             }
 
-            if (FUnit.GetLocked())
+            if (Unit.GetLocked())
             {
                 return;
             }
 
-            if (FUnit.GetAbilityEnabled(1) != ((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1))
+            if (Unit.GetAbilityEnabled(1) != ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(1))
             {
                 return;
             }
 
-            if (((MoveControl)Info.Sender).FDestinationX >= 0 && ((MoveControl)Info.Sender).FDestinationY >= 0 && HexGeometry.dHXtoRad(X, Y, ((MoveControl)Info.Sender).FDestinationX, ((MoveControl)Info.Sender).FDestinationY) <= 1)
+            if (((MoveControl)info.Sender).DestinationX >= 0 && ((MoveControl)info.Sender).DestinationY >= 0 && HexGeometry.DeltaHexToRadius(X, Y, ((MoveControl)info.Sender).DestinationX, ((MoveControl)info.Sender).DestinationY) <= 1)
             {
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[((MoveControl)Info.Sender).FDestinationX, ((MoveControl)Info.Sender).FDestinationY].FindOwnedChild(2228484) != null)
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[((MoveControl)info.Sender).DestinationX, ((MoveControl)info.Sender).DestinationY].FindOwnedChild(2228484) != null)
                 {
                     return;
                 }
             }
 
-            if (MoveResult.Code > 96)
+            if (moveResult.Code > 96)
             {
-                MoveResult.Code = 127;
+                moveResult.Code = 127;
                 return;
             }
 
-            MoveResult.Code += 30;
+            moveResult.Code += 30;
         }
     }
 
@@ -444,22 +444,22 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     public override void Activate()
     {
         base.Activate();
-        SetUnitGFXResourceIndex(FUnit.FUnit.GetUnitGFXResourceIndex());
-        FAbilities = new List<CombatAbilityRef>();
-        CreateTCAbList();
+        SetUnitGraphicsResourceIndex(Unit.Troop.GetUnitGraphicsResourceIndex());
+        Abilities = new List<CombatAbilityRef>();
+        CreateTacticalBattleAbilityList();
         CombatMap.Current.NewFrameEvents += NewFrame;
-        if (CombatMap.Current.FExplorationEnabled)
+        if (CombatMap.Current.ExplorationEnabled)
         {
-            var player = FUnit.GetPlayer();
-            var visibilityRange = FUnit.GetVisibilityRange();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            CombatMap.Current.ExploreArea(xhx, yhx, 0, player, visibilityRange);
+            var player = Unit.GetPlayer();
+            var visibilityRange = Unit.GetVisibilityRange();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            CombatMap.Current.ExploreArea(hexX, hexY, 0, player, visibilityRange);
         }
 
-        FActionFrame = -1;
-        FSelectedAbility = -1;
-        FSelectedSpell = -1;
+        ActionFrame = -1;
+        SelectedAbility = -1;
+        SelectedSpell = -1;
     }
 
     // AoWTC.pas:3339
@@ -470,27 +470,27 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             CombatMap.Current.NewFrameEvents -= NewFrame;
         }
 
-        for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
+        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
         {
-            (FAbilities[I] as IDisposable)?.Dispose();
+            (Abilities[I] as IDisposable)?.Dispose();
         }
 
-        FAbilities?.Clear();
+        Abilities?.Clear();
         base.Deactivate();
     }
 
     // AoWTC.pas:3439
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Info.HN == 0)
+        if (info.HexNumber == 0)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 16384 | 8192 | 33554432;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16384 | 8192 | 33554432;
         }
         else
         {
-            if (Info.HN <= 6)
+            if (info.HexNumber <= 6)
             {
-                ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 16384;
+                ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16384;
             }
         }
     }
@@ -499,17 +499,17 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     public override void Select()
     {
         base.Select();
-        CreateTCAbList();
-        FSelectedAbility = -1;
-        if (CombatMap.Current.FUnitSelection.GetTCUnitHS() != this)
+        CreateTacticalBattleAbilityList();
+        SelectedAbility = -1;
+        if (CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite() != this)
         {
-            CombatMap.Current.FUnitSelection.SetTCUnitHS(this);
+            CombatMap.Current.UnitSelection.SetTacticalBattleUnitHexSprite(this);
         }
 
-        FUnitGFXResource.FSFXLibraries[0].Play(0);
-        if (CombatMap.Current.FSeatedCombatPlayer == FUnit.FCombatPlayer)
+        UnitGraphicsResource.SfxLibraries[0].Play(0);
+        if (CombatMap.Current.SeatedCombatPlayer == Unit.CombatPlayer)
         {
-            CombatMap.Current.FPlayers.GetPlayers(CombatMap.Current.FSeatedCombatPlayer).FLastUnit = FUnit;
+            CombatMap.Current.Players.GetPlayers(CombatMap.Current.SeatedCombatPlayer).LastUnit = Unit;
         }
     }
 
@@ -519,9 +519,9 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         base.Unselect();
         if (CombatMap.Current != null)
         {
-            if (CombatMap.Current.FUnitSelection.GetTCUnitHS() == this)
+            if (CombatMap.Current.UnitSelection.GetTacticalBattleUnitHexSprite() == this)
             {
-                CombatMap.Current.FUnitSelection.Unselect();
+                CombatMap.Current.UnitSelection.Unselect();
             }
         }
     }
@@ -529,371 +529,371 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     // AoWTC.pas:3357
     public override int GetMoveSteps()
     {
-        int Result;
-        switch (GameTables.AoWEngine.FRegistry.GetMovementSpeed())
+        int result;
+        switch (GameTables.GameEngine.Registry.GetMovementSpeed())
         {
             case GameSettings.MovementSpeed.Fast:
-                Result = base.GetMoveSteps();
-                if (Result > 8)
+                result = base.GetMoveSteps();
+                if (result > 8)
                 {
-                    Result = Result - 4;
+                    result = result - 4;
                 }
                 else
                 {
-                    Result = 4;
+                    result = 4;
                 }
 
                 break;
             case GameSettings.MovementSpeed.Turbo:
-                Result = 2;
+                result = 2;
                 break;
             default:
-                Result = base.GetMoveSteps();
+                result = base.GetMoveSteps();
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:3351
     public void Initialize(TacticalBattleUnit U)
     {
-        FUnit = U;
-        FUnit.FUnitHS = this;
+        Unit = U;
+        Unit.UnitHexSprite = this;
     }
 
     // AoWTC.pas:3804
-    public bool MeleeMoveTC(MovePath Path)
+    public bool MeleeMoveTacticalBattle(MovePath path)
     {
-        TacticalBattleMeleeMoveTokenEvent TE;
-        bool Result = false;
-        var player = FUnit.GetPlayer();
-        if (AoWHSMap.Current.FTokenManager.PlayerReady(player) && Path.Count > 1)
+        TacticalBattleMeleeMoveTokenEvent tokenEvent;
+        bool result = false;
+        var player = Unit.GetPlayer();
+        if (AoWHSMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
         {
-            TE = CreateTCMeleeMoveTE(FUnit, Path);
-            if (TE != null)
+            tokenEvent = CreateTacticalBattleMeleeMoveTokenEvent(Unit, path);
+            if (tokenEvent != null)
             {
-                var fUnitPlayer = FUnit.GetPlayer();
-                AoWHSMap.Current.FTokenManager.GetTokenControl(fUnitPlayer).AddEvent(TE);
-                TE.Release();
-                Result = true;
+                var fUnitPlayer = Unit.GetPlayer();
+                AoWHSMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
+                tokenEvent.Release();
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:3836
-    public int SelectAbility(int AbilityID)
+    public int SelectAbility(int abilityId)
     {
-        int Index;
-        string Reason = "";
-        CombatMap.Current.FUnitSelection.DeactivateRangedPath();
-        FSelectedAbility = -1;
-        int Result = -1;
-        Index = -1;
-        if (CombatMap.Current.FCurrentCombatPlayer == CombatMap.Current.FSeatedCombatPlayer)
+        int index;
+        string reason = "";
+        CombatMap.Current.UnitSelection.DeactivateRangedPath();
+        SelectedAbility = -1;
+        int result = -1;
+        index = -1;
+        if (CombatMap.Current.CurrentCombatPlayer == CombatMap.Current.SeatedCombatPlayer)
         {
-            for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
+            for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
             {
-                if ((FAbilities[I]).Ability == AbilityID)
+                if ((Abilities[I]).Ability == abilityId)
                 {
-                    Index = I;
+                    index = I;
                 }
             }
 
-            if (!FUnit.GetLocked() && FUnit.FMovePoints > 0 && FUnit.FCombatPlayer == CombatMap.Current.FCurrentCombatPlayer && Index < FCombatAbilityCount && Index > -1)
+            if (!Unit.GetLocked() && Unit.MovePoints > 0 && Unit.CombatPlayer == CombatMap.Current.CurrentCombatPlayer && index < CombatAbilityCount && index > -1)
             {
-                if (AbilityID == 52)
+                if (abilityId == 52)
                 {
-                    if (FUnit.FUnit.GetMoves() == FUnit.FMovePoints)
+                    if (Unit.Troop.GetMoves() == Unit.MovePoints)
                     {
-                        AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).ActivateCombat(FUnit.FUnit, ref Reason);
-                        FSelectedSpell = -1;
-                        FSelectedAbility = AbilityID;
-                        Result = Index;
+                        AoWHSSet.Current.AbilityControl.GetAbility(abilityId).ActivateCombat(Unit.Troop, ref reason);
+                        SelectedSpell = -1;
+                        SelectedAbility = abilityId;
+                        result = index;
                     }
                 }
                 else
                 {
-                    var combatMode = AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit);
+                    var combatMode = AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop);
                     if (Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode))
                     {
-                        if (FUnit.FUnit.GetMoves() == FUnit.FMovePoints)
+                        if (Unit.Troop.GetMoves() == Unit.MovePoints)
                         {
-                            if (AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit) == CombatMode.ShortRange)
+                            if (AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop) == CombatMode.ShortRange)
                             {
-                                CombatMap.Current.FUnitSelection.FRangedPathHS.FRange = 4;
+                                CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = 4;
                             }
                             else
                             {
-                                if (AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetCombatMode(FUnit.FUnit) == CombatMode.MediumRange)
+                                if (AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop) == CombatMode.MediumRange)
                                 {
-                                    CombatMap.Current.FUnitSelection.FRangedPathHS.FRange = 8;
+                                    CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = 8;
                                 }
                                 else
                                 {
-                                    CombatMap.Current.FUnitSelection.FRangedPathHS.FRange = 12;
+                                    CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = 12;
                                 }
                             }
 
-                            CombatMap.Current.FUnitSelection.FRangedPathHS.FSelection = CombatMap.Current.FUnitSelection;
-                            CombatMap.Current.DynamicFixedVisibleHS.AddChild(CombatMap.Current.FUnitSelection.FRangedPathHS);
-                            FSelectedAbility = AbilityID;
-                            Result = Index;
+                            CombatMap.Current.UnitSelection.RangedPathHexSprite.Selection = CombatMap.Current.UnitSelection;
+                            CombatMap.Current.DynamicFixedVisibleHexSprite.AddChild(CombatMap.Current.UnitSelection.RangedPathHexSprite);
+                            SelectedAbility = abilityId;
+                            result = index;
                         }
                     }
                     else
                     {
-                        FSelectedAbility = AbilityID;
-                        Result = Index;
+                        SelectedAbility = abilityId;
+                        result = index;
                     }
                 }
             }
         }
 
-        for (int I = 0, last = CombatMap.Current.FUnitSelection.FMoveSettingsList.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() - 1; I <= last; I++)
         {
-            var moveSettings = CombatMap.Current.FUnitSelection.FMoveSettingsList.GetMoveSettings(I);
-            moveSettings.FPath.Clear();
+            var moveSettings = CombatMap.Current.UnitSelection.MoveSettingsList.GetMoveSettings(I);
+            moveSettings.Path.Clear();
         }
 
-        CombatMap.Current.FUnitSelection.FRangedPath.Clear();
-        CombatMap.Current.FUnitSelection.UpdateMoveCursor();
-        CombatMap.Current.FUnitChangedEventsStore.Raise(this);
-        return Result;
+        CombatMap.Current.UnitSelection.RangedPath.Clear();
+        CombatMap.Current.UnitSelection.UpdateMoveCursor();
+        CombatMap.Current._unitChangedEventsStore.Raise(this);
+        return result;
     }
 
     // AoWTC.pas:3870
-    public int SelectSpell(int SpellID)
+    public int SelectSpell(int spellId)
     {
-        SpellCombatInfo Info = default;
-        CombatMap.Current.FUnitSelection.DeactivateRangedPath();
-        FSelectedSpell = SpellID;
-        AoWHSSet.Current.FSpellControl.GetSpell(FSelectedSpell).GetCombatInfo(FUnit.FUnit, ref Info);
-        if (Info.Range != 0)
+        SpellCombatInfo info = default;
+        CombatMap.Current.UnitSelection.DeactivateRangedPath();
+        SelectedSpell = spellId;
+        AoWHSSet.Current.SpellControl.GetSpell(SelectedSpell).GetCombatInfo(Unit.Troop, ref info);
+        if (info.Range != 0)
         {
-            if (Info.Range == -1)
+            if (info.Range == -1)
             {
-                CombatMap.Current.FUnitSelection.FRangedPathHS.FRange = 100;
+                CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = 100;
             }
             else
             {
-                CombatMap.Current.FUnitSelection.FRangedPathHS.FRange = (ushort)Info.Range;
+                CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = (ushort)info.Range;
             }
 
-            CombatMap.Current.FUnitSelection.FRangedPathHS.FSelection = CombatMap.Current.FUnitSelection;
-            CombatMap.Current.DynamicFixedVisibleHS.AddChild(CombatMap.Current.FUnitSelection.FRangedPathHS);
+            CombatMap.Current.UnitSelection.RangedPathHexSprite.Selection = CombatMap.Current.UnitSelection;
+            CombatMap.Current.DynamicFixedVisibleHexSprite.AddChild(CombatMap.Current.UnitSelection.RangedPathHexSprite);
         }
 
-        int Result = SpellID;
-        for (int I = 0, last = CombatMap.Current.FUnitSelection.FMoveSettingsList.GetCount() - 1; I <= last; I++)
+        int result = spellId;
+        for (int I = 0, last = CombatMap.Current.UnitSelection.MoveSettingsList.GetCount() - 1; I <= last; I++)
         {
-            var moveSettings = CombatMap.Current.FUnitSelection.FMoveSettingsList.GetMoveSettings(I);
-            moveSettings.FPath.Clear();
+            var moveSettings = CombatMap.Current.UnitSelection.MoveSettingsList.GetMoveSettings(I);
+            moveSettings.Path.Clear();
         }
 
-        CombatMap.Current.FUnitSelection.FRangedPath.Clear();
-        switch (TacticalTables.SpellTypes[SpellID])
+        CombatMap.Current.UnitSelection.RangedPath.Clear();
+        switch (TacticalTables.SpellTypes[spellId])
         {
             case BattleEffectType.ScreenNESW:
             case BattleEffectType.SacredWrath:
             case BattleEffectType.Tremors:
             case BattleEffectType.HighPrayer:
             case BattleEffectType.ShockWave:
-                AbRangedTC(0, 0);
-                Result = -1;
+                AbilityRangedTacticalBattle(0, 0);
+                result = -1;
                 Unselect();
                 break;
         }
 
-        CombatMap.Current.FUnitSelection.UpdateMoveCursor();
-        CombatMap.Current.FUnitChangedEventsStore.Raise(this);
-        return Result;
+        CombatMap.Current.UnitSelection.UpdateMoveCursor();
+        CombatMap.Current._unitChangedEventsStore.Raise(this);
+        return result;
     }
 
     // AoWTC.pas:3895
-    public void CreateTCAbList()
+    public void CreateTacticalBattleAbilityList()
     {
-        CombatAbilityRef Ability;
-        for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
+        CombatAbilityRef ability;
+        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
         {
-            (FAbilities[I] as IDisposable)?.Dispose();
+            (Abilities[I] as IDisposable)?.Dispose();
         }
 
-        FAbilities.Clear();
-        FCombatAbilityCount = 0;
+        Abilities.Clear();
+        CombatAbilityCount = 0;
         for (int I = 1; I <= 169; I++)
         {
-            if (FUnit.GetAbilityEnabled(I))
+            if (Unit.GetAbilityEnabled(I))
             {
-                Ability = new CombatAbilityRef();
-                Ability.Ability = I;
-                if (AoWHSSet.Current.FAbilityControl.GetAbility(I).GetControlType(FUnit.FUnit).Contains(AbilityControlTypeElement.CombatAction) && AoWHSSet.Current.FAbilityControl.GetAbility(I).GetCombatMode(FUnit.FUnit) != CombatMode.Melee)
+                ability = new CombatAbilityRef();
+                ability.Ability = I;
+                if (AoWHSSet.Current.AbilityControl.GetAbility(I).GetControlType(Unit.Troop).Contains(AbilityControlTypeElement.CombatAction) && AoWHSSet.Current.AbilityControl.GetAbility(I).GetCombatMode(Unit.Troop) != CombatMode.Melee)
                 {
-                    FAbilities.Insert(FCombatAbilityCount, Ability);
-                    FCombatAbilityCount += 1;
+                    Abilities.Insert(CombatAbilityCount, ability);
+                    CombatAbilityCount += 1;
                 }
                 else
                 {
-                    FAbilities.Add(Ability);
+                    Abilities.Add(ability);
                 }
             }
         }
     }
 
     // AoWTC.pas:3910
-    public void ListAbilities(StringCollection Names, StringCollection Types, StringCollection Sources)
+    public void ListAbilities(StringCollection names, StringCollection types, StringCollection sources)
     {
-        Names.Clear();
-        if (Types != null)
+        names.Clear();
+        if (types != null)
         {
-            Types.Clear();
+            types.Clear();
         }
 
-        if (Sources != null)
+        if (sources != null)
         {
-            Sources.Clear();
+            sources.Clear();
         }
 
-        for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
+        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
         {
-            var ability = FAbilities[I];
-            Names.AddObject(AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetName(FUnit.FUnit), IntToObject((FAbilities[I]).Ability));
-            if (Types != null)
+            var ability = Abilities[I];
+            names.AddObject(AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetName(Unit.Troop), IntToObject((Abilities[I]).Ability));
+            if (types != null)
             {
-                var ability2 = FAbilities[I];
-                var abilityType = AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetAbilityType();
-                Types.Add(AbilityRules.TranslateRStr(GameTables.TAbilityTypeRStr[(int)abilityType]));
+                var ability2 = Abilities[I];
+                var abilityType = AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetAbilityType();
+                types.Add(AbilityRules.TranslateResourceString(GameTables.s_abilityTypeTexts[(int)abilityType]));
             }
 
-            if (Sources != null)
+            if (sources != null)
             {
-                var ability2 = FAbilities[I];
-                Sources.Add(AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetSourceName(FUnit.FUnit));
+                var ability2 = Abilities[I];
+                sources.Add(AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetSourceName(Unit.Troop));
             }
         }
     }
 
     // AoWTC.pas:3923
-    public void SetAction(SpriteAction Action)
+    public void SetAction(SpriteAction action)
     {
-        FActionDone = false;
-        switch (Action)
+        ActionDone = false;
+        switch (action)
         {
             case SpriteAction.StepUp:
             case SpriteAction.StepBack:
-                FActionFrame = 0;
+                ActionFrame = 0;
                 break;
             case SpriteAction.RoundAttack:
             case SpriteAction.RoundAttackHit:
-                if (FAction != SpriteAction.RoundAttack && FAction != SpriteAction.RoundAttackHit)
+                if (Action != SpriteAction.RoundAttack && Action != SpriteAction.RoundAttackHit)
                 {
-                    FActionFrame = -1;
+                    ActionFrame = -1;
                 }
 
                 break;
             default:
-                FActionFrame = -1;
+                ActionFrame = -1;
                 break;
         }
 
-        FAction = Action;
+        Action = action;
     }
 
     // AoWTC.pas:3935
-    public bool AbTouchMoveTC(MovePath Path)
+    public bool AbilityTouchMoveTacticalBattle(MovePath path)
     {
-        TokenEvent TE;
-        AbilityCombatInfo Buffer = default;
-        bool Result = false;
-        var player = FUnit.GetPlayer();
-        if (AoWHSMap.Current.FTokenManager.PlayerReady(player) && Path.Count > 0)
+        TokenEvent tokenEvent;
+        AbilityCombatInfo buffer = default;
+        bool result = false;
+        var player = Unit.GetPlayer();
+        if (AoWHSMap.Current.TokenManager.PlayerReady(player) && path.Count > 0)
         {
-            if (Path.Count > 1)
+            if (path.Count > 1)
             {
-                TE = CreateTCAbTouchMoveTE(FUnit, Path, FSelectedAbility);
-                if (TE != null)
+                tokenEvent = CreateTacticalBattleAbilityTouchMoveTokenEvent(Unit, path, SelectedAbility);
+                if (tokenEvent != null)
                 {
-                    var fUnitPlayer = FUnit.GetPlayer();
-                    AoWHSMap.Current.FTokenManager.GetTokenControl(fUnitPlayer).AddEvent(TE);
-                    TE.Release();
-                    Result = true;
+                    var fUnitPlayer = Unit.GetPlayer();
+                    AoWHSMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
+                    tokenEvent.Release();
+                    result = true;
                 }
             }
             else
             {
-                AoWHSSet.Current.FAbilityControl.GetAbility(FSelectedAbility).GetCombatInfo(FUnit.FUnit, ref Buffer);
-                if (Buffer.TargetTypes.Contains(CombatTargetTypeElement.Friend))
+                AoWHSSet.Current.AbilityControl.GetAbility(SelectedAbility).GetCombatInfo(Unit.Troop, ref buffer);
+                if (buffer.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                 {
-                    var path = Path[0];
-                    AbRangedTC((ushort)Path[0].X, (ushort)path.Y);
+                    var pathLocal = path[0];
+                    AbilityRangedTacticalBattle((ushort)path[0].X, (ushort)pathLocal.Y);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:3952
-    public bool AbRangedTC(ushort X, ushort Y)
+    public bool AbilityRangedTacticalBattle(ushort X, ushort Y)
     {
-        CombatAbilityRangedTokenEvent TE;
-        bool Result = false;
-        var player = FUnit.GetPlayer();
-        if (AoWHSMap.Current.FTokenManager.PlayerReady(player))
+        CombatAbilityRangedTokenEvent tokenEvent;
+        bool result = false;
+        var player = Unit.GetPlayer();
+        if (AoWHSMap.Current.TokenManager.PlayerReady(player))
         {
-            TE = CreateTCAbRangedTE(FUnit, X, Y, FSelectedAbility, FSelectedSpell);
-            if (TE != null)
+            tokenEvent = CreateTacticalBattleAbilityRangedTokenEvent(Unit, X, Y, SelectedAbility, SelectedSpell);
+            if (tokenEvent != null)
             {
-                var fUnitPlayer = FUnit.GetPlayer();
-                AoWHSMap.Current.FTokenManager.GetTokenControl(fUnitPlayer).AddEvent(TE);
-                TE.Release();
-                Result = true;
+                var fUnitPlayer = Unit.GetPlayer();
+                AoWHSMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
+                tokenEvent.Release();
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
-    private static Int32Array14 StatusAbils = Int32Array14.From([149, 150, 48, 92, 93, 94, 95, 96, 97, 98, 107, 163, 127, 34]);
+    private static Int32Array14 s_statusAbilities = Int32Array14.From([149, 150, 48, 92, 93, 94, 95, 96, 97, 98, 107, 163, 127, 34]);
 
-    public static void OriginalUnitAssert(string Message, string Filename, int LineNumber)
+    public static void OriginalUnitAssert(string message, string fileName, int lineNumber)
     {
-        RtlUnit.Assert(false, Message, Filename, LineNumber);
+        RtlUnit.Assert(false, message, fileName, lineNumber);
     }
 
-    private static TacticalBattleMeleeMoveTokenEvent CreateTCMeleeMoveTE(TacticalBattleUnit UnitObject, MovePath Path)
+    private static TacticalBattleMeleeMoveTokenEvent CreateTacticalBattleMeleeMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path)
     {
-        TacticalBattleMeleeMoveTokenEvent tCMeleeMoveTE = new TacticalBattleMeleeMoveTokenEvent(null);
-        tCMeleeMoveTE?.Setup(UnitObject, Path);
-        return tCMeleeMoveTE;
+        TacticalBattleMeleeMoveTokenEvent tacticalBattleMeleeMoveTokenEvent = new TacticalBattleMeleeMoveTokenEvent(null);
+        tacticalBattleMeleeMoveTokenEvent?.Setup(unitObject, path);
+        return tacticalBattleMeleeMoveTokenEvent;
     }
 
-    private static CombatAbilityTouchMoveTokenEvent CreateTCAbTouchMoveTE(TacticalBattleUnit UnitObject, MovePath Path, int AbilityID)
+    private static CombatAbilityTouchMoveTokenEvent CreateTacticalBattleAbilityTouchMoveTokenEvent(TacticalBattleUnit unitObject, MovePath path, int abilityId)
     {
-        CombatAbilityTouchMoveTokenEvent tCAbTouchMoveTE = new CombatAbilityTouchMoveTokenEvent(null);
-        if (tCAbTouchMoveTE != null)
+        CombatAbilityTouchMoveTokenEvent tacticalBattleAbilityTouchMoveTokenEvent = new CombatAbilityTouchMoveTokenEvent(null);
+        if (tacticalBattleAbilityTouchMoveTokenEvent != null)
         {
-            tCAbTouchMoveTE.Setup(UnitObject, Path);
-            tCAbTouchMoveTE.FAbilityID = AbilityID;
+            tacticalBattleAbilityTouchMoveTokenEvent.Setup(unitObject, path);
+            tacticalBattleAbilityTouchMoveTokenEvent.AbilityId = abilityId;
         }
-        return tCAbTouchMoveTE;
+        return tacticalBattleAbilityTouchMoveTokenEvent;
     }
 
-    private static CombatAbilityRangedTokenEvent CreateTCAbRangedTE(TacticalBattleUnit UnitObject, ushort X, ushort Y, int AbilityID, int SpellID)
+    private static CombatAbilityRangedTokenEvent CreateTacticalBattleAbilityRangedTokenEvent(TacticalBattleUnit unitObject, ushort X, ushort Y, int abilityId, int spellId)
     {
-        CombatAbilityRangedTokenEvent tCAbRangedTE = new CombatAbilityRangedTokenEvent(null);
-        if (tCAbRangedTE != null)
+        CombatAbilityRangedTokenEvent tacticalBattleAbilityRangedTokenEvent = new CombatAbilityRangedTokenEvent(null);
+        if (tacticalBattleAbilityRangedTokenEvent != null)
         {
-            tCAbRangedTE.FSourceX = (ushort)UnitObject.FUnitHS.Xhx;
-            tCAbRangedTE.FSourceY = (ushort)UnitObject.FUnitHS.Yhx;
-            tCAbRangedTE.FTargetX = X;
-            tCAbRangedTE.FTargetY = Y;
-            tCAbRangedTE.FAbilityID = AbilityID;
-            tCAbRangedTE.FSpellID = SpellID;
+            tacticalBattleAbilityRangedTokenEvent.SourceX = (ushort)unitObject.UnitHexSprite.HexX;
+            tacticalBattleAbilityRangedTokenEvent.SourceY = (ushort)unitObject.UnitHexSprite.HexY;
+            tacticalBattleAbilityRangedTokenEvent.TargetX = X;
+            tacticalBattleAbilityRangedTokenEvent.TargetY = Y;
+            tacticalBattleAbilityRangedTokenEvent.AbilityId = abilityId;
+            tacticalBattleAbilityRangedTokenEvent.SpellId = spellId;
         }
-        return tCAbRangedTE;
+        return tacticalBattleAbilityRangedTokenEvent;
     }
 
     public enum SpriteAction : byte

@@ -2,10 +2,10 @@
 
 namespace Aow.Game.Draw;
 
-// PixelFormatID, Width, Height
+// PixelFormatId, Width, Height
 public partial class DisplayModeItem
 {
-    public int PixelFormatID;
+    public int PixelFormatId;
     public int Width;
     public int Height;
 }

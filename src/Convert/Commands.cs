@@ -35,7 +35,7 @@ internal static class Commands
 
     internal static int ToOwn(Options o, TextWriter output, TextWriter errors)
     {
-        if (o.Dir is not null) return ToOwnDirectory(o, output, errors);
+        if (o.Directory is not null) return ToOwnDirectory(o, output, errors);
         if (o.Positional.Count != 2) throw new UsageException("to-own needs <in> and <out>.");
         string input = o.Positional[0], target = o.Positional[1];
         if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal) return Fail(errors, refusal);
@@ -54,7 +54,7 @@ internal static class Commands
 
     internal static int ToOriginal(Options o, TextWriter output, TextWriter errors)
     {
-        if (o.Dir is not null) return ToOriginalDirectory(o, output, errors);
+        if (o.Directory is not null) return ToOriginalDirectory(o, output, errors);
         if (o.Positional.Count != 2) throw new UsageException("to-original needs <in> and <out>.");
         string input = o.Positional[0], target = o.Positional[1];
         if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal) return Fail(errors, refusal);
@@ -122,12 +122,12 @@ internal static class Commands
     private static int ToOwnDirectory(Options o, TextWriter output, TextWriter errors)
     {
         if (o.Out is null || o.Positional.Count != 0) throw new UsageException("to-own --dir needs --out and no other paths.");
-        if (SafeOutput.Overlaps(o.Dir!, o.Out)) return Fail(errors, "The input and output directory trees overlap.");
+        if (SafeOutput.Overlaps(o.Directory!, o.Out)) return Fail(errors, "The input and output directory trees overlap.");
         var manifest = Manifest(o.Profiles);
         int done = 0, failed = 0, skipped = 0;
-        foreach (var relative in Enumerate(o.Dir!))
+        foreach (var relative in Enumerate(o.Directory!))
         {
-            string input = Path.Combine(o.Dir!, relative);
+            string input = Path.Combine(o.Directory!, relative);
             manifest.TryGetValue(relative, out var entry);
             string extension = Path.GetExtension(relative);
             if (entry.Kind is null && (DocumentKind.ForExtension(extension) is not { } byName || byName.IsOwnExtension(extension)))
@@ -164,12 +164,12 @@ internal static class Commands
     private static int ToOriginalDirectory(Options o, TextWriter output, TextWriter errors)
     {
         if (o.Out is null || o.Positional.Count != 0) throw new UsageException("to-original --dir needs --out and no other paths.");
-        if (SafeOutput.Overlaps(o.Dir!, o.Out)) return Fail(errors, "The input and output directory trees overlap.");
+        if (SafeOutput.Overlaps(o.Directory!, o.Out)) return Fail(errors, "The input and output directory trees overlap.");
         int done = 0, failed = 0, skipped = 0;
         var sources = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var relative in Enumerate(o.Dir!))
+        foreach (var relative in Enumerate(o.Directory!))
         {
-            string input = Path.Combine(o.Dir!, relative);
+            string input = Path.Combine(o.Directory!, relative);
             var bytes = File.ReadAllBytes(input);
             if (!GameFiles.IsGzip(bytes) && !GameFiles.IsJsonCandidate(bytes))
             {
@@ -235,38 +235,38 @@ internal static class Commands
             Aow.Formats.Json.JsonObject document;
             string format;
             LayoutCounts counts;
-            double importMs, writeMs, parseMs = 0;
+            double importMilliseconds, writeMilliseconds, parseMilliseconds = 0;
             byte[] text;
             if (GameFiles.IsGzip(bytes) || GameFiles.IsJsonCandidate(bytes))
             {
                 var read = GameFiles.Read(bytes, input);
-                parseMs = watch.Elapsed.TotalMilliseconds;
+                parseMilliseconds = watch.Elapsed.TotalMilliseconds;
                 document = read.Document;
                 format = (read.Gzip ? "gzip own JSON" : "own JSON") + $", declared version {read.DeclaredVersion}" +
                     (read.Migrations.Count > 0 ? ", migrated by " + string.Join(", ", read.Migrations) : "");
                 counts = new LayoutCounts();
-                importMs = 0;
+                importMilliseconds = 0;
                 watch.Restart();
                 text = GameFiles.Write(document);
-                writeMs = watch.Elapsed.TotalMilliseconds;
+                writeMilliseconds = watch.Elapsed.TotalMilliseconds;
             }
             else
             {
                 var result = ImportOriginal(bytes, input, o.Kind, o.Profile);
-                importMs = watch.Elapsed.TotalMilliseconds;
+                importMilliseconds = watch.Elapsed.TotalMilliseconds;
                 document = result.Document;
                 counts = result.Counts;
                 format = "original";
                 watch.Restart();
                 text = GameFiles.Write(document);
-                writeMs = watch.Elapsed.TotalMilliseconds;
+                writeMilliseconds = watch.Elapsed.TotalMilliseconds;
                 watch.Restart();
                 GameFiles.Read(text, input);
-                parseMs = watch.Elapsed.TotalMilliseconds;
+                parseMilliseconds = watch.Elapsed.TotalMilliseconds;
             }
             watch.Restart();
             var exported = GameFiles.Export(document, null, input);
-            double exportMs = watch.Elapsed.TotalMilliseconds;
+            double exportMilliseconds = watch.Elapsed.TotalMilliseconds;
             var (profile, kind, _, _) = GameFiles.Envelope(document, input);
             output.WriteLine($"File: {input}");
             output.WriteLine($"Format: {format}");
@@ -279,7 +279,7 @@ internal static class Commands
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
                 $"Size: original {bytes.Length} bytes, exported {exported.Bytes.Length} bytes, own JSON {text.Length} bytes"));
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
-                $"Latency: import {importMs:F1} ms, write {writeMs:F1} ms, parse {parseMs:F1} ms, export {exportMs:F1} ms"));
+                $"Latency: import {importMilliseconds:F1} ms, write {writeMilliseconds:F1} ms, parse {parseMilliseconds:F1} ms, export {exportMilliseconds:F1} ms"));
             using var process = Process.GetCurrentProcess();
             output.WriteLine(string.Create(CultureInfo.InvariantCulture,
                 $"Memory: peak working set {process.PeakWorkingSet64 / (1024.0 * 1024.0):F1} MiB, managed heap {GC.GetTotalMemory(false) / (1024.0 * 1024.0):F1} MiB"));

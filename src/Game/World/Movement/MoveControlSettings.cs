@@ -26,197 +26,197 @@ public partial class MoveControlSettings : EngineObject
     // MoveT.PAS:73
     public MoveControlSettings(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
-        FProcessedMapFields = new DelphiList();
-        FPath = new MovePath();
-        FSubMoves = new SubMoveList(null);
-        FUnits = new UnitUserList(null);
+        RefCount = 1;
+        ProcessedMapFields = new DelphiList();
+        Path = new MovePath();
+        SubMoves = new SubMoveList(null);
+        Units = new UnitUserList(null);
         Reset();
     }
 
-    public int FRefCount;
-    public int FMovePointsLimit;
-    public SubMoveList FSubMoves;
-    public int FSubMoveIndex;
-    public DelphiList FProcessedMapFields;
-    public int[] FRowOffsets = [];
-    public int[][] FLevelData = [];
-    public Int32Array8 FEvenOffsets;
-    public Int32Array8 FOddOffsets;
-    public bool FMovePointsClear;
-    public Status FStatus;
-    public Set<MoveModeElement> FMode;
-    public MovePath FPath;
-    public sbyte FPlayer;
-    public int FWidth;
-    public int FHeight;
-    public int FLevelCount;
-    public int FSourceX;
-    public int FSourceY;
-    public int FSourceL;
-    public int FDestinationX;
-    public int FDestinationY;
-    public int FDestinationL;
-    public int FMovePointsMax;
-    public UnitHexSprite FArmyHS;
-    public int FSelection;
-    public ArmyHexSprite FTransporterArmy;
-    public UnitUserList FUnits;
+    public int RefCount;
+    public int MovePointsLimit;
+    public SubMoveList SubMoves;
+    public int SubMoveIndex;
+    public DelphiList ProcessedMapFields;
+    public int[] RowOffsets = [];
+    public int[][] LevelData = [];
+    public Int32Array8 EvenOffsets;
+    public Int32Array8 OddOffsets;
+    public bool MovePointsClear;
+    public MoveControlSettingsStatus Status;
+    public Set<MoveModeElement> Mode;
+    public MovePath Path;
+    public sbyte Player;
+    public int Width;
+    public int Height;
+    public int LevelCount;
+    public int SourceX;
+    public int SourceY;
+    public int SourceL;
+    public int DestinationX;
+    public int DestinationY;
+    public int DestinationL;
+    public int MovePointsMax;
+    public UnitHexSprite ArmyHexSprite;
+    public int Selection;
+    public ArmyHexSprite TransporterArmy;
+    public UnitUserList Units;
     // AddUnitsEx
-    public SByteArray16By16 FMovePointTable;
+    public SByteArray16By16 MovePointTable;
 
     // MoveT.PAS:84
     public override void Dispose()
     {
         Clear();
-        FProcessedMapFields?.Dispose();
-        FSubMoves?.Dispose();
-        FPath?.Dispose();
-        FUnits?.Dispose();
+        ProcessedMapFields?.Dispose();
+        SubMoves?.Dispose();
+        Path?.Dispose();
+        Units?.Dispose();
         base.Dispose();
     }
 
     // MoveT.PAS:107
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // MoveT.PAS:113
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (FRefCount == 0)
+        RefCount -= 1;
+        int result = RefCount;
+        if (RefCount == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:94
     public override void Clear()
     {
-        FPath.Clear();
-        FProcessedMapFields.Clear();
-        for (int I = 0, last = FLevelCount - 1; I <= last; I++)
+        Path.Clear();
+        ProcessedMapFields.Clear();
+        for (int I = 0, last = LevelCount - 1; I <= last; I++)
         {
-            Array.Resize(ref FLevelData[I], 0);
+            Array.Resize(ref LevelData[I], 0);
         }
 
-        Array.Resize(ref FRowOffsets, 0);
-        Array.Resize(ref FLevelData, 0);
-        FWidth = 0;
-        FHeight = 0;
-        FLevelCount = 0;
+        Array.Resize(ref RowOffsets, 0);
+        Array.Resize(ref LevelData, 0);
+        Width = 0;
+        Height = 0;
+        LevelCount = 0;
     }
 
     // MoveT.PAS:120
     public void ResetState()
     {
-        FStatus = Status.Idle;
+        Status = MoveControlSettingsStatus.Idle;
     }
 
     // MoveT.PAS:125
     public void Reset()
     {
-        FPath.Clear();
-        FSubMoves.Clear();
-        FProcessedMapFields.Clear();
-        FMovePointsMax = 4095;
-        FillBytes(Bytes.Of(ref FMovePointTable, 256), -1);
-        for (int I = 0, last = FLevelCount - 1; I <= last; I++)
+        Path.Clear();
+        SubMoves.Clear();
+        ProcessedMapFields.Clear();
+        MovePointsMax = 4095;
+        FillBytes(Bytes.Of(ref MovePointTable, 256), -1);
+        for (int I = 0, last = LevelCount - 1; I <= last; I++)
         {
-            if (FLevelData[I] is not null)
+            if (LevelData[I] is not null)
             {
-                FillInt(MemoryMarshal.AsBytes(FLevelData[I].AsSpan(0, FWidth * FHeight * 4 / 4)), FWidth * FHeight, 16777215);
+                FillInteger(MemoryMarshal.AsBytes(LevelData[I].AsSpan(0, Width * Height * 4 / 4)), Width * Height, 16777215);
             }
         }
 
-        FMode = Set<MoveModeElement>.Of();
-        FPlayer = -1;
-        FSourceX = -1;
-        FSourceY = -1;
-        FSourceL = -1;
-        FDestinationX = -1;
-        FDestinationY = -1;
-        FDestinationL = -1;
-        FStatus = Status.Idle;
-        FUnits.Clear();
+        Mode = Set<MoveModeElement>.Of();
+        Player = -1;
+        SourceX = -1;
+        SourceY = -1;
+        SourceL = -1;
+        DestinationX = -1;
+        DestinationY = -1;
+        DestinationL = -1;
+        Status = MoveControlSettingsStatus.Idle;
+        Units.Clear();
     }
 
     // MoveT.PAS:148
-    public void SetSourcePos(int X, int Y, int L)
+    public void SetSourcePosition(int X, int Y, int L)
     {
-        FSourceX = X;
-        FSourceY = Y;
-        FSourceL = L;
+        SourceX = X;
+        SourceY = Y;
+        SourceL = L;
     }
 
     // MoveT.PAS:155
-    public void SetDestinationPos(int X, int Y, int L)
+    public void SetDestinationPosition(int X, int Y, int L)
     {
-        FDestinationX = X;
-        FDestinationY = Y;
-        FDestinationL = L;
+        DestinationX = X;
+        DestinationY = Y;
+        DestinationL = L;
     }
 
     // MoveT.PAS:162
-    public void SetupArmy(ArmyHexSprite Army, byte Selection)
+    public void SetupArmy(ArmyHexSprite army, byte selection)
     {
-        FArmyHS = Army;
-        FSelection = Selection;
-        FUnits.AddUnitsEx(Army.FArmy, Selection);
-        FSourceX = Army.Xhx;
-        FSourceY = Army.Yhx;
-        FSourceL = Army.Lhx;
-        FPlayer = Army.FArmy.FPlayer;
-        Army.FArmy.CreateMovePointTable(Selection, Bytes.Of(ref FMovePointTable));
-        if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human)
+        ArmyHexSprite = army;
+        Selection = selection;
+        Units.AddUnits(army.Army, selection);
+        SourceX = army.HexX;
+        SourceY = army.HexY;
+        SourceL = army.HexLevel;
+        Player = army.Army.Player;
+        army.Army.CreateMovePointTable(selection, Bytes.Of(ref MovePointTable));
+        if (AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
         {
-            FMode = FMode + Set<MoveModeElement>.Of(MoveModeElement.AI);
+            Mode = Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
         }
     }
 
     // MoveT.PAS:175
-    public void SetupLevel(int Level)
+    public void SetupLevel(int level)
     {
-        if (FLevelData[Level] is null)
+        if (LevelData[level] is null)
         {
-            Array.Resize(ref FLevelData[Level], FWidth * FHeight);
-            FillInt(MemoryMarshal.AsBytes(FLevelData[Level].AsSpan(0, FWidth * FHeight * 4 / 4)), FWidth * FHeight, 16777215);
+            Array.Resize(ref LevelData[level], Width * Height);
+            FillInteger(MemoryMarshal.AsBytes(LevelData[level].AsSpan(0, Width * Height * 4 / 4)), Width * Height, 16777215);
         }
     }
 
     // MoveT.PAS:184
-    public void SetupMovePointData(int Width, int Height, int LevelCount)
+    public void SetupMovePointData(int width, int height, int levelCount)
     {
-        int RowSize;
-        int Offset;
-        if (Width != FWidth || Height != FHeight || LevelCount != FLevelCount)
+        int rowSize;
+        int offset;
+        if (width != Width || height != Height || levelCount != LevelCount)
         {
             Clear();
-            FWidth = Width;
-            FHeight = Height;
-            FLevelCount = LevelCount;
-            FMovePointsClear = true;
-            Offset = 0;
-            RowSize = Width * 4;
-            Array.Resize(ref FRowOffsets, Height);
-            for (int I = 0; I <= Height - 1; I++)
+            Width = width;
+            Height = height;
+            LevelCount = levelCount;
+            MovePointsClear = true;
+            offset = 0;
+            rowSize = width * 4;
+            Array.Resize(ref RowOffsets, height);
+            for (int I = 0; I <= height - 1; I++)
             {
-                FRowOffsets[I] = Offset;
-                Offset += RowSize;
+                RowOffsets[I] = offset;
+                offset += rowSize;
             }
 
-            Array.Resize(ref FLevelData, LevelCount);
-            Array.Clear(FLevelData);
+            Array.Resize(ref LevelData, levelCount);
+            Array.Clear(LevelData);
             for (int I = 1; I <= 6; I++)
             {
-                FEvenOffsets[I] = HexGeometry.HNtoXYTable[0][I].X * 4 + HexGeometry.HNtoXYTable[0][I].Y * (Width * 4);
-                FOddOffsets[I] = HexGeometry.HNtoXYTable[1][I].X * 4 + HexGeometry.HNtoXYTable[1][I].Y * (Width * 4);
+                EvenOffsets[I] = HexGeometry.s_hexNumberToXYTable[0][I].X * 4 + HexGeometry.s_hexNumberToXYTable[0][I].Y * (width * 4);
+                OddOffsets[I] = HexGeometry.s_hexNumberToXYTable[1][I].X * 4 + HexGeometry.s_hexNumberToXYTable[1][I].Y * (width * 4);
             }
         }
         else
@@ -228,35 +228,35 @@ public partial class MoveControlSettings : EngineObject
     // MoveT.PAS:214
     public void ClearMovePoints()
     {
-        if (!FMovePointsClear)
+        if (!MovePointsClear)
         {
-            for (int I = 0, last = FLevelCount - 1; I <= last; I++)
+            for (int I = 0, last = LevelCount - 1; I <= last; I++)
             {
-                if (FLevelData[I] is not null)
+                if (LevelData[I] is not null)
                 {
-                    FillInt(MemoryMarshal.AsBytes(FLevelData[I].AsSpan(0, FWidth * FHeight * 4 / 4)), FWidth * FHeight, 16777215);
+                    FillInteger(MemoryMarshal.AsBytes(LevelData[I].AsSpan(0, Width * Height * 4 / 4)), Width * Height, 16777215);
                 }
             }
 
-            FMovePointsClear = true;
+            MovePointsClear = true;
         }
     }
 
     // MoveT.PAS:238
-    public int[] GetMovePointLevelData(int Level) => FLevelData[Level];
+    public int[] GetMovePointLevelData(int level) => LevelData[level];
 
-    internal static void FillInt(Span<byte> destination, int count, int value)
+    internal static void FillInteger(Span<byte> destination, int count, int value)
     {
-        Blit.FillInt(destination, count, value);
-    }
-
-    public enum Status : byte
-    {
-        Idle = 0, Processing = 1, Processed = 2, Failed = 3
+        Blit.FillInteger(destination, count, value);
     }
 
     // intf_P5_01.inc:63
 
     // intf_P5_01.inc:63
 
+}
+
+public enum MoveControlSettingsStatus : byte
+{
+    Idle = 0, Processing = 1, Processed = 2, Failed = 3
 }

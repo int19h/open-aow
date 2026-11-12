@@ -12,7 +12,7 @@ public partial class DeathNode : ProductionPlace
     { }
 
     // DeathNode.pas:37
-    public new const int ClassID = 132270;
+    public new const int ClassId = 132270;
 
     // DeathNode.pas:40
     public override MagicSphere GetMagicSphere() => MagicSphere.Death;
@@ -21,26 +21,26 @@ public partial class DeathNode : ProductionPlace
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FRazeDefenderBudget = 200;
-            FRebuildGold = 25;
-            FRebuildDays = 2;
-            FTerrainBound = false;
+            RazeDefenderBudget = 200;
+            RebuildGold = 25;
+            RebuildDays = 2;
+            TerrainBound = false;
         }
 
         // DeathNode.pas:55
-        public new const int ClassID = 132271;
+        public new const int ClassId = 132271;
 
         // DeathNode.pas:43
 
         // DeathNode.pas:58
-        public override int ResourceUserClassID() => 132270;
+        public override int ResourceUserClassId() => 132270;
 
         // DeathNode.pas:27
 
         // DeathNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(DeathNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_deathNodeText);
 
-        private static readonly string DeathNodeRStr = "Death Node";
+        private static readonly string s_deathNodeText = "Death Node";
 
     }
 

@@ -15,129 +15,129 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // { ot=1 }
-// FCity
+// City
 public partial class CityProductionControl : ProductionControl
 {
     public CityProductionControl(ECustomNode owner) : base(owner)
     { }
 
-    public City FCity;
+    public City City;
 
     // City.pas:645
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        X = FCity.GetXhx();
-        Y = FCity.GetYhx();
-        L = FCity.GetLhx();
+        X = City.GetHexX();
+        Y = City.GetHexY();
+        L = City.GetHexLevel();
     }
 
     // City.pas:707
-    public override sbyte GetPlayer() => FCity.FPlayer;
+    public override sbyte GetPlayer() => City.Player;
 
     // City.pas:675
     public override bool UnitProduced()
     {
-        City City;
-        bool Valid;
-        int Count;
-        MapLevel Level;
-        HexNumberWalkData Walk = default;
-        CityProductionEventLog Log;
-        City = FCity;
-        Valid = false;
-        Count = City.GetTerrainCount();
-        Level = (MapLevel)City.Owner.Owner;
-        var yhx = City.GetYhx();
-        var xhx = City.GetXhx();
-        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
-        while (Walk.HN < Count && !Valid)
+        City city;
+        bool valid;
+        int count;
+        MapLevel level;
+        HexNumberWalkData walk = default;
+        CityProductionEventLog log;
+        city = City;
+        valid = false;
+        count = city.GetTerrainCount();
+        level = (MapLevel)city.Owner.Owner;
+        var hexY = city.GetHexY();
+        var hexX = city.GetHexX();
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        while (walk.HexNumber < count && !valid)
         {
-            if (City.FResource.TerrainList.Terrain[Walk.HN] >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (city._resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                var lhx = City.GetLhx();
-                Valid = FSettings.FUnit.Place(Walk.X, Walk.Y, lhx, City.FPlayer, Set<UnitPlaceModeElement>.Of()) != null;
+                var hexLevel = city.GetHexLevel();
+                valid = Settings.Unit.Place(walk.X, walk.Y, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of()) != null;
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        if (!Valid)
+        if (!valid)
         {
-            var lhx = City.GetLhx();
-            var cityYhx = City.GetYhx();
-            var cityXhx = City.GetXhx();
-            Valid = FSettings.FUnit.Place(cityXhx, cityYhx, lhx, City.FPlayer, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
+            var hexLevel = city.GetHexLevel();
+            var cityHexY = city.GetHexY();
+            var cityHexX = city.GetHexX();
+            valid = Settings.Unit.Place(cityHexX, cityHexY, hexLevel, city.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
         }
 
-        Log = new CityProductionEventLog(null);
-        Log.FPlayer = City.FPlayer;
-        var name = FSettings.FUnit.GetName();
-        var fCityName = FCity.GetName();
-        Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XProducedAtYRStr), [name, fCityName]);
-        var cityLhx = City.GetLhx();
-        var yhx2 = City.GetYhx();
-        Log.SetLocation(City.GetXhx(), yhx2, cityLhx);
-        AoWHSMap.Current.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
-        Log.Release();
-        return Valid;
+        log = new CityProductionEventLog(null);
+        log._player = city.Player;
+        var name = Settings.Unit.GetName();
+        var fCityName = City.GetName();
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_producedFormat), [name, fCityName]);
+        var cityHexLevel = city.GetHexLevel();
+        var hexY2 = city.GetHexY();
+        log.SetLocation(city.GetHexX(), hexY2, cityHexLevel);
+        AoWHSMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        log.Release();
+        return valid;
     }
 
     // City.pas:658
     public override void UnitResearched()
     {
-        City City;
-        CityProductionEventLog Log;
+        City city;
+        CityProductionEventLog log;
         base.UnitResearched();
-        City = FCity;
-        Log = new CityProductionEventLog(null);
-        Log.FPlayer = City.FPlayer;
-        var unitProduction = FUnitProductions.GetItem(FSettings.FUnitProductionIndex);
-        var unitName = AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).GetUnitName();
-        var name = FCity.GetName();
-        Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XInstalledAtYRStr), [unitName, name]);
-        var lhx = City.GetLhx();
-        var yhx = City.GetYhx();
-        Log.SetLocation(City.GetXhx(), yhx, lhx);
-        AoWHSMap.Current.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
-        Log.Release();
+        city = City;
+        log = new CityProductionEventLog(null);
+        log._player = city.Player;
+        var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
+        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
+        var name = City.GetName();
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_installedFormat), [unitName, name]);
+        var hexLevel = city.GetHexLevel();
+        var hexY = city.GetHexY();
+        log.SetLocation(city.GetHexX(), hexY, hexLevel);
+        AoWHSMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        log.Release();
     }
 
     // City.pas:639
     public override void Update()
     {
         base.Update();
-        if (FUpdateCount == 0)
+        if (UpdateCount == 0)
         {
-            FCity.Update();
+            City.Update();
         }
     }
 
     // City.pas:652
-    public override Unit CreateUnitProduction(int Index)
+    public override Unit CreateUnitProduction(int index)
     {
-        Unit Result = base.CreateUnitProduction(Index);
-        if (Result != null && FCity.FEnchantments.Contains(CityEnchantmentId.Warmonger))
+        Unit result = base.CreateUnitProduction(index);
+        if (result != null && City.Enchantments.Contains(CityEnchantmentId.Warmonger))
         {
-            Result.SetRank(Unit.Rank.Silver);
+            result.SetRank(Unit.Rank.Silver);
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:710
-    public override int UnitProductionTime(int Index)
+    public override int UnitProductionTime(int index)
     {
-        int UnitIndex;
-        UnitIndex = FUnitProductions.GetItem(Index).FUnitIndex;
-        var unitResource = AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex);
-        var size = FCity.GetSize();
-        int Result = unitResource.FLevel - size / 2 + 1;
-        if (Result < 1)
+        int unitIndex;
+        unitIndex = UnitProductions.GetItem(index).UnitIndex;
+        var unitResource = AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex);
+        var size = City.GetSize();
+        int result = unitResource.Level - size / 2 + 1;
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P1_02.inc:120

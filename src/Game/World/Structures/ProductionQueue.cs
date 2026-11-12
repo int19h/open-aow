@@ -9,34 +9,34 @@ public partial class ProductionQueue : ENode
     public ProductionQueue(ECustomNode owner) : base(owner)
     { }
 
-    public ProductionControl FProductionControl;
+    public ProductionControl ProductionControl;
 
     // Structur.PAS:83
-    public ProductionItem GetItem(int Index)
+    public ProductionItem GetItem(int index)
     {
-        ProductionItem Result;
-        if (Index >= 0 && Index < Count)
+        ProductionItem result;
+        if (index >= 0 && index < Count)
         {
-            Result = (ProductionItem)FChildren.List[Index];
+            result = (ProductionItem)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:89
-    public int IndexOfID(int ID)
+    public int IndexOfId(int id)
     {
-        int Result = FChildren.Count;
-        while (Result != 0)
+        int result = _children.Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (ID == ((ProductionItem)FChildren.List[Result]).Order.ToFields().Id)
+            result -= 1;
+            if (id == ((ProductionItem)_children.List[result]).Order.ToFields().Id)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -44,17 +44,17 @@ public partial class ProductionQueue : ENode
     }
 
     // Structur.PAS:100
-    public int IndexOf(ProductionOrder Order)
+    public int IndexOf(ProductionOrder order)
     {
-        ProductionItem Item;
-        int Result = FChildren.Count;
-        while (Result != 0)
+        ProductionItem item;
+        int result = _children.Count;
+        while (result != 0)
         {
-            Result -= 1;
-            Item = (ProductionItem)FChildren.List[Result];
-            if (Item.Order == Order)
+            result -= 1;
+            item = (ProductionItem)_children.List[result];
+            if (item.Order == order)
             {
-                return Result;
+                return result;
             }
         }
 

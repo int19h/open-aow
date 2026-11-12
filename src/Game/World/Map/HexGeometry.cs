@@ -10,287 +10,287 @@ namespace Aow.Game.World.Map;
 
 public static class HexGeometry
 {
-    internal static void HVtoHX(int h, int v, ref int x, ref int y)
+    internal static void HVtoHex(int h, int v, ref int x, ref int y)
     {
         x = h + v;
         y = v - h >> 1;
     }
 
-    internal static int RadToHN(int Rad)
+    internal static int RadiusToHexNumber(int radius)
     {
-        int Result;
-        if (Rad <= 10)
+        int result;
+        if (radius <= 10)
         {
-            Result = RadToHNTable[Rad];
+            result = s_radiusToHexNumberTable[radius];
         }
         else
         {
-            Result = (Rad - 1) * Rad * 3 + 1;
+            result = (radius - 1) * radius * 3 + 1;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int InvHN(int HN)
+    internal static int InverseHexNumber(int hexNumber)
     {
-        int Result;
+        int result;
         int R;
         int N;
-        if (HN < 37)
+        if (hexNumber < 37)
         {
-            Result = InvHNTable[HN];
+            result = s_inverseHexNumberTable[hexNumber];
         }
         else
         {
-            R = ((int)Math.Sqrt((HN - 1) * 12 + 9) + 3) / 6;
+            R = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
             N = R * 6;
-            Result = (HN - (R - 1) * R * 3 - 1 + (int)(((uint)N) >> 1)) % N + ((R - 1) * R * 3 + 1);
+            result = (hexNumber - (R - 1) * R * 3 - 1 + (int)(((uint)N) >> 1)) % N + ((R - 1) * R * 3 + 1);
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void CenterHNtoHX(int Xhx, int Yhx, int HN, ref int NewXhx, ref int NewYhx)
+    internal static void CenterHexNumberToHex(int hexX, int hexY, int hexNumber, ref int newHexX, ref int newHexY)
     {
         int R;
-        int Side;
-        int Pos;
-        if (HN != 0)
+        int side;
+        int position;
+        if (hexNumber != 0)
         {
-            R = ((int)Math.Sqrt((HN - 1) * 12 + 9) + 3) / 6;
-            HN = HN - (R - 1) * R * 3 - 1;
-            Side = HN / R;
-            Pos = HN % R;
-            switch (Side)
+            R = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
+            hexNumber = hexNumber - (R - 1) * R * 3 - 1;
+            side = hexNumber / R;
+            position = hexNumber % R;
+            switch (side)
             {
                 case 0:
-                    HVtoHX(R, Pos - R, ref NewXhx, ref NewYhx);
+                    HVtoHex(R, position - R, ref newHexX, ref newHexY);
                     break;
                 case 1:
-                    NewXhx = R;
-                    NewYhx = Pos - (R + 1) / 2;
+                    newHexX = R;
+                    newHexY = position - (R + 1) / 2;
                     break;
                 case 2:
-                    HVtoHX(-Pos, R, ref NewXhx, ref NewYhx);
+                    HVtoHex(-position, R, ref newHexX, ref newHexY);
                     break;
                 case 3:
-                    HVtoHX(-R, R - Pos, ref NewXhx, ref NewYhx);
+                    HVtoHex(-R, R - position, ref newHexX, ref newHexY);
                     break;
                 case 4:
-                    NewXhx = -R;
-                    NewYhx = -Pos + R / 2;
+                    newHexX = -R;
+                    newHexY = -position + R / 2;
                     break;
                 case 5:
-                    HVtoHX(Pos, -R, ref NewXhx, ref NewYhx);
+                    HVtoHex(position, -R, ref newHexX, ref newHexY);
                     break;
             }
         }
         else
         {
-            NewXhx = 0;
-            NewYhx = 0;
+            newHexX = 0;
+            newHexY = 0;
         }
 
-        if ((Xhx & 1) != 0 && (NewXhx & 1) != 0)
+        if ((hexX & 1) != 0 && (newHexX & 1) != 0)
         {
-            NewYhx = NewYhx + Yhx + 1;
+            newHexY = newHexY + hexY + 1;
         }
         else
         {
-            NewYhx = NewYhx + Yhx;
+            newHexY = newHexY + hexY;
         }
 
-        NewXhx = NewXhx + Xhx;
+        newHexX = newHexX + hexX;
     }
 
-    internal static void TranslateHX(int FromXhx, int FromYhx, int ToXhx, int ToYhx, int Xhx, int Yhx, ref int NewXhx, ref int NewYhx)
+    internal static void TranslateHex(int fromHexX, int fromHexY, int toHexX, int toHexY, int hexX, int hexY, ref int newHexX, ref int newHexY)
     {
         int dX;
         int dY;
-        dX = ToXhx - FromXhx;
-        dY = ToYhx - FromYhx;
+        dX = toHexX - fromHexX;
+        dY = toHexY - fromHexY;
         if ((dX & 1) != 0)
         {
-            if ((FromXhx & 1) != 0)
+            if ((fromHexX & 1) != 0)
             {
-                if (!((Xhx & 1) != 0))
+                if (!((hexX & 1) != 0))
                 {
                     dY -= 1;
                 }
             }
             else
             {
-                if ((Xhx & 1) != 0)
+                if ((hexX & 1) != 0)
                 {
                     dY += 1;
                 }
             }
         }
 
-        NewXhx = Xhx + dX;
-        NewYhx = Yhx + dY;
+        newHexX = hexX + dX;
+        newHexY = hexY + dY;
     }
 
-    internal static void TranslateZeroHX(int Xhx, int Yhx, int dXhx, int dYhx, ref int NewXhx, ref int NewYhx)
+    internal static void TranslateZeroHex(int hexX, int hexY, int deltaHexX, int deltaHexY, ref int newHexX, ref int newHexY)
     {
-        if ((Xhx & 1) != 0 && (dXhx & 1) != 0)
+        if ((hexX & 1) != 0 && (deltaHexX & 1) != 0)
         {
-            NewYhx = dYhx + Yhx + 1;
+            newHexY = deltaHexY + hexY + 1;
         }
         else
         {
-            NewYhx = dYhx + Yhx;
+            newHexY = deltaHexY + hexY;
         }
 
-        NewXhx = dXhx + Xhx;
+        newHexX = deltaHexX + hexX;
     }
 
-    internal static void GenerateWalkAroundRoute(int Xhx, int Yhx, WalkAroundRouteCallBack CallBack)
+    internal static void GenerateWalkAroundRoute(int hexX, int hexY, WalkAroundRouteCallBack callback)
     {
-        int NXhx;
-        int NYhx = default;
-        int TXhx = default;
-        int TYhx = default;
-        int HN;
-        bool Found;
-        bool Cancel;
-        Cancel = false;
-        NXhx = 65535;
-        Found = false;
-        HN = 0;
-        while (!Found && HN != 6 && !Cancel)
+        int nHexX;
+        int nHexY = default;
+        int tHexX = default;
+        int tHexY = default;
+        int hexNumber;
+        bool found;
+        bool cancel;
+        cancel = false;
+        nHexX = 65535;
+        found = false;
+        hexNumber = 0;
+        while (!found && hexNumber != 6 && !cancel)
         {
-            HN += 1;
-            CenterHNtoHX(Xhx, Yhx, HN, ref NXhx, ref NYhx);
-            Found = CallBack(NXhx, NYhx, ref Cancel);
+            hexNumber += 1;
+            CenterHexNumberToHex(hexX, hexY, hexNumber, ref nHexX, ref nHexY);
+            found = callback(nHexX, nHexY, ref cancel);
         }
 
-        if (Found && !Cancel)
+        if (found && !cancel)
         {
-            Xhx = NXhx;
-            Yhx = NYhx;
-            while (!Cancel)
+            hexX = nHexX;
+            hexY = nHexY;
+            while (!cancel)
             {
-                HN += 2;
-                if (HN > 6)
+                hexNumber += 2;
+                if (hexNumber > 6)
                 {
-                    HN -= 6;
+                    hexNumber -= 6;
                 }
 
                 do
                 {
-                    CenterHNtoHX(Xhx, Yhx, HN, ref TXhx, ref TYhx);
-                    HN -= 1;
+                    CenterHexNumberToHex(hexX, hexY, hexNumber, ref tHexX, ref tHexY);
+                    hexNumber -= 1;
                     // { the original asks for NXhx, NYhx here, not for the hexagon it just stepped to }
-                    Found = CallBack(NXhx, NYhx, ref Cancel);
+                    found = callback(nHexX, nHexY, ref cancel);
                 }
-                while (!(Found && !Cancel));
-                Xhx = TXhx;
-                Yhx = TYhx;
+                while (!(found && !cancel));
+                hexX = tHexX;
+                hexY = tHexY;
             }
         }
     }
 
-    internal static MapCoordinate PackXYL(sbyte X, sbyte Y, sbyte L)
+    internal static MapCoordinate PackMapCoordinate(sbyte X, sbyte Y, sbyte L)
     {
-        MapCoordinate Result = default;
-        Result.X = X;
-        Result.Y = Y;
-        Result.L = L;
-        Result.Flag = 0;
-        return Result;
+        MapCoordinate result = default;
+        result.X = X;
+        result.Y = Y;
+        result.MapLevel = L;
+        result.Tag = 0;
+        return result;
     }
 
-    internal static ByteArray37 InvHNTable = ByteArray37.From([0, 4, 5, 6, 1, 2, 3, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 33, 34, 35, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27]);
+    internal static ByteArray37 s_inverseHexNumberTable = ByteArray37.From([0, 4, 5, 6, 1, 2, 3, 13, 14, 15, 16, 17, 18, 7, 8, 9, 10, 11, 12, 28, 29, 30, 31, 32, 33, 34, 35, 36, 19, 20, 21, 22, 23, 24, 25, 26, 27]);
 
-    internal static Int32Array11 RadToHNTable = Int32Array11.From([0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271]);
+    internal static Int32Array11 s_radiusToHexNumberTable = Int32Array11.From([0, 1, 7, 19, 37, 61, 91, 127, 169, 217, 271]);
 
-    public static void OriginalAssert(string Message, string Filename, int LineNumber)
+    public static void OriginalAssert(string message, string fileName, int lineNumber)
     {
-        Assert(false, Message, Filename, LineNumber);
+        Assert(false, message, fileName, lineNumber);
     }
 
-    internal static XYTableEntryArray8By2 HNWalkTable = XYTableEntryArray8By2.From([XYTableEntryArray8.From([new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]), XYTableEntryArray8.From([new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
+    internal static XYTableEntryArray8By2 s_hexNumberWalkTable = XYTableEntryArray8By2.From([XYTableEntryArray8.From([new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]), XYTableEntryArray8.From([new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
 
-    internal static int HNtoRad(int HN)
+    internal static int HexNumberToRadius(int hexNumber)
     {
-        int Result;
-        if (HN < 37)
+        int result;
+        if (hexNumber < 37)
         {
-            Result = HNtoRadTable[HN];
+            result = s_hexNumberToRadiusTable[hexNumber];
         }
         else
         {
             // { the original lacks the "div 6" of InvHN and HNtoHX here }
-            Result = (int)Math.Sqrt((HN - 1) * 12 + 9) + 3;
+            result = (int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void HNtoHX(int HN, ref int Xhx, ref int Yhx)
+    internal static void HexNumberToHex(int hexNumber, ref int hexX, ref int hexY)
     {
         int R;
-        int Side;
-        int Pos;
-        if (HN < 37)
+        int side;
+        int position;
+        if (hexNumber < 37)
         {
-            Xhx = HNtoHXTable[HN][0];
-            Yhx = HNtoHXTable[HN][1];
+            hexX = s_hexNumberToHexTable[hexNumber][0];
+            hexY = s_hexNumberToHexTable[hexNumber][1];
         }
         else
         {
-            R = ((int)Math.Sqrt((HN - 1) * 12 + 9) + 3) / 6;
-            HN = HN - (R - 1) * R * 3 - 1;
-            Side = HN / R;
-            Pos = HN % R;
-            switch (Side)
+            R = ((int)Math.Sqrt((hexNumber - 1) * 12 + 9) + 3) / 6;
+            hexNumber = hexNumber - (R - 1) * R * 3 - 1;
+            side = hexNumber / R;
+            position = hexNumber % R;
+            switch (side)
             {
                 case 0:
-                    HVtoHX(R, Pos - R, ref Xhx, ref Yhx);
+                    HVtoHex(R, position - R, ref hexX, ref hexY);
                     break;
                 case 1:
-                    Xhx = R;
-                    Yhx = Pos - (R + 1) / 2;
+                    hexX = R;
+                    hexY = position - (R + 1) / 2;
                     break;
                 case 2:
-                    HVtoHX(-Pos, R, ref Xhx, ref Yhx);
+                    HVtoHex(-position, R, ref hexX, ref hexY);
                     break;
                 case 3:
-                    HVtoHX(-R, R - Pos, ref Xhx, ref Yhx);
+                    HVtoHex(-R, R - position, ref hexX, ref hexY);
                     break;
                 case 4:
-                    Xhx = -R;
-                    Yhx = -Pos + R / 2;
+                    hexX = -R;
+                    hexY = -position + R / 2;
                     break;
                 case 5:
-                    HVtoHX(Pos, -R, ref Xhx, ref Yhx);
+                    HVtoHex(position, -R, ref hexX, ref hexY);
                     break;
             }
         }
     }
 
-    internal static void HNtoHP(int HN, ref int Xhp, ref int Yhp)
+    internal static void HexNumberToPixel(int hexNumber, ref int pixelX, ref int pixelY)
     {
-        HNtoHX(HN, ref Xhp, ref Yhp);
-        HXtoHP(Xhp, Yhp, ref Xhp, ref Yhp);
-        Xhp -= 8;
+        HexNumberToHex(hexNumber, ref pixelX, ref pixelY);
+        HexToPixel(pixelX, pixelY, ref pixelX, ref pixelY);
+        pixelX -= 8;
     }
 
-    internal static XYTableEntryArray8By2 HNtoXYTable = XYTableEntryArray8By2.From([XYTableEntryArray8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }]), XYTableEntryArray8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
+    internal static XYTableEntryArray8By2 s_hexNumberToXYTable = XYTableEntryArray8By2.From([XYTableEntryArray8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }]), XYTableEntryArray8.From([new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }])]);
 
-    internal static ByteArray37 HNtoRadTable = ByteArray37.From([0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]);
+    internal static ByteArray37 s_hexNumberToRadiusTable = ByteArray37.From([0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]);
 
-    internal static Int32Array2By37 HNtoHXTable = Int32Array2By37.From([Int32Array2.From([0, 0]), Int32Array2.From([0, -1]), Int32Array2.From([1, -1]), Int32Array2.From([1, 0]), Int32Array2.From([0, 1]), Int32Array2.From([-1, 0]), Int32Array2.From([-1, -1]), Int32Array2.From([0, -2]), Int32Array2.From([1, -2]), Int32Array2.From([2, -1]), Int32Array2.From([2, 0]), Int32Array2.From([2, 1]), Int32Array2.From([1, 1]), Int32Array2.From([0, 2]), Int32Array2.From([-1, 1]), Int32Array2.From([-2, 1]), Int32Array2.From([-2, 0]), Int32Array2.From([-2, -1]), Int32Array2.From([-1, -2]), Int32Array2.From([0, -3]), Int32Array2.From([1, -3]), Int32Array2.From([2, -2]), Int32Array2.From([3, -2]), Int32Array2.From([3, -1]), Int32Array2.From([3, 0]), Int32Array2.From([3, 1]), Int32Array2.From([2, 2]), Int32Array2.From([1, 2]), Int32Array2.From([0, 3]), Int32Array2.From([-1, 2]), Int32Array2.From([-2, 2]), Int32Array2.From([-3, 1]), Int32Array2.From([-3, 0]), Int32Array2.From([-3, -1]), Int32Array2.From([-3, -2]), Int32Array2.From([-2, -2]), Int32Array2.From([-1, -3])]);
+    internal static Int32Array2By37 s_hexNumberToHexTable = Int32Array2By37.From([Int32Array2.From([0, 0]), Int32Array2.From([0, -1]), Int32Array2.From([1, -1]), Int32Array2.From([1, 0]), Int32Array2.From([0, 1]), Int32Array2.From([-1, 0]), Int32Array2.From([-1, -1]), Int32Array2.From([0, -2]), Int32Array2.From([1, -2]), Int32Array2.From([2, -1]), Int32Array2.From([2, 0]), Int32Array2.From([2, 1]), Int32Array2.From([1, 1]), Int32Array2.From([0, 2]), Int32Array2.From([-1, 1]), Int32Array2.From([-2, 1]), Int32Array2.From([-2, 0]), Int32Array2.From([-2, -1]), Int32Array2.From([-1, -2]), Int32Array2.From([0, -3]), Int32Array2.From([1, -3]), Int32Array2.From([2, -2]), Int32Array2.From([3, -2]), Int32Array2.From([3, -1]), Int32Array2.From([3, 0]), Int32Array2.From([3, 1]), Int32Array2.From([2, 2]), Int32Array2.From([1, 2]), Int32Array2.From([0, 3]), Int32Array2.From([-1, 2]), Int32Array2.From([-2, 2]), Int32Array2.From([-3, 1]), Int32Array2.From([-3, 0]), Int32Array2.From([-3, -1]), Int32Array2.From([-3, -2]), Int32Array2.From([-2, -2]), Int32Array2.From([-1, -3])]);
 
-    internal static void HPtoHX(int horizontal, int vertical, ref int x, ref int y)
+    internal static void PixelToHex(int horizontal, int vertical, ref int x, ref int y)
     {
         int column = horizontal - 8 >> 5;
         x = column;
         y = vertical - (column & 1) * 16 >> 5;
     }
 
-    internal static void HPtoHXs(int horizontal, int vertical, ref sbyte x, ref sbyte y)
+    internal static void PixelToHexes(int horizontal, int vertical, ref sbyte x, ref sbyte y)
     {
         int column = horizontal - 8 >> 5;
         Unsafe.WriteUnaligned(ref Unsafe.As<sbyte, byte>(ref x), column);
@@ -298,155 +298,155 @@ public static class HexGeometry
         Unsafe.WriteUnaligned(ref Unsafe.As<sbyte, byte>(ref y), row);
     }
 
-    internal static int HPtoHN(int Xhp, int Yhp)
+    internal static int PixelToHexNumber(int pixelX, int pixelY)
     {
-        HPtoHX(Xhp, Yhp, ref Xhp, ref Yhp);
-        return HXtoHN(Xhp, Yhp);
+        PixelToHex(pixelX, pixelY, ref pixelX, ref pixelY);
+        return HexToHexNumber(pixelX, pixelY);
     }
 
-    internal static int HXtoV(int x, int y) => ((x + 1) >> 1) + y;
+    internal static int HexToV(int x, int y) => ((x + 1) >> 1) + y;
 
-    internal static int HXtoH(int x, int y)
+    internal static int HexToH(int x, int y)
     {
         int difference = x - 2 * y;
         return difference == int.MinValue ? 1 << 30 : difference >> 1;
     }
 
-    internal static int dHXtoRad(int X1, int Y1, int X2, int Y2)
+    internal static int DeltaHexToRadius(int x1, int y1, int x2, int y2)
     {
-        int Result;
+        int result;
         int dX;
         int dY;
-        int Half;
-        bool Up;
-        dX = Math.Abs(X1 - X2);
-        dY = Math.Abs(Y1 - Y2);
+        int half;
+        bool up;
+        dX = Math.Abs(x1 - x2);
+        dY = Math.Abs(y1 - y2);
         if (dY >= dX)
         {
-            Up = (dX & 1) != 0 && ((!((X1 & 1) != 0) && Y1 < Y2) || (!((X2 & 1) != 0) && Y2 < Y1));
-            if (Up)
+            up = (dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1));
+            if (up)
             {
-                Result = (int)(((uint)(dX + 1)) >> 1) + dY;
+                result = (int)(((uint)(dX + 1)) >> 1) + dY;
             }
             else
             {
-                Result = (int)(((uint)dX) >> 1) + dY;
+                result = (int)(((uint)dX) >> 1) + dY;
             }
         }
         else
         {
-            Result = dX;
-            Half = (int)(((uint)(dX + 1)) >> 1);
-            if ((dX & 1) != 0 && ((!((X1 & 1) != 0) && Y1 < Y2) || (!((X2 & 1) != 0) && Y2 < Y1)))
+            result = dX;
+            half = (int)(((uint)(dX + 1)) >> 1);
+            if ((dX & 1) != 0 && ((!((x1 & 1) != 0) && y1 < y2) || (!((x2 & 1) != 0) && y2 < y1)))
             {
                 dY += 1;
             }
 
-            if (dY > Half)
+            if (dY > half)
             {
-                Result += dY - Half;
+                result += dY - half;
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int HXtoRad(int Xhx, int Yhx)
+    internal static int HexToRadius(int hexX, int hexY)
     {
-        int Result;
+        int result;
         int dX;
         int dY;
-        int Half;
-        bool Up;
-        dX = Math.Abs(Xhx);
-        dY = Math.Abs(Yhx);
+        int half;
+        bool up;
+        dX = Math.Abs(hexX);
+        dY = Math.Abs(hexY);
         if (dY >= dX)
         {
-            Up = (dX & 1) != 0 && (Yhx > 0 || (!((Xhx & 1) != 0) && Yhx < 0));
-            if (Up)
+            up = (dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0));
+            if (up)
             {
-                Result = (int)(((uint)(dX + 1)) >> 1) + dY;
+                result = (int)(((uint)(dX + 1)) >> 1) + dY;
             }
             else
             {
-                Result = (int)(((uint)dX) >> 1) + dY;
+                result = (int)(((uint)dX) >> 1) + dY;
             }
         }
         else
         {
-            Result = dX;
-            Half = (int)(((uint)(dX + 1)) >> 1);
-            if ((dX & 1) != 0 && (Yhx > 0 || (!((Xhx & 1) != 0) && Yhx < 0)))
+            result = dX;
+            half = (int)(((uint)(dX + 1)) >> 1);
+            if ((dX & 1) != 0 && (hexY > 0 || (!((hexX & 1) != 0) && hexY < 0)))
             {
                 dY += 1;
             }
 
-            if (dY > Half)
+            if (dY > half)
             {
-                Result += dY - Half;
+                result += dY - half;
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void HXtoHV(int Xhx, int Yhx, ref int H, ref int V)
+    internal static void HexToHV(int hexX, int hexY, ref int H, ref int V)
     {
-        H = HXtoH(Xhx, Yhx);
-        V = HXtoV(Xhx, Yhx);
+        H = HexToH(hexX, hexY);
+        V = HexToV(hexX, hexY);
     }
 
-    internal static int HXtoHN(int Xhx, int Yhx)
+    internal static int HexToHexNumber(int hexX, int hexY)
     {
-        int Result;
+        int result;
         int R;
-        int Side;
-        int Pos;
+        int side;
+        int position;
         int H = default;
         int V = default;
-        R = HXtoRad(Xhx, Yhx);
+        R = HexToRadius(hexX, hexY);
         if (R != 0)
         {
-            HXtoHV(Xhx, Yhx, ref H, ref V);
+            HexToHV(hexX, hexY, ref H, ref V);
             if (R == H)
             {
-                Side = 0;
-                Pos = V + R;
+                side = 0;
+                position = V + R;
             }
             else
             {
                 if (R == V)
                 {
-                    Side = 2;
-                    Pos = -H;
+                    side = 2;
+                    position = -H;
                 }
                 else
                 {
                     if (-R == H)
                     {
-                        Side = 3;
-                        Pos = -V + R;
+                        side = 3;
+                        position = -V + R;
                     }
                     else
                     {
                         if (-R == V)
                         {
-                            Side = 5;
-                            Pos = H;
+                            side = 5;
+                            position = H;
                         }
                         else
                         {
-                            if (R == Xhx)
+                            if (R == hexX)
                             {
-                                Side = 1;
-                                Pos = (Xhx + 1) / 2 + Yhx;
+                                side = 1;
+                                position = (hexX + 1) / 2 + hexY;
                             }
                             else
                             {
-                                if (R == -Xhx)
+                                if (R == -hexX)
                                 {
-                                    Side = 4;
-                                    Pos = -Yhx - Xhx / 2;
+                                    side = 4;
+                                    position = -hexY - hexX / 2;
                                 }
                                 else
                                 {
@@ -458,126 +458,126 @@ public static class HexGeometry
                 }
             }
 
-            Result = Pos + ((R - 1) * R * 3 + 1 + Side * R);
+            result = position + ((R - 1) * R * 3 + 1 + side * R);
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int dHXtoHN(int X1, int Y1, int X2, int Y2)
+    internal static int DeltaHexToHexNumber(int x1, int y1, int x2, int y2)
     {
-        TranslateHX(X1, Y1, 0, 0, X2, Y2, ref X2, ref Y2);
-        return HXtoHN(X2, Y2);
+        TranslateHex(x1, y1, 0, 0, x2, y2, ref x2, ref y2);
+        return HexToHexNumber(x2, y2);
     }
 
-    internal static int dHXtoHNfast(int X1, int Y1, int X2, int Y2)
+    internal static int DeltaHexToHexNumberFast(int x1, int y1, int x2, int y2)
     {
-        int Result;
-        if (X1 == X2)
+        int result;
+        if (x1 == x2)
         {
-            if (Y2 < Y1)
+            if (y2 < y1)
             {
-                Result = 1;
+                result = 1;
             }
             else
             {
-                if (Y2 > Y1)
+                if (y2 > y1)
                 {
-                    Result = 4;
+                    result = 4;
                 }
                 else
                 {
-                    Result = 0;
+                    result = 0;
                 }
             }
         }
         else
         {
-            if (!((X1 & 1) != 0))
+            if (!((x1 & 1) != 0))
             {
-                if (X2 < X1)
+                if (x2 < x1)
                 {
-                    if (Y2 < Y1)
+                    if (y2 < y1)
                     {
-                        Result = 6;
+                        result = 6;
                     }
                     else
                     {
-                        Result = 5;
+                        result = 5;
                     }
                 }
                 else
                 {
-                    if (Y2 < Y1)
+                    if (y2 < y1)
                     {
-                        Result = 2;
+                        result = 2;
                     }
                     else
                     {
-                        Result = 3;
+                        result = 3;
                     }
                 }
             }
             else
             {
-                if (X2 < X1)
+                if (x2 < x1)
                 {
-                    if (Y2 > Y1)
+                    if (y2 > y1)
                     {
-                        Result = 5;
+                        result = 5;
                     }
                     else
                     {
-                        Result = 6;
+                        result = 6;
                     }
                 }
                 else
                 {
-                    if (Y2 > Y1)
+                    if (y2 > y1)
                     {
-                        Result = 3;
+                        result = 3;
                     }
                     else
                     {
-                        Result = 2;
+                        result = 2;
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void HXtoHP(int Xhx, int Yhx, ref int Xhp, ref int Yhp)
+    internal static void HexToPixel(int hexX, int hexY, ref int pixelX, ref int pixelY)
     {
-        Xhp = Xhx * 32 + 8;
-        Yhp = Yhx * 32 + (Xhx & 1) * 16;
+        pixelX = hexX * 32 + 8;
+        pixelY = hexY * 32 + (hexX & 1) * 16;
     }
 
-    internal static int HXtoHT(int Xhx, int Yhx)
+    internal static int HexToHexDirection(int hexX, int hexY)
     {
-        int Result;
+        int result;
         int H;
-        H = HXtoH(Xhx, Yhx);
+        H = HexToH(hexX, hexY);
         if (H > 0)
         {
-            if (Xhx < 0)
+            if (hexX < 0)
             {
-                Result = 6;
+                result = 6;
             }
             else
             {
-                if (HXtoV(Xhx, Yhx) < 0)
+                if (HexToV(hexX, hexY) < 0)
                 {
-                    Result = 1;
+                    result = 1;
                 }
                 else
                 {
-                    Result = 2;
+                    result = 2;
                 }
             }
         }
@@ -585,55 +585,55 @@ public static class HexGeometry
         {
             if (H < 0)
             {
-                if (Xhx > 0)
+                if (hexX > 0)
                 {
-                    Result = 3;
+                    result = 3;
                 }
                 else
                 {
-                    if (HXtoV(Xhx, Yhx) > 0)
+                    if (HexToV(hexX, hexY) > 0)
                     {
-                        Result = 4;
+                        result = 4;
                     }
                     else
                     {
-                        Result = 5;
+                        result = 5;
                     }
                 }
             }
             else
             {
-                if (Xhx < 0)
+                if (hexX < 0)
                 {
-                    Result = 6;
+                    result = 6;
                 }
                 else
                 {
-                    if (Xhx > 0)
+                    if (hexX > 0)
                     {
-                        Result = 3;
+                        result = 3;
                     }
                     else
                     {
-                        Result = 0;
+                        result = 0;
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int dHXtoHT(int X1, int Y1, int X2, int Y2)
+    internal static int DeltaHexToHexDirection(int x1, int y1, int x2, int y2)
     {
-        X2 = X2 - X1;
-        Y2 = Y2 - Y1;
-        if ((X2 & 1) != 0 && (X1 & 1) != 0)
+        x2 = x2 - x1;
+        y2 = y2 - y1;
+        if ((x2 & 1) != 0 && (x1 & 1) != 0)
         {
-            Y2 -= 1;
+            y2 -= 1;
         }
 
-        return HXtoHT(X2, Y2);
+        return HexToHexDirection(x2, y2);
     }
 
 }

@@ -8,26 +8,26 @@ namespace Aow.Game.Audio;
 public partial class SoundSystemList : DelphiList
 {
     // Sound.pas:1293
-    public SoundSystemClass Find(string Name)
+    public SoundSystemClass Find(string name)
     {
-        SoundSystemClass Result;
+        SoundSystemClass result;
         int I;
         I = 0;
-        while (I != Count && CompareText(Name, ((SoundSystemClass)List[I]).Name) != 0)
+        while (I != Count && CompareText(name, ((SoundSystemClass)List[I]).Name) != 0)
         {
             I += 1;
         }
 
         if (I != Count)
         {
-            Result = (SoundSystemClass)List[I];
+            result = (SoundSystemClass)List[I];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
 }

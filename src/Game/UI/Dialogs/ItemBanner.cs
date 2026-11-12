@@ -31,13 +31,13 @@ public partial class ItemBanner : DataModule
     // AoWItemBanner.pas:46
     public void IBannerPopupShow()
     {
-        Item Item;
+        Item item;
         int X;
         int Y;
-        Item = AoWHSMap.Current.FItemControl.FindItem(ItemID);
-        if (Item != null)
+        item = AoWHSMap.Current.ItemControl.FindItem(s_itemId);
+        if (item != null)
         {
-            ItemNameLbl.Text = Item.FOwnerName;
+            ItemNameLbl.Text = item.OwnerName;
             AttackIcon.Visible = false;
             DamageIcon.Visible = false;
             DefenseIcon.Visible = false;
@@ -48,9 +48,9 @@ public partial class ItemBanner : DataModule
             Resistance.Visible = false;
             X = 30;
             Y = 100;
-            if (Item.FAttack != 0)
+            if (item.Attack != 0)
             {
-                Attack.Text = IntToStr(Item.FAttack);
+                Attack.Text = IntToStr(item.Attack);
                 Attack.Visible = true;
                 AttackIcon.Visible = true;
                 AttackIcon.WinLeft = X + 10;
@@ -65,9 +65,9 @@ public partial class ItemBanner : DataModule
                 }
             }
 
-            if (Item.FDamage != 0)
+            if (item.Damage != 0)
             {
-                Damage.Text = IntToStr(Item.FDamage);
+                Damage.Text = IntToStr(item.Damage);
                 Damage.Visible = true;
                 DamageIcon.Visible = true;
                 DamageIcon.WinLeft = X + 10;
@@ -82,9 +82,9 @@ public partial class ItemBanner : DataModule
                 }
             }
 
-            if (Item.FDefense != 0)
+            if (item.Defense != 0)
             {
-                Defense.Text = IntToStr(Item.FDefense);
+                Defense.Text = IntToStr(item.Defense);
                 Defense.Visible = true;
                 DefenseIcon.Visible = true;
                 DefenseIcon.WinLeft = X + 10;
@@ -99,9 +99,9 @@ public partial class ItemBanner : DataModule
                 }
             }
 
-            if (Item.FResistance != 0)
+            if (item.Resistance != 0)
             {
-                Resistance.Text = IntToStr(Item.FResistance);
+                Resistance.Text = IntToStr(item.Resistance);
                 Resistance.Visible = true;
                 ResistanceIcon.Visible = true;
                 ResistanceIcon.WinLeft = X + 10;
@@ -126,9 +126,9 @@ public partial class ItemBanner : DataModule
             X = 1;
             for (; X <= 169; X += 1)
             {
-                if (Item.GetAbEnabled(X))
+                if (item.GetAbEnabled(X))
                 {
-                    var name = AoWHSSet.Current.FAbilityControl.GetAbility(X).GetName(Item);
+                    var name = AoWHSSet.Current.AbilityControl.GetAbility(X).GetName(item);
                     AbLB.Items.AddObject(name, IntToObject(X));
                 }
             }
@@ -143,25 +143,25 @@ public partial class ItemBanner : DataModule
     }
 
     // AoWItemBanner.pas:140
-    public void IBannerPopupMouseDown(int Sender, byte Button, int Shift, int X, int Y)
+    public void IBannerPopupMouseDown(int sender, byte button, int shift, int X, int Y)
     {
-        if (Button == 1)
+        if (button == 1)
         {
             DialogHosts.ItemBanner.IBannerPopup.Visible = false;
         }
     }
 
     // AoWItemBanner.pas:145
-    public void DrawBoxPreDraw(LockedSurface SurfDesc)
+    public void DrawBoxPreDraw(LockedSurface lockedSurface)
     {
-        Item Item;
-        Item = AoWHSMap.Current.FItemControl.FindItem(ItemID);
-        if (Item != null)
+        Item item;
+        item = AoWHSMap.Current.ItemControl.FindItem(s_itemId);
+        if (item != null)
         {
-            Item.Show(DrawBox.WinLeft, DrawBox.WinTop, SurfDesc);
+            item.Show(DrawBox.WinLeft, DrawBox.WinTop, lockedSurface);
         }
     }
 
-    internal static int ItemID;
+    internal static int s_itemId;
 
 }

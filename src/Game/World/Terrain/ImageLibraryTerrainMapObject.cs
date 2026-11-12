@@ -12,58 +12,58 @@ namespace Aow.Game.World.Terrain;
 //   per terrain type (TILTerrainMO, ClassID $20186; resource TILTerrainMOR, $20187), and the fixed
 //   variant that keeps its terrain type and updates the map terrain instead
 //   (TFixedILTerrainMO, $20188; TFixedILTerrainMOR, $20189). }
-// FImageIndex, FTerrainType
+// _imageIndex, _terrainType
 public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
 {
 
     public ImageLibraryTerrainMapObject(ECustomNode owner) : base(owner)
     {
-        FTerrainType = -1;
+        _terrainType = -1;
     }
 
     // ILTer.pas:79
-    public new const int ClassID = 131462;
+    public new const int ClassId = 131462;
 
-    protected internal int FImageIndex;
-    protected internal sbyte FTerrainType;
+    protected internal int _imageIndex;
+    protected internal sbyte _terrainType;
 
     // ILTer.pas:164
-    public override sbyte GetTerrain(int Index)
+    public override sbyte GetTerrain(int index)
     {
-        sbyte Result = FResource.TerrainList.GetTerrain(Index);
-        if (Result >= 0)
+        sbyte result = _resource.TerrainList.GetTerrain(index);
+        if (result >= 0)
         {
-            Result = FTerrainType;
+            result = _terrainType;
         }
 
-        return Result;
+        return result;
     }
 
     // ILTer.pas:131
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo Info)
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        bool Result;
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        bool result;
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            Result = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, FXhx, FYhx, FTerrainType) == Info.MapField.TerrainType;
+            result = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, _hexX, _hexY, _terrainType) == info.MapField.TerrainType;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // ILTer.pas:152
-    public override void ChangeTerrain(in HexSpriteTerrainInfo Info)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            if (ValidTerrainType(Info.TerrainType))
+            if (ValidTerrainType(info.TerrainType))
             {
-                FTerrainType = Info.TerrainType;
-                FImageIndex = GetTerrainTypeImage(Info.TerrainType);
+                _terrainType = info.TerrainType;
+                _imageIndex = GetTerrainTypeImage(info.TerrainType);
             }
             else
             {
@@ -73,14 +73,14 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     }
 
     // ILTer.pas:140
-    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            if (ValidTerrainType(Info.TerrainType))
+            if (ValidTerrainType(info.TerrainType))
             {
-                FTerrainType = Info.TerrainType;
-                FImageIndex = GetTerrainTypeImage(Info.TerrainType);
+                _terrainType = info.TerrainType;
+                _imageIndex = GetTerrainTypeImage(info.TerrainType);
             }
             else
             {
@@ -90,31 +90,31 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     }
 
     // ILTer.pas:170
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
-        if (this.FResource.ImageSequenceList == null)
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        if (this._resource.ImageSequenceList == null)
         {
-            this.FResource.ImageLibrary[FImageIndex].Show(Xhp - XhpSurf + ((MultiHexMapObjectResource)this.FResource).dXImage, Yhp - YhpSurf + ((MultiHexMapObjectResource)this.FResource).dYImage, SurfaceDesc);
+            this._resource.ImageLibrary[_imageIndex].Show(pixelX - pixelXSurface + ((MultiHexMapObjectResource)this._resource).ImageOffsetX, pixelY - pixelYSurface + ((MultiHexMapObjectResource)this._resource).ImageOffsetY, lockedSurface);
         }
         else
         {
-            this.FResource.ShowComplexImage(Xhp - XhpSurf, Yhp - YhpSurf, SurfaceDesc, FImageIndex, (uint)(Xhp + Yhp));
+            this._resource.ShowComplexImage(pixelX - pixelXSurface, pixelY - pixelYSurface, lockedSurface, _imageIndex, (uint)(pixelX + pixelY));
         }
     }
 
     // ILTer.pas:184
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
-        if (Result)
+        bool result = base.PlaceOnMap();
+        if (result)
         {
-            FTerrainType = GetValidTerrainType((MapLevel)Owner.Owner, FXhx, FYhx);
+            _terrainType = GetValidTerrainType((MapLevel)Owner.Owner, _hexX, _hexY);
         }
 
-        return Result;
+        return result;
     }
 
     // ILTer.pas:191
@@ -124,147 +124,147 @@ public partial class ImageLibraryTerrainMapObject : MultiHexMapObject
     public override void Activate()
     {
         base.Activate();
-        FTerrainType = GetValidTerrainType((MapLevel)Owner.Owner, FXhx, FYhx);
-        FImageIndex = GetTerrainTypeImage(FTerrainType);
+        _terrainType = GetValidTerrainType((MapLevel)Owner.Owner, _hexX, _hexY);
+        _imageIndex = GetTerrainTypeImage(_terrainType);
     }
 
     // ILTer.pas:196
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool CanPlaceHere;
-        int Count;
-        sbyte TerrainType;
-        HexNumberWalkData Walk = default;
-        sbyte Overlay;
-        HexSprite HS;
-        TerrainList TerrainList;
-        CanPlaceHere = true;
-        Count = FResource.TerrainList.Count;
-        FTerrainType = GetValidTerrainType(MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
-        HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
-        while (CanPlaceHere && Walk.HN < Count)
+        bool canPlaceHere;
+        int count;
+        sbyte terrainType;
+        HexNumberWalkData walk = default;
+        sbyte overlay;
+        HexSprite hexSprite;
+        TerrainList terrainList;
+        canPlaceHere = true;
+        count = _resource.TerrainList.Count;
+        _terrainType = GetValidTerrainType(mapContainer.GetMapLevel(hexLevel), hexX, hexY);
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        while (canPlaceHere && walk.HexNumber < count)
         {
-            TerrainType = GetTerrain(Walk.HN);
-            Overlay = GetOverlay(Walk.HN);
-            if ((TerrainType >= 0 || Overlay >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapContainer.Width && Walk.Y < MapContainer.Height)
+            terrainType = GetTerrain(walk.HexNumber);
+            overlay = GetOverlay(walk.HexNumber);
+            if ((terrainType >= 0 || overlay >= 0) && walk.X >= 0 && walk.Y >= 0 && walk.X < mapContainer.Width && walk.Y < mapContainer.Height)
             {
-                HS = MapContainer.GetField(Walk.X, Walk.Y, Lhx).GetMaxLevelNoneTransparentHS();
-                CanPlaceHere = HS == null || CanPlaceOnHS(HS);
+                hexSprite = mapContainer.GetField(walk.X, walk.Y, hexLevel).GetMaxLevelNoneTransparentHexSprite();
+                canPlaceHere = hexSprite == null || CanPlaceOnHexSprite(hexSprite);
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        if (CanPlaceHere)
+        if (canPlaceHere)
         {
-            TerrainList = new TerrainList();
-            TerrainList.Assign(FResource.TerrainList);
-            for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
+            terrainList = new TerrainList();
+            terrainList.Assign(_resource.TerrainList);
+            for (int I = 0, last = terrainList.Count - 1; I <= last; I++)
             {
-                if (TerrainList.GetTerrain(I) >= 0)
+                if (terrainList.GetTerrain(I) >= 0)
                 {
-                    TerrainList.SetTerrain(I, FTerrainType);
+                    terrainList.SetTerrain(I, _terrainType);
                 }
             }
 
-            CanPlaceHere = CanPlaceHere && MapContainer.Map.CanChangeTerrain(this, Xhx, Yhx, Lhx, TerrainList);
-            TerrainList?.Dispose();
+            canPlaceHere = canPlaceHere && mapContainer.Map.CanChangeTerrain(this, hexX, hexY, hexLevel, terrainList);
+            terrainList?.Dispose();
         }
 
-        return CanPlaceHere;
+        return canPlaceHere;
     }
 
     // ILTer.pas:236
-    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
-        if (Result)
+        bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
+        if (result)
         {
-            Result = false;
-            FTerrainType = GetValidTerrainType(MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
-            if (FTerrainType >= 0)
+            result = false;
+            _terrainType = GetValidTerrainType(mapContainer.GetMapLevel(hexLevel), hexX, hexY);
+            if (_terrainType >= 0)
             {
-                FImageIndex = GetTerrainTypeImage(FTerrainType);
-                if (FImageIndex != -1)
+                _imageIndex = GetTerrainTypeImage(_terrainType);
+                if (_imageIndex != -1)
                 {
                     if (!GetEditMode())
                     {
                         OverrideTerrain();
                     }
 
-                    Result = true;
+                    result = true;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // ILTer.pas:89
-    public virtual bool ValidTerrainType(int TerrainType)
+    public virtual bool ValidTerrainType(int terrainType)
     {
-        bool Result;
-        int Index;
-        ImageSequenceList Sequences;
-        if (TerrainType >= 0)
+        bool result;
+        int index;
+        ImageSequenceList sequences;
+        if (terrainType >= 0)
         {
-            Index = GetTerrainTypeImage(TerrainType);
-            Sequences = FResource.ImageSequenceList;
-            if (Sequences == null)
+            index = GetTerrainTypeImage(terrainType);
+            sequences = _resource.ImageSequenceList;
+            if (sequences == null)
             {
-                Result = FResource.ImageLibrary.ImageExist(Index);
+                result = _resource.ImageLibrary.ImageExist(index);
             }
             else
             {
-                Result = Sequences.GetImageSequence(Index) != null;
+                result = sequences.GetImageSequence(index) != null;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // ILTer.pas:126
-    public virtual int GetTerrainTypeImage(int TerrainType) => TerrainType;
+    public virtual int GetTerrainTypeImage(int terrainType) => terrainType;
 
     // ILTer.pas:84
-    public virtual sbyte ForceTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -2;
+    public virtual sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => -2;
 
     // ILTer.pas:107
-    public virtual sbyte GetValidTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx)
+    public virtual sbyte GetValidTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
     {
-        int Count;
-        sbyte Result = GetMostFrequentMapFieldTerrainType(MapLevel, Xhx, Yhx, -1);
-        if (!ValidTerrainType(Result))
+        int count;
+        sbyte result = GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, -1);
+        if (!ValidTerrainType(result))
         {
-            Result = ForceTerrainType(MapLevel, Xhx, Yhx);
-            if (GetEditMode() || Result != -2)
+            result = ForceTerrainType(mapLevel, hexX, hexY);
+            if (GetEditMode() || result != -2)
             {
-                if (!ValidTerrainType(Result))
+                if (!ValidTerrainType(result))
                 {
-                    Result = 0;
-                    Count = FResource.Engine.HSSet.TerrainTypes.Count;
-                    while (Result < Count && !ValidTerrainType(Result))
+                    result = 0;
+                    count = _resource.Engine.HexSpriteSet.TerrainTypes.Count;
+                    while (result < count && !ValidTerrainType(result))
                     {
-                        Result = (sbyte)(Result + 1);
+                        result = (sbyte)(result + 1);
                     }
 
-                    if (Result == Count)
+                    if (result == count)
                     {
-                        Result = -1;
+                        result = -1;
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
-    public int ImageIndex { get => FImageIndex; set => FImageIndex = value; }
-    public sbyte TerrainType { get => FTerrainType; }
+    public int ImageIndex { get => _imageIndex; set => _imageIndex = value; }
+    public sbyte TerrainType { get => _terrainType; }
 
     // ILTer.pas:20
 

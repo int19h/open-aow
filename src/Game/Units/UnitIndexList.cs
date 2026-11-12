@@ -19,31 +19,31 @@ public partial class UnitIndexList : Int32List
     }
 
     // UnitRes.PAS:225
-    public int GetUnitIndex(int Index)
+    public int GetUnitIndex(int index)
     {
-        int Result;
-        if (Index < 0 || Index >= Count)
+        int result;
+        if (index < 0 || index >= Count)
         {
-            Result = Default;
+            result = Default;
         }
         else
         {
-            Result = List[Index];
+            result = List[index];
         }
 
-        return Result;
+        return result;
     }
 
     // UnitRes.PAS:231
-    public void VerifyUnits(bool ShowErrors)
+    public void VerifyUnits(bool showErrors)
     {
         int U;
         for (int I = Count - 1; I >= 0; I--)
         {
             U = List[I];
-            if (U != -1 && AoWHSSet.Current.FUnitResources.GetUnitResource(U) == null)
+            if (U != -1 && AoWHSSet.Current.UnitResources.GetUnitResource(U) == null)
             {
-                if (ShowErrors)
+                if (showErrors)
                 {
                     ShowMessage("Used unit missing (unit index:" + IntToStr(U) + ")");
                 }
@@ -54,15 +54,15 @@ public partial class UnitIndexList : Int32List
     }
 
     // UnitRes.PAS:245
-    public void SetUnitIndex(int Index, int Value)
+    public void SetUnitIndex(int index, int value)
     {
-        Assert(Index >= 0, "List index out of bounds (TUnitIndexList)", "UnitRes.PAS", 250);
-        if (Index >= Count)
+        Assert(index >= 0, "List index out of bounds (TUnitIndexList)", "UnitRes.PAS", 250);
+        if (index >= Count)
         {
-            Count = Index + 1;
+            Count = index + 1;
         }
 
-        List[Index] = Value;
+        List[index] = value;
     }
 
     // UnitRes.PAS:262
@@ -73,7 +73,7 @@ public partial class UnitIndexList : Int32List
             Pack();
             try
             {
-                Sort(P2CompareUnitIndexes);
+                Sort(CompareUnitIndexes);
             }
             catch
             {
@@ -81,12 +81,12 @@ public partial class UnitIndexList : Int32List
         }
     }
 
-    private static int P2CompareUnitIndexes(int Item1, int Item2)
+    private static int CompareUnitIndexes(int item1, int item2)
     {
-        RtlUnit.Assert(AoWHSSet.Current.FUnitResources.GetUnitResource(Item1) != null && AoWHSSet.Current.FUnitResources.GetUnitResource(Item1) != null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
-        UnitResource unitResource = AoWHSSet.Current.FUnitResources.GetUnitResource(Item2);
-        UnitResource unitResource2 = AoWHSSet.Current.FUnitResources.GetUnitResource(Item1);
-        return unitResource.FLevel - unitResource2.FLevel;
+        RtlUnit.Assert(AoWHSSet.Current.UnitResources.GetUnitResource(item1) != null && AoWHSSet.Current.UnitResources.GetUnitResource(item1) != null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
+        UnitResource unitResource = AoWHSSet.Current.UnitResources.GetUnitResource(item2);
+        UnitResource unitResource2 = AoWHSSet.Current.UnitResources.GetUnitResource(item1);
+        return unitResource.Level - unitResource2.Level;
     }
 
     // intf_P2_05.inc:364

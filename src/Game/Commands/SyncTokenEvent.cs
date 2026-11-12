@@ -10,34 +10,34 @@ namespace Aow.Game.Commands;
 // execution triggers OnSyncError
 public partial class SyncTokenEvent : TokenEvent
 {
-    public new const int ClassID = CID_SyncTE;
+    public new const int ClassId = ClassIdSyncTokenEvent;
 
     public SyncTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    internal int FSyncValue;
+    internal int _syncValue;
 
     // NetworkE.pas:1738
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FSyncValue, 20);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref _syncValue, 20);
     }
 
     // NetworkE.pas:1744
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result = base.Execute(TE);
-        if (TE.GetSyncValue() != FSyncValue && TE.FOnSyncError != null)
+        ExecuteResult result = base.Execute(tokenEvent);
+        if (tokenEvent.GetSyncValue() != _syncValue && tokenEvent._onSyncError != null)
         {
-            TE.FOnSyncError(TE);
+            tokenEvent._onSyncError(tokenEvent);
         }
 
-        return Result;
+        return result;
     }
 
-    public int SyncValue { get => FSyncValue; set => FSyncValue = value; }
+    public int SyncValue { get => _syncValue; set => _syncValue = value; }
 
-    private const short CID_SyncTE = 1365;
+    private const short ClassIdSyncTokenEvent = 1365;
 
 }

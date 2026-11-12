@@ -18,8 +18,8 @@ public partial class MapWindow
             return;
         }
 
-        var keyboard = AoWHSMap.Current.FKeyboard;
-        if (keyboard.FLockCount != 0 || keyboard.FMode != HexSpriteMapKeyboard.Mode.Default)
+        var keyboard = AoWHSMap.Current.Keyboard;
+        if (keyboard.LockCount != 0 || keyboard.Mode != HexSpriteMapKeyboardMode.Default)
         {
             return;
         }
@@ -29,6 +29,6 @@ public partial class MapWindow
             return;
         }
 
-        DialogHosts.TBWindow?.TurnButton?.Press();
+        DialogHosts.TaskBar?.TurnButton?.Press();
     }
 }

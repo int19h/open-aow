@@ -9,9 +9,9 @@ public enum IntegerParseMode : byte
     Font = 2,
     ItemHeight = 3,
     Color = 4,
-    BG = 5,
-    InBG = 6,
-    BGIndex = 7,
+    Background = 5,
+    InBackground = 6,
+    BackgroundIndex = 7,
     Space = 8,
     Align = 9
 }

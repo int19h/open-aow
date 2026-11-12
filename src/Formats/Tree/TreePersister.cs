@@ -10,33 +10,33 @@ namespace Aow.Formats.Tree;
 /// </summary>
 sealed class LoadErrorPolicy
 {
-    private readonly LoadErrorHandler? handler;
-    private bool stopped;
+    private readonly LoadErrorHandler? _handler;
+    private bool _stopped;
 
-    internal LoadErrorPolicy(LoadErrorHandler? handler) => this.handler = handler;
+    internal LoadErrorPolicy(LoadErrorHandler? handler) => this._handler = handler;
 
     internal bool Continue(System.Exception error)
     {
-        if (stopped) return false;
+        if (_stopped) return false;
         bool continueLoad = true;
-        if (handler is not null)
+        if (_handler is not null)
         {
             string message = error.Message.Length == 0 ? "Error Reading EObject" : error.Message;
-            handler(message, ref continueLoad);
+            _handler(message, ref continueLoad);
         }
-        if (!continueLoad) stopped = true;
-        return !stopped;
+        if (!continueLoad) _stopped = true;
+        return !_stopped;
     }
 }
 
 /// <summary>Writes one object into a tree. The root carries no class name. Created objects and children do.</summary>
 public static class TreeWriter
 {
-    public static ObjectNode Write(IPersistable obj, IPersistableFactory factory)
+    public static ObjectNode Write(IPersistable objectValue, IPersistableFactory factory)
     {
         var node = new ObjectNode(null, null);
         var persister = new MemberPersister(node, false, factory, DocumentNodePath.Root);
-        obj.Persist(persister);
+        objectValue.Persist(persister);
         return node;
     }
 }
@@ -47,10 +47,10 @@ public static class TreeWriter
 /// </summary>
 public static class TreeReader
 {
-    public static void Read(ObjectNode node, IPersistable obj, IPersistableFactory factory, LoadErrorHandler? onError = null)
+    public static void Read(ObjectNode node, IPersistable objectValue, IPersistableFactory factory, LoadErrorHandler? onError = null)
     {
         var persister = new MemberPersister(node, true, factory, DocumentNodePath.Root, new LoadErrorPolicy(onError));
-        obj.Persist(persister);
+        objectValue.Persist(persister);
         persister.Finish();
     }
 }
@@ -58,11 +58,11 @@ public static class TreeReader
 /// <summary>The persister over one object or one record.</summary>
 sealed class MemberPersister : IPersister
 {
-    private readonly IReadOnlyList<(string Name, TreeValue Value)> existing;
-    private readonly Action<string, TreeValue>? add;
-    private readonly HashSet<string> consumed = new(StringComparer.Ordinal);
-    private readonly DocumentNodePath path;
-    private readonly LoadErrorPolicy? errors;
+    private readonly IReadOnlyList<(string Name, TreeValue Value)> _existing;
+    private readonly Action<string, TreeValue>? _add;
+    private readonly HashSet<string> _consumed = new(StringComparer.Ordinal);
+    private readonly DocumentNodePath _path;
+    private readonly LoadErrorPolicy? _errors;
 
     public MemberPersister(ObjectNode node, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null)
         : this(node.Members, loading ? null : node.Add, loading, factory, path, errors)
@@ -76,28 +76,28 @@ sealed class MemberPersister : IPersister
 
     private MemberPersister(IReadOnlyList<(string Name, TreeValue Value)> existing, Action<string, TreeValue>? add, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors)
     {
-        this.existing = existing;
-        this.add = add;
+        this._existing = existing;
+        this._add = add;
         Loading = loading;
         Factory = factory;
-        this.path = path;
-        this.errors = errors;
+        this._path = path;
+        this._errors = errors;
     }
 
     public bool Loading { get; }
     public IPersistableFactory Factory { get; }
 
-    public bool Has(string name) => Loading && Find(name) is not null;
+    public bool Has(string name) => Loading && (Find(name) ?? FindOld(name).Value) is not null;
 
     public void Finish()
     {
         if (!Loading) return;
-        foreach (var (name, _) in existing)
-            if (!consumed.Contains(name))
-                throw TreeErrors.Fail(Codes.Required, $"Member \"{name}\" was not read.", path.Member(name));
+        foreach (var (name, _) in _existing)
+            if (!_consumed.Contains(name))
+                throw TreeErrors.Fail(Codes.Required, $"Member \"{name}\" was not read.", _path.Member(name));
     }
 
-    public void Int(string name, ref int value, int fallback = 0) =>
+    public void Int32(string name, ref int value, int fallback = 0) =>
         value = (int)Integer(name, value, fallback, 4, true);
 
     public void Byte(string name, ref byte value, byte fallback = 0) =>
@@ -106,13 +106,13 @@ sealed class MemberPersister : IPersister
     public void SByte(string name, ref sbyte value, sbyte fallback = 0) =>
         value = (sbyte)Integer(name, value, fallback, 1, true);
 
-    public void UShort(string name, ref ushort value, ushort fallback = 0) =>
+    public void UInt16(string name, ref ushort value, ushort fallback = 0) =>
         value = (ushort)Integer(name, value, fallback, 2, false);
 
-    public void Short(string name, ref short value, short fallback = 0) =>
+    public void Int16(string name, ref short value, short fallback = 0) =>
         value = (short)Integer(name, value, fallback, 2, true);
 
-    public void UInt(string name, ref uint value, uint fallback = 0) =>
+    public void UInt32(string name, ref uint value, uint fallback = 0) =>
         value = (uint)Integer(name, value, fallback, 4, false);
 
     public void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum
@@ -157,7 +157,7 @@ sealed class MemberPersister : IPersister
         Store(name, new SetNode(typeName, width, mask));
     }
 
-    public void Bool(string name, ref bool value)
+    public void Boolean(string name, ref bool value)
     {
         if (Loading)
         {
@@ -208,13 +208,13 @@ sealed class MemberPersister : IPersister
             if (found is not LinesWithValuesNode node) throw Type(name, "lines with objects");
             foreach (var line in node.Lines ?? Split(node.RawText ?? "")) lines.Add(line);
             if (lines.Count != node.Objects.Count)
-                throw TreeErrors.Fail(Codes.Corrupt, $"The text has {lines.Count} lines and {node.Objects.Count} object values.", path.Member(name));
+                throw TreeErrors.Fail(Codes.Corrupt, $"The text has {lines.Count} lines and {node.Objects.Count} object values.", _path.Member(name));
             foreach (var item in node.Objects) objects.Add(item);
             return;
         }
         if (lines.Count == 0) return;
         if (lines.Count != objects.Count)
-            throw TreeErrors.Fail(Codes.Corrupt, $"The text has {lines.Count} lines and {objects.Count} object values.", path.Member(name));
+            throw TreeErrors.Fail(Codes.Corrupt, $"The text has {lines.Count} lines and {objects.Count} object values.", _path.Member(name));
         Store(name, LinesWithValuesNode.FromLines(lines is List<string> list ? list : [.. lines], objects is List<int> ids ? ids : [.. objects]));
     }
 
@@ -227,7 +227,7 @@ sealed class MemberPersister : IPersister
             if (found is not BytesNode node)
                 throw Type(name, "bytes");
             if (node.Data.Length != data.Length)
-                throw TreeErrors.Fail(Codes.Range, $"{name} holds exactly {data.Length} bytes.", path.Member(name), value: node.Data.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: $"{data.Length} bytes");
+                throw TreeErrors.Fail(Codes.Range, $"{name} holds exactly {data.Length} bytes.", _path.Member(name), value: node.Data.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: $"{data.Length} bytes");
             node.Data.CopyTo(data);
             return;
         }
@@ -235,7 +235,7 @@ sealed class MemberPersister : IPersister
         Store(name, new BytesNode(data.ToArray()));
     }
 
-    public void RawInt(string name, ref int value) => value = (int)RawInteger(name, value, 4, true);
+    public void RawInt32(string name, ref int value) => value = (int)RawInteger(name, value, 4, true);
 
     public void RawByte(string name, ref byte value) => value = (byte)RawInteger(name, value, 1, false);
 
@@ -262,9 +262,9 @@ sealed class MemberPersister : IPersister
     {
         int length = count < 0 ? -1 : (count + 7) >> 3;
         if (length < 0)
-            throw TreeErrors.Fail(Codes.Range, name + " has a negative count.", path.Member(name), value: count.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            throw TreeErrors.Fail(Codes.Range, name + " has a negative count.", _path.Member(name), value: count.ToString(System.Globalization.CultureInfo.InvariantCulture));
         if (bits.Length != length)
-            throw TreeErrors.Fail(Codes.Range, name + " holds exactly " + length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes.", path.Member(name), value: bits.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes");
+            throw TreeErrors.Fail(Codes.Range, name + " holds exactly " + length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes.", _path.Member(name), value: bits.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes");
         if (Loading)
         {
             var found = Take(name);
@@ -279,7 +279,7 @@ sealed class MemberPersister : IPersister
             foreach (var index in node.Indices)
             {
                 if ((uint)index >= (uint)count)
-                    throw TreeErrors.Fail(Codes.Range, name + " is outside its storage range.", path.Member(name), value: index.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                    throw TreeErrors.Fail(Codes.Range, name + " is outside its storage range.", _path.Member(name), value: index.ToString(System.Globalization.CultureInfo.InvariantCulture));
                 bits[index >> 3] |= (byte)(1 << (index & 7));
             }
             if ((count & 7) != 0) bits[length - 1] |= node.Residue;
@@ -294,7 +294,7 @@ sealed class MemberPersister : IPersister
         Store(name, new BitArrayNode(count, indices.ToArray(), residue));
     }
 
-    public void Object(string name, IPersistable obj)
+    public void Object(string name, IPersistable objectValue)
     {
         if (Loading)
         {
@@ -303,11 +303,11 @@ sealed class MemberPersister : IPersister
             if (found is null) nested = new ObjectNode(null, null);
             else if (found is ObjectNode node) nested = node;
             else throw Type(name, "an object");
-            var child = new MemberPersister(nested, true, Factory, path.Member(name), errors);
+            var child = new MemberPersister(nested, true, Factory, _path.Member(name), _errors);
             // rwEObject wraps MainReadWrite and leaves the caller's instance in place.
             try
             {
-                obj.Persist(child);
+                objectValue.Persist(child);
                 child.Finish();
             }
             catch (System.Exception error)
@@ -317,18 +317,18 @@ sealed class MemberPersister : IPersister
             return;
         }
         var written = new ObjectNode(null, null);
-        obj.Persist(new MemberPersister(written, false, Factory, path.Member(name), errors));
+        objectValue.Persist(new MemberPersister(written, false, Factory, _path.Member(name), _errors));
         Store(name, written);
     }
 
-    public void Created(string name, ref IPersistable? obj)
+    public void Created(string name, ref IPersistable? objectValue)
     {
         if (Loading)
         {
             var found = Take(name);
             if (found is null || found is NullNode)
             {
-                obj = null;
+                objectValue = null;
                 return;
             }
             if (found is not ObjectNode node || node.ClassName is not string className)
@@ -337,36 +337,36 @@ sealed class MemberPersister : IPersister
             try
             {
                 created = Factory.Create(className);
-                var child = new MemberPersister(node, true, Factory, path.Member(name), errors);
+                var child = new MemberPersister(node, true, Factory, _path.Member(name), _errors);
                 created.Persist(child);
                 child.Finish();
-                obj = created;
+                objectValue = created;
             }
             catch (System.Exception error)
             {
                 if (created is not null) Factory.Release(created);
-                obj = null;
+                objectValue = null;
                 if (!Continue(error)) throw;
             }
             return;
         }
-        if (obj is null)
+        if (objectValue is null)
         {
             Store(name, NullNode.Instance);
             return;
         }
-        var written = new ObjectNode(Factory.ClassName(obj), null);
-        obj.Persist(new MemberPersister(written, false, Factory, path.Member(name), errors));
+        var written = new ObjectNode(Factory.ClassName(objectValue), null);
+        objectValue.Persist(new MemberPersister(written, false, Factory, _path.Member(name), _errors));
         Store(name, written);
     }
 
-    public void Created<T>(string name, ref T? obj) where T : class, IPersistable
+    public void Created<T>(string name, ref T? objectValue) where T : class, IPersistable
     {
-        IPersistable? box = obj;
+        IPersistable? box = objectValue;
         Created(name, ref box);
         if (box is not null && box is not T)
-            throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", path.Member(name), value: Factory.ClassName(box), constraint: typeof(T).Name);
-        obj = (T?)box;
+            throw TreeErrors.Fail(Codes.ClassFamily, $"Created class {Factory.ClassName(box)} is not a {typeof(T).Name}.", _path.Member(name), value: Factory.ClassName(box), constraint: typeof(T).Name);
+        objectValue = (T?)box;
     }
 
     public void Children(string name, IChildCollection children)
@@ -381,13 +381,13 @@ sealed class MemberPersister : IPersister
             foreach (var child in list)
             {
                 if (child.ClassName is not string className || child.Slot is not int slot)
-                    throw TreeErrors.Fail(Codes.MissingMember, "A child needs a class and a slot.", path.Member(name));
+                    throw TreeErrors.Fail(Codes.MissingMember, "A child needs a class and a slot.", _path.Member(name));
                 IPersistable? created = null;
                 try
                 {
                     created = Factory.Create(className);
                     children.Attach(created);
-                    var reader = new MemberPersister(child, true, Factory, path.Member(name).Item(slot), errors);
+                    var reader = new MemberPersister(child, true, Factory, _path.Member(name).Item(slot), _errors);
                     created.Persist(reader);
                     reader.Finish();
                     children.Place(slot, created);
@@ -404,9 +404,9 @@ sealed class MemberPersister : IPersister
         for (int i = 0; i < children.Count; i++)
         {
             if (!children.IsStored(i)) continue;
-            var child = children.Get(i) ?? throw TreeErrors.Fail(Codes.Corrupt, "A stored child is missing.", path.Member(name).Item(i));
+            var child = children.Get(i) ?? throw TreeErrors.Fail(Codes.Corrupt, "A stored child is missing.", _path.Member(name).Item(i));
             var node = new ObjectNode(Factory.ClassName(child), children.Slot(i));
-            child.Persist(new MemberPersister(node, false, Factory, path.Member(name).Item(children.Slot(i)), errors));
+            child.Persist(new MemberPersister(node, false, Factory, _path.Member(name).Item(children.Slot(i)), _errors));
             written.Add(node);
         }
         Store(name, new ChildListNode(written));
@@ -425,7 +425,7 @@ sealed class MemberPersister : IPersister
             if (found is ReferenceNode reference)
             {
                 if (reference.Domain != domain)
-                    throw TreeErrors.Fail(Codes.Reference, $"Reference \"{name}\" is in domain {reference.Domain}.", path.Member(name), value: reference.Domain, constraint: domain);
+                    throw TreeErrors.Fail(Codes.Reference, $"Reference \"{name}\" is in domain {reference.Domain}.", _path.Member(name), value: reference.Domain, constraint: domain);
                 key = reference.Key;
                 return;
             }
@@ -448,13 +448,13 @@ sealed class MemberPersister : IPersister
             if (found is null) record = new RecordNode();
             else if (found is RecordNode node) record = node;
             else throw Type(name, "a record");
-            var child = new MemberPersister(record, true, Factory, path.Member(name), errors);
+            var child = new MemberPersister(record, true, Factory, _path.Member(name), _errors);
             body(child);
             child.Finish();
             return;
         }
         var written = new RecordNode();
-        body(new MemberPersister(written, false, Factory, path.Member(name), errors));
+        body(new MemberPersister(written, false, Factory, _path.Member(name), _errors));
         Store(name, written);
     }
 
@@ -469,7 +469,7 @@ sealed class MemberPersister : IPersister
             for (int i = 0; i < list.Items.Count; i++)
             {
                 T value = default!;
-                var slot = new ItemSlot(list.Items[i], true, Factory, path.Member(name).Item(i), errors);
+                var slot = new ItemSlot(list.Items[i], true, Factory, _path.Member(name).Item(i), _errors);
                 transfer(slot, ref value);
                 slot.Finish();
                 items.Add(value);
@@ -481,7 +481,7 @@ sealed class MemberPersister : IPersister
         for (int i = 0; i < items.Count; i++)
         {
             T value = items[i];
-            var slot = new ItemSlot(null, false, Factory, path.Member(name).Item(i), errors);
+            var slot = new ItemSlot(null, false, Factory, _path.Member(name).Item(i), _errors);
             transfer(slot, ref value);
             items[i] = value;
             written.Items.Add(slot.Finish());
@@ -505,27 +505,38 @@ sealed class MemberPersister : IPersister
 
     private TreeValue? Find(string name)
     {
-        foreach (var (member, value) in existing)
+        foreach (var (member, value) in _existing)
             if (member == name) return value;
         return null;
     }
 
+    // An older document stores a renamed member under its old name (schema.json oldNames).
+    private (string? Name, TreeValue? Value) FindOld(string name)
+    {
+        foreach (string old in Schema.FormatSchema.Current.OldNamesOf(name))
+            if (Find(old) is { } value) return (old, value);
+        return (null, null);
+    }
+
     private TreeValue? Take(string name)
     {
-        if (!consumed.Add(name))
-            throw TreeErrors.Fail(Codes.Duplicate, $"Member \"{name}\" is read twice.", path.Member(name));
-        return Find(name);
+        if (!_consumed.Add(name))
+            throw TreeErrors.Fail(Codes.Duplicate, $"Member \"{name}\" is read twice.", _path.Member(name));
+        if (Find(name) is { } found) return found;
+        var (old, value) = FindOld(name);
+        if (old is not null) _consumed.Add(old);
+        return value;
     }
 
     private void Store(string name, TreeValue value)
     {
         if (Find(name) is not null)
-            throw TreeErrors.Fail(Codes.Duplicate, $"Member \"{name}\" is stored twice.", path.Member(name));
-        add!(name, value);
+            throw TreeErrors.Fail(Codes.Duplicate, $"Member \"{name}\" is stored twice.", _path.Member(name));
+        _add!(name, value);
     }
 
     private ConversionException Type(string name, string expected) =>
-        TreeErrors.Fail(Codes.Type, $"{name} is {expected}.", path.Member(name));
+        TreeErrors.Fail(Codes.Type, $"{name} is {expected}.", _path.Member(name));
 
     private long RawInteger(string name, long current, int width, bool signed)
     {
@@ -540,7 +551,7 @@ sealed class MemberPersister : IPersister
         return current;
     }
 
-    private bool Continue(System.Exception error) => errors is null || errors.Continue(error);
+    private bool Continue(System.Exception error) => _errors is null || _errors.Continue(error);
 
     private static List<string> Split(string text)
     {
@@ -561,136 +572,136 @@ sealed class MemberPersister : IPersister
 /// <summary>One list item, holding a single tree value.</summary>
 sealed class ItemSlot : IItemSlot
 {
-    private readonly TreeValue? loaded;
-    private readonly bool loading;
-    private readonly IPersistableFactory factory;
-    private readonly DocumentNodePath path;
-    private readonly LoadErrorPolicy? errors;
-    private TreeValue? stored;
-    private bool used;
+    private readonly TreeValue? _loaded;
+    private readonly bool _loading;
+    private readonly IPersistableFactory _factory;
+    private readonly DocumentNodePath _path;
+    private readonly LoadErrorPolicy? _errors;
+    private TreeValue? _stored;
+    private bool _used;
 
     public ItemSlot(TreeValue? loaded, bool loading, IPersistableFactory factory, DocumentNodePath path, LoadErrorPolicy? errors = null)
     {
-        this.loaded = loaded;
-        this.loading = loading;
-        this.factory = factory;
-        this.path = path;
-        this.errors = errors;
+        this._loaded = loaded;
+        this._loading = loading;
+        this._factory = factory;
+        this._path = path;
+        this._errors = errors;
     }
 
     public TreeValue Finish()
     {
-        if (!used) throw TreeErrors.Fail(Codes.MissingMember, "A list item stores one value.", path);
-        return loading ? loaded! : stored!;
+        if (!_used) throw TreeErrors.Fail(Codes.MissingMember, "A list item stores one value.", _path);
+        return _loading ? _loaded! : _stored!;
     }
 
-    public void Int(ref int value) => value = (int)Integer(value, 4, true);
+    public void Int32(ref int value) => value = (int)Integer(value, 4, true);
 
     public void Byte(ref byte value) => value = (byte)Integer(value, 1, false);
 
     public void SByte(ref sbyte value) => value = (sbyte)Integer(value, 1, true);
 
-    public void UShort(ref ushort value) => value = (ushort)Integer(value, 2, false);
+    public void UInt16(ref ushort value) => value = (ushort)Integer(value, 2, false);
 
-    public void Short(ref short value) => value = (short)Integer(value, 2, true);
+    public void Int16(ref short value) => value = (short)Integer(value, 2, true);
 
-    public void UInt(ref uint value) => value = (uint)Integer(value, 4, false);
+    public void UInt32(ref uint value) => value = (uint)Integer(value, 4, false);
 
-    public void Bool(ref bool value)
+    public void Boolean(ref bool value)
     {
         Use();
-        if (loading)
+        if (_loading)
         {
-            if (loaded is not BooleanNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a boolean.", path);
+            if (_loaded is not BooleanNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a boolean.", _path);
             value = node.Value;
             return;
         }
-        stored = new BooleanNode(value);
+        _stored = new BooleanNode(value);
     }
 
     public void String(ref string value)
     {
         Use();
-        if (loading)
+        if (_loading)
         {
-            if (loaded is not StringNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a string.", path);
+            if (_loaded is not StringNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a string.", _path);
             value = node.Value;
             return;
         }
-        stored = new StringNode(value ?? "");
+        _stored = new StringNode(value ?? "");
     }
 
     public void Record(Action<IPersister> body)
     {
         Use();
-        if (loading)
+        if (_loading)
         {
-            if (loaded is not RecordNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a record.", path);
-            var child = new MemberPersister(node, true, factory, path, errors);
+            if (_loaded is not RecordNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a record.", _path);
+            var child = new MemberPersister(node, true, _factory, _path, _errors);
             body(child);
             child.Finish();
             return;
         }
         var written = new RecordNode();
-        body(new MemberPersister(written, false, factory, path, errors));
-        stored = written;
+        body(new MemberPersister(written, false, _factory, _path, _errors));
+        _stored = written;
     }
 
     public void Object(ref IPersistable? value)
     {
         Use();
-        if (loading)
+        if (_loading)
         {
-            if (loaded is NullNode || loaded is null)
+            if (_loaded is NullNode || _loaded is null)
             {
                 value = null;
                 return;
             }
-            if (loaded is not ObjectNode node || node.ClassName is not string className)
-                throw TreeErrors.Fail(Codes.Type, "A list item is an object.", path);
+            if (_loaded is not ObjectNode node || node.ClassName is not string className)
+                throw TreeErrors.Fail(Codes.Type, "A list item is an object.", _path);
             IPersistable? created = null;
             try
             {
-                created = factory.Create(className);
-                var child = new MemberPersister(node, true, factory, path, errors);
+                created = _factory.Create(className);
+                var child = new MemberPersister(node, true, _factory, _path, _errors);
                 created.Persist(child);
                 child.Finish();
                 value = created;
             }
             catch (System.Exception error)
             {
-                if (created is not null) factory.Release(created);
+                if (created is not null) _factory.Release(created);
                 value = null;
-                if (errors is not null && !errors.Continue(error)) throw;
+                if (_errors is not null && !_errors.Continue(error)) throw;
             }
             return;
         }
         if (value is null)
         {
-            stored = NullNode.Instance;
+            _stored = NullNode.Instance;
             return;
         }
-        var written = new ObjectNode(factory.ClassName(value), null);
-        value.Persist(new MemberPersister(written, false, factory, path, errors));
-        stored = written;
+        var written = new ObjectNode(_factory.ClassName(value), null);
+        value.Persist(new MemberPersister(written, false, _factory, _path, _errors));
+        _stored = written;
     }
 
     private long Integer(long current, int width, bool signed)
     {
         Use();
-        if (loading)
+        if (_loading)
         {
-            if (loaded is not IntegerNode node || node.Width != width || node.Signed != signed)
-                throw TreeErrors.Fail(Codes.Type, "A list item is an integer.", path);
+            if (_loaded is not IntegerNode node || node.Width != width || node.Signed != signed)
+                throw TreeErrors.Fail(Codes.Type, "A list item is an integer.", _path);
             return node.Value;
         }
-        stored = new IntegerNode(width, signed, current);
+        _stored = new IntegerNode(width, signed, current);
         return current;
     }
 
     private void Use()
     {
-        if (used) throw TreeErrors.Fail(Codes.Duplicate, "A list item stores one value.", path);
-        used = true;
+        if (_used) throw TreeErrors.Fail(Codes.Duplicate, "A list item stores one value.", _path);
+        _used = true;
     }
 }

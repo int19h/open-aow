@@ -7,27 +7,27 @@ namespace Aow.Game.Magic.Abilities;
 // (ability ID, commander ID, command ability ID, original combat player)
 public partial class CommandedAbilityData : AbilityData
 {
-    public new const int ClassID = 131757;
+    public new const int ClassId = 131757;
 
     public CommandedAbilityData(ECustomNode owner) : base(owner)
     { }
 
-    public int FAbilityID;
-    public byte FSourceID;
-    public int FCommandAbilityID;
-    public byte FOriginalCombatPlayer;
+    public int AbilityId;
+    public byte SourceId;
+    public int CommandAbilityId;
+    public byte OriginalCombatPlayer;
 
     // AoWAb.PAS:5005
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FAbilityID, 20);
-        Stream.rwInteger(ref FCommandAbilityID, 21);
-        Stream.rwByte(ref FSourceID, 22);
-        Stream.rwByte(ref FOriginalCombatPlayer, 23);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref AbilityId, 20);
+        stream.rwInteger(ref CommandAbilityId, 21);
+        stream.rwByte(ref SourceId, 22);
+        stream.rwByte(ref OriginalCombatPlayer, 23);
     }
 
     // AoWAb.PAS:5001
-    public override int GetAbilityID() => FAbilityID;
+    public override int GetAbilityId() => AbilityId;
 
 }

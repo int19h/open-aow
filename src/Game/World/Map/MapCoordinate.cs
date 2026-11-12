@@ -13,9 +13,10 @@ public struct MapCoordinate
     [FieldOffset(1)]
     public sbyte Y;
     [FieldOffset(2)]
-    public sbyte L;
+    public sbyte MapLevel;
+    // The Delphi flag byte. Issue #191 splits it from the coordinate.
     [FieldOffset(3)]
-    public sbyte Flag;
+    public sbyte Tag;
     [FieldOffset(0)]
     public ushort XY;
     [FieldOffset(0)]

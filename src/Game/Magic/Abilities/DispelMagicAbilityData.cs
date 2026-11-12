@@ -7,24 +7,24 @@ namespace Aow.Game.Magic.Abilities;
 // (enabled, level)
 public partial class DispelMagicAbilityData : AbilityData
 {
-    public new const int ClassID = 131789;
+    public new const int ClassId = 131789;
 
     public DispelMagicAbilityData(ECustomNode owner) : base(owner)
     { }
 
-    public bool FEnabled;
-    public byte FLevel;
+    public bool Enabled;
+    public byte Level;
 
     // AoWAb.PAS:4034
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwBool(ref FEnabled, 10);
-        Stream.rwByte(ref FLevel, 11);
+        base.ReadWrite(stream);
+        stream.rwBool(ref Enabled, 10);
+        stream.rwByte(ref Level, 11);
     }
 
     // AoWAb.PAS:4030
-    public override int GetAbilityID() => 60;
+    public override int GetAbilityId() => 60;
 
     // Engine.pas:524
 

@@ -8,5 +8,5 @@ public struct HexSpriteTerrainInfo
     public sbyte TerrainType;
     public sbyte OverlayType;
     public MapField MapField;
-    public sbyte HN;
+    public sbyte HexNumber;
 }

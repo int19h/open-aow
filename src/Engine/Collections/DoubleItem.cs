@@ -4,6 +4,6 @@ namespace Aow.Engine.Collections;
 
 public struct DoubleItem<TA> where TA : class
 {
-    public TA A;
-    public int B;
+    public TA First;
+    public int Second;
 }

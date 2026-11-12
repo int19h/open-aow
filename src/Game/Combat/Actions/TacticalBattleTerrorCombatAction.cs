@@ -13,60 +13,60 @@ namespace Aow.Game.Combat.Actions;
 public partial class TacticalBattleTerrorCombatAction : CombatAction
 {
     // CombatSpells.pas:1707
-    public new const int ClassID = 131785;
+    public new const int ClassId = 131785;
 
     public TacticalBattleTerrorCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public byte FSourceID;
-    public byte FTargetID;
-    public int FManaCost;
-    public bool FSucceeded;
+    public byte SourceId;
+    public byte TargetId;
+    public int ManaCost;
+    public bool Succeeded;
 
     // CombatSpells.pas:1713
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FSourceID, 20);
-        Stream.rwByte(ref FTargetID, 21);
-        Stream.rwInteger(ref FManaCost, 22);
-        Stream.rwBool(ref FSucceeded, 23);
+        base.ReadWrite(stream);
+        stream.rwByte(ref SourceId, 20);
+        stream.rwByte(ref TargetId, 21);
+        stream.rwInteger(ref ManaCost, 22);
+        stream.rwBool(ref Succeeded, 23);
     }
 
     // CombatSpells.pas:1723
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatUnit Target;
-        CombatUnit Source;
-        if (FSucceeded)
+        CombatUnit target;
+        CombatUnit source;
+        if (Succeeded)
         {
-            Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
-            AoWHSSet.Current.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
+            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            AoWHSSet.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
         }
 
-        if (FManaCost != 0 && Combat.FStatus.Contains(CombatStatusElement.Executing))
+        if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
-            Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
-            AoWHSSet.Current.FSpellControl.GetSpell(105).CastingDone(Source.FUnit, FManaCost);
+            source = (CombatUnit)combat.CombatData.FindId(SourceId);
+            AoWHSSet.Current.SpellControl.GetSpell(105).CastingDone(source.Troop, ManaCost);
         }
     }
 
     // CombatSpells.pas:1740
-    public override bool Play(CombatViewer Viewer)
+    public override bool Play(CombatViewer viewer)
     {
-        Execute(Viewer.FCombat);
+        Execute(viewer.Combat);
         return false;
     }
 
     // CombatSpells.pas:1747
-    public void Generate(CombatObject Source, CombatObject Target)
+    public void Generate(CombatObject source, CombatObject target)
     {
-        FSucceeded = false;
-        FSourceID = Source.FID;
-        FTargetID = Target.FID;
-        if (!Target.GetAbilityEnabled(108) && !Target.GetAbilityEnabled(67) && Target is CombatUnit && !Target.GetImmunityTypes().Contains(DamageType.Death) && ((CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine)
+        Succeeded = false;
+        SourceId = source.Id;
+        TargetId = target.Id;
+        if (!target.GetAbilityEnabled(108) && !target.GetAbilityEnabled(67) && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death) && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine)
         {
-            FSucceeded = HitChance.HitRole(6 - Target.GetResistance());
+            Succeeded = HitChance.HitRole(6 - target.GetResistance());
         }
     }
 

@@ -15,46 +15,46 @@ public partial class Concealment : UnitSpell
     // UnitSpells.pas:577
     public Concealment(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.ConcealmentRStr);
-        FSpellID = 39;
-        FBaseManaCost = 5;
-        FSpellLevel = 3;
-        FMagicSphere = MagicSphere.Earth;
-        FTargetRange = 12;
-        FUnitDispelResistance = 5;
-        FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_concealmentText);
+        SpellId = 39;
+        BaseManaCost = 5;
+        SpellLevel = 3;
+        MagicSphere = MagicSphere.Earth;
+        TargetRange = 12;
+        UnitDispelResistance = 5;
+        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
     }
 
     // UnitSpells.pas:609
-    public override bool ValidTargetUnit(Troop Source, Troop Target)
+    public override bool ValidTargetUnit(Troop source, Troop target)
     {
-        bool Result = base.ValidTargetUnit(Source, Target);
-        return Result && !Target.GetAbilityEnabled(145) && !Target.GetAbilityEnabled(162) && !Target.GetAbilityEnabled(54);
+        bool result = base.ValidTargetUnit(source, target);
+        return result && !target.GetAbilityEnabled(145) && !target.GetAbilityEnabled(162) && !target.GetAbilityEnabled(54);
     }
 
     // UnitSpells.pas:590
-    public override bool ExecuteSpell(Troop Source, Troop Target, int Mana, ref Int32Array2 Data)
+    public override bool ExecuteSpell(Troop source, Troop target, int mana, ref Int32Array2 data)
     {
-        bool Result;
-        UnitEnchantment Enchantment;
-        if (ValidTargetUnit(Source, Target))
+        bool result;
+        UnitEnchantment enchantment;
+        if (ValidTargetUnit(source, target))
         {
-            if (Target.ExpandAbility(162))
+            if (target.ExpandAbility(162))
             {
-                Enchantment = ((UnitEnchantmentAbilityData)Target.GetAbilityData(162)).FEnchantment;
-                Enchantment.SetUpkeep(FManaUpkeep);
-                Enchantment.SetSource(Source.FPlayer);
-                Enchantment.FDispelResistance = (sbyte)FUnitDispelResistance;
+                enchantment = ((UnitEnchantmentAbilityData)target.GetAbilityData(162)).Enchantment;
+                enchantment.SetUpkeep(ManaUpkeep);
+                enchantment.SetSource(source.Player);
+                enchantment.DispelResistance = (sbyte)UnitDispelResistance;
             }
 
             // { Original succeeds even when expansion fails. }
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 }

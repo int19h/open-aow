@@ -21,59 +21,59 @@ public partial class TerminatePlayerTokenEvent : TokenEvent
     public TerminatePlayerTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131836;
+    public new const int ClassId = 131836;
 
-    public sbyte FPlayer;
-    public ExitGameCallBack FExitCallBack;
-    public ExitGameMode FExitMode;
+    public sbyte Player;
+    public ExitGameCallBack ExitCallback;
+    public ExitGameMode ExitMode;
 
     // MoveT.PAS:3249
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 20);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
     }
 
     // MoveT.PAS:3255
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        MessageEventLog Log = default;
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType = PlayerType.CPU3;
-        var remotePCC = (RemotePlayerCommunicationControl)AoWHSMap.Current.FPlayerCommunicator.PCC;
-        remotePCC.SetConnectionMode(FPlayer, ConnectionMode.Global);
-        remotePCC.SetSystemID(FPlayer, 0);
+        MessageEventLog log = default;
+        AoWHSMap.Current.Players.GetPlayers(Player).PlayerType = PlayerType.Cpu3;
+        var remotePlayerCommunicationControl = (RemotePlayerCommunicationControl)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        remotePlayerCommunicationControl.SetConnectionMode(Player, ConnectionMode.Global);
+        remotePlayerCommunicationControl.SetSystemId(Player, 0);
 
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FSingleProcessCycle)
+        if (!AoWHSMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
         {
-            AoWHSMap.Current.FPlayerControl.EndTurn(FPlayer);
+            AoWHSMap.Current.PlayerControl.EndTurn(Player);
         }
 
-        AoWHSMap.Current.FPlayers.Update();
-        if (AoWHSMap.Current.FSeatedPlayer != FPlayer)
+        AoWHSMap.Current.Players.Update();
+        if (AoWHSMap.Current.SeatedPlayer != Player)
         {
-            Log = new MessageEventLog(null);
-            Log.FButtons = MessageEventLog.Buttons.Ok;
-            Log.FLayout = MessageEventLog.Layout.Normal;
-            var name = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetName();
-            var format = AbilityRules.Format(AbilityRules.TranslateRStr(P5XLeftTheGameRStr), [name]);
-            Log.FMessage.Add(format);
+            log = new MessageEventLog(null);
+            log.Buttons = MessageEventLogButtons.Ok;
+            log.Layout = MessageEventLogLayout.Normal;
+            var name = AoWHSMap.Current.Players.GetPlayers(Player).GetName();
+            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_leftGameFormat), [name]);
+            log.Message.Add(format);
             // { Append the departure message, as in the original. }
-            AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
-            Log.Release();
+            AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
+            log.Release();
         }
         else
         {
             AoWHSMap.Current.ExecuteExitGame();
-            if (FExitCallBack != null)
+            if (ExitCallback != null)
             {
-                FExitCallBack(FExitMode, true);
+                ExitCallback(ExitMode, true);
             }
         }
 
         return ExecuteResult.Done;
     }
 
-    private static readonly string P5XLeftTheGameRStr = "%s left the game!";
+    private static readonly string s_leftGameFormat = "%s left the game!";
 
     // NetworkE.pas:230
 

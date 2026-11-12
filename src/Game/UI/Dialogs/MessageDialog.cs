@@ -23,8 +23,8 @@ public partial class MessageDialog : DataModule
     public Frame BCeltL;
     public Frame TCeltL;
     public Image TCeltLineL;
-    public Image AOWImage1;
-    public Image AOWImage2;
+    public Image Image1;
+    public Image Image2;
     public Button OKBtn;
     public Panel OKPnl;
     public Panel OKCancelPnl;
@@ -42,27 +42,27 @@ public partial class MessageDialog : DataModule
     public VerticalScrollBar HeaderMemoSB;
     public Label HeaderLbl;
     public IvTranslator Translator;
-    public ExecuteDoneEvent FDone;
-    public MessageEventLog FEvent;
+    public ExecuteDoneEvent Done;
+    public MessageEventLog Event;
 
     // AoWMessageDlg.pas:68
     public void FinishDialog()
     {
-        ExecuteDoneEvent Done;
-        MessageEventLog Log;
+        ExecuteDoneEvent done;
+        MessageEventLog log;
         Dlg.Visible = false;
-        Done = FDone;
-        Log = FEvent;
-        FDone = null;
-        FEvent = null;
-        if (Done != null)
+        done = Done;
+        log = Event;
+        Done = null;
+        Event = null;
+        if (done != null)
         {
-            Done(Log);
+            done(log);
         }
 
-        if (Log != null)
+        if (log != null)
         {
-            Log.Release();
+            log.Release();
         }
     }
 
@@ -75,7 +75,7 @@ public partial class MessageDialog : DataModule
     // AoWMessageDlg.pas:88
     public void YesBtnClick()
     {
-        if (FEvent.Yes())
+        if (Event.Yes())
         {
             Dlg.Visible = false;
         }
@@ -84,7 +84,7 @@ public partial class MessageDialog : DataModule
     // AoWMessageDlg.pas:93
     public void NoBtnClick()
     {
-        if (FEvent.No())
+        if (Event.No())
         {
             Dlg.Visible = false;
         }
@@ -93,9 +93,9 @@ public partial class MessageDialog : DataModule
     // AoWMessageDlg.pas:98
     public void OKBtnClick()
     {
-        if (FEvent != null)
+        if (Event != null)
         {
-            if (!FEvent.OK())
+            if (!Event.Ok())
             {
                 return;
             }
@@ -107,7 +107,7 @@ public partial class MessageDialog : DataModule
     // AoWMessageDlg.pas:105
     public void OKBtn2Click()
     {
-        if (FEvent.OK())
+        if (Event.Ok())
         {
             Dlg.Visible = false;
         }
@@ -116,7 +116,7 @@ public partial class MessageDialog : DataModule
     // AoWMessageDlg.pas:110
     public void CancelBtnClick()
     {
-        if (FEvent.Cancel())
+        if (Event.Cancel())
         {
             Dlg.Visible = false;
         }
@@ -124,73 +124,73 @@ public partial class MessageDialog : DataModule
 
     internal static void ShowDemoMessage()
     {
-        ResetMessageDialog(DialogHosts.MessageDlg);
-        DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-        var demoVersionMessage = AbilityRules.TranslateRStr(GameText.DemoVersionMessageRStr);
-        DialogHosts.MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
-        DialogHosts.MessageDlg.OKPnl.Visible = true;
-        DialogHosts.MessageDlg.Dlg.Visible = true;
+        ResetMessageDialog(DialogHosts.MessageDialog);
+        DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+        var demoVersionMessage = AbilityRules.TranslateResourceString(GameText.s_demoVersionMessageText);
+        DialogHosts.MessageDialog.MessageMemo.Items.Add(demoVersionMessage);
+        DialogHosts.MessageDialog.OKPnl.Visible = true;
+        DialogHosts.MessageDialog.Dlg.Visible = true;
     }
 
-    internal static void ResetMessageDialog(MessageDialog Dialog)
+    internal static void ResetMessageDialog(MessageDialog dialog)
     {
-        Dialog.YesNoPnl.Visible = false;
-        Dialog.YesNoCancelPnl.Visible = false;
-        Dialog.OKPnl.Visible = false;
-        Dialog.OKCancelPnl.Visible = false;
-        Dialog.MessageMemo.Items.Clear();
-        Dialog.MemoPnl.Visible = true;
-        Dialog.HeaderMemoPnl.Visible = false;
-        var message = AbilityRules.TranslateRStr(GameText.MessageRStr);
-        Dialog.TitleLbl.Text = message;
+        dialog.YesNoPnl.Visible = false;
+        dialog.YesNoCancelPnl.Visible = false;
+        dialog.OKPnl.Visible = false;
+        dialog.OKCancelPnl.Visible = false;
+        dialog.MessageMemo.Items.Clear();
+        dialog.MemoPnl.Visible = true;
+        dialog.HeaderMemoPnl.Visible = false;
+        var message = AbilityRules.TranslateResourceString(GameText.s_messageText);
+        dialog.TitleLbl.Text = message;
     }
 
-    internal static void ShowMessageEvent(MessageDialog Dialog, MessageEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowMessageEvent(MessageDialog dialog, MessageEventLog eventValue, ExecuteDoneEvent done)
     {
-        MessageEventLog Log;
-        ResetMessageDialog(Dialog);
-        Dialog.FDone = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Log = Dialog.FEvent;
-        Dialog.TitleLbl.Text = Log.FTitle;
-        switch (Log.FLayout)
+        MessageEventLog log;
+        ResetMessageDialog(dialog);
+        dialog.Done = done;
+        dialog.Event = eventValue;
+        dialog.Event.AddRef();
+        log = dialog.Event;
+        dialog.TitleLbl.Text = log.Title;
+        switch (log.Layout)
         {
-            case MessageEventLog.Layout.Normal:
-                var text = Log.FMessage.Text;
-                Dialog.MessageMemo.Items.Text = text;
-                if (Dialog.MessageMemo.Items.Text.Length < 80)
+            case MessageEventLogLayout.Normal:
+                var text = log.Message.Text;
+                dialog.MessageMemo.Items.Text = text;
+                if (dialog.MessageMemo.Items.Text.Length < 80)
                 {
-                    Dialog.MessageMemo.Items.Insert(0, "");
+                    dialog.MessageMemo.Items.Insert(0, "");
                 }
 
                 break;
-            case MessageEventLog.Layout.Header:
-                Dialog.MemoPnl.Visible = false;
-                Dialog.HeaderMemoPnl.Visible = true;
-                Dialog.HeaderLbl.Text = Log.FHeader;
-                var fMessageText = Log.FMessage.Text;
-                Dialog.HeaderMemo.Items.Text = fMessageText;
+            case MessageEventLogLayout.Header:
+                dialog.MemoPnl.Visible = false;
+                dialog.HeaderMemoPnl.Visible = true;
+                dialog.HeaderLbl.Text = log.Header;
+                var fMessageText = log.Message.Text;
+                dialog.HeaderMemo.Items.Text = fMessageText;
                 break;
         }
 
-        switch (Log.FButtons)
+        switch (log.Buttons)
         {
-            case MessageEventLog.Buttons.Ok:
-                Dialog.OKPnl.Visible = true;
+            case MessageEventLogButtons.Ok:
+                dialog.OKPnl.Visible = true;
                 break;
-            case MessageEventLog.Buttons.OkCancel:
-                Dialog.OKCancelPnl.Visible = true;
+            case MessageEventLogButtons.OkCancel:
+                dialog.OKCancelPnl.Visible = true;
                 break;
-            case MessageEventLog.Buttons.YesNo:
-                Dialog.YesNoPnl.Visible = true;
+            case MessageEventLogButtons.YesNo:
+                dialog.YesNoPnl.Visible = true;
                 break;
-            case MessageEventLog.Buttons.YesNoCancel:
-                Dialog.YesNoCancelPnl.Visible = true;
+            case MessageEventLogButtons.YesNoCancel:
+                dialog.YesNoCancelPnl.Visible = true;
                 break;
         }
 
-        Dialog.Dlg.Visible = true;
+        dialog.Dlg.Visible = true;
     }
 
 }

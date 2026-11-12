@@ -15,30 +15,30 @@ public sealed partial record Trade(int TurnsTotal) : ProductionOrder
 
     public override CityAction CityAction => CityAction.Trade;
 
-    public override string Name(ProductionControl Control) => Control.MagicSphere() != MagicSphere.None
-        ? AbilityRules.TranslateRStr(GenerateExtraPowerRStr)
-        : AbilityRules.TranslateRStr(GameText.ProduceMerchandiseRStr);
+    public override string Name(ProductionControl control) => control.MagicSphere() != MagicSphere.None
+        ? AbilityRules.TranslateResourceString(s_generateExtraPowerText)
+        : AbilityRules.TranslateResourceString(GameText.s_produceMerchandiseText);
 
-    public override string NameProgressive(ProductionControl Control) => Control.MagicSphere() != MagicSphere.None
-        ? AbilityRules.TranslateRStr(GameText.GeneratingExtraPowerRStr)
-        : AbilityRules.TranslateRStr(GameText.ProducingMerchandiseRStr);
+    public override string NameProgressive(ProductionControl control) => control.MagicSphere() != MagicSphere.None
+        ? AbilityRules.TranslateResourceString(GameText.s_generatingExtraPowerText)
+        : AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText);
 
-    public override bool CanExecute(ProductionControl Control, ref string Reason) => true;
+    public override bool CanExecute(ProductionControl control, ref string reason) => true;
 
-    public override void Executed(ProductionControl Control)
+    public override void Executed(ProductionControl control)
     {
-        Control.FSettings.FTurnsTotal = (sbyte)TurnsTotal;
-        Control.FSettings.FTurnsLeft = 1;
-        Control.FSettings.FPlayer = Control.GetPlayer();
-        Control.FStatus = ProductionControl.Status.Producing;
+        control.Settings.TurnsTotal = (sbyte)TurnsTotal;
+        control.Settings.TurnsLeft = 1;
+        control.Settings.Player = control.GetPlayer();
+        control.Status = ProductionControlStatus.Producing;
     }
 
-    public override void Completed(ProductionControl Control)
+    public override void Completed(ProductionControl control)
     {
-        Control.ProductionDone();
+        control.ProductionDone();
     }
 
-    public override int ActivityImage(ProductionPlace Place) => Place.GetMagicSphere() != MagicSphere.None ? 48 : 47;
+    public override int ActivityImage(ProductionPlace place) => place.GetMagicSphere() != MagicSphere.None ? 48 : 47;
 
-    internal static readonly string GenerateExtraPowerRStr = "Generate Extra Power";
+    internal static readonly string s_generateExtraPowerText = "Generate Extra Power";
 }

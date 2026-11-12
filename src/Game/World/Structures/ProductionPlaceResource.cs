@@ -11,28 +11,28 @@ public partial class ProductionPlaceResource : PlayerStructureResource
 {
     public ProductionPlaceResource(ECustomNode owner) : base(owner)
     {
-        FClaimed = false;
-        FUnits = new UnitIndexList();
-        FRazeable = true;
+        Claimed = false;
+        Units = new UnitIndexList();
+        Razeable = true;
     }
 
     // PrdPlace.pas:718
-    public new const int ClassID = 132027;
+    public new const int ClassId = 132027;
 
-    public UnitIndexList FUnits;
+    public UnitIndexList Units;
 
     // PrdPlace.pas:709
     public override void Dispose()
     {
-        FUnits?.Dispose();
+        Units?.Dispose();
         base.Dispose();
     }
 
     // PrdPlace.pas:730
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(18, FUnits.LoadFromStream, FUnits.SaveToStream);
+        base.ReadWrite(stream);
+        stream.rwStreamProc(18, Units.LoadFromStream, Units.SaveToStream);
     }
 
     // PrdPlace.pas:701
@@ -40,17 +40,17 @@ public partial class ProductionPlaceResource : PlayerStructureResource
     // PrdPlace.pas:724
     public override EditorClass Editor()
     {
-        EditorClass Result = Engine.Editors.FindEditor(132027);
-        if (Result == null)
+        EditorClass result = Engine.Editors.FindEditor(132027);
+        if (result == null)
         {
-            Result = base.Editor();
+            result = base.Editor();
         }
 
-        return Result;
+        return result;
     }
 
     // PrdPlace.pas:721
-    public override int ResourceUserClassID() => 132026;
+    public override int ResourceUserClassId() => 132026;
 
     // PrdPlace.pas:100
 

@@ -5,18 +5,18 @@ public partial class CustomImageLibrary
     // ImageLib.pas:9890 uses Result as a temporary integer reference index.
     public LibraryImage Get(int index)
     {
-        var image = FImages[index].Image;
+        var image = _images[index].Image;
         if (image != null) return image;
-        int reference = FImages[index].Reference;
-        return reference == -1 ? null : FImages[reference].Image;
+        int reference = _images[index].Reference;
+        return reference == -1 ? null : _images[reference].Image;
     }
 
     public LibraryImage GetSafe(int index)
     {
-        if (index < 0 || index >= FCount) return null;
-        var image = FImages[index].Image;
+        if (index < 0 || index >= _count) return null;
+        var image = _images[index].Image;
         if (image != null) return image;
-        int reference = FImages[index].Reference;
-        return reference >= 0 && reference < FCount ? FImages[reference].Image : null;
+        int reference = _images[index].Reference;
+        return reference >= 0 && reference < _count ? _images[reference].Image : null;
     }
 }

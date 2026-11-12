@@ -17,48 +17,48 @@ namespace Aow.Game.Combat.Actions;
 // (spell ID, source/target IDs, spell data, mana)
 public partial class UnitSpellCombatAction : CombatAction
 {
-    public new const int ClassID = 131779;
+    public new const int ClassId = 131779;
 
     public UnitSpellCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public int FSpellID;
-    public byte FSourceID;
-    public byte FTargetID;
-    public Int32Array2 FSpellData;
-    public int FMana;
+    public int SpellId;
+    public byte SourceId;
+    public byte TargetId;
+    public Int32Array2 SpellData;
+    public int Mana;
 
     // Spells.PAS:1102
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FSpellID, 20);
-        Stream.rwByte(ref FSourceID, 21);
-        Stream.rwByte(ref FTargetID, 22);
-        Stream.rwData(MemoryMarshal.AsBytes((Span<int>)FSpellData).Slice(0, 8), 8, 23);
-        Stream.rwInteger(ref FMana, 24);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref SpellId, 20);
+        stream.rwByte(ref SourceId, 21);
+        stream.rwByte(ref TargetId, 22);
+        stream.rwData(MemoryMarshal.AsBytes((Span<int>)SpellData).Slice(0, 8), 8, 23);
+        stream.rwInteger(ref Mana, 24);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("SpellID", ref FSpellID);
-        persister.Byte("SourceID", ref FSourceID);
-        persister.Byte("TargetID", ref FTargetID);
-        PersistSupport.Int32Array(persister, "SpellData", FSpellData);
-        persister.Int("Mana", ref FMana);
+        persister.Int32("SpellID", ref SpellId);
+        persister.Byte("SourceID", ref SourceId);
+        persister.Byte("TargetID", ref TargetId);
+        PersistSupport.Int32Array(persister, "SpellData", SpellData);
+        persister.Int32("Mana", ref Mana);
     }
 
     // Spells.PAS:1111
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        ((UnitSpell)AoWHSSet.Current.FSpellControl.GetSpell(FSpellID)).ExecuteCA(Combat, this);
+        ((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(SpellId)).ExecuteCombatAction(combat, this);
     }
 
     // Spells.PAS:1115
-    public override bool Play(CombatViewer Viewer)
+    public override bool Play(CombatViewer viewer)
     {
-        Execute(Viewer.FCombat);
+        Execute(viewer.Combat);
         return false;
     }
 

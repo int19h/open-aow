@@ -11,8 +11,8 @@ public partial class AdjustableAbility : Ability
     {
     }
 
-    public AbilityType FAbilityType;
+    public AbilityType AbilityType;
 
     // AoWAb.PAS:1
-    public override AbilityType GetAbilityType() => FAbilityType;
+    public override AbilityType GetAbilityType() => AbilityType;
 }

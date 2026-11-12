@@ -33,255 +33,255 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3041
     public AIGroupTargetSelector(ECustomNode owner) : base(owner)
     {
-        FRecruitment = new AIGroupRecruitControl(null);
-        FProduction = new AIGroupProductionControl(null);
-        FCooperation = new AIGroupCooperationControl(null);
-        FPrioritySettings = new PrioritySettings();
-        FSpareUnits = new UnitUserList(null);
+        Recruitment = new AIGroupRecruitControl(null);
+        Production = new AIGroupProductionControl(null);
+        Cooperation = new AIGroupCooperationControl(null);
+        Priorities = new PrioritySettings();
+        SpareUnits = new UnitUserList(null);
     }
 
-    public AIGroupTargetingStatus FTargetStatus;
-    public AIGroupTask FPlugin;
-    public AIGroupRecruitControl FRecruitment;
-    public AIGroupProductionControl FProduction;
-    public AIGroupCooperationControl FCooperation;
-    public Set<AIGroupTargetingModes> FMode;
-    public int FMovesMin;
-    public AIGroupControlTarget FTarget;
-    public int FPriority;
-    public UnitUserList FSpareUnits;
-    public AIGroupControlTarget FNextTarget;
-    public float FBattleFieldFactor;
-    public float FCurrentBattleFieldFactor;
-    public float FBattleFieldMoveFactor;
-    public int FBattleFieldRadius;
-    public Set<DamageType> FDamageTypes;
-    public float FSuperiority;
-    public float FNearSuperiority;
-    public float FMoveDayFactor;
-    public int FMinimumStrength;
-    public float FMultiTargetFactor;
-    public float FPathStrengthFactor;
-    public float FCurrentPathStrengthFactor;
-    public int FTargetLimit;
-    public bool FAllowTransport;
-    public int FValidTargetLimit;
-    public PrioritySettings FPrioritySettings;
+    public AIGroupTargetingStatus TargetStatus;
+    public AIGroupTask AIGroupTask;
+    public AIGroupRecruitControl Recruitment;
+    public AIGroupProductionControl Production;
+    public AIGroupCooperationControl Cooperation;
+    public Set<AIGroupTargetingModes> Mode;
+    public int MovesMin;
+    public AIGroupControlTarget Target;
+    public int Priority;
+    public UnitUserList SpareUnits;
+    public AIGroupControlTarget NextTarget;
+    public float BattleFieldFactor;
+    public float CurrentBattleFieldFactor;
+    public float BattleFieldMoveFactor;
+    public int BattleFieldRadius;
+    public Set<DamageType> DamageTypes;
+    public float Superiority;
+    public float NearSuperiority;
+    public float MoveDayFactor;
+    public int MinimumStrength;
+    public float MultiTargetFactor;
+    public float PathStrengthFactor;
+    public float CurrentPathStrengthFactor;
+    public int TargetLimit;
+    public bool AllowTransport;
+    public int ValidTargetLimit;
+    public PrioritySettings Priorities;
 
     // AIGroup.pas:3051
     public override void Dispose()
     {
         DeactivatePlugin();
-        FRecruitment.Release();
-        FProduction.Release();
-        FCooperation.Release();
-        FSpareUnits?.Dispose();
+        Recruitment.Release();
+        Production.Release();
+        Cooperation.Release();
+        SpareUnits?.Dispose();
         base.Dispose();
     }
 
     // AIGroup.pas:3421
     public override void Validate()
     {
-        Troop AUnit;
-        for (int I = FSpareUnits.Count - 1; I >= 0; I--)
+        Troop troop;
+        for (int I = SpareUnits.Count - 1; I >= 0; I--)
         {
-            AUnit = FSpareUnits.GetUnit(I);
-            if (FGroupControl.FGroup.IndexOf(AUnit) == -1)
+            troop = SpareUnits.GetUnit(I);
+            if (GroupControl.Group.IndexOf(troop) == -1)
             {
-                FSpareUnits.DeleteUnit(AUnit);
+                SpareUnits.DeleteUnit(troop);
             }
         }
 
-        FGroupControl.FTargets.Validate();
-        if (FState != 21 && FTarget != null)
+        GroupControl.Targets.Validate();
+        if (State != 21 && Target != null)
         {
-            if (FGroupControl.FTargets.FChildren.IndexOf(FTarget) == -1)
+            if (GroupControl.Targets._children.IndexOf(Target) == -1)
             {
-                FTarget = null;
-                if (FState > 0 && FState < 10)
+                Target = null;
+                if (State > 0 && State < 10)
                 {
-                    FState = 0;
+                    State = 0;
                 }
 
-                if (FState > 10)
+                if (State > 10)
                 {
-                    FState = 10;
+                    State = 10;
                 }
             }
         }
     }
 
     // AIGroup.pas:3062
-    public override bool GetBusy() => FState != -1;
+    public override bool GetBusy() => State != -1;
 
     // AIGroup.pas:3228
-    public override bool Activate(AIGroupControl Control)
+    public override bool Activate(AIGroupControl control)
     {
-        AIGroupControlTarget Target = default;
-        bool Valid = default;
-        FGroupControl = Control;
-        FGroupControl.FTargets.Validate();
-        FMovesMin = 50;
-        for (int I = FGroupControl.FGroup.Count - 1; I >= 0; I--)
+        AIGroupControlTarget target = default;
+        bool valid = default;
+        GroupControl = control;
+        GroupControl.Targets.Validate();
+        MovesMin = 50;
+        for (int I = GroupControl.Group.Count - 1; I >= 0; I--)
         {
-            if (FGroupControl.FGroup.GetUnit(I).GetMoves() < FMovesMin)
+            if (GroupControl.Group.GetUnit(I).GetMoves() < MovesMin)
             {
-                FMovesMin = FGroupControl.FGroup.GetUnit(I).GetMoves();
+                MovesMin = GroupControl.Group.GetUnit(I).GetMoves();
             }
         }
 
-        for (int I = FGroupControl.FTargets.Count - 1; I >= 0; I--)
+        for (int I = GroupControl.Targets.Count - 1; I >= 0; I--)
         {
-            Target = FGroupControl.FTargets.GetTargets(I);
-            Valid = ValidateTargetOverlap(FGroupControl.FGroup, Target);
-            bool condition = Valid;
+            target = GroupControl.Targets.GetTargets(I);
+            valid = ValidateTargetOverlap(GroupControl.Group, target);
+            bool condition = valid;
             if (condition)
             {
-                bool test = Target.FData.TargetType != AITargetType.Negotiate;
+                bool test = target.Data.TargetType != AITargetType.Negotiate;
                 if (!test)
                 {
-                    var targetMana = Target.GetTargetMana();
-                    var targetGold = Target.GetTargetGold();
-                    test = FGroupControl.FGroup.RequestTargetExpense(targetGold, targetMana);
+                    var targetMana = target.GetTargetMana();
+                    var targetGold = target.GetTargetGold();
+                    test = GroupControl.Group.RequestTargetExpense(targetGold, targetMana);
                 }
 
                 condition = test;
             }
 
-            Valid = condition;
-            bool passed = Valid;
+            valid = condition;
+            bool passed = valid;
             if (passed)
             {
-                bool test = Target.GetTargetGold() <= 0;
+                bool test = target.GetTargetGold() <= 0;
                 if (!test)
                 {
-                    var players = AoWHSMap.Current.FPlayers.GetPlayers(FGroupControl.FGroup.FPlayer);
-                    var targetGold = Target.GetTargetGold();
-                    test = players.FGems >= targetGold;
+                    var players = AoWHSMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+                    var targetGold = target.GetTargetGold();
+                    test = players.Gems >= targetGold;
                 }
 
                 passed = test;
             }
 
-            Valid = passed;
-            bool condition2 = Valid;
+            valid = passed;
+            bool condition2 = valid;
             if (condition2)
             {
-                bool test = Target.GetTargetMana() <= 0;
+                bool test = target.GetTargetMana() <= 0;
                 if (!test)
                 {
-                    var players = AoWHSMap.Current.FPlayers.GetPlayers(FGroupControl.FGroup.FPlayer);
-                    var targetMana = Target.GetTargetMana();
-                    test = players.FMagicControl.FMana >= targetMana;
+                    var players = AoWHSMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+                    var targetMana = target.GetTargetMana();
+                    test = players.MagicControl.Mana >= targetMana;
                 }
 
                 condition2 = test;
             }
 
-            Valid = condition2;
-            if (Valid)
+            valid = condition2;
+            if (valid)
             {
-                Target.FDataA = GetTargetSetupPriority(FGroupControl.FTargets.GetTargets(I));
-                Target.FStatus = Set<AIGroupTargetFlags>.Of();
+                target.DataA = GetTargetSetupPriority(GroupControl.Targets.GetTargets(I));
+                target.Status = Set<AIGroupTargetFlags>.Of();
             }
             else
             {
-                Target.FStatus = Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
+                target.Status = Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
             }
         }
 
-        FGroupControl.FTargets.FChildren.Sort(CompareTargetSetupPriority);
-        for (int I = FGroupControl.FTargets.Count - 1, last = FTargetLimit + 1; I >= last; I--)
+        GroupControl.Targets._children.Sort(CompareTargetSetupPriority);
+        for (int I = GroupControl.Targets.Count - 1, last = TargetLimit + 1; I >= last; I--)
         {
-            FGroupControl.FTargets.Delete(I);
+            GroupControl.Targets.Delete(I);
         }
 
-        FTarget = null;
-        FTargetStatus = AIGroupTargetingStatus.Busy;
+        Target = null;
+        TargetStatus = AIGroupTargetingStatus.Busy;
         return true;
     }
 
     // AIGroup.pas:3487
     public override bool Process()
     {
-        bool Result = default;
+        bool result = default;
         int I = default;
-        int Strength = default;
-        int Superiority = default;
-        int Time = default;
-        bool Busy = default;
-        AIGroupTask Plugin = default;
-        UnitUserList Optional = default;
-        UnitUserList Required = default;
+        int strength = default;
+        int superiority = default;
+        int time = default;
+        bool busy = default;
+        AIGroupTask aiGroupTask = default;
+        UnitUserList optional = default;
+        UnitUserList required = default;
         AIGroup Group = default;
-        MapCoordinate Location = default;
-        Plugin = FPlugin;
-        if (Plugin != null)
+        MapCoordinate location = default;
+        aiGroupTask = AIGroupTask;
+        if (aiGroupTask != null)
         {
-            Busy = Plugin.MainProcess();
-            if (!Busy)
+            busy = aiGroupTask.MainProcess();
+            if (!busy)
             {
                 DeactivatePlugin();
             }
         }
         else
         {
-            Busy = false;
+            busy = false;
         }
 
-        if (!Busy)
+        if (!busy)
         {
-            Result = false;
-            switch (FState)
+            result = false;
+            switch (State)
             {
                 case 0:
                     I = 0;
-                    while (I != FGroupControl.FTargets.Count && FGroupControl.FTargets.GetTargets(I).FStatus.Contains(AIGroupTargetFlags.Done))
+                    while (I != GroupControl.Targets.Count && GroupControl.Targets.GetTargets(I).Status.Contains(AIGroupTargetFlags.Done))
                     {
                         I += 1;
                     }
 
-                    if (I < FGroupControl.FTargets.Count && GetValidTargets() < FValidTargetLimit)
+                    if (I < GroupControl.Targets.Count && GetValidTargets() < ValidTargetLimit)
                     {
-                        FTarget = FGroupControl.FTargets.GetTargets(I);
-                        FPriority = FTarget.FDataA;
-                        Strength = GetRequiredStrength(FTarget);
-                        Superiority = GetRequiredCombatPredictorSuperiority(FTarget);
-                        AoWHSMap.Current.FAIExecuter.UseProcessTime(100);
-                        Busy = FGroupControl.FStrengthMax < Strength;
-                        if (!Busy)
+                        Target = GroupControl.Targets.GetTargets(I);
+                        Priority = Target.DataA;
+                        strength = GetRequiredStrength(Target);
+                        superiority = GetRequiredCombatPredictorSuperiority(Target);
+                        AoWHSMap.Current.AIExecutor.UseProcessTime(100);
+                        busy = GroupControl.StrengthMax < strength;
+                        if (!busy)
                         {
-                            FGroupControl.SetupCP(FTarget);
-                            FGroupControl.FCombatPredictor.Execute();
-                            Busy = Busy || Set<byte>.WithBounds(0, 255).With(2).With(4).With(8).Contains(FGroupControl.FCombatPredictor.FResult);
-                            Busy = Busy || FGroupControl.FCombatPredictor.GetSuperiority() < Superiority;
+                            GroupControl.SetupCP(Target);
+                            GroupControl.CombatPredictor.Execute();
+                            busy = busy || Set<byte>.WithBounds(0, 255).With(2).With(4).With(8).Contains(GroupControl.CombatPredictor.Result);
+                            busy = busy || GroupControl.CombatPredictor.GetSuperiority() < superiority;
                         }
 
-                        if (Busy)
+                        if (busy)
                         {
-                            if ((FMode & Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce)) != Set<AIGroupTargetingModes>.Of())
+                            if ((Mode & Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce)) != Set<AIGroupTargetingModes>.Of())
                             {
-                                FGroupControl.SetupCP(FTarget);
-                                if (FMode.Contains(AIGroupTargetingModes.Cooperate))
+                                GroupControl.SetupCP(Target);
+                                if (Mode.Contains(AIGroupTargetingModes.Cooperate))
                                 {
-                                    FCooperation.Setup(FGroupControl, FTarget);
-                                    FCooperation.FSuperiority = Superiority;
-                                    FCooperation.FCooperateStrength = Strength - FGroupControl.FStrengthMax;
-                                    FCooperation.FMode = AIGroupCooperationControl.CooperationMode.None;
-                                    ActivatePlugin(FCooperation);
-                                    FState = 1;
+                                    Cooperation.Setup(GroupControl, Target);
+                                    Cooperation.Superiority = superiority;
+                                    Cooperation.CooperateStrength = strength - GroupControl.StrengthMax;
+                                    Cooperation.Mode = AIGroupCooperationControl.CooperationMode.None;
+                                    ActivatePlugin(Cooperation);
+                                    State = 1;
                                 }
                                 else
                                 {
-                                    if (FMode.Contains(AIGroupTargetingModes.Recruit))
+                                    if (Mode.Contains(AIGroupTargetingModes.Recruit))
                                     {
-                                        FState = 2;
+                                        State = 2;
                                     }
                                     else
                                     {
-                                        if (FMode.Contains(AIGroupTargetingModes.Produce))
+                                        if (Mode.Contains(AIGroupTargetingModes.Produce))
                                         {
-                                            FState = 4;
+                                            State = 4;
                                         }
                                         else
                                         {
@@ -297,11 +297,11 @@ public partial class AIGroupTargetSelector : AIGroupTask
                         }
                         else
                         {
-                            FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
-                            var movePointsMin = FGroupControl.FGroup.GetMovePointsMin();
-                            if (FTarget.FMovePoints < movePointsMin)
+                            Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
+                            var movePointsMin = GroupControl.Group.GetMovePointsMin();
+                            if (Target.MovePoints < movePointsMin)
                             {
-                                FPriority += FPrioritySettings.FImmediateBonus;
+                                Priority += Priorities.ImmediateBonus;
                             }
 
                             TargetProcessed();
@@ -309,47 +309,47 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     }
                     else
                     {
-                        FGroupControl.FTargets.FChildren.Sort(CompareTargetSetupPriority);
-                        FState = 10;
+                        GroupControl.Targets._children.Sort(CompareTargetSetupPriority);
+                        State = 10;
                     }
 
                     break;
                 case 1:
-                    if (FCooperation.FComplete)
+                    if (Cooperation.Complete)
                     {
-                        FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Cooperate);
-                        FPriority += FPrioritySettings.FCompleteCooperationPenalty;
-                        bool condition = FCooperation.GetCooperateMoveDays() == 0;
+                        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Cooperate);
+                        Priority += Priorities.CompleteCooperationPenalty;
+                        bool condition = Cooperation.GetCooperateMoveDays() == 0;
                         if (condition)
                         {
-                            var movePointsMin = FGroupControl.FGroup.GetMovePointsMin();
-                            condition = FTarget.FMovePoints < movePointsMin;
+                            var movePointsMin = GroupControl.Group.GetMovePointsMin();
+                            condition = Target.MovePoints < movePointsMin;
                         }
 
                         if (condition)
                         {
-                            FPriority += FPrioritySettings.FImmediateBonus;
+                            Priority += Priorities.ImmediateBonus;
                         }
 
                         TargetProcessed();
                     }
                     else
                     {
-                        if (FCooperation.FGroups.Count != 0)
+                        if (Cooperation.Groups.Count != 0)
                         {
-                            FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Cooperate);
-                            FPriority += FPrioritySettings.FPartialCooperationPenalty;
+                            Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Cooperate);
+                            Priority += Priorities.PartialCooperationPenalty;
                         }
 
-                        if (FMode.Contains(AIGroupTargetingModes.Recruit))
+                        if (Mode.Contains(AIGroupTargetingModes.Recruit))
                         {
-                            FState = 2;
+                            State = 2;
                         }
                         else
                         {
-                            if (FMode.Contains(AIGroupTargetingModes.Produce))
+                            if (Mode.Contains(AIGroupTargetingModes.Produce))
                             {
-                                FState = 4;
+                                State = 4;
                             }
                             else
                             {
@@ -360,39 +360,39 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 2:
-                    FRecruitment.Setup(FGroupControl);
-                    var requiredCombatPredictorSuperiority = GetRequiredCombatPredictorSuperiority(FTarget);
-                    FRecruitment.FSuperiority = requiredCombatPredictorSuperiority;
-                    var requiredStrength = GetRequiredStrength(FTarget);
-                    FRecruitment.FRecruitStrength = requiredStrength - FGroupControl.FStrengthMax;
-                    if (FTarget.FStatus.Contains(AIGroupTargetFlags.Cooperate))
+                    Recruitment.Setup(GroupControl);
+                    var requiredCombatPredictorSuperiority = GetRequiredCombatPredictorSuperiority(Target);
+                    Recruitment.Superiority = requiredCombatPredictorSuperiority;
+                    var requiredStrength = GetRequiredStrength(Target);
+                    Recruitment.RecruitStrength = requiredStrength - GroupControl.StrengthMax;
+                    if (Target.Status.Contains(AIGroupTargetFlags.Cooperate))
                     {
-                        var cooperatedStrength = FCooperation.GetCooperatedStrength();
-                        FRecruitment.FRecruitStrength -= cooperatedStrength;
+                        var cooperatedStrength = Cooperation.GetCooperatedStrength();
+                        Recruitment.RecruitStrength -= cooperatedStrength;
                     }
 
-                    FRecruitment.FMode = AIGroupRecruitControl.Mode.None;
-                    ActivatePlugin(FRecruitment);
-                    FState = 3;
+                    Recruitment.Mode = AIGroupRecruitControlMode.None;
+                    ActivatePlugin(Recruitment);
+                    State = 3;
                     break;
                 case 3:
-                    if (FRecruitment.FComplete)
+                    if (Recruitment.Complete)
                     {
-                        FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Recruit);
-                        FPriority += FPrioritySettings.FCompleteRecruitmentPenalty;
+                        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Recruit);
+                        Priority += Priorities.CompleteRecruitmentPenalty;
                         TargetProcessed();
                     }
                     else
                     {
-                        if (FRecruitment.FUnits.Count != 0)
+                        if (Recruitment.Units.Count != 0)
                         {
-                            FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Recruit);
-                            FPriority += FPrioritySettings.FPartialRecruitmentPenalty;
+                            Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Recruit);
+                            Priority += Priorities.PartialRecruitmentPenalty;
                         }
 
-                        if (FMode.Contains(AIGroupTargetingModes.Produce))
+                        if (Mode.Contains(AIGroupTargetingModes.Produce))
                         {
-                            FState = 4;
+                            State = 4;
                         }
                         else
                         {
@@ -402,47 +402,47 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
                     break;
                 case 4:
-                    FProduction.Setup(FGroupControl);
-                    var requiredCombatPredictorSuperiority2 = GetRequiredCombatPredictorSuperiority(FTarget);
-                    FProduction.FSuperiority = requiredCombatPredictorSuperiority2;
-                    var requiredStrength2 = GetRequiredStrength(FTarget);
-                    FProduction.FProduceStrength = requiredStrength2 - FGroupControl.FStrengthMax;
-                    if (FTarget.FStatus.Contains(AIGroupTargetFlags.Cooperate))
+                    Production.Setup(GroupControl);
+                    var requiredCombatPredictorSuperiority2 = GetRequiredCombatPredictorSuperiority(Target);
+                    Production.Superiority = requiredCombatPredictorSuperiority2;
+                    var requiredStrength2 = GetRequiredStrength(Target);
+                    Production.ProduceStrength = requiredStrength2 - GroupControl.StrengthMax;
+                    if (Target.Status.Contains(AIGroupTargetFlags.Cooperate))
                     {
-                        var cooperatedStrength = FCooperation.GetCooperatedStrength();
-                        FProduction.FProduceStrength -= cooperatedStrength;
+                        var cooperatedStrength = Cooperation.GetCooperatedStrength();
+                        Production.ProduceStrength -= cooperatedStrength;
                     }
 
-                    if (FTarget.FStatus.Contains(AIGroupTargetFlags.Recruit))
+                    if (Target.Status.Contains(AIGroupTargetFlags.Recruit))
                     {
-                        var recruitedStrength = FRecruitment.GetRecruitedStrength();
-                        FProduction.FProduceStrength -= recruitedStrength;
+                        var recruitedStrength = Recruitment.GetRecruitedStrength();
+                        Production.ProduceStrength -= recruitedStrength;
                     }
 
-                    FProduction.FMode = AIGroupProductionControl.Mode.None;
-                    ActivatePlugin(FProduction);
-                    FState = 5;
+                    Production.Mode = AIGroupProductionControlMode.None;
+                    ActivatePlugin(Production);
+                    State = 5;
                     break;
                 case 5:
-                    if (FProduction.FComplete)
+                    if (Production.Complete)
                     {
-                        FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Produce);
-                        Time = FProduction.GetCompleteProductionTime();
-                        if (Time > 0)
+                        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Produce);
+                        time = Production.GetCompleteProductionTime();
+                        if (time > 0)
                         {
-                            FPriority += Round(FPrioritySettings.FProductionDayPenalty * Time);
+                            Priority += Round(Priorities.ProductionDayPenalty * time);
                         }
                     }
                     else
                     {
-                        if (FProduction.FProductions.Count != 0)
+                        if (Production.Productions.Count != 0)
                         {
-                            FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Produce);
-                            FPriority += FPrioritySettings.FPartialProductionPenalty;
-                            Time = FProduction.GetCompleteProductionTime();
-                            if (Time > 0)
+                            Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid, AIGroupTargetFlags.Produce);
+                            Priority += Priorities.PartialProductionPenalty;
+                            time = Production.GetCompleteProductionTime();
+                            if (time > 0)
                             {
-                                FPriority += FPrioritySettings.FProductionDayPenalty * Time;
+                                Priority += Priorities.ProductionDayPenalty * time;
                             }
                         }
                     }
@@ -451,267 +451,267 @@ public partial class AIGroupTargetSelector : AIGroupTask
                     break;
                 case 10:
                     I = 0;
-                    while (I != FGroupControl.FTargets.Count && !FGroupControl.FTargets.GetTargets(I).FStatus.Contains(AIGroupTargetFlags.Valid))
+                    while (I != GroupControl.Targets.Count && !GroupControl.Targets.GetTargets(I).Status.Contains(AIGroupTargetFlags.Valid))
                     {
                         I += 1;
                     }
 
-                    if (I == FGroupControl.FTargets.Count)
+                    if (I == GroupControl.Targets.Count)
                     {
                         NoTargetsFound();
                         Done();
                     }
                     else
                     {
-                        FTarget = FGroupControl.FTargets.GetTargets(I);
-                        if ((FTarget.FStatus & Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Recruit, AIGroupTargetFlags.Produce, AIGroupTargetFlags.Cooperate)) != Set<AIGroupTargetFlags>.Of())
+                        Target = GroupControl.Targets.GetTargets(I);
+                        if ((Target.Status & Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Recruit, AIGroupTargetFlags.Produce, AIGroupTargetFlags.Cooperate)) != Set<AIGroupTargetFlags>.Of())
                         {
-                            FGroupControl.SetupCP(FTarget);
-                            if (FTarget.FStatus.Contains(AIGroupTargetFlags.Cooperate))
+                            GroupControl.SetupCP(Target);
+                            if (Target.Status.Contains(AIGroupTargetFlags.Cooperate))
                             {
-                                FCooperation.Setup(FGroupControl, FTarget);
-                                var requiredCombatPredictorSuperiority3 = GetRequiredCombatPredictorSuperiority(FTarget);
-                                FCooperation.FSuperiority = requiredCombatPredictorSuperiority3;
-                                var requiredStrength3 = GetRequiredStrength(FTarget);
-                                FCooperation.FCooperateStrength = requiredStrength3 - FGroupControl.FStrengthMax;
-                                FCooperation.FMode = AIGroupCooperationControl.CooperationMode.AutoCooperate;
-                                ActivatePlugin(FCooperation);
-                                FState = 11;
+                                Cooperation.Setup(GroupControl, Target);
+                                var requiredCombatPredictorSuperiority3 = GetRequiredCombatPredictorSuperiority(Target);
+                                Cooperation.Superiority = requiredCombatPredictorSuperiority3;
+                                var requiredStrength3 = GetRequiredStrength(Target);
+                                Cooperation.CooperateStrength = requiredStrength3 - GroupControl.StrengthMax;
+                                Cooperation.Mode = AIGroupCooperationControl.CooperationMode.AutoCooperate;
+                                ActivatePlugin(Cooperation);
+                                State = 11;
                             }
                             else
                             {
-                                if (FTarget.FStatus.Contains(AIGroupTargetFlags.Recruit))
+                                if (Target.Status.Contains(AIGroupTargetFlags.Recruit))
                                 {
-                                    FState = 12;
+                                    State = 12;
                                 }
                                 else
                                 {
-                                    if (FTarget.FStatus.Contains(AIGroupTargetFlags.Produce))
+                                    if (Target.Status.Contains(AIGroupTargetFlags.Produce))
                                     {
-                                        FState = 14;
+                                        State = 14;
                                     }
                                     else
                                     {
-                                        FState = 20;
+                                        State = 20;
                                     }
                                 }
                             }
                         }
                         else
                         {
-                            FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
-                            FState = 20;
+                            Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
+                            State = 20;
                         }
                     }
 
                     break;
                 case 11:
-                    if (FCooperation.FComplete)
+                    if (Cooperation.Complete)
                     {
-                        FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
-                        FState = 20;
+                        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
+                        State = 20;
                     }
                     else
                     {
-                        if (FTarget.FStatus.Contains(AIGroupTargetFlags.Recruit))
+                        if (Target.Status.Contains(AIGroupTargetFlags.Recruit))
                         {
-                            FState = 12;
+                            State = 12;
                         }
                         else
                         {
-                            if (FTarget.FStatus.Contains(AIGroupTargetFlags.Produce))
+                            if (Target.Status.Contains(AIGroupTargetFlags.Produce))
                             {
-                                FState = 14;
+                                State = 14;
                             }
                             else
                             {
-                                FState = 20;
+                                State = 20;
                             }
                         }
                     }
 
                     break;
                 case 12:
-                    FRecruitment.Setup(FGroupControl);
-                    var requiredCombatPredictorSuperiority4 = GetRequiredCombatPredictorSuperiority(FTarget);
-                    FRecruitment.FSuperiority = requiredCombatPredictorSuperiority4;
-                    var requiredStrength4 = GetRequiredStrength(FTarget);
-                    FRecruitment.FRecruitStrength = requiredStrength4 - FGroupControl.FStrengthMax;
-                    FRecruitment.FMode = AIGroupRecruitControl.Mode.AutoRecruit;
-                    ActivatePlugin(FRecruitment);
-                    FState += 1;
+                    Recruitment.Setup(GroupControl);
+                    var requiredCombatPredictorSuperiority4 = GetRequiredCombatPredictorSuperiority(Target);
+                    Recruitment.Superiority = requiredCombatPredictorSuperiority4;
+                    var requiredStrength4 = GetRequiredStrength(Target);
+                    Recruitment.RecruitStrength = requiredStrength4 - GroupControl.StrengthMax;
+                    Recruitment.Mode = AIGroupRecruitControlMode.AutoRecruit;
+                    ActivatePlugin(Recruitment);
+                    State += 1;
                     break;
                 case 13:
-                    if (FRecruitment.FComplete)
+                    if (Recruitment.Complete)
                     {
-                        FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
-                        FState = 20;
+                        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Ready);
+                        State = 20;
                     }
                     else
                     {
-                        if (FTarget.FStatus.Contains(AIGroupTargetFlags.Produce))
+                        if (Target.Status.Contains(AIGroupTargetFlags.Produce))
                         {
-                            FState = 14;
+                            State = 14;
                         }
                         else
                         {
-                            FState = 20;
+                            State = 20;
                         }
                     }
 
                     break;
                 case 14:
-                    FProduction.Setup(FGroupControl);
-                    var requiredCombatPredictorSuperiority5 = GetRequiredCombatPredictorSuperiority(FTarget);
-                    FProduction.FSuperiority = requiredCombatPredictorSuperiority5;
-                    var requiredStrength5 = GetRequiredStrength(FTarget);
-                    FProduction.FProduceStrength = requiredStrength5 - FGroupControl.FStrengthMax;
-                    FProduction.FMode = AIGroupProductionControl.Mode.AutoProduce;
-                    ActivatePlugin(FProduction);
-                    FState = 20;
+                    Production.Setup(GroupControl);
+                    var requiredCombatPredictorSuperiority5 = GetRequiredCombatPredictorSuperiority(Target);
+                    Production.Superiority = requiredCombatPredictorSuperiority5;
+                    var requiredStrength5 = GetRequiredStrength(Target);
+                    Production.ProduceStrength = requiredStrength5 - GroupControl.StrengthMax;
+                    Production.Mode = AIGroupProductionControlMode.AutoProduce;
+                    ActivatePlugin(Production);
+                    State = 20;
                     break;
                 case 20:
-                    if (FTarget.FStatus.Contains(AIGroupTargetFlags.Ready))
+                    if (Target.Status.Contains(AIGroupTargetFlags.Ready))
                     {
-                        if (FTarget.FTransporterID != -1)
+                        if (Target.TransporterId != -1)
                         {
-                            var unit = AoWHSMap.Current.FUnitControl.FindUnit(FTarget.FTransporterID);
-                            FGroupControl.FGroup.AddTransporter(unit);
+                            var troop = AoWHSMap.Current.UnitControl.FindUnit(Target.TransporterId);
+                            GroupControl.Group.AddTransporter(troop);
                         }
                         else
                         {
-                            var group = FGroupControl.FGroup;
-                            if (group.FTransporter != null)
+                            var group = GroupControl.Group;
+                            if (group.Transporter != null)
                             {
-                                group.DeleteUnit(group.FTransporter);
+                                group.DeleteUnit(group.Transporter);
                             }
                         }
 
-                        if (AllowMultiTargets(FTarget))
+                        if (AllowMultiTargets(Target))
                         {
-                            FState = 30;
+                            State = 30;
                         }
                         else
                         {
-                            FGroupControl.FGroup.SetupTarget(FTarget, AIGroupTargetStatus.Execute, 0);
-                            FGroupControl.SetupME();
-                            FGroupControl.ExecuteME(FTarget.FLocation.X, FTarget.FLocation.Y, FTarget.FLocation.L);
-                            Result = true;
-                            FState = 21;
+                            GroupControl.Group.SetupTarget(Target, AIGroupTargetStatus.Execute, 0);
+                            GroupControl.SetupME();
+                            GroupControl.ExecuteME(Target.Location.X, Target.Location.Y, Target.Location.MapLevel);
+                            result = true;
+                            State = 21;
                         }
                     }
                     else
                     {
-                        if (FGroupControl.FGroup.FProductions.Count != 0)
+                        if (GroupControl.Group.Productions.Count != 0)
                         {
-                            FGroupControl.FGroup.FProductions.GetProductions(0).FControl.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
-                            FGroupControl.SetupME();
-                            FGroupControl.ExecuteME(Location.X, Location.Y, Location.L);
-                            Result = true;
-                            FState = 22;
+                            GroupControl.Group.Productions.GetProductions(0).Control.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+                            GroupControl.SetupME();
+                            GroupControl.ExecuteME(location.X, location.Y, location.MapLevel);
+                            result = true;
+                            State = 22;
                         }
                         else
                         {
-                            FGroupControl.FProductionLocations.SortOnMovePoints();
-                            if (FGroupControl.FProductionLocations.Count == 0 || FGroupControl.FProductionLocations.GetProductionLocation(0).FMovePoints > 31)
+                            GroupControl.ProductionLocations.SortOnMovePoints();
+                            if (GroupControl.ProductionLocations.Count == 0 || GroupControl.ProductionLocations.GetProductionLocation(0).MovePoints > 31)
                             {
-                                FGroupControl.SetupME();
-                                FGroupControl.ExecuteME(FGroupControl.FLocation.X, FGroupControl.FLocation.Y, FGroupControl.FLocation.L);
-                                Result = true;
-                                FState = 22;
+                                GroupControl.SetupME();
+                                GroupControl.ExecuteME(GroupControl.Location.X, GroupControl.Location.Y, GroupControl.Location.MapLevel);
+                                result = true;
+                                State = 22;
                             }
                             else
                             {
-                                FGroupControl.SetupME();
-                                var productionLocation = FGroupControl.FProductionLocations.GetProductionLocation(0);
-                                var fProductionLocationsProductionLocation = FGroupControl.FProductionLocations.GetProductionLocation(0);
-                                var productionLocation2 = FGroupControl.FProductionLocations.GetProductionLocation(0);
-                                FGroupControl.ExecuteME(productionLocation2.FLocation.X, fProductionLocationsProductionLocation.FLocation.Y, productionLocation.FLocation.L);
-                                Result = true;
-                                FState = 22;
+                                GroupControl.SetupME();
+                                var productionLocation = GroupControl.ProductionLocations.GetProductionLocation(0);
+                                var fProductionLocationsProductionLocation = GroupControl.ProductionLocations.GetProductionLocation(0);
+                                var productionLocation2 = GroupControl.ProductionLocations.GetProductionLocation(0);
+                                GroupControl.ExecuteME(productionLocation2.Location.X, fProductionLocationsProductionLocation.Location.Y, productionLocation.Location.MapLevel);
+                                result = true;
+                                State = 22;
                             }
                         }
                     }
 
                     break;
                 case 21:
-                    if (FGroupControl.FTargets.FChildren.IndexOf(FTarget) == -1)
+                    if (GroupControl.Targets._children.IndexOf(Target) == -1)
                     {
-                        FGroupControl.FGroup.ResetTargetExpense();
-                        FTargetStatus = AIGroupTargetingStatus.TargetConquered;
+                        GroupControl.Group.ResetTargetExpense();
+                        TargetStatus = AIGroupTargetingStatus.TargetConquered;
                         Done();
                     }
                     else
                     {
-                        FTargetStatus = AIGroupTargetingStatus.ExecutingTarget;
+                        TargetStatus = AIGroupTargetingStatus.ExecutingTarget;
                         Done();
                     }
 
                     break;
                 case 22:
-                    FGroupControl.FGroup.SetupTarget(FTarget, AIGroupTargetStatus.Setup, 0);
-                    FTargetStatus = AIGroupTargetingStatus.SettingupTarget;
+                    GroupControl.Group.SetupTarget(Target, AIGroupTargetStatus.Setup, 0);
+                    TargetStatus = AIGroupTargetingStatus.SettingUpTarget;
                     Done();
                     break;
                 case 30:
-                    ValidateTargetRequirements(FGroupControl.FGroup, FTarget, null, FSpareUnits, FMinimumStrength);
-                    if (FSpareUnits.Count != 0)
+                    ValidateTargetRequirements(GroupControl.Group, Target, null, SpareUnits, MinimumStrength);
+                    if (SpareUnits.Count != 0)
                     {
-                        FTarget.FStatus = FTarget.FStatus - Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
-                        FNextTarget = null;
-                        FState = 31;
+                        Target.Status = Target.Status - Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
+                        NextTarget = null;
+                        State = 31;
                     }
                     else
                     {
-                        FState = 32;
+                        State = 32;
                     }
 
                     break;
                 case 31:
-                    I = FGroupControl.FTargets.FChildren.IndexOf(FNextTarget);
-                    while (I < FGroupControl.FTargets.Count && (I == -1 || FGroupControl.FTargets.GetTargets(I).FTransporterID != -1 || !FGroupControl.FTargets.GetTargets(I).FStatus.Contains(AIGroupTargetFlags.Valid)))
+                    I = GroupControl.Targets._children.IndexOf(NextTarget);
+                    while (I < GroupControl.Targets.Count && (I == -1 || GroupControl.Targets.GetTargets(I).TransporterId != -1 || !GroupControl.Targets.GetTargets(I).Status.Contains(AIGroupTargetFlags.Valid)))
                     {
                         I += 1;
                     }
 
-                    if (I < FGroupControl.FTargets.Count)
+                    if (I < GroupControl.Targets.Count)
                     {
-                        Required = new UnitUserList(null);
-                        Optional = new UnitUserList(null);
-                        FNextTarget = FGroupControl.FTargets.GetTargets(I);
-                        if (ValidMultiTarget(FSpareUnits, FNextTarget, Required, Optional))
+                        required = new UnitUserList(null);
+                        optional = new UnitUserList(null);
+                        NextTarget = GroupControl.Targets.GetTargets(I);
+                        if (ValidMultiTarget(SpareUnits, NextTarget, required, optional))
                         {
-                            var group = FGroupControl.FGroup;
+                            var group = GroupControl.Group;
                             var behavior = group.GroupClass.Behavior;
-                            Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(group.FPlayer, group.FIndependentRelation, behavior);
+                            Group = AoWHSMap.Current.AIGroupManager.CreateGroup(group.Player, group.IndependentRelation, behavior);
 
-                            Group.AddUnits(Required);
-                            Group.SetupTarget(FNextTarget, AIGroupTargetStatus.Execute, 0);
+                            Group.AddUnits(required);
+                            Group.SetupTarget(NextTarget, AIGroupTargetStatus.Execute, 0);
                             Group.Release();
-                            FSpareUnits.Clear();
-                            FSpareUnits.AddUnits(Optional);
-                            if (FSpareUnits.Count == 0)
+                            SpareUnits.Clear();
+                            SpareUnits.AddUnits(optional);
+                            if (SpareUnits.Count == 0)
                             {
-                                FState = 32;
+                                State = 32;
                             }
                         }
 
-                        FNextTarget.FStatus = FNextTarget.FStatus - Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
-                        Optional?.Dispose();
-                        Required?.Dispose();
+                        NextTarget.Status = NextTarget.Status - Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Valid);
+                        optional?.Dispose();
+                        required?.Dispose();
                     }
                     else
                     {
-                        FState = 32;
+                        State = 32;
                     }
 
                     break;
                 case 32:
-                    FGroupControl.FGroup.SetupTarget(FTarget, AIGroupTargetStatus.Execute, 0);
-                    FGroupControl.SetupME();
-                    FGroupControl.ExecuteME(FTarget.FLocation.X, FTarget.FLocation.Y, FTarget.FLocation.L);
-                    FState = 21;
-                    Result = true;
+                    GroupControl.Group.SetupTarget(Target, AIGroupTargetStatus.Execute, 0);
+                    GroupControl.SetupME();
+                    GroupControl.ExecuteME(Target.Location.X, Target.Location.Y, Target.Location.MapLevel);
+                    State = 21;
+                    result = true;
                     break;
                 case 40:
                     NoTargetsFound();
@@ -721,226 +721,226 @@ public partial class AIGroupTargetSelector : AIGroupTask
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:3067
-    public bool TargetOverlapFound(AIGroupControlTarget Target, AIGroup IgnoreGroup)
+    public bool TargetOverlapFound(AIGroupControlTarget target, AIGroup ignoreGroup)
     {
-        Player Player;
+        Player player;
         int I;
-        AIGroup Group;
-        Player = AoWHSMap.Current.FPlayers.GetPlayers(FGroupControl.FGroup.FPlayer);
-        I = Player.FAIGroups.Count;
-        bool Result = false;
-        while (I != 0 && !Result)
+        AIGroup group;
+        player = AoWHSMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+        I = player.AIGroups.Count;
+        bool result = false;
+        while (I != 0 && !result)
         {
             I -= 1;
-            Group = Player.FAIGroups.GetGroups(I);
-            Result = Group != IgnoreGroup && Group.FTargetType == AIGroupTargetStatus.Execute && Target.FLocation.L == Group.FTargetXYL.L && HexGeometry.dHXtoRad(Group.FTargetXYL.X, Group.FTargetXYL.Y, Target.FLocation.X, Target.FLocation.Y) <= 1;
+            group = player.AIGroups.GetGroups(I);
+            result = group != ignoreGroup && group.TargetType == AIGroupTargetStatus.Execute && target.Location.MapLevel == group.TargetMapCoordinate.MapLevel && HexGeometry.DeltaHexToRadius(group.TargetMapCoordinate.X, group.TargetMapCoordinate.Y, target.Location.X, target.Location.Y) <= 1;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:3088
-    public bool ValidateTargetOverlap(AIGroup Group, AIGroupControlTarget Target)
+    public bool ValidateTargetOverlap(AIGroup group, AIGroupControlTarget target)
     {
         int I;
-        int Moves;
-        int Points;
-        int OtherDays;
-        int Days;
-        Player Player;
-        AIGroup Other;
-        Player = AoWHSMap.Current.FPlayers.GetPlayers(FGroupControl.FGroup.FPlayer);
-        I = Player.FAIGroups.Count;
-        bool Result = true;
-        while (I != 0 && Result)
+        int moves;
+        int points;
+        int otherDays;
+        int days;
+        Player player;
+        AIGroup other;
+        player = AoWHSMap.Current.Players.GetPlayers(GroupControl.Group.Player);
+        I = player.AIGroups.Count;
+        bool result = true;
+        while (I != 0 && result)
         {
             I -= 1;
-            Other = Player.FAIGroups.GetGroups(I);
-            if (Other != Group && Other.FTargetType == AIGroupTargetStatus.Execute && Other.FTargetXYL.L == Target.FLocation.L && HexGeometry.dHXtoRad(Other.FTargetXYL.X, Other.FTargetXYL.Y, Target.FLocation.X, Target.FLocation.Y) <= 1)
+            other = player.AIGroups.GetGroups(I);
+            if (other != group && other.TargetType == AIGroupTargetStatus.Execute && other.TargetMapCoordinate.MapLevel == target.Location.MapLevel && HexGeometry.DeltaHexToRadius(other.TargetMapCoordinate.X, other.TargetMapCoordinate.Y, target.Location.X, target.Location.Y) <= 1)
             {
-                Moves = Other.GetMovesMin();
-                Points = Other.FTargetMovePoints;
-                if (!Other.FStatus.Contains(AIGroupStatusElement.Done))
+                moves = other.GetMovesMin();
+                points = other.TargetMovePoints;
+                if (!other.Status.Contains(AIGroupStatusElement.Done))
                 {
-                    Points -= Other.GetMovePointsMin();
+                    points -= other.GetMovePointsMin();
                 }
 
-                OtherDays = Points / Moves;
-                if (Points % Moves != 0)
+                otherDays = points / moves;
+                if (points % moves != 0)
                 {
-                    OtherDays += 1;
+                    otherDays += 1;
                 }
 
-                Moves = Group.GetMovesMin();
-                var movePointsMin = Group.GetMovePointsMin();
-                Points = Target.FMovePoints - movePointsMin;
-                if (Points > 0)
+                moves = group.GetMovesMin();
+                var movePointsMin = group.GetMovePointsMin();
+                points = target.MovePoints - movePointsMin;
+                if (points > 0)
                 {
-                    Days = Points / Moves;
-                    if (Points % Moves != 0)
+                    days = points / moves;
+                    if (points % moves != 0)
                     {
-                        Days += 1;
+                        days += 1;
                     }
                 }
                 else
                 {
-                    Days = 0;
+                    days = 0;
                 }
 
-                Result = Days + 1 <= OtherDays;
+                result = days + 1 <= otherDays;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:3125
     public int GetValidTargets()
     {
-        int Result = 0;
-        for (int I = FGroupControl.FTargets.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = GroupControl.Targets.Count - 1; I >= 0; I--)
         {
-            if (FGroupControl.FTargets.GetTargets(I).FStatus.Contains(AIGroupTargetFlags.Valid))
+            if (GroupControl.Targets.GetTargets(I).Status.Contains(AIGroupTargetFlags.Valid))
             {
-                Result += 1;
+                result += 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:3134
     public void Reset()
     {
-        FState = 0;
-        FTargetStatus = AIGroupTargetingStatus.Idle;
-        FSuperiority = (float)1.5;
-        FNearSuperiority = (float)1.25;
-        FMultiTargetFactor = (float)1.25;
-        FMoveDayFactor = (float)0.1;
-        FSpareUnits.Clear();
-        FMode = Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets, AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce);
-        FDamageTypes = AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
-        FBattleFieldFactor = 1;
-        FCurrentBattleFieldFactor = (float)0.8;
-        FBattleFieldMoveFactor = 0;
-        FBattleFieldRadius = 10;
-        FValidTargetLimit = 5;
-        FPathStrengthFactor = 1;
-        FCurrentPathStrengthFactor = (float)0.8;
-        FAllowTransport = false;
-        FTargetLimit = 100;
-        this.FPrioritySettings.FTargetFactor = 1;
-        this.FPrioritySettings.FImmediateBonus = 500;
-        this.FPrioritySettings.FSetupBonus = 25;
-        this.FPrioritySettings.FExecuteBonus = 75;
-        this.FPrioritySettings.FTransportPenalty = -100;
-        this.FPrioritySettings.FPartialRecruitmentPenalty = 0;
-        this.FPrioritySettings.FCompleteRecruitmentPenalty = -50;
-        this.FPrioritySettings.FCompleteCooperationPenalty = -25;
-        this.FPrioritySettings.FPartialCooperationPenalty = -50;
-        this.FPrioritySettings.FMoveDayPenalty = -25;
-        this.FPrioritySettings.FProductionDayPenalty = -25;
-        this.FPrioritySettings.FPartialProductionPenalty = -10;
-        this.FPrioritySettings.FFarOverlapPenalty = -199;
-        this.FPrioritySettings.FNearOverlapPenalty = -50;
+        State = 0;
+        TargetStatus = AIGroupTargetingStatus.Idle;
+        Superiority = (float)1.5;
+        NearSuperiority = (float)1.25;
+        MultiTargetFactor = (float)1.25;
+        MoveDayFactor = (float)0.1;
+        SpareUnits.Clear();
+        Mode = Set<AIGroupTargetingModes>.Of(AIGroupTargetingModes.MultiTargets, AIGroupTargetingModes.Cooperate, AIGroupTargetingModes.Recruit, AIGroupTargetingModes.Produce);
+        DamageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        BattleFieldFactor = 1;
+        CurrentBattleFieldFactor = (float)0.8;
+        BattleFieldMoveFactor = 0;
+        BattleFieldRadius = 10;
+        ValidTargetLimit = 5;
+        PathStrengthFactor = 1;
+        CurrentPathStrengthFactor = (float)0.8;
+        AllowTransport = false;
+        TargetLimit = 100;
+        this.Priorities.TargetFactor = 1;
+        this.Priorities.ImmediateBonus = 500;
+        this.Priorities.SetupBonus = 25;
+        this.Priorities.ExecuteBonus = 75;
+        this.Priorities.TransportPenalty = -100;
+        this.Priorities.PartialRecruitmentPenalty = 0;
+        this.Priorities.CompleteRecruitmentPenalty = -50;
+        this.Priorities.CompleteCooperationPenalty = -25;
+        this.Priorities.PartialCooperationPenalty = -50;
+        this.Priorities.MoveDayPenalty = -25;
+        this.Priorities.ProductionDayPenalty = -25;
+        this.Priorities.PartialProductionPenalty = -10;
+        this.Priorities.FarOverlapPenalty = -199;
+        this.Priorities.NearOverlapPenalty = -50;
     }
 
     // AIGroup.pas:3173
-    public void ActivatePlugin(AIGroupTask Plugin)
+    public void ActivatePlugin(AIGroupTask aiGroupTask)
     {
         DeactivatePlugin();
-        FPlugin = Plugin;
-        FPlugin.AddRef();
-        FPlugin.Activate(FGroupControl);
+        AIGroupTask = aiGroupTask;
+        AIGroupTask.AddRef();
+        AIGroupTask.Activate(GroupControl);
     }
 
     // AIGroup.pas:3181
     public void DeactivatePlugin()
     {
-        if (FPlugin != null)
+        if (AIGroupTask != null)
         {
-            FPlugin.Release();
-            FPlugin = null;
+            AIGroupTask.Release();
+            AIGroupTask = null;
         }
     }
 
     // AIGroup.pas:3190
-    public int GetTargetSetupPriority(AIGroupControlTarget Target)
+    public int GetTargetSetupPriority(AIGroupControlTarget target)
     {
-        AIGroup Group;
-        int Days;
-        int Priority;
-        Priority = Round((double)Target.FData.Priority * FPrioritySettings.FTargetFactor);
-        var movesMin = FGroupControl.FGroup.GetMovesMin();
-        Days = (Target.FMovePoints - 1) / movesMin;
-        if (Days > 0)
+        AIGroup group;
+        int days;
+        int priority;
+        priority = Round((double)target.Data.Priority * Priorities.TargetFactor);
+        var movesMin = GroupControl.Group.GetMovesMin();
+        days = (target.MovePoints - 1) / movesMin;
+        if (days > 0)
         {
-            Priority += Round(FPrioritySettings.FMoveDayPenalty * Days);
+            priority += Round(Priorities.MoveDayPenalty * days);
         }
 
-        if (Target.FTransporterID != -1)
+        if (target.TransporterId != -1)
         {
-            Priority += FPrioritySettings.FTransportPenalty;
+            priority += Priorities.TransportPenalty;
         }
 
-        Group = FGroupControl.FGroup;
-        if (Unsafe.As<MapCoordinate, int>(ref Group.FTargetXYL) == Unsafe.As<MapCoordinate, int>(ref Target.FLocation))
+        group = GroupControl.Group;
+        if (Unsafe.As<MapCoordinate, int>(ref group.TargetMapCoordinate) == Unsafe.As<MapCoordinate, int>(ref target.Location))
         {
-            if (Group.FTargetType == AIGroupTargetStatus.Execute)
+            if (group.TargetType == AIGroupTargetStatus.Execute)
             {
-                Priority += FPrioritySettings.FExecuteBonus;
+                priority += Priorities.ExecuteBonus;
             }
             else
             {
-                if (Group.FTargetType == AIGroupTargetStatus.Setup)
+                if (group.TargetType == AIGroupTargetStatus.Setup)
                 {
-                    Priority += FPrioritySettings.FSetupBonus;
+                    priority += Priorities.SetupBonus;
                 }
             }
         }
 
-        if (TargetOverlapFound(Target, Group))
+        if (TargetOverlapFound(target, group))
         {
-            if (Target.FMovePoints <= FMovesMin)
+            if (target.MovePoints <= MovesMin)
             {
-                Priority += FPrioritySettings.FNearOverlapPenalty;
+                priority += Priorities.NearOverlapPenalty;
             }
             else
             {
-                Priority += FPrioritySettings.FFarOverlapPenalty;
+                priority += Priorities.FarOverlapPenalty;
             }
         }
 
-        return Priority;
+        return priority;
     }
 
     // AIGroup.pas:3211
-    public bool Setup(AIGroupControl Control)
+    public bool Setup(AIGroupControl control)
     {
         Reset();
-        switch ((int)AoWHSMap.Current.FPlayers.GetPlayers(Control.FGroup.FPlayer).FPlayerType)
+        switch ((int)AoWHSMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
         {
-            case (int)PlayerType.CPU1:
-                FValidTargetLimit = 5;
+            case (int)PlayerType.Cpu1:
+                ValidTargetLimit = 5;
                 break;
-            case (int)PlayerType.CPU2:
-                FValidTargetLimit = 7;
+            case (int)PlayerType.Cpu2:
+                ValidTargetLimit = 7;
                 break;
-            case (int)PlayerType.CPU3:
-            case (int)PlayerType.CPU4:
-            case (int)PlayerType.CPU5:
-                FValidTargetLimit = 10;
+            case (int)PlayerType.Cpu3:
+            case (int)PlayerType.Cpu4:
+            case (int)PlayerType.Cpu5:
+                ValidTargetLimit = 10;
                 break;
             default:
-                FValidTargetLimit = 5;
+                ValidTargetLimit = 5;
                 break;
         }
 
@@ -950,312 +950,312 @@ public partial class AIGroupTargetSelector : AIGroupTask
     // AIGroup.pas:3265
     public void TargetProcessed()
     {
-        FTarget.FDataA = FPriority;
-        FTarget.FStatus = FTarget.FStatus + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
-        FTarget = null;
-        FState = 0;
+        Target.DataA = Priority;
+        Target.Status = Target.Status + Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Done);
+        Target = null;
+        State = 0;
     }
 
     // AIGroup.pas:3273
-    public float GetRequiredSuperiority(AIGroupControlTarget Target)
+    public float GetRequiredSuperiority(AIGroupControlTarget target)
     {
-        float Result;
-        int Days;
-        if (Target.FData.TargetType != AITargetType.Negotiate)
+        float result;
+        int days;
+        if (target.Data.TargetType != AITargetType.Negotiate)
         {
-            var group = FGroupControl.FGroup;
-            if (Unsafe.As<MapCoordinate, int>(ref group.FTargetXYL) == Unsafe.As<MapCoordinate, int>(ref Target.FLocation) && group.FTargetType == AIGroupTargetStatus.Execute || group.GetMovesMin() >= Target.FMovePoints)
+            var group = GroupControl.Group;
+            if (Unsafe.As<MapCoordinate, int>(ref group.TargetMapCoordinate) == Unsafe.As<MapCoordinate, int>(ref target.Location) && group.TargetType == AIGroupTargetStatus.Execute || group.GetMovesMin() >= target.MovePoints)
             {
-                Result = FNearSuperiority;
+                result = NearSuperiority;
             }
             else
             {
-                Result = FSuperiority;
+                result = Superiority;
             }
 
-            if (FGroupControl.FGroup.GetMovesMin() > 0)
+            if (GroupControl.Group.GetMovesMin() > 0)
             {
-                var movesMin = FGroupControl.FGroup.GetMovesMin();
-                Days = (Target.FMovePoints - 1) / movesMin;
-                Result = (float)((double)Result + Round((double)Days * FMoveDayFactor));
+                var movesMin = GroupControl.Group.GetMovesMin();
+                days = (target.MovePoints - 1) / movesMin;
+                result = (float)((double)result + Round((double)days * MoveDayFactor));
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:3292
-    public int GetRequiredCombatPredictorSuperiority(AIGroupControlTarget Target) => Round((double)GetRequiredSuperiority(Target) * 100);
+    public int GetRequiredCombatPredictorSuperiority(AIGroupControlTarget target) => Round((double)GetRequiredSuperiority(target) * 100);
 
     // AIGroup.pas:3297
-    public int GetRequiredTargetStrength(AIGroupControlTarget Target)
+    public int GetRequiredTargetStrength(AIGroupControlTarget target)
     {
-        int Result;
-        DefenseRequirements Strengths = default;
-        BattleFieldInfo Info = default;
-        if (Target.FData.TargetType != AITargetType.Negotiate)
+        int result;
+        DefenseRequirements strengths = default;
+        BattleFieldInfo info = default;
+        if (target.Data.TargetType != AITargetType.Negotiate)
         {
-            BattleFieldInfo.SetupBattleFieldInfo(ref Info, FGroupControl.FGroup.FPlayer, FGroupControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), FDamageTypes);
-            Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
-            AoWHSMap.Current.RetrieveBattleFieldInfo(Target.FLocation.X, Target.FLocation.Y, Target.FLocation.L, 1, ref Info);
-            Result = Round((double)GetRequiredSuperiority(Target) * Info.Strength);
-            ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<MapCoordinate, int>(ref Target.FLocation))).GetDefenseRequirements(FGroupControl.FGroup.FPlayer, ref Strengths);
-            Result += StrengthInfoMax(Bytes.Of(ref Strengths)) / 2;
+            BattleFieldInfo.SetupBattleFieldInfo(ref info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), DamageTypes);
+            info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
+            AoWHSMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, 1, ref info);
+            result = Round((double)GetRequiredSuperiority(target) * info.Strength);
+            ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location))).GetDefenseRequirements(GroupControl.Group.Player, ref strengths);
+            result += StrengthInfoMax(Bytes.Of(ref strengths)) / 2;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:3317
-    public float GetRequiredBattleFieldSuperiority(AIGroupControlTarget Target)
+    public float GetRequiredBattleFieldSuperiority(AIGroupControlTarget target)
     {
-        float Result;
-        if (Unsafe.As<MapCoordinate, int>(ref Target.FLocation) == Unsafe.As<MapCoordinate, int>(ref FGroupControl.FGroup.FTargetXYL) && FGroupControl.FGroup.FTargetType == AIGroupTargetStatus.Execute)
+        float result;
+        if (Unsafe.As<MapCoordinate, int>(ref target.Location) == Unsafe.As<MapCoordinate, int>(ref GroupControl.Group.TargetMapCoordinate) && GroupControl.Group.TargetType == AIGroupTargetStatus.Execute)
         {
-            Result = FCurrentBattleFieldFactor;
+            result = CurrentBattleFieldFactor;
         }
         else
         {
-            Result = FBattleFieldFactor;
+            result = BattleFieldFactor;
         }
 
-        return (float)((double)Result + Round((double)Target.FMovePoints * FBattleFieldMoveFactor));
+        return (float)((double)result + Round((double)target.MovePoints * BattleFieldMoveFactor));
     }
 
     // AIGroup.pas:3325
-    public int GetRequiredBattleFieldStrength(AIGroupControlTarget Target)
+    public int GetRequiredBattleFieldStrength(AIGroupControlTarget target)
     {
-        int Result;
-        BattleFieldInfo Info = default;
-        int PathStrength;
-        if (((double)FBattleFieldFactor > 0 || (double)FCurrentBattleFieldFactor > 0) && Target.FData.TargetType != AITargetType.Negotiate)
+        int result;
+        BattleFieldInfo info = default;
+        int pathStrength;
+        if (((double)BattleFieldFactor > 0 || (double)CurrentBattleFieldFactor > 0) && target.Data.TargetType != AITargetType.Negotiate)
         {
-            BattleFieldInfo.SetupBattleFieldInfo(ref Info, FGroupControl.FGroup.FPlayer, FGroupControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), FDamageTypes);
-            Info.Units = FGroupControl.FGroup;
-            Info.Requests = Info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
-            AoWHSMap.Current.RetrieveBattleFieldInfo(Target.FLocation.X, Target.FLocation.Y, Target.FLocation.L, FBattleFieldRadius, ref Info);
-            Result = Round((double)GetRequiredBattleFieldSuperiority(Target) * (Info.Strength - Info.FriendlyStrength));
+            BattleFieldInfo.SetupBattleFieldInfo(ref info, GroupControl.Group.Player, GroupControl.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), DamageTypes);
+            info.Units = GroupControl.Group;
+            info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
+            AoWHSMap.Current.RetrieveBattleFieldInfo(target.Location.X, target.Location.Y, target.Location.MapLevel, BattleFieldRadius, ref info);
+            result = Round((double)GetRequiredBattleFieldSuperiority(target) * (info.Strength - info.FriendlyStrength));
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        var group = FGroupControl.FGroup;
-        if (Unsafe.As<MapCoordinate, int>(ref group.FTargetXYL) == Unsafe.As<MapCoordinate, int>(ref Target.FLocation) && group.FTargetType == AIGroupTargetStatus.Execute)
+        var group = GroupControl.Group;
+        if (Unsafe.As<MapCoordinate, int>(ref group.TargetMapCoordinate) == Unsafe.As<MapCoordinate, int>(ref target.Location) && group.TargetType == AIGroupTargetStatus.Execute)
         {
-            PathStrength = Round((double)Target.FPathStrength * FCurrentPathStrengthFactor);
+            pathStrength = Round((double)target.PathStrength * CurrentPathStrengthFactor);
         }
         else
         {
-            PathStrength = Round((double)Target.FPathStrength * FPathStrengthFactor);
+            pathStrength = Round((double)target.PathStrength * PathStrengthFactor);
         }
 
-        if (Result < PathStrength)
+        if (result < pathStrength)
         {
-            Result = PathStrength;
+            result = pathStrength;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:3349
-    public int GetRequiredStrength(AIGroupControlTarget Target)
+    public int GetRequiredStrength(AIGroupControlTarget target)
     {
-        int BattleFieldStrength;
-        int Result = GetRequiredTargetStrength(Target);
-        BattleFieldStrength = GetRequiredBattleFieldStrength(Target);
-        if (BattleFieldStrength > Result)
+        int battleFieldStrength;
+        int result = GetRequiredTargetStrength(target);
+        battleFieldStrength = GetRequiredBattleFieldStrength(target);
+        if (battleFieldStrength > result)
         {
-            Result = BattleFieldStrength;
+            result = battleFieldStrength;
         }
 
-        AoWHSMap.Current.FAIExecuter.UseProcessTime(250);
-        return Result;
+        AoWHSMap.Current.AIExecutor.UseProcessTime(250);
+        return result;
     }
 
     // AIGroup.pas:3359
-    public bool ValidateTargetRequirements(UnitList Units, AIGroupControlTarget Target, UnitList Required, UnitList Optional, int MinimumStrength)
+    public bool ValidateTargetRequirements(UnitList units, AIGroupControlTarget target, UnitList required, UnitList optional, int minimumStrength)
     {
-        int Strength;
-        CombatPredictor Predictor;
-        UnitUserList RequiredUnits;
-        UnitUserList OptionalUnits;
-        int Superiority;
-        Troop AUnit;
-        Predictor = new CombatPredictor();
-        RequiredUnits = new UnitUserList(null);
-        OptionalUnits = new UnitUserList(null);
-        Predictor.AddUnits(Units);
-        if (((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<MapCoordinate, int>(ref Target.FLocation))).GetMoveAction(FGroupControl.FGroup.FPlayer) != MoveAction.Negotiate)
+        int strength;
+        CombatPredictor predictor;
+        UnitUserList requiredUnits;
+        UnitUserList optionalUnits;
+        int superiority;
+        Troop troop;
+        predictor = new CombatPredictor();
+        requiredUnits = new UnitUserList(null);
+        optionalUnits = new UnitUserList(null);
+        predictor.AddUnits(units);
+        if (((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location))).GetMoveAction(GroupControl.Group.Player) != MoveAction.Negotiate)
         {
-            Predictor.InitAdjacentOpponents((byte)FGroupControl.FGroup.FPlayer, (byte)FGroupControl.FGroup.FIndependentRelation, Target.FLocation.X, Target.FLocation.Y, Target.FLocation.L);
+            predictor.InitializeAdjacentOpponents((byte)GroupControl.Group.Player, (byte)GroupControl.Group.IndependentRelation, target.Location.X, target.Location.Y, target.Location.MapLevel);
         }
 
-        Superiority = GetRequiredCombatPredictorSuperiority(Target);
-        Predictor.Execute();
-        bool Result = Predictor.GetSuperiority() > Superiority;
-        Predictor.ListRequiredUnits(RequiredUnits, Superiority);
-        if (RequiredUnits.Count != Units.Count)
+        superiority = GetRequiredCombatPredictorSuperiority(target);
+        predictor.Execute();
+        bool result = predictor.GetSuperiority() > superiority;
+        predictor.ListRequiredUnits(requiredUnits, superiority);
+        if (requiredUnits.Count != units.Count)
         {
-            for (int I = Units.Count - 1; I >= 0; I--)
+            for (int I = units.Count - 1; I >= 0; I--)
             {
-                if (RequiredUnits.IndexOf(Units.GetUnit(I)) == -1)
+                if (requiredUnits.IndexOf(units.GetUnit(I)) == -1)
                 {
-                    OptionalUnits.AddUnit(Units.GetUnit(I));
+                    optionalUnits.AddUnit(units.GetUnit(I));
                 }
             }
         }
 
-        if (OptionalUnits.Count != 0 || Result)
+        if (optionalUnits.Count != 0 || result)
         {
-            Strength = GetRequiredStrength(Target);
-            if (Strength < MinimumStrength)
+            strength = GetRequiredStrength(target);
+            if (strength < minimumStrength)
             {
-                Strength = MinimumStrength;
+                strength = minimumStrength;
             }
 
-            Strength -= RequiredUnits.GetStrengthMax(FDamageTypes);
-            while (Strength > 0 && OptionalUnits.Count != 0)
+            strength -= requiredUnits.GetStrengthMax(DamageTypes);
+            while (strength > 0 && optionalUnits.Count != 0)
             {
-                AUnit = OptionalUnits.GetUnit(OptionalUnits.Count - 1);
-                Strength -= AUnit.GetStrengthMax(FDamageTypes);
-                RequiredUnits.AddUnit(AUnit);
-                OptionalUnits.DeleteUnit(AUnit);
+                troop = optionalUnits.GetUnit(optionalUnits.Count - 1);
+                strength -= troop.GetStrengthMax(DamageTypes);
+                requiredUnits.AddUnit(troop);
+                optionalUnits.DeleteUnit(troop);
             }
 
-            Result = Result && Strength <= 0;
+            result = result && strength <= 0;
         }
 
-        if (Required != null)
+        if (required != null)
         {
-            Required.AddUnits(RequiredUnits);
+            required.AddUnits(requiredUnits);
         }
 
-        if (Optional != null)
+        if (optional != null)
         {
-            Optional.AddUnits(OptionalUnits);
+            optional.AddUnits(optionalUnits);
         }
 
-        OptionalUnits?.Dispose();
-        RequiredUnits?.Dispose();
-        Predictor?.Dispose();
-        return Result;
+        optionalUnits?.Dispose();
+        requiredUnits?.Dispose();
+        predictor?.Dispose();
+        return result;
     }
 
     // AIGroup.pas:3406
-    public bool ValidMultiTarget(UnitList Units, AIGroupControlTarget Target, UnitList Required, UnitList Optional)
+    public bool ValidMultiTarget(UnitList units, AIGroupControlTarget target, UnitList required, UnitList optional)
     {
-        bool Result;
-        if (!TargetOverlapFound(FNextTarget, null) && (FTarget.FLocation.L != Target.FLocation.L || HexGeometry.dHXtoRad(FTarget.FLocation.X, FTarget.FLocation.Y, Target.FLocation.X, Target.FLocation.Y) > 1))
+        bool result;
+        if (!TargetOverlapFound(NextTarget, null) && (Target.Location.MapLevel != target.Location.MapLevel || HexGeometry.DeltaHexToRadius(Target.Location.X, Target.Location.Y, target.Location.X, target.Location.Y) > 1))
         {
-            Result = ValidateTargetRequirements(FSpareUnits, FNextTarget, Required, Optional, FMinimumStrength);
-            bool condition = Result;
+            result = ValidateTargetRequirements(SpareUnits, NextTarget, required, optional, MinimumStrength);
+            bool condition = result;
             if (condition)
             {
-                var targetMana = FTarget.GetTargetMana();
-                var targetTargetMana = Target.GetTargetMana();
-                var targetGold = FTarget.GetTargetGold();
-                var targetTargetGold = Target.GetTargetGold();
-                condition = FGroupControl.FGroup.RequestTargetExpense(targetGold + targetTargetGold, targetMana + targetTargetMana);
+                var targetMana = Target.GetTargetMana();
+                var targetTargetMana = target.GetTargetMana();
+                var targetGold = Target.GetTargetGold();
+                var targetTargetGold = target.GetTargetGold();
+                condition = GroupControl.Group.RequestTargetExpense(targetGold + targetTargetGold, targetMana + targetTargetMana);
             }
 
-            Result = condition;
+            result = condition;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:3441
     public void ShowTargetInfo()
     {
-        string Text = "";
-        AIGroupControlTarget Target;
-        GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, "Targets for Group (ID:" + IntToStr(FGroupControl.FGroup.FGroupID) + ")");
-        for (int I = 0, last = FGroupControl.FTargets.Count - 1; I <= last; I++)
+        string text = "";
+        AIGroupControlTarget target;
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, "Targets for Group (ID:" + IntToStr(GroupControl.Group.GroupId) + ")");
+        for (int I = 0, last = GroupControl.Targets.Count - 1; I <= last; I++)
         {
-            Target = FGroupControl.FTargets.GetTargets(I);
-            Target.GetDebugInfo(ref Text);
-            Text = Text + "/TS_Prio:" + IntToStr(Target.FDataA);
-            Text = Text + "/MPBFS:" + IntToStr(Target.FPathStrength);
-            Text = Text + "/TG:" + IntToStr(Target.GetTargetGold());
-            Text = Text + "/MP:" + IntToStr(Target.FMovePoints);
-            Text = Text + "/Status:";
-            if (Target.FStatus.Contains(AIGroupTargetFlags.Cooperate))
+            target = GroupControl.Targets.GetTargets(I);
+            target.GetDebugInfo(ref text);
+            text = text + "/TS_Prio:" + IntToStr(target.DataA);
+            text = text + "/MPBFS:" + IntToStr(target.PathStrength);
+            text = text + "/TG:" + IntToStr(target.GetTargetGold());
+            text = text + "/MP:" + IntToStr(target.MovePoints);
+            text = text + "/Status:";
+            if (target.Status.Contains(AIGroupTargetFlags.Cooperate))
             {
-                Text = Text + "c";
+                text = text + "c";
             }
 
-            if (Target.FStatus.Contains(AIGroupTargetFlags.Recruit))
+            if (target.Status.Contains(AIGroupTargetFlags.Recruit))
             {
-                Text = Text + "r";
+                text = text + "r";
             }
 
-            if (Target.FStatus.Contains(AIGroupTargetFlags.Produce))
+            if (target.Status.Contains(AIGroupTargetFlags.Produce))
             {
-                Text = Text + "p";
+                text = text + "p";
             }
 
-            if (Target.FStatus.Contains(AIGroupTargetFlags.Valid))
+            if (target.Status.Contains(AIGroupTargetFlags.Valid))
             {
-                Text = Text + "v";
+                text = text + "v";
             }
 
-            if (Target.FStatus.Contains(AIGroupTargetFlags.Done))
+            if (target.Status.Contains(AIGroupTargetFlags.Done))
             {
-                Text = Text + "d";
+                text = text + "d";
             }
 
-            GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, Text);
+            GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_aiDebugChannel, text);
         }
     }
 
     // AIGroup.pas:3467
     public void NoTargetsFound()
     {
-        FTargetStatus = AIGroupTargetingStatus.NoTargetsFound;
-        FGroupControl.FGroup.FTargetXYL.Packed = -1;
-        FGroupControl.FGroup.FTargetType = AIGroupTargetStatus.None;
-        if (FGroupControl.FGroup.FTransporter != null)
+        TargetStatus = AIGroupTargetingStatus.NoTargetsFound;
+        GroupControl.Group.TargetMapCoordinate.Packed = -1;
+        GroupControl.Group.TargetType = AIGroupTargetStatus.None;
+        if (GroupControl.Group.Transporter != null)
         {
-            FGroupControl.FGroup.DeleteUnit(FGroupControl.FGroup.FTransporter);
+            GroupControl.Group.DeleteUnit(GroupControl.Group.Transporter);
         }
     }
 
     // AIGroup.pas:3476
-    public bool AllowMultiTargets(AIGroupControlTarget Target)
+    public bool AllowMultiTargets(AIGroupControlTarget target)
     {
-        bool Result = FMode.Contains(AIGroupTargetingModes.MultiTargets);
-        Result = Result && (Target.FStatus & Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Recruit, AIGroupTargetFlags.Produce)) == Set<AIGroupTargetFlags>.Of();
-        bool condition = Result;
+        bool result = Mode.Contains(AIGroupTargetingModes.MultiTargets);
+        result = result && (target.Status & Set<AIGroupTargetFlags>.Of(AIGroupTargetFlags.Recruit, AIGroupTargetFlags.Produce)) == Set<AIGroupTargetFlags>.Of();
+        bool condition = result;
         if (condition)
         {
-            var requiredStrength = GetRequiredStrength(Target);
-            condition = (double)FGroupControl.FStrengthMax >= (double)requiredStrength * FMultiTargetFactor;
+            var requiredStrength = GetRequiredStrength(target);
+            condition = (double)GroupControl.StrengthMax >= (double)requiredStrength * MultiTargetFactor;
         }
 
-        Result = condition;
-        Result = Result && FGroupControl.FStrengthMax >= FMinimumStrength;
-        bool test = Result;
+        result = condition;
+        result = result && GroupControl.StrengthMax >= MinimumStrength;
+        bool test = result;
         if (test)
         {
-            bool passed = Target.FData.TargetType != AITargetType.Negotiate;
+            bool passed = target.Data.TargetType != AITargetType.Negotiate;
             if (!passed)
             {
-                var movePointsMin = FGroupControl.FGroup.GetMovePointsMin();
-                passed = Target.FMovePoints >= movePointsMin;
+                var movePointsMin = GroupControl.Group.GetMovePointsMin();
+                passed = target.MovePoints >= movePointsMin;
             }
 
             test = passed;
@@ -1264,43 +1264,43 @@ public partial class AIGroupTargetSelector : AIGroupTask
         return test;
     }
 
-    private static int StrengthInfoMax(ReadOnlySpan<byte> Strengths)
+    private static int StrengthInfoMax(ReadOnlySpan<byte> strengths)
     {
-        int num = 0;
+        int number = 0;
         for (int i = 0; i <= 9; i++)
         {
-            DamageType tDamageType = (DamageType)i;
-            if (MemoryMarshal.Cast<byte, Int32Array10>(Strengths)[0][(int)tDamageType] > num)
+            DamageType damageType = (DamageType)i;
+            if (MemoryMarshal.Cast<byte, Int32Array10>(strengths)[0][(int)damageType] > number)
             {
-                num = MemoryMarshal.Cast<byte, Int32Array10>(Strengths)[0][(int)tDamageType];
+                number = MemoryMarshal.Cast<byte, Int32Array10>(strengths)[0][(int)damageType];
             }
         }
-        return num;
+        return number;
     }
 
-    private static int CompareTargetSetupPriority(object Item1, object Item2)
+    private static int CompareTargetSetupPriority(object item1, object item2)
     {
-        return ((AIGroupControlTarget)Item2).FDataA - ((AIGroupControlTarget)Item1).FDataA;
+        return ((AIGroupControlTarget)item2).DataA - ((AIGroupControlTarget)item1).DataA;
     }
 
     // target factor, immediate bonus, transport penalty, overlap penalties, existing-target
     // bonuses, cooperation penalties, recruitment penalties, move-day penalty, production penalties
     public partial class PrioritySettings
     {
-        public float FTargetFactor;
-        public int FImmediateBonus;
-        public int FTransportPenalty;
-        public int FFarOverlapPenalty;
-        public int FNearOverlapPenalty;
-        public int FSetupBonus;
-        public int FExecuteBonus;
-        public int FCompleteCooperationPenalty;
-        public int FPartialCooperationPenalty;
-        public int FPartialRecruitmentPenalty;
-        public int FCompleteRecruitmentPenalty;
-        public int FMoveDayPenalty;
-        public int FPartialProductionPenalty;
-        public int FProductionDayPenalty;
+        public float TargetFactor;
+        public int ImmediateBonus;
+        public int TransportPenalty;
+        public int FarOverlapPenalty;
+        public int NearOverlapPenalty;
+        public int SetupBonus;
+        public int ExecuteBonus;
+        public int CompleteCooperationPenalty;
+        public int PartialCooperationPenalty;
+        public int PartialRecruitmentPenalty;
+        public int CompleteRecruitmentPenalty;
+        public int MoveDayPenalty;
+        public int PartialProductionPenalty;
+        public int ProductionDayPenalty;
         // System.pas:111
 
     }

@@ -13,13 +13,13 @@ public partial class RazeStructureEventLog : MessageEventLog
     public RazeStructureEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public Structure FStructure;
+    public Structure Structure;
 
     // Structur.PAS:3086
-    // (FStructure)
+    // (Structure)
     public override bool Yes()
     {
-        FStructure.RazeEx(AoWHSMap.Current.FSeatedPlayer);
+        Structure.RazeWithoutConfirmation(AoWHSMap.Current.SeatedPlayer);
         return true;
     }
 

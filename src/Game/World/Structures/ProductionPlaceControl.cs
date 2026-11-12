@@ -19,172 +19,172 @@ public partial class ProductionPlaceControl : ProductionControl
     public ProductionPlaceControl(ECustomNode owner) : base(owner)
     { }
 
-    public ProductionPlace FProductionPlace;
+    public ProductionPlace ProductionPlace;
 
     // PrdPlace.pas:169
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        X = this.FProductionPlace.Xhx;
-        Y = this.FProductionPlace.Yhx;
-        L = FProductionPlace.Lhx;
+        X = this.ProductionPlace.HexX;
+        Y = this.ProductionPlace.HexY;
+        L = ProductionPlace.HexLevel;
     }
 
     // PrdPlace.pas:166
-    public override sbyte GetPlayer() => FProductionPlace.FPlayer;
+    public override sbyte GetPlayer() => ProductionPlace.Player;
 
     // PrdPlace.pas:179
     public override bool UnitProduced()
     {
-        UnitEnchantment Enchantment;
-        ProductionPlaceEventLog Log;
-        var productionPlace = FProductionPlace;
-        var yhx = productionPlace.Yhx;
-        var xhx = productionPlace.Xhx;
-        bool Result = FSettings.FUnit.Place(xhx, yhx, productionPlace.Lhx, productionPlace.FPlayer, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
-        if (Result && FProductionPlace.GetMagicSphere() != Magic.MagicSphere.None && FSettings.FUnit.ExpandAbility(155))
+        UnitEnchantment enchantment;
+        ProductionPlaceEventLog log;
+        var productionPlace = ProductionPlace;
+        var hexY = productionPlace.HexY;
+        var hexX = productionPlace.HexX;
+        bool result = Settings.Unit.Place(hexX, hexY, productionPlace.HexLevel, productionPlace.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
+        if (result && ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None && Settings.Unit.ExpandAbility(155))
         {
-            Enchantment = ((UnitEnchantmentAbilityData)FSettings.FUnit.GetAbilityData(155)).FEnchantment;
-            Enchantment.SetUpkeep((FSettings.FUnit.GetUnitLevel() + 1) * 2);
-            Enchantment.SetSource(FProductionPlace.FPlayer);
-            Enchantment.FDispelResistance = (sbyte)(FSettings.FUnit.GetUnitLevel() + 3);
+            enchantment = ((UnitEnchantmentAbilityData)Settings.Unit.GetAbilityData(155)).Enchantment;
+            enchantment.SetUpkeep((Settings.Unit.GetUnitLevel() + 1) * 2);
+            enchantment.SetSource(ProductionPlace.Player);
+            enchantment.DispelResistance = (sbyte)(Settings.Unit.GetUnitLevel() + 3);
         }
 
-        Log = new ProductionPlaceEventLog(null);
-        Log.FPlayer = productionPlace.FPlayer;
-        var name = FSettings.FUnit.GetName();
-        var fProductionPlaceName = FProductionPlace.GetName();
-        Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XProducedAtYRStr), [name, fProductionPlaceName]);
-        var productionPlaceYhx = productionPlace.Yhx;
-        Log.SetLocation(productionPlace.Xhx, productionPlaceYhx, productionPlace.Lhx);
-        AoWHSMap.Current.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
-        Log.Release();
+        log = new ProductionPlaceEventLog(null);
+        log._player = productionPlace.Player;
+        var name = Settings.Unit.GetName();
+        var fProductionPlaceName = ProductionPlace.GetName();
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_producedFormat), [name, fProductionPlaceName]);
+        var productionPlaceHexY = productionPlace.HexY;
+        log.SetLocation(productionPlace.HexX, productionPlaceHexY, productionPlace.HexLevel);
+        AoWHSMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        log.Release();
 
-        return Result;
+        return result;
     }
 
     // PrdPlace.pas:203
     public override void UnitResearched()
     {
-        ProductionPlaceEventLog Log;
+        ProductionPlaceEventLog log;
         base.UnitResearched();
-        var productionPlace = FProductionPlace;
-        Log = new ProductionPlaceEventLog(null);
-        Log.FPlayer = productionPlace.FPlayer;
-        var unitProduction = FUnitProductions.GetItem(FSettings.FUnitProductionIndex);
-        var unitName = AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).GetUnitName();
-        var name = FProductionPlace.GetName();
-        Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XInstalledAtYRStr), [unitName, name]);
-        var yhx = productionPlace.Yhx;
-        Log.SetLocation(productionPlace.Xhx, yhx, productionPlace.Lhx);
-        AoWHSMap.Current.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
-        Log.Release();
+        var productionPlace = ProductionPlace;
+        log = new ProductionPlaceEventLog(null);
+        log._player = productionPlace.Player;
+        var unitProduction = UnitProductions.GetItem(Settings.UnitProductionIndex);
+        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).GetUnitName();
+        var name = ProductionPlace.GetName();
+        log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_installedFormat), [unitName, name]);
+        var hexY = productionPlace.HexY;
+        log.SetLocation(productionPlace.HexX, hexY, productionPlace.HexLevel);
+        AoWHSMap.Current.Players.GetPlayers(log._player).EventLogbook.AddEvent(log);
+        log.Release();
     }
 
     // PrdPlace.pas:219
     public override void Update()
     {
         base.Update();
-        if (FUpdateCount == 0)
+        if (UpdateCount == 0)
         {
-            FProductionPlace.Update();
+            ProductionPlace.Update();
         }
     }
 
     // PrdPlace.pas:139
-    public override int UnitProductionGold(int Index)
+    public override int UnitProductionGold(int index)
     {
-        int Result;
-        if (FProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
+        int result;
+        if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
-            Result = 0;
+            result = 0;
         }
         else
         {
-            Result = base.UnitProductionGold(Index);
+            result = base.UnitProductionGold(index);
         }
 
-        return Result;
+        return result;
     }
 
     // PrdPlace.pas:145
-    public override int UnitProductionMana(int Index)
+    public override int UnitProductionMana(int index)
     {
-        int Result;
+        int result;
         // { The original uses the gold production cost as the node's mana cost. }
-        if (FProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
+        if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
-            Result = base.UnitProductionGold(Index);
+            result = base.UnitProductionGold(index);
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // PrdPlace.pas:152
-    public override int UnitProductionGoldUpkeep(int Index)
+    public override int UnitProductionGoldUpkeep(int index)
     {
-        int Result;
+        int result;
         // { The original uses the inherited mana production cost for gold upkeep. }
-        if (FProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
+        if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
-            Result = 0;
+            result = 0;
         }
         else
         {
-            Result = base.UnitProductionMana(Index);
+            result = base.UnitProductionMana(index);
         }
 
-        return Result;
+        return result;
     }
 
     // PrdPlace.pas:159
-    public override int UnitProductionManaUpkeep(int Index)
+    public override int UnitProductionManaUpkeep(int index)
     {
-        int Result;
-        if (FProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
+        int result;
+        if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
-            var unitProduction = FUnitProductions.GetItem(Index);
-            Result = AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).FLevel * 5;
+            var unitProduction = UnitProductions.GetItem(index);
+            result = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 5;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // PrdPlace.pas:121
-    public override int UnitProductionTime(int Index)
+    public override int UnitProductionTime(int index)
     {
-        sbyte Player;
-        int Picks;
-        Index = FUnitProductions.GetItem(Index).FUnitIndex;
-        int Result = AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FLevel * 2;
-        if (FProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
+        sbyte player;
+        int picks;
+        index = UnitProductions.GetItem(index).UnitIndex;
+        int result = AoWHSSet.Current.UnitResources.GetUnitResource(index).Level * 2;
+        if (ProductionPlace.GetMagicSphere() != Magic.MagicSphere.None)
         {
-            Player = FProductionPlace.FPlayer;
-            if (Player > 0)
+            player = ProductionPlace.Player;
+            if (player > 0)
             {
-                var magicSphere = FProductionPlace.GetMagicSphere();
-                Picks = AoWHSMap.Current.FPlayers.GetPlayers(Player).FLeader.GetSpherePicks(magicSphere);
+                var magicSphere = ProductionPlace.GetMagicSphere();
+                picks = AoWHSMap.Current.Players.GetPlayers(player).Leader.GetSpherePicks(magicSphere);
             }
             else
             {
-                Picks = 0;
+                picks = 0;
             }
 
-            Result -= Picks / 2;
-            if (Result < 1)
+            result -= picks / 2;
+            if (result < 1)
             {
-                Result = 1;
+                result = 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P1_02.inc:120

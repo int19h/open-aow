@@ -38,19 +38,19 @@ internal interface IRecordCatalog
 /// <summary>A catalog built from explicit types. Tests register the records a fixture names.</summary>
 internal sealed class DictionaryRecordCatalog : IRecordCatalog
 {
-    private readonly Dictionary<string, RecordTypeInfo> types = new();
+    private readonly Dictionary<string, RecordTypeInfo> _types = new();
 
     public DictionaryRecordCatalog(params Type[] records)
     {
         foreach (var type in records)
         {
             var info = RecordTypeInfo.Describe(type);
-            if (!types.TryAdd(info.Name, info))
+            if (!_types.TryAdd(info.Name, info))
                 throw new InvalidOperationException("The record " + info.Name + " is registered twice.");
         }
     }
 
-    public bool TryGet(string typeName, out RecordTypeInfo type) => types.TryGetValue(typeName, out type!);
+    public bool TryGet(string typeName, out RecordTypeInfo type) => _types.TryGetValue(typeName, out type!);
 }
 
 /// <summary>
@@ -60,29 +60,29 @@ internal sealed class DictionaryRecordCatalog : IRecordCatalog
 /// </summary>
 public static class RecordCatalog
 {
-    private static readonly object gate = new();
-    private static readonly List<IRecordCatalog> catalogs = [];
-    private static readonly HashSet<Assembly> assemblies = [];
+    private static readonly object s_gate = new();
+    private static readonly List<IRecordCatalog> s_catalogs = [];
+    private static readonly HashSet<Assembly> s_assemblies = [];
 
     internal static void Register(IRecordCatalog catalog)
     {
         ArgumentNullException.ThrowIfNull(catalog);
-        lock (gate) catalogs.Add(catalog);
+        lock (s_gate) s_catalogs.Add(catalog);
     }
 
     public static void RegisterReflection(Assembly assembly)
     {
         ArgumentNullException.ThrowIfNull(assembly);
-        lock (gate)
+        lock (s_gate)
         {
-            if (!assemblies.Add(assembly)) return;
-            catalogs.Add(new ReflectionRecordCatalog(assembly));
+            if (!s_assemblies.Add(assembly)) return;
+            s_catalogs.Add(new ReflectionRecordCatalog(assembly));
         }
     }
 
     internal static RecordTypeInfo? Find(string typeName)
     {
-        lock (gate)
+        lock (s_gate)
         {
             var found = Lookup(typeName);
             if (found is not null) return found;
@@ -95,7 +95,7 @@ public static class RecordCatalog
     private static RecordTypeInfo? Lookup(string typeName)
     {
         RecordTypeInfo? found = null;
-        foreach (var catalog in catalogs)
+        foreach (var catalog in s_catalogs)
         {
             if (!catalog.TryGet(typeName, out var type)) continue;
             if (found is not null)
@@ -112,8 +112,8 @@ public static class RecordCatalog
 
 sealed class ReflectionRecordCatalog : IRecordCatalog
 {
-    private readonly Dictionary<string, List<Type>> types = new();
-    private readonly Dictionary<string, RecordTypeInfo> described = new();
+    private readonly Dictionary<string, List<Type>> _types = new();
+    private readonly Dictionary<string, RecordTypeInfo> _described = new();
 
     public ReflectionRecordCatalog(Assembly assembly)
     {
@@ -132,10 +132,10 @@ sealed class ReflectionRecordCatalog : IRecordCatalog
             var layout = type.StructLayoutAttribute;
             if (layout is null || layout.Value != LayoutKind.Explicit || layout.Size <= 0) continue;
             string stored = NameTable.Stored(type);
-            if (!types.TryGetValue(stored, out var list))
+            if (!_types.TryGetValue(stored, out var list))
             {
                 list = [];
-                types.Add(stored, list);
+                _types.Add(stored, list);
             }
             list.Add(type);
         }
@@ -143,8 +143,8 @@ sealed class ReflectionRecordCatalog : IRecordCatalog
 
     public bool TryGet(string typeName, out RecordTypeInfo type)
     {
-        if (described.TryGetValue(typeName, out type!)) return true;
-        if (!types.TryGetValue(typeName, out var list))
+        if (_described.TryGetValue(typeName, out type!)) return true;
+        if (!_types.TryGetValue(typeName, out var list))
         {
             type = null!;
             return false;
@@ -152,7 +152,7 @@ sealed class ReflectionRecordCatalog : IRecordCatalog
         if (list.Count != 1)
             throw new InvalidOperationException("The record " + typeName + " is declared " + list.Count + " times.");
         type = RecordTypeInfo.Describe(list[0]);
-        described.Add(typeName, type);
+        _described.Add(typeName, type);
         return true;
     }
 }
@@ -175,7 +175,7 @@ internal sealed partial class RecordTypeInfo
         foreach (var property in type.GetProperties(BindingFlags.Instance | BindingFlags.Public))
         {
             if (!property.PropertyType.IsGenericType || property.PropertyType.GetGenericTypeDefinition() != typeof(Set<>)) continue;
-            var image = raw.FirstOrDefault(field => field.Field.Name == property.Name + "__image").Field
+            var image = raw.FirstOrDefault(field => field.Field.Name == property.Name + "Image").Field
                 ?? throw new InvalidOperationException(type.Name + "." + property.Name + " has no image field.");
             consumed.Add(image);
             int offset = image.GetCustomAttribute<FieldOffsetAttribute>()!.Value;
@@ -191,7 +191,7 @@ internal sealed partial class RecordTypeInfo
                 Size = fieldSize,
                 ElementType = NameTable.Stored(element),
                 ElementWidth = fieldSize,
-                ElementClr = element,
+                ElementColor = element,
             });
         }
         foreach (var (field, offset) in raw)
@@ -253,7 +253,7 @@ internal sealed partial class RecordTypeInfo
                 ElementWidth = width,
                 ElementSigned = signed,
                 ElementCount = inline.Length,
-                ElementClr = element.FieldType,
+                ElementColor = element.FieldType,
             };
         }
         if (field.FieldType.IsEnum)
@@ -267,7 +267,7 @@ internal sealed partial class RecordTypeInfo
                 ElementType = NameTable.Stored(field.FieldType),
                 ElementWidth = width,
                 ElementSigned = signed,
-                ElementClr = field.FieldType,
+                ElementColor = field.FieldType,
             };
         }
         if (field.FieldType == typeof(bool))
@@ -280,7 +280,7 @@ internal sealed partial class RecordTypeInfo
                 Offset = offset,
                 Size = nested.Size,
                 ElementType = NameTable.Stored(field.FieldType),
-                ElementClr = field.FieldType,
+                ElementColor = field.FieldType,
             };
         var (integerWidth, integerSigned) = IntegerLayout(field.FieldType, owner.Name + "." + field.Name);
         return new IntegerRecordField

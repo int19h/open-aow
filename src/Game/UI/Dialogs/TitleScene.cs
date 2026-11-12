@@ -36,356 +36,356 @@ public partial class TitleScene : DataModule
     public Label NameLbl;
     public Label Copyright;
     public Label Version;
-    public int FFrame;
-    public int FTotalFrame;
-    public MouseButton FMouseButton;
-    public int FMouseX;
-    public int FMouseY;
-    public int FSelectedButton;
-    public int FPressedButton;
-    public int FHoverButton;
-    public Rect FSceneRect;
-    public bool FRedrawBackground;
-    public bool FShowCredits;
-    public List<StringList> FCredits;
-    public int FCreditPage;
-    public int FCreditFrame;
-    public bool FShowIntro;
-    public ByteArray3 FPadA5;
-    public int FIntroFrame;
-    public ImageLibraryFont FFont;
-    public ImageLibraryFont FCreditsFont;
+    public int Frame;
+    public int TotalFrame;
+    public MouseButton MouseButton;
+    public int MouseX;
+    public int MouseY;
+    public int SelectedButton;
+    public int PressedButton;
+    public int HoverButton;
+    public Rect SceneRectangle;
+    public bool RedrawBackground;
+    public bool ShowCredits;
+    public List<StringList> Credits;
+    public int CreditPage;
+    public int CreditFrame;
+    public bool ShowIntro;
+    public ByteArray3 Padding;
+    public int IntroFrame;
+    public ImageLibraryFont Font;
+    public ImageLibraryFont CreditsFont;
 
     // AoWTitleScene.pas:103
-    public void DrawCredits(ref LockedSurface Surface)
+    public void DrawCredits(ref LockedSurface surface)
     {
         int X;
         int Y;
-        int Duration;
-        int Alpha;
-        ShowInfo Info = default;
-        StringCollection Lines;
-        FCreditFrame += 1;
-        Info.ShowMode = ShowMode.Blended;
-        Info.BlendMode = BlendMode.Alpha;
-        Lines = FCredits[FCreditPage];
-        X = Surface.Width / 2;
-        var count = Lines.Count;
-        Y = Surface.Height / 2 - ((count * 25 + FCreditsFont.Height) / 2 + 35);
-        Duration = Lines.Count * 30 + 20 + 50;
-        if (Lines.Count > 0)
+        int duration;
+        int alpha;
+        ShowInfo info = default;
+        StringCollection lines;
+        CreditFrame += 1;
+        info.ShowMode = ShowMode.Blended;
+        info.BlendMode = BlendMode.Alpha;
+        lines = Credits[CreditPage];
+        X = surface.Width / 2;
+        var count = lines.Count;
+        Y = surface.Height / 2 - ((count * 25 + CreditsFont.Height) / 2 + 35);
+        duration = lines.Count * 30 + 20 + 50;
+        if (lines.Count > 0)
         {
-            Alpha = FCreditFrame;
-            if (Alpha > Duration)
+            alpha = CreditFrame;
+            if (alpha > duration)
             {
-                Alpha = 100 - (Alpha - Duration) * 5;
+                alpha = 100 - (alpha - duration) * 5;
             }
             else
             {
-                Alpha = Alpha * 10;
+                alpha = alpha * 10;
             }
 
-            Info.Blend = Alpha;
-            if (Alpha > 0)
+            info.Blend = alpha;
+            if (alpha > 0)
             {
-                if (Alpha < 100)
+                if (alpha < 100)
                 {
-                    var line = Lines[0];
-                    FCreditsFont.SetTextEx(X, Y, line, Surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), Info);
+                    var line = lines[0];
+                    CreditsFont.SetText(X, Y, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
                 }
                 else
                 {
-                    var line = Lines[0];
-                    FCreditsFont.SetTextCentered(X, Y, line, Surface);
+                    var line = lines[0];
+                    CreditsFont.SetTextCentered(X, Y, line, surface);
                 }
             }
 
-            for (int I = 1, last = Lines.Count - 1; I <= last; I++)
+            for (int I = 1, last = lines.Count - 1; I <= last; I++)
             {
-                if (FCreditFrame > Duration)
+                if (CreditFrame > duration)
                 {
-                    Alpha = 100 - (FCreditFrame - Duration) * 5;
+                    alpha = 100 - (CreditFrame - duration) * 5;
                 }
                 else
                 {
-                    Alpha = (FCreditFrame - (I * 30 + 20)) * 10;
+                    alpha = (CreditFrame - (I * 30 + 20)) * 10;
                 }
 
-                if (Alpha > 0)
+                if (alpha > 0)
                 {
-                    Info.Blend = Alpha;
-                    if (Alpha < 100)
+                    info.Blend = alpha;
+                    if (alpha < 100)
                     {
-                        var line = Lines[I];
-                        FCreditsFont.SetTextEx(X, Y + I * 25 + 5, line, Surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), Info);
+                        var line = lines[I];
+                        CreditsFont.SetText(X, Y + I * 25 + 5, line, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
                     }
                     else
                     {
-                        var line = Lines[I];
-                        FCreditsFont.SetTextCentered(X, Y + I * 25 + 5, line, Surface);
+                        var line = lines[I];
+                        CreditsFont.SetTextCentered(X, Y + I * 25 + 5, line, surface);
                     }
                 }
             }
         }
 
-        if (FCreditFrame > Duration + 20)
+        if (CreditFrame > duration + 20)
         {
-            FCreditPage += 1;
-            if (FCreditPage < FCredits.Count)
+            CreditPage += 1;
+            if (CreditPage < Credits.Count)
             {
-                FCreditFrame = 0;
+                CreditFrame = 0;
             }
             else
             {
-                FTotalFrame = 0;
-                FShowCredits = false;
+                TotalFrame = 0;
+                ShowCredits = false;
             }
         }
     }
 
     // AoWTitleScene.pas:148
-    public void DrawIntro(ref LockedSurface Surface)
+    public void DrawIntro(ref LockedSurface surface)
     {
-        int Page;
+        int page;
         int X;
         int Y;
-        int Frame;
-        int Opacity;
-        ShowInfo Info = default;
-        string Text = "";
-        FIntroFrame += 1;
-        X = Surface.Width / 2;
-        Y = Surface.Height / 2;
-        Page = FIntroFrame / 130;
-        Frame = FIntroFrame % 130;
-        switch (Frame)
+        int frame;
+        int opacity;
+        ShowInfo info = default;
+        string text = "";
+        IntroFrame += 1;
+        X = surface.Width / 2;
+        Y = surface.Height / 2;
+        page = IntroFrame / 130;
+        frame = IntroFrame % 130;
+        switch (frame)
         {
             case >= 0 and <= 10:
-                Opacity = Frame * 10;
+                opacity = frame * 10;
                 break;
             case >= 11 and <= 30:
-                Opacity = 100;
+                opacity = 100;
                 break;
             case >= 31 and <= 40:
-                Opacity = 100 - (Frame - 30) * 10;
+                opacity = 100 - (frame - 30) * 10;
                 break;
             default:
-                Opacity = 0;
+                opacity = 0;
                 break;
         }
 
-        if (Opacity != 0)
+        if (opacity != 0)
         {
-            switch (Page)
+            switch (page)
             {
                 case 0:
-                    Text = AbilityRules.TranslateRStr(CoDevelopedByRStr);
+                    text = AbilityRules.TranslateResourceString(s_coDevelopedByText);
                     break;
                 case 1:
-                    Text = AbilityRules.TranslateRStr(CoPublishedByRStr);
+                    text = AbilityRules.TranslateResourceString(s_coPublishedByText);
                     break;
                 case 2:
-                    Text = "";
+                    text = "";
                     break;
             }
 
-            if (Opacity < 100)
+            if (opacity < 100)
             {
-                Info.ShowMode = ShowMode.Blended;
-                Info.BlendMode = BlendMode.Alpha;
-                Info.Blend = Opacity;
-                FCreditsFont.SetTextEx(X, Y - FCreditsFont.Height / 2, Text, Surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), Info);
+                info.ShowMode = ShowMode.Blended;
+                info.BlendMode = BlendMode.Alpha;
+                info.Blend = opacity;
+                CreditsFont.SetText(X, Y - CreditsFont.Height / 2, text, surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
             }
             else
             {
-                FCreditsFont.SetTextCentered(X, Y - FCreditsFont.Height / 2, Text, Surface);
+                CreditsFont.SetTextCentered(X, Y - CreditsFont.Height / 2, text, surface);
             }
         }
 
-        if (Frame > 45 && Frame < 130)
+        if (frame > 45 && frame < 130)
         {
-            switch (Page)
+            switch (page)
             {
                 case 0:
                     if (TitleSceneIL[4] != null)
                     {
-                        var titleSceneILHeight = TitleSceneIL[4];
-                        var titleSceneILWidth = TitleSceneIL[4];
-                        TitleSceneIL[4].Show(X - 75 - titleSceneILWidth.Width / 2, Y - titleSceneILHeight.Height / 2, Surface);
+                        var titleSceneImageLibraryHeight = TitleSceneIL[4];
+                        var titleSceneImageLibraryWidth = TitleSceneIL[4];
+                        TitleSceneIL[4].Show(X - 75 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2, surface);
                     }
 
                     if (TitleSceneIL[5] != null)
                     {
-                        var titleSceneILHeight = TitleSceneIL[5];
-                        var titleSceneILWidth = TitleSceneIL[5];
-                        TitleSceneIL[5].Show(X + 75 - titleSceneILWidth.Width / 2, Y - titleSceneILHeight.Height / 2, Surface);
+                        var titleSceneImageLibraryHeight = TitleSceneIL[5];
+                        var titleSceneImageLibraryWidth = TitleSceneIL[5];
+                        TitleSceneIL[5].Show(X + 75 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2, surface);
                     }
 
                     break;
                 case 1:
-                    var northAmerica = AbilityRules.TranslateRStr(NorthAmericaRStr);
-                    var titleSceneIL = TitleSceneIL[6];
-                    FCreditsFont.SetTextCentered(X - 75, Y - titleSceneIL.Height / 2 - 20, northAmerica, Surface);
-                    var europe = AbilityRules.TranslateRStr(EuropeRStr);
-                    var titleSceneIL2 = TitleSceneIL[6];
-                    FCreditsFont.SetTextCentered(X + 75 + 15, Y - titleSceneIL2.Height / 2 - 20, europe, Surface);
+                    var northAmerica = AbilityRules.TranslateResourceString(s_northAmericaText);
+                    var titleSceneImageLibrary = TitleSceneIL[6];
+                    CreditsFont.SetTextCentered(X - 75, Y - titleSceneImageLibrary.Height / 2 - 20, northAmerica, surface);
+                    var europe = AbilityRules.TranslateResourceString(s_europeText);
+                    var titleSceneImageLibrary2 = TitleSceneIL[6];
+                    CreditsFont.SetTextCentered(X + 75 + 15, Y - titleSceneImageLibrary2.Height / 2 - 20, europe, surface);
                     if (TitleSceneIL[6] != null)
                     {
-                        var titleSceneILHeight = TitleSceneIL[6];
-                        var titleSceneILWidth = TitleSceneIL[6];
-                        TitleSceneIL[6].Show(X - 75 - titleSceneILWidth.Width / 2, Y - titleSceneILHeight.Height / 2 + 20, Surface);
+                        var titleSceneImageLibraryHeight = TitleSceneIL[6];
+                        var titleSceneImageLibraryWidth = TitleSceneIL[6];
+                        TitleSceneIL[6].Show(X - 75 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2 + 20, surface);
                     }
 
                     if (TitleSceneIL[2] != null)
                     {
-                        var titleSceneILHeight = TitleSceneIL[2];
-                        var titleSceneILWidth = TitleSceneIL[2];
-                        TitleSceneIL[2].Show(X + 75 + 15 - titleSceneILWidth.Width / 2, Y - titleSceneILHeight.Height / 2 + 20, Surface);
+                        var titleSceneImageLibraryHeight = TitleSceneIL[2];
+                        var titleSceneImageLibraryWidth = TitleSceneIL[2];
+                        TitleSceneIL[2].Show(X + 75 + 15 - titleSceneImageLibraryWidth.Width / 2, Y - titleSceneImageLibraryHeight.Height / 2 + 20, surface);
                     }
 
                     break;
                 case 2:
-                    switch (Frame)
+                    switch (frame)
                     {
                         case >= 45 and <= 55:
-                            Opacity = (Frame - 45) * 10;
+                            opacity = (frame - 45) * 10;
                             break;
                         case >= 121 and <= 130:
-                            Opacity = 100 - (Frame - 120) * 10;
+                            opacity = 100 - (frame - 120) * 10;
                             break;
                         default:
-                            Opacity = 101;
+                            opacity = 101;
                             break;
                     }
 
-                    if (Opacity <= 100)
+                    if (opacity <= 100)
                     {
-                        Info.ShowMode = ShowMode.Blended;
-                        Info.BlendMode = BlendMode.Alpha;
-                        Info.Blend = Opacity;
-                        FCreditsFont.SetTextEx(X, Y - FCreditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", Surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), Info);
+                        info.ShowMode = ShowMode.Blended;
+                        info.BlendMode = BlendMode.Alpha;
+                        info.Blend = opacity;
+                        CreditsFont.SetText(X, Y - CreditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", surface, Set<SetTextModeElement>.Of(SetTextModeElement.Center), info);
                     }
                     else
                     {
-                        FCreditsFont.SetTextCentered(X, Y - FCreditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", Surface);
+                        CreditsFont.SetTextCentered(X, Y - CreditsFont.Height / 2, "Copyright (C) 1999,2000 Triumph Studios", surface);
                     }
 
                     break;
             }
         }
 
-        if (Page == 3)
+        if (page == 3)
         {
-            FShowIntro = false;
+            ShowIntro = false;
         }
     }
 
     // AoWTitleScene.pas:212
-    public void DrawScene(ref LockedSurface Surface)
+    public void DrawScene(ref LockedSurface surface)
     {
         int X;
         int Y;
-        int Frame;
-        int Spacing;
-        int Image;
+        int frame;
+        int spacing;
+        int image;
         Rect R;
-        FSceneRect.Left = 0;
-        FSceneRect.Right = Surface.Width;
-        FSceneRect.Top = Surface.Height / 2 - 240;
-        FSceneRect.Bottom = FSceneRect.Top + 480;
-        if (FRedrawBackground)
+        SceneRectangle.Left = 0;
+        SceneRectangle.Right = surface.Width;
+        SceneRectangle.Top = surface.Height / 2 - 240;
+        SceneRectangle.Bottom = SceneRectangle.Top + 480;
+        if (RedrawBackground)
         {
-            R = FSceneRect;
-            var titleSceneIL = TitleSceneIL[0];
-            R.Top += titleSceneIL.Height;
-            PixelFormats.ColorFillSD(R, 0, Surface);
+            R = SceneRectangle;
+            var titleSceneImageLibrary = TitleSceneIL[0];
+            R.Top += titleSceneImageLibrary.Height;
+            PixelFormats.ColorFillSurfaceDescription(R, 0, surface);
         }
 
-        Y = FSceneRect.Top;
-        Frame = FFrame - 25;
-        if (Frame < 0)
+        Y = SceneRectangle.Top;
+        frame = Frame - 25;
+        if (frame < 0)
         {
-            Frame = 0;
+            frame = 0;
         }
 
-        Frame = -((Frame + 490) % TitleSceneIL[0].Width);
-        TitleSceneIL[0].Show(Frame, Y, Surface);
-        var titleSceneILWidth = TitleSceneIL[0];
-        TitleSceneIL[0].Show(Frame + titleSceneILWidth.Width, Y, Surface);
-        if (!FShowCredits && FFrame > 25)
+        frame = -((frame + 490) % TitleSceneIL[0].Width);
+        TitleSceneIL[0].Show(frame, Y, surface);
+        var titleSceneImageLibraryWidth = TitleSceneIL[0];
+        TitleSceneIL[0].Show(frame + titleSceneImageLibraryWidth.Width, Y, surface);
+        if (!ShowCredits && Frame > 25)
         {
-            if (FFrame < 75)
+            if (Frame < 75)
             {
-                Frame = (FFrame - 25) * 2;
+                frame = (Frame - 25) * 2;
             }
             else
             {
-                if (FTotalFrame <= 730)
+                if (TotalFrame <= 730)
                 {
-                    Frame = 100;
+                    frame = 100;
                 }
                 else
                 {
-                    Frame = (750 - FTotalFrame) * 5;
+                    frame = (750 - TotalFrame) * 5;
                 }
             }
 
-            var titleSceneIL = TitleSceneIL[1];
-            X = (FSceneRect.Right - FSceneRect.Left - titleSceneIL.Width) / 2;
-            if (Frame < 100)
+            var titleSceneImageLibrary = TitleSceneIL[1];
+            X = (SceneRectangle.Right - SceneRectangle.Left - titleSceneImageLibrary.Width) / 2;
+            if (frame < 100)
             {
-                var lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(Frame);
-                TitleSceneIL[1].ShowBlended(X, Y + 10, Surface, lookupTable);
+                var lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(frame);
+                TitleSceneIL[1].ShowBlended(X, Y + 10, surface, lookupTable);
             }
             else
             {
-                TitleSceneIL[3].Show(X, Y + 10, Surface);
+                TitleSceneIL[3].Show(X, Y + 10, surface);
             }
         }
 
-        Spacing = 120;
-        X = (TitleSceneIL[10].Width + FSceneRect.Left + FSceneRect.Right) / 2 - 320;
+        spacing = 120;
+        X = (TitleSceneIL[10].Width + SceneRectangle.Left + SceneRectangle.Right) / 2 - 320;
         for (int I = 0; I <= 4; I++)
         {
-            if (I == FPressedButton && I == HitTest())
+            if (I == PressedButton && I == HitTest())
             {
-                Image = 2;
+                image = 2;
             }
             else
             {
-                if (FPressedButton == -1 && I == FHoverButton)
+                if (PressedButton == -1 && I == HoverButton)
                 {
-                    Image = 1;
+                    image = 1;
                 }
                 else
                 {
-                    Image = 0;
+                    image = 0;
                 }
             }
 
-            TitleSceneIL[I * 3 + 10 + Image].Show(X + Spacing * I, Y + 355, Surface);
+            TitleSceneIL[I * 3 + 10 + image].Show(X + spacing * I, Y + 355, surface);
             if (I == HitTest())
             {
-                FFont.Color = 16777215;
-                var translateRStr = AbilityRules.TranslateRStr(TitleCaptions.TitleButtons[I]);
-                var titleSceneIL = TitleSceneIL[10];
-                FFont.SetTextCentered(X + Spacing * I + titleSceneIL.Width / 2, Y + 445, translateRStr, Surface);
+                Font.Color = 16777215;
+                var translatedText = AbilityRules.TranslateResourceString(TitleCaptions.TitleButtons[I]);
+                var titleSceneImageLibrary = TitleSceneIL[10];
+                Font.SetTextCentered(X + spacing * I + titleSceneImageLibrary.Width / 2, Y + 445, translatedText, surface);
             }
 
-            if (GameTables.AoWEngine.FAnimationDetail == 2)
+            if (GameTables.GameEngine.AnimationDetail == 2)
             {
-                TitleSceneIL[25].Show(X + Spacing * I, Y + 355, Surface);
+                TitleSceneIL[25].Show(X + spacing * I, Y + 355, surface);
             }
         }
 
-        if (FShowCredits)
+        if (ShowCredits)
         {
-            DrawCredits(ref Surface);
+            DrawCredits(ref surface);
         }
 
-        if (FShowIntro)
+        if (ShowIntro)
         {
-            DrawIntro(ref Surface);
+            DrawIntro(ref surface);
         }
     }
 
@@ -398,87 +398,87 @@ public partial class TitleScene : DataModule
     // AoWTitleScene.pas:266
     public void ResetScene()
     {
-        FHoverButton = -1;
-        FFrame = 0;
-        FTotalFrame = 0;
-        FShowCredits = false;
+        HoverButton = -1;
+        Frame = 0;
+        TotalFrame = 0;
+        ShowCredits = false;
         // { Original repeats the total-frame reset. }
-        FTotalFrame = 0;
-        FShowIntro = false;
+        TotalFrame = 0;
+        ShowIntro = false;
     }
 
     // AoWTitleScene.pas:276
     public void AdvanceFrame()
     {
-        FFrame += 1;
-        FTotalFrame += 1;
-        if (!FShowCredits && FTotalFrame == 750)
+        Frame += 1;
+        TotalFrame += 1;
+        if (!ShowCredits && TotalFrame == 750)
         {
-            FCreditPage = 0;
-            FCreditFrame = 0;
-            FShowCredits = true;
+            CreditPage = 0;
+            CreditFrame = 0;
+            ShowCredits = true;
         }
 
-        if (!FShowIntro && FTotalFrame == 300)
+        if (!ShowIntro && TotalFrame == 300)
         {
-            FIntroFrame = 0;
-            FShowIntro = true;
+            IntroFrame = 0;
+            ShowIntro = true;
         }
     }
 
     // AoWTitleScene.pas:293
     public int HitTest()
     {
-        int Result;
-        bool Found;
+        int result;
+        bool found;
         int X;
-        int Spacing;
-        if (FSceneRect.Bottom - 125 < FMouseY && FMouseY < FSceneRect.Bottom)
+        int spacing;
+        if (SceneRectangle.Bottom - 125 < MouseY && MouseY < SceneRectangle.Bottom)
         {
-            Spacing = 120;
-            X = (TitleSceneIL[10].Width + (FSceneRect.Left + FSceneRect.Right)) / 2 - 320;
-            Result = 5;
-            Found = false;
-            while (Result != 0 && !Found)
+            spacing = 120;
+            X = (TitleSceneIL[10].Width + (SceneRectangle.Left + SceneRectangle.Right)) / 2 - 320;
+            result = 5;
+            found = false;
+            while (result != 0 && !found)
             {
-                Result -= 1;
-                Found = Spacing * Result + X < FMouseX && TitleSceneIL[10].Width + X + Spacing * Result > FMouseX;
+                result -= 1;
+                found = spacing * result + X < MouseX && TitleSceneIL[10].Width + X + spacing * result > MouseX;
             }
 
-            if (!Found)
+            if (!found)
             {
-                Result = -1;
+                result = -1;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTitleScene.pas:315
-    public void WindowDrawSurfaceEx(Surface Surface, ref bool Drawn)
+    public void WindowDrawSurfaceEx(Surface surface, ref bool drawn)
     {
-        LockedSurface SD = default;
+        LockedSurface lockedSurface = default;
         try
         {
-            if (Succeeded(Surface.Lock(ref SD)))
+            if (Succeeded(surface.Lock(ref lockedSurface)))
             {
-                DrawScene(ref SD);
-                if (GameTables.AoWEngine.RegisteredVersion() && !FShowCredits)
+                DrawScene(ref lockedSurface);
+                if (GameTables.GameEngine.RegisteredVersion() && !ShowCredits)
                 {
-                    LegalNotice.Draw(SD);
-                    StrLbl.Draw(SD);
-                    NameLbl.Draw(SD);
+                    LegalNotice.Draw(lockedSurface);
+                    StrLbl.Draw(lockedSurface);
+                    NameLbl.Draw(lockedSurface);
                 }
 
-                Version.Draw(SD);
-                Surface.Unlock();
+                Version.Draw(lockedSurface);
+                surface.Unlock();
             }
 
-            Drawn = true;
+            drawn = true;
         }
         catch
         {
@@ -489,299 +489,299 @@ public partial class TitleScene : DataModule
     // AoWTitleScene.pas:338
     public void TitleSceneCreate()
     {
-        StringList Lines;
+        StringList lines;
         ResetScene();
-        var registeredTo = GameTables.AoWEngine.RegisteredTo();
+        var registeredTo = GameTables.GameEngine.RegisteredTo();
         NameLbl.Text = registeredTo;
-        var versionStr = GameTables.AoWEngine.GetVersionStr();
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(VersionXRStr), [versionStr]);
+        var versionString = GameTables.GameEngine.GetVersionString();
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_versionFormat), [versionString]);
         Version.Text = format;
-        FCredits = new List<StringList>();
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(DesignerAndDirectorRStr));
-        Lines.Add("Lennart Sas");
-        Lines.Add("");
-        Lines.Add(AbilityRules.TranslateRStr(AdditionalDesignRStr));
-        Lines.Add("Arno van Wingerden");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(LeadProgrammerRStr));
-        Lines.Add("Arno van Wingerden");
-        Lines.Add("");
-        Lines.Add(AbilityRules.TranslateRStr(ProgrammerRStr));
-        Lines.Add("Josh Farley");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(ArtistsRStr));
-        Lines.Add("Lennart Sas");
-        Lines.Add("Thomas Cardin");
-        Lines.Add("Roy Postma");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(LeadScenarioDesignerRStr));
-        Lines.Add("Menno Sas");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(ScenarioDesignersRStr));
-        Lines.Add("Doug Gibson");
-        Lines.Add("Arnout Sas");
-        Lines.Add("Hugo van Wingerden");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(WriterRStr));
-        Lines.Add("Raymond Bingham");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(MusicRStr));
-        Lines.Add("Michiel van den Bos");
-        Lines.Add("");
-        Lines.Add(AbilityRules.TranslateRStr(SoundFXRStr));
-        Lines.Add("Nando Eweg");
-        FCredits.Add(Lines);
-        Lines.Add("");
-        Lines.Add(AbilityRules.TranslateRStr(IntroVoiceRStr));
-        Lines.Add("John McGinn (English)");
-        Lines.Add("Norbert Gastell (German)");
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(GalaxySoundSystemRStr));
-        Lines.Add("Carlo Vogelsang");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(InternetMailSuiteRStr));
-        Lines.Add("Argo Software Design");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(QACoreRStr));
-        Lines.Add("Cliff Benjamin");
-        Lines.Add("Ian Calderon");
-        Lines.Add("Ted Stephenson");
-        Lines.Add("Hugo van Wingerden");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr("Take 2 Europe"));
-        Lines.Add("");
-        Lines.Add("Producer");
-        Lines.Add("Ken Jordan");
-        Lines.Add("");
-        Lines.Add("Manuals + Translations");
-        Lines.Add("Frazer Nash");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add("Tarantula Studios testing suite");
-        Lines.Add("");
-        Lines.Add("Test Manager");
-        Lines.Add("Mark Lloyd");
-        Lines.Add("");
-        Lines.Add("Lead Tester");
-        Lines.Add("Paul Byers");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add("Testers");
-        Lines.Add("");
-        Lines.Add("Jim Thompson");
-        Lines.Add("Kit Brown");
-        Lines.Add("Julian Turner");
-        Lines.Add("Jim Cree");
-        Lines.Add("Lee Johnson");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(BizzRStr));
-        Lines.Add("Jay Wilbur");
-        Lines.Add("Mark Rein");
-        FCredits.Add(Lines);
-        Lines = new StringList();
-        Lines.Add(AbilityRules.TranslateRStr(SpecialThanksRStr));
-        Lines.Add("Eelco van der Snoek");
-        Lines.Add("Doug Gibson");
-        Lines.Add("Dietmer Tan");
-        Lines.Add("Arjan Brussee");
-        Lines.Add("Daniel Cook");
-        FCredits.Add(Lines);
+        Credits = new List<StringList>();
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_designerAndDirectorText));
+        lines.Add("Lennart Sas");
+        lines.Add("");
+        lines.Add(AbilityRules.TranslateResourceString(s_additionalDesignText));
+        lines.Add("Arno van Wingerden");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_leadProgrammerText));
+        lines.Add("Arno van Wingerden");
+        lines.Add("");
+        lines.Add(AbilityRules.TranslateResourceString(s_programmerText));
+        lines.Add("Josh Farley");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_artistsText));
+        lines.Add("Lennart Sas");
+        lines.Add("Thomas Cardin");
+        lines.Add("Roy Postma");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_leadScenarioDesignerText));
+        lines.Add("Menno Sas");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_scenarioDesignersText));
+        lines.Add("Doug Gibson");
+        lines.Add("Arnout Sas");
+        lines.Add("Hugo van Wingerden");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_writerText));
+        lines.Add("Raymond Bingham");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_musicText));
+        lines.Add("Michiel van den Bos");
+        lines.Add("");
+        lines.Add(AbilityRules.TranslateResourceString(s_soundEffectText));
+        lines.Add("Nando Eweg");
+        Credits.Add(lines);
+        lines.Add("");
+        lines.Add(AbilityRules.TranslateResourceString(s_introVoiceText));
+        lines.Add("John McGinn (English)");
+        lines.Add("Norbert Gastell (German)");
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_galaxySoundSystemText));
+        lines.Add("Carlo Vogelsang");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_internetMailSuiteText));
+        lines.Add("Argo Software Design");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_qaCoreText));
+        lines.Add("Cliff Benjamin");
+        lines.Add("Ian Calderon");
+        lines.Add("Ted Stephenson");
+        lines.Add("Hugo van Wingerden");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString("Take 2 Europe"));
+        lines.Add("");
+        lines.Add("Producer");
+        lines.Add("Ken Jordan");
+        lines.Add("");
+        lines.Add("Manuals + Translations");
+        lines.Add("Frazer Nash");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add("Tarantula Studios testing suite");
+        lines.Add("");
+        lines.Add("Test Manager");
+        lines.Add("Mark Lloyd");
+        lines.Add("");
+        lines.Add("Lead Tester");
+        lines.Add("Paul Byers");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add("Testers");
+        lines.Add("");
+        lines.Add("Jim Thompson");
+        lines.Add("Kit Brown");
+        lines.Add("Julian Turner");
+        lines.Add("Jim Cree");
+        lines.Add("Lee Johnson");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_bizzText));
+        lines.Add("Jay Wilbur");
+        lines.Add("Mark Rein");
+        Credits.Add(lines);
+        lines = new StringList();
+        lines.Add(AbilityRules.TranslateResourceString(s_specialThanksText));
+        lines.Add("Eelco van der Snoek");
+        lines.Add("Doug Gibson");
+        lines.Add("Dietmer Tan");
+        lines.Add("Arjan Brussee");
+        lines.Add("Daniel Cook");
+        Credits.Add(lines);
     }
 
     // AoWTitleScene.pas:448
     public void TitleSceneDestroy()
     {
-        for (int I = FCredits.Count - 1; I >= 0; I--)
+        for (int I = Credits.Count - 1; I >= 0; I--)
         {
-            (FCredits[I] as IDisposable)?.Dispose();
+            (Credits[I] as IDisposable)?.Dispose();
         }
 
-        FCredits?.Clear();
+        Credits?.Clear();
     }
 
     // AoWTitleScene.pas:456
     public void WindowUpdate()
     {
-        Window.FSurfaceValid = false;
-        if (!DialogHosts.FileDlgWindow.FileDialog.Visible && !DialogHosts.ProgressDialog.ProgDlg.Visible)
+        Window.SurfaceValid = false;
+        if (!DialogHosts.FileDialogWindow.FileDialog.Visible && !DialogHosts.ProgressDialog.ProgDlg.Visible)
         {
             AdvanceFrame();
         }
     }
 
     // AoWTitleScene.pas:462
-    public void WindowMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void WindowMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FMouseX = X;
-        FMouseY = Y;
-        FMouseButton = Button;
-        FPressedButton = HitTest();
+        MouseX = X;
+        MouseY = Y;
+        MouseButton = button;
+        PressedButton = HitTest();
     }
 
     // AoWTitleScene.pas:470
-    public void WindowMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void WindowMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        FMouseX = X;
-        FMouseY = Y;
-        if (FHoverButton != -1)
+        MouseX = X;
+        MouseY = Y;
+        if (HoverButton != -1)
         {
-            FRedrawBackground = true;
+            RedrawBackground = true;
         }
 
-        FHoverButton = HitTest();
+        HoverButton = HitTest();
     }
 
-    private static readonly string AdditionalDesignRStr = "Additional Design";
+    private static readonly string s_additionalDesignText = "Additional Design";
 
-    private static readonly string ArtistsRStr = "Artists";
+    private static readonly string s_artistsText = "Artists";
 
-    private static readonly string BizzRStr = "Bizz";
+    private static readonly string s_bizzText = "Bizz";
 
-    private static readonly string CampaignRStr = "Campaign";
+    private static readonly string s_campaignText = "Campaign";
 
-    private static readonly string CoDevelopedByRStr = "Co-developed by:";
+    private static readonly string s_coDevelopedByText = "Co-developed by:";
 
-    private static readonly string CoPublishedByRStr = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
+    private static readonly string s_coPublishedByText = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
 
-    private static readonly string DesignerAndDirectorRStr = "Designer & Director";
+    private static readonly string s_designerAndDirectorText = "Designer & Director";
 
-    private static readonly string EuropeRStr = "\x00\x00\x00\x00\x00\x00";
+    private static readonly string s_europeText = "\x00\x00\x00\x00\x00\x00";
 
-    private static readonly string GalaxySoundSystemRStr = "Galaxy Sound System";
+    private static readonly string s_galaxySoundSystemText = "Galaxy Sound System";
 
-    private static readonly string InternetMailSuiteRStr = "Internet Mail Suite";
+    private static readonly string s_internetMailSuiteText = "Internet Mail Suite";
 
-    private static readonly string IntroVoiceRStr = "Intro Voice";
+    private static readonly string s_introVoiceText = "Intro Voice";
 
-    private static readonly string LeadProgrammerRStr = "Lead Programmer";
+    private static readonly string s_leadProgrammerText = "Lead Programmer";
 
-    private static readonly string LeadScenarioDesignerRStr = "Lead Scenario Designer";
+    private static readonly string s_leadScenarioDesignerText = "Lead Scenario Designer";
 
-    private static readonly string MusicRStr = "Music";
+    private static readonly string s_musicText = "Music";
 
-    private static readonly string NorthAmericaRStr = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
+    private static readonly string s_northAmericaText = "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00";
 
-    private static readonly string ProgrammerRStr = "Programmer";
+    private static readonly string s_programmerText = "Programmer";
 
-    private static readonly string QACoreRStr = "QA Core";
+    private static readonly string s_qaCoreText = "QA Core";
 
-    private static readonly string ScenarioDesignersRStr = "Scenario Designers";
+    private static readonly string s_scenarioDesignersText = "Scenario Designers";
 
-    private static readonly string SoundFXRStr = "Sound FX";
+    private static readonly string s_soundEffectText = "Sound FX";
 
-    private static readonly string SpecialThanksRStr = "Special Thanks";
+    private static readonly string s_specialThanksText = "Special Thanks";
 
-    private static readonly string VersionXRStr = "Version: %s";
+    private static readonly string s_versionFormat = "Version: %s";
 
-    private static readonly string WriterRStr = "Writer";
+    private static readonly string s_writerText = "Writer";
 
-    private static void ShowFactionSelection(FactionSelectionWindow Dialog)
+    private static void ShowFactionSelection(FactionSelectionWindow dialog)
     {
         DialogHosts.TitleWindow.TitleWin.Visible = true;
-        DialogHosts.SelFactionWin.FactionPnl.Visible = true;
-        Dialog.TopLbl.Visible = true;
-        var chooseFaction = AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
-        Dialog.TopLbl.Text = chooseFaction;
-        Dialog.LName.Visible = false;
-        Dialog.LText.Visible = false;
-        Dialog.LBack.Visible = false;
-        Dialog.LStart.Visible = false;
-        Dialog.LSphere.Visible = false;
-        Dialog.DName.Visible = false;
-        Dialog.DText.Visible = false;
-        Dialog.DBack.Visible = false;
-        Dialog.DStart.Visible = false;
-        Dialog.DSphere.Visible = false;
-        Dialog.FFade = -1;
-        Dialog.FactionPnl.ILIndexTexture = 0;
-        Dialog.F_SelFactionWin_8C[0] = 0;
+        DialogHosts.FactionSelectionWindow.FactionPnl.Visible = true;
+        dialog.TopLbl.Visible = true;
+        var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.s_chooseFactionText);
+        dialog.TopLbl.Text = chooseFaction;
+        dialog.LName.Visible = false;
+        dialog.LText.Visible = false;
+        dialog.LBack.Visible = false;
+        dialog.LStart.Visible = false;
+        dialog.LSphere.Visible = false;
+        dialog.DName.Visible = false;
+        dialog.DText.Visible = false;
+        dialog.DBack.Visible = false;
+        dialog.DStart.Visible = false;
+        dialog.DSphere.Visible = false;
+        dialog.Fade = -1;
+        dialog.FactionPnl.ImageLibraryIndexTexture = 0;
+        dialog.SelectionFlags[0] = 0;
     }
 
-    private static void HideGameWindows(General Controller)
+    private static void HideGameWindows(General controller)
     {
-        if (!Controller.FWindowsHidden)
+        if (!controller.WindowsHidden)
         {
-            Controller.FWindowsHidden = true;
-            Controller.FInfoVisible = DialogHosts.PInfoW.PInfoWin.Visible;
-            Controller.FRealmVisible = DialogHosts.RealmWin.Dlg.Visible;
-            Controller.FMagicVisible = DialogHosts.MagicWin.Dlg.Visible;
-            Controller.FUnitVisible = DialogHosts.ControlWin.MainWindow.Visible;
-            Controller.FTargetVisible = DialogHosts.ChatWindow.ChatWin.Visible;
-            Controller.FScannerVisible = DialogHosts.SWindow.MainWindow.Visible;
-            Controller.FControlVisible = DialogHosts.UnitWindow.UnitWin.Visible;
-            Controller.FChatVisible = DialogHosts.IWindow.InfoWin.Visible;
-            Controller.FMapVisible = DialogHosts.MWindow.MainWindow.Visible;
-            for (int I = 0, last = DialogHosts.General.Manager.FChildren.Count - 1; I <= last; I++)
+            controller.WindowsHidden = true;
+            controller.InfoVisible = DialogHosts.PlayerInfoWindow.PInfoWin.Visible;
+            controller.RealmVisible = DialogHosts.RealmWindow.Dlg.Visible;
+            controller.MagicVisible = DialogHosts.MagicWindow.Dlg.Visible;
+            controller.UnitVisible = DialogHosts.ControlWindow.MainWindow.Visible;
+            controller.TargetVisible = DialogHosts.ChatWindow.ChatWin.Visible;
+            controller.ScannerVisible = DialogHosts.ScannerWindow.MainWindow.Visible;
+            controller.ControlVisible = DialogHosts.UnitWindow.UnitWin.Visible;
+            controller.ChatVisible = DialogHosts.InfoWindow.InfoWin.Visible;
+            controller.MapVisible = DialogHosts.MapWindow.MainWindow.Visible;
+            for (int I = 0, last = DialogHosts.General.Manager.Children.Count - 1; I <= last; I++)
             {
-                if (DialogHosts.General.Manager.FChildren[I] != DialogHosts.TBWindow.TaskWindow)
+                if (DialogHosts.General.Manager.Children[I] != DialogHosts.TaskBar.TaskWindow)
                 {
-                    ((UIComponent)DialogHosts.General.Manager.FChildren[I]).Visible = false;
+                    ((UIComponent)DialogHosts.General.Manager.Children[I]).Visible = false;
                 }
             }
         }
     }
 
-    private static void LoadGame(General Controller, string FileName)
+    private static void LoadGame(General controller, string fileName)
     {
         if (AoWHSMap.Current != null)
         {
-            GameTables.AoWEngine.CloseHSM(null);
+            GameTables.GameEngine.CloseHsm(null);
         }
 
-        var loading = AbilityRules.TranslateRStr(LoadingRStr);
-        var fileName = ExtractFileName(FileName);
-        DialogHosts.ProgressDialog.Title.Text = loading + ": " + fileName + "...";
+        var loading = AbilityRules.TranslateResourceString(s_loadingText);
+        var fileNameLocal = ExtractFileName(fileName);
+        DialogHosts.ProgressDialog.Title.Text = loading + ": " + fileNameLocal + "...";
         DialogHosts.ProgressDialog.StatusLbl.Text = "";
         DialogHosts.ProgressDialog.Bar.Position = 0;
         DialogHosts.ProgressDialog.Bar.Max = 100;
         DialogHosts.ProgressDialog.ProgDlg.Visible = true;
         if (!DialogHosts.TitleScene.Window.Visible)
         {
-            Controller.Manager.OverlayPriority = 5000;
+            controller.Manager.OverlayPriority = 5000;
         }
 
         AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
         AudioPlayback.FadeMusicVolume(0, 1);
-        GameTables.AoWEngine.LoadHSM(FileName, false, (_, Message, Progression) => Controller.MapProgress(Message, Progression), GameProfile.WorldMap);
-        if (GameTables.AoWEngine.FDemo && AoWHSMap.Current != null && !AoWHSMap.Current.FShowAllPlayers)
+        GameTables.GameEngine.LoadHsm(fileName, false, (_, message, progression) => controller.MapProgress(message, progression), GameProfile.WorldMap);
+        if (GameTables.GameEngine.Demo && AoWHSMap.Current != null && !AoWHSMap.Current.ShowAllPlayers)
         {
-            CloseGame(Controller);
+            CloseGame(controller);
         }
 
-        Controller.Manager.OverlayPriority = 0;
+        controller.Manager.OverlayPriority = 0;
         DialogHosts.ProgressDialog.ProgDlg.Visible = false;
     }
 
-    private static void StartGame(General Controller)
+    private static void StartGame(General controller)
     {
-        Controller.FWindowsHidden = false;
+        controller.WindowsHidden = false;
         AudioHost.SongPlayer.Songs.Clear();
-        if (AoWHSMap.Current.FGameSongs.Songs.Count != 0)
+        if (AoWHSMap.Current.GameSongs.Songs.Count != 0)
         {
-            AudioHost.SongPlayer.Songs.AddStrings(AoWHSMap.Current.FGameSongs.Songs);
+            AudioHost.SongPlayer.Songs.AddStrings(AoWHSMap.Current.GameSongs.Songs);
         }
         else
         {
-            if (AoWHSMap.Current.FStartupSongs.Songs.Count != 0)
+            if (AoWHSMap.Current.StartupSongs.Songs.Count != 0)
             {
-                for (int I = 0, last = AoWHSMap.Current.FStartupSongs.Songs.Count - 1; I <= last; I++)
+                for (int I = 0, last = AoWHSMap.Current.StartupSongs.Songs.Count - 1; I <= last; I++)
                 {
-                    var fileNotFound = AbilityRules.TranslateRStr(FileNotFoundRStr);
-                    if (CompareText(AoWHSMap.Current.FStartupSongs.SongNames[I], fileNotFound) != 0)
+                    var fileNotFound = AbilityRules.TranslateResourceString(s_fileNotFoundText);
+                    if (CompareText(AoWHSMap.Current.StartupSongs.SongNames[I], fileNotFound) != 0)
                     {
-                        var song = AoWHSMap.Current.FStartupSongs.Songs[I];
+                        var song = AoWHSMap.Current.StartupSongs.Songs[I];
                         AudioHost.SongPlayer.Songs.Add(song);
                     }
                 }
@@ -793,126 +793,126 @@ public partial class TitleScene : DataModule
         }
 
         AudioHost.SongPlayer.Play(0);
-        AudioPlayback.SetMusicVolume(DialogHosts.SoundDlg.MusicVolume.Position);
-        DialogHosts.TBWindow.StartMenuBar.Items.Clear();
-        var background = AbilityRules.TranslateRStr(BackgroundRStr);
-        DialogHosts.TBWindow.StartMenuBar.Items.Add(background);
-        if (GameTables.AoWEngine.FCampaign != null)
+        AudioPlayback.SetMusicVolume(DialogHosts.SoundDialog.MusicVolume.Position);
+        DialogHosts.TaskBar.StartMenuBar.Items.Clear();
+        var background = AbilityRules.TranslateResourceString(s_backgroundText);
+        DialogHosts.TaskBar.StartMenuBar.Items.Add(background);
+        if (GameTables.GameEngine.Campaign != null)
         {
-            var campaign = AbilityRules.TranslateRStr(CampaignRStr);
-            DialogHosts.TBWindow.StartMenuBar.Items.Add(campaign);
+            var campaign = AbilityRules.TranslateResourceString(s_campaignText);
+            DialogHosts.TaskBar.StartMenuBar.Items.Add(campaign);
         }
 
         DialogHosts.TitleScene.Window.Visible = false;
         DialogHosts.TitleWindow.TitleWin.Visible = false;
-        DialogHosts.TBWindow.TaskWindow.Visible = true;
-        DialogHosts.MWindow.MainWindow.Visible = true;
-        DialogHosts.SWindow.MainWindow.Visible = true;
-        DialogHosts.MWindow.MapViewer.SetHSMap(AoWHSMap.Current);
-        DialogHosts.SWindow.Scanner.SetMap(AoWHSMap.Current);
+        DialogHosts.TaskBar.TaskWindow.Visible = true;
+        DialogHosts.MapWindow.MainWindow.Visible = true;
+        DialogHosts.ScannerWindow.MainWindow.Visible = true;
+        DialogHosts.MapWindow.MapViewer.SetHexSpriteMap(AoWHSMap.Current);
+        DialogHosts.ScannerWindow.Scanner.SetMap(AoWHSMap.Current);
         var mapLevel = AoWHSMap.Current.MapContainer.MapLevels[0];
-        DialogHosts.SWindow.Scanner.SetLevel(mapLevel);
-        DialogHosts.TBWindow.TurnButton.FButtonChecked = false;
-        DialogHosts.TBWindow.ChatBtn.Visible = DialogHosts.SetupEvents.DPlay.Connected;
-        Controller.Manager.FAligned = false;
-        DialogHosts.SWindow.Scanner.FPreviousWidth = 0;
-        DialogHosts.SWindow.Scanner.FIncremental = false;
-        DialogHosts.SWindow.Scanner.FSized = false;
-        DialogHosts.SWindow.ScannerTab.Items.Clear();
-        var surface = AbilityRules.TranslateRStr(SurfaceRStr);
-        DialogHosts.SWindow.ScannerTab.Items.Add(surface);
+        DialogHosts.ScannerWindow.Scanner.SetLevel(mapLevel);
+        DialogHosts.TaskBar.TurnButton.ButtonChecked = false;
+        DialogHosts.TaskBar.ChatBtn.Visible = DialogHosts.SetupEvents.DPlay.Connected;
+        controller.Manager.Aligned = false;
+        DialogHosts.ScannerWindow.Scanner.PreviousWidth = 0;
+        DialogHosts.ScannerWindow.Scanner.Incremental = false;
+        DialogHosts.ScannerWindow.Scanner.Sized = false;
+        DialogHosts.ScannerWindow.ScannerTab.Items.Clear();
+        var surface = AbilityRules.TranslateResourceString(s_surfaceText);
+        DialogHosts.ScannerWindow.ScannerTab.Items.Add(surface);
         if (AoWHSMap.Current.MapContainer.LevelCount > 1)
         {
-            var caverns = AbilityRules.TranslateRStr(CavernsRStr);
-            DialogHosts.SWindow.ScannerTab.Items.Add(caverns);
+            var caverns = AbilityRules.TranslateResourceString(s_cavernsText);
+            DialogHosts.ScannerWindow.ScannerTab.Items.Add(caverns);
         }
 
         if (AoWHSMap.Current.MapContainer.LevelCount > 2)
         {
-            var depths = AbilityRules.TranslateRStr(DepthsRStr);
-            DialogHosts.SWindow.ScannerTab.Items.Add(depths);
+            var depths = AbilityRules.TranslateResourceString(s_depthsText);
+            DialogHosts.ScannerWindow.ScannerTab.Items.Add(depths);
         }
 
-        DialogHosts.SWindow.ScannerTab.Selected = 0;
-        DialogHosts.SWindow.ScannerTab.FSized = false;
-        DialogHosts.SWindow.Scanner.SetTWidth(0);
-        DialogHosts.SWindow.Scanner.SetTHeight(0);
-        DialogHosts.SWindow.Scanner.SetTLeft(-1);
-        DialogHosts.SWindow.Scanner.SetTTop(-1);
-        DialogHosts.SWindow.Scanner.FUpdateStep = -1;
-        DialogHosts.SWindow.Scanner.SetMap(AoWHSMap.Current);
+        DialogHosts.ScannerWindow.ScannerTab.Selected = 0;
+        DialogHosts.ScannerWindow.ScannerTab.Sized = false;
+        DialogHosts.ScannerWindow.Scanner.SetTWidth(0);
+        DialogHosts.ScannerWindow.Scanner.SetTHeight(0);
+        DialogHosts.ScannerWindow.Scanner.SetTLeft(-1);
+        DialogHosts.ScannerWindow.Scanner.SetTTop(-1);
+        DialogHosts.ScannerWindow.Scanner.UpdateStep = -1;
+        DialogHosts.ScannerWindow.Scanner.SetMap(AoWHSMap.Current);
         var mapLevel2 = AoWHSMap.Current.MapContainer.MapLevels[0];
-        DialogHosts.SWindow.Scanner.SetLevel(mapLevel2);
-        DialogHosts.MWindow.MapViewer.SetHSMap(AoWHSMap.Current);
-        DialogHosts.MWindow.MapViewer.SceneWidth = DialogHosts.MWindow.MainWindow.WinWidth - 24;
-        DialogHosts.MWindow.MapViewer.SceneHeight = DialogHosts.MWindow.MainWindow.WinHeight - 24;
+        DialogHosts.ScannerWindow.Scanner.SetLevel(mapLevel2);
+        DialogHosts.MapWindow.MapViewer.SetHexSpriteMap(AoWHSMap.Current);
+        DialogHosts.MapWindow.MapViewer.SceneWidth = DialogHosts.MapWindow.MainWindow.WinWidth - 24;
+        DialogHosts.MapWindow.MapViewer.SceneHeight = DialogHosts.MapWindow.MainWindow.WinHeight - 24;
         AoWHSMap.Current.Activate();
-        DialogHosts.ControlWin.MainWindow.Visible = false;
+        DialogHosts.ControlWindow.MainWindow.Visible = false;
         DialogHosts.MapEvents.TheMapArmyDeselected();
         DialogHosts.MapEvents.TheMapStructureDeselected();
-        DialogHosts.TBWindow.TBWorldUpdate();
-        DialogHosts.PInfoW.UpdatePlayer();
+        DialogHosts.TaskBar.TBWorldUpdate();
+        DialogHosts.PlayerInfoWindow.UpdatePlayer();
         if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            var aowTurnButton = DialogHosts.TBWindow.TurnButton;
-            if (AoWHSMap.Current.FSeatedPlayer == -1)
+            var turnButton = DialogHosts.TaskBar.TurnButton;
+            if (AoWHSMap.Current.SeatedPlayer == -1)
             {
-                aowTurnButton.FCurPlayer = 12;
-                aowTurnButton.FLastPlayer = 12;
-                aowTurnButton.FAnimationFrame = aowTurnButton.FCurPlayer * 7;
-                DialogHosts.TBWindow.AutoBtn.Visible = false;
+                turnButton._currentPlayer = 12;
+                turnButton._lastPlayer = 12;
+                turnButton.AnimationFrame = turnButton._currentPlayer * 7;
+                DialogHosts.TaskBar.AutoBtn.Visible = false;
             }
             else
             {
-                aowTurnButton.FLastPlayer = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FPlayerRace;
-                if (aowTurnButton.FLastPlayer == -1)
+                turnButton._lastPlayer = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerRace;
+                if (turnButton._lastPlayer == -1)
                 {
-                    aowTurnButton.FLastPlayer = 12;
+                    turnButton._lastPlayer = 12;
                 }
 
-                aowTurnButton.FCurPlayer = aowTurnButton.FLastPlayer;
-                aowTurnButton.FAnimationFrame = aowTurnButton.FLastPlayer * 7;
-                DialogHosts.TBWindow.AutoBtn.Visible = AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous;
+                turnButton._currentPlayer = turnButton._lastPlayer;
+                turnButton.AnimationFrame = turnButton._lastPlayer * 7;
+                DialogHosts.TaskBar.AutoBtn.Visible = AoWHSMap.Current.PlayMode == PlayMode.Simultaneous;
             }
         }
 
-        DialogHosts.TBWindow.FWorldClockDelay = 0;
-        DialogHosts.TBWindow.ChatBtn.TextColor = 14;
-        DialogHosts.TBWindow.FChatFlash = 0;
-        DialogHosts.VideoDialog.ChangeResolution(DialogHosts.VideoDialog.FDisplayWidth, DialogHosts.VideoDialog.FDisplayHeight);
+        DialogHosts.TaskBar.WorldClockDelay = 0;
+        DialogHosts.TaskBar.ChatBtn.TextColor = 14;
+        DialogHosts.TaskBar.ChatFlash = 0;
+        DialogHosts.VideoDialog.ChangeResolution(DialogHosts.VideoDialog.DisplayWidth, DialogHosts.VideoDialog.DisplayHeight);
     }
 
-    private static void CloseGame(General Controller)
+    private static void CloseGame(General controller)
     {
-        GameTables.AoWEngine.CloseHSM(null);
-        GameTables.AoWEngine.CloseCampaign();
-        DialogHosts.SWindow.Scanner.SetMap(null);
-        DialogHosts.TCScanner.Scanner.SetMap(null);
+        GameTables.GameEngine.CloseHsm(null);
+        GameTables.GameEngine.CloseCampaign();
+        DialogHosts.ScannerWindow.Scanner.SetMap(null);
+        DialogHosts.CombatScanner.Scanner.SetMap(null);
         AudioHost.SongPlayer.Stop(false);
         AudioHost.SongPlayer.Songs.Clear();
-        SetCurrentDir(GameTables.AoWEngine.StartupDirectory);
+        SetCurrentDir(GameTables.GameEngine.StartupDirectory);
         HideGameWindows(DialogHosts.General);
-        DialogHosts.TBWindow.TaskWindow.Visible = false;
+        DialogHosts.TaskBar.TaskWindow.Visible = false;
         DialogHosts.TitleWindow.TitleWin.Visible = false;
         DialogHosts.TitleScene.ResetScene();
         WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
     }
 
-    private static readonly string LoadingRStr = "Loading";
+    private static readonly string s_loadingText = "Loading";
 
-    private static readonly string FileNotFoundRStr = "File not found";
+    private static readonly string s_fileNotFoundText = "File not found";
 
-    private static readonly string BackgroundRStr = "Background";
+    private static readonly string s_backgroundText = "Background";
 
-    private static readonly string SurfaceRStr = "Surface";
+    private static readonly string s_surfaceText = "Surface";
 
-    private static readonly string CavernsRStr = "Caverns";
+    private static readonly string s_cavernsText = "Caverns";
 
-    private static readonly string DepthsRStr = "Depths";
+    private static readonly string s_depthsText = "Depths";
 
-    internal static void ShowTitleScene(TitleScene Scene, bool Music)
+    internal static void ShowTitleScene(TitleScene scene, bool music)
     {
-        if (Music)
+        if (music)
         {
             bool condition = AudioHost.SongPlayer.CurrentIndex == -1;
             if (!condition)
@@ -930,19 +930,19 @@ public partial class TitleScene : DataModule
         }
 
         DialogHosts.General.Manager.OverlayPriority = 0;
-        Scene.TitleSceneIL.LoadDiscardableImageData();
+        scene.TitleSceneIL.LoadDiscardableImageData();
         DialogHosts.VideoDialog.SetSceneSize(640, 480);
         VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
         DialogHosts.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.FrameRate = 30;
-        GameHost.MainForm.DXDC.UseVerticalBlank = true;
-        Scene.FRedrawBackground = true;
-        Scene.FPressedButton = -1;
-        Scene.FHoverButton = -1;
-        Scene.FFont = DialogHosts.FontModule.AoW15WhiteGrey;
-        Scene.FCreditsFont = DialogHosts.FontModule.AoW15WhiteGrey;
-        Scene.Window.WinManager.SetILBIndex(4);
-        Scene.Window.Visible = true;
+        GameHost.MainForm.DisplayController.UseVerticalBlank = true;
+        scene.RedrawBackground = true;
+        scene.PressedButton = -1;
+        scene.HoverButton = -1;
+        scene.Font = DialogHosts.UIFonts.Font15WhiteGrey;
+        scene.CreditsFont = DialogHosts.UIFonts.Font15WhiteGrey;
+        scene.Window.WindowManager.SetImageLibraryIndex(4);
+        scene.Window.Visible = true;
     }
 
 }

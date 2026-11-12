@@ -11,41 +11,41 @@ namespace Aow.Game.Combat.Actions;
 public partial class FastBattleTerrorCombatAction : MultiTargetCombatSpellCombatAction
 {
     // CombatSpells.pas:1666
-    public new const int ClassID = 131777;
+    public new const int ClassId = 131777;
 
     public FastBattleTerrorCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:1672
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatUnit Target;
-        base.Execute(Combat);
-        for (int I = FTargetIDs.Count - 1; I >= 0; I--)
+        CombatUnit target;
+        base.Execute(combat);
+        for (int I = TargetIds.Count - 1; I >= 0; I--)
         {
-            var targetID = FTargetIDs[I];
-            Target = (CombatUnit)Combat.FCombatData.FindID(targetID);
-            AoWHSSet.Current.FAbilityControl.GetAbility(108).Expand(Target.FUnit);
+            var targetId = TargetIds[I];
+            target = (CombatUnit)combat.CombatData.FindId(targetId);
+            AoWHSSet.Current.AbilityControl.GetAbility(108).Expand(target.Troop);
         }
     }
 
     // CombatSpells.pas:1686
-    public void Generate(CombatObject Source)
+    public void Generate(CombatObject source)
     {
-        CombatSide Side;
-        CombatObject Target;
-        FSpellID = 105;
-        FSourceID = Source.FID;
-        var combat = Source.FCombat;
-        var opponentSide = Source.GetOpponentSide();
-        Side = combat.FSides[(int)opponentSide];
+        CombatSide side;
+        CombatObject target;
+        SpellId = 105;
+        SourceId = source.Id;
+        var combat = source.Combat;
+        var opponentSide = source.GetOpponentSide();
+        side = combat.Sides[(int)opponentSide];
 
-        for (int I = Side.GetCount() - 1; I >= 0; I--)
+        for (int I = side.GetCount() - 1; I >= 0; I--)
         {
-            Target = Side.GetObjects(I);
-            if (!Target.FStatus.Contains(CombatObjectStatusElement.Destroyed) && !Target.GetAbilityEnabled(108) && !Target.GetAbilityEnabled(67) && Target is CombatUnit && !Target.GetImmunityTypes().Contains(DamageType.Death) && ((CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine && HitChance.HitRole(6 - Target.GetResistance()))
+            target = side.GetObjects(I);
+            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed) && !target.GetAbilityEnabled(108) && !target.GetAbilityEnabled(67) && target is CombatUnit && !target.GetImmunityTypes().Contains(DamageType.Death) && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && HitChance.HitRole(6 - target.GetResistance()))
             {
-                FTargetIDs.Add(Target.FID);
+                TargetIds.Add(target.Id);
             }
         }
     }

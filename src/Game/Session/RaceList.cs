@@ -18,75 +18,75 @@ public partial class RaceList : EControlStyleNode
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
     }
 
-    public int FRelationOffset;
+    public int RelationOffset;
 
     // Ability.PAS:379
-    public Race GetRace(int Index)
+    public Race GetRace(int index)
     {
-        Race Result;
-        if (Index >= 0 && Index < FChildren.Count)
+        Race result;
+        if (index >= 0 && index < _children.Count)
         {
-            Result = (Race)FChildren.List[Index];
+            result = (Race)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:385
     public int GetEnabledRaces()
     {
-        int Result = 0;
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        int result = 0;
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            if (FChildren.List[I] != null && ((Race)FChildren.List[I]).FEnabled)
+            if (_children.List[I] != null && ((Race)_children.List[I]).Enabled)
             {
-                Result += 1;
+                result += 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:394
     public sbyte GetRandomRace()
     {
-        sbyte Result;
-        DelphiList Races;
-        Races = new DelphiList();
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        sbyte result;
+        DelphiList races;
+        races = new DelphiList();
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            if (FChildren.List[I] != null && ((Race)FChildren.List[I]).FEnabled)
+            if (_children.List[I] != null && ((Race)_children.List[I]).Enabled)
             {
-                Races.Add(FChildren.List[I]);
+                races.Add(_children.List[I]);
             }
         }
 
-        if (Races.Count != 0)
+        if (races.Count != 0)
         {
-            var random = Random(Races.Count);
-            Result = ((Race)Races.List[random]).FRace;
+            var random = Random(races.Count);
+            result = ((Race)races.List[random]).RaceIndex;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        Races?.Dispose();
-        return Result;
+        races?.Dispose();
+        return result;
     }
 
     // Ability.PAS:407
     public void ResetPlayerRelations()
     {
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            if (FChildren.List[I] != null)
+            if (_children.List[I] != null)
             {
-                ((Race)FChildren.List[I]).ResetPlayerRelations();
+                ((Race)_children.List[I]).ResetPlayerRelations();
             }
         }
     }
@@ -94,11 +94,11 @@ public partial class RaceList : EControlStyleNode
     // Ability.PAS:415
     public void ResetDefaultRelations()
     {
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            if (FChildren.List[I] != null)
+            if (_children.List[I] != null)
             {
-                ((Race)FChildren.List[I]).ResetDefaultRaceRelations();
+                ((Race)_children.List[I]).ResetDefaultRaceRelations();
             }
         }
     }
@@ -106,17 +106,17 @@ public partial class RaceList : EControlStyleNode
     // Ability.PAS:423
     public void Update()
     {
-        Race Race;
-        for (int I = 0, last = AoWHSSet.Current.FRaceResources.GetCount() - 1; I <= last; I++)
+        Race race;
+        for (int I = 0, last = AoWHSSet.Current.RaceResources.GetCount() - 1; I <= last; I++)
         {
-            if (AoWHSSet.Current.FRaceResources.GetRaceResource(I) != null)
+            if (AoWHSSet.Current.RaceResources.GetRaceResource(I) != null)
             {
                 if (GetRace(I) == null)
                 {
-                    Race = new Race(null);
-                    Race.FRace = (sbyte)I;
-                    Race.SetArrayOwner(this, I);
-                    Race.SetEnabled(true);
+                    race = new Race(null);
+                    race.RaceIndex = (sbyte)I;
+                    race.SetArrayOwner(this, I);
+                    race.SetEnabled(true);
                 }
             }
             else
@@ -128,5 +128,5 @@ public partial class RaceList : EControlStyleNode
 
     // intf_P1_03.inc:34
     // TEObject.ReadWrite is empty. The original bypasses TEControlStyleNode.ReadWrite.
-    public override void ReadWrite(EStorageStream stream) => stream.rwInteger(ref FRelationOffset, 20);
+    public override void ReadWrite(EStorageStream stream) => stream.rwInteger(ref RelationOffset, 20);
 }

@@ -4,5 +4,5 @@ namespace Aow.Game.World.Structures;
 
 public partial class Shipyard
 {
-    public override string CombatMapName(CombatMapSite Site) => "SYard000";
+    public override string CombatMapName(CombatMapSite site) => "SYard000";
 }

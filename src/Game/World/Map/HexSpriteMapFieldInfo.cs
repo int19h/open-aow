@@ -7,5 +7,5 @@ namespace Aow.Game.World.Map;
 public struct HexSpriteMapFieldInfo
 {
     public MapField MapField;
-    public sbyte HN;
+    public sbyte HexNumber;
 }

@@ -9,25 +9,25 @@ public partial class RemotePlayerList : ENode
     { }
 
     // AoWSetup.pas:279
-    public RemotePlayer GetPlayers(int Index) => (RemotePlayer)FChildren.List[Index];
+    public RemotePlayer GetPlayers(int index) => (RemotePlayer)_children.List[index];
 
     // AoWSetup.pas:284
-    public int IndexOfRemoteID(int RemoteID)
+    public int IndexOfRemoteId(int remoteId)
     {
         int I;
-        int Result = -1;
+        int result = -1;
         I = 0;
-        while (Result == -1 && I != FChildren.Count)
+        while (result == -1 && I != _children.Count)
         {
-            if (((RemotePlayer)FChildren.List[I]).FRemoteID == RemoteID)
+            if (((RemotePlayer)_children.List[I]).RemoteId == remoteId)
             {
-                Result = I;
+                result = I;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
 }

@@ -64,7 +64,7 @@ public sealed class GameFileReport
     public int? Version { get; set; }
 
     /// <summary>"equal", "different at 0x...", or "not applicable: " and the reason.</summary>
-    public string G1 { get; set; } = "not applicable: not reached";
+    public string OriginalRoundTrip { get; set; } = "not applicable: not reached";
 
     /// <summary>"passed", "refused" or "not reached".</summary>
     public string Validation { get; set; } = "not reached";
@@ -109,7 +109,7 @@ public static class GameBoundary
     private static GameFileResult LoadOwn(byte[] bytes, string? fileName, GameProfile use, IReadOnlyList<IDocumentValidator> validators, GameFileReport report)
     {
         report.Format = (GameFiles.IsGzip(bytes) ? DetectedFormat.GzipOwnJson : DetectedFormat.OwnJson).ToString();
-        report.G1 = "not applicable: own document";
+        report.OriginalRoundTrip = "not applicable: own document";
         var read = GameFiles.Read(bytes, fileName);
         report.Version = read.DeclaredVersion;
         var (profile, kind, _, _) = GameFiles.Envelope(read.Document, fileName);
@@ -135,11 +135,11 @@ public static class GameBoundary
         var container = (JsonObject)imported.Document["$container"]!;
         if (GameFiles.FirstG1Difference(bytes, use.Profile, container, image) is long offset)
         {
-            report.G1 = "different at 0x" + offset.ToString("x", CultureInfo.InvariantCulture);
-            throw new ConversionException(new FormatDiagnostic(Codes.G1, "The reconstructed original differs from the file.")
+            report.OriginalRoundTrip = "different at 0x" + offset.ToString("x", CultureInfo.InvariantCulture);
+            throw new ConversionException(new FormatDiagnostic(Codes.OriginalRoundTripDiffers, "The reconstructed original differs from the file.")
             { File = fileName, Offset = offset, Profile = use.Profile.Name, Decompressed = container["compression"] is JsonString { Value: "cfs" } });
         }
-        report.G1 = "equal";
+        report.OriginalRoundTrip = "equal";
         return new GameFileResult { Bytes = image, Document = imported.Document, Report = report };
     }
 
@@ -172,11 +172,11 @@ public static class GameBoundary
             int common = written.AsSpan().CommonPrefixLength(image);
             if (common != written.Length || common != image.Length)
             {
-                report.G1 = "different at 0x" + common.ToString("x", CultureInfo.InvariantCulture);
-                throw new ConversionException(new FormatDiagnostic(Codes.G1, "The document does not reproduce the engine image.")
+                report.OriginalRoundTrip = "different at 0x" + common.ToString("x", CultureInfo.InvariantCulture);
+                throw new ConversionException(new FormatDiagnostic(Codes.OriginalRoundTripDiffers, "The document does not reproduce the engine image.")
                 { File = fileName, Offset = common, Profile = use.Profile.Name, Decompressed = true });
             }
-            report.G1 = "equal";
+            report.OriginalRoundTrip = "equal";
             return new GameFileResult { Bytes = GameFiles.Write(document), Document = document, Report = report };
         }
         catch (ConversionException error)

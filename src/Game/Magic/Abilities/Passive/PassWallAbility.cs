@@ -12,13 +12,13 @@ public partial class PassWallAbility : AdjustableAbility
     // PassiveAb.pas:937
     public PassWallAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(PassWallRStr);
-        FAbilityID = 66;
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem);
+        AbilityName = AbilityRules.TranslateResourceString(s_passWallText);
+        AbilityId = 66;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem);
     }
 
     // PassiveAb.pas:946
-    public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner Owner) => Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallPassing, WallCombatFeaturesElement.Participate);
+    public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner) => Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallPassing, WallCombatFeaturesElement.Participate);
 
-    private static readonly string PassWallRStr = "Pass Wall";
+    private static readonly string s_passWallText = "Pass Wall";
 }

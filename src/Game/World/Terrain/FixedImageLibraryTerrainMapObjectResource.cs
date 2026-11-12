@@ -9,10 +9,10 @@ public partial class FixedImageLibraryTerrainMapObjectResource : ImageLibraryTer
     { }
 
     // ILTer.pas:339
-    public new const int ClassID = 131465;
+    public new const int ClassId = 131465;
 
     // ILTer.pas:344
-    public override int ResourceUserClassID() => 131464;
+    public override int ResourceUserClassId() => 131464;
 
     // ILTer.pas:334
     public override string ResourceEditName() => "Fixed ImageLibrary Terrain";

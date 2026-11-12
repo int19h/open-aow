@@ -11,7 +11,7 @@ public partial class IMSSendThread
     {
         try
         {
-            DialogHosts.SMTPDlg.IMSSMTP.Send();
+            DialogHosts.SmtpDialog.IMSSMTP.Send();
             FSuccess = true;
         }
         catch

@@ -15,43 +15,43 @@ public partial class UIComponent
         public Button Forward;
     }
 
-    private static readonly ConditionalWeakTable<UIComponent, WheelLink> wheelLinks = new();
+    private static readonly ConditionalWeakTable<UIComponent, WheelLink> s_wheelLinks = new();
 
-    internal static bool PointInside(int X, int Y, int Left, int Top, int Width, int Height) =>
-        X > Left - 1 && X < Left + Width && Y > Top - 1 && Y < Top + Height;
+    internal static bool PointInside(int X, int Y, int left, int top, int width, int height) =>
+        X > left - 1 && X < left + width && Y > top - 1 && Y < top + height;
 
     public virtual bool ContainsPoint(int X, int Y) => false;
 
     // Visible and willing to take a click. A wheel follows that, then bubbles to the parent.
-    public virtual bool WantsMouseWheel => FVisible && FCaptureInput;
+    public virtual bool WantsMouseWheel => _visible && _captureInput;
 
-    public virtual bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y) => false;
+    public virtual bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y) => false;
 
     internal VerticalScrollBar WheelScrollBar
     {
-        get => wheelLinks.TryGetValue(this, out var link) ? link.Bar : null;
+        get => s_wheelLinks.TryGetValue(this, out var link) ? link.Bar : null;
         set => Link().Bar = value;
     }
 
     internal Button PageBack
     {
-        get => wheelLinks.TryGetValue(this, out var link) ? link.Back : null;
+        get => s_wheelLinks.TryGetValue(this, out var link) ? link.Back : null;
         set => Link().Back = value;
     }
 
     internal Button PageForward
     {
-        get => wheelLinks.TryGetValue(this, out var link) ? link.Forward : null;
+        get => s_wheelLinks.TryGetValue(this, out var link) ? link.Forward : null;
         set => Link().Forward = value;
     }
 
-    private WheelLink Link() => wheelLinks.GetOrCreateValue(this);
+    private WheelLink Link() => s_wheelLinks.GetOrCreateValue(this);
 
     protected UIComponent TopWheelChild(int X, int Y)
     {
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        for (int I = Children.Count - 1; I >= 0; I--)
         {
-            var child = (UIComponent)FChildren[I];
+            var child = (UIComponent)Children[I];
             if (child.WantsMouseWheel && child.ContainsPoint(X, Y)) return child;
         }
 
@@ -60,19 +60,19 @@ public partial class UIComponent
 
     // The named bar wins. A hidden named bar does not fall through to another bar. With no named
     // bar, exactly one visible enabled vertical scroll bar among the direct children is used.
-    protected bool ScrollOwnedBar(int Steps)
+    protected bool ScrollOwnedBar(int steps)
     {
-        if (wheelLinks.TryGetValue(this, out var link) && link.Bar != null)
+        if (s_wheelLinks.TryGetValue(this, out var link) && link.Bar != null)
         {
-            if (!link.Bar.FVisible || !link.Bar.FCaptureInput) return false;
-            link.Bar.ScrollSteps(Steps);
+            if (!link.Bar._visible || !link.Bar._captureInput) return false;
+            link.Bar.ScrollSteps(steps);
             return true;
         }
 
         VerticalScrollBar bar = null;
-        for (int I = 0; I < FChildren.Count; I++)
+        for (int I = 0; I < Children.Count; I++)
         {
-            if (FChildren[I] is VerticalScrollBar candidate && candidate.FVisible && candidate.FCaptureInput)
+            if (Children[I] is VerticalScrollBar candidate && candidate._visible && candidate._captureInput)
             {
                 if (bar != null) return false;
                 bar = candidate;
@@ -80,7 +80,7 @@ public partial class UIComponent
         }
 
         if (bar == null) return false;
-        bar.ScrollSteps(Steps);
+        bar.ScrollSteps(steps);
         return true;
     }
 }

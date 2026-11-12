@@ -12,8 +12,8 @@ public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1315
     public WaterWalkingEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(GameText.WaterWalkingRStr);
-        FAbilityID = 164;
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_waterWalkingText);
+        AbilityId = 164;
     }
 
     // PassiveAb.pas:1322
@@ -22,10 +22,10 @@ public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        bool Result = base.Remove(owner);
-        if (Result && owner is Troop unit && owner.Owner is Army army)
+        bool result = base.Remove(owner);
+        if (result && owner is Troop troop && owner.Owner is Army army)
         {
-            unit.GetLocation(ref X, ref Y, ref L);
+            troop.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
                 var mapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
@@ -33,6 +33,6 @@ public partial class WaterWalkingEnchantment : UnitEnchantmentAbility
             }
         }
 
-        return Result;
+        return result;
     }
 }

@@ -7,34 +7,34 @@ namespace Aow.Game.Session;
 public partial class SetupPackage : EngineObject
 {
     // AoWSetup.pas:254
-    public new const int ClassID = 131681;
+    public new const int ClassId = 131681;
 
-    public int FMessageID;
-    public int FParam2;
-    public int FParam1;
-    public EngineObject FData;
+    public int MessageId;
+    public int Param2;
+    public int Param1;
+    public EngineObject Data;
 
     // AoWSetup.pas:245
     public override void Dispose()
     {
-        EngineObject Data;
-        Data = FData;
-        if (Data != null)
+        EngineObject data;
+        data = Data;
+        if (data != null)
         {
-            Data?.Dispose();
+            data?.Dispose();
         }
 
         base.Dispose();
     }
 
     // AoWSetup.pas:257
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FMessageID, 20);
-        Stream.rwInteger(ref FParam2, 21);
-        Stream.rwInteger(ref FParam1, 22);
-        Stream.rwCreateEObject(ref FData, null, 23);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref MessageId, 20);
+        stream.rwInteger(ref Param2, 21);
+        stream.rwInteger(ref Param1, 22);
+        stream.rwCreateEObject(ref Data, null, 23);
     }
 
     // AoWSetup.pas:242

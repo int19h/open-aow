@@ -7,10 +7,10 @@ public partial class MoveControl
     // MoveT.PAS:1687. Resolve native field offsets through hex neighbors.
     public int CalculateTurnAroundMovePoints(ref int gapIndex)
     {
-        var start = FGapStarts[gapIndex];
-        var rightField = (AoWMapField)FMapLevel.GetField(start.X, start.Y);
+        var start = GapStarts[gapIndex];
+        var rightField = (AoWMapField)MapLevel.GetField(start.X, start.Y);
         var leftField = rightField;
-        int rightDirection = start.L, leftDirection = start.L;
+        int rightDirection = start.MapLevel, leftDirection = start.MapLevel;
         int rightPoints = 0, leftPoints = 0;
         int rightOver = rightField.CanMoveOver(this), leftOver = rightOver;
         bool rightActive = true, leftActive = true, rightFound = false, leftFound = false, done = false;
@@ -31,10 +31,10 @@ public partial class MoveControl
             do
             {
                 next = NeighborField(field, direction);
-                points = FOnMovePoint(next, over);
+                points = OnMovePoint(next, over);
                 nextOver = 1;
-                if (points >= 0 && (next.FFieldFlags & 0x2000) != 0 &&
-                    (next.Xhx != FDestinationX || next.Yhx != FDestinationY))
+                if (points >= 0 && (next.FieldFlags & 0x2000) != 0 &&
+                    (next.HexX != DestinationX || next.HexY != DestinationY))
                 {
                     nextOver = next.CanMoveOver(this);
                     if (nextOver == 0) points = -1;
@@ -50,9 +50,9 @@ public partial class MoveControl
             over = nextOver == 2 ? 2 : 1;
             total += points;
             field = next;
-            if ((right ? total <= FMovePointsLimit : total < FMovePointsLimit) && points >= 0)
+            if ((right ? total <= MovePointsLimit : total < MovePointsLimit) && points >= 0)
             {
-                int end = FGapEnds.IndexOfXY(field.Xhx, field.Yhx);
+                int end = GapEnds.IndexOfXY(field.HexX, field.HexY);
                 if (end != -1 && end >= index)
                 {
                     index = end;
@@ -60,7 +60,7 @@ public partial class MoveControl
                     done = true;
                     active = false;
                 }
-                if (field.Xhx == start.X && field.Yhx == start.Y)
+                if (field.HexX == start.X && field.HexY == start.Y)
                 {
                     active = false;
                     if (right ? !leftActive : !rightActive) done = true;

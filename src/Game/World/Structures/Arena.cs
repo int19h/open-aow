@@ -23,265 +23,265 @@ public partial class Arena : Structure
     { }
 
     // Arena.pas:95
-    public new const int ClassID = 133276;
+    public new const int ClassId = 133276;
 
     // Arena.pas:212
-    public override StructureTokenEvent CreateTE() => new ArenaTokenEvent(null);
+    public override StructureTokenEvent CreateTokenEvent() => new ArenaTokenEvent(null);
 
     // Arena.pas:135
-    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
+    public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        Troop AUnit;
-        string ErrorText = "";
-        ExecuteResult Result = base.ExecuteTE(TE, Executer);
-        if (TE.FAction == 1)
+        Troop troop;
+        string errorText = "";
+        ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
+        if (tokenEvent.Action == 1)
         {
-            if (CanTrainUnits((sbyte)TE.FParam, ((ArenaTokenEvent)TE).FUnitIDs, ref ErrorText))
+            if (CanTrainUnits((sbyte)tokenEvent.Param, ((ArenaTokenEvent)tokenEvent).UnitIds, ref errorText))
             {
-                for (int I = 0, last = ((ArenaTokenEvent)TE).FUnitIDs.Count - 1; I <= last; I++)
+                for (int I = 0, last = ((ArenaTokenEvent)tokenEvent).UnitIds.Count - 1; I <= last; I++)
                 {
-                    var unitID = ((ArenaTokenEvent)TE).FUnitIDs[I];
-                    AUnit = AoWHSMap.Current.FUnitControl.FindUnit(unitID);
-                    if (AUnit != null)
+                    var unitId = ((ArenaTokenEvent)tokenEvent).UnitIds[I];
+                    troop = AoWHSMap.Current.UnitControl.FindUnit(unitId);
+                    if (troop != null)
                     {
-                        var player = AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam);
-                        var unitTrainCost = UnitTrainCost(AUnit);
-                        AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam).SetGems(player.FGems - unitTrainCost);
-                        ExecuteTrainUnit(AUnit);
+                        var player = AoWHSMap.Current.Players.GetPlayers(tokenEvent.Param);
+                        var unitTrainCost = UnitTrainCost(troop);
+                        AoWHSMap.Current.Players.GetPlayers(tokenEvent.Param).SetGems(player.Gems - unitTrainCost);
+                        ExecuteTrainUnit(troop);
                     }
                 }
 
-                if (AoWHSMap.Current.FSeatedPlayer == TE.FParam)
+                if (AoWHSMap.Current.SeatedPlayer == tokenEvent.Param)
                 {
-                    var arenaTE = (ArenaTokenEvent)TE;
-                    if (arenaTE.FUnitIDs.Count == 1)
+                    var arenaTokenEvent = (ArenaTokenEvent)tokenEvent;
+                    if (arenaTokenEvent.UnitIds.Count == 1)
                     {
-                        var oneUnitTrained = AbilityRules.TranslateRStr(OneUnitTrainedRStr);
+                        var oneUnitTrained = AbilityRules.TranslateResourceString(s_oneUnitTrainedText);
                         AoWHSMap.Current.ShowMessage(oneUnitTrained);
                     }
                     else
                     {
-                        var format = RtlUnit.Format(AbilityRules.TranslateRStr(XUnitsTrainedRStr), [IntToStr(arenaTE.FUnitIDs.Count)]);
+                        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_unitsTrainedFormat), [IntToStr(arenaTokenEvent.UnitIds.Count)]);
                         AoWHSMap.Current.ShowMessage(format);
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Arena.pas:98
-    public override bool CanDblClick() => CanEnter(AoWHSMap.Current.FSeatedPlayer);
+    public override bool CanDoubleClick() => CanEnter(AoWHSMap.Current.SeatedPlayer);
 
     // Arena.pas:101
-    public int UnitTrainCost(Troop AUnit)
+    public int UnitTrainCost(Troop troop)
     {
-        int Result;
-        if (AUnit is Hero)
+        int result;
+        if (troop is Hero)
         {
             // { The original rejects heroes, although ExecuteTrainUnit supports them. }
             return -1;
         }
 
-        if (AUnit is Unit)
+        if (troop is Unit)
         {
-            var unit = (Unit)AUnit;
-            if (unit.GetRank() != Unit.Rank.Gold)
+            var unitLocal = (Unit)troop;
+            if (unitLocal.GetRank() != Unit.Rank.Gold)
             {
-                Result = (unit.GetNextLevelExperience() - AUnit.GetExperience()) * 5;
+                result = (unitLocal.GetNextLevelExperience() - troop.GetExperience()) * 5;
             }
             else
             {
-                Result = -1;
+                result = -1;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Arena.pas:116
-    public void ExecuteTrainUnit(Troop AUnit)
+    public void ExecuteTrainUnit(Troop troop)
     {
-        if (AUnit is Hero)
+        if (troop is Hero)
         {
-            var hero = AUnit;
+            var hero = troop;
             hero.SetExperience(hero.GetNextLevelExperience());
             hero.Changed();
 
             return;
         }
 
-        if (AUnit is Unit)
+        if (troop is Unit)
         {
-            var unit = AUnit;
-            unit.SetExperience(unit.GetNextLevelExperience());
-            unit.Changed();
+            var troopLocal = troop;
+            troopLocal.SetExperience(troopLocal.GetNextLevelExperience());
+            troopLocal.Changed();
         }
     }
 
     // Arena.pas:159
-    public bool CanTrainUnits(sbyte Player, Int32List Units, ref string ErrorText)
+    public bool CanTrainUnits(sbyte player, Int32List units, ref string errorText)
     {
-        bool Result;
-        int Total;
+        bool result;
+        int total;
         int I;
-        int Cost;
-        Troop AUnit;
-        if (Units.Count != 0)
+        int cost;
+        Troop troop;
+        if (units.Count != 0)
         {
-            Total = 0;
-            I = Units.Count;
-            Result = true;
-            while (Result && I != 0)
+            total = 0;
+            I = units.Count;
+            result = true;
+            while (result && I != 0)
             {
                 I -= 1;
-                var unit = Units[I];
-                AUnit = AoWHSMap.Current.FUnitControl.FindUnit(unit);
-                if (AUnit != null)
+                var unit = units[I];
+                troop = AoWHSMap.Current.UnitControl.FindUnit(unit);
+                if (troop != null)
                 {
-                    Cost = UnitTrainCost(AUnit);
-                    if (Cost != -1)
+                    cost = UnitTrainCost(troop);
+                    if (cost != -1)
                     {
-                        Total += Cost;
+                        total += cost;
                     }
                     else
                     {
-                        Result = false;
+                        result = false;
                     }
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
 
-            if (Result)
+            if (result)
             {
-                if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FGems >= Total)
+                if (AoWHSMap.Current.Players.GetPlayers(player).Gems >= total)
                 {
-                    Result = true;
+                    result = true;
                 }
                 else
                 {
-                    Result = false;
-                    ErrorText = AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
+                    result = false;
+                    errorText = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
                 }
             }
         }
         else
         {
-            Result = false;
-            ErrorText = AbilityRules.TranslateRStr(GameText.NoUnitSelectedRStr);
+            result = false;
+            errorText = AbilityRules.TranslateResourceString(GameText.s_noUnitSelectedText);
         }
 
-        return Result;
+        return result;
     }
 
     // Arena.pas:194
-    public bool TrainUnits(sbyte Player, Int32List Units, ref string ErrorText)
+    public bool TrainUnits(sbyte player, Int32List units, ref string errorText)
     {
-        bool Result;
-        ArenaTokenEvent TE;
-        ErrorText = "";
-        if (CanTrainUnits(Player, Units, ref ErrorText) && !AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
+        bool result;
+        ArenaTokenEvent tokenEvent;
+        errorText = "";
+        if (CanTrainUnits(player, units, ref errorText) && !AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            TE = (ArenaTokenEvent)CreateTE();
-            SetupTE(TE);
-            TE.FUnitIDs.Assign(Units);
-            TE.FParam = Player;
-            TE.FAction = 1;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = (ArenaTokenEvent)CreateTokenEvent();
+            SetupTokenEvent(tokenEvent);
+            tokenEvent.UnitIds.Assign(units);
+            tokenEvent.Param = player;
+            tokenEvent.Action = 1;
+            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Arena.pas:215
-    public bool CanEnter(sbyte Player)
+    public bool CanEnter(sbyte player)
     {
-        bool Result;
-        ArmyHexSprite Army;
-        Army = (ArmyHexSprite)FOwner.FindOwnedChild(131607);
-        if (Army == null || Army.FArmy.FPlayer != Player)
+        bool result;
+        ArmyHexSprite army;
+        army = (ArmyHexSprite)_owner.FindOwnedChild(131607);
+        if (army == null || army.Army.Player != player)
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Arena.pas:223
     public bool Enter()
     {
-        bool Result = default;
-        EnterArenaEventLog Log;
-        ArmyHexSprite Army;
-        if (CanEnter(AoWHSMap.Current.FSeatedPlayer))
+        bool result = default;
+        EnterArenaEventLog log;
+        ArmyHexSprite army;
+        if (CanEnter(AoWHSMap.Current.SeatedPlayer))
         {
-            Log = new EnterArenaEventLog(null);
-            Log.FArena = this;
-            Army = (ArmyHexSprite)FOwner.FindOwnedChild(131607);
-            for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
+            log = new EnterArenaEventLog(null);
+            log.Arena = this;
+            army = (ArmyHexSprite)_owner.FindOwnedChild(131607);
+            for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
             {
-                var unit = Army.FArmy.GetUnit(I);
-                Log.FUnitIDs.Add(unit.FUnitID);
-                if (UnitTrainCost(Army.FArmy.GetUnit(I)) != -1)
+                var troop = army.Army.GetUnit(I);
+                log.UnitIds.Add(troop.UnitId);
+                if (UnitTrainCost(army.Army.GetUnit(I)) != -1)
                 {
-                    Log.FTrainable = (byte)(Log.FTrainable | (1 << I));
+                    log.Trainable = (byte)(log.Trainable | (1 << I));
                 }
             }
 
-            Log.Execute(true, ExecuteTrigger.User, null);
-            Log.Release();
-            Result = true;
+            log.Execute(true, ExecuteTrigger.User, null);
+            log.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string OneUnitTrainedRStr = "1 unit trained";
-    private static readonly string XUnitsTrainedRStr = "%s units trained";
+    private static readonly string s_oneUnitTrainedText = "1 unit trained";
+    private static readonly string s_unitsTrainedFormat = "%s units trained";
 
     public new partial class Resource : StructureResource
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FCastsShadow = true;
+            CastsShadow = true;
         }
 
         // Arena.pas:253
-        public new const int ClassID = 133277;
+        public new const int ClassId = 133277;
 
         // Arena.pas:244
 
         // Arena.pas:256
-        public override int ResourceUserClassID() => 133276;
+        public override int ResourceUserClassId() => 133276;
 
         // Arena.pas:45
 
         // Arena.pas:250
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(ArenaRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_arenaText);
 
-        private static readonly string ArenaRStr = "Arena";
+        private static readonly string s_arenaText = "Arena";
 
     }
 

@@ -15,64 +15,64 @@ public partial class StructureAIPlayerAction : AIPlayerAction
     // (phase, structure IDs)
     public StructureAIPlayerAction(ECustomNode owner) : base(owner)
     {
-        FStructureIDs = new Int32List();
+        StructureIds = new Int32List();
     }
 
-    public new int FPhase;
-    public Int32List FStructureIDs;
+    public new int _phase;
+    public Int32List StructureIds;
 
     // Structur.PAS:3324
     public override void Dispose()
     {
-        FStructureIDs?.Dispose();
+        StructureIds?.Dispose();
         base.Dispose();
     }
 
     // Structur.PAS:3330
     public override bool Activate()
     {
-        bool Result;
+        bool result;
         base.Activate();
-        if (FControl.FPlayer.FPlayerIndex > 0)
+        if (Control.Player.PlayerIndex > 0)
         {
-            for (int I = 0, last = AoWHSMap.Current.FStructureControl.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = AoWHSMap.Current.StructureControl.GetCount() - 1; I <= last; I++)
             {
-                var structure = AoWHSMap.Current.FStructureControl.GetStructure(I);
-                FStructureIDs.Add(structure.FStructureID);
+                var structure = AoWHSMap.Current.StructureControl.GetStructure(I);
+                StructureIds.Add(structure.StructureId);
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3344
     public override bool Process()
     {
-        bool Waiting;
-        Structure Structure;
-        Waiting = false;
-        while (!Waiting && FStructureIDs.Count != 0 && AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 0 && !FControl.FPlayer.GetBusy())
+        bool waiting;
+        Structure structure;
+        waiting = false;
+        while (!waiting && StructureIds.Count != 0 && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !Control.Player.GetBusy())
         {
-            var item = FStructureIDs[FStructureIDs.Count - 1];
-            Structure = AoWHSMap.Current.FStructureControl.FindID(item);
-            if (Structure != null)
+            var item = StructureIds[StructureIds.Count - 1];
+            structure = AoWHSMap.Current.StructureControl.FindId(item);
+            if (structure != null)
             {
-                Waiting = Structure.ExecuteAI(FControl.FPlayer.FPlayerIndex, FPhase);
+                waiting = structure.ExecuteAI(Control.Player.PlayerIndex, _phase);
             }
 
-            if (!Waiting)
+            if (!waiting)
             {
-                FStructureIDs.Delete(FStructureIDs.Count - 1);
+                StructureIds.Delete(StructureIds.Count - 1);
             }
         }
 
-        return FStructureIDs.Count != 0;
+        return StructureIds.Count != 0;
     }
 
     // intf_P1_12.inc:8

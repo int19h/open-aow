@@ -21,61 +21,61 @@ namespace Aow.Game.Units;
 
 public partial class Unit : Troop
 {
-    public new const int ClassID = 131603;
+    public new const int ClassId = 131603;
 
     public Unit(ECustomNode owner) : base(owner)
     { }
 
-    public byte FExperience;
-    public sbyte FMovePoints;
-    public sbyte FHitPoints;
-    public UnitResource FUnitResource;
-    public sbyte FAbAttack;
-    public sbyte FAbDefense;
-    public sbyte FAbResistance;
-    public sbyte FAbDamage;
+    public byte Experience;
+    public sbyte MovePoints;
+    public sbyte HitPoints;
+    public UnitResource UnitResource;
+    public sbyte AbilityAttack;
+    public sbyte AbilityDefense;
+    public sbyte AbilityResistance;
+    public sbyte AbilityDamage;
 
     // Unit.PAS:2132
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        short ResourceIndex = default;
-        UnitResource Resource;
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FExperience, 7);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FMovePoints), 8);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FHitPoints), 9);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly)) == Set<StorageModeElement>.Of())
+        short resourceIndex = default;
+        UnitResource resource;
+        base.ReadWrite(stream);
+        stream.rwByte(ref Experience, 7);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MovePoints), 8);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HitPoints), 9);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly)) == Set<StorageModeElement>.Of())
         {
-            if (Stream.StorageMode().Contains(StorageModeElement.Compare))
+            if (stream.StorageMode().Contains(StorageModeElement.Compare))
             {
-                ResourceIndex = (short)FUnitResource.UnitResourceIndex();
-                Stream.rwWord(ref Unsafe.As<short, ushort>(ref ResourceIndex), 10);
+                resourceIndex = (short)UnitResource.UnitResourceIndex();
+                stream.rwWord(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
             }
             else
             {
-                if (Stream.StorageMode().Contains(StorageModeElement.Read))
+                if (stream.StorageMode().Contains(StorageModeElement.Read))
                 {
-                    Stream.rwWord(ref Unsafe.As<short, ushort>(ref ResourceIndex), 10);
-                    Resource = AoWHSSet.Current.FUnitResources.GetUnitResource(ResourceIndex);
-                    FUnitResource = Resource;
-                    if (Resource == null)
+                    stream.rwWord(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
+                    resource = AoWHSSet.Current.UnitResources.GetUnitResource(resourceIndex);
+                    UnitResource = resource;
+                    if (resource == null)
                     {
-                        throw new KeyNotFoundException("unit resource missing (" + IntToStr(ResourceIndex) + ")");
+                        throw new KeyNotFoundException("unit resource missing (" + IntToStr(resourceIndex) + ")");
                     }
                 }
                 else
                 {
-                    Resource = FUnitResource;
-                    if (Resource != null)
+                    resource = UnitResource;
+                    if (resource != null)
                     {
-                        ResourceIndex = (short)Resource.UnitResourceIndex();
+                        resourceIndex = (short)resource.UnitResourceIndex();
                     }
                     else
                     {
-                        ResourceIndex = -1;
+                        resourceIndex = -1;
                     }
 
-                    Stream.rwWord(ref Unsafe.As<short, ushort>(ref ResourceIndex), 10);
+                    stream.rwWord(ref Unsafe.As<short, ushort>(ref resourceIndex), 10);
                 }
             }
         }
@@ -85,58 +85,58 @@ public partial class Unit : Troop
     public override void Changed()
     {
         base.Changed();
-        FAbAttack = this.GetAbAttackAll();
-        FAbDefense = this.GetAbDefenseAll();
-        FAbResistance = this.GetAbResistanceAll();
-        FAbDamage = this.GetAbDamageAll();
+        AbilityAttack = this.GetAbilityAttackAll();
+        AbilityDefense = this.GetAbilityDefenseAll();
+        AbilityResistance = this.GetAbilityResistanceAll();
+        AbilityDamage = this.GetAbilityDamageAll();
     }
 
     // Unit.PAS:2079
-    public override sbyte GetUnitLevel() => FUnitResource.FLevel;
+    public override sbyte GetUnitLevel() => UnitResource.Level;
 
     // Unit.PAS:2118
-    public override sbyte GetRace() => FUnitResource.FRace;
+    public override sbyte GetRace() => UnitResource.Race;
 
     // Unit.PAS:2025
     public override sbyte GetInherentAttack()
     {
         var rank = GetRank();
-        return (sbyte)(RankTables.P2RankAttack[(int)rank] + FUnitResource.FAttack);
+        return (sbyte)(RankTables.s_rankAttack[(int)rank] + UnitResource.Attack);
     }
 
     // Unit.PAS:2033
     public override sbyte GetInherentDefense()
     {
         var rank = GetRank();
-        return (sbyte)(RankTables.P2RankDefense[(int)rank] + FUnitResource.FDefense);
+        return (sbyte)(RankTables.s_rankDefense[(int)rank] + UnitResource.Defense);
     }
 
     // Unit.PAS:2041
     public override sbyte GetInherentDamage()
     {
         var rank = GetRank();
-        return (sbyte)(RankTables.P2RankDamage[(int)rank] + FUnitResource.FDamage);
+        return (sbyte)(RankTables.s_rankDamage[(int)rank] + UnitResource.Damage);
     }
 
     // Unit.PAS:2049
-    public override sbyte GetInherentResistance() => FUnitResource.FResistance;
+    public override sbyte GetInherentResistance() => UnitResource.Resistance;
 
     // Unit.PAS:2027
     public override sbyte GetAttack()
     {
         var rank = GetRank();
-        sbyte Result = (sbyte)(RankTables.P2RankAttack[(int)rank] + (FUnitResource.FAttack + FAbAttack));
-        if (Result < 1)
+        sbyte result = (sbyte)(RankTables.s_rankAttack[(int)rank] + (UnitResource.Attack + AbilityAttack));
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 10)
+        if (result > 10)
         {
-            Result = 10;
+            result = 10;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2035
@@ -144,36 +144,36 @@ public partial class Unit : Troop
     {
         var rank = GetRank();
         var morale = GetMorale();
-        sbyte Result = (sbyte)(RankTables.P2RankDefense[(int)rank] + (FUnitResource.FDefense + FAbDefense) + Hero.P2MoraleDefense[(int)morale]);
-        if (Result < 1)
+        sbyte result = (sbyte)(RankTables.s_rankDefense[(int)rank] + (UnitResource.Defense + AbilityDefense) + Hero.s_moraleDefense[(int)morale]);
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 10)
+        if (result > 10)
         {
-            Result = 10;
+            result = 10;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2043
     public override sbyte GetDamage()
     {
         var rank = GetRank();
-        sbyte Result = (sbyte)(RankTables.P2RankDamage[(int)rank] + (FUnitResource.FDamage + FAbDamage));
-        if (Result < 1)
+        sbyte result = (sbyte)(RankTables.s_rankDamage[(int)rank] + (UnitResource.Damage + AbilityDamage));
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 10)
+        if (result > 10)
         {
-            Result = 10;
+            result = 10;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2051
@@ -181,94 +181,94 @@ public partial class Unit : Troop
     {
         var morale = GetMorale();
         var rank = GetRank();
-        sbyte Result = (sbyte)(Hero.P2MoraleResistance[(int)morale] + (FUnitResource.FResistance + FAbResistance) + RankTables.P2RankResistance[(int)rank]);
-        if (Result < 1)
+        sbyte result = (sbyte)(Hero.s_moraleResistance[(int)morale] + (UnitResource.Resistance + AbilityResistance) + RankTables.s_rankResistance[(int)rank]);
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 10)
+        if (result > 10)
         {
-            Result = 10;
+            result = 10;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2075
     public override sbyte GetHits()
     {
         var rank = GetRank();
-        return (sbyte)(RankTables.P2RankHits[(int)rank] + FUnitResource.FHits);
+        return (sbyte)(RankTables.s_rankHits[(int)rank] + UnitResource.Hits);
     }
 
     // Unit.PAS:2077
-    public override sbyte GetMoves() => FUnitResource.FMoves;
+    public override sbyte GetMoves() => UnitResource.Moves;
 
     // Unit.PAS:1930
-    public override sbyte GetMovePoints() => FMovePoints;
+    public override sbyte GetMovePoints() => MovePoints;
 
     // Unit.PAS:1937
-    public override void SetMovePoints(sbyte Value)
+    public override void SetMovePoints(sbyte value)
     {
-        if (Value > GetMoves())
+        if (value > GetMoves())
         {
-            Value = GetMoves();
+            value = GetMoves();
         }
 
-        if (Value < 0)
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        FMovePoints = Value;
+        MovePoints = value;
     }
 
     // Unit.PAS:1943
-    public override sbyte GetHitPoints() => FHitPoints;
+    public override sbyte GetHitPoints() => HitPoints;
 
     // Unit.PAS:1945
-    public override void SetHitPoints(sbyte Value)
+    public override void SetHitPoints(sbyte value)
     {
-        if (Value > GetHits())
+        if (value > GetHits())
         {
-            Value = GetHits();
+            value = GetHits();
         }
 
-        if (Value < 0)
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        FHitPoints = Value;
+        HitPoints = value;
         UpdateDefensiveStrength();
     }
 
     // Unit.PAS:1972
     public override LibraryImage GetFace()
     {
-        LibraryImage Result;
-        int FaceIndex;
+        LibraryImage result;
+        int faceIndex;
         if (!GetAbilityEnabled(126))
         {
-            return AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(FUnitResource.FUnitGFXResourceIndex).GetFaceImage();
+            return AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(UnitResource.UnitGraphicsResourceIndex).GetFaceImage();
         }
 
-        FaceIndex = ((CosmeticSurgeryEnchantment)(object)((UnitEnchantmentAbilityData)this.GetAbilityData(126)).FEnchantment).FFaceIndex;
-        if (AoWHSSet.Current.FFaceResources.GetFaceResource(FaceIndex) != null)
+        faceIndex = ((CosmeticSurgeryEnchantment)(object)((UnitEnchantmentAbilityData)this.GetAbilityData(126)).Enchantment).FaceIndex;
+        if (AoWHSSet.Current.FaceResources.GetFaceResource(faceIndex) != null)
         {
-            Result = AoWHSSet.Current.FFaceResources.GetFaceResource(FaceIndex).GetCellImage();
+            result = AoWHSSet.Current.FaceResources.GetFaceResource(faceIndex).GetCellImage();
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1917
-    public override string GetName() => FUnitResource.GetUnitName();
+    public override string GetName() => UnitResource.GetUnitName();
 
     // Unit.PAS:1932
     public override Alignment GetAlignment()
@@ -278,78 +278,78 @@ public partial class Unit : Troop
             return Alignment.PureEvil;
         }
 
-        return FUnitResource.FAlignment;
+        return UnitResource.Alignment;
     }
 
     // Unit.PAS:2081
-    public override LibraryImage GetPreviewImage() => FUnitResource.GetPreviewImage();
+    public override LibraryImage GetPreviewImage() => UnitResource.GetPreviewImage();
 
     // Unit.PAS:2083
     public override byte GetTransportCapacity()
     {
-        byte Result = (byte)GetAbilityLevel(50);
-        if (Result < FUnitResource.GetTransportCapacity())
+        byte result = (byte)GetAbilityLevel(50);
+        if (result < UnitResource.GetTransportCapacity())
         {
-            Result = FUnitResource.GetTransportCapacity();
+            result = UnitResource.GetTransportCapacity();
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2088
-    public override bool GetTransporter() => FUnitResource.GetTransportCapacity() != 0;
+    public override bool GetTransporter() => UnitResource.GetTransportCapacity() != 0;
 
     // Unit.PAS:1958
-    public override UnitGender GetGender() => FUnitResource.FGender;
+    public override UnitGender GetGender() => UnitResource.Gender;
 
     // Unit.PAS:1954
-    public override BloodType GetBloodType() => FUnitResource.FBloodType;
+    public override BloodType GetBloodType() => UnitResource.BloodType;
 
     // Unit.PAS:1956
-    public override UnitType GetUnitType() => FUnitResource.FUnitType;
+    public override UnitType GetUnitType() => UnitResource.UnitType;
 
     // Unit.PAS:2108
-    public override int GetUnitGFXResourceIndex() => FUnitResource.FUnitGFXResourceIndex;
+    public override int GetUnitGraphicsResourceIndex() => UnitResource.UnitGraphicsResourceIndex;
 
     // Unit.PAS:2120
     public override void NewDay()
     {
-        Rank Rank;
+        Rank rank;
         base.NewDay();
-        if (AoWHSMap.Current.FDay == 1)
+        if (AoWHSMap.Current.Day == 1)
         {
-            SetAbCount(0);
+            SetAbilityCount(0);
             for (int rankOrdinal = (int)Unit.Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
             {
-                Rank = (Rank)rankOrdinal;
-                UpdateDefaultAbilities(FUnitResource.FAbilities[(int)Rank]);
+                rank = (Rank)rankOrdinal;
+                UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
             }
         }
     }
 
     // Unit.PAS:1986
-    public override int GetExperience() => FExperience;
+    public override int GetExperience() => Experience;
 
     // Unit.PAS:1988
-    public override void SetExperience(int Value)
+    public override void SetExperience(int value)
     {
-        Rank OldRank;
-        Rank NewRank;
-        Rank Rank;
-        OldRank = GetRank();
-        if (Value > 255)
+        Rank oldRank;
+        Rank newRank;
+        Rank rank;
+        oldRank = GetRank();
+        if (value > 255)
         {
-            Value = 255;
+            value = 255;
         }
 
-        FExperience = (byte)Value;
-        NewRank = GetRank();
-        if (OldRank != NewRank)
+        Experience = (byte)value;
+        newRank = GetRank();
+        if (oldRank != newRank)
         {
-            for (int rankOrdinal = (int)(Rank)((int)OldRank + 1); rankOrdinal <= (int)NewRank; rankOrdinal++)
+            for (int rankOrdinal = (int)(Rank)((int)oldRank + 1); rankOrdinal <= (int)newRank; rankOrdinal++)
             {
-                Rank = (Rank)rankOrdinal;
-                UpdateDefaultAbilities(FUnitResource.FAbilities[(int)Rank]);
+                rank = (Rank)rankOrdinal;
+                UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
             }
         }
 
@@ -359,41 +359,41 @@ public partial class Unit : Troop
     // Unit.PAS:2002
     public override int GetNextLevelExperience()
     {
-        int Result;
-        int Level;
-        Level = FUnitResource.FLevel;
-        if (FExperience >= Level * 2)
+        int result;
+        int level;
+        level = UnitResource.Level;
+        if (Experience >= level * 2)
         {
-            if (FExperience >= Level * 6)
+            if (Experience >= level * 6)
             {
-                Result = 0;
+                result = 0;
             }
             else
             {
-                return Level * 6;
+                return level * 6;
             }
         }
         else
         {
-            Result = Level * 2;
+            result = level * 2;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2000
-    public override StringCollection GetDescription() => FUnitResource.FDescription;
+    public override StringCollection GetDescription() => UnitResource.Description;
 
     // Unit.PAS:1928
-    public override int GetObtainValue() => FUnitResource.FObtainValue;
+    public override int GetObtainValue() => UnitResource.ObtainValue;
 
     // Unit.PAS:1952
-    public override UnitSize GetUnitSize() => FUnitResource.FUnitSize;
+    public override UnitSize GetUnitSize() => UnitResource.UnitSize;
 
     // Unit.PAS:2110
     public override void Activate()
     {
-        if (FUnitResource != null)
+        if (UnitResource != null)
         {
             base.Activate();
             return;
@@ -406,23 +406,23 @@ public partial class Unit : Troop
     }
 
     // Unit.PAS:1919
-    public override int ShowEx(int X, int Y, in LockedSurface SD, in UnitShowInfo Info)
+    public override int Show(int X, int Y, in LockedSurface lockedSurface, in UnitShowInfo info)
     {
-        int Result = base.ShowEx(X, Y, SD, Info);
-        if (Info.Overlays.Contains(UnitOverlayModesElement.Rank))
+        int result = base.Show(X, Y, lockedSurface, info);
+        if (info.Overlays.Contains(UnitOverlayModesElement.Rank))
         {
             switch (GetRank())
             {
                 case Rank.Silver:
-                    AoWHSSet.Current.FCombatImages[5].Show(X + 33, Y + 12, SD);
+                    AoWHSSet.Current.CombatImages[5].Show(X + 33, Y + 12, lockedSurface);
                     break;
                 case Rank.Gold:
-                    AoWHSSet.Current.FCombatImages[6].Show(X + 33, Y + 12, SD);
+                    AoWHSSet.Current.CombatImages[6].Show(X + 33, Y + 12, lockedSurface);
                     break;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1966
@@ -441,12 +441,12 @@ public partial class Unit : Troop
     // Unit.PAS:2009
     public Rank GetRank()
     {
-        Rank Result;
-        if (FExperience >= FUnitResource.FLevel * 2)
+        Rank result;
+        if (Experience >= UnitResource.Level * 2)
         {
-            if (FExperience >= FUnitResource.FLevel * 6)
+            if (Experience >= UnitResource.Level * 6)
             {
-                Result = Rank.Gold;
+                result = Rank.Gold;
             }
             else
             {
@@ -455,51 +455,51 @@ public partial class Unit : Troop
         }
         else
         {
-            Result = Rank.None;
+            result = Rank.None;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2016
-    public void SetRank(Rank Value)
+    public void SetRank(Rank value)
     {
-        if (Value != GetRank())
+        if (value != GetRank())
         {
-            switch (Value)
+            switch (value)
             {
                 case Rank.None:
-                    FExperience = 0;
+                    Experience = 0;
                     break;
                 case Rank.Silver:
-                    SetExperience(FUnitResource.FLevel * 2);
+                    SetExperience(UnitResource.Level * 2);
                     break;
                 case Rank.Gold:
-                    SetExperience(FUnitResource.FLevel * 6);
+                    SetExperience(UnitResource.Level * 6);
                     break;
             }
         }
     }
 
     // Unit.PAS:2090
-    public void SetUnitResource(UnitResource Resource)
+    public void SetUnitResource(UnitResource resource)
     {
-        Rank Rank;
-        if (Resource != FUnitResource)
+        Rank rank;
+        if (resource != UnitResource)
         {
             base.Clear();
-            FUnitResource = Resource;
-            if (FUnitResource != null)
+            UnitResource = resource;
+            if (UnitResource != null)
             {
                 UpdateMoraleValue();
                 for (int rankOrdinal = (int)Unit.Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
                 {
-                    Rank = (Rank)rankOrdinal;
-                    UpdateDefaultAbilities(FUnitResource.FAbilities[(int)Rank]);
+                    rank = (Rank)rankOrdinal;
+                    UpdateDefaultAbilities(UnitResource.Abilities[(int)rank]);
                 }
 
-                FHitPoints = GetHits();
-                FMovePoints = GetMoves();
+                HitPoints = GetHits();
+                MovePoints = GetMoves();
             }
         }
     }

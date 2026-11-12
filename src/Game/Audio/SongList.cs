@@ -11,50 +11,50 @@ namespace Aow.Game.Audio;
 public partial class SongList : EngineObject
 {
     // Sound.pas:801
-    public new const int ClassID = 2162692;
+    public new const int ClassId = 2162692;
 
     public SongList(ECustomNode owner) : base(owner)
     {
-        FSongs = new StringList();
-        FSongs.OnChange = SongsChanged;
-        FSongNames = new StringList();
+        _songs = new StringList();
+        _songs.OnChange = SongsChanged;
+        _songNames = new StringList();
     }
 
-    internal StringList FSongs;
-    internal StringList FSongNames;
+    internal StringList _songs;
+    internal StringList _songNames;
 
     // Sound.pas:813
-    internal void SetSongs(StringList Value)
+    internal void SetSongs(StringList value)
     {
-        FSongs.Assign(Value);
+        _songs.Assign(value);
     }
 
     // Sound.pas:819
     // { Reads the song titles; a file that cannot be read is dropped from the list. }
-    internal void SongsChanged(object Sender)
+    internal void SongsChanged(object sender)
     {
-        FSongNames.Clear();
-        for (int I = FSongs.Count - 1; I >= 0; I--)
+        _songNames.Clear();
+        for (int I = _songs.Count - 1; I >= 0; I--)
         {
             try
             {
-                var songName = AudioPlayback.GetSongName(FSongs[I]);
-                FSongNames.Insert(0, songName);
+                var songName = AudioPlayback.GetSongName(_songs[I]);
+                _songNames.Insert(0, songName);
             }
             catch
             {
-                FSongs.Delete(I);
+                _songs.Delete(I);
             }
         }
     }
 
     // Sound.pas:806
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(EngineServices.smText))
+        base.ReadWrite(stream);
+        if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            Stream.rwStrings(FSongs, 10);
+            stream.rwStrings(_songs, 10);
         }
     }
 
@@ -63,36 +63,36 @@ public partial class SongList : EngineObject
     // Sound.pas:794
     public override void Dispose()
     {
-        FSongs?.Dispose();
-        FSongNames?.Dispose();
+        _songs?.Dispose();
+        _songNames?.Dispose();
         base.Dispose();
     }
 
     // Sound.pas:832
-    public void Search(string Path, string Ext)
+    public void Search(string path, string ext)
     {
-        SearchRec SR = default;
-        string FullPath;
-        bool Found;
-        if (Path[Path.Length - 1] != 92)
+        SearchRec sr = default;
+        string fullPath;
+        bool found;
+        if (path[path.Length - 1] != 92)
         {
-            Path = Path + "\\";
+            path = path + "\\";
         }
 
-        FullPath = AudioHost.BaseSoundEnginePath + Path;
-        FSongs.BeginUpdate();
-        Found = FindFirst(FullPath + "*." + Ext, 63 & ~16, ref SR) == 0;
-        while (Found)
+        fullPath = AudioHost.BaseSoundEnginePath + path;
+        _songs.BeginUpdate();
+        found = FindFirst(fullPath + "*." + ext, 63 & ~16, ref sr) == 0;
+        while (found)
         {
-            FSongs.Add(UpperCase(Path + SR.Name));
-            Found = FindNext(ref SR) == 0;
+            _songs.Add(UpperCase(path + sr.Name));
+            found = FindNext(ref sr) == 0;
         }
 
-        FindClose(ref SR);
-        FSongs.EndUpdate();
+        FindClose(ref sr);
+        _songs.EndUpdate();
     }
 
-    public StringList Songs { get => FSongs; set => SetSongs(value); }
-    public StringList SongNames { get => FSongNames; }
+    public StringList Songs { get => _songs; set => SetSongs(value); }
+    public StringList SongNames { get => _songNames; }
 
 }

@@ -9,23 +9,23 @@ namespace Aow.Game.AI.Groups;
 public partial class MainRegistrar
 {
     // MainAG.pas:115
-    public static void MapLoaded(HSMap Sender)
+    public static void MapLoaded(HSMap sender)
     {
-        if (Sender == AoWHSMap.Current)
+        if (sender == AoWHSMap.Current)
         {
-            AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<PassiveAIGroup>(), AIGroupClass.Of<SuicidalAIGroup>(), AIGroupClass.Of<FortifyAIGroup>(), AIGroupClass.Of<TransportAIGroup>()]);
+            AoWHSMap.Current.AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<PassiveAIGroup>(), AIGroupClass.Of<SuicidalAIGroup>(), AIGroupClass.Of<FortifyAIGroup>(), AIGroupClass.Of<TransportAIGroup>()]);
         }
     }
 
     internal static void SubscribeMapLoaded()
     {
-        if (GameTables.ValidateAoWEngine())
-            GameTables.AoWEngine.OnHSMLoaded += MapLoaded;
+        if (GameTables.ValidateGameEngine())
+            GameTables.GameEngine.OnHsmLoaded += MapLoaded;
     }
 
     internal static void UnsubscribeMapLoaded()
     {
-        if (GameTables.AoWEngine != null)
-            GameTables.AoWEngine.OnHSMLoaded -= MapLoaded;
+        if (GameTables.GameEngine != null)
+            GameTables.GameEngine.OnHsmLoaded -= MapLoaded;
     }
 }

@@ -9,33 +9,33 @@ public partial class EChangeNotifyEventList : EChangeNotifyNode
 
     public EChangeNotifyEventList(ECustomNode owner) : base(owner)
     {
-        FEventsStore = new();
+        _eventsStore = new();
     }
 
-    internal EventStore<EChangeNotifyEventList> FEventsStore;
+    internal EventStore<EChangeNotifyEventList> _eventsStore;
 
     internal event NotifyEvent<EChangeNotifyEventList> FEvents
     {
-        add => FEventsStore.Add(value);
-        remove => FEventsStore.Remove(value);
+        add => _eventsStore.Add(value);
+        remove => _eventsStore.Remove(value);
     }
 
     // Engine.pas:8131
     public override void Dispose()
     {
-        FEventsStore.Clear();
+        _eventsStore.Clear();
         base.Dispose();
     }
 
     // Engine.pas:8137
     public override void Changed()
     {
-        FEventsStore.Raise(this);
+        _eventsStore.Raise(this);
     }
 
     public event NotifyEvent<EChangeNotifyEventList> Events
     {
-        add => FEventsStore.Add(value);
-        remove => FEventsStore.Remove(value);
+        add => _eventsStore.Add(value);
+        remove => _eventsStore.Remove(value);
     }
 }

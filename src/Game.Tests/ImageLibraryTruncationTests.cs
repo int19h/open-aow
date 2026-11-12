@@ -6,7 +6,7 @@ namespace Aow.Game.Tests;
 // classes are registered, so the reader reaches the index loop instead of failing on an empty registry.
 public sealed class ImageLibraryTruncationTests
 {
-    private static readonly TimeSpan HangTimeout = TimeSpan.FromSeconds(30);
+    private static readonly TimeSpan s_hangTimeout = TimeSpan.FromSeconds(30);
 
     private static byte[] Header(float version, int indexEnd = 24)
     {
@@ -43,7 +43,7 @@ public sealed class ImageLibraryTruncationTests
             stream.WriteBuffer(contents);
             stream.Position = 0;
             var load = Task.Run(() => library.LoadFromStream(stream));
-            Assert.True(((IAsyncResult)load).AsyncWaitHandle.WaitOne(HangTimeout), $"{name}: the load did not end within {HangTimeout}");
+            Assert.True(((IAsyncResult)load).AsyncWaitHandle.WaitOne(s_hangTimeout), $"{name}: the load did not end within {s_hangTimeout}");
             Assert.IsType<EndOfStreamException>(load.Exception?.InnerException);
             Assert.Equal(0, library.Count);
         }

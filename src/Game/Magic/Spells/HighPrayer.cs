@@ -16,9 +16,9 @@ public partial class HighPrayer : CombatSpell
     // CombatSpells.pas:996
     public HighPrayer(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(HighPrayerRStr);
-        FSpellID = 102;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_highPrayerText);
+        SpellId = 102;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of();
@@ -28,136 +28,136 @@ public partial class HighPrayer : CombatSpell
     }
 
     // CombatSpells.pas:1013
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        TacticalBattleHighPrayerCombatAction Action;
-        Action = new TacticalBattleHighPrayerCombatAction(null);
-        Action.FSucceeded = true;
-        Action.FSourceID = Source.FID;
-        Action.FTargetID = Target.FID;
-        Action.FSpellID = FSpellID;
-        if (ChargeMana)
+        TacticalBattleHighPrayerCombatAction action;
+        action = new TacticalBattleHighPrayerCombatAction(null);
+        action.Succeeded = true;
+        action.SourceId = source.Id;
+        action.TargetId = target.Id;
+        action.SpellId = SpellId;
+        if (chargeMana)
         {
-            Action.FManaCost = FBaseManaCost;
+            action.ManaCost = BaseManaCost;
         }
 
-        return Action;
+        return action;
     }
 
     // CombatSpells.pas:1104
-    public override void tcGetDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
+    public override void TacticalBattleGetDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        int Healing;
-        int Value;
-        Healing = Target.GetHits() - Target.GetHitPoints();
-        if (Healing > 5)
+        int healing;
+        int value;
+        healing = target.GetHits() - target.GetHitPoints();
+        if (healing > 5)
         {
-            Healing = 5;
+            healing = 5;
         }
 
-        Value = Healing * 100;
-        if (Value != 0)
+        value = healing * 100;
+        if (value != 0)
         {
-            Values.SourceDamage = Value;
-            Values.SourceCost = Value / 100;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
+            values.SourceDamage = value;
+            values.SourceCost = value / 100;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
         }
         else
         {
-            Values.SourceDamage = 0;
-            Values.SourceCost = 0;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of();
+            values.SourceDamage = 0;
+            values.SourceCost = 0;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // CombatSpells.pas:1026
-    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
+    public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
         CombatSide Side;
-        CombatObject Target;
-        int Value;
-        FastBattleSpellCommand Command;
-        Value = 0;
-        var side = Commands.FSource.GetSide();
-        Side = Commands.FCombat.FSides[(int)side];
+        CombatObject target;
+        int value;
+        FastBattleSpellCommand command;
+        value = 0;
+        var side = commands.Source.GetSide();
+        Side = commands.Combat.Sides[(int)side];
         for (int I = Side.GetCount() - 1; I >= 0; I--)
         {
-            Target = Side.GetObjects(I);
-            if (Target.FCombatValue != 0 && Target is CombatUnit)
+            target = Side.GetObjects(I);
+            if (target.CombatValue != 0 && target is CombatUnit)
             {
-                Value += AbilityRules.DVtoDEV((Target.GetHits() - Target.GetHitPoints()) * 100, 0, Commands.FSource, Target);
+                value += AbilityRules.DamageValueToDamageEvaluation((target.GetHits() - target.GetHitPoints()) * 100, 0, commands.Source, target);
             }
         }
 
-        if (Value != 0)
+        if (value != 0)
         {
-            Command = new FastBattleSpellCommand(52);
-            Command.FTarget = null;
-            Command.FMoveCost = 1;
-            Command.FSpellID = FSpellID;
-            Command.FExpectedDV = Value;
-            Commands.Add(Command);
+            command = new FastBattleSpellCommand(52);
+            command.Target = null;
+            command.MoveCost = 1;
+            command.SpellId = SpellId;
+            command.ExpectedDamageValue = value;
+            commands.Add(command);
         }
     }
 
     // CombatSpells.pas:1054
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
+    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
-        FastBattleHighPrayerCombatAction Action;
-        Action = new FastBattleHighPrayerCombatAction(null);
-        Action.Generate(Source);
-        Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
-        Source.FCombat.ExecuteCombatAction(Action);
-        Action.Release();
+        FastBattleHighPrayerCombatAction action;
+        action = new FastBattleHighPrayerCombatAction(null);
+        action.Generate(source);
+        action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
+        source.Combat.ExecuteCombatAction(action);
+        action.Release();
         return true;
     }
 
     // CombatSpells.pas:1067
-    public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
+    public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        int Value;
-        int Healing;
+        int value;
+        int healing;
         CombatSide Side;
-        CombatObject Ally;
-        Value = 0;
-        var side = Source.GetSide();
-        Side = Source.FCombat.FSides[(int)side];
+        CombatObject ally;
+        value = 0;
+        var side = source.GetSide();
+        Side = source.Combat.Sides[(int)side];
         for (int I = Side.GetCount() - 1; I >= 0; I--)
         {
-            Ally = Side.GetObjects(I);
-            if (Ally.FCombatValue != 0 && Ally is CombatUnit)
+            ally = Side.GetObjects(I);
+            if (ally.CombatValue != 0 && ally is CombatUnit)
             {
-                Healing = Ally.GetHits() - Ally.GetHitPoints();
-                if (Healing > 5)
+                healing = ally.GetHits() - ally.GetHitPoints();
+                if (healing > 5)
                 {
-                    Healing = 5;
+                    healing = 5;
                 }
 
-                Value += Healing * 100;
+                value += healing * 100;
             }
         }
 
-        if (Value != 0)
+        if (value != 0)
         {
-            Values.SourceDamage = Value;
-            Values.SourceCost = Value / 100;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
+            values.SourceDamage = value;
+            values.SourceCost = value / 100;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of(DamageType.Death);
         }
         else
         {
-            Values.SourceDamage = 0;
-            Values.SourceCost = 0;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of();
+            values.SourceDamage = 0;
+            values.SourceCost = 0;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of();
         }
     }
 
-    private static readonly string HighPrayerRStr = "High Prayer";
+    private static readonly string s_highPrayerText = "High Prayer";
 }

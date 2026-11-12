@@ -17,7 +17,7 @@ namespace Aow.Game.Tests;
 [EngineState]
 public sealed class PersistRefusalTests
 {
-    private static readonly string[] Refused =
+    private static readonly string[] s_refused =
     [
         "AIGroupControlTargetList",
         "AIGroupManager",
@@ -660,13 +660,13 @@ public sealed class PersistRefusalTests
     public void EngineClassesOutsideThePersistenceTreeAreRefused()
     {
         var found = new List<string>();
-        foreach (var eclass in EngineClass.All)
+        foreach (var engineClass in EngineClass.All)
         {
-            if (eclass.Type.Assembly != typeof(EngineObject).Assembly) continue;
-            if (EngineObject.TreePersistenceRefusal(eclass.Type) is string) found.Add(eclass.Type.Name);
+            if (engineClass.Type.Assembly != typeof(EngineObject).Assembly) continue;
+            if (EngineObject.TreePersistenceRefusal(engineClass.Type) is string) found.Add(engineClass.Type.Name);
         }
         found.Sort(static (a, b) => string.CompareOrdinal(a, b));
-        var expected = Refused.ToList();
+        var expected = s_refused.ToList();
         expected.Sort(static (a, b) => string.CompareOrdinal(a, b));
         var missing = expected.Except(found).ToArray();
         var extra = found.Except(expected).ToArray();

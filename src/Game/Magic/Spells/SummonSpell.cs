@@ -13,122 +13,122 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Spells;
 
-// FAIBasePriority, FUnitIndices
+// AIBasePriority, UnitIndices
 public partial class SummonSpell : Spell
 {
 
-    public int FAIBasePriority;
-    public UnitIndexList FUnitIndices;
+    public int AIBasePriority;
+    public UnitIndexList UnitIndices;
 
     // SummonSpells.pas:249
     public override void Dispose()
     {
-        FUnitIndices?.Dispose();
+        UnitIndices?.Dispose();
         base.Dispose();
     }
 
     // SummonSpells.pas:241
     public SummonSpell(ECustomNode owner) : base(owner)
     {
-        FUnitIndices = new UnitIndexList();
-        FSpellType = SpellType.Global;
-        FAIBasePriority = -1;
+        UnitIndices = new UnitIndexList();
+        SpellType = SpellType.Global;
+        AIBasePriority = -1;
     }
 
     // SummonSpells.pas:288
-    public override void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
+    public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        bool CanCast;
-        AICastSpellAction Action;
-        string Reason = "";
-        if (FAIBasePriority != -1)
+        bool canCast;
+        AICastSpellAction action;
+        string reason = "";
+        if (AIBasePriority != -1)
         {
             var aiUpkeepPriority = GetAIUpkeepPriority();
-            CanCast = AIRequestCastSpellExpense(Source, FBaseManaCost, FManaUpkeep, aiUpkeepPriority);
-            CanCast = CanCast && ((Hero)Source).CanCastSpell(FSpellID, ref Reason);
-            if (CanCast)
+            canCast = AIRequestCastSpellExpense(source, BaseManaCost, ManaUpkeep, aiUpkeepPriority);
+            canCast = canCast && ((Hero)source).CanCastSpell(SpellId, ref reason);
+            if (canCast)
             {
-                Action = CreateCastSpellAction();
-                SetupCastSpellAction(Source, Action);
-                Action.FPriority = FAIBasePriority;
-                Action.SetOwner(Actions);
+                action = CreateCastSpellAction();
+                SetupCastSpellAction(source, action);
+                action.Priority = AIBasePriority;
+                action.SetOwner(actions);
             }
         }
     }
 
     // SummonSpells.pas:308
-    public override bool AIExecuteCastSpellAction(Troop Source)
+    public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool Result;
-        string Reason = "";
-        var hero = (Hero)Source;
-        if (hero.CanCastSpell(FSpellID, ref Reason))
+        bool result;
+        string reason = "";
+        var hero = (Hero)source;
+        if (hero.CanCastSpell(SpellId, ref reason))
         {
             var aiUpkeepPriority = GetAIUpkeepPriority();
-            AICastSpellExpenseMade(Source, FBaseManaCost, FManaUpkeep, aiUpkeepPriority);
-            if (hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
+            AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, aiUpkeepPriority);
+            if (hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                Result = this.Activate(Source);
+                result = this.Activate(source);
             }
             else
             {
-                if (hero.FCastingSpellID != FSpellID)
+                if (hero.CastingSpellId != SpellId)
                 {
-                    hero.ExecuteStartCasting(FSpellID);
-                    Result = true;
+                    hero.ExecuteStartCasting(SpellId);
+                    result = true;
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // SummonSpells.pas:266
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result;
-        SummonSpellTokenEvent Event;
-        string Reason = "";
-        if (CanActivate(Source, ref Reason))
+        bool result;
+        SummonSpellTokenEvent eventValue;
+        string reason = "";
+        if (CanActivate(source, ref reason))
         {
-            Event = new SummonSpellTokenEvent(null);
-            Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-            SetupSummonSpellTE(Event);
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new SummonSpellTokenEvent(null);
+            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            SetupSummonSpellTokenEvent(eventValue);
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // SummonSpells.pas:261
-    public virtual void SetupSummonSpellTE(SummonSpellTokenEvent Event)
+    public virtual void SetupSummonSpellTokenEvent(SummonSpellTokenEvent eventValue)
     {
-        var random = Random(FUnitIndices.Count);
-        var unitIndice = FUnitIndices[random];
-        Event.FUnitIndices.Add(unitIndice);
+        var random = Random(UnitIndices.Count);
+        var unitIndex = UnitIndices[random];
+        eventValue.UnitIndices.Add(unitIndex);
     }
 
     // SummonSpells.pas:283
     public int GetAIUpkeepPriority()
     {
-        var unitIndice = FUnitIndices[0];
-        return ((SummonedAbility)AoWHSSet.Current.FAbilityControl.GetAbility(155)).UnitIndexToAIUpkeepPriority(unitIndice);
+        var unitIndex = UnitIndices[0];
+        return ((SummonedAbility)AoWHSSet.Current.AbilityControl.GetAbility(155)).UnitIndexToAIUpkeepPriority(unitIndex);
     }
 
     // SummonSpells.pas:255
-    public int GetDispelResistance(Troop unit) => SummonedAbility.GetDefaultDispelResistance(unit);
+    public int GetDispelResistance(Troop troop) => SummonedAbility.GetDefaultDispelResistance(troop);
 }

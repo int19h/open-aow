@@ -7,18 +7,18 @@ namespace Aow.Formats.Tests;
 /// <summary>The pinned layout expectation of aowconv check: drift and a changed census fail.</summary>
 public sealed class ExpectationTests : FormatsTest, IDisposable
 {
-    private readonly string directory = Path.Combine(Path.GetTempPath(), "aowconv-expect-" + Guid.NewGuid().ToString("N"));
+    private readonly string _directory = Path.Combine(Path.GetTempPath(), "aowconv-expect-" + Guid.NewGuid().ToString("N"));
 
-    public ExpectationTests() => Directory.CreateDirectory(directory);
+    public ExpectationTests() => Directory.CreateDirectory(_directory);
 
-    public void Dispose() => Directory.Delete(directory, true);
+    public void Dispose() => Directory.Delete(_directory, true);
 
     private string Write(string censusSha)
     {
         var census = Encoding.UTF8.GetBytes("{\"corpus\": [], \"summary\": {\"unexplainedSites\": 0}}");
-        File.WriteAllBytes(Path.Combine(directory, "census.json"), census);
+        File.WriteAllBytes(Path.Combine(_directory, "census.json"), census);
         string sha = censusSha == "actual" ? System.Convert.ToHexStringLower(SHA256.HashData(census)) : censusSha;
-        string path = Path.Combine(directory, "expect.json");
+        string path = Path.Combine(_directory, "expect.json");
         File.WriteAllText(path, """
             {
               "format": "aowconv-check-expectation",
@@ -73,7 +73,7 @@ public sealed class ExpectationTests : FormatsTest, IDisposable
     public void ACensusAloneHasNoLayoutPin()
     {
         Write("actual");
-        var (census, expectation) = Expectation.Load(Path.Combine(directory, "census.json"));
+        var (census, expectation) = Expectation.Load(Path.Combine(_directory, "census.json"));
         Assert.Null(expectation);
         Assert.Empty(census.Rows);
     }

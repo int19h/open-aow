@@ -5,11 +5,11 @@ namespace Aow.Engine.Collections;
 
 public struct QuadItem<TA> where TA : class
 {
-    public TA A;
-    public int B;
-    public int C;
-    public int D;
+    public TA First;
+    public int Second;
+    public int Third;
+    public int Fourth;
 
-    internal static int P3CompareRoundTargets(in QuadItem<CombatPredictorUnit> A, in QuadItem<CombatPredictorUnit> B) => A.D - B.D;
+    internal static int CompareRoundTargets(in QuadItem<CombatPredictorUnit> A, in QuadItem<CombatPredictorUnit> B) => A.Fourth - B.Fourth;
 
 }

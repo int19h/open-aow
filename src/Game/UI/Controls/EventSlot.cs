@@ -140,7 +140,7 @@ internal static class EventSlot
         where TBase : class
         where TOwner : class, TBase
     {
-        internal void Invoke(TBase _, LockedSurface surf) => Typed(Owner, surf);
+        internal void Invoke(TBase _, LockedSurface surface) => Typed(Owner, surface);
     }
 
     internal sealed class DrawBackView<TBase, TOwner>(TOwner owner, AoWOnDrawBackEvent<TOwner> typed)
@@ -148,7 +148,7 @@ internal static class EventSlot
         where TBase : class
         where TOwner : class, TBase
     {
-        internal void Invoke(TBase _, LockedSurface surf) => Typed(Owner, surf);
+        internal void Invoke(TBase _, LockedSurface surface) => Typed(Owner, surface);
     }
 
     internal sealed class DrawSurfaceView<TBase, TOwner>(TOwner owner, AoWOnDrawSurface<TOwner> typed)

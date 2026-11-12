@@ -6,7 +6,7 @@ namespace Aow.Game.Units;
 [InlineArray(7)]
 public struct HeroItemPositionArray7
 {
-    private HeroItemPosition element0;
+    private HeroItemPosition _element0;
 
     public static HeroItemPositionArray7 From(ReadOnlySpan<HeroItemPosition> values)
     {

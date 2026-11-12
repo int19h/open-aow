@@ -35,39 +35,39 @@ public partial class UnitBanner : DataModule
     public void BannerPopupShow()
     {
         CombatAbilityRef A;
-        if (DialogHosts.General.FSelectedUnit != null)
+        if (DialogHosts.General.SelectedUnit != null)
         {
-            var name = DialogHosts.General.FSelectedUnit.GetName();
+            var name = DialogHosts.General.SelectedUnit.GetName();
             UnitNameLbl.Text = name;
-            BannerPopup.FAligned = false;
-            var hitPoints = DialogHosts.General.FSelectedUnit.GetHitPoints();
-            var hits = DialogHosts.General.FSelectedUnit.GetHits();
+            BannerPopup.Aligned = false;
+            var hitPoints = DialogHosts.General.SelectedUnit.GetHitPoints();
+            var hits = DialogHosts.General.SelectedUnit.GetHits();
             Hits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
-            var movePoints = DialogHosts.General.FSelectedUnit.GetMovePoints();
-            var moves = DialogHosts.General.FSelectedUnit.GetMoves();
+            var movePoints = DialogHosts.General.SelectedUnit.GetMovePoints();
+            var moves = DialogHosts.General.SelectedUnit.GetMoves();
             Moves.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
-            var attack = DialogHosts.General.FSelectedUnit.GetAttack();
+            var attack = DialogHosts.General.SelectedUnit.GetAttack();
             Attack.Text = IntToStr(attack);
-            var damage = DialogHosts.General.FSelectedUnit.GetDamage();
+            var damage = DialogHosts.General.SelectedUnit.GetDamage();
             Damage.Text = IntToStr(damage);
-            var defense = DialogHosts.General.FSelectedUnit.GetDefense();
+            var defense = DialogHosts.General.SelectedUnit.GetDefense();
             Defense.Text = IntToStr(defense);
-            var resistance = DialogHosts.General.FSelectedUnit.GetResistance();
+            var resistance = DialogHosts.General.SelectedUnit.GetResistance();
             Resistance.Text = IntToStr(resistance);
-            var moveTypes = DialogHosts.General.FSelectedUnit.GetMoveTypes();
-            var mTtoInt = DialogHosts.General.MTtoInt(moveTypes);
-            MovesIcon.CurrentImage = mTtoInt;
+            var moveTypes = DialogHosts.General.SelectedUnit.GetMoveTypes();
+            var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
+            MovesIcon.CurrentImage = moveTypesToInt32;
             AbLB.Items.Clear();
             DialogHosts.General.BuildAbilities();
-            for (int I = 0, last = DialogHosts.General.FAbilities.Count - 1; I <= last; I++)
+            for (int I = 0, last = DialogHosts.General.Abilities.Count - 1; I <= last; I++)
             {
-                A = DialogHosts.General.FAbilities[I];
-                var name2 = AoWHSSet.Current.FAbilityControl.GetAbility(A.Ability).GetName(DialogHosts.General.FSelectedUnit);
+                A = DialogHosts.General.Abilities[I];
+                var name2 = AoWHSSet.Current.AbilityControl.GetAbility(A.Ability).GetName(DialogHosts.General.SelectedUnit);
                 AbLB.Items.Add(name2);
             }
 
             AbLB.Selected = -1;
-            this.AbLB.F188 = -1;
+            this.AbLB.HoverItem = -1;
             this.AbLB.ListOffset = 0;
         }
     }
@@ -75,40 +75,40 @@ public partial class UnitBanner : DataModule
     // AoWUnitBanner.pas:80
     public void AbLBUpdate()
     {
-        if (AbLB.F188 != AbLB.Selected)
+        if (AbLB.HoverItem != AbLB.Selected)
         {
-            AbLB.Selected = AbLB.F188;
+            AbLB.Selected = AbLB.HoverItem;
         }
     }
 
     // AoWUnitBanner.pas:85
-    public void AbLBMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void AbLBMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (DialogHosts.General.FSelectedUnit != null && AbLB.F188 >= DialogHosts.General.FActiveAbilityCount)
+        if (DialogHosts.General.SelectedUnit != null && AbLB.HoverItem >= DialogHosts.General.ActiveAbilityCount)
         {
-            AbLB.F188 = -1;
+            AbLB.HoverItem = -1;
         }
     }
 
     // AoWUnitBanner.pas:90
-    public void BannerPopupMouseDown(int Sender, byte Button, int Shift, int X, int Y)
+    public void BannerPopupMouseDown(int sender, byte button, int shift, int X, int Y)
     {
-        if (Button == 1)
+        if (button == 1)
         {
             DialogHosts.UnitBanner.BannerPopup.Visible = false;
         }
     }
 
     // AoWUnitBanner.pas:95
-    public void AbLBMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void AbLBMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        string Reason = "";
-        if (DialogHosts.General.FSelectedUnit != null)
+        string reason = "";
+        if (DialogHosts.General.SelectedUnit != null)
         {
-            if (AbLB.Selected > -1 && AbLB.Selected < DialogHosts.General.FActiveAbilityCount)
+            if (AbLB.Selected > -1 && AbLB.Selected < DialogHosts.General.ActiveAbilityCount)
             {
-                var ability = DialogHosts.General.FAbilities[AbLB.Selected];
-                AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(DialogHosts.General.FSelectedUnit, ref Reason);
+                var ability = DialogHosts.General.Abilities[AbLB.Selected];
+                AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(DialogHosts.General.SelectedUnit, ref reason);
                 BannerPopup.Visible = false;
             }
             else

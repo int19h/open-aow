@@ -10,23 +10,23 @@ public partial class PlayerStructureResource : StructureResource
 {
     public PlayerStructureResource(ECustomNode owner) : base(owner)
     {
-        FClaimed = true;
-        FFlagX = 20;
-        FFlagY = -35;
+        Claimed = true;
+        FlagX = 20;
+        FlagY = -35;
     }
 
-    public new const int ClassID = 131917;
+    public new const int ClassId = 131917;
 
-    public bool FClaimed;
-    public int FFlagX;
-    public int FFlagY;
-    public FlagControl FFlagControl;
+    public bool Claimed;
+    public int FlagX;
+    public int FlagY;
+    public FlagControl FlagControl;
 
     // Structur.PAS:2456
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        base.ReadWrite(stream);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             GenerateFlagPositions();
         }
@@ -36,61 +36,61 @@ public partial class PlayerStructureResource : StructureResource
     // (claimed, flag position, flag control)
 
     // Structur.PAS:2467
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
-            ActivateMsg();
+            ActivateMessage();
         }
     }
 
     // Structur.PAS:2440
-    public override int ResourceUserClassID() => 131916;
+    public override int ResourceUserClassId() => 131916;
 
     // Structur.PAS:2473
-    public override MapObject PlaceResourceUser(HSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override MapObject PlaceResourceUser(HSMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapObject Result = base.PlaceResourceUser(HSMap, Xhx, Yhx, Lhx);
-        if (Result != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        MapObject result = base.PlaceResourceUser(hexSpriteMap, hexX, hexY, hexLevel);
+        if (result != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            ((PlayerStructure)Result).SetPlayer(AoWHSMap.Current.FEditorPlayer);
+            ((PlayerStructure)result).SetPlayer(AoWHSMap.Current.EditorPlayer);
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:2445
     public virtual void GenerateFlagPositions()
     {
-        if (FTerrainBound)
+        if (TerrainBound)
         {
-            switch (FFlagType)
+            switch (FlagType)
             {
                 case 1:
-                    FFlagX = 20;
-                    FFlagY = -30;
+                    FlagX = 20;
+                    FlagY = -30;
                     break;
                 case 2:
-                    FFlagX = 35;
-                    FFlagY = -50;
+                    FlagX = 35;
+                    FlagY = -50;
                     break;
                 case 3:
-                    FFlagX = 5;
-                    FFlagY = -45;
+                    FlagX = 5;
+                    FlagY = -45;
                     break;
                 case 4:
-                    FFlagX = 30;
-                    FFlagY = -60;
+                    FlagX = 30;
+                    FlagY = -60;
                     break;
             }
         }
     }
 
     // Structur.PAS:2462
-    public void ActivateMsg()
+    public void ActivateMessage()
     {
-        FFlagControl = ((AoWHSSet)Engine.HSSet).FFlagControl;
+        FlagControl = ((AoWHSSet)Engine.HexSpriteSet).FlagControl;
     }
 
     // intf_P1_09.inc:300

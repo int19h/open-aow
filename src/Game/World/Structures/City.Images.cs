@@ -10,10 +10,10 @@ public partial class City
         RegisterEnchantments();
         base.Activate();
         UpdateVisibleForSeatedPlayer();
-        FProduction.Activate();
+        Production.Activate();
         var map = AoWHSMap.Current;
-        if (FPlayer != -1) map.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProduction);
-        if (map.Status.Contains(HexSpriteMapStatusElement.Editting) && map.FDay == 0) SetUpgradeLevel(FUpgradeLevel);
+        if (Player != -1) map.Players.GetPlayers(Player).ProductionControls.Add(Production);
+        if (map.Status.Contains(HexSpriteMapStatusElement.Editting) && map.Day == 0) SetUpgradeLevel(UpgradeLevel);
         UpdateImages();
     }
 
@@ -23,31 +23,31 @@ public partial class City
         var field = (MapField)Owner;
         int terrain = field.TerrainType;
         int offset = terrain switch { 3 => 20, 5 or >= 7 and <= 9 or 12 or 13 => 40, _ => 0 };
-        var images = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        var images = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
         if (!GetRazed())
         {
-            if (FRace >= 0)
+            if (Race >= 0)
             {
-                var race = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace);
-                int size = ((Resource)FResource).FSize;
-                if (race != null) FCityImage = race.GetCityImage(size, terrain, field.Lhx);
-                if (FCityImage == null) FCityImage = images[images.ImageExist(offset) ? offset : 0];
+                var race = AoWHSSet.Current.RaceResources.GetRaceResource(Race);
+                int size = ((Resource)_resource).Size;
+                if (race != null) CityImage = race.GetCityImage(size, terrain, field.HexLevel);
+                if (CityImage == null) CityImage = images[images.ImageExist(offset) ? offset : 0];
             }
             else
             {
                 int index = offset + 1;
-                FCityImage = images[images.ImageExist(index) ? index : 1];
+                CityImage = images[images.ImageExist(index) ? index : 1];
             }
-            if (FWallType != 0 && FWallType != 3)
+            if (WallType != 0 && WallType != 3)
             {
-                int index = (FWallType << 1) + offset;
-                if (!images.ImageExist(index)) index = FWallType << 1;
-                FWallFrontImage = images[index];
-                FWallBackImage = images[index + 1];
+                int index = (WallType << 1) + offset;
+                if (!images.ImageExist(index)) index = WallType << 1;
+                WallFrontImage = images[index];
+                WallBackImage = images[index + 1];
             }
-            else { FWallBackImage = null; FWallFrontImage = null; }
+            else { WallBackImage = null; WallFrontImage = null; }
         }
-        else { FCityImage = null; FWallBackImage = null; FWallFrontImage = null; }
-        UpdateFlagID();
+        else { CityImage = null; WallBackImage = null; WallFrontImage = null; }
+        UpdateFlagId();
     }
 }

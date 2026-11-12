@@ -9,23 +9,23 @@ namespace Aow.Formats.Tree;
 /// </summary>
 public static class OriginalBackend
 {
-    public static byte[] Write(ObjectNode node, SchemaClass cls, FormatSchema schema, string engine)
+    public static byte[] Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine)
     {
-        Refuse(cls);
-        return ImageTree.Write(node, cls, schema, engine);
+        Refuse(classValue);
+        return ImageTree.Write(node, classValue, schema, engine);
     }
 
-    public static ObjectNode Read(byte[] image, SchemaClass cls, FormatSchema schema, string engine)
+    public static ObjectNode Read(byte[] image, SchemaClass classValue, FormatSchema schema, string engine)
     {
-        Refuse(cls);
-        return ImageTree.Read(image, cls, schema, engine);
+        Refuse(classValue);
+        return ImageTree.Read(image, classValue, schema, engine);
     }
 
-    private static void Refuse(SchemaClass cls)
+    private static void Refuse(SchemaClass classValue)
     {
-        if (cls.Mapping is null) return;
+        if (classValue.Mapping is null) return;
         throw new ConversionException(new FormatDiagnostic(Codes.Mapping,
-            "Class " + cls.Name + " uses a case mapping. The original backend does not reproduce it.")
-        { Path = "root", Value = cls.Name });
+            "Class " + classValue.Name + " uses a case mapping. The original backend does not reproduce it.")
+        { Path = "root", Value = classValue.Name });
     }
 }

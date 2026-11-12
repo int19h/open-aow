@@ -13,24 +13,24 @@ public partial class General
     public void ManagerUpdate()
     {
         var unit = DialogHosts.UnitBanner.BannerPopup;
-        if (unit.FShowPending && !unit.Visible)
+        if (unit.ShowPending && !unit.Visible)
         {
-            unit.WinLeft = unit.FMenuLeft;
-            unit.WinTop = unit.FMenuTop;
+            unit.WinLeft = unit.MenuLeft;
+            unit.WinTop = unit.MenuTop;
             unit.Visible = true;
         }
         var info = DialogHosts.InfoBanner.BannerPopup;
-        if (info.FShowPending && !info.Visible)
+        if (info.ShowPending && !info.Visible)
         {
-            info.WinLeft = info.FMenuLeft;
-            info.WinTop = info.FMenuTop;
+            info.WinLeft = info.MenuLeft;
+            info.WinTop = info.MenuTop;
             info.Visible = true;
         }
-        DialogHosts.MWindow.MainWindow.DoubleBuffered = Manager.FOverlayPriority > DialogHosts.MWindow.MainWindow.Priority;
+        DialogHosts.MapWindow.MainWindow.DoubleBuffered = Manager._overlayPriority > DialogHosts.MapWindow.MainWindow.Priority;
         if (GameHost.MainForm is { FCursorChanged: true } form)
         {
-            var rect = form.FLastCursorRect;
-            Manager.AddDrawRect(ref rect, null);
+            var rectangle = form.FLastCursorRectangle;
+            Manager.AddDrawRectangle(ref rectangle, null);
         }
     }
 
@@ -39,12 +39,12 @@ public partial class General
         var progress = DialogHosts.ProgressDialog;
         progress.StatusLbl.Text = message;
         progress.Bar.Position = progression;
-        progress.ProgDlg.FSurfaceValid = false;
+        progress.ProgDlg.SurfaceValid = false;
         var display = GameHost.MainForm?.Display;
-        if (display?.ActiveDC is { } dc)
+        if (display?.ActiveDisplayController is { } displayController)
         {
-            Manager.DrawSurface(dc.GetSurface(1));
-            dc.BltSurface(display.FSurfaceIndex);
+            Manager.DrawSurface(displayController.GetSurface(1));
+            displayController.BlitSurface(display.SurfaceIndex);
         }
     }
 }

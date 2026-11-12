@@ -22,52 +22,52 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
     public StructureResource(ECustomNode owner) : base(owner)
     {
         SetLevel(26);
-        FConnectRoads = true;
-        FTerrainBound = true;
-        FDescription = new StringList();
-        FDefenders = new UnitIndexListCollection();
-        FRazeDefenderBudget = 50;
-        FRazeable = false;
+        ConnectRoads = true;
+        TerrainBound = true;
+        Description = new StringList();
+        Defenders = new UnitIndexListCollection();
+        RazeDefenderBudget = 50;
+        Razeable = false;
     }
 
-    public new const int ClassID = 131915;
+    public new const int ClassId = 131915;
 
-    public bool FTerrainBound;
-    public bool FConnectRoads;
-    public byte FFlagType;
-    public string FSelectSFX = "";
-    public bool FSelectSFXLooped;
-    public StringCollection FDescription;
-    public int FScannerIcon;
-    public bool FRazeable;
-    public bool FCastsShadow;
-    public byte FRebuildGold;
-    public byte FRebuildDays;
-    public UnitIndexListCollection FDefenders;
-    public int FRazeDefenderBudget;
+    public bool TerrainBound;
+    public bool ConnectRoads;
+    public byte FlagType;
+    public string SelectSfx = "";
+    public bool SelectSfxLooped;
+    public StringCollection Description;
+    public int ScannerIcon;
+    public bool Razeable;
+    public bool CastsShadow;
+    public byte RebuildGold;
+    public byte RebuildDays;
+    public UnitIndexListCollection Defenders;
+    public int RazeDefenderBudget;
 
     // Structur.PAS:1904
     public override void Dispose()
     {
-        FDescription?.Dispose();
-        FDefenders?.Dispose();
+        Description?.Dispose();
+        Defenders?.Dispose();
         base.Dispose();
     }
 
     // Structur.PAS:1929
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwBool(ref FSelectSFXLooped, 20);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        base.ReadWrite(stream);
+        stream.rwBool(ref SelectSfxLooped, 20);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Stream.rwString(ref FSelectSFX, 21);
+            stream.rwString(ref SelectSfx, 21);
         }
 
-        Stream.rwStrings(FDescription, 22);
-        Stream.rwInteger(ref FScannerIcon, 23);
-        Stream.rwStreamProc(28, FDefenders.LoadFromStream, FDefenders.SaveToStream);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        stream.rwStrings(Description, 22);
+        stream.rwInteger(ref ScannerIcon, 23);
+        stream.rwStreamProc(28, Defenders.LoadFromStream, Defenders.SaveToStream);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             CalculatePadIndex();
         }
@@ -76,54 +76,54 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
     // Structur.PAS:1892
 
     // Structur.PAS:1917
-    public override int ResourceUserClassID() => 131914;
+    public override int ResourceUserClassId() => 131914;
 
     // Structur.PAS:1940
-    public virtual void Show(int X, int Y, in LockedSurface SurfaceDesc, Structure Structure)
+    public virtual void Show(int X, int Y, in LockedSurface lockedSurface, Structure structure)
     {
-        int Index;
-        int Offset;
-        int FrameIndex;
-        ImageSequence Sequence;
-        if (Structure.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
+        int index;
+        int offset;
+        int frameIndex;
+        ImageSequence sequence;
+        if (structure.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
         {
-            Index = Structure.ImageIndex;
-            Offset = ((MapField)Structure.Owner).Xhx + ((MapField)Structure.Owner).Yhx * 16;
-            if (FImageSequenceList != null)
+            index = structure.ImageIndex;
+            offset = ((MapField)structure.Owner).HexX + ((MapField)structure.Owner).HexY * 16;
+            if (_imageSequenceList != null)
             {
-                Sequence = (ImageSequence)FImageSequenceList.List[Index];
-                while (Sequence != null)
+                sequence = (ImageSequence)_imageSequenceList.List[index];
+                while (sequence != null)
                 {
-                    FrameIndex = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, Offset);
-                    if (FrameIndex != -1)
+                    frameIndex = sequence.GetFrameIndex(AoWHSMap.Current.Frame, offset);
+                    if (frameIndex != -1)
                     {
-                        if (Sequence.ImageLibrary[FrameIndex].ShowInfo.ShowMode == ShowMode.Opaque)
+                        if (sequence.ImageLibrary[frameIndex].ShowInfo.ShowMode == ShowMode.Opaque)
                         {
-                            Sequence.ImageLibrary[FrameIndex].ShowTransparent(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                            sequence.ImageLibrary[frameIndex].ShowTransparent(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                         }
                         else
                         {
-                            Sequence.ImageLibrary[FrameIndex].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                            sequence.ImageLibrary[frameIndex].Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
                         }
                     }
 
-                    Sequence = Sequence.Next;
+                    sequence = sequence.Next;
                 }
             }
             else
             {
-                FImageLibrary[Index].ShowTransparent(X + FdXImage, Y + FdYImage, SurfaceDesc);
+                _imageLibrary[index].ShowTransparent(X + _imageOffsetX, Y + _imageOffsetY, lockedSurface);
             }
         }
         else
         {
-            if (FImageSequenceList == null)
+            if (_imageSequenceList == null)
             {
-                FImageLibrary[Structure.ImageIndex].Show(X, Y, SurfaceDesc);
+                _imageLibrary[structure.ImageIndex].Show(X, Y, lockedSurface);
             }
             else
             {
-                ShowComplexImage(X, Y, SurfaceDesc, Structure.ImageIndex, (uint)(((MapField)Structure.Owner).Xhx + ((MapField)Structure.Owner).Yhx * 16));
+                ShowComplexImage(X, Y, lockedSurface, structure.ImageIndex, (uint)(((MapField)structure.Owner).HexX + ((MapField)structure.Owner).HexY * 16));
             }
         }
     }
@@ -131,12 +131,12 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
     // Structur.PAS:1920
     public void CalculatePadIndex()
     {
-        FFlagType = 0;
-        for (int I = 0, last = FTerrainList.Count - 1; I <= last; I++)
+        FlagType = 0;
+        for (int I = 0, last = _terrainList.Count - 1; I <= last; I++)
         {
-            if (FTerrainList.Terrain[I] >= 0)
+            if (_terrainList.Terrain[I] >= 0)
             {
-                FFlagType = (byte)(FFlagType + 1);
+                FlagType = (byte)(FlagType + 1);
             }
         }
     }

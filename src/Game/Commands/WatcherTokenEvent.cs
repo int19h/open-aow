@@ -15,26 +15,26 @@ public partial class WatcherTokenEvent : GlobalTargetSpellTokenEvent
     { }
 
     // GlobalTargetSpells.pas:1476
-    public new const int ClassID = 135963;
+    public new const int ClassId = 135963;
 
     // GlobalTargetSpells.pas:1479
     public override bool Process(Troop source, int value)
     {
-        WatcherHexSprite Watcher;
+        WatcherHexSprite watcher;
         base.Process(source, value);
-        PlayDefaultEffects(FLocation.X, FLocation.Y, FLocation.L);
-        Watcher = new WatcherHexSprite(null);
-        Watcher.FEnchantment.FPlayerIndex = source.FPlayer;
-        var spell = AoWHSSet.Current.FSpellControl.GetSpell(57);
-        Watcher.FEnchantment.FEnchantmentManaUpkeep = spell.FManaUpkeep;
-        AoWHSMap.Current.PlaceHX(Watcher, FLocation.X, FLocation.Y, FLocation.L);
-        if ((byte)AoWHSMap.Current.FSeatedPlayer == FEventPlayerIndex)
+        PlayDefaultEffects(Location.X, Location.Y, Location.MapLevel);
+        watcher = new WatcherHexSprite(null);
+        watcher.Enchantment.PlayerIndex = source.Player;
+        var spell = AoWHSSet.Current.SpellControl.GetSpell(57);
+        watcher.Enchantment.EnchantmentManaUpkeep = spell.ManaUpkeep;
+        AoWHSMap.Current.PlaceHex(watcher, Location.X, Location.Y, Location.MapLevel);
+        if ((byte)AoWHSMap.Current.SeatedPlayer == EventPlayerIndex)
         {
-            Watcher.StartAnimation(FLocation.X, FLocation.Y, FLocation.L);
+            watcher.StartAnimation(Location.X, Location.Y, Location.MapLevel);
         }
 
-        var fSpellControlSpell = AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, fSpellControlSpell.FBaseManaCost);
+        var fSpellControlSpell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, fSpellControlSpell.BaseManaCost);
         return false;
     }
 

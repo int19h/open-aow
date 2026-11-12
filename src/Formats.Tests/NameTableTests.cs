@@ -31,21 +31,21 @@ public sealed class NameTableTests : FormatsTest
         Assert.Contains(NameTable.Rows, row => row.Kind == "type" && row.Delphi == "TPersistent"
             && row.Current == NameTable.QualifiedName(typeof(Persistent)));
 
-        var counts = EngineClass.All.GroupBy(eclass => eclass.ClassName).ToDictionary(group => group.Key, group => group.Count());
-        foreach (var eclass in EngineClass.All)
+        var counts = EngineClass.All.GroupBy(engineClass => engineClass.StorageKey).ToDictionary(group => group.Key, group => group.Count());
+        foreach (var engineClass in EngineClass.All)
         {
-            Assert.Equal(NameTable.Stored(eclass.Type), eclass.ClassName);
-            Assert.Equal(eclass.ClassName, NameTable.ResolveStored(NameTable.Delphi(eclass.Type)));
-            if (counts[eclass.ClassName] == 1) Assert.Equal(eclass.Type, NameTable.Find(eclass.ClassName));
-            else Assert.Throws<InvalidOperationException>(() => NameTable.Find(eclass.ClassName));
+            Assert.Equal(NameTable.Stored(engineClass.Type), engineClass.StorageKey);
+            Assert.Equal(engineClass.StorageKey, NameTable.ResolveStored(NameTable.Delphi(engineClass.Type)));
+            if (counts[engineClass.StorageKey] == 1) Assert.Equal(engineClass.Type, NameTable.Find(engineClass.StorageKey));
+            else Assert.Throws<InvalidOperationException>(() => NameTable.Find(engineClass.StorageKey));
         }
 
-        foreach (var cls in FormatSchema.Current.Classes)
+        foreach (var classValue in FormatSchema.Current.Classes)
         {
-            Assert.Equal(cls.Name, NameTable.ResolveStored(cls.Name));
-            if (cls.Parent is not null) Assert.Equal(cls.Parent.Name, NameTable.ResolveStored(cls.Parent.Name));
-            if (cls.FieldClassName is not null) Assert.Equal(cls.FieldClassName, NameTable.ResolveStored(cls.FieldClassName));
-            foreach (var property in cls.Own) Check(property.Codec, property.Name);
+            Assert.Equal(classValue.Name, NameTable.ResolveStored(classValue.Name));
+            if (classValue.Parent is not null) Assert.Equal(classValue.Parent.Name, NameTable.ResolveStored(classValue.Parent.Name));
+            if (classValue.FieldClassName is not null) Assert.Equal(classValue.FieldClassName, NameTable.ResolveStored(classValue.FieldClassName));
+            foreach (var property in classValue.Own) Check(property.Codec, property.Name);
         }
 
         Assert.Equal(nameof(Unlisted), NameTable.Delphi(typeof(Unlisted)));
@@ -112,11 +112,11 @@ public sealed class NameTableTests : FormatsTest
                 {
                     if (field.TypeName is not string element) continue;
                     Assert.Equal(element, NameTable.ResolveStored(element));
-                    if (field.ClrType is { IsEnum: true } clr) RoundTripEnum(element, field.Name, clr);
+                    if (field.ColorType is { IsEnum: true } color) RoundTripEnum(element, field.Name, color);
                 }
                 break;
-            case FixedObjectCodec obj:
-                Assert.Equal(obj.ClassName, NameTable.ResolveStored(obj.ClassName));
+            case FixedObjectCodec objectValue:
+                Assert.Equal(objectValue.ClassName, NameTable.ResolveStored(objectValue.ClassName));
                 break;
             case CreatedObjectCodec created when created.Family is string family:
                 Assert.Equal(family, NameTable.ResolveStored(family));
@@ -124,18 +124,18 @@ public sealed class NameTableTests : FormatsTest
         }
     }
 
-    private static void RoundTripEnum(string typeName, string path, Type? clr = null)
+    private static void RoundTripEnum(string typeName, string path, Type? color = null)
     {
         Assert.Equal(typeName, NameTable.ResolveStored(typeName));
         var info = EnumCatalog.Require(typeName, null, path);
-        clr ??= info.Clr;
+        color ??= info.Color;
         foreach (var member in info.ByName.Keys)
         {
             Assert.True(info.TryNumber(member, out long number));
             Assert.Equal(info.ByName[member], number);
-            Assert.Equal(member, NameTable.StoredMember(clr, member));
-            string delphi = NameTable.DelphiMember(clr, member);
-            Assert.Equal(member, NameTable.StoredMember(clr, delphi));
+            Assert.Equal(member, NameTable.StoredMember(color, member));
+            string delphi = NameTable.DelphiMember(color, member);
+            Assert.Equal(member, NameTable.StoredMember(color, delphi));
             Assert.True(info.TryNumber(delphi, out long fromDelphi));
             Assert.Equal(number, fromDelphi);
         }

@@ -14,8 +14,8 @@ namespace Aow.Formats.Original;
 /// </summary>
 internal static class CaseCodec
 {
-    private static ConversionException Missing(SchemaClass cls, SchemaMapping mapping, string? file, long offset, DocumentNodePath path) =>
-        new(new FormatDiagnostic(Codes.Mapping, $"Class {cls.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.")
+    private static ConversionException Missing(SchemaClass classValue, SchemaMapping mapping, string? file, long offset, DocumentNodePath path) =>
+        new(new FormatDiagnostic(Codes.Mapping, $"Class {classValue.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.")
         { File = file, Offset = offset, Path = path.ToString() });
 
     /// <summary>The number a stored discriminator or field holds: an integer, or little-endian record bytes.</summary>
@@ -27,9 +27,9 @@ internal static class CaseCodec
         _ => 0,
     };
 
-    private static JsonValue Stored(SchemaClass cls, string member, long key)
+    private static JsonValue Stored(SchemaClass classValue, string member, long key)
     {
-        var codec = cls.PropertyByName(member)!.Codec;
+        var codec = classValue.PropertyByName(member)!.Codec;
         if (codec is DataCodec { Size: int size })
         {
             var bytes = new byte[8];
@@ -39,18 +39,18 @@ internal static class CaseCodec
         return new JsonInteger(key);
     }
 
-    private static void InsertReserved(JsonObject obj, JsonMember member)
+    private static void InsertReserved(JsonObject objectValue, JsonMember member)
     {
         int rank = Array.IndexOf(Reserved.Order, member.Name);
         int at = 0;
-        while (at < obj.Members.Count && obj.Members[at].Name.StartsWith('$') && Array.IndexOf(Reserved.Order, obj.Members[at].Name) < rank) at++;
-        obj.Members.Insert(at, member);
+        while (at < objectValue.Members.Count && objectValue.Members[at].Name.StartsWith('$') && Array.IndexOf(Reserved.Order, objectValue.Members[at].Name) < rank) at++;
+        objectValue.Members.Insert(at, member);
     }
 
     /// <summary>Turns the decoded stored members of a mapped object into its case.</summary>
-    public static void ToDocument(DecodeContext ctx, SchemaClass cls, SchemaMapping mapping, JsonObject target, DocumentNodePath path, int offset)
+    public static void ToDocument(DecodeContext context, SchemaClass classValue, SchemaMapping mapping, JsonObject target, DocumentNodePath path, int offset)
     {
-        if (CaseMappings.Find(cls.Name) is null) throw Missing(cls, mapping, ctx.File, offset, path);
+        if (CaseMappings.Find(classValue.Name) is null) throw Missing(classValue, mapping, context.File, offset, path);
         var stored = new Dictionary<string, JsonValue>(StringComparer.Ordinal);
         int first = -1;
         for (int i = 0; i < target.Members.Count;)
@@ -95,33 +95,33 @@ internal static class CaseCodec
     /// residue goes back exactly. The kind must keep every case field: the unit side's
     /// ToFields writes it back unchanged.
     /// </summary>
-    public static JsonObject FromDocument(EncodeContext ctx, SchemaClass cls, SchemaMapping mapping, JsonObject obj, DocumentNodePath path)
+    public static JsonObject FromDocument(EncodeContext context, SchemaClass classValue, SchemaMapping mapping, JsonObject objectValue, DocumentNodePath path)
     {
-        var unit = CaseMappings.Find(cls.Name)
-            ?? throw ctx.Fail(Codes.Mapping, $"Class {cls.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.", obj, path);
-        if (obj["$case"] is not JsonString caseName)
-            throw ctx.Fail(obj["$case"] is null ? Codes.MissingMember : Codes.Type, $"A {cls.Name} names its {mapping.Name} case in $case.", obj["$case"] ?? obj, path.Member("$case"));
+        var unit = CaseMappings.Find(classValue.Name)
+            ?? throw context.Fail(Codes.Mapping, $"Class {classValue.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.", objectValue, path);
+        if (objectValue["$case"] is not JsonString caseName)
+            throw context.Fail(objectValue["$case"] is null ? Codes.MissingMember : Codes.Type, $"A {classValue.Name} names its {mapping.Name} case in $case.", objectValue["$case"] ?? objectValue, path.Member("$case"));
         var chosen = mapping.Cases.FirstOrDefault(c => c.Name == caseName.Value) ?? (mapping.Unknown.Name == caseName.Value ? mapping.Unknown : null)
-            ?? throw ctx.Fail(Codes.Case, $"{mapping.Name} has no case {caseName.Value}.", caseName, path.Member("$case"), caseName.Value,
+            ?? throw context.Fail(Codes.Case, $"{mapping.Name} has no case {caseName.Value}.", caseName, path.Member("$case"), caseName.Value,
                 string.Join(", ", mapping.Cases.Select(c => c.Name).Append(mapping.Unknown.Name)));
         // The unknown case keeps only keys no case registers, so its export reads back the same.
         string keyField = mapping.Unknown.Fields.First(f => f.Member == mapping.Discriminator).Field;
-        if (chosen.Key is null && obj[keyField] is JsonValue kind && mapping.Cases.FirstOrDefault(c => c.Key == Number(kind)) is { } known)
-            throw ctx.Fail(Codes.Case, $"Key {Number(kind).ToString(CultureInfo.InvariantCulture)} has the case {known.Name}, not {chosen.Name}.",
+        if (chosen.Key is null && objectValue[keyField] is JsonValue kind && mapping.Cases.FirstOrDefault(c => c.Key == Number(kind)) is { } known)
+            throw context.Fail(Codes.Case, $"Key {Number(kind).ToString(CultureInfo.InvariantCulture)} has the case {known.Name}, not {chosen.Name}.",
                 kind, path.Member(keyField), Number(kind).ToString(CultureInfo.InvariantCulture), known.Name);
-        var flat = new JsonObject { Span = obj.Span, Origin = obj.Origin };
+        var flat = new JsonObject { Span = objectValue.Span, Origin = objectValue.Origin };
         var fieldMembers = chosen.Fields.ToDictionary(f => f.Field, f => f.Member, StringComparer.Ordinal);
         var numbers = new Dictionary<string, long>(StringComparer.Ordinal);
-        foreach (var m in obj.Members)
+        foreach (var m in objectValue.Members)
         {
             if (m.Name == "$case") continue;
             if (m.Name == "$residue")
             {
-                if (m.Value is not JsonObject residue) throw ctx.Fail(Codes.Type, "$residue is an object.", m.Value, path.Member("$residue"));
+                if (m.Value is not JsonObject residue) throw context.Fail(Codes.Type, "$residue is an object.", m.Value, path.Member("$residue"));
                 foreach (var r in residue.Members)
                 {
                     if (!mapping.StoredMembers.Contains(r.Name) || r.Name == mapping.Discriminator && chosen.Key is not null || chosen.Fields.Any(f => f.Member == r.Name))
-                        throw ctx.Fail(Codes.UnknownMember, $"$residue of case {chosen.Name} has no member \"{r.Name}\".", r.Value, path.Member("$residue").Member(r.Name), r.Name);
+                        throw context.Fail(Codes.UnknownMember, $"$residue of case {chosen.Name} has no member \"{r.Name}\".", r.Value, path.Member("$residue").Member(r.Name), r.Name);
                     flat.Members.Add(new JsonMember(r.Name, r.Value) { NameSpan = r.NameSpan });
                     numbers[r.Name] = Number(r.Value);
                 }
@@ -134,18 +134,18 @@ internal static class CaseCodec
                 continue;
             }
             if (mapping.StoredMembers.Contains(m.Name))
-                throw ctx.Fail(Codes.UnknownMember, $"Case {chosen.Name} has no field \"{m.Name}\". A value the case does not keep goes in $residue.", m.Value, path.Member(m.Name), m.Name);
+                throw context.Fail(Codes.UnknownMember, $"Case {chosen.Name} has no field \"{m.Name}\". A value the case does not keep goes in $residue.", m.Value, path.Member(m.Name), m.Name);
             flat.Members.Add(m);
         }
         if (chosen.Key is long key)
         {
-            flat.Members.Add(new JsonMember(mapping.Discriminator, Stored(cls, mapping.Discriminator, key)) { NameSpan = caseName.Span });
+            flat.Members.Add(new JsonMember(mapping.Discriminator, Stored(classValue, mapping.Discriminator, key)) { NameSpan = caseName.Span });
             numbers[mapping.Discriminator] = key;
             var written = unit.Written(key, numbers);
             foreach (var (field, member) in chosen.Fields)
                 if (written.GetValueOrDefault(member) != numbers.GetValueOrDefault(member))
-                    throw ctx.Fail(Codes.Mapping, $"Case {chosen.Name} keeps {field}, but {mapping.Name} kind {key} writes {written.GetValueOrDefault(member).ToString(CultureInfo.InvariantCulture)}.",
-                        obj.Find(field)?.Value ?? caseName, path.Member(field));
+                    throw context.Fail(Codes.Mapping, $"Case {chosen.Name} keeps {field}, but {mapping.Name} kind {key} writes {written.GetValueOrDefault(member).ToString(CultureInfo.InvariantCulture)}.",
+                        objectValue.Find(field)?.Value ?? caseName, path.Member(field));
         }
         return flat;
     }

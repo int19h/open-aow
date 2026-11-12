@@ -9,7 +9,7 @@ public partial class GlobalEnchantmentList : ENode
     { }
 
     // Spells.PAS:2671
-    public GlobalEnchantment GetEnchantments(int Index) => (GlobalEnchantment)FChildren.List[Index];
+    public GlobalEnchantment GetEnchantments(int index) => (GlobalEnchantment)_children.List[index];
 
     // Engine.pas:631
 

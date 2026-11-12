@@ -8,7 +8,7 @@ namespace Aow.Game.Session;
 public partial class CampaignScenario : EngineObject
 {
     // Diplomacy.pas:2200
-    public new const int ClassID = 131588;
+    public new const int ClassId = 131588;
 
     // Diplomacy.pas:2194
     public CampaignScenario(ECustomNode owner) : base(owner)
@@ -16,19 +16,19 @@ public partial class CampaignScenario : EngineObject
 
     }
 
-    public int FID;
-    public string FName = "";
-    public string FFileName = "";
+    public int Id;
+    public string Name = "";
+    public string FileName = "";
 
     // Diplomacy.pas:2203
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FID, 9);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Id, 9);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Stream.rwString(ref FName, 10);
-            Stream.rwString(ref FFileName, 11);
+            stream.rwString(ref Name, 10);
+            stream.rwString(ref FileName, 11);
         }
     }
 

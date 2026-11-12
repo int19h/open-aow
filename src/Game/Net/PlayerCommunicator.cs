@@ -6,69 +6,69 @@ using Aow.Rtl;
 
 namespace Aow.Game.Net;
 
-// FEngine, FOnReceive, FReceivedPackage, FSendStream, FReceiveStream, FPCC, FOnProcess
+// _engine, FOnReceive, _receivedPackage, _sendStream, _receiveStream, _playerCommunicationControl, FOnProcess
 public partial class PlayerCommunicator : EngineObject
 {
-    internal GameEngine FEngine;
+    internal GameEngine _engine;
 
-    internal EventStore<PlayerCommunicator> FOnReceiveStore;
+    internal EventStore<PlayerCommunicator> _onReceiveStore;
 
     internal event NotifyEvent<PlayerCommunicator> FOnReceive
     {
-        add => FOnReceiveStore.Add(value);
-        remove => FOnReceiveStore.Remove(value);
+        add => _onReceiveStore.Add(value);
+        remove => _onReceiveStore.Remove(value);
     }
 
-    internal DataPackage FReceivedPackage;
-    internal MemoryStream FSendStream;
-    internal MemoryStream FReceiveStream;
-    internal PlayerCommunicationControl FPCC;
+    internal DataPackage _receivedPackage;
+    internal MemoryStream _sendStream;
+    internal MemoryStream _receiveStream;
+    internal PlayerCommunicationControl _playerCommunicationControl;
 
-    internal EventStore<PlayerCommunicator> FOnProcessStore;
+    internal EventStore<PlayerCommunicator> _onProcessStore;
 
     internal event NotifyEvent<PlayerCommunicator> FOnProcess
     {
-        add => FOnProcessStore.Add(value);
-        remove => FOnProcessStore.Remove(value);
+        add => _onProcessStore.Add(value);
+        remove => _onProcessStore.Remove(value);
     }
 
     // NetworkE.pas:605
     public PlayerCommunicator(ECustomNode owner) : base(owner)
     {
-        FReceivedPackage = null;
-        FOnReceiveStore = new();
-        FSendStream = new MemoryStream();
-        FReceiveStream = new MemoryStream();
-        FOnProcessStore = new();
+        _receivedPackage = null;
+        _onReceiveStore = new();
+        _sendStream = new MemoryStream();
+        _receiveStream = new MemoryStream();
+        _onProcessStore = new();
     }
 
     // NetworkE.pas:629
-    public virtual bool ActivatePCC(PlayerCommunicationControl PCC)
+    public virtual bool ActivatePlayerCommunicationControl(PlayerCommunicationControl playerCommunicationControl)
     {
-        bool Result;
-        if (FPCC != null)
+        bool result;
+        if (_playerCommunicationControl != null)
         {
-            FPCC.Release();
-            FPCC = null;
+            _playerCommunicationControl.Release();
+            _playerCommunicationControl = null;
         }
 
-        FPCC = PCC;
-        if (FPCC != null)
+        _playerCommunicationControl = playerCommunicationControl;
+        if (_playerCommunicationControl != null)
         {
-            FPCC.AddRef();
-            Result = FPCC.Activate(this);
-            if (!Result)
+            _playerCommunicationControl.AddRef();
+            result = _playerCommunicationControl.Activate(this);
+            if (!result)
             {
-                FPCC.Release();
-                FPCC = null;
+                _playerCommunicationControl.Release();
+                _playerCommunicationControl = null;
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:651
@@ -78,20 +78,20 @@ public partial class PlayerCommunicator : EngineObject
         {
         }
 
-        FOnProcessStore.Raise(this);
+        _onProcessStore.Raise(this);
     }
 
     // NetworkE.pas:615
     public override void Dispose()
     {
-        FOnReceiveStore.Clear();
-        FSendStream?.Dispose();
-        FReceiveStream?.Dispose();
-        FOnProcessStore.Clear();
-        if (FPCC != null)
+        _onReceiveStore.Clear();
+        _sendStream?.Dispose();
+        _receiveStream?.Dispose();
+        _onProcessStore.Clear();
+        if (_playerCommunicationControl != null)
         {
-            FPCC.Release();
-            FPCC = null;
+            _playerCommunicationControl.Release();
+            _playerCommunicationControl = null;
         }
 
         base.Dispose();
@@ -100,67 +100,67 @@ public partial class PlayerCommunicator : EngineObject
     // NetworkE.pas:658
     public bool ReceiveDataPackage()
     {
-        bool Result = default;
-        EngineObject Obj = default;
-        FReceiveStream.Clear();
-        FReceiveStream.Position = 0;
-        if (FPCC.ReceivePackageData(FReceiveStream))
+        bool result = default;
+        EngineObject objectValue = default;
+        _receiveStream.Clear();
+        _receiveStream.Position = 0;
+        if (_playerCommunicationControl.ReceivePackageData(_receiveStream))
         {
             try
             {
-                Obj = FEngine.RetrieveEObject(FReceiveStream, null);
-                if (Obj is DataPackage)
+                objectValue = _engine.RetrieveEngineObject(_receiveStream, null);
+                if (objectValue is DataPackage)
                 {
-                    FReceivedPackage = (DataPackage)Obj;
-                    FOnReceiveStore.Raise(this);
-                    FReceivedPackage.Release();
+                    _receivedPackage = (DataPackage)objectValue;
+                    _onReceiveStore.Raise(this);
+                    _receivedPackage.Release();
                 }
                 else
                 {
-                    Obj?.Dispose();
+                    objectValue?.Dispose();
                 }
             }
             catch
             {
             }
 
-            FReceivedPackage = null;
-            Result = true;
+            _receivedPackage = null;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:685
-    public bool SendDataPackage(DataPackage Package, int ASender, int AReceiver)
+    public bool SendDataPackage(DataPackage package, int sender, int receiver)
     {
-        Package.FSender = ASender;
-        Package.FReceiver = AReceiver;
-        FSendStream.Clear();
-        FEngine.StoreEObject(FSendStream, Package, null);
-        FSendStream.Position = 0;
-        return FPCC.SendPackageData(AReceiver, FSendStream);
+        package._sender = sender;
+        package._receiver = receiver;
+        _sendStream.Clear();
+        _engine.StoreEngineObject(_sendStream, package, null);
+        _sendStream.Position = 0;
+        return _playerCommunicationControl.SendPackageData(receiver, _sendStream);
     }
 
-    public GameEngine Engine { get => FEngine; set => FEngine = value; }
+    public GameEngine Engine { get => _engine; set => _engine = value; }
 
     public event NotifyEvent<PlayerCommunicator> OnReceive
     {
-        add => FOnReceiveStore.Add(value);
-        remove => FOnReceiveStore.Remove(value);
+        add => _onReceiveStore.Add(value);
+        remove => _onReceiveStore.Remove(value);
     }
 
-    public DataPackage ReceivedPackage { get => FReceivedPackage; }
-    public PlayerCommunicationControl PCC { get => FPCC; }
+    public DataPackage ReceivedPackage { get => _receivedPackage; }
+    public PlayerCommunicationControl PlayerCommunicationControl { get => _playerCommunicationControl; }
 
     public event NotifyEvent<PlayerCommunicator> OnProcess
     {
-        add => FOnProcessStore.Add(value);
-        remove => FOnProcessStore.Remove(value);
+        add => _onProcessStore.Add(value);
+        remove => _onProcessStore.Remove(value);
     }
 
 }

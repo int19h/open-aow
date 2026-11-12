@@ -10,17 +10,17 @@ public partial class AICastSpellActionList : ENode
 
     // Spells.PAS:1535
     // inherited children
-    public AICastSpellAction GetCastSpellActions(int Index) => (AICastSpellAction)FChildren.List[Index];
+    public AICastSpellAction GetCastSpellActions(int index) => (AICastSpellAction)_children.List[index];
 
     // Spells.PAS:1539
     public void SortOnPriority()
     {
-        FChildren.Sort(P4CompareCastSpellPriority);
+        _children.Sort(CompareCastSpellPriority);
     }
 
-    private static int P4CompareCastSpellPriority(object Item1, object Item2)
+    private static int CompareCastSpellPriority(object item1, object item2)
     {
-        return ((AICastSpellAction)Item2).FPriority - ((AICastSpellAction)Item1).FPriority;
+        return ((AICastSpellAction)item2).Priority - ((AICastSpellAction)item1).Priority;
     }
 
     // Engine.pas:631

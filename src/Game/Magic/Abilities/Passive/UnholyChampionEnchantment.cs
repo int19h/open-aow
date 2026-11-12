@@ -9,7 +9,7 @@ public partial class UnholyChampionEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1203
     public UnholyChampionEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(GameText.UnholyChampionRStr);
-        FAbilityID = 161;
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_unholyChampionText);
+        AbilityId = 161;
     }
 }

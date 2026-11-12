@@ -38,7 +38,7 @@ public partial class EReadStorageStream : EStorageStream
         Set<StorageModeElement> Result;
         if (FPartial)
         {
-            Result = Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smPartial);
+            Result = Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Partial);
         }
         else
         {
@@ -389,10 +389,10 @@ public partial class EReadStorageStream : EStorageStream
                 FDataBase = (int)(FStream.Position);
                 try
                 {
-                    Obj = FEngine.CreateEObject(AClassID, null);
-                    Obj.FOwner = AOwner;
+                    Obj = FEngine.CreateEngineObject(AClassID, null);
+                    Obj._owner = AOwner;
                     Obj.MainReadWrite(this);
-                    Obj.FOwner = null;
+                    Obj._owner = null;
                     Obj.SetOwner(AOwner);
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;
@@ -431,11 +431,11 @@ public partial class EReadStorageStream : EStorageStream
 
             FPropertyTable.LoadFromStream(FStream);
             FDataBase = (int)(FStream.Position);
-            if (Node.GetControlStyle().Contains(EngineServices.csKeepIndex))
+            if (Node.GetControlStyle().Contains(EngineServices.KeepIndex))
             {
                 for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
                 {
-                    ChildID = FPropertyTable.Items[I].ID;
+                    ChildID = FPropertyTable.Items[I].Id;
                     rwCreateEObject(ref Child, Node, ChildID);
                     if (Child != null)
                     {
@@ -447,7 +447,7 @@ public partial class EReadStorageStream : EStorageStream
             {
                 for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
                 {
-                    ChildID = FPropertyTable.Items[I].ID;
+                    ChildID = FPropertyTable.Items[I].Id;
                     rwCreateEObject(ref Child, Node, ChildID);
                 }
             }

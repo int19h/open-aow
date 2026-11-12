@@ -28,91 +28,91 @@ internal static class RosterTables
         Text = ByteArray128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
     };
 
-    internal static int GetUnitIndexAIPriority(int UnitIndex, sbyte Player, sbyte Relation)
+    internal static int GetUnitIndexAIPriority(int unitIndex, sbyte player, sbyte relation)
     {
-        int Result;
-        UnitResource Resource;
-        int Value;
-        Unit Unit_;
-        HypotheticalUnit DefaultUnit;
-        Resource = AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex);
-        if (Resource != null && Resource.GetTransportCapacity() == 0)
+        int result;
+        UnitResource resource;
+        int value;
+        Unit unit;
+        HypotheticalUnit defaultUnit;
+        resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex);
+        if (resource != null && resource.GetTransportCapacity() == 0)
         {
-            if (Player != 0)
+            if (player != 0)
             {
-                if (Resource.FRace != -1)
+                if (resource.Race != -1)
                 {
-                    Value = AoWHSMap.Current.FRaces.GetRace(Resource.FRace).GetPlayerRelationValue(Player);
+                    value = AoWHSMap.Current.Races.GetRace(resource.Race).GetPlayerRelationValue(player);
                 }
                 else
                 {
-                    var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                    var alignment = AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
-                    Value = AlignmentTables.dAlignmentToStatusValue[(int)Resource.FAlignment][(int)alignment];
+                    var players = AoWHSMap.Current.Players.GetPlayers(player);
+                    var alignment = AoWHSSet.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
+                    value = AlignmentTables.s_alignmentStatusValues[(int)resource.Alignment][(int)alignment];
                 }
             }
             else
             {
-                var iRtoAlignment = AbilityRules.IRtoAlignment(Relation);
-                Value = AlignmentTables.dAlignmentToStatusValue[(int)Resource.FAlignment][(int)iRtoAlignment];
+                var iRtoAlignment = AbilityRules.IndependentRelationToAlignment(relation);
+                value = AlignmentTables.s_alignmentStatusValues[(int)resource.Alignment][(int)iRtoAlignment];
             }
 
-            if (Value >= 50)
+            if (value >= 50)
             {
-                Unit_ = new Unit(null);
-                Unit_.SetUnitResource(Resource);
-                DefaultUnit = new HypotheticalUnit(null);
-                DefaultUnit.MakeDefaultLevelUnit(1);
-                if (Unit_.GetCombatValue(DefaultUnit, 0) > 0)
+                unit = new Unit(null);
+                unit.SetUnitResource(resource);
+                defaultUnit = new HypotheticalUnit(null);
+                defaultUnit.MakeDefaultLevelUnit(1);
+                if (unit.GetCombatValue(defaultUnit, 0) > 0)
                 {
-                    Result = Unit_.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) / 100 + (Resource.FLevel * 100 + Resource.FMoves * 10 + Value / 2);
-                    if (Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(57) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(58))
+                    result = unit.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) / 100 + (resource.Level * 100 + resource.Moves * 10 + value / 2);
+                    if (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(57) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(58))
                     {
-                        Result += 100;
+                        result += 100;
                     }
 
-                    if (Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(13))
+                    if (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(13))
                     {
-                        Result += 150;
+                        result += 150;
                     }
 
-                    if (AoWHSMap.Current != null && AoWHSMap.Current.FDay > 20 && (Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(20) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(19) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(18) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(121) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(88) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(89)))
+                    if (AoWHSMap.Current != null && AoWHSMap.Current.Day > 20 && (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(20) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(19) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(18) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(121) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(88) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(89)))
                     {
-                        Result += 100;
+                        result += 100;
                     }
 
-                    if (Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(1) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(36) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(66) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(24) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(44) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(117) && Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(21))
+                    if (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(1) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(36) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(66) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(24) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(44) || resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(117) && resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(21))
                     {
-                        Result += 100;
+                        result += 100;
                     }
 
-                    if (Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(65))
+                    if (resource.Abilities[(int)Unit.Rank.None].GetAbilitySetAt(65))
                     {
-                        Result = Result / 2;
+                        result = result / 2;
                     }
                 }
                 else
                 {
-                    Result = -1;
+                    result = -1;
                 }
 
-                DefaultUnit?.Dispose();
-                Unit_?.Dispose();
+                defaultUnit?.Dispose();
+                unit?.Dispose();
             }
             else
             {
-                Result = -1;
+                result = -1;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static EngineClass P4UnitSelectionClass = EngineClass.Of<UnitUserList>();
+    internal static EngineClass s_unitSelectionClass = EngineClass.Of<UnitUserList>();
 
     internal static Set<HeroType> AllHeroTypes = Set<HeroType>.Of(HeroType.Hero, HeroType.Leader, HeroType.HeroLeader, HeroType.Merchant);
 

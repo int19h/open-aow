@@ -6,5 +6,5 @@ namespace Aow.Engine.Buffers;
 [InlineArray(256)]
 public struct SByteArray16By16By256
 {
-    private SByteArray16By16 element0;
+    private SByteArray16By16 _element0;
 }

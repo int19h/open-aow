@@ -6,112 +6,112 @@ namespace Aow.Game.Audio;
 // the sound effects (TSFXSequence children) by ID
 public partial class SfxLibrary : ENode
 {
-    public new const int ClassID = 2162691;
+    public new const int ClassId = 2162691;
 
     public SfxLibrary(ECustomNode owner) : base(owner)
     { }
 
     // Sound.pas:1088
-    public SfxSequence GetSFXSequence(int Index)
+    public SfxSequence GetSfxSequence(int index)
     {
-        SfxSequence Result;
-        if (Index >= 0 && Index < this.FChildren.Count)
+        SfxSequence result;
+        if (index >= 0 && index < this._children.Count)
         {
-            Result = (SfxSequence)this.FChildren.List[Index];
+            result = (SfxSequence)this._children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Sound.pas:1096
-    public Sample Play(int ID)
+    public Sample Play(int id)
     {
-        Sample Result;
+        Sample result;
         SfxSequence S;
-        S = Find(ID);
+        S = Find(id);
         if (S != null)
         {
-            Result = S.Play();
+            result = S.Play();
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Sound.pas:1107
-    public Sample PlayEx(int ID, int Volume, bool Looped, int Delay, SamplePanning Panning, SampleCallBack CallBack)
+    public Sample Play(int id, int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback)
     {
-        Sample Result = default;
+        Sample result = default;
         SfxSequence S;
-        S = Find(ID);
+        S = Find(id);
         if (S != null)
         {
-            Result = S.PlayEx(Volume, Looped, Delay, Panning, CallBack);
+            result = S.Play(volume, looped, delay, panning, callback);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Sound.pas:1119
-    public SfxSequence Find(int ID)
+    public SfxSequence Find(int id)
     {
         int I;
         I = 0;
-        SfxSequence Result = null;
-        while (I != this.FChildren.Count && Result == null)
+        SfxSequence result = null;
+        while (I != this._children.Count && result == null)
         {
-            if (((SfxSequence)this.FChildren.List[I]).FID == ID)
+            if (((SfxSequence)this._children.List[I])._id == id)
             {
-                Result = (SfxSequence)this.FChildren.List[I];
+                result = (SfxSequence)this._children.List[I];
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Sound.pas:1134
     // { The first ID that two sequences share, -1 when the IDs are unique. }
-    public int DoubleID()
+    public int DoubleId()
     {
         int I;
-        int ID;
+        int id;
         I = 0;
-        int Result = -1;
-        while (Result == -1 && I != Count)
+        int result = -1;
+        while (result == -1 && I != Count)
         {
-            ID = ((SfxSequence)this.FChildren.List[I]).FID;
+            id = ((SfxSequence)this._children.List[I])._id;
             for (int J = I + 1, last = Count - 1; J <= last; J++)
             {
-                if (ID == ((SfxSequence)this.FChildren.List[J]).FID)
+                if (id == ((SfxSequence)this._children.List[J])._id)
                 {
-                    Result = ID;
+                    result = id;
                 }
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     public sealed class SfxSequencesAccessor(SfxLibrary target)
     {
-        public SfxSequence this[int Index] { get => target.GetSFXSequence(Index); }
+        public SfxSequence this[int index] { get => target.GetSfxSequence(index); }
     }
 
-    public SfxSequencesAccessor SFXSequences => new SfxSequencesAccessor(this);
+    public SfxSequencesAccessor SfxSequences => new SfxSequencesAccessor(this);
 
 }

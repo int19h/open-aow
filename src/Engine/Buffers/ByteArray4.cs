@@ -6,7 +6,7 @@ namespace Aow.Engine.Buffers;
 [InlineArray(4)]
 public struct ByteArray4
 {
-    private byte element0;
+    private byte _element0;
 
     public static ByteArray4 From(ReadOnlySpan<byte> values)
     {

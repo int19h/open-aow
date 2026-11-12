@@ -11,38 +11,38 @@ public partial class CursedAbility : DurationAbility
     // PassiveAb.pas:981
     public CursedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(CursedRStr);
-        FAbilityID = 93;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
-        FDurationMode = DurationMode.Day;
+        AbilityName = AbilityRules.TranslateResourceString(s_cursedText);
+        AbilityId = 93;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
+        DurationMode = DurationMode.Day;
     }
 
     // PassiveAb.pas:1009
-    public override sbyte GetDefense(AbilityOwner Owner) => -2;
+    public override sbyte GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:1015
-    public override sbyte GetResistance(AbilityOwner Owner) => -2;
+    public override sbyte GetResistance(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:991
-    public override string GetSourceName(AbilityOwner Owner)
+    public override string GetSourceName(AbilityOwner owner)
     {
-        string Result;
-        DurationAbilityData Data;
-        Data = (DurationAbilityData)Owner.GetAbilityData(FAbilityID);
-        if (Data != null && Data.FSource == 1)
+        string result;
+        DurationAbilityData data;
+        data = (DurationAbilityData)owner.GetAbilityData(AbilityId);
+        if (data != null && data.Source == 1)
         {
-            Result = AbilityRules.TranslateRStr(GameText.DeathMasteryRStr);
+            result = AbilityRules.TranslateResourceString(GameText.s_deathMasteryText);
         }
         else
         {
-            Result = base.GetSourceName(Owner);
+            result = base.GetSourceName(owner);
         }
 
-        return Result;
+        return result;
     }
 
     // PassiveAb.pas:1003
     public override int GetTotalDuration() => 3;
 
-    private static readonly string CursedRStr = "Cursed";
+    private static readonly string s_cursedText = "Cursed";
 }

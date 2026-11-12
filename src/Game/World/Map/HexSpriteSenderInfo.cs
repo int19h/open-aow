@@ -8,5 +8,5 @@ public struct HexSpriteSenderInfo
 {
     public object Sender;
     public MapField MapField;
-    public sbyte HN;
+    public sbyte HexNumber;
 }

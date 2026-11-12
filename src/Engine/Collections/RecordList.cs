@@ -7,82 +7,82 @@ namespace Aow.Engine.Collections;
 
 public class RecordList<TRecord> : Persistent where TRecord : struct
 {
-    internal TRecord[] FList = [];
-    internal int FCount;
-    internal int FCapacity;
+    internal TRecord[] _list = [];
+    internal int _count;
+    internal int _capacity;
 
-    internal TRecord Get(int Index) => Index < 0 || Index >= FCount ? default : FList[Index];
+    internal TRecord Get(int index) => index < 0 || index >= _count ? default : _list[index];
 
-    internal void Put(int Index, TRecord Item)
+    internal void Put(int index, TRecord item)
     {
-        if (Index < 0)
+        if (index < 0)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        FList[Index] = Item;
+        _list[index] = item;
     }
 
-    internal void SetCapacity(int NewCapacity)
+    internal void SetCapacity(int newCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
+        if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", NewCapacity);
+            Error("List capacity out of bounds (%d)", newCapacity);
         }
 
-        if (NewCapacity != FCapacity)
+        if (newCapacity != _capacity)
         {
-            Array.Resize(ref FList, NewCapacity);
-            FCapacity = NewCapacity;
+            Array.Resize(ref _list, newCapacity);
+            _capacity = newCapacity;
         }
     }
 
-    internal void SetCount(int NewCount)
+    internal void SetCount(int newCount)
     {
-        if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
+        if (newCount < 0 || newCount > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", NewCount);
+            Error("List count out of bounds (%d)", newCount);
         }
 
-        if (NewCount > FCapacity)
+        if (newCount > _capacity)
         {
-            SetCapacity(NewCount);
+            SetCapacity(newCount);
         }
 
-        if (NewCount > FCount)
+        if (newCount > _count)
         {
-            Array.Clear(FList, FCount, NewCount - FCount);
+            Array.Clear(_list, _count, newCount - _count);
         }
         else
         {
-            Array.Clear(FList, NewCount, FCount - NewCount);
+            Array.Clear(_list, newCount, _count - newCount);
         }
 
-        FCount = NewCount;
+        _count = newCount;
     }
 
     protected internal virtual void Grow()
     {
-        int Delta;
-        if (FCapacity > 64)
+        int delta;
+        if (_capacity > 64)
         {
-            Delta = FCapacity / 4;
+            delta = _capacity / 4;
         }
-        else if (FCapacity > 8)
+        else if (_capacity > 8)
         {
-            Delta = 16;
+            delta = 16;
         }
         else
         {
-            Delta = 4;
+            delta = 4;
         }
 
-        SetCapacity(FCapacity + Delta);
+        SetCapacity(_capacity + delta);
     }
 
     public override void Dispose()
@@ -91,32 +91,32 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
         base.Dispose();
     }
 
-    public override void Assign(Persistent Source)
+    public override void Assign(Persistent source)
     {
-        if (Source is RecordList<TRecord> list)
+        if (source is RecordList<TRecord> list)
         {
             Clear();
-            SetCapacity(list.FCount);
-            Array.Copy(list.FList, FList, list.FCount);
-            FCount = list.FCount;
+            SetCapacity(list._count);
+            Array.Copy(list._list, _list, list._count);
+            _count = list._count;
         }
         else
         {
-            base.Assign(Source);
+            base.Assign(source);
         }
     }
 
-    public int Add(in TRecord Item)
+    public int Add(in TRecord item)
     {
-        int Result = FCount;
-        if (Result == FCapacity)
+        int result = _count;
+        if (result == _capacity)
         {
             Grow();
         }
 
-        FList[Result] = Item;
-        FCount += 1;
-        return Result;
+        _list[result] = item;
+        _count += 1;
+        return result;
     }
 
     public void Clear()
@@ -125,64 +125,64 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
         SetCapacity(0);
     }
 
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        if (Index < 0 || Index >= FCount)
+        if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        FCount -= 1;
-        Array.Copy(FList, Index + 1, FList, Index, FCount - Index);
-        FList[FCount] = default;
+        _count -= 1;
+        Array.Copy(_list, index + 1, _list, index, _count - index);
+        _list[_count] = default;
     }
 
-    public void Exchange(int Index1, int Index2)
+    public void Exchange(int index1, int index2)
     {
-        if (Index1 < 0 || Index1 >= FCount)
+        if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", Index1);
+            Error("List index out of bounds (%d)", index1);
         }
 
-        if (Index2 < 0 || Index2 >= FCount)
+        if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", Index2);
+            Error("List index out of bounds (%d)", index2);
         }
 
-        (FList[Index1], FList[Index2]) = (FList[Index2], FList[Index1]);
+        (_list[index1], _list[index2]) = (_list[index2], _list[index1]);
     }
 
     public TRecord First() => Get(0);
 
-    public void Insert(int Index, in TRecord Item)
+    public void Insert(int index, in TRecord item)
     {
-        if (Index < 0 || Index > FCount)
+        if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
 
-        Array.Copy(FList, Index, FList, Index + 1, FCount - Index);
-        FList[Index] = Item;
-        FCount += 1;
+        Array.Copy(_list, index, _list, index + 1, _count - index);
+        _list[index] = item;
+        _count += 1;
     }
 
-    public TRecord Last() => Get(FCount - 1);
+    public TRecord Last() => Get(_count - 1);
 
-    public void Sort(RecordSortCompare<TRecord> Compare)
+    public void Sort(RecordSortCompare<TRecord> compare)
     {
-        if (FCount > 0)
+        if (_count > 0)
         {
-            QuickSort(FList, 0, FCount - 1, Compare);
+            QuickSort(_list, 0, _count - 1, compare);
         }
     }
 
     // Engine.pas:5254, the quicksort of QuickSortDoubleItem and QuickSortQuadItem.
-    private static void QuickSort(Span<TRecord> SortList, int L, int R, RecordSortCompare<TRecord> SCompare)
+    private static void QuickSort(Span<TRecord> sortList, int L, int R, RecordSortCompare<TRecord> sCompare)
     {
         int I;
         int J;
@@ -191,22 +191,22 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
         {
             I = L;
             J = R;
-            P = SortList[(int)(((uint)(L + R)) >> 1)];
+            P = sortList[(int)(((uint)(L + R)) >> 1)];
             do
             {
-                while (SCompare(SortList[I], P) < 0)
+                while (sCompare(sortList[I], P) < 0)
                 {
                     I += 1;
                 }
 
-                while (SCompare(SortList[J], P) > 0)
+                while (sCompare(sortList[J], P) > 0)
                 {
                     J -= 1;
                 }
 
                 if (I <= J)
                 {
-                    (SortList[I], SortList[J]) = (SortList[J], SortList[I]);
+                    (sortList[I], sortList[J]) = (sortList[J], sortList[I]);
                     I += 1;
                     J -= 1;
                 }
@@ -214,7 +214,7 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
             while (!(I > J));
             if (L < J)
             {
-                QuickSort(SortList, L, J, SCompare);
+                QuickSort(sortList, L, J, sCompare);
             }
 
             L = I;
@@ -222,16 +222,16 @@ public class RecordList<TRecord> : Persistent where TRecord : struct
         while (!(I >= R));
     }
 
-    public int Capacity { get => FCapacity; set => SetCapacity(value); }
-    public int Count { get => FCount; set => SetCount(value); }
+    public int Capacity { get => _capacity; set => SetCapacity(value); }
+    public int Count { get => _count; set => SetCount(value); }
 
-    public TRecord this[int Index] { get => Get(Index); set => Put(Index, value); }
+    public TRecord this[int index] { get => Get(index); set => Put(index, value); }
 
-    public TRecord[] List { get => FList; }
+    public TRecord[] List { get => _list; }
 
-    protected internal static void Error(string Msg, int Data)
+    protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
     }
 
     // The record lists above with an object column. Engine.pas stored Integer(Object) in column A of a

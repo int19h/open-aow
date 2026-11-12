@@ -11,7 +11,7 @@ public partial class TurnInfo : ENode
     { }
 
     // Player.PAS:177
-    public TurnInfoItem GetTurnInfo(int Index) => (TurnInfoItem)FChildren.List[Index];
+    public TurnInfoItem GetTurnInfo(int index) => (TurnInfoItem)_children.List[index];
 
     // Engine.pas:631
 

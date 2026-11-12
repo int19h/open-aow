@@ -9,112 +9,112 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Engine.Nodes;
 
-// FEditors, editor names with ids
+// _editors, editor names with ids
 public partial class ResourceEditSettings : ControlStyleObject
 {
     // Engine.pas:8662
-    public new const int ClassID = 1026;
+    public new const int ClassId = 1026;
 
-    internal StringList FEditors;
+    internal StringList _editors;
 
     // Engine.pas:8677
-    internal int GetUniqueEditID()
+    internal int GetUniqueEditId()
     {
         int I;
-        bool Found;
-        int Result = 1;
+        bool found;
+        int result = 1;
         I = 0;
-        Found = FEditors.Count == 0;
-        while (!Found)
+        found = _editors.Count == 0;
+        while (!found)
         {
-            if (Result != ObjectToInt(FEditors.Objects[I]))
+            if (result != ObjectToInt(_editors.Objects[I]))
             {
                 I += 1;
-                Found = I == FEditors.Count;
+                found = I == _editors.Count;
             }
             else
             {
                 I = 0;
-                Result += 1;
+                result += 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8650
     public ResourceEditSettings(ECustomNode owner) : base(owner)
     {
-        FEditors = new StringList();
+        _editors = new StringList();
     }
 
     // Engine.pas:8656
     public override void Dispose()
     {
-        FEditors?.Dispose();
+        _editors?.Dispose();
         base.Dispose();
     }
 
     // Engine.pas:8667
-    public string GetUniqueEditorName(string Name)
+    public string GetUniqueEditorName(string name)
     {
         string S;
-        S = Name;
-        while (FEditors.IndexOf(S) != -1)
+        S = name;
+        while (_editors.IndexOf(S) != -1)
         {
-            S = Name + IntToStr(Random(268435455));
+            S = name + IntToStr(Random(268435455));
         }
 
         return S;
     }
 
     // Engine.pas:8700
-    public int GetEditID(string Name)
+    public int GetEditId(string name)
     {
-        int Result;
+        int result;
         int I;
-        I = FEditors.IndexOf(Name);
+        I = _editors.IndexOf(name);
         if (I != -1)
         {
-            Result = ObjectToInt(FEditors.Objects[I]);
+            result = ObjectToInt(_editors.Objects[I]);
         }
         else
         {
-            Result = GetUniqueEditID();
-            FEditors.AddObject(Name, IntToObject(Result));
+            result = GetUniqueEditId();
+            _editors.AddObject(name, IntToObject(result));
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8714
-    public int RemoveEditor(string Name)
+    public int RemoveEditor(string name)
     {
-        int Result = FEditors.IndexOf(Name);
-        if (Result != -1)
+        int result = _editors.IndexOf(name);
+        if (result != -1)
         {
-            FEditors.Delete(Result);
+            _editors.Delete(result);
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8720
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(EngineServices.smText))
+        base.ReadWrite(stream);
+        if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            Stream.rwStringsEx(FEditors, 3);
+            stream.rwStringsEx(_editors, 3);
         }
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.LinesEx(persister, "Editors", FEditors);
+        PersistSupport.LinesWithValues(persister, "Editors", _editors);
     }
 
-    public StringList Editors { get => FEditors; }
+    public StringList Editors { get => _editors; }
 
 }

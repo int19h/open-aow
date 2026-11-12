@@ -3,8 +3,8 @@ namespace Aow.Game.Draw;
 
 public partial class BlendTable5Bit
 {
-    public override void Assign(BlendTable Source)
+    public override void Assign(BlendTable source)
     {
-        if (Source is BlendTable5Bit table) Array.Copy(table.FTable, FTable, 32 * 32);
+        if (source is BlendTable5Bit table) Array.Copy(table._table, _table, 32 * 32);
     }
 }

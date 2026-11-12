@@ -12,7 +12,7 @@ public partial class LifeNode : ProductionPlace
     { }
 
     // LifeNode.pas:37
-    public new const int ClassID = 131953;
+    public new const int ClassId = 131953;
 
     // LifeNode.pas:40
     public override MagicSphere GetMagicSphere() => MagicSphere.Life;
@@ -21,26 +21,26 @@ public partial class LifeNode : ProductionPlace
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FRazeDefenderBudget = 200;
-            FTerrainBound = false;
-            FRebuildGold = 25;
-            FRebuildDays = 2;
+            RazeDefenderBudget = 200;
+            TerrainBound = false;
+            RebuildGold = 25;
+            RebuildDays = 2;
         }
 
         // LifeNode.pas:55
-        public new const int ClassID = 131954;
+        public new const int ClassId = 131954;
 
         // LifeNode.pas:43
 
         // LifeNode.pas:58
-        public override int ResourceUserClassID() => 131953;
+        public override int ResourceUserClassId() => 131953;
 
         // LifeNode.pas:27
 
         // LifeNode.pas:52
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(LifeNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_lifeNodeText);
 
-        private static readonly string LifeNodeRStr = "Life Node";
+        private static readonly string s_lifeNodeText = "Life Node";
 
     }
 

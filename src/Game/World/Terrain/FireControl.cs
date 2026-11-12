@@ -9,92 +9,92 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
 
-// FResources
+// Resources
 public partial class FireControl : IDisposable
 {
     // Structur.PAS:3720
-    // FResources
+    // Resources
     public FireControl()
     {
-        FResources = new List<Fire.Resource>();
+        Resources = new List<Fire.Resource>();
     }
 
-    public List<Fire.Resource> FResources;
+    public List<Fire.Resource> Resources;
 
     // Structur.PAS:3726
     public virtual void Dispose()
     {
-        FResources?.Clear();
+        Resources?.Clear();
     }
 
     // Structur.PAS:3732
-    public Fire.Resource GetRndFireResource(FireType FireType)
+    public Fire.Resource GetRandomFireResource(FireType fireType)
     {
-        Fire.Resource Result;
-        List<Fire.Resource> Resources;
-        Resources = new List<Fire.Resource>();
-        for (int I = 0, last = FResources.Count - 1; I <= last; I++)
+        Fire.Resource result;
+        List<Fire.Resource> resources;
+        resources = new List<Fire.Resource>();
+        for (int I = 0, last = Resources.Count - 1; I <= last; I++)
         {
-            if (FResources[I].FFireType == FireType)
+            if (Resources[I].FireType == fireType)
             {
-                Resources.Add(FResources[I]);
+                resources.Add(Resources[I]);
             }
         }
 
-        if (Resources.Count != 0)
+        if (resources.Count != 0)
         {
-            var random = Random(Resources.Count);
-            Result = Resources[random];
+            var random = Random(resources.Count);
+            result = resources[random];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        Resources?.Clear();
-        return Result;
+        resources?.Clear();
+        return result;
     }
 
     // Structur.PAS:3747
-    public Fire PlaceFire(int X, int Y, int L, FireType FireType)
+    public Fire PlaceFire(int X, int Y, int L, FireType fireType)
     {
-        Fire Result;
-        Fire.Resource Resource;
-        Fire Fire;
-        Resource = GetRndFireResource(FireType);
-        if (Resource != null)
+        Fire result;
+        Fire.Resource resource;
+        Fire fire;
+        resource = GetRandomFireResource(fireType);
+        if (resource != null)
         {
-            Fire = (Fire)Resource.CreateResourceUser();
-            Fire.FPlayer = AoWHSMap.Current.FCurrentPlayer;
-            if (!AoWHSMap.Current.PlaceHX(Fire, X, Y, L))
+            fire = (Fire)resource.CreateResourceUser();
+            fire.Player = AoWHSMap.Current.CurrentPlayer;
+            if (!AoWHSMap.Current.PlaceHex(fire, X, Y, L))
             {
-                Fire?.Dispose();
-                Result = null;
+                fire?.Dispose();
+                result = null;
             }
             else
             {
-                Result = Fire;
-                Fire.TriggerDamage();
+                result = fire;
+                fire.TriggerDamage();
             }
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3771
-    public void RegisterFireResource(Fire.Resource Resource)
+    public void RegisterFireResource(Fire.Resource resource)
     {
-        FResources.Add(Resource);
+        Resources.Add(resource);
     }
 
     // Structur.PAS:3776
-    public void UnregisterFireResource(Fire.Resource Resource)
+    public void UnregisterFireResource(Fire.Resource resource)
     {
-        FResources.Remove(Resource);
+        Resources.Remove(resource);
     }
 
     // intf_P1_11.inc:62

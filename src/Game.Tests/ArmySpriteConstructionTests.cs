@@ -55,7 +55,7 @@ public sealed class ArmySpriteConstructionTests
                 }
                 Assert.NotNull(value);
                 actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
-                AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FStatus = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+                AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
                 value?.SetOwner(null!);
                 value?.Dispose();
             }
@@ -63,7 +63,7 @@ public sealed class ArmySpriteConstructionTests
     }
 
     [Fact]
-    public void SavedArmyReturnsThroughCreateEObjectAndReadWrite()
+    public void SavedArmyReturnsThroughCreateEngineObjectAndReadWrite()
     {
         using var fixture = new OrderingRecording.Fixture(typeof(ArmyHexSprite));
         EngineObject source = new ArmyHexSprite(null!);
@@ -71,17 +71,17 @@ public sealed class ArmySpriteConstructionTests
         using var memory = new MemoryStream();
         try
         {
-            ((ArmyHexSprite)source).FArmy.FPlayer = 2;
+            ((ArmyHexSprite)source).Army.Player = 2;
             using (var writer = new EWriteStorageStream(memory, fixture.Engine, false)) { source.ReadWrite(writer); }
             memory.Position = 0;
-            loaded = fixture.Engine.CreateEObject(ArmyHexSprite.ClassID, null!);
+            loaded = fixture.Engine.CreateEngineObject(ArmyHexSprite.ClassId, null!);
             using (var reader = new EReadStorageStream(memory, fixture.Engine, false)) { loaded.ReadWrite(reader); }
             Assert.IsType<ArmyHexSprite>(loaded);
             Assert.Equal(OrderingRecording.Snapshot(source), OrderingRecording.Snapshot(loaded));
         }
         finally
         {
-            AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FStatus = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
+            AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value._status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying); });
             loaded?.Dispose();
             source.Dispose();
         }

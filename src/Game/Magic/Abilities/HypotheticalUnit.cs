@@ -10,14 +10,14 @@ namespace Aow.Game.Magic.Abilities;
 // attack. defense. resistance. hits. damage. immunity. protection. hit points
 public partial class HypotheticalUnit : Troop
 {
-    public sbyte FAttack;
-    public sbyte FDefense;
-    public sbyte FResistance;
-    public sbyte FHits;
-    public sbyte FDamage;
-    public Set<DamageType> FImmunityTypes;
-    public Set<DamageType> FProtectionTypes;
-    public sbyte FHitPoints;
+    public sbyte Attack;
+    public sbyte Defense;
+    public sbyte Resistance;
+    public sbyte Hits;
+    public sbyte Damage;
+    public Set<DamageType> ImmunityTypes;
+    public Set<DamageType> ProtectionTypes;
+    public sbyte HitPoints;
 
     // Unit.PAS:2534
     public HypotheticalUnit(ECustomNode owner) : base(owner)
@@ -26,88 +26,88 @@ public partial class HypotheticalUnit : Troop
     }
 
     // Unit.PAS:2591
-    public override sbyte GetAttack() => FAttack;
+    public override sbyte GetAttack() => Attack;
 
     // Unit.PAS:2593
-    public override sbyte GetDefense() => FDefense;
+    public override sbyte GetDefense() => Defense;
 
     // Unit.PAS:2595
-    public override sbyte GetDamage() => FDamage;
+    public override sbyte GetDamage() => Damage;
 
     // Unit.PAS:2603
-    public override sbyte GetResistance() => FResistance;
+    public override sbyte GetResistance() => Resistance;
 
     // Unit.PAS:2597
-    public override sbyte GetHits() => FHits;
+    public override sbyte GetHits() => Hits;
 
     // Unit.PAS:2599
-    public override sbyte GetHitPoints() => FHitPoints;
+    public override sbyte GetHitPoints() => HitPoints;
 
     // Unit.PAS:2601
-    public override void SetHitPoints(sbyte Value)
+    public override void SetHitPoints(sbyte value)
     {
-        FHitPoints = Value;
+        HitPoints = value;
     }
 
     // Unit.PAS:2605
-    public override Set<DamageType> GetImmunityTypes() => FImmunityTypes;
+    public override Set<DamageType> GetImmunityTypes() => ImmunityTypes;
 
     // Unit.PAS:2607
-    public override Set<DamageType> GetProtectionTypes() => FProtectionTypes;
+    public override Set<DamageType> GetProtectionTypes() => ProtectionTypes;
 
     // Unit.PAS:2539
-    public void MakeDefaultLevelUnit(sbyte Level)
+    public void MakeDefaultLevelUnit(sbyte level)
     {
         // { Original retains protection from an earlier, higher-level setup. }
-        switch (Level)
+        switch (level)
         {
             case 1:
-                FAttack = 4;
-                FDefense = 2;
-                FResistance = 3;
-                FDamage = 3;
-                FHits = 5;
-                SetAbSet(21, 1);
-                SetAbSet(0, 1);
-                FImmunityTypes = Set<DamageType>.Of(DamageType.Wall);
+                Attack = 4;
+                Defense = 2;
+                Resistance = 3;
+                Damage = 3;
+                Hits = 5;
+                SetAbilitySet(21, 1);
+                SetAbilitySet(0, 1);
+                ImmunityTypes = Set<DamageType>.Of(DamageType.Wall);
                 break;
             case 2:
-                FAttack = 5;
-                FDefense = 3;
-                FResistance = 3;
-                FDamage = 3;
-                FHits = 8;
-                SetAbSet(21, 1);
-                SetAbSet(0, 1);
-                FImmunityTypes = Set<DamageType>.Of(DamageType.Wall);
+                Attack = 5;
+                Defense = 3;
+                Resistance = 3;
+                Damage = 3;
+                Hits = 8;
+                SetAbilitySet(21, 1);
+                SetAbilitySet(0, 1);
+                ImmunityTypes = Set<DamageType>.Of(DamageType.Wall);
                 break;
             case 3:
-                FAttack = 6;
-                FDefense = 3;
-                FResistance = 4;
-                FDamage = 7;
-                FHits = 15;
-                SetAbSet(21, 1);
-                SetAbSet(0, 1);
-                FImmunityTypes = Set<DamageType>.Of(DamageType.Wall);
-                FProtectionTypes = Set<DamageType>.Of(DamageType.Physical);
+                Attack = 6;
+                Defense = 3;
+                Resistance = 4;
+                Damage = 7;
+                Hits = 15;
+                SetAbilitySet(21, 1);
+                SetAbilitySet(0, 1);
+                ImmunityTypes = Set<DamageType>.Of(DamageType.Wall);
+                ProtectionTypes = Set<DamageType>.Of(DamageType.Physical);
                 break;
             default:
                 {
-                    FAttack = 6;
-                    FDefense = 3;
-                    FResistance = 4;
-                    FDamage = 7;
-                    FHits = 20;
-                    FImmunityTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
-                    SetAbSet(21, 1);
-                    SetAbSet(0, 1);
+                    Attack = 6;
+                    Defense = 3;
+                    Resistance = 4;
+                    Damage = 7;
+                    Hits = 20;
+                    ImmunityTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
+                    SetAbilitySet(21, 1);
+                    SetAbilitySet(0, 1);
                 }
 
                 break;
         }
 
-        FHitPoints = FHits;
+        HitPoints = Hits;
     }
 
 }

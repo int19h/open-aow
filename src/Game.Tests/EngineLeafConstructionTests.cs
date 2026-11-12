@@ -20,10 +20,10 @@ public sealed class EngineLeafConstructionTests
         public override int AddChild(EngineObject child)
         {
             Assert.Same(this, child.Owner);
-            if (child is PluginControl plugIn) Assert.Null(plugIn.UsedPlugIns);
+            if (child is PluginControl plugin) Assert.Null(plugin.UsedPlugins);
             if (child is ETimerNode timer)
             {
-                var lists = Field<ListArray10>(timer, "FTimerLists");
+                var lists = Field<ListArray10>(timer, "_timerLists");
                 for (int i = 0; i < 10; i++) Assert.Null(lists[i]);
             }
             ObservedBeforeLeafBody.Add(child);
@@ -55,23 +55,23 @@ public sealed class EngineLeafConstructionTests
             _ => typeof(PluginControl)
         };
         var meta = EngineClass.Of(type);
-        engine.RegisterEClasses([EngineClass.Of(type)]);
+        engine.RegisterEngineClasses([EngineClass.Of(type)]);
         EngineObject direct = kind switch
         {
             0 => new ETimerNode(argument),
             _ => new PluginControl(argument)
         };
-        EngineObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
+        EngineObject[] objects = [direct, meta.CreateInstance(argument), engine.CreateEngineObject(meta.ClassId, argument)];
         EngineObject? copy = null;
         try
         {
-            Assert.Equal(kind == 0 ? 264 : 80, meta.ClassID);
+            Assert.Equal(kind == 0 ? 264 : 80, meta.ClassId);
             Assert.Equal(kind == 0 ? 56 : 16, meta.InstanceSize);
             foreach (var value in objects)
             {
                 Assert.IsType(type, value);
                 Assert.Same(argument, value.Owner);
-                Assert.Same(meta, value.EClass);
+                Assert.Same(meta, value.EngineClass);
                 AssertLeafState(value);
             }
             copy = direct.Copy(engine);
@@ -79,12 +79,12 @@ public sealed class EngineLeafConstructionTests
             Assert.Null(copy.Owner);
             // Sort style is constructor state and has no ReadWrite override.
             AssertLeafState(copy);
-            if (copy is PluginControl copiedPlugIn)
-                Assert.NotSame(((PluginControl)direct).UsedPlugIns, copiedPlugIn.UsedPlugIns);
+            if (copy is PluginControl copiedPlugin)
+                Assert.NotSame(((PluginControl)direct).UsedPlugins, copiedPlugin.UsedPlugins);
             if (copy is ETimerNode copiedTimer)
             {
-                var original = Field<ListArray10>(direct, "FTimerLists");
-                var copied = Field<ListArray10>(copiedTimer, "FTimerLists");
+                var original = Field<ListArray10>(direct, "_timerLists");
+                var copied = Field<ListArray10>(copiedTimer, "_timerLists");
                 for (int i = 0; i < 10; i++) Assert.NotSame(original[i], copied[i]);
             }
             Assert.Equal(owned ? 3 : 0, owner.Members.Count);
@@ -105,16 +105,16 @@ public sealed class EngineLeafConstructionTests
         {
             case ETimerNode timer:
                 Assert.Equal(0, timer.Count); Assert.Equal(0, timer.Tick);
-                var lists = Field<ListArray10>(timer, "FTimerLists");
+                var lists = Field<ListArray10>(timer, "_timerLists");
                 for (int i = 0; i < 10; i++) { Assert.NotNull(lists[i]); Assert.Equal(0, lists[i].Count); Assert.Equal(0, lists[i].Capacity); }
                 Assert.Equal(10, Enumerable.Range(0, 10).Select(i => lists[i]).Distinct().Count());
                 break;
-            case PluginControl plugIn:
-                Assert.Null(plugIn.Engine);
-                var strings = Assert.IsType<StringList>(plugIn.UsedPlugIns);
+            case PluginControl plugin:
+                Assert.Null(plugin.Engine);
+                var strings = Assert.IsType<StringList>(plugin.UsedPlugins);
                 Assert.Equal(0, strings.Count); Assert.True(strings.Sorted);
-                Assert.Equal(plugIn, strings.OnChange!.Target);
-                Assert.Equal(plugIn, strings.OnChanging!.Target);
+                Assert.Equal(plugin, strings.OnChange!.Target);
+                Assert.Equal(plugin, strings.OnChanging!.Target);
                 break;
         }
     }
@@ -140,7 +140,7 @@ public sealed class EngineLeafConstructionTests
         {
             OwnerCalls++;
             base.SetOwner(owner);
-            FItems = new SortItem[1];
+            Items = new SortItem[1];
         }
     }
 
@@ -175,7 +175,7 @@ public sealed class EngineLeafConstructionTests
             switch (value)
             {
                 case BitList list:
-                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, "FList").IsEmpty);
+                    Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, "_list").IsEmpty);
                     break;
                 case DoubleItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
@@ -185,11 +185,11 @@ public sealed class EngineLeafConstructionTests
                     Assert.Equal(0, stream.Capacity); Assert.Empty(stream.Memory);
                     break;
                 case PropertyTable table:
-                    Assert.Empty(Field<Array>(table, "FItems")); Assert.Empty(Field<Array>(table, "FStack"));
-                    Assert.Equal(0, Field<int>(table, "FCount")); Assert.Equal(0, Field<int>(table, "FCapacity"));
-                    Assert.Equal(0, Field<int>(table, "FNextIndex")); Assert.Equal(0, Field<int>(table, "FMaxID"));
-                    Assert.Equal(0, Field<int>(table, "FStackCount")); Assert.Equal(0, Field<int>(table, "FStackCapacity"));
-                    Assert.Equal(0, Field<int>(table, "FFirst"));
+                    Assert.Empty(Field<Array>(table, "_items")); Assert.Empty(Field<Array>(table, "_stack"));
+                    Assert.Equal(0, Field<int>(table, "_count")); Assert.Equal(0, Field<int>(table, "_capacity"));
+                    Assert.Equal(0, Field<int>(table, "_nextIndex")); Assert.Equal(0, Field<int>(table, "_maxId"));
+                    Assert.Equal(0, Field<int>(table, "_stackCount")); Assert.Equal(0, Field<int>(table, "_stackCapacity"));
+                    Assert.Equal(0, Field<int>(table, "_first"));
                     break;
                 case QuadItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);

@@ -9,40 +9,40 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Magic.Spells;
 
-// FDaysActive
+// DaysActive
 public partial class HatredEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:841
-    public new const int ClassID = 135957;
+    public new const int ClassId = 135957;
 
-    public int FDaysActive;
+    public int DaysActive;
 
     // GlobalEnchantmentSpells.pas:851
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FDaysActive, 20);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref DaysActive, 20);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("DaysActive", ref FDaysActive);
+        persister.Int32("DaysActive", ref DaysActive);
     }
 
     // GlobalEnchantmentSpells.pas:833
     public HatredEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.HatredRStr);
-        FEnchantmentType = GlobalEnchantmentType.Hatred;
-        FDispelMana = 50;
+        Name = AbilityRules.TranslateResourceString(GameText.s_hatredText);
+        EnchantmentType = GlobalEnchantmentType.Hatred;
+        DispelMana = 50;
     }
 
     // GlobalEnchantmentSpells.pas:863
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986 && Msg.Payload.Int == FPlayerIndex)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986 && message.Payload.Int == PlayerIndex)
         {
             NewDay();
         }
@@ -52,25 +52,25 @@ public partial class HatredEnchantment : GlobalEnchantment
     public override int GetAIUpkeepPriority() => 500;
 
     // GlobalEnchantmentSpells.pas:876
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        base.Deactivate(Player);
-        if (FDaysActive > 10)
+        base.Deactivate(player);
+        if (DaysActive > 10)
         {
-            AoWHSMap.Current.FRaces.FRelationOffset += 40;
+            AoWHSMap.Current.Races.RelationOffset += 40;
         }
         else
         {
-            AoWHSMap.Current.FRaces.FRelationOffset += FDaysActive * 4;
+            AoWHSMap.Current.Races.RelationOffset += DaysActive * 4;
         }
 
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:869
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        base.Activate(Player);
+        base.Activate(player);
         NewDay();
         return true;
     }
@@ -78,10 +78,10 @@ public partial class HatredEnchantment : GlobalEnchantment
     // GlobalEnchantmentSpells.pas:857
     public void NewDay()
     {
-        FDaysActive += 1;
-        if (FDaysActive <= 10)
+        DaysActive += 1;
+        if (DaysActive <= 10)
         {
-            AoWHSMap.Current.FRaces.FRelationOffset -= 4;
+            AoWHSMap.Current.Races.RelationOffset -= 4;
         }
     }
 

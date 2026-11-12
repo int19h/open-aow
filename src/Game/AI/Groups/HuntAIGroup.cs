@@ -15,46 +15,46 @@ namespace Aow.Game.AI.Groups;
 public partial class HuntAIGroup : AIGroup, IAIGroupClass
 {
     // AIGroup.pas:1442
-    public new const int ClassID = 136288;
+    public new const int ClassId = 136288;
 
     // AIGroup.pas:1430
     public HuntAIGroup(ECustomNode owner) : base(owner)
     {
-        FTargetUnitIDs = new Int32List();
+        TargetUnitIds = new Int32List();
     }
 
-    public Int32List FTargetUnitIDs;
+    public Int32List TargetUnitIds;
 
     // AIGroup.pas:1436
     public override void Dispose()
     {
-        FTargetUnitIDs?.Dispose();
+        TargetUnitIds?.Dispose();
         base.Dispose();
     }
 
     // AIGroup.pas:1473
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(30, FTargetUnitIDs.LoadFromStream, FTargetUnitIDs.SaveToStream);
+        base.ReadWrite(stream);
+        stream.rwStreamProc(30, TargetUnitIds.LoadFromStream, TargetUnitIds.SaveToStream);
     }
 
     // AIGroup.pas:1457
-    public bool HuntingPlayer(sbyte Player)
+    public bool HuntingPlayer(sbyte player)
     {
         int I;
-        Troop AUnit;
-        bool Result = false;
-        I = FTargetUnitIDs.Count;
+        Troop troop;
+        bool result = false;
+        I = TargetUnitIds.Count;
         while (I != 0)
         {
             I -= 1;
-            AUnit = AoWHSMap.Current.FUnitControl.FindUnit(FTargetUnitIDs.List[I]);
+            troop = AoWHSMap.Current.UnitControl.FindUnit(TargetUnitIds.List[I]);
             // { Original bug: each entry overwrites the result, including earlier matches. }
-            Result = AUnit != null && Player == AUnit.FPlayer;
+            result = troop != null && player == troop.Player;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P5_07.inc:660

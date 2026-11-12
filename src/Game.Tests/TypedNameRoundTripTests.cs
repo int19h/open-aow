@@ -17,17 +17,17 @@ public sealed class TypedNameRoundTripTests
     public void TypedLeaderNameKeepsItsBytesThroughSaveAndLoad()
     {
         var font = new ImageLibraryFont(null!);
-        var edit = new Edit(null!) { FAOWFont = font, FValid = true, FRedraw = true, FVisible = true, FWinWidth = 10000, FFirstChar = 1 };
+        var edit = new Edit(null!) { _font = font, Valid = true, Redraw = true, _visible = true, _winWidth = 10000, FirstChar = 1 };
         Leader source = null!, loaded = null!;
         try
         {
             InputMapper.Text("Jörg €„äß", new Keyboard(edit));
-            string typed = edit.FText;
+            string typed = edit._text;
             Assert.Equal("Jörg €„äß", typed);
             Assert.Equal(new byte[] { 0x4A, 0xF6, 0x72, 0x67, 0x20, 0x80, 0x84, 0xE4, 0xDF }, Cp1252.Encode(typed).ToArray());
 
-            source = new Leader(null!) { FHeroResourceIndex = -1 };
-            source.FHeroName = typed;
+            source = new Leader(null!) { HeroResourceIndex = -1 };
+            source.HeroName = typed;
             byte[] saved = Save(source);
             Assert.True(saved.AsSpan().IndexOf(new byte[] { 0x80, 0x84, 0xE4, 0xDF }) > 0, "the saved bytes hold 0x80, 0x84, 0xE4 and 0xDF");
             Assert.True(saved.AsSpan().IndexOf(Cp1252.Encode(typed)) > 0, "the saved bytes hold the typed name");
@@ -40,8 +40,8 @@ public sealed class TypedNameRoundTripTests
                 using var reader = new EReadStorageStream(memory, EngineFixture.Engine, false);
                 loaded.ReadWrite(reader);
             }
-            Assert.Equal(typed, loaded.FHeroName);
-            Assert.Equal("Jörg €„äß", loaded.FHeroName);
+            Assert.Equal(typed, loaded.HeroName);
+            Assert.Equal("Jörg €„äß", loaded.HeroName);
             Assert.Equal(saved, Save(loaded));
         }
         finally

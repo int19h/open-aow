@@ -15,121 +15,121 @@ namespace Aow.Game.Magic.Spells;
 // enchantment ID, enchantment setting, AI priority, AI budget, AI cast situations
 public partial class CityEnchantmentSpell : CityTargetSpell
 {
-    public CityEnchantmentId FEnchantmentID;
-    public int FEnchantmentSpellID;
-    public int FAIPriority;
-    public int FAIBudget;
-    public Set<CityEnchantmentCastSpellSituationElement> FAICastSituation;
+    public CityEnchantmentId EnchantmentId;
+    public int EnchantmentSpellId;
+    public int AIPriority;
+    public int AIBudget;
+    public Set<CityEnchantmentCastSpellSituationElement> AICastSituation;
 
     // CitySpells.pas:554
     public CityEnchantmentSpell(ECustomNode owner) : base(owner)
     {
-        FAIPriority = -1;
+        AIPriority = -1;
     }
 
     // CitySpells.pas:576
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        City TargetCity;
-        CityEnchantment Enchantment;
-        TargetCity = ((CityTargetSpellTokenEvent)Event).GetSelectedCity();
-        Enchantment = new CityEnchantment(null);
-        Enchantment.FEnchantmentID = FEnchantmentID;
-        Enchantment.FEnchantmentManaUpkeep = FManaUpkeep;
-        var xyl = ((MapField)TargetCity.Owner).GetXYL();
-        Enchantment.FEnchantmentLocation.Packed = xyl;
-        Enchantment.FDispelMana = FEnchantmentSpellID;
-        Enchantment.FPlayerIndex = Source.FPlayer;
-        TargetCity.ActivateEnchantment(Enchantment);
-        PlayDefaultCityEffects(Event.GetSource(), TargetCity);
-        CastingDone(Source, Event.FEventMana);
+        City targetCity;
+        CityEnchantment enchantment;
+        targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
+        enchantment = new CityEnchantment(null);
+        enchantment._enchantmentId = EnchantmentId;
+        enchantment.EnchantmentManaUpkeep = ManaUpkeep;
+        var mapCoordinate = ((MapField)targetCity.Owner).GetMapCoordinate();
+        enchantment.EnchantmentLocation.Packed = mapCoordinate;
+        enchantment.DispelMana = EnchantmentSpellId;
+        enchantment.PlayerIndex = source.Player;
+        targetCity.ActivateEnchantment(enchantment);
+        PlayDefaultCityEffects(eventValue.GetSource(), targetCity);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 
     // CitySpells.pas:594
-    public override void AIPrefetchCastSpellActions(Troop Source, AICastSpellActionList Actions)
+    public override void AIPrefetchCastSpellActions(Troop source, AICastSpellActionList actions)
     {
-        bool Valid;
-        AICastSpellAction Action;
-        string Reason = "";
+        bool valid;
+        AICastSpellAction action;
+        string reason = "";
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        City TargetCity;
-        if (FAIPriority != -1)
+        City targetCity;
+        if (AIPriority != -1)
         {
-            Source.GetLocation(ref X, ref Y, ref L);
-            TargetCity = (City)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(City));
-            bool condition = TargetCity != null;
+            source.GetLocation(ref X, ref Y, ref L);
+            targetCity = (City)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(City));
+            bool condition = targetCity != null;
             if (condition)
             {
-                var aiCityEnchantmentUpkeepPriority = TargetCity.AICityEnchantmentUpkeepPriority(FEnchantmentID);
-                condition = AIRequestCastSpellExpense(Source, FBaseManaCost, FManaUpkeep, aiCityEnchantmentUpkeepPriority);
+                var aiCityEnchantmentUpkeepPriority = targetCity.AICityEnchantmentUpkeepPriority(EnchantmentId);
+                condition = AIRequestCastSpellExpense(source, BaseManaCost, ManaUpkeep, aiCityEnchantmentUpkeepPriority);
             }
 
-            Valid = condition;
+            valid = condition;
             // { Original uses mana upkeep for mana and city priority for upkeep. }
-            Valid = Valid && ValidTargetCity(Source, TargetCity);
-            Valid = Valid && ((Hero)Source).CanCastSpell(FSpellID, ref Reason);
-            if (Valid)
+            valid = valid && ValidTargetCity(source, targetCity);
+            valid = valid && ((Hero)source).CanCastSpell(SpellId, ref reason);
+            if (valid)
             {
-                if (FAICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && Source is Leader || FAICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && TargetCity.GetSize() == 4 || FAICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && TargetCity.GetSize() == 3)
+                if (AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && source is Leader || AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && targetCity.GetSize() == 4 || AICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && targetCity.GetSize() == 3)
                 {
-                    Action = CreateCastSpellAction();
-                    SetupCastSpellAction(Source, Action);
-                    Action.FPriority = FAIPriority;
-                    Action.SetOwner(Actions);
+                    action = CreateCastSpellAction();
+                    SetupCastSpellAction(source, action);
+                    action.Priority = AIPriority;
+                    action.SetOwner(actions);
                 }
             }
         }
     }
 
     // CitySpells.pas:623
-    public override bool AIExecuteCastSpellAction(Troop Source)
+    public override bool AIExecuteCastSpellAction(Troop source)
     {
-        bool Result;
-        string Reason = "";
+        bool result;
+        string reason = "";
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        City TargetCity;
-        Source.GetLocation(ref X, ref Y, ref L);
-        TargetCity = (City)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(City));
-        if (TargetCity != null && ValidTargetCity(Source, TargetCity) && ((Hero)Source).CanCastSpell(FSpellID, ref Reason))
+        City targetCity;
+        source.GetLocation(ref X, ref Y, ref L);
+        targetCity = (City)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(City));
+        if (targetCity != null && ValidTargetCity(source, targetCity) && ((Hero)source).CanCastSpell(SpellId, ref reason))
         {
-            AICastSpellExpenseMade(Source, FBaseManaCost, FManaUpkeep, FAIBudget);
-            var hero = (Hero)Source;
-            if (hero.CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
+            AICastSpellExpenseMade(source, BaseManaCost, ManaUpkeep, AIBudget);
+            var hero = (Hero)source;
+            if (hero.CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
             {
-                Result = TargetSelected(Source, X, Y, L);
+                result = TargetSelected(source, X, Y, L);
             }
             else
             {
-                if (hero.FCastingSpellID != FSpellID)
+                if (hero.CastingSpellId != SpellId)
                 {
-                    hero.ExecuteStartCasting(FSpellID);
-                    Result = true;
+                    hero.ExecuteStartCasting(SpellId);
+                    result = true;
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:570
-    public override bool ValidTargetCity(Troop Source, City TargetCity) => base.ValidTargetCity(Source, TargetCity) && !TargetCity.FEnchantments.Contains(FEnchantmentID);
+    public override bool ValidTargetCity(Troop source, City targetCity) => base.ValidTargetCity(source, targetCity) && !targetCity.Enchantments.Contains(EnchantmentId);
 
     // CitySpells.pas:560
-    public override CityTargetSpellTokenEvent CreateTE() => new CityEnchantmentSpellTokenEvent(null);
+    public override CityTargetSpellTokenEvent CreateTokenEvent() => new CityEnchantmentSpellTokenEvent(null);
 
     // CitySpells.pas:565
-    public override bool SetupTE(CityTargetSpellTokenEvent Event, Troop Source, int X, int Y, int L) => base.SetupTE(Event, Source, X, Y, L);
+    public override bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L) => base.SetupTokenEvent(eventValue, source, X, Y, L);
 }

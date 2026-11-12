@@ -9,67 +9,67 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class HitChance
 {
-    internal static bool HitRole(int AttackDefense)
+    internal static bool HitRole(int attackDefense)
     {
-        AttackDefense = AttackDefense * 10 + 50;
-        if (AttackDefense < 10)
+        attackDefense = attackDefense * 10 + 50;
+        if (attackDefense < 10)
         {
-            AttackDefense = 10;
+            attackDefense = 10;
         }
 
-        if (AttackDefense > 90)
+        if (attackDefense > 90)
         {
-            AttackDefense = 90;
+            attackDefense = 90;
         }
 
-        return Random(100) < AttackDefense;
+        return Random(100) < attackDefense;
     }
 
-    internal static float HitRoleProbability(int AttackDefense)
+    internal static float HitRoleProbability(int attackDefense)
     {
-        int Chance;
-        Chance = AttackDefense * 10 + 50;
-        if (Chance < 10)
+        int chance;
+        chance = attackDefense * 10 + 50;
+        if (chance < 10)
         {
-            Chance = 10;
+            chance = 10;
         }
 
-        if (Chance > 90)
+        if (chance > 90)
         {
-            Chance = 90;
+            chance = 90;
         }
 
-        return (float)((double)Chance / 100);
+        return (float)((double)chance / 100);
     }
 
-    internal static int HitPointsToHitPcnt(sbyte HitPoints, sbyte Hits)
+    internal static int HitPointsToHitPercent(sbyte hitPoints, sbyte hits)
     {
-        int Result = HitPoints * 100 / Hits;
-        if (Result == 0 && HitPoints != 0)
+        int result = hitPoints * 100 / hits;
+        if (result == 0 && hitPoints != 0)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 100)
+        if (result > 100)
         {
-            Result = 100;
+            result = 100;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void ShowHitPcnt(int X, int Y, in LockedSurface Surface, int Percent)
+    internal static void ShowHitPercent(int X, int Y, in LockedSurface surface, int percent)
     {
-        LockedSurface SD;
-        SD = Surface;
-        AoWHSSet.Current.FCombatImages[0].Show(X + 20, Y + 54, SD);
-        SD.ClipRect.Right = X + 20 + (Percent + 3) / 4;
-        if (SD.ClipRect.Right > Surface.ClipRect.Right)
+        LockedSurface lockedSurface;
+        lockedSurface = surface;
+        AoWHSSet.Current.CombatImages[0].Show(X + 20, Y + 54, lockedSurface);
+        lockedSurface.ClipRectangle.Right = X + 20 + (percent + 3) / 4;
+        if (lockedSurface.ClipRectangle.Right > surface.ClipRectangle.Right)
         {
-            SD.ClipRect.Right = Surface.ClipRect.Right;
+            lockedSurface.ClipRectangle.Right = surface.ClipRectangle.Right;
         }
 
-        AoWHSSet.Current.FCombatImages[1].Show(X + 20, Y + 54, SD);
+        AoWHSSet.Current.CombatImages[1].Show(X + 20, Y + 54, lockedSurface);
     }
 
 }

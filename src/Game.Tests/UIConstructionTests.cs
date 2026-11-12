@@ -31,31 +31,31 @@ public sealed class UIConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly GameEngine previousEngine = GameTables.AoWEngine;
-        private readonly AoWHSMap previousMap = AoWHSMap.Current;
-        private readonly CombatMap previousCombat = CombatMap.Current;
-        private readonly EventStore<HSMap> loaded;
-        private readonly EventStore<HSMap> closed;
+        private readonly GameEngine _previousEngine = GameTables.GameEngine;
+        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly CombatMap _previousCombat = CombatMap.Current;
+        private readonly EventStore<HSMap> _loaded;
+        private readonly EventStore<HSMap> _closed;
 
         internal Fixture()
         {
             if (EngineHost.Engines is null) EngineHost.Initialize();
-            GameTables.AoWEngine = EngineFixture.Engine;
-            loaded = GameTables.AoWEngine.FOnHSMLoadedStore;
-            closed = GameTables.AoWEngine.FOnHSMCloseStore;
-            GameTables.AoWEngine.FOnHSMLoadedStore = new EventStore<HSMap>();
-            GameTables.AoWEngine.FOnHSMCloseStore = new EventStore<HSMap>();
+            GameTables.GameEngine = EngineFixture.Engine;
+            _loaded = GameTables.GameEngine._onHsmLoadedStore;
+            _closed = GameTables.GameEngine._onHsmCloseStore;
+            GameTables.GameEngine._onHsmLoadedStore = new EventStore<HSMap>();
+            GameTables.GameEngine._onHsmCloseStore = new EventStore<HSMap>();
             AoWHSMap.Current = null!;
             CombatMap.Current = null!;
         }
 
         public void Dispose()
         {
-            GameTables.AoWEngine.FOnHSMLoadedStore = loaded;
-            GameTables.AoWEngine.FOnHSMCloseStore = closed;
-            GameTables.AoWEngine = previousEngine;
-            AoWHSMap.Current = previousMap;
-            CombatMap.Current = previousCombat;
+            GameTables.GameEngine._onHsmLoadedStore = _loaded;
+            GameTables.GameEngine._onHsmCloseStore = _closed;
+            GameTables.GameEngine = _previousEngine;
+            AoWHSMap.Current = _previousMap;
+            CombatMap.Current = _previousCombat;
         }
     }
 
@@ -82,18 +82,18 @@ public sealed class UIConstructionTests
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
-                    if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
+                    if (field.Name == "_engineClass") continue; // the descriptor cache is not constructor state
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
-                    if (field.Name is "FOwner" or "<Owner>k__BackingField") { fields[key] = child is null ? null : "$owner"; continue; }
-                    fields[key] = field.Name is "FEngine" or "FHSEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, path + "." + key);
+                    if (field.Name is "_owner" or "<Owner>k__BackingField") { fields[key] = child is null ? null : "$owner"; continue; }
+                    fields[key] = field.Name is "_engine" or "_hexSpriteEngine" or "FGameEngine" ? child?.GetType().FullName : State(child, path + "." + key);
                 }
             return fields;
         }
         return JsonSerializer.Serialize(State(value, "$"));
     }
 
-    private static readonly string[] Names =
+    private static readonly string[] s_names =
     [
         "Aow.Game.UI.Dialogs.ChatWindow",
         "Aow.Game.UI.Dialogs.ControlWindow",
@@ -216,7 +216,7 @@ public sealed class UIConstructionTests
         "Aow.Game.UI.Controls.UserDrawBox",
     ];
 
-    public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
+    public static IEnumerable<object[]> Classes => s_names.Select(name => new object[] { name });
 
     private static Component Direct(Type type, Component? owner)
     {
@@ -261,7 +261,7 @@ public sealed class UIConstructionTests
             }
             states.Add("owner:" + (owner?.ComponentCount ?? 0));
             if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-            states.Add("subscriptions:" + GameTables.AoWEngine.FOnHSMLoadedStore.Count + ":" + GameTables.AoWEngine.FOnHSMCloseStore.Count);
+            states.Add("subscriptions:" + GameTables.GameEngine._onHsmLoadedStore.Count + ":" + GameTables.GameEngine._onHsmCloseStore.Count);
             string actual = string.Join("\n", states);
             string key = name + ".owner" + owned;
             ConstructionSnapshot.Check("UiConstruction", key, actual);

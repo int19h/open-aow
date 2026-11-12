@@ -3,5 +3,5 @@ namespace Aow.Game.World.Structures;
 
 public partial class CityProductionControl
 {
-    public override City ProductionCity() => FCity;
+    public override City ProductionCity() => City;
 }

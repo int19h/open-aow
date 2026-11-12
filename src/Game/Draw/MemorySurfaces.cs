@@ -8,19 +8,19 @@ internal static class MemorySurfaces
 {
     public static LockedSurface Describe(int w, int h, int pitch, int format, byte[] bits, Palette palette = null)
     {
-        var sd = new LockedSurface
+        var lockedSurface = new LockedSurface
         {
             Width = w,
             Height = h,
             BitCount = format & 255,
             Pitch = pitch,
-            PixelFormatID = format,
+            PixelFormatId = format,
             Data = bits,
             Palette = palette,
-            ClipRect = new Rect(0, 0, w, h)
+            ClipRectangle = new Rect(0, 0, w, h)
         };
-        PFIDtoMASK(format, ref sd.RMask, ref sd.GMask, ref sd.BMask, ref sd.AMask);
-        return sd;
+        PixelFormatIdToMask(format, ref lockedSurface.RMask, ref lockedSurface.GMask, ref lockedSurface.BMask, ref lockedSurface.AMask);
+        return lockedSurface;
     }
 
     public static (int Pitch, byte[] Bits) Allocate(int w, int h, int format, int alignment)
@@ -41,19 +41,19 @@ internal static class MemorySurfaces
         return result;
     }
 
-    private static int PFIDtoMASK(int PixelFormatID, ref int RMask, ref int GMask, ref int BMask, ref int AMask)
+    private static int PixelFormatIdToMask(int pixelFormatId, ref int rMask, ref int gMask, ref int bMask, ref int mask)
     {
         var order = default(ByteArray4);
         var masks = default(Int32Array4);
-        int bitCount = PixelFormatID & 255;
-        int pos = 0;
-        order[(int)((uint)PixelFormatID >> 8) & 3] = 0;
-        order[(int)((uint)PixelFormatID >> 10) & 3] = 1;
-        order[(int)((uint)PixelFormatID >> 12) & 3] = 2;
-        order[(int)((uint)PixelFormatID >> 14) & 3] = 3;
+        int bitCount = pixelFormatId & 255;
+        int position = 0;
+        order[(int)((uint)pixelFormatId >> 8) & 3] = 0;
+        order[(int)((uint)pixelFormatId >> 10) & 3] = 1;
+        order[(int)((uint)pixelFormatId >> 12) & 3] = 2;
+        order[(int)((uint)pixelFormatId >> 14) & 3] = 3;
         for (int i = 0; i <= 3; i++)
         {
-            int bits = (int)((uint)PixelFormatID >> (order[i] * 4 + 16)) & 15;
+            int bits = (int)((uint)pixelFormatId >> (order[i] * 4 + 16)) & 15;
             int j = bits;
             int m = 0;
             while (j != 0)
@@ -62,15 +62,15 @@ internal static class MemorySurfaces
                 j--;
             }
 
-            m <<= pos;
-            pos += bits;
+            m <<= position;
+            position += bits;
             masks[order[i]] = m;
         }
 
-        AMask = masks[0];
-        BMask = masks[1];
-        GMask = masks[2];
-        RMask = masks[3];
+        mask = masks[0];
+        bMask = masks[1];
+        gMask = masks[2];
+        rMask = masks[3];
         return bitCount;
     }
 }

@@ -8,28 +8,28 @@ namespace Aow.Game.Combat;
 public partial class FastBattleCommand
 {
     // AIGroup.pas:6705
-    public FastBattleCommand(int AbilityID)
+    public FastBattleCommand(int abilityId)
     {
-        FAbilityID = AbilityID;
+        AbilityId = abilityId;
     }
 
-    public int FAbilityID;
-    public int FSourceDV;
-    public int FTargetDV;
-    public int FExpectedDV;
-    public int FMoveCost;
-    public CombatObject FTarget;
+    public int AbilityId;
+    public int SourceDamageValue;
+    public int TargetDamageValue;
+    public int ExpectedDamageValue;
+    public int MoveCost;
+    public CombatObject Target;
 
     // AIGroup.pas:6710
     public virtual string GetName()
     {
-        string Result = AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID).GetName(null);
-        if (FTarget != null)
+        string result = AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).GetName(null);
+        if (Target != null)
         {
-            Result = Result + " on " + FTarget.IDStr();
+            result = result + " on " + Target.IdString();
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P5_05.inc:10

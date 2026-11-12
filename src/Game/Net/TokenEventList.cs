@@ -10,54 +10,54 @@ namespace Aow.Game.Net;
 public partial class TokenEventList : EngineObject
 {
     // NetworkE.pas:995
-    public new const int ClassID = CID_TokenEventList;
+    public new const int ClassId = ClassIdTokenEventList;
 
-    internal EReferenceNode FList;
+    internal EReferenceNode _list;
 
     // NetworkE.pas:1000
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FList, 5);
+        base.ReadWrite(stream);
+        stream.rwEObject(_list, 5);
     }
 
     // NetworkE.pas:982
     public TokenEventList(ECustomNode owner) : base(owner)
     {
-        FList = new EReferenceNode(null);
+        _list = new EReferenceNode(null);
     }
 
     // NetworkE.pas:1046
     public override void Clear()
     {
-        FList.Clear();
+        _list.Clear();
     }
 
     // NetworkE.pas:1006
-    public override void Assign(EngineObject Source, GameEngine AEngine)
+    public override void Assign(EngineObject source, GameEngine engine)
     {
-        FList.Clear();
-        AddEvents((TokenEventList)Source);
+        _list.Clear();
+        AddEvents((TokenEventList)source);
     }
 
     // NetworkE.pas:988
     public override void Dispose()
     {
         Clear();
-        FList?.Dispose();
+        _list?.Dispose();
         base.Dispose();
     }
 
     // NetworkE.pas:1012
-    public int IndexOfTokenCounter(int ATokenCounter)
+    public int IndexOfTokenCounter(int tokenCounter)
     {
-        int Result = FList.Count;
-        while (Result != 0)
+        int result = _list.Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (((TokenEvent)FList.FChildren.List[Result]).FTokenCounter == ATokenCounter)
+            result -= 1;
+            if (((TokenEvent)_list._children.List[result])._tokenCounter == tokenCounter)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -65,76 +65,76 @@ public partial class TokenEventList : EngineObject
     }
 
     // NetworkE.pas:1024
-    public int FindTE(int AClassID)
+    public int FindTokenEvent(int classId)
     {
         int C;
-        int Result = 0;
-        C = FList.Count;
-        while (Result != C && ((EngineObject)FList.FChildren.List[Result]).EClass.ClassID != AClassID)
+        int result = 0;
+        C = _list.Count;
+        while (result != C && ((EngineObject)_list._children.List[result]).EngineClass.ClassId != classId)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == C)
+        if (result == C)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:1036
-    public TokenEvent GetEvent(int Index) => (TokenEvent)FList.FChildren.List[Index];
+    public TokenEvent GetEvent(int index) => (TokenEvent)_list._children.List[index];
 
     // NetworkE.pas:1041
-    public int GetCount() => FList.Count;
+    public int GetCount() => _list.Count;
 
     // NetworkE.pas:1056
     public void SortOnTokenCounter()
     {
-        FList.FChildren.Sort(CompareTokenCounter);
+        _list._children.Sort(CompareTokenCounter);
     }
 
     // NetworkE.pas:1061
-    public void AddEvents(TokenEventList Events)
+    public void AddEvents(TokenEventList events)
     {
-        for (int I = 0, last = Events.Count - 1; I <= last; I++)
+        for (int I = 0, last = events.Count - 1; I <= last; I++)
         {
-            var tokenEvent = Events[I];
-            FList.AddChild(tokenEvent);
+            var tokenEvent = events[I];
+            _list.AddChild(tokenEvent);
         }
     }
 
     // NetworkE.pas:1069
-    public void Add(TokenEvent TE)
+    public void Add(TokenEvent tokenEvent)
     {
-        FList.AddChild(TE);
+        _list.AddChild(tokenEvent);
     }
 
     // NetworkE.pas:1074
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        var child = FList.Children[Index];
-        FList.RemoveChild(child);
+        var child = _list.Children[index];
+        _list.RemoveChild(child);
     }
 
     // NetworkE.pas:1080
     // { Inserts without TEReferenceNode.AddChild, so the reference is taken here }
-    public void Insert(int Index, TokenEvent TE)
+    public void Insert(int index, TokenEvent tokenEvent)
     {
-        TE.AddRef();
-        FList.FChildren.Insert(Index, TE);
+        tokenEvent.AddRef();
+        _list._children.Insert(index, tokenEvent);
     }
 
     public int Count { get => GetCount(); }
 
-    public TokenEvent this[int Index] { get => GetEvent(Index); }
+    public TokenEvent this[int index] { get => GetEvent(index); }
 
-    private const short CID_TokenEventList = 1362;
+    private const short ClassIdTokenEventList = 1362;
 
-    private static int CompareTokenCounter(object Item1, object Item2)
+    private static int CompareTokenCounter(object item1, object item2)
     {
-        return ((TokenEvent)Item1).FTokenCounter - ((TokenEvent)Item2).FTokenCounter;
+        return ((TokenEvent)item1)._tokenCounter - ((TokenEvent)item2)._tokenCounter;
     }
 
 }

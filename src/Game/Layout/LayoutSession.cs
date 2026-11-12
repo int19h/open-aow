@@ -12,17 +12,17 @@ public sealed class LayoutSession
 {
     private sealed record Fixup(string Module, Action<Component> Apply);
 
-    private readonly Dictionary<string, Component> modules = new(StringComparer.OrdinalIgnoreCase);
-    private readonly List<Fixup> pending = [];
+    private readonly Dictionary<string, Component> _modules = new(StringComparer.OrdinalIgnoreCase);
+    private readonly List<Fixup> _pending = [];
 
     public static LayoutSession Default { get; } = new();
     public bool FireCreateEvents { get; init; } = true;
-    public IReadOnlyDictionary<string, Component> Modules => modules;
-    public int PendingFixups => pending.Count;
+    public IReadOnlyDictionary<string, Component> Modules => _modules;
+    public int PendingFixups => _pending.Count;
 
     public void Begin(Component root)
     {
-        if (modules.Values.Contains(root)) throw new InvalidOperationException("Layout already initialized");
+        if (_modules.Values.Contains(root)) throw new InvalidOperationException("Layout already initialized");
         // FileName setters read image headers during loading. The registry must exist before
         // the first resource component is built, including callers that load one module.
         Startup.InitializeSelected(["ImageLib"]);
@@ -62,25 +62,25 @@ public sealed class LayoutSession
 
     public void Defer<T>(string module, Action<T> apply) where T : Component
     {
-        if (modules.TryGetValue(module, out var ready)) apply((T)ready);
-        else pending.Add(new(module, component => apply((T)component)));
+        if (_modules.TryGetValue(module, out var ready)) apply((T)ready);
+        else _pending.Add(new(module, component => apply((T)component)));
     }
 
     public void Resolve(Component root)
     {
-        if (!modules.TryAdd(root.Name, root)) throw new InvalidOperationException("Duplicate module " + root.Name);
-        for (int i = 0; i < pending.Count;)
+        if (!_modules.TryAdd(root.Name, root)) throw new InvalidOperationException("Duplicate module " + root.Name);
+        for (int i = 0; i < _pending.Count;)
         {
-            var fixup = pending[i];
-            if (modules.TryGetValue(fixup.Module, out var module)) { fixup.Apply(module); pending.RemoveAt(i); }
+            var fixup = _pending[i];
+            if (_modules.TryGetValue(fixup.Module, out var module)) { fixup.Apply(module); _pending.RemoveAt(i); }
             else i++;
         }
     }
 
     public void Complete()
     {
-        if (pending.Count != 0) throw new InvalidOperationException($"{pending.Count} unresolved references, first module {pending[0].Module}");
-        foreach (var module in modules.Values)
+        if (_pending.Count != 0) throw new InvalidOperationException($"{_pending.Count} unresolved references, first module {_pending[0].Module}");
+        foreach (var module in _modules.Values)
             for (int index = 0; index < module.ComponentCount; index++)
                 if (module.Components[index] is IvCustomTranslator translator) translator.Translate();
     }

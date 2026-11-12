@@ -11,11 +11,11 @@ public partial class AoWBorderHexagon : BorderHexagon
     { }
 
     // AoWHex.pas:261
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Info.HN == 0 && AoWHSMap.Current != null && AoWHSMap.Current.FDay == 0)
+        if (info.HexNumber == 0 && AoWHSMap.Current != null && AoWHSMap.Current.Day == 0)
         {
-            ((AoWMapField)(object)Info.MapField).FFieldFlags = ((AoWMapField)(object)Info.MapField).FFieldFlags & -4096;
+            ((AoWMapField)(object)info.MapField).FieldFlags = ((AoWMapField)(object)info.MapField).FieldFlags & -4096;
         }
     }
 }

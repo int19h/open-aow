@@ -8,13 +8,13 @@ namespace Aow.Formats.Tests;
 /// </summary>
 public sealed class CorpusTests : FormatsTest
 {
-    private static readonly string[] Patterns =
+    private static readonly string[] s_patterns =
         ["Scenario/Custom/*.hsm", "Scenario/Campaign/*.csm", "Scenario/Campaign/*.cam", "Release/*.ahl", "Release/*.hss", "TCMaps/*.hsm", "Save/*.asg"];
 
     public static TheoryData<string> Files()
     {
         var data = new TheoryData<string>();
-        foreach (var pattern in Patterns)
+        foreach (var pattern in s_patterns)
         {
             var directory = Path.Combine(Checker.GameRoot, Path.GetDirectoryName(pattern)!);
             if (!Directory.Exists(directory)) continue;

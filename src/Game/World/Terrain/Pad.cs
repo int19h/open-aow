@@ -5,41 +5,41 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Terrain;
 
-// FPadActive
+// PadActive
 public partial class Pad : FixedImageLibraryTerrainMapObject
 {
     public Pad(ECustomNode owner) : base(owner)
     {
-        FPadActive = true;
+        PadActive = true;
     }
 
     // Pad.pas:52
-    public new const int ClassID = 131334;
+    public new const int ClassId = 131334;
 
-    public bool FPadActive;
+    public bool PadActive;
 
     // Pad.pas:46
 
     // Pad.pas:55
-    public override bool CanSelect(int Xhp, int Yhp) => false;
+    public override bool CanSelect(int pixelX, int pixelY) => false;
 
     // Pad.pas:58
-    public override sbyte ForceTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx)
+    public override sbyte ForceTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY)
     {
-        sbyte Result;
-        if (MapLevel.Lhx != 0)
+        sbyte result;
+        if (mapLevel.HexLevel != 0)
         {
-            Result = 12;
+            result = 12;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
-    // FPadSize
+    // PadSize
     public new partial class Resource : FixedImageLibraryTerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
@@ -48,16 +48,16 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
         }
 
         // Pad.pas:76
-        public new const int ClassID = 131335;
+        public new const int ClassId = 131335;
 
-        public byte FPadSize;
+        public byte PadSize;
 
         // Pad.pas:69
         public override void Dispose()
         {
-            if (Engine != null && !Engine.HSSet.Status.Contains(HexSpriteSetStatusElement.Destroying))
+            if (Engine != null && !Engine.HexSpriteSet.Status.Contains(HexSpriteSetStatusElement.Destroying))
             {
-                ((AoWHSSet)Engine.HSSet).FPadControl.UnregisterPadResource(this, FPadSize);
+                ((AoWHSSet)Engine.HexSpriteSet).PadControl.UnregisterPadResource(this, PadSize);
             }
 
             base.Dispose();
@@ -68,41 +68,41 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
         // Pad.pas:101
         public override EditorClass Editor()
         {
-            EditorClass Result = Engine.Editors.FindEditor(131335);
-            if (Result == null)
+            EditorClass result = Engine.Editors.FindEditor(131335);
+            if (result == null)
             {
-                Result = base.Editor();
+                result = base.Editor();
             }
 
-            return Result;
+            return result;
         }
 
         // Pad.pas:95
-        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+        public override void MessageProc(ref EngineMessage message, EngineObject sender)
         {
-            base.MsgProc(ref Msg, Sender);
-            if (Msg.MsgID == 536870920)
+            base.MessageProc(ref message, sender);
+            if (message.MessageId == 536870920)
             {
-                ActivateMsg();
+                ActivateMessage();
             }
         }
 
         // Pad.pas:82
-        public override int ResourceUserClassID() => 131334;
+        public override int ResourceUserClassId() => 131334;
 
         // Pad.pas:85
-        public void ActivateMsg()
+        public void ActivateMessage()
         {
-            FPadSize = 0;
+            PadSize = 0;
             for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
             {
                 if (TerrainList.GetTerrain(I) >= -1)
                 {
-                    FPadSize = (byte)(FPadSize + 1);
+                    PadSize = (byte)(PadSize + 1);
                 }
             }
 
-            ((AoWHSSet)Engine.HSSet).FPadControl.RegisterPadResource(this, FPadSize);
+            ((AoWHSSet)Engine.HexSpriteSet).PadControl.RegisterPadResource(this, PadSize);
         }
 
         // Pad.pas:32

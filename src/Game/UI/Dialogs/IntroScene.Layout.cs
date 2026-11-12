@@ -35,15 +35,15 @@ public partial class IntroScene : ILayoutModule
         Window.Alignment.AlignHeight = AlignHeight.Both;
         Window.Alignment.HeightPercent = 0;
         Window.Alignment.WidthPercent = 0;
-        Window.Alignment.LeftOffPercent = 0;
-        Window.Alignment.RightOffPercent = 0;
-        Window.Alignment.TopOffPercent = 0;
-        Window.Alignment.BottomOffPercent = 0;
+        Window.Alignment.LeftOffsetPercent = 0;
+        Window.Alignment.RightOffsetPercent = 0;
+        Window.Alignment.TopOffsetPercent = 0;
+        Window.Alignment.BottomOffsetPercent = 0;
         Window.Alignment.LeftOffset = 0;
         Window.Alignment.RightOffset = 0;
         Window.Alignment.TopOffset = 0;
         Window.Alignment.BottomOffset = 0;
-        Window.UseVMem = false;
+        Window.UseVideoMemory = false;
         Window.BorderWidth = 0;
         Window.BorderHeight = 0;
         Window.OverlapTopCorners = false;
@@ -51,8 +51,8 @@ public partial class IntroScene : ILayoutModule
         Window.DoubleBuffered = false;
         Window.MaskColor = 0;
         Window.FreeSurfaceOnHide = false;
-        Window.ILIndexFrame = 0;
-        Window.ILIndexTexture = 0;
+        Window.ImageLibraryIndexFrame = 0;
+        Window.ImageLibraryIndexTexture = 0;
         Window.DragHeight = 0;
         Window.Draggable = false;
         Window.Resizable = false;
@@ -64,22 +64,22 @@ public partial class IntroScene : ILayoutModule
         Window.Modal = false;
         Window.WinHeight = 480;
         Window.Dockable = false;
-        Window.OnDrawSurfaceEx = WindowDrawSurfaceEx;
+        Window.OnCustomDrawSurface = WindowDrawSurfaceEx;
         session.EndRead(Window);
-        LayoutVideoPlayer created__VideoPlayer = new LayoutVideoPlayer(this);
-        VideoPlayer = created__VideoPlayer;
-        session.BeginRead(created__VideoPlayer);
-        created__VideoPlayer.Name = "VideoPlayer";
-        created__VideoPlayer.OnStreamSound = VideoPlayerStreamSound;
-        created__VideoPlayer.Loopmode = LayoutVideoPlayer.VideoPlayerLoopMode.None;
-        created__VideoPlayer.Options = Set<VideoPlayerOptionsElement>.Of(VideoPlayerOptionsElement.SoundEnabled, VideoPlayerOptionsElement.VideoEnabled);
-        session.EndRead(created__VideoPlayer);
+        LayoutVideoPlayer createdVideoPlayer = new LayoutVideoPlayer(this);
+        VideoPlayer = createdVideoPlayer;
+        session.BeginRead(createdVideoPlayer);
+        createdVideoPlayer.Name = "VideoPlayer";
+        createdVideoPlayer.OnStreamSound = VideoPlayerStreamSound;
+        createdVideoPlayer.LoopMode = LayoutVideoPlayer.VideoPlayerLoopMode.None;
+        createdVideoPlayer.Options = Set<VideoPlayerOptionsElement>.Of(VideoPlayerOptionsElement.SoundEnabled, VideoPlayerOptionsElement.VideoEnabled);
+        session.EndRead(createdVideoPlayer);
         session.EndRead(this);
         Loaded();
         Window.Loaded();
         VideoPlayer.Loaded();
         session.Resolve(this);
-        Window.WinManager = DialogHosts.General.Manager;
+        Window.WindowManager = DialogHosts.General.Manager;
     }
 
     private void Layout_WindowUpdate_0()

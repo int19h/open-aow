@@ -35,73 +35,73 @@ public partial class SynchronizeDialog : DataModule
     // AoWSyncDlg.pas:45
     public PlayerSetupSettings GetPlayerSetup()
     {
-        PlayerSetupSettings Result;
-        int Index;
-        Index = DialogHosts.SetupEvents.SetupControl.FSettings.IndexOfRemoteID(DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
-        if (Index != -1)
+        PlayerSetupSettings result;
+        int index;
+        index = DialogHosts.SetupEvents.SetupControl.Settings.IndexOfRemoteId(DialogHosts.SetupEvents.SetupControl.RemotePlayer.RemoteId);
+        if (index != -1)
         {
-            Result = DialogHosts.SetupEvents.SetupControl.FSettings.GetSettings(Index);
+            result = DialogHosts.SetupEvents.SetupControl.Settings.GetSettings(index);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSyncDlg.pas:54
-    public void FaceFramePreDraw(LockedSurface Surface)
+    public void FaceFramePreDraw(LockedSurface surface)
     {
-        PlayerSetupSettings Settings;
+        PlayerSetupSettings settings;
         Rect R;
-        Settings = GetPlayerSetup();
-        if (Settings != null)
+        settings = GetPlayerSetup();
+        if (settings != null)
         {
             R = new Rect(Dlg.WinLeft + 188, Dlg.WinTop + 40, Dlg.WinLeft + 188 + 103, Dlg.WinTop + 40 + 128);
-            Settings.FLeader.ShowFace(R, Surface);
+            settings.Leader.ShowFace(R, surface);
         }
     }
 
     // AoWSyncDlg.pas:67
     public void DlgShow()
     {
-        PlayerSetupSettings Settings;
+        PlayerSetupSettings settings;
         int I;
         int Day;
-        Settings = GetPlayerSetup();
-        if (Settings != null)
+        settings = GetPlayerSetup();
+        if (settings != null)
         {
-            if (!DialogHosts.SetupEvents.SetupControl.FSettings.FCustomizeLeaders)
+            if (!DialogHosts.SetupEvents.SetupControl.Settings.CustomizeLeaders)
             {
-                I = DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
+                I = DialogHosts.SetupEvents.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(DialogHosts.SetupEvents.SetupControl.RemotePlayer.RemoteId);
                 if (I != -1)
                 {
-                    var player = DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.GetPlayers(I);
-                    PlayerName.Text = player.FName;
+                    var player = DialogHosts.SetupEvents.SetupControl.Settings.RemotePlayers.GetPlayers(I);
+                    PlayerName.Text = player.Name;
                 }
                 else
                 {
-                    PlayerName.Text = Settings.FLeader.FHeroName;
+                    PlayerName.Text = settings.Leader.HeroName;
                 }
             }
             else
             {
-                PlayerName.Text = Settings.FLeader.FHeroName;
+                PlayerName.Text = settings.Leader.HeroName;
             }
 
-            var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Settings.FRace]);
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[settings.Race]);
             PlayerRace.Text = raceNamesPlural;
-            Day = AoWHSMap.Current.FDay;
+            Day = AoWHSMap.Current.Day;
             if (Day == 0)
             {
                 Day = 1;
             }
 
-            var day = AbilityRules.TranslateRStr(GameText.DayRStr);
+            var day = AbilityRules.TranslateResourceString(GameText.s_dayText);
             Turn.Text = day + " " + IntToStr(Day);
-            LShield.CurrentImage = Settings.FRace + 26;
-            RShield.CurrentImage = Settings.FRace + 26;
+            LShield.CurrentImage = settings.Race + 26;
+            RShield.CurrentImage = settings.Race + 26;
         }
     }
 }

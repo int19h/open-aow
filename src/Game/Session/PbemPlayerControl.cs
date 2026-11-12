@@ -20,41 +20,41 @@ namespace Aow.Game.Session;
 // local player
 public partial class PbemPlayerControl : TurnPlayerControl
 {
-    public new const int ClassID = 131667;
+    public new const int ClassId = 131667;
 
     public PbemPlayerControl(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte FLocalPlayer;
+    public sbyte LocalPlayer;
 
     // PlayerC.PAS:984
-    public override void NewTurn(sbyte Player)
+    public override void NewTurn(sbyte player)
     {
-        SendEmailGameEventLog Log = default;
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus.Contains(PbemPlayerStatusElement.NewTurn) || AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human || AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Terminated)
+        SendEmailGameEventLog log = default;
+        if (AoWHSMap.Current.Players.GetPlayers(player).PbemSettings.Status.Contains(PbemPlayerStatusElement.NewTurn) || AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human || AoWHSMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Terminated)
         {
-            base.NewTurn(Player);
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone) + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
+            base.NewTurn(player);
+            var players = AoWHSMap.Current.Players.GetPlayers(player);
+            AoWHSMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone) + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
         }
         else
         {
-            if (AoWHSMap.Current.FPlayers.FLocalPlayers.Count > 1 || Player != FLocalPlayer)
+            if (AoWHSMap.Current.Players.LocalPlayers.Count > 1 || player != LocalPlayer)
             {
-                AoWHSMap.Current.SetCurrentPlayer(Player);
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn);
-                Log = new SendEmailGameEventLog(null);
-                Log.FMode = 2;
-                Log.FSendPlayer = Player;
-                AoWHSMap.Current.TriggerExecuteEventLog(Log, false, SendEmailGameCallBack);
-                Log.Release();
+                AoWHSMap.Current.SetCurrentPlayer(player);
+                var players = AoWHSMap.Current.Players.GetPlayers(player);
+                AoWHSMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn);
+                log = new SendEmailGameEventLog(null);
+                log.Mode = 2;
+                log.SendPlayer = player;
+                AoWHSMap.Current.TriggerExecuteEventLog(log, false, SendEmailGameCallback);
+                log.Release();
             }
             else
             {
-                base.NewTurn(Player);
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone) + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
+                base.NewTurn(player);
+                var players = AoWHSMap.Current.Players.GetPlayers(player);
+                AoWHSMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone) + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
             }
         }
     }
@@ -63,27 +63,27 @@ public partial class PbemPlayerControl : TurnPlayerControl
     public override void StartNewMap()
     {
         int I;
-        int Player;
+        int player;
         DefaultStartMap();
         NewDay();
         I = 0;
-        int last = AoWHSMap.Current.FPlayers.Count - 1;
+        int last = AoWHSMap.Current.Players.Count - 1;
         for (; I <= last; I += 1)
         {
-            if (I == 0 || AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType != PlayerType.Independent)
+            if (I == 0 || AoWHSMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Independent)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus = Session.Player.Status.Playing;
+                AoWHSMap.Current.Players.GetPlayers(I).Status = PlayerStatus.Playing;
             }
         }
 
         I = 0;
         while (true)
         {
-            bool condition = I < AoWHSMap.Current.FTurnOrder.Count;
+            bool condition = I < AoWHSMap.Current.TurnOrder.Count;
             if (condition)
             {
-                var item = AoWHSMap.Current.FTurnOrder[I];
-                condition = AoWHSMap.Current.FPlayers.GetPlayers(item).FPlayerType != PlayerType.Human;
+                var item = AoWHSMap.Current.TurnOrder[I];
+                condition = AoWHSMap.Current.Players.GetPlayers(item).PlayerType != PlayerType.Human;
             }
 
             if (!condition)
@@ -91,35 +91,35 @@ public partial class PbemPlayerControl : TurnPlayerControl
             I += 1;
         }
 
-        Player = AoWHSMap.Current.FTurnOrder[I];
-        var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        bool test = GameTables.AoWEngine.FEmailGames.FindEmailGame(players.FPBEMSettings.FEmailGame) != null;
+        player = AoWHSMap.Current.TurnOrder[I];
+        var players = AoWHSMap.Current.Players.GetPlayers(player);
+        bool test = GameTables.GameEngine.EmailGames.FindEmailGame(players.PbemSettings.EmailGame) != null;
         if (test)
         {
-            var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
-            test = CompareText(AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FEmailGame.FEmailAddress, localEmailAddress) == 0;
+            var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+            test = CompareText(AoWHSMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.EmailAddress, localEmailAddress) == 0;
         }
 
         if (test)
         {
-            FLocalPlayer = (sbyte)Player;
-            var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus = fPlayersPlayers.FPBEMSettings.FStatus + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn);
+            LocalPlayer = (sbyte)player;
+            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);
+            AoWHSMap.Current.Players.GetPlayers(player).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn);
         }
         else
         {
             AoWHSMap.Current.SetSeatedPlayer(-1);
         }
 
-        NewTurn((sbyte)AoWHSMap.Current.FTurnOrder[1]);
+        NewTurn((sbyte)AoWHSMap.Current.TurnOrder[1]);
     }
 
     // PlayerC.PAS:1187
     public override void StartLoadedMap()
     {
-        if (!IsEmpty(AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FSettings))
+        if (!IsEmpty(AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).Settings))
         {
-            ValidatePassword(AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FSettings);
+            ValidatePassword(AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).Settings);
         }
         else
         {
@@ -134,29 +134,29 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:1230
-    public override void ExitGame(ExitGameMode Mode, ExitGameCallBack Done)
+    public override void ExitGame(ExitGameMode mode, ExitGameCallBack done)
     {
-        SaveGameEventLog Log = default;
-        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus.Contains(PbemPlayerStatusElement.Playing))
+        SaveGameEventLog log = default;
+        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatusElement.Playing))
         {
             if (DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
             {
-                Log = new SaveGameEventLog(null);
-                Log.FTitle = AbilityRules.TranslateRStr(SaveEmailGameRStr);
-                if (!IsEmpty(AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FEmailGame.FName))
+                log = new SaveGameEventLog(null);
+                log.Title = AbilityRules.TranslateResourceString(s_saveEmailGameText);
+                if (!IsEmpty(AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.EmailGame.Name))
                 {
-                    Log.FDefaultName = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FEmailGame.FName + ".asg";
+                    log.DefaultName = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.EmailGame.Name + ".asg";
                 }
 
-                Log.FDirectory = GameTables.AoWEngine.StartupDirectory + "EmailIn\\";
-                AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ExitGameSaveAsCallBack);
-                Log.Release();
+                log.Directory = GameTables.GameEngine.StartupDirectory + "EmailIn\\";
+                AoWHSMap.Current.TriggerExecuteEventLog(log, false, ExitGameSaveAsCallback);
+                log.Release();
             }
             else
             {
                 // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
                 AoWHSMap.Current.FileName = FileBoundary.WriteName(AoWHSMap.Current.FileName);
-                GameTables.AoWEngine.SaveHSM(AoWHSMap.Current.FileName, null, GameProfile.WorldMap);
+                GameTables.GameEngine.SaveHsm(AoWHSMap.Current.FileName, null, GameProfile.WorldMap);
                 AoWHSMap.Current.ExecuteExitGame();
             }
         }
@@ -167,60 +167,60 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:1053
-    public override void EndTurn(sbyte Player)
+    public override void EndTurn(sbyte player)
     {
-        SaveGameEventLog SaveLog = default;
-        MessageEventLog MessageLog = default;
-        bool Saved = default;
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human && AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Playing)
+        SaveGameEventLog saveLog = default;
+        MessageEventLog messageLog = default;
+        bool saved = default;
+        if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human && AoWHSMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
         {
             if (DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
             {
-                SaveLog = new SaveGameEventLog(null);
-                SaveLog.FTitle = AbilityRules.TranslateRStr(SaveEmailGameRStr);
-                if (!IsEmpty(AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FEmailGame.FName))
+                saveLog = new SaveGameEventLog(null);
+                saveLog.Title = AbilityRules.TranslateResourceString(s_saveEmailGameText);
+                if (!IsEmpty(AoWHSMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.Name))
                 {
-                    SaveLog.FDefaultName = AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FEmailGame.FName + ".asg";
+                    saveLog.DefaultName = AoWHSMap.Current.Players.GetPlayers(player).PbemSettings.EmailGame.Name + ".asg";
                 }
 
-                SaveLog.FDirectory = GameTables.AoWEngine.StartupDirectory + "EmailIn\\";
-                AoWHSMap.Current.TriggerExecuteEventLog(SaveLog, false, EndTurnGameSavedCallBack);
-                SaveLog.Release();
+                saveLog.Directory = GameTables.GameEngine.StartupDirectory + "EmailIn\\";
+                AoWHSMap.Current.TriggerExecuteEventLog(saveLog, false, EndTurnGameSavedCallback);
+                saveLog.Release();
             }
             else
             {
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone) - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
+                var players = AoWHSMap.Current.Players.GetPlayers(player);
+                AoWHSMap.Current.Players.GetPlayers(player).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone) - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
                 // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
                 AoWHSMap.Current.FileName = FileBoundary.WriteName(AoWHSMap.Current.FileName);
                 try
                 {
-                    GameTables.AoWEngine.SaveHSM(AoWHSMap.Current.FileName, null, GameProfile.WorldMap);
-                    Saved = true;
+                    GameTables.GameEngine.SaveHsm(AoWHSMap.Current.FileName, null, GameProfile.WorldMap);
+                    saved = true;
                 }
                 catch
                 {
-                    Saved = false;
+                    saved = false;
                 }
 
-                if (Saved)
+                if (saved)
                 {
-                    base.EndTurn(AoWHSMap.Current.FCurrentPlayer);
+                    base.EndTurn(AoWHSMap.Current.CurrentPlayer);
                 }
                 else
                 {
-                    MessageLog = new MessageEventLog(null);
-                    var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr) + ".", [AoWHSMap.Current.FileName]);
-                    MessageLog.FMessage.Text = format;
-                    AoWHSMap.Current.TriggerExecuteEventLog(MessageLog, false, TerminateEmailGameCallBack);
-                    MessageLog.Release();
+                    messageLog = new MessageEventLog(null);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat) + ".", [AoWHSMap.Current.FileName]);
+                    messageLog.Message.Text = format;
+                    AoWHSMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
+                    messageLog.Release();
                 }
             }
         }
         else
         {
             // { Original uses current player, ignoring Player here. }
-            base.EndTurn(AoWHSMap.Current.FCurrentPlayer);
+            base.EndTurn(AoWHSMap.Current.CurrentPlayer);
         }
     }
 
@@ -231,23 +231,23 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:890
-    public void TerminateEmailGameCallBack(EventLog Log)
+    public void TerminateEmailGameCallback(EventLog log)
     {
         TerminateEmailGame();
     }
 
     // PlayerC.PAS:893
-    public void SendEmailGameAutomatedCallBack(EventLog Log)
+    public void SendEmailGameAutomatedCallback(EventLog log)
     {
-        SendEmailGameEventLog SendLog = default;
-        DeleteFile(((SmtpEventLog)Log).FFileName);
-        if (!((SmtpEventLog)Log).FSuccess)
+        SendEmailGameEventLog sendLog = default;
+        DeleteFile(((SmtpEventLog)log).FileName);
+        if (!((SmtpEventLog)log).Success)
         {
-            SendLog = new SendEmailGameEventLog(null);
-            SendLog.FMode = 1;
-            SendLog.FSendPlayer = AoWHSMap.Current.FCurrentPlayer;
-            AoWHSMap.Current.TriggerExecuteEventLog(SendLog, false, SendEmailGameCallBack);
-            SendLog.Release();
+            sendLog = new SendEmailGameEventLog(null);
+            sendLog.Mode = 1;
+            sendLog.SendPlayer = AoWHSMap.Current.CurrentPlayer;
+            AoWHSMap.Current.TriggerExecuteEventLog(sendLog, false, SendEmailGameCallback);
+            sendLog.Release();
         }
         else
         {
@@ -256,135 +256,135 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:909
-    public void SendEmailGameManualCallBack(EventLog Log)
+    public void SendEmailGameManualCallback(EventLog log)
     {
-        bool Failed = default;
-        MessageEventLog MessageLog = default;
-        if (!IsEmpty(((SaveGameEventLog)Log).FFileName))
+        bool failed = default;
+        MessageEventLog messageLog = default;
+        if (!IsEmpty(((SaveGameEventLog)log).FileName))
         {
             try
             {
-                GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, GameProfile.WorldMap);
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.GameSavedRStr), [((SaveGameEventLog)Log).FFileName]);
+                GameTables.GameEngine.SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_gameSavedFormat), [((SaveGameEventLog)log).FileName]);
                 AoWHSMap.Current.ShowMessage(format);
-                Failed = false;
+                failed = false;
             }
             catch
             {
-                Failed = true;
+                failed = true;
             }
         }
         else
         {
-            Failed = true;
+            failed = true;
         }
 
-        if (Failed)
+        if (failed)
         {
-            MessageLog = new MessageEventLog(null);
-            var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr) + ".", [((SaveGameEventLog)Log).FFileName]);
-            MessageLog.FMessage.Text = format;
-            AoWHSMap.Current.TriggerExecuteEventLog(MessageLog, false, TerminateEmailGameCallBack);
-            MessageLog.Release();
+            messageLog = new MessageEventLog(null);
+            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat) + ".", [((SaveGameEventLog)log).FileName]);
+            messageLog.Message.Text = format;
+            AoWHSMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
+            messageLog.Release();
         }
         else
         {
-            MessageLog = new MessageEventLog(null);
-            var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameSuccessfullySavedRStr) + ".", [((SaveGameEventLog)Log).FFileName]);
-            MessageLog.FMessage.Text = format;
-            AoWHSMap.Current.TriggerExecuteEventLog(MessageLog, false, TerminateEmailGameCallBack);
-            MessageLog.Release();
+            messageLog = new MessageEventLog(null);
+            var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_gameSuccessfullySavedText) + ".", [((SaveGameEventLog)log).FileName]);
+            messageLog.Message.Text = format;
+            AoWHSMap.Current.TriggerExecuteEventLog(messageLog, false, TerminateEmailGameCallback);
+            messageLog.Release();
         }
     }
 
     // PlayerC.PAS:938
-    public void SendEmailGameCallBack(EventLog Log)
+    public void SendEmailGameCallback(EventLog log)
     {
         /* TODO: Implement Windows.GetTempPath in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // PlayerC.PAS:1018
-    public void TriggerGameRestartedEvents(sbyte Player)
+    public void TriggerGameRestartedEvents(sbyte player)
     {
-        RestartGameEventLog Log;
-        AoWHSMap.Current.SynchroniseBegin();
-        Log = new RestartGameEventLog(null);
-        Log.FPlayer = Player;
-        var name = AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameRestartEventLogXRStr), [name]);
-        Log.FMessage.Text = format;
-        EventLog.DistributeEventLog(Log, false);
-        Log.Release();
-        AoWHSMap.Current.SynchroniseEnd();
+        RestartGameEventLog log;
+        AoWHSMap.Current.SynchronizeBegin();
+        log = new RestartGameEventLog(null);
+        log._player = player;
+        var name = AoWHSMap.Current.Players.GetPlayers(player).GetName();
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_gameRestartEventLogFormat), [name]);
+        log.Message.Text = format;
+        EventLog.DistributeEventLog(log, false);
+        log.Release();
+        AoWHSMap.Current.SynchronizeEnd();
     }
 
     // PlayerC.PAS:1031
-    public void EndTurnGameSavedCallBack(EventLog Log)
+    public void EndTurnGameSavedCallback(EventLog log)
     {
-        bool Failed = default;
-        if (!IsEmpty(((SaveGameEventLog)Log).FFileName))
+        bool failed = default;
+        if (!IsEmpty(((SaveGameEventLog)log).FileName))
         {
             try
             {
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
-                AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone) - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
-                GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, GameProfile.WorldMap);
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.GameSavedRStr), [((SaveGameEventLog)Log).FFileName]);
+                var players = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer);
+                AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.Status = players.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone) - Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
+                GameTables.GameEngine.SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_gameSavedFormat), [((SaveGameEventLog)log).FileName]);
                 AoWHSMap.Current.ShowMessage(format);
-                AoWHSMap.Current.SynchroniseBegin();
-                base.EndTurn(AoWHSMap.Current.FCurrentPlayer);
-                AoWHSMap.Current.SynchroniseEnd();
-                Failed = false;
+                AoWHSMap.Current.SynchronizeBegin();
+                base.EndTurn(AoWHSMap.Current.CurrentPlayer);
+                AoWHSMap.Current.SynchronizeEnd();
+                failed = false;
             }
             catch
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr), [((SaveGameEventLog)Log).FFileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat), [((SaveGameEventLog)log).FileName]);
                 AoWHSMap.Current.ShowWarning(format);
-                Failed = true;
+                failed = true;
             }
         }
         else
         {
-            Failed = true;
+            failed = true;
         }
 
-        if (Failed)
+        if (failed)
         {
-            AoWHSMap.Current.TriggerEndTurnEvent(AoWHSMap.Current.FCurrentPlayer);
+            AoWHSMap.Current.TriggerEndTurnEvent(AoWHSMap.Current.CurrentPlayer);
         }
     }
 
     // PlayerC.PAS:1094
     public void StartLoadedEmailGame()
     {
-        AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FEmailGame.FLastDay = AoWHSMap.Current.FDay;
-        var players = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
-        GameTables.AoWEngine.FEmailGames.UpdateGame(players.FPBEMSettings.FEmailGame);
-        var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
-        AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus = fPlayersPlayers.FPBEMSettings.FStatus + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
-        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus.Contains(PbemPlayerStatusElement.NewTurn))
+        AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.EmailGame.LastDay = AoWHSMap.Current.Day;
+        var players = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer);
+        GameTables.GameEngine.EmailGames.UpdateGame(players.PbemSettings.EmailGame);
+        var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer);
+        AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.Status = fPlayersPlayers.PbemSettings.Status + Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.Playing);
+        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatusElement.NewTurn))
         {
-            AoWHSMap.Current.SynchroniseBegin();
+            AoWHSMap.Current.SynchronizeBegin();
             DefaultStartMap();
-            AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(AoWHSMap.Current.FCurrentPlayer);
-            NewTurn(AoWHSMap.Current.FCurrentPlayer);
-            AoWHSMap.Current.SynchroniseEnd();
+            AoWHSMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(AoWHSMap.Current.CurrentPlayer);
+            NewTurn(AoWHSMap.Current.CurrentPlayer);
+            AoWHSMap.Current.SynchronizeEnd();
         }
         else
         {
-            StartLoadedMapEx();
+            ContinueLoadedMap();
         }
     }
 
     // PlayerC.PAS:1111
-    public void ContinueRestartedGameCallBack(EventLog Log)
+    public void ContinueRestartedGameCallback(EventLog log)
     {
-        if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Yes)
+        if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
         {
-            AoWHSMap.Current.SynchroniseBegin();
-            TriggerGameRestartedEvents(AoWHSMap.Current.FCurrentPlayer);
-            AoWHSMap.Current.SynchroniseEnd();
+            AoWHSMap.Current.SynchronizeBegin();
+            TriggerGameRestartedEvents(AoWHSMap.Current.CurrentPlayer);
+            AoWHSMap.Current.SynchronizeEnd();
             StartLoadedEmailGame();
         }
         else
@@ -394,15 +394,15 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:1123
-    public void ContinueTurnDoneGameCallBack(EventLog Log)
+    public void ContinueTurnDoneGameCallback(EventLog log)
     {
-        if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Yes)
+        if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
         {
-            AoWHSMap.Current.SynchroniseBegin();
+            AoWHSMap.Current.SynchronizeBegin();
             DefaultStartMap();
-            AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(AoWHSMap.Current.FCurrentPlayer);
-            EndTurn(AoWHSMap.Current.FCurrentPlayer);
-            AoWHSMap.Current.SynchroniseEnd();
+            AoWHSMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(AoWHSMap.Current.CurrentPlayer);
+            EndTurn(AoWHSMap.Current.CurrentPlayer);
+            AoWHSMap.Current.SynchronizeEnd();
         }
         else
         {
@@ -413,57 +413,57 @@ public partial class PbemPlayerControl : TurnPlayerControl
     // PlayerC.PAS:1136
     public void ValidateLoadedMap()
     {
-        bool Restarted = default;
-        MessageEventLog Log = default;
-        FLocalPlayer = AoWHSMap.Current.FCurrentPlayer;
-        var players = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
-        if (GameTables.AoWEngine.FEmailGames.FindEmailGame(players.FPBEMSettings.FEmailGame) == null)
+        bool restarted = default;
+        MessageEventLog log = default;
+        LocalPlayer = AoWHSMap.Current.CurrentPlayer;
+        var players = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer);
+        if (GameTables.GameEngine.EmailGames.FindEmailGame(players.PbemSettings.EmailGame) == null)
         {
-            var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
-            Restarted = GameTables.AoWEngine.FEmailGames.EmailGameRestarted(fPlayersPlayers.FPBEMSettings.FEmailGame);
-            var players2 = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
-            var players3 = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
-            var emailGame = GameTables.AoWEngine.FEmailGames.CreateEmailGame(players3.FPBEMSettings.FEmailGame.FName, players2.FPBEMSettings.FEmailGame.FEmailAddress);
-            AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.SetGame(emailGame);
-            if (Restarted)
+            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer);
+            restarted = GameTables.GameEngine.EmailGames.EmailGameRestarted(fPlayersPlayers.PbemSettings.EmailGame);
+            var players2 = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer);
+            var players3 = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer);
+            var emailGame = GameTables.GameEngine.EmailGames.CreateEmailGame(players3.PbemSettings.EmailGame.Name, players2.PbemSettings.EmailGame.EmailAddress);
+            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.SetGame(emailGame);
+            if (restarted)
             {
-                TriggerGameRestartedEvents(AoWHSMap.Current.FCurrentPlayer);
+                TriggerGameRestartedEvents(AoWHSMap.Current.CurrentPlayer);
             }
 
             StartLoadedEmailGame();
         }
         else
         {
-            var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
-            if (GameTables.AoWEngine.FEmailGames.EmailGameRestarted(fPlayersPlayers.FPBEMSettings.FEmailGame))
+            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer);
+            if (GameTables.GameEngine.EmailGames.EmailGameRestarted(fPlayersPlayers.PbemSettings.EmailGame))
             {
                 SetSeatedPlayer(-1);
-                Log = new MessageEventLog(null);
-                Log.FButtons = MessageEventLog.Buttons.YesNo;
-                Log.FTitle = AbilityRules.TranslateRStr(GameText.WarningRStr);
-                var pbemRestartCheat = AbilityRules.TranslateRStr(PBEMRestartCheatRStr);
-                Log.FMessage.Text = pbemRestartCheat;
-                Log.FMessage.Add("");
-                var aoWETranslateRStr = AbilityRules.TranslateRStr(DoYouWantToContinueRStr);
-                Log.FMessage.Add(aoWETranslateRStr);
-                AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ContinueRestartedGameCallBack);
-                Log.Release();
+                log = new MessageEventLog(null);
+                log.Buttons = MessageEventLogButtons.YesNo;
+                log.Title = AbilityRules.TranslateResourceString(GameText.s_warningText);
+                var pbemRestartCheat = AbilityRules.TranslateResourceString(s_pbemRestartCheatText);
+                log.Message.Text = pbemRestartCheat;
+                log.Message.Add("");
+                var translatedText = AbilityRules.TranslateResourceString(s_doYouWantToContinueText);
+                log.Message.Add(translatedText);
+                AoWHSMap.Current.TriggerExecuteEventLog(log, false, ContinueRestartedGameCallback);
+                log.Release();
             }
             else
             {
                 SetSeatedPlayer(-1);
-                if ((AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus & Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone)) == Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone))
+                if ((AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PbemSettings.Status & Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.NewTurn, PbemPlayerStatusElement.TurnDone)) == Set<PbemPlayerStatusElement>.Of(PbemPlayerStatusElement.TurnDone))
                 {
-                    Log = new MessageEventLog(null);
-                    Log.FTitle = AbilityRules.TranslateRStr(GameText.WarningRStr);
-                    Log.FButtons = MessageEventLog.Buttons.YesNo;
-                    var pbemGameEnded = AbilityRules.TranslateRStr(PBEMGameEndedRStr);
-                    Log.FMessage.Text = pbemGameEnded;
-                    Log.FMessage.Add("");
-                    var aoWETranslateRStr = AbilityRules.TranslateRStr(DoYouWantToContinueRStr);
-                    Log.FMessage.Add(aoWETranslateRStr);
-                    AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ContinueTurnDoneGameCallBack);
-                    Log.Release();
+                    log = new MessageEventLog(null);
+                    log.Title = AbilityRules.TranslateResourceString(GameText.s_warningText);
+                    log.Buttons = MessageEventLogButtons.YesNo;
+                    var pbemGameEnded = AbilityRules.TranslateResourceString(s_pbemGameEndedText);
+                    log.Message.Text = pbemGameEnded;
+                    log.Message.Add("");
+                    var translatedText = AbilityRules.TranslateResourceString(s_doYouWantToContinueText);
+                    log.Message.Add(translatedText);
+                    AoWHSMap.Current.TriggerExecuteEventLog(log, false, ContinueTurnDoneGameCallback);
+                    log.Release();
                 }
                 else
                 {
@@ -474,29 +474,29 @@ public partial class PbemPlayerControl : TurnPlayerControl
     }
 
     // PlayerC.PAS:1219
-    public void ExitGameSaveAsCallBack(EventLog Log)
+    public void ExitGameSaveAsCallback(EventLog log)
     {
-        if (!IsEmpty(((SaveGameEventLog)Log).FFileName))
+        if (!IsEmpty(((SaveGameEventLog)log).FileName))
         {
             try
             {
-                GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, GameProfile.WorldMap);
+                GameTables.GameEngine.SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
                 AoWHSMap.Current.ExecuteExitGame();
             }
             catch
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr), [((SaveGameEventLog)Log).FFileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat), [((SaveGameEventLog)log).FileName]);
                 AoWHSMap.Current.ShowWarning(format);
             }
         }
     }
 
-    private static readonly string DoYouWantToContinueRStr = "Do you want to continue?";
-    private static readonly string GameRestartEventLogXRStr = "Game is restarted for unknown reason, contact %s for more information";
-    private static readonly string GameSuccessfullySavedRStr = "Game successfully saved";
-    private static readonly string PBEMGameEndedRStr = "This game's turn has been ended. Restarting is only allowed for resend purposes.";
-    private static readonly string PBEMRestartCheatRStr = "This game isn't the original game. Restarting it qualifies you as a cheater!";
-    private static readonly string SaveEmailGameRStr = "Save email game...";
+    private static readonly string s_doYouWantToContinueText = "Do you want to continue?";
+    private static readonly string s_gameRestartEventLogFormat = "Game is restarted for unknown reason, contact %s for more information";
+    private static readonly string s_gameSuccessfullySavedText = "Game successfully saved";
+    private static readonly string s_pbemGameEndedText = "This game's turn has been ended. Restarting is only allowed for resend purposes.";
+    private static readonly string s_pbemRestartCheatText = "This game isn't the original game. Restarting it qualifies you as a cheater!";
+    private static readonly string s_saveEmailGameText = "Save email game...";
 
     // intf_P1_04.inc:26
 

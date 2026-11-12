@@ -15,42 +15,42 @@ public partial class MoveSettingsList : ENode
 
     // Structur.PAS:4040
     // inherited FChildren
-    public MoveSettings GetMoveSettings(int Index) => (MoveSettings)FChildren.List[Index];
+    public MoveSettings GetMoveSettings(int index) => (MoveSettings)_children.List[index];
 
     // Structur.PAS:4045
     public int GetNoneValidMove()
     {
-        int MinPriority;
-        int Priority;
-        int Result = -1;
-        MinPriority = 16777215;
+        int minPriority;
+        int priority;
+        int result = -1;
+        minPriority = 16777215;
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            var moveSettings = (MoveSettings)FChildren.List[I];
-            if (!moveSettings.FValid)
+            var moveSettings = (MoveSettings)_children.List[I];
+            if (!moveSettings.Valid)
             {
-                Priority = moveSettings.GetMovePrio();
-                if (Priority <= MinPriority)
+                priority = moveSettings.GetMovePrio();
+                if (priority <= minPriority)
                 {
-                    Result = I;
-                    MinPriority = Priority;
+                    result = I;
+                    minPriority = priority;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:4064
-    public int IndexOfMoveObject(object MoveObject)
+    public int IndexOfMoveObject(object moveObject)
     {
-        int Result = GetCount();
-        while (Result != 0)
+        int result = GetCount();
+        while (result != 0)
         {
-            Result -= 1;
-            if (MoveObject == ((MoveSettings)FChildren.List[Result]).FMoveObject)
+            result -= 1;
+            if (moveObject == ((MoveSettings)_children.List[result]).MoveObject)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -58,34 +58,34 @@ public partial class MoveSettingsList : ENode
     }
 
     // Structur.PAS:4075
-    public void CalculateMovePositions(ValidateMovePositionProc Validate)
+    public void CalculateMovePositions(ValidateMovePositionProc validate)
     {
-        int Index;
-        MoveSettings Settings;
+        int index;
+        MoveSettings settings;
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            Settings = GetMoveSettings(I);
-            Settings.FMovePos = Settings.FPath.MovePointsToPos(Settings.FMovePoints);
-            Settings.FValid = Settings.FPath.Count == 0 || Settings.FMovePos == Settings.FPath.Count - 1;
+            settings = GetMoveSettings(I);
+            settings.MovePosition = settings.Path.MovePointsToPosition(settings.MovePoints);
+            settings.Valid = settings.Path.Count == 0 || settings.MovePosition == settings.Path.Count - 1;
         }
 
-        Index = GetNoneValidMove();
-        while (!(Index == -1))
+        index = GetNoneValidMove();
+        while (!(index == -1))
         {
-            if (Validate(this, Index))
+            if (validate(this, index))
             {
-                GetMoveSettings(Index).FValid = true;
+                GetMoveSettings(index).Valid = true;
                 for (int I = 0, last = GetCount() - 1; I <= last; I++)
                 {
-                    if (Index != I)
+                    if (index != I)
                     {
-                        var moveLoc = GetMoveSettings(Index).GetMoveLoc();
-                        var moveLoc2 = GetMoveSettings(I).GetMoveLoc();
-                        if (Unsafe.BitCast<MapCoordinate, int>(moveLoc) == Unsafe.BitCast<MapCoordinate, int>(moveLoc2))
+                        var moveLocation = GetMoveSettings(index).GetMoveLocation();
+                        var moveLocation2 = GetMoveSettings(I).GetMoveLocation();
+                        if (Unsafe.BitCast<MapCoordinate, int>(moveLocation) == Unsafe.BitCast<MapCoordinate, int>(moveLocation2))
                         {
-                            if (GetMoveSettings(Index).GetMovePrio() < GetMoveSettings(I).GetMovePrio())
+                            if (GetMoveSettings(index).GetMovePrio() < GetMoveSettings(I).GetMovePrio())
                             {
-                                GetMoveSettings(I).FValid = false;
+                                GetMoveSettings(I).Valid = false;
                             }
                         }
                     }
@@ -93,14 +93,14 @@ public partial class MoveSettingsList : ENode
             }
             else
             {
-                var moveSettings = GetMoveSettings(Index);
-                moveSettings.FMovePos += 1;
-                var moveSettings2 = GetMoveSettings(Index);
-                var moveSettings3 = GetMoveSettings(Index);
-                GetMoveSettings(Index).FValid = moveSettings2.FMovePos == moveSettings3.FPath.Count - 1;
+                var moveSettings = GetMoveSettings(index);
+                moveSettings.MovePosition += 1;
+                var moveSettings2 = GetMoveSettings(index);
+                var moveSettings3 = GetMoveSettings(index);
+                GetMoveSettings(index).Valid = moveSettings2.MovePosition == moveSettings3.Path.Count - 1;
             }
 
-            Index = GetNoneValidMove();
+            index = GetNoneValidMove();
         }
     }
 

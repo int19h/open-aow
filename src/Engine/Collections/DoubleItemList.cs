@@ -12,100 +12,100 @@ namespace Aow.Engine.Collections;
 
 public partial class DoubleItemList : Persistent
 {
-    internal DoubleItem[] FList = [];
-    internal int FCount;
-    internal int FCapacity;
-    internal DoubleItem FDefault;
+    internal DoubleItem[] _list = [];
+    internal int _count;
+    internal int _capacity;
+    internal DoubleItem _default;
 
     // Engine.pas:5140
-    internal DoubleItem Get(int Index)
+    internal DoubleItem Get(int index)
     {
-        DoubleItem Result;
-        if (Index < 0 || Index >= FCount)
+        DoubleItem result;
+        if (index < 0 || index >= _count)
         {
-            Result = FDefault;
+            result = _default;
         }
         else
         {
-            Result = FList[Index];
+            result = _list[index];
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5208
-    internal void Put(int Index, DoubleItem Item)
+    internal void Put(int index, DoubleItem item)
     {
-        if (Index < 0)
+        if (index < 0)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (Index >= FCount)
+        if (index >= _count)
         {
-            SetCount(Index + 1);
+            SetCount(index + 1);
         }
 
-        FList[Index] = Item;
+        _list[index] = item;
     }
 
     // Engine.pas:5233
-    internal void SetCapacity(int NewCapacity)
+    internal void SetCapacity(int newCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
+        if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", NewCapacity);
+            Error("List capacity out of bounds (%d)", newCapacity);
         }
 
-        if (NewCapacity != FCapacity)
+        if (newCapacity != _capacity)
         {
-            Array.Resize(ref FList, NewCapacity);
-            FCapacity = NewCapacity;
+            Array.Resize(ref _list, newCapacity);
+            _capacity = newCapacity;
         }
     }
 
     // Engine.pas:5244
-    internal void SetCount(int NewCount)
+    internal void SetCount(int newCount)
     {
-        if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
+        if (newCount < 0 || newCount > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", NewCount);
+            Error("List count out of bounds (%d)", newCount);
         }
 
-        if (NewCount > FCapacity)
+        if (newCount > _capacity)
         {
-            SetCapacity(NewCount);
+            SetCapacity(newCount);
         }
 
-        if (NewCount > FCount)
+        if (newCount > _count)
         {
-            FillLargeInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+            FillLargeInteger(_list.AsSpan(_count), newCount - _count, _default);
         }
 
-        FCount = NewCount;
+        _count = newCount;
     }
 
     // Engine.pas:5148
     protected internal virtual void Grow()
     {
-        int Delta;
-        if (FCapacity > 64)
+        int delta;
+        if (_capacity > 64)
         {
-            Delta = FCapacity / 4;
+            delta = _capacity / 4;
         }
         else
         {
-            if (FCapacity > 8)
+            if (_capacity > 8)
             {
-                Delta = 16;
+                delta = 16;
             }
             else
             {
-                Delta = 4;
+                delta = 4;
             }
         }
 
-        SetCapacity(FCapacity + Delta);
+        SetCapacity(_capacity + delta);
     }
 
     // Engine.pas:5056
@@ -115,49 +115,49 @@ public partial class DoubleItemList : Persistent
     }
 
     // Engine.pas:5061
-    public override void Assign(Persistent Source)
+    public override void Assign(Persistent source)
     {
-        if (Source is DoubleItemList)
+        if (source is DoubleItemList)
         {
-            var doubleItemList = (DoubleItemList)Source;
-            this.FCount = doubleItemList.FCount;
-            this.SetCapacity(doubleItemList.FCount);
-            Array.Copy(doubleItemList.FList, 0, this.FList, 0, this.FCount);
-            this.FDefault = doubleItemList.FDefault;
+            var doubleItemList = (DoubleItemList)source;
+            this._count = doubleItemList._count;
+            this.SetCapacity(doubleItemList._count);
+            Array.Copy(doubleItemList._list, 0, this._list, 0, this._count);
+            this._default = doubleItemList._default;
         }
         else
         {
-            base.Assign(Source);
+            base.Assign(source);
         }
     }
 
     // Engine.pas:5075
-    public int Add(in DoubleItem Item)
+    public int Add(in DoubleItem item)
     {
-        int Result = FCount;
-        if (Result == FCapacity)
+        int result = _count;
+        if (result == _capacity)
         {
             Grow();
         }
 
-        FList[Result] = Item;
-        FCount += 1;
-        return Result;
+        _list[result] = item;
+        _count += 1;
+        return result;
     }
 
     // Engine.pas:5083
-    public int AddAB(int A, int B)
+    public int AddAbility(int A, int B)
     {
-        int Result = FCount;
-        if (Result == FCapacity)
+        int result = _count;
+        if (result == _capacity)
         {
             Grow();
         }
 
-        FList[Result].A = A;
-        FList[Result].B = B;
-        FCount += 1;
-        return Result;
+        _list[result].First = A;
+        _list[result].Second = B;
+        _count += 1;
+        return result;
     }
 
     // Engine.pas:5092
@@ -168,43 +168,43 @@ public partial class DoubleItemList : Persistent
     }
 
     // Engine.pas:5098
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        if (Index < 0 || Index >= FCount)
+        if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        FCount -= 1;
-        if (Index < FCount)
+        _count -= 1;
+        if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), (FCount - Index) * 8);
+            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), (_count - index) * 8);
         }
     }
 
     // Engine.pas:5118
-    public void Exchange(int Index1, int Index2)
+    public void Exchange(int index1, int index2)
     {
-        DoubleItem Item;
-        if (Index1 < 0 || Index1 >= FCount)
+        DoubleItem item;
+        if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", Index1);
+            Error("List index out of bounds (%d)", index1);
         }
 
-        if (Index2 < 0 || Index2 >= FCount)
+        if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", Index2);
+            Error("List index out of bounds (%d)", index2);
         }
 
-        Item = FList[Index1];
-        FList[Index1] = FList[Index2];
-        FList[Index2] = Item;
+        item = _list[index1];
+        _list[index1] = _list[index2];
+        _list[index2] = item;
     }
 
     // Engine.pas:5129
     public DoubleItemList Expand()
     {
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
@@ -216,118 +216,118 @@ public partial class DoubleItemList : Persistent
     public DoubleItem First() => Get(0);
 
     // Engine.pas:5158
-    public int IndexOf(in DoubleItem Item)
+    public int IndexOf(in DoubleItem item)
     {
-        int Result = 0;
-        while (Result < FCount && (double)Unsafe.As<DoubleItem, long>(ref FList[Result]) != Unsafe.BitCast<DoubleItem, long>(Item))
+        int result = 0;
+        while (result < _count && (double)Unsafe.As<DoubleItem, long>(ref _list[result]) != Unsafe.BitCast<DoubleItem, long>(item))
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5165
     public int IndexOfItemA(int A)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result].A != A)
+        int result = 0;
+        while (result < _count && _list[result].First != A)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5172
     public int IndexOfItemB(int B)
     {
-        int Result = 0;
-        while (Result < FCount && FList[Result].B != B)
+        int result = 0;
+        while (result < _count && _list[result].Second != B)
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5179
-    public void Insert(int Index, in DoubleItem Item)
+    public void Insert(int index, in DoubleItem item)
     {
-        if (Index < 0 || Index > FCount)
+        if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
 
-        if (Index < FCount)
+        if (index < _count)
         {
-            RtlUnit.Move(MemoryMarshal.AsBytes(FList.AsSpan(Index, FCount - Index)), MemoryMarshal.AsBytes(FList.AsSpan(Index + 1, FCount - Index)), (FCount - Index) * 8);
+            RtlUnit.Move(MemoryMarshal.AsBytes(_list.AsSpan(index, _count - index)), MemoryMarshal.AsBytes(_list.AsSpan(index + 1, _count - index)), (_count - index) * 8);
         }
 
-        FList[Index] = Item;
-        FCount += 1;
+        _list[index] = item;
+        _count += 1;
     }
 
     // Engine.pas:5190
-    public DoubleItem Last() => Get(FCount - 1);
+    public DoubleItem Last() => Get(_count - 1);
 
     // Engine.pas:5195
-    public void Move(int CurIndex, int NewIndex)
+    public void Move(int currentIndex, int newIndex)
     {
-        DoubleItem Item;
-        if (CurIndex != NewIndex)
+        DoubleItem item;
+        if (currentIndex != newIndex)
         {
-            if (NewIndex < 0 || NewIndex >= FCount)
+            if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", NewIndex);
+                Error("List index out of bounds (%d)", newIndex);
             }
 
-            Item = Get(CurIndex);
-            Delete(CurIndex);
-            Insert(NewIndex, Item);
+            item = Get(currentIndex);
+            Delete(currentIndex);
+            Insert(newIndex, item);
         }
     }
 
     // Engine.pas:5215
-    public int Remove(in DoubleItem Item)
+    public int Remove(in DoubleItem item)
     {
-        int Result = IndexOf(Item);
-        if (Result != -1)
+        int result = IndexOf(item);
+        if (result != -1)
         {
-            Delete(Result);
+            Delete(result);
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5221
     public void Pack()
     {
-        DoubleItem Item = default;
-        for (int I = FCount - 1; I >= 0; I--)
+        DoubleItem item = default;
+        for (int I = _count - 1; I >= 0; I--)
         {
-            Item = this[I];
-            if ((double)Unsafe.As<DoubleItem, long>(ref Item) == Unsafe.As<DoubleItem, long>(ref FDefault))
+            item = this[I];
+            if ((double)Unsafe.As<DoubleItem, long>(ref item) == Unsafe.As<DoubleItem, long>(ref _default))
             {
                 Delete(I);
             }
@@ -335,11 +335,11 @@ public partial class DoubleItemList : Persistent
     }
 
     // Engine.pas:5281
-    public void Sort(DoubleItemSortCompare Compare)
+    public void Sort(DoubleItemSortCompare compare)
     {
-        if (FList.Length != 0 && Count > 0)
+        if (_list.Length != 0 && Count > 0)
         {
-            QuickSortDoubleItem(FList, 0, Count - 1, Compare);
+            QuickSortDoubleItem(_list, 0, Count - 1, compare);
         }
     }
 
@@ -368,236 +368,236 @@ public partial class DoubleItemList : Persistent
     }
 
     // Engine.pas:5327
-    public bool Compare(DoubleItemList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 8);
+    public bool Compare(DoubleItemList list) => list._count == _count && CompareMem(MemoryMarshal.AsBytes(_list.AsSpan(0, _count)), MemoryMarshal.AsBytes(list._list.AsSpan(0, _count)), _count * 8);
 
     // Engine.pas:5334
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        DoubleItem Item = default;
-        int Run = default;
-        int Count = default;
+        DoubleItem item = default;
+        int run = default;
+        int count = default;
         Clear();
-        Stream.ReadExactly(Bytes.Of(ref FDefault, 8));
-        Stream.ReadExactly(Bytes.Of(ref Count, 4));
-        SetCapacity(Count);
-        while (FCount < Count)
+        stream.ReadExactly(Bytes.Of(ref _default, 8));
+        stream.ReadExactly(Bytes.Of(ref count, 4));
+        SetCapacity(count);
+        while (_count < count)
         {
-            Stream.ReadExactly(Bytes.Of(ref Item, 8));
-            if ((double)Unsafe.As<DoubleItem, long>(ref Item) == Unsafe.As<DoubleItem, long>(ref FDefault))
+            stream.ReadExactly(Bytes.Of(ref item, 8));
+            if ((double)Unsafe.As<DoubleItem, long>(ref item) == Unsafe.As<DoubleItem, long>(ref _default))
             {
-                Stream.ReadExactly(Bytes.Of(ref Run, 4));
-                SetCount(FCount + Run);
+                stream.ReadExactly(Bytes.Of(ref run, 4));
+                SetCount(_count + run);
             }
             else
             {
-                Add(Item);
+                Add(item);
             }
         }
     }
 
     // Engine.pas:5356
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
         int I;
-        int Run = default;
+        int run = default;
         int DefaultRun()
         {
             int J;
-            int Result = 0;
+            int result = 0;
             J = I;
-            while (J < FCount && (double)Unsafe.As<DoubleItem, long>(ref FList[J]) == Unsafe.As<DoubleItem, long>(ref FDefault))
+            while (J < _count && (double)Unsafe.As<DoubleItem, long>(ref _list[J]) == Unsafe.As<DoubleItem, long>(ref _default))
             {
-                Result += 1;
+                result += 1;
                 J += 1;
             }
 
-            return Result;
+            return result;
         }
 
         I = 0;
-        Stream.Write(Bytes.Of(ref FDefault, 8));
-        Stream.Write(Bytes.Of(ref FCount, 4));
-        while (FCount != I)
+        stream.Write(Bytes.Of(ref _default, 8));
+        stream.Write(Bytes.Of(ref _count, 4));
+        while (_count != I)
         {
-            Run = DefaultRun();
-            if (Run > 0)
+            run = DefaultRun();
+            if (run > 0)
             {
-                Stream.Write(Bytes.Of(ref FDefault, 8));
-                Stream.Write(Bytes.Of(ref Run, 4));
-                I += Run;
+                stream.Write(Bytes.Of(ref _default, 8));
+                stream.Write(Bytes.Of(ref run, 4));
+                I += run;
             }
             else
             {
-                Stream.Write(MemoryMarshal.AsBytes(FList.AsSpan(I, 1)));
+                stream.Write(MemoryMarshal.AsBytes(_list.AsSpan(I, 1)));
                 I += 1;
             }
         }
     }
 
     // Engine.pas:5394
-    public int RandomChanceItemA(int Bonus)
+    public int RandomChanceItemA(int bonus)
     {
-        int Result;
-        int Total;
-        int Chance;
+        int result;
+        int total;
+        int chance;
         int R;
-        if (FCount != 0)
+        if (_count != 0)
         {
-            Total = 0;
-            for (int I = FCount - 1; I >= 0; I--)
+            total = 0;
+            for (int I = _count - 1; I >= 0; I--)
             {
-                Chance = FList[I].A + Bonus;
-                if (Chance < 0)
+                chance = _list[I].First + bonus;
+                if (chance < 0)
                 {
-                    Chance = 0;
+                    chance = 0;
                 }
 
-                Total += Chance;
+                total += chance;
             }
 
-            R = Random(Total);
-            Total = 0;
-            Result = 0;
-            while (Total < R)
+            R = Random(total);
+            total = 0;
+            result = 0;
+            while (total < R)
             {
-                Chance = FList[Result].A + Bonus;
-                if (Chance < 0)
+                chance = _list[result].First + bonus;
+                if (chance < 0)
                 {
-                    Chance = 0;
+                    chance = 0;
                 }
 
-                Total += Chance;
-                Result += 1;
+                total += chance;
+                result += 1;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:5422
-    public int RandomChanceItemB(int Bonus)
+    public int RandomChanceItemB(int bonus)
     {
-        int Result;
-        int Total;
-        int Chance;
+        int result;
+        int total;
+        int chance;
         int R;
-        if (FCount != 0)
+        if (_count != 0)
         {
-            Total = 0;
-            for (int I = FCount - 1; I >= 0; I--)
+            total = 0;
+            for (int I = _count - 1; I >= 0; I--)
             {
-                Chance = FList[I].B + Bonus;
-                if (Chance > 0)
+                chance = _list[I].Second + bonus;
+                if (chance > 0)
                 {
-                    Total += Chance;
+                    total += chance;
                 }
             }
 
-            R = Random(Total);
-            Result = 0;
-            Total = 0;
-            Chance = FList[0].B + Bonus;
-            if (Chance > 0)
+            R = Random(total);
+            result = 0;
+            total = 0;
+            chance = _list[0].Second + bonus;
+            if (chance > 0)
             {
-                Total += Chance;
+                total += chance;
             }
 
-            while (Total <= R)
+            while (total <= R)
             {
-                Result += 1;
-                Chance = FList[Result].B + Bonus;
-                if (Chance > 0)
+                result += 1;
+                chance = _list[result].Second + bonus;
+                if (chance > 0)
                 {
-                    Total += Chance;
+                    total += chance;
                 }
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
-    public int Capacity { get => FCapacity; set => SetCapacity(value); }
-    public int Count { get => FCount; set => SetCount(value); }
-    public DoubleItem Default { get => FDefault; set => FDefault = value; }
+    public int Capacity { get => _capacity; set => SetCapacity(value); }
+    public int Count { get => _count; set => SetCount(value); }
+    public DoubleItem Default { get => _default; set => _default = value; }
 
-    public DoubleItem this[int Index] { get => Get(Index); set => Put(Index, value); }
+    public DoubleItem this[int index] { get => Get(index); set => Put(index, value); }
 
-    public DoubleItem[] List { get => FList; }
+    public DoubleItem[] List { get => _list; }
 
     // Engine.pas:5107
-    protected internal static void Error(string Msg, int Data)
+    protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
     }
 
-    private static void QuickSortDoubleItem(Span<DoubleItem> SortList, int L, int R, DoubleItemSortCompare SCompare)
+    private static void QuickSortDoubleItem(Span<DoubleItem> sortList, int L, int R, DoubleItemSortCompare sCompare)
     {
-        DoubleItem tDoubleItem = default(DoubleItem);
-        int num;
+        DoubleItem doubleItem = default(DoubleItem);
+        int number;
         do
         {
-            num = L;
-            int num2 = R;
-            DoubleItem Item = SortList[L + R >>> 1];
+            number = L;
+            int number2 = R;
+            DoubleItem item = sortList[L + R >>> 1];
             while (true)
             {
-                if (SCompare(in SortList[num], in Item) < 0)
+                if (sCompare(in sortList[number], in item) < 0)
                 {
-                    num++;
+                    number++;
                     continue;
                 }
-                while (SCompare(in SortList[num2], in Item) > 0)
+                while (sCompare(in sortList[number2], in item) > 0)
                 {
-                    num2--;
+                    number2--;
                 }
-                if (num <= num2)
+                if (number <= number2)
                 {
-                    tDoubleItem = SortList[num];
-                    SortList[num] = SortList[num2];
-                    SortList[num2] = tDoubleItem;
-                    num++;
-                    num2--;
+                    doubleItem = sortList[number];
+                    sortList[number] = sortList[number2];
+                    sortList[number2] = doubleItem;
+                    number++;
+                    number2--;
                 }
-                if (num > num2)
+                if (number > number2)
                 {
                     break;
                 }
             }
-            if (L < num2)
+            if (L < number2)
             {
-                QuickSortDoubleItem(SortList, L, num2, SCompare);
+                QuickSortDoubleItem(sortList, L, number2, sCompare);
             }
-            L = num;
+            L = number;
         }
-        while (num < R);
+        while (number < R);
     }
 
-    private static int CompareDoubleItemAAscending(in DoubleItem Item1, in DoubleItem Item2)
+    private static int CompareDoubleItemAAscending(in DoubleItem item1, in DoubleItem item2)
     {
-        return Item1.A - Item2.A;
+        return item1.First - item2.First;
     }
 
-    private static int CompareDoubleItemBAscending(in DoubleItem Item1, in DoubleItem Item2)
+    private static int CompareDoubleItemBAscending(in DoubleItem item1, in DoubleItem item2)
     {
-        return Item1.B - Item2.B;
+        return item1.Second - item2.Second;
     }
 
-    private static int CompareDoubleItemADescending(in DoubleItem Item1, in DoubleItem Item2)
+    private static int CompareDoubleItemADescending(in DoubleItem item1, in DoubleItem item2)
     {
-        return Item2.A - Item1.A;
+        return item2.First - item1.First;
     }
 
-    private static int CompareDoubleItemBDescending(in DoubleItem Item1, in DoubleItem Item2)
+    private static int CompareDoubleItemBDescending(in DoubleItem item1, in DoubleItem item2)
     {
-        return Item2.B - Item1.B;
+        return item2.Second - item1.Second;
     }
 
     private static void FillLargeInteger(Span<DoubleItem> buffer, int count, DoubleItem value)
@@ -609,9 +609,9 @@ public partial class DoubleItemList : Persistent
     public struct DoubleItem
     {
         [FieldOffset(0)]
-        public int A;
+        public int First;
         [FieldOffset(4)]
-        public int B;
+        public int Second;
     }
 
     public delegate int DoubleItemSortCompare(in DoubleItem Item1, in DoubleItem Item2);

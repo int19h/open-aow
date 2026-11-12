@@ -15,82 +15,82 @@ namespace Aow.Game.UI.Controls;
 // shown), FListBorderWidth, FListBorderHeight, FSelected, F13C (the item under the mouse, -1
 // for none), FPriorityOpened, F144 (the priority before the list was opened), FOnDrawItem, F150
 // (the width the scroll bar takes from the list), F154 (the scroll bar is visible), FILEdit,
-// FILFrame, FILTextureNormal, FILTextureSelected, FItemHeight, FOnOpen, FOnClose, FILEIndex,
+// _imageLibraryFrame, _imageLibraryTextureNormal, _imageLibraryTextureSelected, _itemHeight, _onOpen, _onClose, _ileIndex,
 // FILFIndex, FILTnIndex, FILTsIndex, FDrawItem, FDrawItemRect (the item and its rectangle while
 // OnDrawItem runs)
 public partial class ComboBox : Control
 {
-    public bool F114;
-    public bool FOpen;
-    public StringList FItems;
-    public VerticalScrollBar FVScrollBar;
-    public int F124;
-    public int FNumberVisible;
-    public int F12C;
-    public int FListBorderWidth;
-    public int FListBorderHeight;
-    public int FSelected;
-    public int F13C;
-    public int FPriorityOpened;
-    public int F144;
-    public NotifyEvent<ComboBox> FOnDrawItem;
-    public int F150;
-    public bool F154;
-    public InterfaceImageLibrary FILEdit;
-    public InterfaceImageLibrary FILFrame;
-    public InterfaceImageLibrary FILTextureNormal;
-    public InterfaceImageLibrary FILTextureSelected;
-    public int FItemHeight;
-    public NotifyEvent<ComboBox> FOnOpen;
-    public NotifyEvent<ComboBox> FOnClose;
-    public int FILEIndex;
-    public int FILFIndex;
-    public int FILTnIndex;
-    public int FILTsIndex;
-    public int FDrawItem;
-    public Rect FDrawItemRect;
+    public bool MouseDownOnField;
+    public bool Open;
+    public StringList _items;
+    public VerticalScrollBar _verticalScrollBar;
+    public int OpenListRows;
+    public int _numberVisible;
+    public int FirstShownItem;
+    public int _listBorderWidth;
+    public int _listBorderHeight;
+    public int _selected;
+    public int HoverItem;
+    public int _priorityOpened;
+    public int PriorityBeforeOpen;
+    public NotifyEvent<ComboBox> _onDrawItem;
+    public int ScrollBarWidth;
+    public bool ScrollBarVisible;
+    public InterfaceImageLibrary _imageLibraryEdit;
+    public InterfaceImageLibrary _imageLibraryFrame;
+    public InterfaceImageLibrary _imageLibraryTextureNormal;
+    public InterfaceImageLibrary _imageLibraryTextureSelected;
+    public int _itemHeight;
+    public NotifyEvent<ComboBox> _onOpen;
+    public NotifyEvent<ComboBox> _onClose;
+    public int _ileIndex;
+    public int _ilfIndex;
+    public int _imageLibraryTnIndex;
+    public int _imageLibraryTsIndex;
+    public int DrawItem;
+    public Rect DrawItemRectangle;
 
     // AoWComboBox.pas:114
     public ComboBox(Component owner) : base(owner)
     {
-        FItems = new StringList();
-        FItems.OnChange = OnChangeText;
-        F13C = -1;
+        _items = new StringList();
+        _items.OnChange = OnChangeText;
+        HoverItem = -1;
     }
 
     // AoWComboBox.pas:122
     public override void Dispose()
     {
-        FItems.Dispose();
+        _items.Dispose();
         base.Dispose();
     }
 
     // AoWComboBox.pas:128
     public override void Validate()
     {
-        if (FILEdit != null)
+        if (_imageLibraryEdit != null)
         {
-            FILEdit = FILEdit.CheckIL(FILEIndex, 3, this);
+            _imageLibraryEdit = _imageLibraryEdit.CheckImageLibrary(_ileIndex, 3, this);
         }
 
-        if (FILFrame != null)
+        if (_imageLibraryFrame != null)
         {
-            FILFrame = FILFrame.CheckIL(FILFIndex, 8, this);
+            _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_ilfIndex, 8, this);
         }
 
-        if (FILTextureNormal != null)
+        if (_imageLibraryTextureNormal != null)
         {
-            FILTextureNormal = FILTextureNormal.CheckIL(FILTnIndex, 1, this);
+            _imageLibraryTextureNormal = _imageLibraryTextureNormal.CheckImageLibrary(_imageLibraryTnIndex, 1, this);
         }
 
-        if (FILTextureSelected != null)
+        if (_imageLibraryTextureSelected != null)
         {
-            FILTextureSelected = FILTextureSelected.CheckIL(FILTsIndex, 1, this);
+            _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryTsIndex, 1, this);
         }
 
-        if (FAOWFont != null && FILEdit != null && FILFrame != null && FILTextureNormal != null && FILTextureSelected != null)
+        if (_font != null && _imageLibraryEdit != null && _imageLibraryFrame != null && _imageLibraryTextureNormal != null && _imageLibraryTextureSelected != null)
         {
-            FValid = true;
+            Valid = true;
         }
 
         base.Validate();
@@ -101,56 +101,56 @@ public partial class ComboBox : Control
     //   item short of the open list's, and its top is taken from the first edit image (original) }
     public override void SetSize()
     {
-        FOpen = false;
-        var ilEditWidth = FILEdit[FILEIndex];
-        var ilEdit = FILEdit[FILEIndex + 2];
-        if (ilEditWidth.Width + ilEdit.Width > FWinWidth)
+        Open = false;
+        var imageLibraryEditWidth = _imageLibraryEdit[_ileIndex];
+        var imageLibraryEdit = _imageLibraryEdit[_ileIndex + 2];
+        if (imageLibraryEditWidth.Width + imageLibraryEdit.Width > _winWidth)
         {
-            var ilEdit2 = FILEdit[FILEIndex];
-            var ilEdit3 = FILEdit[FILEIndex + 2];
-            FWinWidth = ilEdit2.Width + ilEdit3.Width;
+            var imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
+            var imageLibraryEdit3 = _imageLibraryEdit[_ileIndex + 2];
+            _winWidth = imageLibraryEdit2.Width + imageLibraryEdit3.Width;
         }
 
-        F124 = FNumberVisible;
-        var count = FItems.Count;
-        if (F124 > count)
+        OpenListRows = _numberVisible;
+        var count = _items.Count;
+        if (OpenListRows > count)
         {
-            F124 = FItems.Count;
+            OpenListRows = _items.Count;
         }
 
-        if (FItems.Count <= FSelected)
+        if (_items.Count <= _selected)
         {
-            FSelected = FItems.Count - 1;
+            _selected = _items.Count - 1;
         }
 
-        FWinHeight = FILEdit[FILEIndex].Height;
-        if (FVScrollBar != null)
+        _winHeight = _imageLibraryEdit[_ileIndex].Height;
+        if (_verticalScrollBar != null)
         {
-            if (FVScrollBar.FAOWWindow != FAOWWindow)
+            if (_verticalScrollBar._window != _window)
             {
-                FVScrollBar.SetAOWWindow(FAOWWindow);
+                _verticalScrollBar.SetWindow(_window);
             }
 
-            FVScrollBar.Priority = FPriority + 1;
-            FVScrollBar.SetFMin(0);
-            var fItemsCount = FItems.Count;
-            FVScrollBar.SetFMax(fItemsCount - 2);
-            FVScrollBar.SetFPos(F12C);
-            FVScrollBar.SetFNum(F124 - 1);
-            var ilFrame = FILFrame[FILFIndex + 6];
-            FVScrollBar.WinHeight = ilFrame.Height + (FItemHeight * F124 + FBorderHeight);
-            FVScrollBar.SetLarge(F124 - 1);
-            FVScrollBar.Visible = FOpen;
-            if (FVScrollBar.FVanishWhenFull && FItems.Count - 1 < F124)
+            _verticalScrollBar.Priority = _priority + 1;
+            _verticalScrollBar.SetFMin(0);
+            var fItemsCount = _items.Count;
+            _verticalScrollBar.SetFMax(fItemsCount - 2);
+            _verticalScrollBar.SetFPosition(FirstShownItem);
+            _verticalScrollBar.SetFNumber(OpenListRows - 1);
+            var imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
+            _verticalScrollBar.WinHeight = imageLibraryFrame.Height + (_itemHeight * OpenListRows + _borderHeight);
+            _verticalScrollBar.SetLarge(OpenListRows - 1);
+            _verticalScrollBar.Visible = Open;
+            if (_verticalScrollBar._vanishWhenFull && _items.Count - 1 < OpenListRows)
             {
-                FVScrollBar.Visible = false;
+                _verticalScrollBar.Visible = false;
             }
 
-            FVScrollBar.FSized = false;
-            FVScrollBar.WinLeft = FWinLeft + FWinWidth - FVScrollBar.FWinWidth;
-            var ilEditHeight = FILEdit[0];
-            FVScrollBar.WinTop = ilEditHeight.Height + FWinTop;
-            F154 = FVScrollBar.FVisible;
+            _verticalScrollBar.Sized = false;
+            _verticalScrollBar.WinLeft = _winLeft + _winWidth - _verticalScrollBar._winWidth;
+            var imageLibraryEditHeight = _imageLibraryEdit[0];
+            _verticalScrollBar.WinTop = imageLibraryEditHeight.Height + _winTop;
+            ScrollBarVisible = _verticalScrollBar._visible;
         }
 
         base.SetSize();
@@ -161,33 +161,33 @@ public partial class ComboBox : Control
     public override void Update()
     {
         base.Update();
-        if (FVisible)
+        if (_visible)
         {
-            FRedraw = FOpen;
-            if (FVScrollBar != null && FItems.Count > 0)
+            Redraw = Open;
+            if (_verticalScrollBar != null && _items.Count > 0)
             {
-                if (FVScrollBar.FPosition != F12C)
+                if (_verticalScrollBar._position != FirstShownItem)
                 {
-                    F12C = FVScrollBar.FPosition;
-                    var count = FItems.Count;
-                    if (F12C + F124 > count)
+                    FirstShownItem = _verticalScrollBar._position;
+                    var count = _items.Count;
+                    if (FirstShownItem + OpenListRows > count)
                     {
-                        F12C = FItems.Count - F124;
+                        FirstShownItem = _items.Count - OpenListRows;
                     }
 
-                    FDrawn = false;
+                    Drawn = false;
                 }
             }
         }
     }
 
     // AoWComboBox.pas:204
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        base.SetVisible(Value);
-        if (FOpen && FVScrollBar != null)
+        base.SetVisible(value);
+        if (Open && _verticalScrollBar != null)
         {
-            FVScrollBar.Visible = FVisible;
+            _verticalScrollBar.Visible = _visible;
         }
     }
 
@@ -195,98 +195,98 @@ public partial class ComboBox : Control
     // { Draw draws the edit field with the selected item and, when the list is open, the frame, the
     //   texture of the list, the highlight of the item under the mouse and the items, clipped short of
     //   the scroll bar; OnDrawItem is called for every item with FDrawItem and FDrawItemRect set }
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
-        Rect OldClip = default;
+        Rect oldClip = default;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                if (FOnPreDraw != null)
+                if (_onPreDraw != null)
                 {
-                    FOnPreDraw(this, SurfDesc);
+                    _onPreDraw(this, lockedSurface);
                 }
 
-                FAOWFont.Color = FColor;
-                OldClip = SurfDesc.ClipRect;
-                var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                FILEdit.DrawILLh(FILEIndex, rect, ref SurfDesc);
-                if (FSelected > -1 && FItems.Count > FSelected)
+                _font.Color = Color;
+                oldClip = lockedSurface.ClipRectangle;
+                var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                _imageLibraryEdit.DrawHorizontalStrip(_ileIndex, rectangle, ref lockedSurface);
+                if (_selected > -1 && _items.Count > _selected)
                 {
-                    var item = FItems[FSelected];
-                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, item, SurfDesc);
+                    var item = _items[_selected];
+                    _font.SetText(_window._winLeft + _winLeft + _borderWidth, _window._winTop + _winTop + _borderHeight, item, lockedSurface);
                 }
 
-                SurfDesc.ClipRect = OldClip;
-                if (FOpen == true)
+                lockedSurface.ClipRectangle = oldClip;
+                if (Open == true)
                 {
-                    var ilFrameHeight = FILFrame[FILFIndex + 1];
-                    var ilFrame = FILFrame[FILFIndex + 6];
-                    var ilEditHeight = FILEdit[FILEIndex];
-                    var rect2 = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + ilEditHeight.Height, FWinWidth, ilFrameHeight.Height + ilFrame.Height + FItemHeight * F124 + FListBorderHeight);
-                    FILFrame.DrawILF(FILFIndex, rect2, ref SurfDesc);
-                    var ilFrameWidth = FILFrame[FILFIndex + 3];
-                    var ilFrame2 = FILFrame[FILFIndex + 4];
-                    var ilEdit = FILEdit[FILEIndex];
-                    var ilFrame3 = FILFrame[FILFIndex + 1];
-                    var ilFrame4 = FILFrame[FILFIndex + 3];
-                    var rect3 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilEdit.Height + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FItemHeight * F124 + FListBorderHeight);
-                    FILTextureNormal.DrawILT(FILTnIndex, rect3, ref SurfDesc);
-                    if (F13C >= F12C && F13C < F124 + F12C)
+                    var imageLibraryFrameHeight = _imageLibraryFrame[_ilfIndex + 1];
+                    var imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 6];
+                    var imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
+                    var rectangle2 = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop + imageLibraryEditHeight.Height, _winWidth, imageLibraryFrameHeight.Height + imageLibraryFrame.Height + _itemHeight * OpenListRows + _listBorderHeight);
+                    _imageLibraryFrame.DrawFrame(_ilfIndex, rectangle2, ref lockedSurface);
+                    var imageLibraryFrameWidth = _imageLibraryFrame[_ilfIndex + 3];
+                    var imageLibraryFrame2 = _imageLibraryFrame[_ilfIndex + 4];
+                    var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                    var imageLibraryFrame3 = _imageLibraryFrame[_ilfIndex + 1];
+                    var imageLibraryFrame4 = _imageLibraryFrame[_ilfIndex + 3];
+                    var rectangle3 = new Rect(_window._winLeft + _winLeft + imageLibraryFrame4.Width, _window._winTop + _winTop + imageLibraryEdit.Height + imageLibraryFrame3.Height, _winWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, _itemHeight * OpenListRows + _listBorderHeight);
+                    _imageLibraryTextureNormal.DrawTiled(_imageLibraryTnIndex, rectangle3, ref lockedSurface);
+                    if (HoverItem >= FirstShownItem && HoverItem < OpenListRows + FirstShownItem)
                     {
-                        var ilFrame5 = FILFrame[FILFIndex + 3];
-                        var ilFrame6 = FILFrame[FILFIndex + 4];
-                        var ilEdit2 = FILEdit[FILEIndex];
-                        var ilFrame7 = FILFrame[FILFIndex + 1];
-                        var ilFrame8 = FILFrame[FILFIndex + 3];
-                        var rect4 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilEdit2.Height + ilFrame7.Height + (F13C - F12C) * FItemHeight, FWinWidth - ilFrame5.Width - ilFrame6.Width, FItemHeight);
-                        FILTextureSelected.DrawILT(FILTsIndex, rect4, ref SurfDesc);
+                        var imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 3];
+                        var imageLibraryFrame6 = _imageLibraryFrame[_ilfIndex + 4];
+                        var imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
+                        var imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
+                        var imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
+                        var rectangle4 = new Rect(_window._winLeft + _winLeft + imageLibraryFrame8.Width, _window._winTop + _winTop + imageLibraryEdit2.Height + imageLibraryFrame7.Height + (HoverItem - FirstShownItem) * _itemHeight, _winWidth - imageLibraryFrame5.Width - imageLibraryFrame6.Width, _itemHeight);
+                        _imageLibraryTextureSelected.DrawTiled(_imageLibraryTsIndex, rectangle4, ref lockedSurface);
                     }
 
-                    if (FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150 < OldClip.Right)
+                    if (_window._winLeft + _winLeft + _winWidth - ScrollBarWidth < oldClip.Right)
                     {
-                        SurfDesc.ClipRect.Right = FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150;
+                        lockedSurface.ClipRectangle.Right = _window._winLeft + _winLeft + _winWidth - ScrollBarWidth;
                     }
 
-                    for (int I = 0, last = F124 - 1; I <= last; I++)
+                    for (int I = 0, last = OpenListRows - 1; I <= last; I++)
                     {
-                        if (I < FItems.Count)
+                        if (I < _items.Count)
                         {
-                            if (F12C + I == F13C)
+                            if (FirstShownItem + I == HoverItem)
                             {
-                                FAOWFont.Color = FSelColor;
+                                _font.Color = SelectedColor;
                             }
 
-                            var ilEdit2 = FILEdit[FILEIndex];
-                            var ilFrame5 = FILFrame[FILFIndex + 1];
-                            var item = FItems[F12C + I];
-                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FListBorderWidth, FAOWWindow.FWinTop + FWinTop + ilEdit2.Height + ilFrame5.Height + FListBorderHeight + FItemHeight * I, item, SurfDesc);
-                            if (F12C + I == F13C)
+                            var imageLibraryEdit2 = _imageLibraryEdit[_ileIndex];
+                            var imageLibraryFrame5 = _imageLibraryFrame[_ilfIndex + 1];
+                            var item = _items[FirstShownItem + I];
+                            _font.SetText(_window._winLeft + _winLeft + _listBorderWidth, _window._winTop + _winTop + imageLibraryEdit2.Height + imageLibraryFrame5.Height + _listBorderHeight + _itemHeight * I, item, lockedSurface);
+                            if (FirstShownItem + I == HoverItem)
                             {
-                                FAOWFont.Color = FColor;
+                                _font.Color = Color;
                             }
 
-                            FDrawItem = F12C + I;
-                            var ilEdit3 = FILEdit[FILEIndex + 1];
-                            var ilFrame6 = FILFrame[FILFIndex + 1];
-                            var ilEdit4 = FILEdit[FILEIndex + 1];
-                            var ilFrame7 = FILFrame[FILFIndex + 1];
-                            var ilFrame8 = FILFrame[FILFIndex + 3];
-                            var ilFrame9 = FILFrame[FILFIndex + 3];
-                            FDrawItemRect = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame9.Width, FAOWWindow.FWinTop + FWinTop + ilEdit4.Height + ilFrame7.Height + FItemHeight * I, FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width + FWinWidth, FAOWWindow.FWinTop + FWinTop + ilEdit3.Height + ilFrame6.Height + (I + 1) * FItemHeight);
-                            if (FOnDrawItem != null)
+                            DrawItem = FirstShownItem + I;
+                            var imageLibraryEdit3 = _imageLibraryEdit[_ileIndex + 1];
+                            var imageLibraryFrame6 = _imageLibraryFrame[_ilfIndex + 1];
+                            var imageLibraryEdit4 = _imageLibraryEdit[_ileIndex + 1];
+                            var imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
+                            var imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
+                            var imageLibraryFrame9 = _imageLibraryFrame[_ilfIndex + 3];
+                            DrawItemRectangle = new Rect(_window._winLeft + _winLeft + imageLibraryFrame9.Width, _window._winTop + _winTop + imageLibraryEdit4.Height + imageLibraryFrame7.Height + _itemHeight * I, _window._winLeft + _winLeft + imageLibraryFrame8.Width + _winWidth, _window._winTop + _winTop + imageLibraryEdit3.Height + imageLibraryFrame6.Height + (I + 1) * _itemHeight);
+                            if (_onDrawItem != null)
                             {
-                                FOnDrawItem(this);
+                                _onDrawItem(this);
                             }
                         }
                     }
 
-                    SurfDesc.ClipRect = OldClip;
+                    lockedSurface.ClipRectangle = oldClip;
                 }
 
-                if (FOnDraw != null)
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
             }
         }
@@ -299,163 +299,163 @@ public partial class ComboBox : Control
     // AoWComboBox.pas:375
     // { CheckMouseDown opens or closes the list with a click on the edit field and closes it with a
     //   click outside the control }
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseDown(Button, Shift, X, Y);
-        FHandled = false;
-        bool condition = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1;
+        base.CheckMouseDown(button, shift, X, Y);
+        Handled = false;
+        bool condition = X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1;
         if (condition)
         {
-            var ilEdit = FILEdit[FILEIndex];
-            condition = Y < FAOWWindow.FWinTop + FWinTop + ilEdit.Height;
+            var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+            condition = Y < _window._winTop + _winTop + imageLibraryEdit.Height;
         }
 
         if (condition)
         {
-            FHandled = true;
-            if (Button == MouseButton.Left)
+            Handled = true;
+            if (button == MouseButton.Left)
             {
-                FMouseDown = true;
-                F114 = true;
-                if (FValid == true && FVisible == true)
+                MouseDown = true;
+                MouseDownOnField = true;
+                if (Valid == true && _visible == true)
                 {
-                    if (FOpen)
+                    if (Open)
                     {
-                        if (F144 != FPriority)
+                        if (PriorityBeforeOpen != _priority)
                         {
-                            Priority = F144;
+                            Priority = PriorityBeforeOpen;
                         }
 
-                        FOpen = false;
-                        FWinHeight = FILEdit[FILEIndex].Height;
-                        if (FVScrollBar != null)
+                        Open = false;
+                        _winHeight = _imageLibraryEdit[_ileIndex].Height;
+                        if (_verticalScrollBar != null)
                         {
-                            FVScrollBar.Visible = false;
+                            _verticalScrollBar.Visible = false;
                         }
 
-                        if (FOnClose != null)
+                        if (_onClose != null)
                         {
-                            FOnClose(this);
+                            _onClose(this);
                         }
                     }
                     else
                     {
-                        F144 = FPriority;
-                        if (FPriorityOpened != FPriority)
+                        PriorityBeforeOpen = _priority;
+                        if (_priorityOpened != _priority)
                         {
-                            Priority = FPriorityOpened;
+                            Priority = _priorityOpened;
                         }
 
-                        FOpen = true;
-                        if (FItems.Count < F124)
+                        Open = true;
+                        if (_items.Count < OpenListRows)
                         {
-                            F124 = FItems.Count;
+                            OpenListRows = _items.Count;
                         }
 
-                        var ilEditHeight = FILEdit[FILEIndex];
-                        var ilFrame = FILFrame[FILFIndex + 1];
-                        var ilFrameHeight = FILFrame[FILFIndex + 6];
-                        FWinHeight = ilEditHeight.Height + FListBorderHeight + FItemHeight * F124 + ilFrame.Height + ilFrameHeight.Height;
-                        if (FItems.Count < F12C + F124)
+                        var imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
+                        var imageLibraryFrame = _imageLibraryFrame[_ilfIndex + 1];
+                        var imageLibraryFrameHeight = _imageLibraryFrame[_ilfIndex + 6];
+                        _winHeight = imageLibraryEditHeight.Height + _listBorderHeight + _itemHeight * OpenListRows + imageLibraryFrame.Height + imageLibraryFrameHeight.Height;
+                        if (_items.Count < FirstShownItem + OpenListRows)
                         {
-                            F12C = FItems.Count - F124;
+                            FirstShownItem = _items.Count - OpenListRows;
                         }
 
-                        FDrawn = false;
-                        F150 = FILFrame[FILFIndex + 4].Width;
-                        F154 = false;
-                        if (FVScrollBar != null && F124 > 0)
+                        Drawn = false;
+                        ScrollBarWidth = _imageLibraryFrame[_ilfIndex + 4].Width;
+                        ScrollBarVisible = false;
+                        if (_verticalScrollBar != null && OpenListRows > 0)
                         {
-                            if (FPriority + 1 != FVScrollBar.FPriority)
+                            if (_priority + 1 != _verticalScrollBar._priority)
                             {
-                                FVScrollBar.Priority = FPriority + 1;
+                                _verticalScrollBar.Priority = _priority + 1;
                             }
 
-                            FVScrollBar.SetFMin(0);
-                            var count = FItems.Count;
-                            FVScrollBar.SetFMax(count - 1);
-                            FVScrollBar.SetFPos(F12C);
-                            FVScrollBar.SetFNum(F124);
-                            var ilFrame2 = FILFrame[FILFIndex + 6];
-                            FVScrollBar.WinHeight = ilFrame2.Height + (FItemHeight * F124 + FBorderHeight);
-                            FVScrollBar.Visible = true;
-                            if (FVScrollBar.FVanishWhenFull == true && FItems.Count - 1 < F124)
+                            _verticalScrollBar.SetFMin(0);
+                            var count = _items.Count;
+                            _verticalScrollBar.SetFMax(count - 1);
+                            _verticalScrollBar.SetFPosition(FirstShownItem);
+                            _verticalScrollBar.SetFNumber(OpenListRows);
+                            var imageLibraryFrame2 = _imageLibraryFrame[_ilfIndex + 6];
+                            _verticalScrollBar.WinHeight = imageLibraryFrame2.Height + (_itemHeight * OpenListRows + _borderHeight);
+                            _verticalScrollBar.Visible = true;
+                            if (_verticalScrollBar._vanishWhenFull == true && _items.Count - 1 < OpenListRows)
                             {
-                                FVScrollBar.Visible = false;
+                                _verticalScrollBar.Visible = false;
                             }
                             else
                             {
-                                F150 = FVScrollBar.FWinWidth;
+                                ScrollBarWidth = _verticalScrollBar._winWidth;
                             }
 
-                            F154 = FVScrollBar.FVisible;
-                            FVScrollBar.FSized = false;
-                            FVScrollBar.WinLeft = FWinLeft + FWinWidth - FVScrollBar.FWinWidth;
-                            var ilEdit = FILEdit[FILEIndex];
-                            FVScrollBar.WinTop = ilEdit.Height + FWinTop;
-                            FVScrollBar.FDrawn = false;
+                            ScrollBarVisible = _verticalScrollBar._visible;
+                            _verticalScrollBar.Sized = false;
+                            _verticalScrollBar.WinLeft = _winLeft + _winWidth - _verticalScrollBar._winWidth;
+                            var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                            _verticalScrollBar.WinTop = imageLibraryEdit.Height + _winTop;
+                            _verticalScrollBar.Drawn = false;
                         }
 
-                        if (FOnOpen != null)
+                        if (_onOpen != null)
                         {
-                            FOnOpen(this);
+                            _onOpen(this);
                         }
                     }
                 }
                 else
                 {
-                    if (FOpen == true)
+                    if (Open == true)
                     {
-                        if (F144 != FPriority)
+                        if (PriorityBeforeOpen != _priority)
                         {
-                            Priority = F144;
+                            Priority = PriorityBeforeOpen;
                         }
 
-                        FOpen = false;
-                        FWinHeight = FILEdit[FILEIndex].Height;
-                        if (FVScrollBar != null)
+                        Open = false;
+                        _winHeight = _imageLibraryEdit[_ileIndex].Height;
+                        if (_verticalScrollBar != null)
                         {
-                            FVScrollBar.Visible = false;
+                            _verticalScrollBar.Visible = false;
                         }
 
-                        if (FOnClose != null)
+                        if (_onClose != null)
                         {
-                            FOnClose(this);
+                            _onClose(this);
                         }
                     }
                 }
             }
 
-            if (FOnMouseDown != null)
+            if (_onMouseDown != null)
             {
-                FOnMouseDown(this, Button, Shift, X, Y);
+                _onMouseDown(this, button, shift, X, Y);
             }
         }
         else
         {
-            if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+            if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
             {
-                FHandled = true;
+                Handled = true;
             }
             else
             {
-                if (FOpen)
+                if (Open)
                 {
-                    if (F144 != FPriority)
+                    if (PriorityBeforeOpen != _priority)
                     {
-                        Priority = F144;
+                        Priority = PriorityBeforeOpen;
                     }
 
-                    FOpen = false;
-                    FWinHeight = FILEdit[FILEIndex].Height;
-                    if (FVScrollBar != null)
+                    Open = false;
+                    _winHeight = _imageLibraryEdit[_ileIndex].Height;
+                    if (_verticalScrollBar != null)
                     {
-                        FVScrollBar.Visible = false;
+                        _verticalScrollBar.Visible = false;
                     }
 
-                    if (FOnClose != null)
+                    if (_onClose != null)
                     {
-                        FOnClose(this);
+                        _onClose(this);
                     }
                 }
             }
@@ -464,83 +464,83 @@ public partial class ComboBox : Control
 
     // AoWComboBox.pas:476
     // { CheckMouseUp selects the item under the mouse in the open list and closes the list }
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         int I = default;
-        FHandled = false;
-        FMouseDown = false;
-        F114 = false;
-        FRedraw = false;
-        bool condition = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1;
+        Handled = false;
+        MouseDown = false;
+        MouseDownOnField = false;
+        Redraw = false;
+        bool condition = X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1;
         if (condition)
         {
-            var ilEdit = FILEdit[FILEIndex];
-            condition = Y < FAOWWindow.FWinTop + FWinTop + ilEdit.Height;
+            var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+            condition = Y < _window._winTop + _winTop + imageLibraryEdit.Height;
         }
 
         if (condition)
         {
-            FHandled = true;
-            if (FOnMouseUp != null)
+            Handled = true;
+            if (_onMouseUp != null)
             {
-                FOnMouseUp(this, Button, Shift, X, Y);
+                _onMouseUp(this, button, shift, X, Y);
             }
         }
         else
         {
-            if (Button == MouseButton.Left && FValid == true && FVisible == true && FOpen == true)
+            if (button == MouseButton.Left && Valid == true && _visible == true && Open == true)
             {
-                bool test = X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth;
+                bool test = X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth;
                 if (test)
                 {
-                    var ilEdit = FILEdit[FILEIndex];
-                    test = Y > FAOWWindow.FWinTop + FWinTop + ilEdit.Height - 1;
+                    var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                    test = Y > _window._winTop + _winTop + imageLibraryEdit.Height - 1;
                 }
 
-                if (test && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+                if (test && Y < _window._winTop + _winTop + _winHeight)
                 {
-                    if (X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150)
+                    if (X < _window._winLeft + _winLeft + _winWidth - ScrollBarWidth)
                     {
-                        var ilEdit = FILEdit[FILEIndex];
-                        I = (Y - FAOWWindow.FWinTop - FWinTop - FBorderHeight - ilEdit.Height) / FItemHeight + F12C;
-                        if (I < FItems.Count)
+                        var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                        I = (Y - _window._winTop - _winTop - _borderHeight - imageLibraryEdit.Height) / _itemHeight + FirstShownItem;
+                        if (I < _items.Count)
                         {
-                            FSelected = I;
+                            _selected = I;
                         }
 
-                        FOpen = false;
-                        FRedraw = false;
-                        FWinHeight = FILEdit[FILEIndex].Height;
-                        if (FVScrollBar != null)
+                        Open = false;
+                        Redraw = false;
+                        _winHeight = _imageLibraryEdit[_ileIndex].Height;
+                        if (_verticalScrollBar != null)
                         {
-                            FVScrollBar.Visible = false;
+                            _verticalScrollBar.Visible = false;
                         }
 
-                        FHandled = true;
-                        if (FOnChange != null)
+                        Handled = true;
+                        if (_onChange != null)
                         {
-                            FOnChange(this);
+                            _onChange(this);
                         }
 
-                        if (FOnClose != null)
+                        if (_onClose != null)
                         {
-                            FOnClose(this);
+                            _onClose(this);
                         }
                     }
                 }
                 else
                 {
-                    FOpen = false;
-                    FRedraw = false;
-                    FWinHeight = FILEdit[FILEIndex].Height;
-                    if (FVScrollBar != null)
+                    Open = false;
+                    Redraw = false;
+                    _winHeight = _imageLibraryEdit[_ileIndex].Height;
+                    if (_verticalScrollBar != null)
                     {
-                        FVScrollBar.Visible = false;
+                        _verticalScrollBar.Visible = false;
                     }
 
-                    if (FOnClose != null)
+                    if (_onClose != null)
                     {
-                        FOnClose(this);
+                        _onClose(this);
                     }
                 }
             }
@@ -549,280 +549,280 @@ public partial class ComboBox : Control
 
     // AoWComboBox.pas:530
     // { CheckMouseMove tracks the item under the mouse in the open list }
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        int OldItem;
-        base.CheckMouseMove(Shift, X, Y);
-        FHandled = false;
-        OldItem = F13C;
-        F13C = -1;
-        if (X >= FAOWWindow.FWinLeft + FWinLeft && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F150 && Y >= FAOWWindow.FWinTop + FWinTop && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        int oldItem;
+        base.CheckMouseMove(shift, X, Y);
+        Handled = false;
+        oldItem = HoverItem;
+        HoverItem = -1;
+        if (X >= _window._winLeft + _winLeft && X < _window._winLeft + _winLeft + _winWidth - ScrollBarWidth && Y >= _window._winTop + _winTop && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FOpen)
+            Handled = true;
+            if (Open)
             {
-                var ilEditHeight = FILEdit[FILEIndex];
-                bool condition = Y >= FAOWWindow.FWinTop + FWinTop + FBorderHeight + ilEditHeight.Height;
+                var imageLibraryEditHeight = _imageLibraryEdit[_ileIndex];
+                bool condition = Y >= _window._winTop + _winTop + _borderHeight + imageLibraryEditHeight.Height;
                 if (condition)
                 {
-                    var ilEdit = FILEdit[FILEIndex];
-                    condition = Y < FAOWWindow.FWinTop + FWinTop + ilEdit.Height + FBorderHeight + FItemHeight * F124;
+                    var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                    condition = Y < _window._winTop + _winTop + imageLibraryEdit.Height + _borderHeight + _itemHeight * OpenListRows;
                 }
 
                 if (condition)
                 {
-                    var ilEdit = FILEdit[FILEIndex];
-                    F13C = (Y - FAOWWindow.FWinTop - FWinTop - FBorderHeight - ilEdit.Height) / FItemHeight + F12C;
+                    var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
+                    HoverItem = (Y - _window._winTop - _winTop - _borderHeight - imageLibraryEdit.Height) / _itemHeight + FirstShownItem;
                 }
             }
 
-            if (FOnMouseMove != null)
+            if (_onMouseMove != null)
             {
-                FOnMouseMove(this, Shift, X, Y);
+                _onMouseMove(this, shift, X, Y);
             }
         }
 
-        if (FOpen == true && OldItem != F13C)
+        if (Open == true && oldItem != HoverItem)
         {
-            FDrawn = false;
-            if (FVScrollBar != null)
+            Drawn = false;
+            if (_verticalScrollBar != null)
             {
-                FVScrollBar.FDrawn = false;
+                _verticalScrollBar.Drawn = false;
             }
         }
     }
 
     // AoWComboBox.pas:211
-    public virtual void SetILEdit(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryEdit(InterfaceImageLibrary value)
     {
-        if (Value != FILEdit)
+        if (value != _imageLibraryEdit)
         {
-            FValid = false;
-            FILEdit = Value;
+            Valid = false;
+            _imageLibraryEdit = value;
         }
     }
 
     // AoWComboBox.pas:220
-    public virtual void SetILEIndex(int Value)
+    public virtual void SetILEIndex(int value)
     {
-        if (Value != FILEIndex)
+        if (value != _ileIndex)
         {
-            FILEIndex = Value;
-            FValid = false;
+            _ileIndex = value;
+            Valid = false;
         }
     }
 
     // AoWComboBox.pas:229
-    public virtual void SetILFrame(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
     {
-        if (Value != FILFrame)
+        if (value != _imageLibraryFrame)
         {
-            FValid = false;
-            FILFrame = Value;
+            Valid = false;
+            _imageLibraryFrame = value;
         }
     }
 
     // AoWComboBox.pas:238
-    public virtual void SetILFIndex(int Value)
+    public virtual void SetILFIndex(int value)
     {
-        if (Value != FILFIndex)
+        if (value != _ilfIndex)
         {
-            FILFIndex = Value;
-            FValid = false;
+            _ilfIndex = value;
+            Valid = false;
         }
     }
 
     // AoWComboBox.pas:247
-    public virtual void SetILTNorm(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryTileNorm(InterfaceImageLibrary value)
     {
-        if (Value != FILTextureNormal)
+        if (value != _imageLibraryTextureNormal)
         {
-            FValid = false;
-            FILTextureNormal = Value;
+            Valid = false;
+            _imageLibraryTextureNormal = value;
         }
     }
 
     // AoWComboBox.pas:256
-    public virtual void SetILTnIndex(int Value)
+    public virtual void SetImageLibraryTnIndex(int value)
     {
-        if (Value != FILTnIndex)
+        if (value != _imageLibraryTnIndex)
         {
-            FILTnIndex = Value;
-            FValid = false;
+            _imageLibraryTnIndex = value;
+            Valid = false;
         }
     }
 
     // AoWComboBox.pas:265
-    public virtual void SetILTSel(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryTileSelected(InterfaceImageLibrary value)
     {
-        if (Value != FILTextureSelected)
+        if (value != _imageLibraryTextureSelected)
         {
-            FValid = false;
-            FILTextureSelected = Value;
+            Valid = false;
+            _imageLibraryTextureSelected = value;
         }
     }
 
     // AoWComboBox.pas:274
-    public virtual void SetILTsIndex(int Value)
+    public virtual void SetImageLibraryTsIndex(int value)
     {
-        if (Value != FILTsIndex)
+        if (value != _imageLibraryTsIndex)
         {
-            FILTsIndex = Value;
-            FValid = false;
+            _imageLibraryTsIndex = value;
+            Valid = false;
         }
     }
 
     // AoWComboBox.pas:179
-    public virtual void SetIndex(int Value)
+    public virtual void SetIndex(int value)
     {
-        if (Value >= FItems.Count)
+        if (value >= _items.Count)
         {
-            Value = FItems.Count - 1;
+            value = _items.Count - 1;
         }
 
-        if (Value != FSelected)
+        if (value != _selected)
         {
-            FSelected = Value;
-            FDrawn = false;
+            _selected = value;
+            Drawn = false;
         }
     }
 
     // AoWComboBox.pas:190
-    public void SetFStrings(StringList Value)
+    public void SetFStrings(StringList value)
     {
-        FItems.Clear();
-        FItems.AddStrings(Value);
+        _items.Clear();
+        _items.AddStrings(value);
     }
 
     // AoWComboBox.pas:196
-    public void SetVScroll(VerticalScrollBar Value)
+    public void SetVScroll(VerticalScrollBar value)
     {
-        FVScrollBar = Value;
-        if (Value != null)
+        _verticalScrollBar = value;
+        if (value != null)
         {
-            Value.Priority = FPriority;
+            value.Priority = _priority;
         }
 
-        FSized = false;
+        Sized = false;
     }
 
     [Published]
-    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont Font { get => _font; set => _font = value; }
 
     [Published]
-    public StringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
-    public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
+    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
 
     [Published]
-    public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
+    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
-    public int ListBorderWidth { get => FListBorderWidth; set => FListBorderWidth = value; }
+    public int ListBorderWidth { get => _listBorderWidth; set => _listBorderWidth = value; }
 
     [Published]
-    public int ListBorderHeight { get => FListBorderHeight; set => FListBorderHeight = value; }
+    public int ListBorderHeight { get => _listBorderHeight; set => _listBorderHeight = value; }
 
     [Published]
-    public VerticalScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
+    public VerticalScrollBar VerticalScrollBar { get => _verticalScrollBar; set => SetVScroll(value); }
 
     [Published]
-    public int NumberVisible { get => FNumberVisible; set => FNumberVisible = value; }
+    public int NumberVisible { get => _numberVisible; set => _numberVisible = value; }
 
     [Published]
-    public int Selected { get => FSelected; set => SetIndex(value); }
+    public int Selected { get => _selected; set => SetIndex(value); }
 
     [Published]
-    public int PriorityOpened { get => FPriorityOpened; set => FPriorityOpened = value; }
+    public int PriorityOpened { get => _priorityOpened; set => _priorityOpened = value; }
 
     [Published]
-    public NotifyEvent<ComboBox> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public NotifyEvent<ComboBox> OnDrawItem { get => _onDrawItem; set => _onDrawItem = value; }
 
     [Published]
-    public InterfaceImageLibrary ILEdit { get => FILEdit; set => SetILEdit(value); }
+    public InterfaceImageLibrary ImageLibraryEdit { get => _imageLibraryEdit; set => SetImageLibraryEdit(value); }
 
     [Published]
-    public int ILEIndex { get => FILEIndex; set => SetILEIndex(value); }
+    public int ILEIndex { get => _ileIndex; set => SetILEIndex(value); }
 
     [Published]
-    public InterfaceImageLibrary ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
 
     [Published]
-    public int ILFIndex { get => FILFIndex; set => SetILFIndex(value); }
+    public int ILFIndex { get => _ilfIndex; set => SetILFIndex(value); }
 
     [Published]
-    public InterfaceImageLibrary ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
+    public InterfaceImageLibrary ImageLibraryTextureNormal { get => _imageLibraryTextureNormal; set => SetImageLibraryTileNorm(value); }
 
     [Published]
-    public int ILTnIndex { get => FILTnIndex; set => SetILTnIndex(value); }
+    public int ImageLibraryTnIndex { get => _imageLibraryTnIndex; set => SetImageLibraryTnIndex(value); }
 
     [Published]
-    public InterfaceImageLibrary ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
+    public InterfaceImageLibrary ImageLibraryTextureSelected { get => _imageLibraryTextureSelected; set => SetImageLibraryTileSelected(value); }
 
     [Published]
-    public int ILTsIndex { get => FILTsIndex; set => SetILTsIndex(value); }
+    public int ImageLibraryTsIndex { get => _imageLibraryTsIndex; set => SetImageLibraryTsIndex(value); }
 
     [Published]
-    public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
+    public int ItemHeight { get => _itemHeight; set => _itemHeight = value; }
 
     [Published]
-    public NotifyEvent<ComboBox> OnOpen { get => FOnOpen; set => FOnOpen = value; }
+    public NotifyEvent<ComboBox> OnOpen { get => _onOpen; set => _onOpen = value; }
 
     [Published]
-    public NotifyEvent<ComboBox> OnClose { get => FOnClose; set => FOnClose = value; }
+    public NotifyEvent<ComboBox> OnClose { get => _onClose; set => _onClose = value; }
 
     public new NotifyEvent<ComboBox> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<ComboBox> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<ComboBox> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<ComboBox> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<ComboBox> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<ComboBox> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<ComboBox> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<ComboBox> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<ComboBox> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

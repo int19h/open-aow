@@ -15,9 +15,9 @@ public partial class FlamingArrow : CombatSpell
     // CombatSpells.pas:1603
     public FlamingArrow(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(FlamingArrowRStr);
-        FSpellID = 123;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_flamingArrowText);
+        SpellId = 123;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Physical);
@@ -25,5 +25,5 @@ public partial class FlamingArrow : CombatSpell
         spellCombatInfo.Range = 12;
     }
 
-    private static readonly string FlamingArrowRStr = "Flaming Arrow";
+    private static readonly string s_flamingArrowText = "Flaming Arrow";
 }

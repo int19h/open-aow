@@ -7,7 +7,7 @@ namespace Aow.Game.Combat;
 public partial class CombatObjectList : DelphiList
 {
     // AIGroup.pas:7352
-    public CombatObject GetObject(int Index) => (CombatObject)List[Index];
+    public CombatObject GetObject(int index) => (CombatObject)List[index];
 
     // System.pas:111
 

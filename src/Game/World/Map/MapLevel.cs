@@ -11,78 +11,78 @@ namespace Aow.Game.World.Map;
 public partial class MapLevel : ECustomNode
 {
     // HSEngine.pas:2837
-    public new const int ClassID = 65794;
+    public new const int ClassId = 65794;
 
     public MapLevel(ECustomNode owner) : base(owner)
     {
-        FMapFieldCID = 65793;
+        _mapFieldClassId = 65793;
     }
 
-    protected internal int FLhx;
-    protected internal int FWidth;
-    protected internal int FHeight;
-    protected internal int FCount;
-    protected internal MapContainer FMapContainer;
-    protected internal HSMap FMap;
-    protected internal GameEngine FEngine;
-    protected internal int FMapFieldCID;
-    protected internal int FFieldSize;
-    protected internal int FFieldsSize;
-    public Int32Array8By2 FHNOffsets;
+    protected internal int _hexLevel;
+    protected internal int _width;
+    protected internal int _height;
+    protected internal int _count;
+    protected internal MapContainer _mapContainer;
+    protected internal HSMap _map;
+    protected internal GameEngine Engine;
+    protected internal int _mapFieldClassId;
+    protected internal int _fieldSize;
+    protected internal int FieldsSize;
+    public Int32Array8By2 HexNumberOffsets;
 
     // HSEngine.pas:2925
-    public override GameEngine GetEngine() => FEngine;
+    public override GameEngine GetEngine() => Engine;
 
     // HSEngine.pas:2913
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        if (Msg.MsgID == 536870920)
+        if (message.MessageId == 536870920)
         {
-            FEngine = Msg.Payload.As<GameEngine>();
-            FMapContainer = (MapContainer)Owner;
-            FMap = FMapContainer.FMap;
+            Engine = message.Payload.As<GameEngine>();
+            _mapContainer = (MapContainer)Owner;
+            _map = _mapContainer._map;
         }
         else
         {
-            if (Msg.MsgID == 536936471)
+            if (message.MessageId == 536936471)
             {
-                DestroyHS();
+                DestroyHexSprite();
             }
             else
             {
-                base.MsgProc(ref Msg, Sender);
+                base.MessageProc(ref message, sender);
             }
         }
     }
 
     // HSEngine.pas:2935
-    public override void SetChild(int Index, EngineObject Child)
+    public override void SetChild(int index, EngineObject child)
     {
         throw new InvalidOperationException("Cannot set child in TMapLevel");
     }
 
     // HSEngine.pas:2950
-    public override int GetCount() => FCount;
+    public override int GetCount() => _count;
 
     // HSEngine.pas:2945
-    public override int RemoveChild(EngineObject Child)
+    public override int RemoveChild(EngineObject child)
     {
         throw new InvalidOperationException("Cannot remove from TMapLevel");
     }
 
     // HSEngine.pas:2940
-    public override int AddChild(EngineObject Child)
+    public override int AddChild(EngineObject child)
     {
         throw new InvalidOperationException("Cannot add child to TMapLevel");
     }
 
     // HSEngine.pas:3140
-    public virtual void New(NewHexSpriteMapSettings Settings)
+    public virtual void New(NewHexSpriteMapSettings settings)
     {
         Clear();
         try
         {
-            CreateMapFieldList(Settings.Width, Settings.Height);
+            CreateMapFieldList(settings.Width, settings.Height);
         }
         catch
         {
@@ -94,14 +94,14 @@ public partial class MapLevel : ECustomNode
     // HSEngine.pas:2842
     public virtual EngineClass MapFieldClass() => EngineClass.Of<MapField>();
 
-    public int Lhx { get => FLhx; set => FLhx = value; }
-    public int Width { get => FWidth; }
-    public int Height { get => FHeight; }
-    public MapContainer MapContainer { get => FMapContainer; }
-    public HSMap Map { get => FMap; }
-    public int MapFieldCID { get => FMapFieldCID; set => FMapFieldCID = value; }
-    public int FieldSize { get => FFieldSize; }
-    public ReadOnlySpan<MapField> Fields => fields;
+    public int HexLevel { get => _hexLevel; set => _hexLevel = value; }
+    public int Width { get => _width; }
+    public int Height { get => _height; }
+    public MapContainer MapContainer { get => _mapContainer; }
+    public HSMap Map { get => _map; }
+    public int MapFieldClassId { get => _mapFieldClassId; set => _mapFieldClassId = value; }
+    public int FieldSize { get => _fieldSize; }
+    public ReadOnlySpan<MapField> Fields => _fields;
 
     public sealed class FieldAccessor(MapLevel target)
     {

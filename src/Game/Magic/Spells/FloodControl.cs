@@ -16,133 +16,133 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Spells;
 
-// FWidth, FHeight, FOriginalTerrain
+// Width, Height, OriginalTerrain
 public partial class FloodControl : EngineObject
 {
-    public int FWidth;
-    public int FHeight;
-    public sbyte[] FOriginalTerrain = [];
+    public int Width;
+    public int Height;
+    public sbyte[] OriginalTerrain = [];
 
     // GlobalEnchantmentSpells.pas:1072
     public override void Dispose()
     {
-        if (FOriginalTerrain.Length != 0)
+        if (OriginalTerrain.Length != 0)
         {
-            Array.Resize(ref FOriginalTerrain, 0);
+            Array.Resize(ref OriginalTerrain, 0);
         }
 
         base.Dispose();
     }
 
     // GlobalEnchantmentSpells.pas:1078
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FWidth, 20);
-        Stream.rwInteger(ref FHeight, 21);
-        if (FWidth != 0)
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Width, 20);
+        stream.rwInteger(ref Height, 21);
+        if (Width != 0)
         {
-            if (Stream.StorageMode().Contains(StorageModeElement.Read))
+            if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                Array.Resize(ref FOriginalTerrain, FWidth * FHeight * 2);
+                Array.Resize(ref OriginalTerrain, Width * Height * 2);
             }
 
-            Stream.rwData(MemoryMarshal.AsBytes(FOriginalTerrain.AsSpan(0, FWidth * FHeight * 2)), FWidth * FHeight * 2, 22);
+            stream.rwData(MemoryMarshal.AsBytes(OriginalTerrain.AsSpan(0, Width * Height * 2)), Width * Height * 2, 22);
         }
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("Width", ref FWidth);
-        persister.Int("Height", ref FHeight);
-        if (FWidth != 0)
+        persister.Int32("Width", ref Width);
+        persister.Int32("Height", ref Height);
+        if (Width != 0)
         {
-            int count = FWidth * FHeight * 2;
-            if (persister.Loading) Array.Resize(ref FOriginalTerrain, count);
-            persister.Bytes("OriginalTerrain", MemoryMarshal.AsBytes(FOriginalTerrain.AsSpan(0, count)));
+            int count = Width * Height * 2;
+            if (persister.Loading) Array.Resize(ref OriginalTerrain, count);
+            persister.Bytes("OriginalTerrain", MemoryMarshal.AsBytes(OriginalTerrain.AsSpan(0, count)));
         }
     }
 
     // GlobalEnchantmentSpells.pas:1066
     public FloodControl(ECustomNode owner) : base(owner)
     {
-        FOriginalTerrain = [];
+        OriginalTerrain = [];
     }
 
     // GlobalEnchantmentSpells.pas:1090
     public void Setup()
     {
-        FWidth = AoWHSMap.Current.MapContainer.Width;
-        FHeight = AoWHSMap.Current.MapContainer.Height;
-        Array.Resize(ref FOriginalTerrain, FWidth * FHeight * 2);
-        Array.Clear(FOriginalTerrain);
+        Width = AoWHSMap.Current.MapContainer.Width;
+        Height = AoWHSMap.Current.MapContainer.Height;
+        Array.Resize(ref OriginalTerrain, Width * Height * 2);
+        Array.Clear(OriginalTerrain);
     }
 
     // GlobalEnchantmentSpells.pas:1098
     public void Flood()
     {
-        MapLevel MapLevel;
-        HexNumberWalkData Walk = default;
-        MapField MapF;
-        int Index;
-        HexSprite RoadHS;
-        sbyte TerrainType;
+        MapLevel mapLevel;
+        HexNumberWalkData walk = default;
+        MapField mapField;
+        int index;
+        HexSprite roadHexSprite;
+        sbyte terrainType;
         AoWHSMap.Current.LockMapChangedEvent();
-        MapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(0);
+        mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(0);
         // { Original includes the last row when walking neighbouring hexagons. }
-        for (int Y = 1, last = MapLevel.Height - 1; Y <= last; Y++)
+        for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
         {
-            for (int X = 1, lastX = MapLevel.Width - 2; X <= lastX; X++)
+            for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
             {
-                if (MapLevel.GetField(X, Y).TerrainType == 0)
+                if (mapLevel.GetField(X, Y).TerrainType == 0)
                 {
-                    HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 1);
-                    while (Walk.Radius == 1)
+                    HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 1);
+                    while (walk.Radius == 1)
                     {
-                        MapF = MapLevel.GetField(Walk.X, Walk.Y);
-                        if ((!Set<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)MapF.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)MapF.OverlayType)) || (MapF.TerrainType == 0 && MapF.OverlayType == 5))
+                        mapField = mapLevel.GetField(walk.X, walk.Y);
+                        if ((!Set<byte>.WithBounds(0, 255).With(0).With(6).With(15).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).With(2).With(7).Contains((byte)mapField.OverlayType)) || (mapField.TerrainType == 0 && mapField.OverlayType == 5))
                         {
-                            Index = (FWidth * Walk.Y + Walk.X) * 2;
-                            if (FOriginalTerrain[Index] == 0 && FOriginalTerrain[Index + 1] == 0 && MapF.FindNoneTransparentHS(typeof(Structure)) == null)
+                            index = (Width * walk.Y + walk.X) * 2;
+                            if (OriginalTerrain[index] == 0 && OriginalTerrain[index + 1] == 0 && mapField.FindNoneTransparentHexSprite(typeof(Structure)) == null)
                             {
-                                FOriginalTerrain[Index] = MapF.TerrainType;
-                                FOriginalTerrain[Index + 1] = MapF.OverlayType;
+                                OriginalTerrain[index] = mapField.TerrainType;
+                                OriginalTerrain[index + 1] = mapField.OverlayType;
                             }
 
-                            if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)MapF.OverlayType))
+                            if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)mapField.OverlayType))
                             {
-                                RoadHS = MapF.FindOwnedHS(typeof(AbstractRoad));
-                                if (RoadHS != null)
+                                roadHexSprite = mapField.FindOwnedHexSprite(typeof(AbstractRoad));
+                                if (roadHexSprite != null)
                                 {
-                                    RoadHS.Dispose();
+                                    roadHexSprite.Dispose();
                                 }
                             }
                         }
 
-                        HexNumberWalkData.WalkToNextHN(ref Walk);
+                        HexNumberWalkData.WalkToNextHexNumber(ref walk);
                     }
                 }
             }
         }
 
-        for (int Y = 1, last = MapLevel.Height - 1; Y <= last; Y++)
+        for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
         {
-            Index = (FWidth * Y + 1) * 2;
-            for (int X = 1, lastX = MapLevel.Width - 2; X <= lastX; X++)
+            index = (Width * Y + 1) * 2;
+            for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
             {
-                if (FOriginalTerrain[Index] != 0)
+                if (OriginalTerrain[index] != 0)
                 {
-                    MapF = MapLevel.GetField(X, Y);
-                    TerrainType = MapF.TerrainType;
-                    if (TerrainType != 0)
+                    mapField = mapLevel.GetField(X, Y);
+                    terrainType = mapField.TerrainType;
+                    if (terrainType != 0)
                     {
-                        MapF.TerrainType = 0;
-                        MapF.TerrainChanged();
+                        mapField.TerrainType = 0;
+                        mapField.TerrainChanged();
                     }
                 }
 
-                Index += 2;
+                index += 2;
             }
         }
 
@@ -153,73 +153,73 @@ public partial class FloodControl : EngineObject
     // GlobalEnchantmentSpells.pas:1160
     public void Restore()
     {
-        EngineObjectList Resources;
-        DelphiList Candidates;
-        int Index;
-        MapField MapF;
-        MapLevel MapLevel;
-        sbyte Overlay;
-        MapObjectResource Resource;
+        EngineObjectList resources;
+        DelphiList candidates;
+        int index;
+        MapField mapField;
+        MapLevel mapLevel;
+        sbyte overlay;
+        MapObjectResource resource;
         AoWHSMap.Current.LockMapChangedEvent();
-        MapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(0);
-        for (int Y = 1, last = MapLevel.Height - 1; Y <= last; Y++)
+        mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(0);
+        for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
         {
-            Index = (FWidth * Y + 1) * 2;
-            for (int X = 1, lastX = MapLevel.Width - 2; X <= lastX; X++)
+            index = (Width * Y + 1) * 2;
+            for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
             {
-                if (FOriginalTerrain[Index] != 0)
+                if (OriginalTerrain[index] != 0)
                 {
-                    MapF = MapLevel.GetField(X, Y);
-                    if (Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)MapF.TerrainType))
+                    mapField = mapLevel.GetField(X, Y);
+                    if (Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)mapField.TerrainType))
                     {
-                        MapF.TerrainType = FOriginalTerrain[Index];
-                        MapF.TerrainChanged();
+                        mapField.TerrainType = OriginalTerrain[index];
+                        mapField.TerrainChanged();
                     }
                 }
 
-                Index += 2;
+                index += 2;
             }
         }
 
-        Resources = AoWHSSet.Current.MapObjectResourceList.FChildren;
-        Candidates = new DelphiList();
-        for (int Y = 1, last = MapLevel.Height - 1; Y <= last; Y++)
+        resources = AoWHSSet.Current.MapObjectResourceList._children;
+        candidates = new DelphiList();
+        for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
         {
-            Index = (FWidth * Y + 1) * 2;
-            for (int X = 1, lastX = MapLevel.Width - 2; X <= lastX; X++)
+            index = (Width * Y + 1) * 2;
+            for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
             {
-                Overlay = FOriginalTerrain[Index + 1];
-                if (Overlay > 0)
+                overlay = OriginalTerrain[index + 1];
+                if (overlay > 0)
                 {
-                    MapF = MapLevel.GetField(X, Y);
-                    if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)Overlay))
+                    mapField = mapLevel.GetField(X, Y);
+                    if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)overlay))
                     {
-                        AoWHSSet.Current.RoadControl.Place(AoWHSMap.Current.MapContainer, (sbyte)X, (sbyte)Y, 0, MapF.TerrainType);
+                        AoWHSSet.Current.RoadControl.Place(AoWHSMap.Current.MapContainer, (sbyte)X, (sbyte)Y, 0, mapField.TerrainType);
                     }
                     else
                     {
-                        Candidates.Clear();
-                        for (int I = 0, lastI = Resources.Count - 1; I <= lastI; I++)
+                        candidates.Clear();
+                        for (int I = 0, lastI = resources.Count - 1; I <= lastI; I++)
                         {
-                            Resource = (MapObjectResource)Resources.List[I];
-                            if (Resource.EClass.ClassID == 131431 && Resource.TerrainList.UsedTerrain() == 1 && Resource.TerrainList.Terrain[0] == MapF.TerrainType && Overlay == Resource.TerrainList.Overlay[0])
+                            resource = (MapObjectResource)resources.List[I];
+                            if (resource.EngineClass.ClassId == 131431 && resource.TerrainList.UsedTerrain() == 1 && resource.TerrainList.Terrain[0] == mapField.TerrainType && overlay == resource.TerrainList.Overlay[0])
                             {
-                                Candidates.Add(Resource);
+                                candidates.Add(resource);
                             }
                         }
 
-                        if (Candidates.Count != 0)
+                        if (candidates.Count != 0)
                         {
-                            ((MapObjectResource)Candidates[AoWHSMap.Current.Random(Candidates.Count)]).PlaceResourceUser(AoWHSMap.Current, (sbyte)X, (sbyte)Y, 0);
+                            ((MapObjectResource)candidates[AoWHSMap.Current.Random(candidates.Count)]).PlaceResourceUser(AoWHSMap.Current, (sbyte)X, (sbyte)Y, 0);
                         }
                     }
                 }
 
-                Index += 2;
+                index += 2;
             }
         }
 
-        Candidates?.Dispose();
+        candidates?.Dispose();
         AoWHSMap.Current.UnlockMapChangedEvent();
         AoWHSMap.Current.InvalidateMap();
     }

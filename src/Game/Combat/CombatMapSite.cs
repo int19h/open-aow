@@ -19,7 +19,7 @@ public sealed class CombatMapSite(bool siteCombat, bool randomTerrain, Func<int,
     public int FixedTags { get; private set; }
 
     // Neighbor Direction (1 to 6) of the combat hex holds a sprite of Kind that is not transparent.
-    public bool NeighborHolds(int Direction, Type Kind) => neighborHolds(Direction, Kind);
+    public bool NeighborHolds(int direction, Type kind) => neighborHolds(direction, kind);
 
-    public void FixTag(int Direction) => FixedTags |= 1 << Direction;
+    public void FixTag(int direction) => FixedTags |= 1 << direction;
 }

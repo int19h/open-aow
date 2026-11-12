@@ -112,8 +112,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         int w = Math.Min(source.Width, 120), h = Math.Min(source.Height, 90);
         var palette = new Palette();
-        for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { R = (byte)(i * 5), G = (byte)(i * 7 + 3), B = (byte)(i * 13 + 1) };
-        palette.PixelFormatID = PixelFormats.pfBGR24;
+        for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { Red = (byte)(i * 5), Green = (byte)(i * 7 + 3), Blue = (byte)(i * 13 + 1) };
+        palette.PixelFormatId = PixelFormats.pfBGR24;
         var s555 = new DataSurface(w, h, PixelFormats.pfRGB555, null!);
         var s565 = new DataSurface(w, h, PixelFormats.pfRGB565, null!);
         var s8 = new DataSurface(w, h, PixelFormats.pfPAL8, palette);
@@ -137,7 +137,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     int c = words[y * d555.Pitch / 2 + x];
                     int r = (c >> 10) & 31, g = (c >> 5) & 31, b = c & 31;
                     int c565 = (r << 11) | (g << 6) | ((g >> 4) << 5) | b;
-                    d565.View().Word(y * d565.Pitch + x * 2, c565);
+                    d565.View().UInt16(y * d565.Pitch + x * 2, c565);
                     d8.View()[y * d8.Pitch + x] = c == Magenta555 ? (byte)0 : (byte)(1 + (r ^ (g << 3) ^ (b << 5)) % 255);
                     var p24 = d24.View().Bytes(y * d24.Pitch + x * 3, 3);
                     p24[0] = (byte)(b << 3);
@@ -153,18 +153,18 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                 () => new Picture08(null!), () => new RleSprite08(null!), () => new Picture16(null!),
                 () => new Sprite16(null!), () => new RleSprite16(null!), () => new BitMask(null!), () => new Shadow(null!),
             };
-            foreach (var (name, sd, key) in sources)
-                foreach (var rect in rects)
+            foreach (var (name, lockedSurface, key) in sources)
+                foreach (var rectangle in rects)
                     foreach (var create in grabbers)
                         foreach (bool inverse in new[] { false, true })
                         {
                             var image = create();
-                            if (!image.SupportGrabPixelFormat(sd.PixelFormatID) || (inverse && image is not BitMask))
+                            if (!image.SupportGrabPixelFormat(lockedSurface.PixelFormatId) || (inverse && image is not BitMask))
                             {
                                 image.Dispose();
                                 continue;
                             }
-                            hash.Add($"{RecordedTypeName(image.GetType())} {name} {rect.Left} {inverse}");
+                            hash.Add($"{RecordedTypeName(image.GetType())} {name} {rectangle.Left} {inverse}");
                             grabs++;
                             var grab = image.CreateGrabInfo();
                             grab.TransparentPixel = key;
@@ -173,7 +173,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             try
                             {
                                 bool grabbed;
-                                try { grabbed = image.GrabImage(sd, rect, grab); }
+                                try { grabbed = image.GrabImage(lockedSurface, rectangle, grab); }
                                 catch (System.Exception error) { hash.Add(error.GetType().Name); grabbed = false; }
                                 hash.Add(grabbed ? 1 : 0);
                                 if (grabbed)
@@ -230,8 +230,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         var entries = new List<Entry>();
         var palette = new Palette();
-        for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { R = (byte)i, G = (byte)(i * 3), B = (byte)(i * 11) };
-        palette.PixelFormatID = PixelFormats.pfBGR24;
+        for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { Red = (byte)i, Green = (byte)(i * 3), Blue = (byte)(i * 11) };
+        palette.PixelFormatId = PixelFormats.pfBGR24;
         {
             foreach (int format in new[] { PixelFormats.pfPAL8, PixelFormats.pfRGB555, PixelFormats.pfRGB565, PixelFormats.pfRGB24, PixelFormats.pfRGB32 })
                 for (int w = 1; w <= 17; w++)
@@ -241,38 +241,38 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     var hash = new Fnv();
                     try
                     {
-                        LockedSurface sd = default;
-                        surface.Lock(ref sd);
-                        var bytes = sd.Data.AsSpan(sd.DataIndex, sd.Pitch * h);
+                        LockedSurface lockedSurface = default;
+                        surface.Lock(ref lockedSurface);
+                        var bytes = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, lockedSurface.Pitch * h);
                         for (int i = 0; i < bytes.Length; i++) bytes[i] = (byte)((i * 7 + w) % 5 == 0 ? 0xC3 : i * 29 + 1);
-                        hash.Add(sd.Pitch);
+                        hash.Add(lockedSurface.Pitch);
                         for (int y = 0; y < h; y++)
                             for (int x = 0; x < w; x++)
                             {
                                 hash.Add(Read(() => surface.GetPixelInfo(x, y)));
                                 hash.Add(Read(() => surface.GetColor(x, y)));
-                                hash.Add(Read(() => BitMask.GetPixelInfo(sd, x, y)));
+                                hash.Add(Read(() => BitMask.GetPixelInfo(lockedSurface, x, y)));
                             }
-                        foreach (int key in new[] { Read(() => BitMask.GetPixelInfo(sd, 0, 0)), Read(() => surface.GetPixelInfo(w - 1, h - 1)), 0xC3, 0xC3C3 })
+                        foreach (int key in new[] { Read(() => BitMask.GetPixelInfo(lockedSurface, 0, 0)), Read(() => surface.GetPixelInfo(w - 1, h - 1)), 0xC3, 0xC3C3 })
                         {
                             var whole = new Rect(0, 0, w, h);
                             var inset = new Rect(0, 1, Math.Max(0, w - 1), h);
-                            foreach (var rect in new[] { whole, inset })
+                            foreach (var rectangle in new[] { whole, inset })
                             {
                                 Rect found = default;
-                                hash.Add(Read(() => { LockedSurface.MinimizeTransparentRect(sd, rect, key, ref found); return 0; }));
+                                hash.Add(Read(() => { LockedSurface.MinimizeTransparentRectangle(lockedSurface, rectangle, key, ref found); return 0; }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom }) hash.Add(value);
                                 found = default;
-                                hash.Add(Read(() => { BitMask.MinimizeInvTransparentRect(sd, rect, key, ref found); return 0; }));
+                                hash.Add(Read(() => { BitMask.MinimizeInverseTransparentRectangle(lockedSurface, rectangle, key, ref found); return 0; }));
                                 foreach (int value in new[] { found.Left, found.Top, found.Right, found.Bottom }) hash.Add(value);
                             }
                             RectangleList? list = null;
-                            hash.Add(Read(() => { list = LibraryImageClass.GetSurfaceRectangles(sd, key, null!); return 0; }));
+                            hash.Add(Read(() => { list = LibraryImageClass.GetSurfaceRectangles(lockedSurface, key, null!); return 0; }));
                             hash.Add(list?.Count ?? -1);
                             if (list is not null)
                             {
                                 for (int i = 0; i < list.Count; i++)
-                                    foreach (int value in new[] { list.GetRectangle(i).Rect.Left, list.GetRectangle(i).Rect.Top, list.GetRectangle(i).Rect.Right, list.GetRectangle(i).Rect.Bottom }) hash.Add(value);
+                                    foreach (int value in new[] { list.GetRectangle(i).Bounds.Left, list.GetRectangle(i).Bounds.Top, list.GetRectangle(i).Bounds.Right, list.GetRectangle(i).Bounds.Bottom }) hash.Add(value);
                                 list?.Dispose();
                             }
                         }
@@ -410,8 +410,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         var type = image.GetType();
         const BindingFlags Fields = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
-        var field = new[] { "FBuffer", "FMaskData", "FData" }.Select(name => type.GetField(name, Fields)).FirstOrDefault(f => f is not null);
-        var pitch = type.GetField("FPitch", Fields);
+        var field = new[] { "_buffer", "_maskData", "_data" }.Select(name => type.GetField(name, Fields)).FirstOrDefault(f => f is not null);
+        var pitch = type.GetField("_pitch", Fields);
         hash.Add(pitch is null ? -1 : (int)pitch.GetValue(image)!);
         byte[]? bytes = field?.GetValue(image) switch
         {
@@ -434,12 +434,12 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         var hash = new Fnv();
         try
         {
-            LockedSurface sd = default;
-            Assert.Equal(0, surface.Lock(ref sd));
-            var pixels = sd.Data.AsSpan(sd.DataIndex, sd.Pitch * h);
+            LockedSurface lockedSurface = default;
+            Assert.Equal(0, surface.Lock(ref lockedSurface));
+            var pixels = lockedSurface.Data.AsSpan(lockedSurface.DataIndex, lockedSurface.Pitch * h);
             for (int i = 0; i < pixels.Length; i++) pixels[i] = (byte)(i * 37 + x * 5 + y);
-            sd.ClipRect = new Rect(1, 1, w - 1, h - 1);
-            try { draw(sd); }
+            lockedSurface.ClipRectangle = new Rect(1, 1, w - 1, h - 1);
+            try { draw(lockedSurface); }
             catch (System.Exception error) { hash.Add(error.GetType().Name); }
             hash.Add(pixels);
             surface.Unlock();
@@ -465,7 +465,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         try
         {
-            GraphicsState.InitBlendTables(5, 31);
+            GraphicsState.InitializeBlendTables(5, 31);
             ImageLibraries.RegisterLibraryImageClasses([
                 LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RleSprite08>(),
                 LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),

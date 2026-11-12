@@ -11,6 +11,6 @@ public partial class MigrationList : ENode
     { }
 
     // City.pas:2711
-    public MigrationItem GetItems(int Index) => (MigrationItem)FChildren.List[Index];
+    public MigrationItem GetItems(int index) => (MigrationItem)_children.List[index];
 
 }

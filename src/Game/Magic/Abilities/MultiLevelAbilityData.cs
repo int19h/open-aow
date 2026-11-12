@@ -7,24 +7,24 @@ namespace Aow.Game.Magic.Abilities;
 // (level, ability ID)
 public partial class MultiLevelAbilityData : AbilityData
 {
-    public new const int ClassID = 139265;
+    public new const int ClassId = 139265;
 
     public MultiLevelAbilityData(ECustomNode owner) : base(owner)
     { }
 
-    public byte FLevel;
-    public ushort FLevelAbilityID;
+    public byte Level;
+    public ushort LevelAbilityId;
 
     // AoWAb.PAS:231
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FLevel, 10);
-        Stream.rwWord(ref FLevelAbilityID, 11);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Level, 10);
+        stream.rwWord(ref LevelAbilityId, 11);
     }
 
     // AoWAb.PAS:243
-    public override int GetAbilityID() => FLevelAbilityID;
+    public override int GetAbilityId() => LevelAbilityId;
 
     // Engine.pas:524
 

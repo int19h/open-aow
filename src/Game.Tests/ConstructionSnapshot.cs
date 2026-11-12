@@ -7,16 +7,16 @@ namespace Aow.Game.Tests;
 // Keep the complete constructor recording readable, including JSON embedded in event strings.
 internal static class ConstructionSnapshot
 {
-    private static readonly Dictionary<string, JsonObject> recordings = [];
-    private static readonly JsonSerializerOptions format = new() { WriteIndented = true };
+    private static readonly Dictionary<string, JsonObject> s_recordings = [];
+    private static readonly JsonSerializerOptions s_format = new() { WriteIndented = true };
 
     private static JsonObject Load(string name)
     {
-        if (recordings.TryGetValue(name, out var value)) return value;
+        if (s_recordings.TryGetValue(name, out var value)) return value;
         using var stream = typeof(ConstructionSnapshot).Assembly.GetManifestResourceStream(
             "Aow.Game.Tests.Snapshots." + name + "Snapshot.json")!;
         value = JsonNode.Parse(stream)!.AsObject();
-        recordings.Add(name, value);
+        s_recordings.Add(name, value);
         return value;
     }
 
@@ -61,7 +61,7 @@ internal static class ConstructionSnapshot
                 shared.TryAdd(text, entryKey);
             }
             File.WriteAllText(Path.Combine(target, name + "Snapshot.json"),
-                sorted.ToJsonString(format).Replace("\r\n", "\n", StringComparison.Ordinal) + "\n", new UTF8Encoding(false));
+                sorted.ToJsonString(s_format).Replace("\r\n", "\n", StringComparison.Ordinal) + "\n", new UTF8Encoding(false));
             return;
         }
         Compare(expected, value, name + "." + key + (member is null ? "" : "." + member));
@@ -102,7 +102,7 @@ internal static class ConstructionSnapshot
 
     private static JsonNode? Expand(JsonNode? node) => node switch
     {
-        JsonObject obj => new JsonObject(obj.Select(pair => KeyValuePair.Create(pair.Key, Expand(pair.Value)))),
+        JsonObject objectValue => new JsonObject(objectValue.Select(pair => KeyValuePair.Create(pair.Key, Expand(pair.Value)))),
         JsonArray array => new JsonArray(array.Select(Expand).ToArray()),
         JsonValue value when value.TryGetValue<string>(out string? text) => Readable(text),
         _ => node?.DeepClone()

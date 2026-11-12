@@ -15,154 +15,154 @@ using Aow.Rtl;
 
 namespace Aow.Game.Events;
 
-// FArmyView. FArmyText. FArmyMessages. FArmyIcon. FDamageValues. FDamageTypes. FGameOver
+// ArmyView. ArmyText. ArmyMessages. ArmyIcon. DamageValues. DamageTypes. GameOver
 public partial class ArmyEventLog : EventLog
 {
     // Army.PAS:141
     public ArmyEventLog(ECustomNode owner) : base(owner)
     {
-        FArmyMessages = new StringList();
-        FArmyView = new ArmyView(null);
-        FDamageValues = new ByteList();
-        FDamageTypes = new ByteList();
+        ArmyMessages = new StringList();
+        ArmyView = new ArmyView(null);
+        DamageValues = new ByteList();
+        DamageTypes = new ByteList();
     }
 
-    public new const int ClassID = 131608;
+    public new const int ClassId = 131608;
 
-    public ArmyView FArmyView;
-    public string FArmyText = "";
-    public StringCollection FArmyMessages;
-    public int FArmyIcon;
-    public ByteList FDamageValues;
-    public ByteList FDamageTypes;
-    public bool FGameOver;
+    public ArmyView ArmyView;
+    public string ArmyText = "";
+    public StringCollection ArmyMessages;
+    public int ArmyIcon;
+    public ByteList DamageValues;
+    public ByteList DamageTypes;
+    public bool GameOver;
 
     // Army.PAS:150
     public override void Dispose()
     {
-        FArmyMessages?.Dispose();
-        FArmyView?.Dispose();
-        FDamageValues?.Dispose();
-        FDamageTypes?.Dispose();
+        ArmyMessages?.Dispose();
+        ArmyView?.Dispose();
+        DamageValues?.Dispose();
+        DamageTypes?.Dispose();
         base.Dispose();
     }
 
     // Army.PAS:162
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FArmyView, 15);
-        Stream.rwString(ref FArmyText, 16);
-        Stream.rwStrings(FArmyMessages, 17);
-        Stream.rwInteger(ref FArmyIcon, 18);
-        Stream.rwStreamProc(19, FDamageValues.LoadFromStream, FDamageValues.SaveToStream);
-        Stream.rwStreamProc(20, FDamageTypes.LoadFromStream, FDamageTypes.SaveToStream);
-        Stream.rwBool(ref FGameOver, 21);
+        base.ReadWrite(stream);
+        stream.rwEObject(ArmyView, 15);
+        stream.rwString(ref ArmyText, 16);
+        stream.rwStrings(ArmyMessages, 17);
+        stream.rwInteger(ref ArmyIcon, 18);
+        stream.rwStreamProc(19, DamageValues.LoadFromStream, DamageValues.SaveToStream);
+        stream.rwStreamProc(20, DamageTypes.LoadFromStream, DamageTypes.SaveToStream);
+        stream.rwBool(ref GameOver, 21);
     }
 
     // Army.PAS:184
-    public override string GetText() => FArmyText;
+    public override string GetText() => ArmyText;
 
     // Army.PAS:174
     public override int GetLeftIcon()
     {
-        int Result;
-        if (FArmyView.FPlayer > 0)
+        int result;
+        if (ArmyView.Player > 0)
         {
-            Result = AoWHSMap.Current.FPlayers.GetPlayers(FArmyView.FPlayer).FPlayerRace;
+            result = AoWHSMap.Current.Players.GetPlayers(ArmyView.Player).PlayerRace;
         }
         else
         {
-            Result = 12;
+            result = 12;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:218
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool ShowEvent = default;
-        bool Result = false;
-        switch (Trigger)
+        bool showEvent = default;
+        bool result = false;
+        switch (trigger)
         {
             case ExecuteTrigger.User:
-                AoWHSMap.Current.TriggerExecuteEventLog(this, false, Done);
-                Result = true;
+                AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                result = true;
                 break;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
-                ShowEvent = false;
-                if (AoWHSMap.Current.FSeatedPlayer == FPlayer || AoWHSMap.Current.FSeatedPlayer == FArmyView.FPlayer)
+                showEvent = false;
+                if (AoWHSMap.Current.SeatedPlayer == _player || AoWHSMap.Current.SeatedPlayer == ArmyView.Player)
                 {
-                    ShowEvent = ShowEvent || AoWHSMap.Current.FPlayMode == PlayMode.Turn && GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
-                    ShowEvent = ShowEvent || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
+                    showEvent = showEvent || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
+                    showEvent = showEvent || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
                 }
 
-                ShowEvent = ShowEvent || FGameOver;
-                if (ShowEvent)
+                showEvent = showEvent || GameOver;
+                if (showEvent)
                 {
-                    AoWHSMap.Current.TriggerExecuteEventLog(this, false, Done);
-                    Result = true;
+                    AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                    result = true;
                 }
 
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:248
     public override void ViewLocation()
     {
-        ArmyView Army;
-        Army = FArmyView;
-        if (Army != null && Army.FX != -1)
+        ArmyView army;
+        army = ArmyView;
+        if (army != null && army.X != -1)
         {
-            CenterViewTo(Army.FX, Army.FY, Army.FL);
+            CenterViewTo(army.X, army.Y, army.MapLevel);
         }
     }
 
     // Army.PAS:181
-    public void SetArmyView(ArmyView Value)
+    public void SetArmyView(ArmyView value)
     {
-        FArmyView.Assign(Value, GameTables.AoWEngine);
+        ArmyView.Assign(value, GameTables.GameEngine);
     }
 
     // Army.PAS:187
     public bool LeaderKilled()
     {
         int I;
-        bool Result = false;
-        I = FArmyView.GetCount();
-        while (!Result && I != 0)
+        bool result = false;
+        I = ArmyView.GetCount();
+        while (!result && I != 0)
         {
             I -= 1;
-            Result = FArmyView.GetUnit(I) is Leader && FArmyView.GetUnit(I).GetHitPoints() <= FDamageValues[I];
+            result = ArmyView.GetUnit(I) is Leader && ArmyView.GetUnit(I).GetHitPoints() <= DamageValues[I];
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:200
     public bool PartyDestroyed()
     {
         int I;
-        bool Result = true;
-        I = FArmyView.GetCount();
-        while (Result && I != 0)
+        bool result = true;
+        I = ArmyView.GetCount();
+        while (result && I != 0)
         {
             I -= 1;
-            Result = Result && FArmyView.GetUnit(I).GetHitPoints() <= FDamageValues[I];
+            result = result && ArmyView.GetUnit(I).GetHitPoints() <= DamageValues[I];
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:212
     public void ValidateGameOver()
     {
-        FGameOver = LeaderKilled() || PartyDestroyed() && AoWHSMap.Current.FPlayers.GetPlayers(FArmyView.FPlayer).FArmies.GetCount() == 1;
+        GameOver = LeaderKilled() || PartyDestroyed() && AoWHSMap.Current.Players.GetPlayers(ArmyView.Player).Armies.GetCount() == 1;
     }
 
 }

@@ -9,13 +9,13 @@ public partial class StrikeEnhancementAbility : AdjustableAbility
     // AoWAb.PAS:1475
     public StrikeEnhancementAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityType = AbilityType.Enhancement;
+        AbilityType = AbilityType.Enhancement;
     }
 
     // AoWAb.PAS:1481
     public override bool CanExpand(AbilityOwner owner)
     {
-        bool Result = base.CanExpand(owner);
-        return Result && (owner.GetAbSet(21) || owner is Item);
+        bool result = base.CanExpand(owner);
+        return result && (owner.GetAbilitySetAt(21) || owner is Item);
     }
 }

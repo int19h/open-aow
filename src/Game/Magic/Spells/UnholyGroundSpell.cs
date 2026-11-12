@@ -19,69 +19,69 @@ public partial class UnholyGroundSpell : GlobalTargetSpell
 {
     public UnholyGroundSpell(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(UnholyGroundsRStr);
-        FSpellID = 14;
-        FBaseManaCost = 5;
-        FSpellLevel = 2;
-        FMagicSphere = MagicSphere.Death;
-        FAboveGroundOnly = false;
+        SpellName = AbilityRules.TranslateResourceString(s_unholyGroundsText);
+        SpellId = 14;
+        BaseManaCost = 5;
+        SpellLevel = 2;
+        MagicSphere = MagicSphere.Death;
+        AboveGroundOnly = false;
     }
 
     // UnHolyG.pas:349
 
     // UnHolyG.pas:383
-    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        base.SetupTargetSelection(Source, TargetSelection);
-        TargetSelection.FHNs.Clear();
-        for (int I = 0, last = HexGeometry.RadToHN(2) - 1; I <= last; I++)
+        base.SetupTargetSelection(source, targetSelection);
+        targetSelection.HexNumbers.Clear();
+        for (int I = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; I <= last; I++)
         {
-            TargetSelection.FHNs.Add(0);
+            targetSelection.HexNumbers.Add(0);
         }
     }
 
     // UnHolyG.pas:392
-    public override bool TargetSelected(Troop Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        UnholyGroundSpellTokenEvent Event;
-        Event = new UnholyGroundSpellTokenEvent(null);
-        Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-        Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-        Event.Release();
+        UnholyGroundSpellTokenEvent eventValue;
+        eventValue = new UnholyGroundSpellTokenEvent(null);
+        eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+        eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+        AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        eventValue.Release();
         return true;
     }
 
     // UnHolyG.pas:368
-    public override bool ValidTargetSelectionMapF(MapField Field)
+    public override bool ValidTargetSelectionMapField(MapField field)
     {
-        ArmyHexSprite Army;
-        bool Result = base.ValidTargetMapF(Field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)Field.TerrainType);
+        ArmyHexSprite army;
+        bool result = base.ValidTargetMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
         // { Original precedence accepts these overlays without the terrain test. }
-        Result = (Result && Field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)Field.OverlayType);
-        Result = Result && Field.FindNoneTransparentHS(typeof(Structure)) == null;
-        if (Result)
+        result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
+        result = result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
+        if (result)
         {
-            Army = ((AoWMapField)Field).GetArmyHS();
-            if (Army != null)
+            army = ((AoWMapField)field).GetArmyHexSprite();
+            if (army != null)
             {
-                Result = !Army.VisibleForSeatedPlayer();
+                result = !army.VisibleForSeatedPlayer();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // UnHolyG.pas:360
-    public override bool ValidTargetMapF(MapField Field)
+    public override bool ValidTargetMapField(MapField field)
     {
-        bool Result = base.ValidTargetMapF(Field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)Field.TerrainType);
+        bool result = base.ValidTargetMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
         // { Original precedence accepts these overlays without the terrain test. }
-        Result = (Result && Field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)Field.OverlayType);
-        return Result && Field.FindNoneTransparentHS(typeof(Structure)) == null && ((AoWMapField)Field).GetArmyHS() == null;
+        result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
+        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHexSprite() == null;
     }
 
-    private static readonly string UnholyGroundsRStr = "Evil Woods";
+    private static readonly string s_unholyGroundsText = "Evil Woods";
 
     // UnHolyG.pas:62
 

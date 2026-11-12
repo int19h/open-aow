@@ -6,5 +6,5 @@ namespace Aow.Engine.Buffers;
 [InlineArray(2)]
 public struct ByteArray2
 {
-    private byte element0;
+    private byte _element0;
 }

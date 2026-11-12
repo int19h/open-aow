@@ -24,124 +24,124 @@ public partial class NegotiateRequestEventLog : JoinEventLog
     // Diplomacy.pas:264
     public NegotiateRequestEventLog(ECustomNode owner) : base(owner)
     {
-        FArmyID = null;
+        ArmyId = null;
     }
 
     // Diplomacy.pas:279
-    public new const int ClassID = 131814;
+    public new const int ClassId = 131814;
 
-    public sbyte FX;
-    public sbyte FY;
-    public sbyte FL;
-    public int FMovePoints;
-    public ArmyId FArmyID;
-    public NegotiateObject FObject;
-    public int FData1;
-    public int FData2;
+    public sbyte X;
+    public sbyte Y;
+    public sbyte MapLevel;
+    public int MovePoints;
+    public ArmyId ArmyId;
+    public NegotiateObject Object;
+    public int Data1;
+    public int Data2;
 
     // Diplomacy.pas:270
     public override void Dispose()
     {
-        ArmyId ID;
-        ID = FArmyID;
-        if (ID != null)
+        ArmyId id;
+        id = ArmyId;
+        if (id != null)
         {
-            ID?.Dispose();
+            id?.Dispose();
         }
 
         base.Dispose();
     }
 
     // Diplomacy.pas:284
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FX), 40);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FY), 41);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FL), 42);
-        Stream.rwData(Bytes.Of(ref FObject, 1), 1, 43);
-        Stream.rwInteger(ref FData1, 44);
-        Stream.rwInteger(ref FData2, 45);
-        Stream.rwCreateEObject(ref FArmyID, null, 46);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref X), 40);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 41);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 42);
+        stream.rwData(Bytes.Of(ref Object, 1), 1, 43);
+        stream.rwInteger(ref Data1, 44);
+        stream.rwInteger(ref Data2, 45);
+        stream.rwCreateEObject(ref ArmyId, null, 46);
     }
 
     // Diplomacy.pas:320
-    public override bool Accept(ref string ErrorText)
+    public override bool Accept(ref string errorText)
     {
-        NegotiateTokenEvent TE;
-        bool Result = base.Accept(ref ErrorText);
-        if (Result)
+        NegotiateTokenEvent tokenEvent;
+        bool result = base.Accept(ref errorText);
+        if (result)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.Human && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+            if (AoWHSMap.Current.Players.GetPlayers(_player).PlayerType == PlayerType.Human && AoWHSMap.Current.Players.GetPlayers(_player).GetBusy())
             {
-                return Result;
+                return result;
             }
 
-            TE = CreateNegotiateTE();
-            TE.FGold = FGold;
-            TE.FOffer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
-            TE.FResult = NegotiateTokenEvent.NegotiateResult.Accept;
-            AoWHSMap.Current.FTokenManager.TokenControls[FPlayer].AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = CreateNegotiateTokenEvent();
+            tokenEvent.Gold = Gold;
+            tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
+            tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
+            AoWHSMap.Current.TokenManager.TokenControls[_player].AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:359
     public override bool Cancel() => true;
 
     // Diplomacy.pas:339
-    public override bool Reject(ref string ErrorText)
+    public override bool Reject(ref string errorText)
     {
-        NegotiateTokenEvent TE;
-        bool Result = base.Reject(ref ErrorText);
-        if (Result)
+        NegotiateTokenEvent tokenEvent;
+        bool result = base.Reject(ref errorText);
+        if (result)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.Human && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+            if (AoWHSMap.Current.Players.GetPlayers(_player).PlayerType == PlayerType.Human && AoWHSMap.Current.Players.GetPlayers(_player).GetBusy())
             {
-                return Result;
+                return result;
             }
 
-            TE = CreateNegotiateTE();
-            TE.FGold = 0;
-            TE.FOffer = NegotiateTokenEvent.NegotiateOffer.ForceOffer;
-            TE.FResult = NegotiateTokenEvent.NegotiateResult.Reject;
-            AoWHSMap.Current.FTokenManager.TokenControls[FPlayer].AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = CreateNegotiateTokenEvent();
+            tokenEvent.Gold = 0;
+            tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.ForceOffer;
+            tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Reject;
+            AoWHSMap.Current.TokenManager.TokenControls[_player].AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:296
-    public virtual NegotiateTokenEvent CreateNegotiateTE()
+    public virtual NegotiateTokenEvent CreateNegotiateTokenEvent()
     {
-        NegotiateTokenEvent Event;
-        ArmyId ID;
-        Event = new NegotiateTokenEvent(null);
-        Event.FPlayer = FPlayer;
-        Event.FObject = FObject;
-        Event.FX = (byte)FX;
-        Event.FY = (byte)FY;
-        Event.FL = (byte)FL;
-        Event.FData1 = FData1;
-        Event.FData2 = FData2;
-        ID = FArmyID;
-        if (ID != null)
+        NegotiateTokenEvent eventValue;
+        ArmyId id;
+        eventValue = new NegotiateTokenEvent(null);
+        eventValue.Player = _player;
+        eventValue.Object = Object;
+        eventValue.X = (byte)X;
+        eventValue.Y = (byte)Y;
+        eventValue.MapLevel = (byte)MapLevel;
+        eventValue.Data1 = Data1;
+        eventValue.Data2 = Data2;
+        id = ArmyId;
+        if (id != null)
         {
-            Event.FArmyID = (ArmyId)ID.Copy(GameTables.AoWEngine);
-            Event.FMovePoints = FMovePoints;
+            eventValue.ArmyId = (ArmyId)id.Copy(GameTables.GameEngine);
+            eventValue.MovePoints = MovePoints;
         }
         else
         {
-            Event.FArmyID = null;
+            eventValue.ArmyId = null;
         }
 
-        return Event;
+        return eventValue;
     }
 
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => trigger == 0 && AoWHSMap.Current.FSeatedPlayer == FPlayer && base.Execute(mode, trigger, done);
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => trigger == 0 && AoWHSMap.Current.SeatedPlayer == _player && base.Execute(mode, trigger, done);
 }

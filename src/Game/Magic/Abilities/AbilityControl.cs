@@ -8,278 +8,278 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Abilities;
 
-// (FAbilities, FAbilitiesByType,)
+// (Abilities, AbilitiesByType,)
 public partial class AbilityControl : EngineObject
 {
     // Ability.PAS:2035
     public AbilityControl(ECustomNode owner) : base(owner)
     {
-        AbilityType Kind;
+        AbilityType kind;
 
-        FAbilities = new List<Ability>();
+        Abilities = new List<Ability>();
         for (int kindOrdinal = (int)(AbilityType)0; kindOrdinal <= (int)(AbilityType)4; kindOrdinal++)
         {
-            Kind = (AbilityType)kindOrdinal;
+            kind = (AbilityType)kindOrdinal;
             var abilityTypeList = new AbilityTypeList();
-            FAbilitiesByType[(int)Kind] = abilityTypeList;
+            AbilitiesByType[(int)kind] = abilityTypeList;
         }
     }
 
-    public List<Ability> FAbilities;
-    public AbilityTypeListArray5 FAbilitiesByType;
+    public List<Ability> Abilities;
+    public AbilityTypeListArray5 AbilitiesByType;
 
     // Ability.PAS:2044
     public override void Dispose()
     {
-        AbilityType Kind;
+        AbilityType kind;
         UnregisterAll();
         for (int kindOrdinal = (int)(AbilityType)0; kindOrdinal <= (int)(AbilityType)4; kindOrdinal++)
         {
-            Kind = (AbilityType)kindOrdinal;
-            FAbilitiesByType[(int)Kind]?.Dispose();
+            kind = (AbilityType)kindOrdinal;
+            AbilitiesByType[(int)kind]?.Dispose();
         }
 
-        FAbilities?.Clear();
+        Abilities?.Clear();
         base.Dispose();
     }
 
     // Ability.PAS:2053
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
+        base.ReadWrite(stream);
+        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
         {
-            if (FAbilities[I] != null)
+            if (Abilities[I] != null)
             {
-                Stream.rwEObject(FAbilities[I], I + 10);
+                stream.rwEObject(Abilities[I], I + 10);
             }
         }
     }
 
     // Ability.PAS:2061
-    public int GetCount() => FAbilities.Count;
+    public int GetCount() => Abilities.Count;
 
     // Ability.PAS:2078
-    public void RegisterAbility(Ability Ability)
+    public void RegisterAbility(Ability ability)
     {
-        int ID;
-        ID = Ability.FAbilityID;
-        if (ID != -1)
+        int id;
+        id = ability.AbilityId;
+        if (id != -1)
         {
-            if (ID < this.FAbilities.Count && this.FAbilities[ID] != null)
+            if (id < this.Abilities.Count && this.Abilities[id] != null)
             {
-                throw new InvalidOperationException("Ability already registered (" + IntToStr(ID) + ")");
+                throw new InvalidOperationException("Ability already registered (" + IntToStr(id) + ")");
             }
 
-            while (ID >= FAbilities.Count)
+            while (id >= Abilities.Count)
             {
-                FAbilities.Add(null);
+                Abilities.Add(null);
             }
 
-            FAbilities[ID] = Ability;
-            var abilityType = Ability.GetAbilityType();
-            FAbilitiesByType[(int)abilityType].Add(Ability);
-            Ability.FImageSequences.LinkToIL();
+            Abilities[id] = ability;
+            var abilityType = ability.GetAbilityType();
+            AbilitiesByType[(int)abilityType].Add(ability);
+            ability.ImageSequences.LinkToImageLibrary();
         }
         else
         {
-            throw new ArgumentException("Invalid AbilityID (" + Ability.GetType().Name + ")");
+            throw new ArgumentException("Invalid AbilityID (" + ability.GetType().Name + ")");
         }
     }
 
     // Ability.PAS:2096
-    public void UnregisterAbility(Ability Ability)
+    public void UnregisterAbility(Ability ability)
     {
-        int ID;
-        ID = Ability.FAbilityID;
-        if (ID != -1)
+        int id;
+        id = ability.AbilityId;
+        if (id != -1)
         {
-            if (ID < 0 || ID >= FAbilities.Count || FAbilities[ID] != Ability)
+            if (id < 0 || id >= Abilities.Count || Abilities[id] != ability)
             {
-                throw new InvalidOperationException("Cannot Unregister Ability (" + IntToStr(ID) + ")");
+                throw new InvalidOperationException("Cannot Unregister Ability (" + IntToStr(id) + ")");
             }
 
-            if (FAbilities[ID] != null)
+            if (Abilities[id] != null)
             {
-                var abilityType = Ability.GetAbilityType();
-                FAbilitiesByType[(int)abilityType].Remove(Ability);
-                (FAbilities[ID]).FImageSequences.ReleaseIL();
-                (FAbilities[ID] as IDisposable)?.Dispose();
-                FAbilities[ID] = null;
+                var abilityType = ability.GetAbilityType();
+                AbilitiesByType[(int)abilityType].Remove(ability);
+                (Abilities[id]).ImageSequences.ReleaseImageLibrary();
+                (Abilities[id] as IDisposable)?.Dispose();
+                Abilities[id] = null;
             }
         }
         else
         {
-            throw new ArgumentException("Invalid AbilityID (" + Ability.GetType().Name + ")");
+            throw new ArgumentException("Invalid AbilityID (" + ability.GetType().Name + ")");
         }
     }
 
     // Ability.PAS:2116
     public void UnregisterAll()
     {
-        for (int I = FAbilities.Count - 1; I >= 0; I--)
+        for (int I = Abilities.Count - 1; I >= 0; I--)
         {
-            if (FAbilities[I] != null)
+            if (Abilities[I] != null)
             {
-                UnregisterAbility(FAbilities[I]);
+                UnregisterAbility(Abilities[I]);
             }
         }
     }
 
     // Ability.PAS:2129
-    public void ListAbilities(StringCollection Text, Set<AbilitySelectionType> Types)
+    public void ListAbilities(StringCollection text, Set<AbilitySelectionType> types)
     {
-        Text.Clear();
-        for (int I = 0, last = this.FAbilities.Count - 1; I <= last; I++)
+        text.Clear();
+        for (int I = 0, last = this.Abilities.Count - 1; I <= last; I++)
         {
-            if (this.FAbilities[I] != null)
+            if (this.Abilities[I] != null)
             {
-                if (((this.FAbilities[I]).FSelectionTypes & Types) != Set<AbilitySelectionType>.Of() || (Types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && (this.FAbilities[I]).FSelectionTypes == Set<AbilitySelectionType>.Of()))
+                if (((this.Abilities[I]).SelectionTypes & types) != Set<AbilitySelectionType>.Of() || (types == Set<AbilitySelectionType>.Of().WithRange(0, (AbilitySelectionType)9) && (this.Abilities[I]).SelectionTypes == Set<AbilitySelectionType>.Of()))
                 {
-                    Text.AddObject((this.FAbilities[I]).GetName(null), IntToObject(I));
+                    text.AddObject((this.Abilities[I]).GetName(null), IntToObject(I));
                 }
             }
         }
     }
 
     // Ability.PAS:2148
-    public void ListAbilityInfo(StringCollection Text, bool SortByName, Set<AbilityInfoModeElement> Mode)
+    public void ListAbilityInfo(StringCollection text, bool sortByName, Set<AbilityInfoModeElement> mode)
     {
-        DelphiList List = default;
-        List = new DelphiList();
-        for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
+        DelphiList list = default;
+        list = new DelphiList();
+        for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
         {
-            if (FAbilities[I] != null)
+            if (Abilities[I] != null)
             {
-                List.Add(FAbilities[I]);
+                list.Add(Abilities[I]);
             }
         }
 
-        if (SortByName)
+        if (sortByName)
         {
-            List.Sort(CompareAbilityNames);
+            list.Sort(CompareAbilityNames);
         }
 
         // { Original frees the temporary list only after all ability callbacks succeed. }
-        for (int I = 0, last = List.Count - 1; I <= last; I++)
+        for (int I = 0, last = list.Count - 1; I <= last; I++)
         {
-            ((Ability)List[I]).ListInfo(Text, Mode);
-            Text.Add("-------------------------------------------------");
-            Text.Add("");
+            ((Ability)list[I]).ListInfo(text, mode);
+            text.Add("-------------------------------------------------");
+            text.Add("");
         }
 
-        List?.Dispose();
+        list?.Dispose();
     }
 
     // intf_P1_06.inc:178
-    public void UnregisterAbilityID(int id)
+    public void UnregisterAbilityId(int id)
     {
-        if (FAbilities[id] is Ability ability) UnregisterAbility(ability);
+        if (Abilities[id] is Ability ability) UnregisterAbility(ability);
     }
 
     public Ability GetAbility(int index)
     {
         Assert(index >= 0, "Invalid AbilityID", "Ability.PAS", 2069);
-        return index < FAbilities.Count ? FAbilities[index] : null;
+        return index < Abilities.Count ? Abilities[index] : null;
     }
 
-    public static int CompareAbilityNames(object Item1, object Item2)
+    public static int CompareAbilityNames(object item1, object item2)
     {
-        var name = ((Ability)Item2).GetName(null);
-        return CompareStr(((Ability)Item1).GetName(null), name);
+        var name = ((Ability)item2).GetName(null);
+        return CompareStr(((Ability)item1).GetName(null), name);
     }
 
-    internal static void UnregisterPassiveAbilities(AbilityControl Control)
+    internal static void UnregisterPassiveAbilities(AbilityControl control)
     {
-        Control.UnregisterAbilityID(0);
-        Control.UnregisterAbilityID(1);
-        Control.UnregisterAbilityID(2);
-        Control.UnregisterAbilityID(3);
-        Control.UnregisterAbilityID(4);
-        Control.UnregisterAbilityID(5);
-        Control.UnregisterAbilityID(23);
-        Control.UnregisterAbilityID(42);
-        Control.UnregisterAbilityID(6);
-        Control.UnregisterAbilityID(7);
-        Control.UnregisterAbilityID(8);
-        Control.UnregisterAbilityID(9);
-        Control.UnregisterAbilityID(10);
-        Control.UnregisterAbilityID(11);
-        Control.UnregisterAbilityID(12);
-        Control.UnregisterAbilityID(13);
-        Control.UnregisterAbilityID(70);
-        Control.UnregisterAbilityID(71);
-        Control.UnregisterAbilityID(76);
-        Control.UnregisterAbilityID(72);
-        Control.UnregisterAbilityID(73);
-        Control.UnregisterAbilityID(74);
-        Control.UnregisterAbilityID(75);
-        Control.UnregisterAbilityID(77);
-        Control.UnregisterAbilityID(64);
-        Control.UnregisterAbilityID(146);
-        Control.UnregisterAbilityID(147);
-        Control.UnregisterAbilityID(26);
-        Control.UnregisterAbilityID(36);
-        Control.UnregisterAbilityID(66);
-        Control.UnregisterAbilityID(39);
-        Control.UnregisterAbilityID(43);
-        Control.UnregisterAbilityID(49);
-        Control.UnregisterAbilityID(51);
-        Control.UnregisterAbilityID(54);
-        Control.UnregisterAbilityID(63);
-        Control.UnregisterAbilityID(64);
-        Control.UnregisterAbilityID(37);
-        Control.UnregisterAbilityID(41);
-        Control.UnregisterAbilityID(67);
-        Control.UnregisterAbilityID(68);
-        Control.UnregisterAbilityID(69);
-        Control.UnregisterAbilityID(109);
-        Control.UnregisterAbilityID(32);
-        Control.UnregisterAbilityID(129);
-        Control.UnregisterAbilityID(128);
-        Control.UnregisterAbilityID(130);
-        Control.UnregisterAbilityID(93);
-        Control.UnregisterAbilityID(94);
-        Control.UnregisterAbilityID(95);
-        Control.UnregisterAbilityID(96);
-        Control.UnregisterAbilityID(97);
-        Control.UnregisterAbilityID(98);
-        Control.UnregisterAbilityID(92);
-        Control.UnregisterAbilityID(99);
-        Control.UnregisterAbilityID(168);
-        Control.UnregisterAbilityID(34);
-        Control.UnregisterAbilityID(53);
-        Control.UnregisterAbilityID(152);
-        Control.UnregisterAbilityID(153);
-        Control.UnregisterAbilityID(154);
-        Control.UnregisterAbilityID(155);
-        Control.UnregisterAbilityID(156);
-        Control.UnregisterAbilityID(157);
-        Control.UnregisterAbilityID(160);
-        Control.UnregisterAbilityID(161);
-        Control.UnregisterAbilityID(162);
-        Control.UnregisterAbilityID(163);
-        Control.UnregisterAbilityID(164);
-        Control.UnregisterAbilityID(165);
-        Control.UnregisterAbilityID(166);
-        Control.UnregisterAbilityID(158);
-        Control.UnregisterAbilityID(126);
-        Control.UnregisterAbilityID(127);
-        Control.UnregisterAbilityID(167);
-        Control.UnregisterAbilityID(108);
-        Control.UnregisterAbilityID(131);
-        Control.UnregisterAbilityID(100);
-        Control.UnregisterAbilityID(169);
-        Control.UnregisterAbilityID(132);
-        Control.UnregisterAbilityID(101);
-        Control.UnregisterAbilityID(138);
-        Control.UnregisterAbilityID(139);
-        Control.UnregisterAbilityID(140);
-        Control.UnregisterAbilityID(141);
-        Control.UnregisterAbilityID(142);
-        Control.UnregisterAbilityID(143);
-        Control.UnregisterAbilityID(144);
-        Control.UnregisterAbilityID(145);
+        control.UnregisterAbilityId(0);
+        control.UnregisterAbilityId(1);
+        control.UnregisterAbilityId(2);
+        control.UnregisterAbilityId(3);
+        control.UnregisterAbilityId(4);
+        control.UnregisterAbilityId(5);
+        control.UnregisterAbilityId(23);
+        control.UnregisterAbilityId(42);
+        control.UnregisterAbilityId(6);
+        control.UnregisterAbilityId(7);
+        control.UnregisterAbilityId(8);
+        control.UnregisterAbilityId(9);
+        control.UnregisterAbilityId(10);
+        control.UnregisterAbilityId(11);
+        control.UnregisterAbilityId(12);
+        control.UnregisterAbilityId(13);
+        control.UnregisterAbilityId(70);
+        control.UnregisterAbilityId(71);
+        control.UnregisterAbilityId(76);
+        control.UnregisterAbilityId(72);
+        control.UnregisterAbilityId(73);
+        control.UnregisterAbilityId(74);
+        control.UnregisterAbilityId(75);
+        control.UnregisterAbilityId(77);
+        control.UnregisterAbilityId(64);
+        control.UnregisterAbilityId(146);
+        control.UnregisterAbilityId(147);
+        control.UnregisterAbilityId(26);
+        control.UnregisterAbilityId(36);
+        control.UnregisterAbilityId(66);
+        control.UnregisterAbilityId(39);
+        control.UnregisterAbilityId(43);
+        control.UnregisterAbilityId(49);
+        control.UnregisterAbilityId(51);
+        control.UnregisterAbilityId(54);
+        control.UnregisterAbilityId(63);
+        control.UnregisterAbilityId(64);
+        control.UnregisterAbilityId(37);
+        control.UnregisterAbilityId(41);
+        control.UnregisterAbilityId(67);
+        control.UnregisterAbilityId(68);
+        control.UnregisterAbilityId(69);
+        control.UnregisterAbilityId(109);
+        control.UnregisterAbilityId(32);
+        control.UnregisterAbilityId(129);
+        control.UnregisterAbilityId(128);
+        control.UnregisterAbilityId(130);
+        control.UnregisterAbilityId(93);
+        control.UnregisterAbilityId(94);
+        control.UnregisterAbilityId(95);
+        control.UnregisterAbilityId(96);
+        control.UnregisterAbilityId(97);
+        control.UnregisterAbilityId(98);
+        control.UnregisterAbilityId(92);
+        control.UnregisterAbilityId(99);
+        control.UnregisterAbilityId(168);
+        control.UnregisterAbilityId(34);
+        control.UnregisterAbilityId(53);
+        control.UnregisterAbilityId(152);
+        control.UnregisterAbilityId(153);
+        control.UnregisterAbilityId(154);
+        control.UnregisterAbilityId(155);
+        control.UnregisterAbilityId(156);
+        control.UnregisterAbilityId(157);
+        control.UnregisterAbilityId(160);
+        control.UnregisterAbilityId(161);
+        control.UnregisterAbilityId(162);
+        control.UnregisterAbilityId(163);
+        control.UnregisterAbilityId(164);
+        control.UnregisterAbilityId(165);
+        control.UnregisterAbilityId(166);
+        control.UnregisterAbilityId(158);
+        control.UnregisterAbilityId(126);
+        control.UnregisterAbilityId(127);
+        control.UnregisterAbilityId(167);
+        control.UnregisterAbilityId(108);
+        control.UnregisterAbilityId(131);
+        control.UnregisterAbilityId(100);
+        control.UnregisterAbilityId(169);
+        control.UnregisterAbilityId(132);
+        control.UnregisterAbilityId(101);
+        control.UnregisterAbilityId(138);
+        control.UnregisterAbilityId(139);
+        control.UnregisterAbilityId(140);
+        control.UnregisterAbilityId(141);
+        control.UnregisterAbilityId(142);
+        control.UnregisterAbilityId(143);
+        control.UnregisterAbilityId(144);
+        control.UnregisterAbilityId(145);
     }
 
 }

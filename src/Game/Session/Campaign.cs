@@ -24,87 +24,87 @@ public partial class Campaign : EngineObject
     // Diplomacy.pas:2246
     public Campaign(ECustomNode owner) : base(owner)
     {
-        FStream = new MemoryStream();
-        FTransferSettings = new CampaignTransferSettings(null);
-        FScenarios = new AoWCampaignScenarioList(null);
-        FCompletedScenarios = new Int32List();
-        FRaceHistory = new ByteList();
-        FCurrentScenarioID = -1;
-        FNextScenarioID = -1;
-        FScenarioStarted = false;
-        FPlayMode = PlayMode.Simultaneous;
-        FDifficultyLevel = DifficultyLevel.Normal;
+        Stream = new MemoryStream();
+        TransferSettings = new CampaignTransferSettings(null);
+        Scenarios = new AoWCampaignScenarioList(null);
+        CompletedScenarios = new Int32List();
+        RaceHistory = new ByteList();
+        CurrentScenarioId = -1;
+        NextScenarioId = -1;
+        ScenarioStarted = false;
+        PlayMode = PlayMode.Simultaneous;
+        DifficultyLevel = CampaignDifficultyLevel.Normal;
     }
 
-    public string FName = "";
-    public MemoryStream FStream;
-    public AoWCampaignScenarioList FScenarios;
-    public Int32List FCompletedScenarios;
-    public ByteList FRaceHistory;
-    public bool FScenarioStarted;
-    public CampaignTransferSettings FTransferSettings;
-    public int FCurrentScenarioID;
-    public int FNextScenarioID;
-    public string FFileName = "";
-    public DifficultyLevel FDifficultyLevel;
-    public PlayMode FPlayMode;
+    public string Name = "";
+    public MemoryStream Stream;
+    public AoWCampaignScenarioList Scenarios;
+    public Int32List CompletedScenarios;
+    public ByteList RaceHistory;
+    public bool ScenarioStarted;
+    public CampaignTransferSettings TransferSettings;
+    public int CurrentScenarioId;
+    public int NextScenarioId;
+    public string FileName = "";
+    public CampaignDifficultyLevel DifficultyLevel;
+    public PlayMode PlayMode;
 
     // Diplomacy.pas:2261
     public override void Dispose()
     {
-        FStream?.Dispose();
-        FTransferSettings?.Dispose();
-        FScenarios?.Dispose();
-        FCompletedScenarios?.Dispose();
-        FRaceHistory?.Dispose();
+        Stream?.Dispose();
+        TransferSettings?.Dispose();
+        Scenarios?.Dispose();
+        CompletedScenarios?.Dispose();
+        RaceHistory?.Dispose();
         base.Dispose();
     }
 
     // Diplomacy.pas:2295
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        int Size = default;
-        base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        int size = default;
+        base.ReadWrite(stream);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            if (Stream.StorageMode().Contains(StorageModeElement.Read))
+            if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                Stream.rwInteger(ref Size, 5);
-                FStream.SetLength(Size);
-                Stream.rwData(FStream.GetBuffer().AsSpan(0, Size), Size, 6);
+                stream.rwInteger(ref size, 5);
+                Stream.SetLength(size);
+                stream.rwData(Stream.GetBuffer().AsSpan(0, size), size, 6);
             }
             else
             {
-                Size = (int)FStream.Length;
-                Stream.rwInteger(ref Size, 5);
-                Stream.rwData(FStream.GetBuffer().AsSpan(0, Size), Size, 6);
+                size = (int)Stream.Length;
+                stream.rwInteger(ref size, 5);
+                stream.rwData(Stream.GetBuffer().AsSpan(0, size), size, 6);
             }
         }
 
-        Stream.rwEObject(FTransferSettings, 7);
-        Stream.rwEObject(FScenarios, 10);
-        Stream.rwString(ref FName, 12);
-        Stream.rwInteger(ref FCurrentScenarioID, 13);
-        Stream.rwStreamProc(14, FCompletedScenarios.LoadFromStream, FCompletedScenarios.SaveToStream);
-        Stream.rwBool(ref FScenarioStarted, 15);
-        Stream.rwStreamProc(16, FRaceHistory.LoadFromStream, FRaceHistory.SaveToStream);
-        Stream.rwData(Bytes.Of(ref FPlayMode, 1), 1, 17);
-        Stream.rwData(Bytes.Of(ref FDifficultyLevel, 1), 1, 19);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly) && Stream.StorageMode().Contains(StorageModeElement.Read))
+        stream.rwEObject(TransferSettings, 7);
+        stream.rwEObject(Scenarios, 10);
+        stream.rwString(ref Name, 12);
+        stream.rwInteger(ref CurrentScenarioId, 13);
+        stream.rwStreamProc(14, CompletedScenarios.LoadFromStream, CompletedScenarios.SaveToStream);
+        stream.rwBool(ref ScenarioStarted, 15);
+        stream.rwStreamProc(16, RaceHistory.LoadFromStream, RaceHistory.SaveToStream);
+        stream.rwData(Bytes.Of(ref PlayMode, 1), 1, 17);
+        stream.rwData(Bytes.Of(ref DifficultyLevel, 1), 1, 19);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly) && stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            for (int I = 0, last = FScenarios.Count - 1; I <= last; I++)
+            for (int I = 0, last = Scenarios.Count - 1; I <= last; I++)
             {
-                if (FScenarios.GetScenario(I).FID == 0)
+                if (Scenarios.GetScenario(I).Id == 0)
                 {
-                    var uniqueID = FScenarios.CreateUniqueID();
-                    FScenarios.GetScenario(I).FID = uniqueID;
+                    var uniqueId = Scenarios.CreateUniqueId();
+                    Scenarios.GetScenario(I).Id = uniqueId;
                 }
             }
         }
 
-        if (Stream.StorageMode().Contains(StorageModeElement.Read) && !Stream.StorageMode().Contains(StorageModeElement.TextOnly) && FCompletedScenarios.Count == 0 && !FScenarioStarted)
+        if (stream.StorageMode().Contains(StorageModeElement.Read) && !stream.StorageMode().Contains(StorageModeElement.TextOnly) && CompletedScenarios.Count == 0 && !ScenarioStarted)
         {
-            FPlayMode = PlayMode.Simultaneous;
+            PlayMode = PlayMode.Simultaneous;
         }
     }
 
@@ -112,12 +112,12 @@ public partial class Campaign : EngineObject
     public override void Clear()
     {
         base.Clear();
-        FStream.Clear();
-        FTransferSettings.Clear();
-        FScenarios.Clear();
-        FCurrentScenarioID = -1;
-        FCompletedScenarios.Clear();
-        FRaceHistory.Clear();
+        Stream.Clear();
+        TransferSettings.Clear();
+        Scenarios.Clear();
+        CurrentScenarioId = -1;
+        CompletedScenarios.Clear();
+        RaceHistory.Clear();
     }
 
     // Diplomacy.pas:2282
@@ -125,212 +125,212 @@ public partial class Campaign : EngineObject
 
     // Diplomacy.pas:2413
     // The name takes the extension the host writes for a campaign save (own-formats.md 4.2).
-    public virtual string GetAutoSaveFileName(CampaignAutoSaveType Auto) => AoWHSMap.Current.FMapName + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
+    public virtual string GetAutoSaveFileName(CampaignAutoSaveType auto) => AoWHSMap.Current.MapName + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
 
     // Diplomacy.pas:2330
-    public virtual void SelectNextScenario(int ID)
+    public virtual void SelectNextScenario(int id)
     {
-        FNextScenarioID = ID;
+        NextScenarioId = id;
     }
 
     // Diplomacy.pas:2333
     public virtual void ResetNextScenario()
     {
-        FNextScenarioID = -1;
+        NextScenarioId = -1;
     }
 
     // Diplomacy.pas:2336
-    public virtual void StartScenario(int ID, Draw.ProgressEvent Progress)
+    public virtual void StartScenario(int id, Draw.ProgressEvent progress)
     {
-        FStream.Clear();
-        FNextScenarioID = -1;
-        FCurrentScenarioID = ID;
+        Stream.Clear();
+        NextScenarioId = -1;
+        CurrentScenarioId = id;
     }
 
     // Diplomacy.pas:2343
     public virtual void SetupScenario()
     {
-        sbyte Player;
-        int Level;
-        Spell Spell;
-        Race Race;
-        byte Relation;
-        Player = (sbyte)(AoWHSMap.Current.FPlayers.Count - 1);
-        while (Player > 1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
+        sbyte player;
+        int level;
+        Spell spell;
+        Race race;
+        byte relation;
+        player = (sbyte)(AoWHSMap.Current.Players.Count - 1);
+        while (player > 1 && AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
-            Player = (sbyte)(Player - 1);
+            player = (sbyte)(player - 1);
         }
 
-        Level = 1 + FCompletedScenarios.Count / 4;
-        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+        level = 1 + CompletedScenarios.Count / 4;
+        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
-            if (I != Player)
+            if (I != player)
             {
-                for (int J = 0, lastJ = AoWHSSet.Current.FSpellControl.GetCount() - 1; J <= lastJ; J++)
+                for (int J = 0, lastJ = AoWHSSet.Current.SpellControl.GetCount() - 1; J <= lastJ; J++)
                 {
-                    Spell = AoWHSSet.Current.FSpellControl.GetSpell(J);
-                    bool condition = Spell != null && Spell.FSpellLevel <= Level;
+                    spell = AoWHSSet.Current.SpellControl.GetSpell(J);
+                    bool condition = spell != null && spell.SpellLevel <= level;
                     if (condition)
                     {
-                        var spherePicks = AoWHSMap.Current.FPlayers.GetPlayers(I).FLeader.GetSpherePicks(Spell.FMagicSphere);
-                        condition = Spell.FSpellLevel <= spherePicks;
+                        var spherePicks = AoWHSMap.Current.Players.GetPlayers(I).Leader.GetSpherePicks(spell.MagicSphere);
+                        condition = spell.SpellLevel <= spherePicks;
                     }
 
                     if (condition)
                     {
-                        if (AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.FSpells.IndexOf(J) == -1)
+                        if (AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Spells.IndexOf(J) == -1)
                         {
-                            AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.FSpells.Add(J);
+                            AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Spells.Add(J);
                         }
                     }
                 }
             }
         }
 
-        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType != PlayerType.Human && AoWHSMap.Current.FPlayers.GetDiplomaticRelation((sbyte)I, Player) != DiplomaticRelation.Alliance)
+            if (AoWHSMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Human && AoWHSMap.Current.Players.GetDiplomaticRelation((sbyte)I, player) != DiplomaticRelation.Alliance)
             {
-                if (FDifficultyLevel == DifficultyLevel.Easy)
+                if (DifficultyLevel == CampaignDifficultyLevel.Easy)
                 {
-                    switch (AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType)
+                    switch (AoWHSMap.Current.Players.GetPlayers(I).PlayerType)
                     {
-                        case PlayerType.CPU2:
-                            AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType = PlayerType.CPU1;
+                        case PlayerType.Cpu2:
+                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu1;
                             break;
-                        case PlayerType.CPU3:
-                            AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType = PlayerType.CPU2;
+                        case PlayerType.Cpu3:
+                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu2;
                             break;
-                        case PlayerType.CPU4:
-                            AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType = PlayerType.CPU3;
+                        case PlayerType.Cpu4:
+                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
                             break;
-                        case PlayerType.CPU5:
-                            AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType = PlayerType.CPU3;
+                        case PlayerType.Cpu5:
+                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
                             break;
                     }
                 }
 
-                if (FDifficultyLevel == DifficultyLevel.Hard)
+                if (DifficultyLevel == CampaignDifficultyLevel.Hard)
                 {
-                    switch (AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType)
+                    switch (AoWHSMap.Current.Players.GetPlayers(I).PlayerType)
                     {
-                        case PlayerType.CPU1:
-                            AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType = PlayerType.CPU3;
+                        case PlayerType.Cpu1:
+                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu3;
                             break;
-                        case PlayerType.CPU2:
-                            AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType = PlayerType.CPU4;
+                        case PlayerType.Cpu2:
+                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu4;
                             break;
-                        case PlayerType.CPU3:
-                            AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType = PlayerType.CPU5;
+                        case PlayerType.Cpu3:
+                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu5;
                             break;
-                        case PlayerType.CPU4:
-                            AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType = PlayerType.CPU5;
+                        case PlayerType.Cpu4:
+                            AoWHSMap.Current.Players.GetPlayers(I).PlayerType = PlayerType.Cpu5;
                             break;
                     }
                 }
             }
         }
 
-        AoWHSMap.Current.SetupPlayerControl(FPlayMode, PlayerConnectionType.Local);
-        for (int R = 0, last = AoWHSMap.Current.FRaces.Count - 1; R <= last; R++)
+        AoWHSMap.Current.SetupPlayerControl(PlayMode, PlayerConnectionType.Local);
+        for (int R = 0, last = AoWHSMap.Current.Races.Count - 1; R <= last; R++)
         {
-            if (AoWHSMap.Current.FRaces.GetRace(R) != null)
+            if (AoWHSMap.Current.Races.GetRace(R) != null)
             {
-                Race = AoWHSMap.Current.FRaces.GetRace(R);
-                if (Race != null)
+                race = AoWHSMap.Current.Races.GetRace(R);
+                if (race != null)
                 {
                     for (int I = 0; I <= 11; I++)
                     {
-                        if ((FRaceHistory.IndexOf((byte)I) != -1 || I == AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerRace) && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerRace == R || (FRaceHistory.IndexOf((byte)R) != -1 || AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerRace == R) && I == AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerRace)
+                        if ((RaceHistory.IndexOf((byte)I) != -1 || I == AoWHSMap.Current.Players.GetPlayers(player).PlayerRace) && AoWHSMap.Current.Players.GetPlayers(player).PlayerRace == R || (RaceHistory.IndexOf((byte)R) != -1 || AoWHSMap.Current.Players.GetPlayers(player).PlayerRace == R) && I == AoWHSMap.Current.Players.GetPlayers(player).PlayerRace)
                         {
-                            Relation = Race.FDefaultRelations[I];
-                            switch (Relation)
+                            relation = race.DefaultRelations[I];
+                            switch (relation)
                             {
                                 case 0:
-                                    Relation = 3;
+                                    relation = 3;
                                     break;
                                 case 1:
-                                    Relation = 3;
+                                    relation = 3;
                                     break;
                                 case 2:
-                                    Relation = 4;
+                                    relation = 4;
                                     break;
                                 case 3:
-                                    Relation = 4;
+                                    relation = 4;
                                     break;
                             }
 
-                            Race.FDefaultRelations[I] = Relation;
+                            race.DefaultRelations[I] = relation;
                         }
                     }
                 }
             }
         }
 
-        AoWHSMap.Current.FAlliedVictory = AoWHSMap.Current.FCampaignSettings.FAlliedVictory;
-        FTransferSettings.ExecuteSelection();
-        FScenarioStarted = true;
+        AoWHSMap.Current.AlliedVictory = AoWHSMap.Current.CampaignSettings.AlliedVictory;
+        TransferSettings.ExecuteSelection();
+        ScenarioStarted = true;
     }
 
     // Diplomacy.pas:2416
     public virtual void FinishScenario()
     {
-        sbyte Player;
-        string FileName;
-        FScenarioStarted = false;
-        FCompletedScenarios.Add(FCurrentScenarioID);
-        FTransferSettings.Retrieve();
-        FStream.Clear();
-        Player = (sbyte)(AoWHSMap.Current.FPlayers.Count - 1);
-        while (Player > 1 && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
+        sbyte player;
+        string fileName;
+        ScenarioStarted = false;
+        CompletedScenarios.Add(CurrentScenarioId);
+        TransferSettings.Retrieve();
+        Stream.Clear();
+        player = (sbyte)(AoWHSMap.Current.Players.Count - 1);
+        while (player > 1 && AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
-            Player = (sbyte)(Player - 1);
+            player = (sbyte)(player - 1);
         }
 
-        var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        if (FRaceHistory.IndexOf((byte)players.FPlayerRace) == -1)
+        var players = AoWHSMap.Current.Players.GetPlayers(player);
+        if (RaceHistory.IndexOf((byte)players.PlayerRace) == -1)
         {
-            var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            FRaceHistory.Add((byte)fPlayersPlayers.FPlayerRace);
+            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);
+            RaceHistory.Add((byte)fPlayersPlayers.PlayerRace);
         }
 
-        FileName = GetAutoSaveFileName(CampaignAutoSaveType.ScenarioFinished);
-        GameTables.AoWEngine.SaveCampaign(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName);
+        fileName = GetAutoSaveFileName(CampaignAutoSaveType.ScenarioFinished);
+        GameTables.GameEngine.SaveCampaign(GameTables.GameEngine.StartupDirectory + "Save\\" + fileName);
     }
 
     // Diplomacy.pas:2432
     public virtual void RestartScenario()
     {
-        if (FCompletedScenarios.Count != 0)
+        if (CompletedScenarios.Count != 0)
         {
-            FCurrentScenarioID = FCompletedScenarios[FCompletedScenarios.Count - 1];
+            CurrentScenarioId = CompletedScenarios[CompletedScenarios.Count - 1];
         }
         else
         {
-            FCurrentScenarioID = 0;
+            CurrentScenarioId = 0;
         }
 
-        FScenarioStarted = false;
-        FStream.Clear();
+        ScenarioStarted = false;
+        Stream.Clear();
     }
 
     // Diplomacy.pas:2285
     public virtual CampaignScenario AddScenario()
     {
-        CampaignScenario Result = CreateScenario();
-        Result.FID = FScenarios.CreateUniqueID();
-        Result.SetOwner(FScenarios);
-        return Result;
+        CampaignScenario result = CreateScenario();
+        result.Id = Scenarios.CreateUniqueId();
+        result.SetOwner(Scenarios);
+        return result;
     }
 
     // Diplomacy.pas:2292
-    public bool GetContainsMap() => FStream.Length != 0;
-
-    public enum DifficultyLevel : byte
-    {
-        Easy = 0, Normal = 1, Hard = 2
-    }
+    public bool GetContainsMap() => Stream.Length != 0;
 
     // intf_P5_08.inc:107
 
+}
+
+public enum CampaignDifficultyLevel : byte
+{
+    Easy = 0, Normal = 1, Hard = 2
 }

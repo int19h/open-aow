@@ -12,8 +12,8 @@ public partial class FireAuraEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1294
     public FireAuraEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(GameText.FireAuraRStr);
-        FAbilityID = 163;
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_fireAuraText);
+        AbilityId = 163;
     }
 
     // PassiveAb.pas:1301
@@ -22,10 +22,10 @@ public partial class FireAuraEnchantment : UnitEnchantmentAbility
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        bool Result = base.Remove(owner);
-        if (Result && owner is Troop unit && owner.Owner is Army army)
+        bool result = base.Remove(owner);
+        if (result && owner is Troop troop && owner.Owner is Army army)
         {
-            unit.GetLocation(ref X, ref Y, ref L);
+            troop.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
                 var mapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
@@ -33,6 +33,6 @@ public partial class FireAuraEnchantment : UnitEnchantmentAbility
             }
         }
 
-        return Result;
+        return result;
     }
 }

@@ -9,67 +9,67 @@ using Aow.Game.Units;
 
 namespace Aow.Game.Events;
 
-// selection. location. FTokenEvent. owned object
+// selection. location. TokenEvent. owned object
 public partial class CombatTypeRequestEventLog : EventLog
 {
     public CombatTypeRequestEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public CombatType FCombatType;
-    public new sbyte FPlayer;
-    public sbyte FDefenderPlayer;
-    public sbyte FX;
-    public sbyte FY;
-    public sbyte FL;
-    public EngineObject FTokenEvent;
-    public bool FCreateNewMove;
-    public ArmyId FArmyID;
+    public CombatType CombatType;
+    public new sbyte _player;
+    public sbyte DefenderPlayer;
+    public sbyte X;
+    public sbyte Y;
+    public sbyte MapLevel;
+    public EngineObject TokenEvent;
+    public bool CreateNewMove;
+    public ArmyId ArmyId;
 
     // Combat2.pas:1
     public override void Dispose()
     {
-        object Obj;
+        object objectValue;
         SetTokenEvent(null);
-        Obj = FArmyID;
-        if (Obj != null)
+        objectValue = ArmyId;
+        if (objectValue != null)
         {
-            (Obj as IDisposable)?.Dispose();
+            (objectValue as IDisposable)?.Dispose();
         }
 
         base.Dispose();
     }
 
     // Combat2.pas:18
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done) => base.Execute(Mode, Trigger, Done);
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => base.Execute(mode, trigger, done);
 
     // Combat2.pas:10
-    public void SetTokenEvent(TokenEvent TokenEvent)
+    public void SetTokenEvent(TokenEvent tokenEvent)
     {
         // { Original releases the old token before retaining its replacement. }
-        if (FTokenEvent != null)
+        if (TokenEvent != null)
         {
-            FTokenEvent.Release();
+            TokenEvent.Release();
         }
 
-        FTokenEvent = TokenEvent;
-        if (FTokenEvent != null)
+        TokenEvent = tokenEvent;
+        if (TokenEvent != null)
         {
-            FTokenEvent.AddRef();
+            TokenEvent.AddRef();
         }
     }
 
     // Combat2.pas:27
-    public void Select(CombatType CombatType)
+    public void Select(CombatType combatType)
     {
-        FCombatType = CombatType;
+        CombatType = combatType;
     }
 
     // Combat2.pas:30
     public void SetCenterLocation(byte X, byte Y, int L)
     {
-        FX = (sbyte)X;
-        FY = (sbyte)Y;
-        FL = (sbyte)L;
+        this.X = (sbyte)X;
+        this.Y = (sbyte)Y;
+        MapLevel = (sbyte)L;
     }
 
 }

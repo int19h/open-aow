@@ -15,9 +15,9 @@ public partial class CallFlames : CombatSpell
     // CombatSpells.pas:1421
     public CallFlames(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(CallFlamesRStr);
-        FSpellID = 113;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_callFlamesText);
+        SpellId = 113;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 9;
         spellCombatInfo.Damage = 3;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);
@@ -26,5 +26,5 @@ public partial class CallFlames : CombatSpell
         spellCombatInfo.Radius = 1;
     }
 
-    private static readonly string CallFlamesRStr = "Call Flames";
+    private static readonly string s_callFlamesText = "Call Flames";
 }

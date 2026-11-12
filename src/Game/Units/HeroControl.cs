@@ -14,88 +14,88 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-// FOnChanged. FUpdateCount. FOnHeroChanged. FHeroes
+// FOnChanged. UpdateCount. FOnHeroChanged. Heroes
 public partial class HeroControl : EngineObject
 {
     // Hero.PAS:2413
     public HeroControl(ECustomNode owner) : base(owner)
     {
-        FOnChangedStore = new();
-        FOnHeroChangedStore = new();
-        FHeroes = new HeroList(null);
+        _onChangedStore = new();
+        _onHeroChangedStore = new();
+        Heroes = new HeroList(null);
     }
 
-    internal EventStore<HeroControl> FOnChangedStore;
+    internal EventStore<HeroControl> _onChangedStore;
 
     public event NotifyEvent<HeroControl> FOnChanged
     {
-        add => FOnChangedStore.Add(value);
-        remove => FOnChangedStore.Remove(value);
+        add => _onChangedStore.Add(value);
+        remove => _onChangedStore.Remove(value);
     }
 
-    public int FUpdateCount;
+    public int UpdateCount;
 
-    internal EventStore<Hero> FOnHeroChangedStore;
+    internal EventStore<Hero> _onHeroChangedStore;
 
     public event NotifyEvent<Hero> FOnHeroChanged
     {
-        add => FOnHeroChangedStore.Add(value);
-        remove => FOnHeroChangedStore.Remove(value);
+        add => _onHeroChangedStore.Add(value);
+        remove => _onHeroChangedStore.Remove(value);
     }
 
-    public HeroList FHeroes;
+    public HeroList Heroes;
 
     // Hero.PAS:2421
     public override void Dispose()
     {
         BeginUpdate();
-        for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
+        for (int I = Heroes.GetCount() - 1; I >= 0; I--)
         {
-            UnRegisterHero((Hero)FHeroes.FChildren.List[I]);
+            UnregisterHero((Hero)Heroes._children.List[I]);
         }
 
-        FHeroes?.Dispose();
-        FOnHeroChangedStore.Clear();
-        FOnChangedStore.Clear();
+        Heroes?.Dispose();
+        _onHeroChangedStore.Clear();
+        _onChangedStore.Clear();
         base.Dispose();
     }
 
     // Hero.PAS:2435
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FHeroes, 20);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        base.ReadWrite(stream);
+        stream.rwEObject(Heroes, 20);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
+            for (int I = Heroes.GetCount() - 1; I >= 0; I--)
             {
-                FHeroes.GetHero(I).FRegistered = true;
+                Heroes.GetHero(I).Registered = true;
             }
         }
     }
 
     // Hero.PAS:2567
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
             ValidateLibraryHeroes();
             Activate();
         }
         else
         {
-            if (Msg.MsgID == 536936471)
+            if (message.MessageId == 536936471)
             {
                 Deactivate();
             }
             else
             {
-                for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
+                for (int I = Heroes.GetCount() - 1; I >= 0; I--)
                 {
-                    if (((EngineObject)FHeroes.FChildren.List[I]).Owner == null)
+                    if (((EngineObject)Heroes._children.List[I]).Owner == null)
                     {
-                        ((EngineObject)FHeroes.FChildren.List[I]).MsgProc(ref Msg, Sender);
+                        ((EngineObject)Heroes._children.List[I]).MessageProc(ref message, sender);
                     }
                 }
             }
@@ -105,23 +105,23 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2432
     public void Changed()
     {
-        if (FUpdateCount == 0)
+        if (UpdateCount == 0)
         {
-            FOnChangedStore.Raise(this);
+            _onChangedStore.Raise(this);
         }
     }
 
     // Hero.PAS:2444
     public void BeginUpdate()
     {
-        FUpdateCount += 1;
+        UpdateCount += 1;
     }
 
     // Hero.PAS:2447
     public void EndUpdate()
     {
-        FUpdateCount -= 1;
-        if (FUpdateCount == 0)
+        UpdateCount -= 1;
+        if (UpdateCount == 0)
         {
             Changed();
         }
@@ -131,38 +131,38 @@ public partial class HeroControl : EngineObject
     public void UpdateLibraryHeroes()
     {
         BeginUpdate();
-        for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
+        for (int I = Heroes.GetCount() - 1; I >= 0; I--)
         {
-            ((Hero)FHeroes.FChildren.List[I]).UpdateFromLibrary();
+            ((Hero)Heroes._children.List[I]).UpdateFromLibrary();
         }
 
         EndUpdate();
     }
 
     // Hero.PAS:2458
-    public Hero GetHero(int Index) => (Hero)FHeroes.FChildren.List[Index];
+    public Hero GetHero(int index) => (Hero)Heroes._children.List[index];
 
     // Hero.PAS:2461
-    public int GetCount() => FHeroes.GetCount();
+    public int GetCount() => Heroes.GetCount();
 
     // Hero.PAS:2464
-    public Hero FindID(int ID) => FHeroes.FindHero(ID);
+    public Hero FindId(int id) => Heroes.FindHero(id);
 
     // Hero.PAS:2467
-    public int IndexOf(Hero Hero) => FHeroes.FChildren.IndexOf(Hero);
+    public int IndexOf(Hero hero) => Heroes._children.IndexOf(hero);
 
     // Hero.PAS:2470
-    public int IndexOfLibraryEx(string LibraryName, int LibraryID)
+    public int IndexOfLibrary(string libraryName, int libraryId)
     {
-        Hero Hero;
-        int Result = FHeroes.GetCount();
-        while (Result != 0)
+        Hero hero;
+        int result = Heroes.GetCount();
+        while (result != 0)
         {
-            Result -= 1;
-            Hero = (Hero)FHeroes.FChildren.List[Result];
-            if (Hero.FLibraryID == LibraryID && CompareText(Hero.GetLibraryName(), LibraryName) == 0)
+            result -= 1;
+            hero = (Hero)Heroes._children.List[result];
+            if (hero.LibraryId == libraryId && CompareText(hero.GetLibraryName(), libraryName) == 0)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -172,19 +172,19 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2483
     public void ValidateLibraryHeroes()
     {
-        Hero Hero;
-        for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
+        Hero hero;
+        for (int I = Heroes.GetCount() - 1; I >= 0; I--)
         {
-            Hero = (Hero)FHeroes.FChildren.List[I];
-            if (Hero != null && Hero.FLibraryID != -1 && AoWHSSet.Current.FHeroLibraries.FindHero(Hero.FLibraryName, Hero.FLibraryID) == null)
+            hero = (Hero)Heroes._children.List[I];
+            if (hero != null && hero.LibraryId != -1 && AoWHSSet.Current.HeroLibraries.FindHero(hero.LibraryName, hero.LibraryId) == null)
             {
-                if (Hero.Owner == null)
+                if (hero.Owner == null)
                 {
-                    Hero?.Dispose();
+                    hero?.Dispose();
                 }
                 else
                 {
-                    Hero.FLibraryID = -1;
+                    hero.LibraryId = -1;
                 }
             }
         }
@@ -193,13 +193,13 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2495
     public void Activate()
     {
-        Hero Hero;
-        for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
+        Hero hero;
+        for (int I = Heroes.GetCount() - 1; I >= 0; I--)
         {
-            Hero = (Hero)FHeroes.FChildren.List[I];
-            if (!Hero.FUnitStatus.Contains(UnitStatusElement.Activated) && Hero.Owner == null)
+            hero = (Hero)Heroes._children.List[I];
+            if (!hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner == null)
             {
-                Hero.Activate();
+                hero.Activate();
             }
         }
     }
@@ -207,112 +207,112 @@ public partial class HeroControl : EngineObject
     // Hero.PAS:2505
     public void Deactivate()
     {
-        Hero Hero;
-        for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
+        Hero hero;
+        for (int I = Heroes.GetCount() - 1; I >= 0; I--)
         {
-            Hero = (Hero)FHeroes.FChildren.List[I];
-            if (Hero.FUnitStatus.Contains(UnitStatusElement.Activated) && Hero.Owner == null)
+            hero = (Hero)Heroes._children.List[I];
+            if (hero.UnitStatus.Contains(UnitStatusElement.Activated) && hero.Owner == null)
             {
-                Hero.Deactivate();
+                hero.Deactivate();
             }
         }
     }
 
     // Hero.PAS:2515
-    public bool RegisterHero(Hero Hero)
+    public bool RegisterHero(Hero hero)
     {
-        bool Result;
-        if (!Hero.FRegistered)
+        bool result;
+        if (!hero.Registered)
         {
-            Hero.FRegistered = true;
-            FHeroes.AddChild(Hero);
+            hero.Registered = true;
+            Heroes.AddChild(hero);
             Changed();
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2522
-    public void UnRegisterHero(Hero Hero)
+    public void UnregisterHero(Hero hero)
     {
-        if (Hero.FRegistered)
+        if (hero.Registered)
         {
-            Hero.FRegistered = false;
-            FHeroes.RemoveChild(Hero);
+            hero.Registered = false;
+            Heroes.RemoveChild(hero);
             Changed();
         }
     }
 
     // Hero.PAS:2528
-    public void HeroChanged(Hero Hero)
+    public void HeroChanged(Hero hero)
     {
         if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            FOnHeroChangedStore.Raise(Hero);
+            _onHeroChangedStore.Raise(hero);
         }
     }
 
     // Hero.PAS:2531
     public int GetAverageFreeHeroLevel()
     {
-        int Count;
-        Hero Hero;
-        int Result = 0;
-        Count = 0;
-        for (int I = FHeroes.FChildren.Count - 1; I >= 0; I--)
+        int count;
+        Hero hero;
+        int result = 0;
+        count = 0;
+        for (int I = Heroes._children.Count - 1; I >= 0; I--)
         {
-            Hero = (Hero)FHeroes.FChildren.List[I];
-            if (!Hero.FHeroStatus.Contains(HeroStatusElement.Died) && Hero.FPlayer <= 0)
+            hero = (Hero)Heroes._children.List[I];
+            if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0)
             {
-                Result += Hero.GetLevel();
-                Count += 1;
+                result += hero.GetLevel();
+                count += 1;
             }
         }
 
-        if (Count != 0)
+        if (count != 0)
         {
-            Result = Result / Count;
+            result = result / count;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2545
     public int GetMinFreeHeroLevel()
     {
-        Hero Hero;
-        int Result = 30;
-        for (int I = FHeroes.FChildren.Count - 1; I >= 0; I--)
+        Hero hero;
+        int result = 30;
+        for (int I = Heroes._children.Count - 1; I >= 0; I--)
         {
-            Hero = (Hero)FHeroes.FChildren.List[I];
-            if (!Hero.FHeroStatus.Contains(HeroStatusElement.Died) && Hero.FPlayer <= 0 && Result > Hero.GetLevel())
+            hero = (Hero)Heroes._children.List[I];
+            if (!hero.HeroStatus.Contains(HeroStatusElement.Died) && hero.Player <= 0 && result > hero.GetLevel())
             {
-                Result = Hero.GetLevel();
+                result = hero.GetLevel();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2557
-    public void ListDeadHeroes(HeroList List)
+    public void ListDeadHeroes(HeroList list)
     {
-        Hero Hero;
-        for (int I = FHeroes.FChildren.Count - 1; I >= 0; I--)
+        Hero hero;
+        for (int I = Heroes._children.Count - 1; I >= 0; I--)
         {
-            Hero = (Hero)FHeroes.FChildren.List[I];
-            if (Hero.FHeroStatus.Contains(HeroStatusElement.Died))
+            hero = (Hero)Heroes._children.List[I];
+            if (hero.HeroStatus.Contains(HeroStatusElement.Died))
             {
-                List.AddChild(Hero);
+                list.AddChild(hero);
             }
         }
     }

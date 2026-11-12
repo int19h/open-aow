@@ -27,26 +27,26 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:1
     public PlayerControl(ECustomNode owner) : base(owner)
     {
-        FDisconnectedPlayers = new DoubleItemList();
+        DisconnectedPlayers = new DoubleItemList();
     }
 
-    public ExitGameCallBack FExitCallBack;
-    public ExitGameMode FExitMode;
-    public string FPassword = "";
-    public DoubleItemList FDisconnectedPlayers;
-    public bool FOutOfSyncShown;
+    public ExitGameCallBack ExitCallback;
+    public ExitGameMode ExitMode;
+    public string Password = "";
+    public DoubleItemList DisconnectedPlayers;
+    public bool OutOfSyncShown;
 
     // PlayerC.PAS:7
     public override void Dispose()
     {
-        if (AoWHSMap.Current != null && AoWHSMap.Current.FTokenManager != null)
+        if (AoWHSMap.Current != null && AoWHSMap.Current.TokenManager != null)
         {
-            var tokenExecuter = AoWHSMap.Current.FTokenManager.TokenExecuter;
-            tokenExecuter.OnGetSyncValue = null;
-            tokenExecuter.OnSyncError = null;
+            var tokenExecutor = AoWHSMap.Current.TokenManager.TokenExecutor;
+            tokenExecutor.OnGetSyncValue = null;
+            tokenExecutor.OnSyncError = null;
         }
 
-        FDisconnectedPlayers?.Dispose();
+        DisconnectedPlayers?.Dispose();
         base.Dispose();
     }
 
@@ -60,48 +60,48 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:76
     public virtual void NewDay()
     {
-        EngineMessage Msg = default;
-        TextEventLog Log = default;
-        MessageEventLog MessageLog;
-        AoWHSMap.Current.FDay += 1;
-        AoWHSMap.Current.FPlayers.BeginUpdate();
+        EngineMessage message = default;
+        TextEventLog log = default;
+        MessageEventLog messageLog;
+        AoWHSMap.Current.Day += 1;
+        AoWHSMap.Current.Players.BeginUpdate();
         AoWHSMap.Current.LockRelationsChanged();
-        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
-            Log = new NewDayEventLog(null);
-            Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(NewDayRStr), [AoWHSMap.Current.FDay]);
-            if (AoWHSMap.Current.FDayLimit != 0 && AoWHSMap.Current.FDayLimit - AoWHSMap.Current.FDay <= 10)
+            log = new NewDayEventLog(null);
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_newDayFormat), [AoWHSMap.Current.Day]);
+            if (AoWHSMap.Current.DayLimit != 0 && AoWHSMap.Current.DayLimit - AoWHSMap.Current.Day <= 10)
             {
-                var fmtDaysLeftStr = DurationText.FmtDaysLeftStr(AoWHSMap.Current.FDayLimit - AoWHSMap.Current.FDay);
-                Log.FText = Log.FText + " (" + fmtDaysLeftStr + ")";
+                var formatDaysLeftString = DurationText.FormatDaysLeftString(AoWHSMap.Current.DayLimit - AoWHSMap.Current.Day);
+                log.Text = log.Text + " (" + formatDaysLeftString + ")";
             }
 
-            Log.FPlayer = (sbyte)I;
-            AoWHSMap.Current.FPlayers.GetPlayers(I).FEventLogbook.AddEvent(Log);
-            Log.Release();
+            log._player = (sbyte)I;
+            AoWHSMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
+            log.Release();
         }
 
-        if (AoWHSMap.Current.FTurnOrderMode == AoWHSMap.TurnOrderMode.Changing)
+        if (AoWHSMap.Current.TurnOrderMode == AoWHSMapTurnOrderMode.Changing)
         {
             AoWHSMap.Current.GenerateNewTurnOrder();
         }
 
-        if (AoWHSMap.Current.FDay == 1)
+        if (AoWHSMap.Current.Day == 1)
         {
-            AoWHSMap.Current.FRaces.ResetPlayerRelations();
-            if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local)
+            AoWHSMap.Current.Races.ResetPlayerRelations();
+            if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local)
             {
                 Randomize();
-                AoWHSMap.Current.FInitialRandomSeed = RandSeed;
+                AoWHSMap.Current.InitialRandomSeed = RandSeed;
             }
 
-            AoWHSMap.Current.FDefendersSeed = AoWHSMap.Current.FInitialRandomSeed;
+            AoWHSMap.Current.DefendersSeed = AoWHSMap.Current.InitialRandomSeed;
         }
 
         try
         {
-            EngineMessage.InitMsg(ref Msg, 537001985, this);
-            AoWHSMap.Current.SendMsg(ref Msg, this);
+            EngineMessage.InitializeMessage(ref message, 537001985, this);
+            AoWHSMap.Current.SendMessage(ref message, this);
         }
         catch
         {
@@ -109,24 +109,24 @@ public partial class PlayerControl : EngineObject
 
         try
         {
-            AoWHSMap.Current.FNewDayEventsStore.Raise(this);
+            AoWHSMap.Current._newDayEventsStore.Raise(this);
         }
         catch
         {
         }
 
-        if (AoWHSMap.Current.FDayLimit == AoWHSMap.Current.FDay)
+        if (AoWHSMap.Current.DayLimit == AoWHSMap.Current.Day)
         {
-            MessageLog = new MessageEventLog(null);
-            MessageLog.FTitle = AbilityRules.TranslateRStr(GameText.InfoRStr);
-            MessageLog.FButtons = MessageEventLog.Buttons.Ok;
-            MessageLog.FLayout = MessageEventLog.Layout.Normal;
-            var turnLimitReached = AbilityRules.TranslateRStr(TurnLimitReachedRStr);
-            MessageLog.FMessage.Text = turnLimitReached;
-            AoWHSMap.Current.TriggerExecuteEventLog(MessageLog, false, null);
-            MessageLog.Release();
-            AoWHSMap.Current.GameOver(AoWHSMap.Current.FSeatedPlayer, GameOverStatus.Lost);
-            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            messageLog = new MessageEventLog(null);
+            messageLog.Title = AbilityRules.TranslateResourceString(GameText.s_infoText);
+            messageLog.Buttons = MessageEventLogButtons.Ok;
+            messageLog.Layout = MessageEventLogLayout.Normal;
+            var turnLimitReached = AbilityRules.TranslateResourceString(s_turnLimitReachedText);
+            messageLog.Message.Text = turnLimitReached;
+            AoWHSMap.Current.TriggerExecuteEventLog(messageLog, false, null);
+            messageLog.Release();
+            AoWHSMap.Current.GameOver(AoWHSMap.Current.SeatedPlayer, GameOverStatus.Lost);
+            for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
             {
                 AoWHSMap.Current.GameOver((sbyte)I, GameOverStatus.Lost);
             }
@@ -134,62 +134,62 @@ public partial class PlayerControl : EngineObject
 
         AoWHSMap.Current.UnlockRelationsChanged();
         AoWHSMap.Current.TriggerRelationsChanged();
-        AoWHSMap.Current.FPlayers.EndUpdate();
+        AoWHSMap.Current.Players.EndUpdate();
     }
 
     // PlayerC.PAS:177
-    public virtual void NewTurn(sbyte Player)
+    public virtual void NewTurn(sbyte player)
     {
-        EngineMessage Msg = default;
-        if (AoWHSMap.Current.FDay != 1)
+        EngineMessage message = default;
+        if (AoWHSMap.Current.Day != 1)
         {
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            var upkeep = AoWHSMap.Current.FPlayers.GetPlayers(Player).GetUpkeep();
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).SetGems(players.FGems + fPlayersPlayers.FIncome - upkeep);
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FGems < 0)
+            var players = AoWHSMap.Current.Players.GetPlayers(player);
+            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);
+            var upkeep = AoWHSMap.Current.Players.GetPlayers(player).GetUpkeep();
+            AoWHSMap.Current.Players.GetPlayers(player).SetGems(players.Gems + fPlayersPlayers.Income - upkeep);
+            if (AoWHSMap.Current.Players.GetPlayers(player).Gems < 0)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(Player).SetGems(0);
-                var players2 = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                players2.FMoraleValue = (sbyte)(players2.FMoraleValue - 5);
-                if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FMoraleValue < -50)
+                AoWHSMap.Current.Players.GetPlayers(player).SetGems(0);
+                var players2 = AoWHSMap.Current.Players.GetPlayers(player);
+                players2.MoraleValue = (sbyte)(players2.MoraleValue - 5);
+                if (AoWHSMap.Current.Players.GetPlayers(player).MoraleValue < -50)
                 {
-                    AoWHSMap.Current.FPlayers.GetPlayers(Player).FMoraleValue = -50;
+                    AoWHSMap.Current.Players.GetPlayers(player).MoraleValue = -50;
                 }
             }
             else
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(Player).FMoraleValue = 0;
+                AoWHSMap.Current.Players.GetPlayers(player).MoraleValue = 0;
             }
 
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).SetEndTurn(false);
+            AoWHSMap.Current.Players.GetPlayers(player).SetEndTurn(false);
         }
 
-        var players3 = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        players3.FDay += 1;
+        var players3 = AoWHSMap.Current.Players.GetPlayers(player);
+        players3.Day += 1;
         AoWHSMap.Current.LockUpdateVisibility();
-        EngineMessage.InitMsg(ref Msg, 537001986, this);
-        Msg.Payload = Player;
-        AoWHSMap.Current.SendMsg(ref Msg, this);
-        AoWHSMap.Current.FNewTurnEventsStore.Raise(Player);
-        EngineMessage.InitMsg(ref Msg, 537001987, this);
-        Msg.Payload = Player;
-        AoWHSMap.Current.SendMsg(ref Msg, this);
+        EngineMessage.InitializeMessage(ref message, 537001986, this);
+        message.Payload = player;
+        AoWHSMap.Current.SendMessage(ref message, this);
+        AoWHSMap.Current._newTurnEventsStore.Raise(player);
+        EngineMessage.InitializeMessage(ref message, 537001987, this);
+        message.Payload = player;
+        AoWHSMap.Current.SendMessage(ref message, this);
         AoWHSMap.Current.UnLockUpdateVisibility();
-        if (AoWHSMap.Current.FDebugSave)
+        if (AoWHSMap.Current.DebugSave)
         {
             try
             {
-                if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
+                if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous)
                 {
-                    if (Player == 0)
+                    if (player == 0)
                     {
-                        GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.FMapName + IntToStr(AoWHSMap.Current.FDay) + "_p" + IntToStr(AoWHSMap.Current.FSeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
+                        GameTables.GameEngine.SaveHsm(GameTables.GameEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.MapName + IntToStr(AoWHSMap.Current.Day) + "_p" + IntToStr(AoWHSMap.Current.SeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
                     }
                 }
                 else
                 {
-                    GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.FMapName + IntToStr(AoWHSMap.Current.FDay) + "-" + IntToStr(Player) + "_p" + IntToStr(AoWHSMap.Current.FSeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
+                    GameTables.GameEngine.SaveHsm(GameTables.GameEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.MapName + IntToStr(AoWHSMap.Current.Day) + "-" + IntToStr(player) + "_p" + IntToStr(AoWHSMap.Current.SeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
                 }
             }
             catch
@@ -201,18 +201,18 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:133
     public virtual void AutoSave()
     {
-        string FileName = "";
-        if (AoWHSMap.Current.FGameType == GameType.Campaign)
+        string fileName = "";
+        if (AoWHSMap.Current.GameType == GameType.Campaign)
         {
             try
             {
                 // The autosave takes the extension the host writes (own-formats.md 4.2).
-                FileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
-                GameTables.AoWEngine.SaveCampaign(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName);
+                fileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.CampaignSave);
+                GameTables.GameEngine.SaveCampaign(GameTables.GameEngine.StartupDirectory + "Save\\" + fileName);
             }
             catch
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr), [FileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat), [fileName]);
                 AoWHSMap.Current.ShowWarning(format);
             }
         }
@@ -220,12 +220,12 @@ public partial class PlayerControl : EngineObject
         {
             try
             {
-                FileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.Save);
-                GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName, null, GameProfile.WorldMap);
+                fileName = "autosave" + FileBoundary.WriteExtension(DocumentKind.Save);
+                GameTables.GameEngine.SaveHsm(GameTables.GameEngine.StartupDirectory + "Save\\" + fileName, null, GameProfile.WorldMap);
             }
             catch
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr), [FileName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_couldNotSaveFormat), [fileName]);
                 AoWHSMap.Current.ShowWarning(format);
             }
         }
@@ -239,39 +239,39 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:19
     public virtual void Setup()
     {
-        LocalPlayerCommunicationControl PCC = default;
-        if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        LocalPlayerCommunicationControl playerCommunicationControl = default;
+        if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Network && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            if (AoWHSMap.Current.FPlayerCommunicator.PCC == null)
+            if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl == null)
             {
                 throw new InvalidOperationException("Please setup DirectPlayPCC");
             }
 
-            var tokenExecuter = AoWHSMap.Current.FTokenManager.TokenExecuter;
-            tokenExecuter.OnGetSyncValue = this.GetSyncValue;
-            tokenExecuter.OnSyncError = OutOfSync;
+            var tokenExecutor = AoWHSMap.Current.TokenManager.TokenExecutor;
+            tokenExecutor.OnGetSyncValue = this.GetSyncValue;
+            tokenExecutor.OnSyncError = OutOfSync;
         }
         else
         {
-            if ((AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(AoWHSMap.Current.FConnectionType)) && AoWHSMap.Current.FPlayerCommunicator.PCC == null)
+            if ((AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(AoWHSMap.Current.ConnectionType)) && AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl == null)
             {
-                PCC = new LocalPlayerCommunicationControl();
-                PCC.Setup(AoWHSMap.Current.FPlayers.Count);
-                for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                playerCommunicationControl = new LocalPlayerCommunicationControl();
+                playerCommunicationControl.Setup(AoWHSMap.Current.Players.Count);
+                for (int I = 0, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                 {
-                    if (AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType == PlayerType.Human)
+                    if (AoWHSMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human)
                     {
-                        PCC.SetConnectionMode(I, ConnectionMode.Local);
+                        playerCommunicationControl.SetConnectionMode(I, ConnectionMode.Local);
                     }
                     else
                     {
-                        PCC.SetConnectionMode(I, ConnectionMode.Global);
+                        playerCommunicationControl.SetConnectionMode(I, ConnectionMode.Global);
                     }
                 }
 
-                AoWHSMap.Current.FPlayerCommunicator.ActivatePCC(PCC);
-                PCC.Release();
-                AoWHSMap.Current.FPlayers.Update();
+                AoWHSMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
+                playerCommunicationControl.Release();
+                AoWHSMap.Current.Players.Update();
             }
         }
     }
@@ -279,11 +279,11 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:224
     public virtual void StartNewMap()
     {
-        for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
-            if (I == 0 || AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType != PlayerType.Independent)
+            if (I == 0 || AoWHSMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Independent)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus = Player.Status.Playing;
+                AoWHSMap.Current.Players.GetPlayers(I).Status = PlayerStatus.Playing;
             }
         }
     }
@@ -305,34 +305,34 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:236
-    public virtual void SetPlayerGameOverStatus(sbyte Player, GameOverStatus Status)
+    public virtual void SetPlayerGameOverStatus(sbyte player, GameOverStatus status)
     {
-        AoWHSMap.Current.FPlayers.GetPlayers(Player).SetGameOverStatus(Status);
+        AoWHSMap.Current.Players.GetPlayers(player).SetGameOverStatus(status);
     }
 
     // PlayerC.PAS:241
-    public virtual void GameOver(sbyte Player, GameOverStatus Status)
+    public virtual void GameOver(sbyte player, GameOverStatus status)
     {
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FGameOverStatus != Status && AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus != Session.Player.Status.Terminated)
+        if (AoWHSMap.Current.Players.GetPlayers(player).GameOverStatus != status && AoWHSMap.Current.Players.GetPlayers(player).Status != PlayerStatus.Terminated)
         {
             AoWHSMap.Current.LockGameOverEvent();
-            SetPlayerGameOverStatus(Player, Status);
-            if (Status == GameOverStatus.Lost)
+            SetPlayerGameOverStatus(player, status);
+            if (status == GameOverStatus.Lost)
             {
-                if (!AoWHSMap.Current.FAlliedVictory)
+                if (!AoWHSMap.Current.AlliedVictory)
                 {
-                    if (AoWHSMap.Current.FPlayers.FActivePlayers.Count == 1)
+                    if (AoWHSMap.Current.Players.ActivePlayers.Count == 1)
                     {
-                        GameOver((sbyte)AoWHSMap.Current.FPlayers.FActivePlayers[0], GameOverStatus.Won);
+                        GameOver((sbyte)AoWHSMap.Current.Players.ActivePlayers[0], GameOverStatus.Won);
                     }
                 }
                 else
                 {
-                    if (AoWHSMap.Current.FPlayers.GetActivePlayersAllied())
+                    if (AoWHSMap.Current.Players.GetActivePlayersAllied())
                     {
-                        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                         {
-                            if (I != Player && AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Session.Player.Status.Playing && AoWHSMap.Current.FPlayers.GetPlayers(I).FGameOverStatus != GameOverStatus.Lost)
+                            if (I != player && AoWHSMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing && AoWHSMap.Current.Players.GetPlayers(I).GameOverStatus != GameOverStatus.Lost)
                             {
                                 SetPlayerGameOverStatus((sbyte)I, GameOverStatus.Won);
                             }
@@ -342,13 +342,13 @@ public partial class PlayerControl : EngineObject
             }
             else
             {
-                if (Status == GameOverStatus.Won)
+                if (status == GameOverStatus.Won)
                 {
-                    for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        if (I != Player && AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Session.Player.Status.Playing && AoWHSMap.Current.FPlayers.GetPlayers(I).FGameOverStatus != GameOverStatus.Lost)
+                        if (I != player && AoWHSMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing && AoWHSMap.Current.Players.GetPlayers(I).GameOverStatus != GameOverStatus.Lost)
                         {
-                            if (AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, (sbyte)I) == DiplomaticRelation.Alliance && AoWHSMap.Current.FAlliedVictory)
+                            if (AoWHSMap.Current.Players.GetDiplomaticRelation(player, (sbyte)I) == DiplomaticRelation.Alliance && AoWHSMap.Current.AlliedVictory)
                             {
                                 SetPlayerGameOverStatus((sbyte)I, GameOverStatus.Won);
                             }
@@ -366,96 +366,96 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:274
-    public virtual void GameOverEventHandled(sbyte Player)
+    public virtual void GameOverEventHandled(sbyte player)
     {
-        AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Session.Player.Status.Terminated;
+        AoWHSMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
     }
 
     // PlayerC.PAS:388
-    public virtual void ExitGame(ExitGameMode Mode, ExitGameCallBack Done)
+    public virtual void ExitGame(ExitGameMode mode, ExitGameCallBack done)
     {
-        MessageEventLog Log = default;
-        if (AoWHSMap.Current.FCombat == null)
+        MessageEventLog log = default;
+        if (AoWHSMap.Current.Combat == null)
         {
-            if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && AoWHSMap.Current.FGameStatus != AoWHSMap.GameStatus.Terminated && AoWHSMap.Current.FGameType != GameType.Tutorial && AoWHSMap.Current.FPlayers.FLocalPlayers.Count > 1)
+            if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Network && AoWHSMap.Current.GameStatus != AoWHSMapGameStatus.Terminated && AoWHSMap.Current.GameType != GameType.Tutorial && AoWHSMap.Current.Players.LocalPlayers.Count > 1)
             {
-                if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous || AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer)
+                if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous || AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
                 {
-                    FExitMode = Mode;
-                    FExitCallBack = Done;
-                    Log = new MessageEventLog(null);
-                    Log.FTitle = AbilityRules.TranslateRStr(ConfirmRStr);
-                    Log.FButtons = MessageEventLog.Buttons.YesNoCancel;
-                    Log.FLayout = MessageEventLog.Layout.Normal;
-                    var yourAboutToExitAMultiPlayerGame = AbilityRules.TranslateRStr(YourAboutToExitAMultiPlayerGameRStr);
-                    Log.FMessage.Add(yourAboutToExitAMultiPlayerGame);
-                    var aoWETranslateRStr = AbilityRules.TranslateRStr(DoYouWantToContinueExitingRStr);
-                    Log.FMessage.Add(aoWETranslateRStr);
-                    AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ExitNetworkGameCallBack);
-                    Log.Release();
+                    ExitMode = mode;
+                    ExitCallback = done;
+                    log = new MessageEventLog(null);
+                    log.Title = AbilityRules.TranslateResourceString(s_confirmText);
+                    log.Buttons = MessageEventLogButtons.YesNoCancel;
+                    log.Layout = MessageEventLogLayout.Normal;
+                    var yourAboutToExitAMultiPlayerGame = AbilityRules.TranslateResourceString(s_yourAboutToExitMultiPlayerGameText);
+                    log.Message.Add(yourAboutToExitAMultiPlayerGame);
+                    var translatedText = AbilityRules.TranslateResourceString(s_doYouWantToContinueExitingText);
+                    log.Message.Add(translatedText);
+                    AoWHSMap.Current.TriggerExecuteEventLog(log, false, ExitNetworkGameCallback);
+                    log.Release();
                 }
                 else
                 {
-                    Log = new MessageEventLog(null);
-                    Log.FTitle = AbilityRules.TranslateRStr(GameText.MessageRStr);
-                    Log.FButtons = MessageEventLog.Buttons.Ok;
-                    Log.FLayout = MessageEventLog.Layout.Normal;
-                    var pleaseWaitTillItIsYourTurn = AbilityRules.TranslateRStr(PleaseWaitTillItIsYourTurnRStr);
-                    Log.FMessage.Add(pleaseWaitTillItIsYourTurn);
-                    AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
-                    Log.Release();
+                    log = new MessageEventLog(null);
+                    log.Title = AbilityRules.TranslateResourceString(GameText.s_messageText);
+                    log.Buttons = MessageEventLogButtons.Ok;
+                    log.Layout = MessageEventLogLayout.Normal;
+                    var pleaseWaitTillItIsYourTurn = AbilityRules.TranslateResourceString(s_pleaseWaitTillItIsYourTurnText);
+                    log.Message.Add(pleaseWaitTillItIsYourTurn);
+                    AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
+                    log.Release();
                 }
             }
             else
             {
-                if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Modified) && AoWHSMap.Current.FGameStatus != AoWHSMap.GameStatus.Terminated && AoWHSMap.Current.FGameType != GameType.Tutorial)
+                if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Modified) && AoWHSMap.Current.GameStatus != AoWHSMapGameStatus.Terminated && AoWHSMap.Current.GameType != GameType.Tutorial)
                 {
-                    if (!(FExitCallBack != null))
+                    if (!(ExitCallback != null))
                     {
-                        if (Mode != ExitGameMode.Reload)
+                        if (mode != ExitGameMode.Reload)
                         {
-                            FExitMode = Mode;
-                            FExitCallBack = Done;
-                            Log = new MessageEventLog(null);
-                            Log.FTitle = AbilityRules.TranslateRStr(ConfirmRStr);
-                            Log.FButtons = MessageEventLog.Buttons.YesNoCancel;
-                            if (GameTables.AoWEngine.FCampaign == null && !IsEmpty(AoWHSMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
+                            ExitMode = mode;
+                            ExitCallback = done;
+                            log = new MessageEventLog(null);
+                            log.Title = AbilityRules.TranslateResourceString(s_confirmText);
+                            log.Buttons = MessageEventLogButtons.YesNoCancel;
+                            if (GameTables.GameEngine.Campaign == null && !IsEmpty(AoWHSMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                             {
-                                Log.FLayout = MessageEventLog.Layout.Normal;
+                                log.Layout = MessageEventLogLayout.Normal;
                                 // The message names the file the save writes (own-formats.md 4.2).
                                 var fileName = ExtractFileName(FileBoundary.WriteName(AoWHSMap.Current.FileName));
-                                var format = AbilityRules.Format(AbilityRules.TranslateRStr(SaveGameToXRStr), [fileName]);
-                                Log.FMessage.Add(format);
+                                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_saveGameFormat), [fileName]);
+                                log.Message.Add(format);
                             }
                             else
                             {
-                                if (GameTables.AoWEngine.FCampaign != null && !IsEmpty(GameTables.AoWEngine.FCampaign.FFileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
+                                if (GameTables.GameEngine.Campaign != null && !IsEmpty(GameTables.GameEngine.Campaign.FileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                                 {
                                     // { Original tests the map extension when saving a campaign. }
-                                    Log.FLayout = MessageEventLog.Layout.Normal;
-                                    var fileName = ExtractFileName(FileBoundary.WriteName(GameTables.AoWEngine.FCampaign.FFileName));
-                                    var format = AbilityRules.Format(AbilityRules.TranslateRStr(SaveGameToXRStr), [fileName]);
-                                    Log.FMessage.Add(format);
+                                    log.Layout = MessageEventLogLayout.Normal;
+                                    var fileName = ExtractFileName(FileBoundary.WriteName(GameTables.GameEngine.Campaign.FileName));
+                                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_saveGameFormat), [fileName]);
+                                    log.Message.Add(format);
                                 }
                                 else
                                 {
-                                    Log.FLayout = MessageEventLog.Layout.Normal;
-                                    var doYouWantToSaveThisGame = AbilityRules.TranslateRStr(DoYouWantToSaveThisGameRStr);
-                                    Log.FMessage.Add(doYouWantToSaveThisGame);
+                                    log.Layout = MessageEventLogLayout.Normal;
+                                    var doYouWantToSaveThisGame = AbilityRules.TranslateResourceString(s_doYouWantToSaveThisGameText);
+                                    log.Message.Add(doYouWantToSaveThisGame);
                                 }
                             }
 
-                            AoWHSMap.Current.TriggerExecuteEventLog(Log, false, SaveGameOnExitCallBack);
-                            Log.Release();
+                            AoWHSMap.Current.TriggerExecuteEventLog(log, false, SaveGameOnExitCallback);
+                            log.Release();
                         }
                         else
                         {
-                            Done(Mode, true);
+                            done(mode, true);
                         }
                     }
                     else
                     {
-                        FExitCallBack(FExitMode, false);
+                        ExitCallback(ExitMode, false);
                     }
                 }
                 else
@@ -466,48 +466,48 @@ public partial class PlayerControl : EngineObject
         }
         else
         {
-            if (Done != null)
+            if (done != null)
             {
-                Done(Mode, false);
+                done(mode, false);
             }
         }
     }
 
     // PlayerC.PAS:153
-    public virtual void EndTurn(sbyte Player)
+    public virtual void EndTurn(sbyte player)
     {
-        EngineMessage Msg = default;
+        EngineMessage message = default;
         int X = default;
         int Y = default;
         int L = default;
         Player P;
         AoWHSMap.Current.LockRelationsChanged();
-        if (Player == AoWHSMap.Current.FSeatedPlayer)
+        if (player == AoWHSMap.Current.SeatedPlayer)
         {
-            P = AoWHSMap.Current.FPlayers.GetPlayers(Player);
+            P = AoWHSMap.Current.Players.GetPlayers(player);
             P.SetEndTurn(true);
             if (P != null)
             {
                 AoWHSMap.Current.GetViewCenter(ref X, ref Y, ref L);
-                P.FViewX = (byte)X;
-                P.FViewY = (byte)Y;
-                P.FViewL = (byte)L;
+                P.ViewX = (byte)X;
+                P.ViewY = (byte)Y;
+                P.ViewL = (byte)L;
             }
         }
 
-        EngineMessage.InitMsg(ref Msg, 537001991, this);
-        Msg.Payload = Player;
-        AoWHSMap.Current.SendMsg(ref Msg, this);
+        EngineMessage.InitializeMessage(ref message, 537001991, this);
+        message.Payload = player;
+        AoWHSMap.Current.SendMessage(ref message, this);
         AoWHSMap.Current.UnlockRelationsChanged();
         AoWHSMap.Current.TriggerRelationsChanged();
     }
 
     // PlayerC.PAS:279
-    public virtual void SetSeatedPlayer(sbyte Player)
+    public virtual void SetSeatedPlayer(sbyte player)
     {
-        if (Player != AoWHSMap.Current.FSeatedPlayer)
+        if (player != AoWHSMap.Current.SeatedPlayer)
         {
-            AoWHSMap.Current.FSeatedPlayer = Player;
+            AoWHSMap.Current.SeatedPlayer = player;
             AoWHSMap.Current.SeatedPlayerChanged();
             AoWHSMap.Current.ResetSeatedPlayerView();
         }
@@ -516,36 +516,36 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:518
     public virtual void ValidateDisconnectedPlayers()
     {
-        int Player;
-        int Count;
-        PlayerConnectionEventLog Log;
-        for (int I = FDisconnectedPlayers.Count - 1; I >= 0; I--)
+        int player;
+        int count;
+        PlayerConnectionEventLog log;
+        for (int I = DisconnectedPlayers.Count - 1; I >= 0; I--)
         {
-            Player = FDisconnectedPlayers[I].A;
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FGameOverStatus == GameOverStatus.None)
+            player = DisconnectedPlayers[I].First;
+            if (AoWHSMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.None)
             {
-                if (AoWHSMap.Current.FTokenManager.PlayerReady(AoWHSMap.Current.FCurrentPlayer) && AoWHSMap.Current.FTokenManager.TokenExecuter.ActiveTC.Count == 0)
+                if (AoWHSMap.Current.TokenManager.PlayerReady(AoWHSMap.Current.CurrentPlayer) && AoWHSMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Count == 0)
                 {
-                    Count = FDisconnectedPlayers[I].B;
-                    if (Count > 0)
+                    count = DisconnectedPlayers[I].Second;
+                    if (count > 0)
                     {
-                        Count -= 1;
-                        FDisconnectedPlayers.List[I].B = Count;
+                        count -= 1;
+                        DisconnectedPlayers.List[I].Second = count;
                     }
 
-                    if (Count == 0)
+                    if (count == 0)
                     {
-                        Log = new PlayerConnectionEventLog(null);
-                        Log.Setup((sbyte)Player, 2);
-                        AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
-                        Log.Release();
-                        FDisconnectedPlayers.Delete(I);
+                        log = new PlayerConnectionEventLog(null);
+                        log.Setup((sbyte)player, 2);
+                        AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
+                        log.Release();
+                        DisconnectedPlayers.Delete(I);
                     }
                 }
             }
             else
             {
-                FDisconnectedPlayers.Delete(I);
+                DisconnectedPlayers.Delete(I);
             }
         }
     }
@@ -553,204 +553,204 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:556
     public virtual void ConnectionLost()
     {
-        PlayerConnectionEventLog Log;
-        Log = new PlayerConnectionEventLog(null);
-        Log.Setup(-1, 2);
-        AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
-        Log.Release();
+        PlayerConnectionEventLog log;
+        log = new PlayerConnectionEventLog(null);
+        log.Setup(-1, 2);
+        AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
+        log.Release();
     }
 
     // PlayerC.PAS:289
-    public virtual bool LockAI() => AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && !AoWHSMap.Current.FRequestCombatType && AoWHSMap.Current.FAILockCount != 0;
+    public virtual bool LockAI() => AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local && !AoWHSMap.Current.RequestCombatType && AoWHSMap.Current.AILockCount != 0;
 
     // PlayerC.PAS:49
-    public void GetSyncValue(ref int Value)
+    public void GetSyncValue(ref int value)
     {
-        Value = AoWHSMap.Current.FDefendersSeed;
+        value = AoWHSMap.Current.DefendersSeed;
     }
 
     // PlayerC.PAS:54
-    public void OutOfSync(object Sender)
+    public void OutOfSync(object sender)
     {
-        PlayerConnectionEventLog Log;
-        if (AoWHSMap.Current.FTokenManager.TokenExecuter.ActiveTC.Active)
+        PlayerConnectionEventLog log;
+        if (AoWHSMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Active)
         {
-            if (!FOutOfSyncShown)
+            if (!OutOfSyncShown)
             {
-                Log = new PlayerConnectionEventLog(null);
-                Log.Setup(-1, 3);
-                AoWHSMap.Current.TriggerExecuteEventLog(Log, AoWHSMap.Current.FCombat != null, null);
-                Log.Release();
-                FOutOfSyncShown = true;
+                log = new PlayerConnectionEventLog(null);
+                log.Setup(-1, 3);
+                AoWHSMap.Current.TriggerExecuteEventLog(log, AoWHSMap.Current.Combat != null, null);
+                log.Release();
+                OutOfSyncShown = true;
             }
             else
             {
-                AoWHSMap.Current.FTokenManager.TokenExecuter.Lock();
+                AoWHSMap.Current.TokenManager.TokenExecutor.Lock();
             }
         }
     }
 
     // PlayerC.PAS:295
-    public void ListPlayerInfo(StringCollection Strings)
+    public void ListPlayerInfo(StringCollection strings)
     {
-        int Race;
-        string Text;
-        PlayerCommunicationControl PCC;
-        PCC = AoWHSMap.Current.FPlayerCommunicator.PCC;
-        for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+        int race;
+        string text;
+        PlayerCommunicationControl playerCommunicationControl;
+        playerCommunicationControl = AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        for (int I = 0, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
-            Text = "Player " + IntToStr(I);
-            Race = AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerRace;
-            if (Race != -1)
+            text = "Player " + IntToStr(I);
+            race = AoWHSMap.Current.Players.GetPlayers(I).PlayerRace;
+            if (race != -1)
             {
-                var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Race]);
-                Text = Text + "(" + raceNamesPlural + ")";
+                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[race]);
+                text = text + "(" + raceNamesPlural + ")";
             }
 
-            Text = Text + " at system " + IntToStr(PCC.Players[I].SystemID);
-            if (Strings != null)
+            text = text + " at system " + IntToStr(playerCommunicationControl.Players[I].SystemId);
+            if (strings != null)
             {
-                Strings.Add(Text);
+                strings.Add(text);
             }
 
-            GameTables.AoWEngine.OutputDebugStr(Text);
+            GameTables.GameEngine.OutputDebugString(text);
         }
     }
 
     // PlayerC.PAS:313
-    public void ExitSaveGameCallBack(EventLog Log)
+    public void ExitSaveGameCallback(EventLog log)
     {
-        if (!IsEmpty(((SaveGameEventLog)Log).FFileName))
+        if (!IsEmpty(((SaveGameEventLog)log).FileName))
         {
-            if (GameTables.AoWEngine.FCampaign != null)
+            if (GameTables.GameEngine.Campaign != null)
             {
-                GameTables.AoWEngine.SaveCampaign(((SaveGameEventLog)Log).FFileName);
+                GameTables.GameEngine.SaveCampaign(((SaveGameEventLog)log).FileName);
             }
             else
             {
-                GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, GameProfile.WorldMap);
+                GameTables.GameEngine.SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
             }
 
             AoWHSMap.Current.ExecuteExitGame();
-            if (FExitCallBack != null)
+            if (ExitCallback != null)
             {
-                FExitCallBack(FExitMode, true);
+                ExitCallback(ExitMode, true);
             }
         }
         else
         {
-            if (FExitCallBack != null)
+            if (ExitCallback != null)
             {
-                FExitCallBack(FExitMode, false);
+                ExitCallback(ExitMode, false);
             }
         }
 
-        FExitCallBack = null;
+        ExitCallback = null;
     }
 
     // PlayerC.PAS:326
-    public void SaveGameOnExitCallBack(EventLog Log)
+    public void SaveGameOnExitCallback(EventLog log)
     {
-        SaveGameEventLog SaveLog = default;
-        if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Yes)
+        SaveGameEventLog saveLog = default;
+        if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
         {
-            if (GameTables.AoWEngine.FCampaign == null && (IsEmpty(AoWHSMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))) || GameTables.AoWEngine.FCampaign != null && (IsEmpty(GameTables.AoWEngine.FCampaign.FFileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))))
+            if (GameTables.GameEngine.Campaign == null && (IsEmpty(AoWHSMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))) || GameTables.GameEngine.Campaign != null && (IsEmpty(GameTables.GameEngine.Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))))
             {
-                SaveLog = new SaveGameEventLog(null);
+                saveLog = new SaveGameEventLog(null);
                 if (!IsEmpty(AoWHSMap.Current.FileName))
                 {
-                    SaveLog.FDefaultName = ExtractFileName(AoWHSMap.Current.FileName);
-                    if (Pos(".", SaveLog.FDefaultName) != 0)
+                    saveLog.DefaultName = ExtractFileName(AoWHSMap.Current.FileName);
+                    if (Pos(".", saveLog.DefaultName) != 0)
                     {
-                        SaveLog.FDefaultName = RtlUnit.Copy(SaveLog.FDefaultName, 1, Pos(".", SaveLog.FDefaultName) - 1);
+                        saveLog.DefaultName = RtlUnit.Copy(saveLog.DefaultName, 1, Pos(".", saveLog.DefaultName) - 1);
                     }
                 }
                 else
                 {
-                    SaveLog.FDefaultName = AoWHSMap.Current.FMapName;
+                    saveLog.DefaultName = AoWHSMap.Current.MapName;
                 }
 
-                SaveLog.FDirectory = GameTables.AoWEngine.StartupDirectory + "Save\\";
-                AoWHSMap.Current.TriggerExecuteEventLog(SaveLog, false, ExitSaveGameCallBack);
-                SaveLog.Release();
+                saveLog.Directory = GameTables.GameEngine.StartupDirectory + "Save\\";
+                AoWHSMap.Current.TriggerExecuteEventLog(saveLog, false, ExitSaveGameCallback);
+                saveLog.Release();
             }
             else
             {
-                GameEngine aoWEngine = GameTables.AoWEngine;
+                GameEngine engine = GameTables.GameEngine;
                 // The save writes the own sibling of an original's name, which stays untouched
                 // (own-formats.md 4.2).
-                if (aoWEngine.FCampaign != null)
+                if (engine.Campaign != null)
                 {
-                    aoWEngine.SaveCampaign(FileBoundary.WriteName(aoWEngine.FCampaign.FFileName));
+                    engine.SaveCampaign(FileBoundary.WriteName(engine.Campaign.FileName));
                 }
                 else
                 {
-                    aoWEngine.SaveHSM(FileBoundary.WriteName(AoWHSMap.Current.FileName), null, GameProfile.WorldMap);
+                    engine.SaveHsm(FileBoundary.WriteName(AoWHSMap.Current.FileName), null, GameProfile.WorldMap);
                 }
 
                 AoWHSMap.Current.ExecuteExitGame();
-                if (FExitCallBack != null)
+                if (ExitCallback != null)
                 {
-                    FExitCallBack(FExitMode, true);
+                    ExitCallback(ExitMode, true);
                 }
 
-                FExitCallBack = null;
+                ExitCallback = null;
             }
         }
         else
         {
-            if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.No)
+            if (((MessageEventLog)log).PressedButton == PressedEventLogButton.No)
             {
                 AoWHSMap.Current.ExecuteExitGame();
-                if (FExitCallBack != null)
+                if (ExitCallback != null)
                 {
-                    FExitCallBack(FExitMode, true);
+                    ExitCallback(ExitMode, true);
                 }
 
-                FExitCallBack = null;
+                ExitCallback = null;
             }
             else
             {
-                if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Cancel)
+                if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Cancel)
                 {
-                    if (FExitCallBack != null)
+                    if (ExitCallback != null)
                     {
-                        FExitCallBack(FExitMode, false);
+                        ExitCallback(ExitMode, false);
                     }
 
-                    FExitCallBack = null;
+                    ExitCallback = null;
                 }
             }
         }
     }
 
     // PlayerC.PAS:372
-    public void ExitNetworkGameCallBack(EventLog Log)
+    public void ExitNetworkGameCallback(EventLog log)
     {
-        TerminatePlayerTokenEvent TE;
-        if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Yes)
+        TerminatePlayerTokenEvent tokenEvent;
+        if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
         {
-            if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous || AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer)
+            if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous || AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
             {
-                TE = new TerminatePlayerTokenEvent(null);
-                TE.FPlayer = AoWHSMap.Current.FSeatedPlayer;
-                TE.FExitCallBack = FExitCallBack;
-                TE.FExitMode = FExitMode;
-                AoWHSMap.Current.FTokenManager.GetTokenControl(AoWHSMap.Current.FSeatedPlayer).AddEvent(TE);
-                TE.Release();
+                tokenEvent = new TerminatePlayerTokenEvent(null);
+                tokenEvent.Player = AoWHSMap.Current.SeatedPlayer;
+                tokenEvent.ExitCallback = ExitCallback;
+                tokenEvent.ExitMode = ExitMode;
+                AoWHSMap.Current.TokenManager.GetTokenControl(AoWHSMap.Current.SeatedPlayer).AddEvent(tokenEvent);
+                tokenEvent.Release();
             }
         }
     }
 
     // PlayerC.PAS:471
-    public void PasswordTryAgainCallBack(EventLog Log)
+    public void PasswordTryAgainCallback(EventLog log)
     {
-        PasswordEventLog PasswordLog = default;
-        if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Yes)
+        PasswordEventLog passwordLog = default;
+        if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
         {
-            PasswordLog = new PasswordEventLog(null);
-            AoWHSMap.Current.TriggerExecuteEventLog(PasswordLog, false, ValidatePasswordCallBack);
-            PasswordLog.Release();
+            passwordLog = new PasswordEventLog(null);
+            AoWHSMap.Current.TriggerExecuteEventLog(passwordLog, false, ValidatePasswordCallback);
+            passwordLog.Release();
         }
         else
         {
@@ -759,23 +759,23 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:484
-    public void ValidatePasswordCallBack(EventLog Log)
+    public void ValidatePasswordCallback(EventLog log)
     {
-        string Password = "";
-        MessageEventLog MessageLog = default;
-        Password = AbilityRules.Encode(((PasswordEventLog)Log).FPassword, 0);
-        if (((PasswordEventLog)Log).FPressedButton != PressedEventLogButton.Ok || Password != FPassword)
+        string password = "";
+        MessageEventLog messageLog = default;
+        password = AbilityRules.Encode(((PasswordEventLog)log).Password, 0);
+        if (((PasswordEventLog)log).PressedButton != PressedEventLogButton.Ok || password != Password)
         {
-            MessageLog = new MessageEventLog(null);
-            MessageLog.FTitle = AbilityRules.TranslateRStr(GameText.WarningRStr);
-            MessageLog.FButtons = MessageEventLog.Buttons.YesNo;
-            var passwordFailed = AbilityRules.TranslateRStr(PasswordFailedRStr);
-            MessageLog.FMessage.Text = passwordFailed;
-            MessageLog.FMessage.Add("");
-            var aoWETranslateRStr = AbilityRules.TranslateRStr(DoYouWantToTryAgainRStr);
-            MessageLog.FMessage.Add(aoWETranslateRStr);
-            AoWHSMap.Current.TriggerExecuteEventLog(MessageLog, false, PasswordTryAgainCallBack);
-            MessageLog.Release();
+            messageLog = new MessageEventLog(null);
+            messageLog.Title = AbilityRules.TranslateResourceString(GameText.s_warningText);
+            messageLog.Buttons = MessageEventLogButtons.YesNo;
+            var passwordFailed = AbilityRules.TranslateResourceString(s_passwordFailedText);
+            messageLog.Message.Text = passwordFailed;
+            messageLog.Message.Add("");
+            var translatedText = AbilityRules.TranslateResourceString(s_doYouWantToTryAgainText);
+            messageLog.Message.Add(translatedText);
+            AoWHSMap.Current.TriggerExecuteEventLog(messageLog, false, PasswordTryAgainCallback);
+            messageLog.Release();
         }
         else
         {
@@ -784,39 +784,39 @@ public partial class PlayerControl : EngineObject
     }
 
     // PlayerC.PAS:504
-    public void ValidatePassword(string Password)
+    public void ValidatePassword(string password)
     {
-        PasswordEventLog Log = default;
-        if (AoWHSMap.Current.FSeatedPlayer != -1)
+        PasswordEventLog log = default;
+        if (AoWHSMap.Current.SeatedPlayer != -1)
         {
             SetSeatedPlayer(-1);
         }
 
-        FPassword = Password;
-        Log = new PasswordEventLog(null);
-        AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ValidatePasswordCallBack);
-        Log.Release();
+        Password = password;
+        log = new PasswordEventLog(null);
+        AoWHSMap.Current.TriggerExecuteEventLog(log, false, ValidatePasswordCallback);
+        log.Release();
     }
 
     // PlayerC.PAS:551
-    public void PlayerDisconnected(sbyte Player)
+    public void PlayerDisconnected(sbyte player)
     {
-        if (FDisconnectedPlayers.IndexOfItemA(Player) == -1)
+        if (DisconnectedPlayers.IndexOfItemA(player) == -1)
         {
-            FDisconnectedPlayers.AddAB(Player, 150);
+            DisconnectedPlayers.AddAbility(player, 150);
         }
     }
 
-    private static readonly string NewDayRStr = "Day %d dawns";
-    private static readonly string TurnLimitReachedRStr = "Sorry, turn limit reached!";
-    internal static readonly string ConfirmRStr = "Confirm";
-    private static readonly string YourAboutToExitAMultiPlayerGameRStr = "You're about to exit a multi-player game!";
-    private static readonly string DoYouWantToContinueExitingRStr = "Do you want to continue exiting?";
-    private static readonly string PleaseWaitTillItIsYourTurnRStr = "Please, wait till it is your turn.";
-    private static readonly string SaveGameToXRStr = "Save game to %s?";
-    private static readonly string DoYouWantToSaveThisGameRStr = "Do you want to save this game?";
-    private static readonly string PasswordFailedRStr = "Password failed!";
-    private static readonly string DoYouWantToTryAgainRStr = "Do you want to try again?";
+    private static readonly string s_newDayFormat = "Day %d dawns";
+    private static readonly string s_turnLimitReachedText = "Sorry, turn limit reached!";
+    internal static readonly string s_confirmText = "Confirm";
+    private static readonly string s_yourAboutToExitMultiPlayerGameText = "You're about to exit a multi-player game!";
+    private static readonly string s_doYouWantToContinueExitingText = "Do you want to continue exiting?";
+    private static readonly string s_pleaseWaitTillItIsYourTurnText = "Please, wait till it is your turn.";
+    private static readonly string s_saveGameFormat = "Save game to %s?";
+    private static readonly string s_doYouWantToSaveThisGameText = "Do you want to save this game?";
+    private static readonly string s_passwordFailedText = "Password failed!";
+    private static readonly string s_doYouWantToTryAgainText = "Do you want to try again?";
 
     // intf_P1_04.inc:26
 

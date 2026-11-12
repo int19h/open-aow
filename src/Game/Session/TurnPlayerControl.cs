@@ -19,135 +19,135 @@ namespace Aow.Game.Session;
 
 public partial class TurnPlayerControl : PlayerControl
 {
-    public new const int ClassID = 131664;
+    public new const int ClassId = 131664;
 
     public TurnPlayerControl(ECustomNode owner) : base(owner)
     { }
 
     // PlayerC.PAS:589
-    public override void NewTurn(sbyte Player)
+    public override void NewTurn(sbyte player)
     {
-        NewTurnEventLog Log = default;
-        ShowBookEventLog BookLog = default;
-        SpellList Spells = default;
-        PlayerMagicEventLog MagicLog = default;
+        NewTurnEventLog log = default;
+        ShowBookEventLog bookLog = default;
+        SpellList spells = default;
+        PlayerMagicEventLog magicLog = default;
         AoWHSMap.Current.LockMapChangedEvent();
-        AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(Player);
-        if (AoWHSMap.Current.FRequestCombatType)
+        AoWHSMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(player);
+        if (AoWHSMap.Current.RequestCombatType)
         {
-            if (AoWHSMap.Current.FSeatedPlayer != -1)
+            if (AoWHSMap.Current.SeatedPlayer != -1)
             {
                 AoWHSMap.Current.SetSeatedPlayer(-1);
             }
 
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
-                Log = new NewTurnEventLog(null);
-                Log.FTurnPlayer = AoWHSMap.Current.FCurrentPlayer;
-                Log.FMode = NewTurnEventLog.Mode.Dialog;
-                Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                Log.FText = AbilityRules.TranslateRStr(ItsYourTurnRStr);
-                AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ShowNewTurnCallBack);
-                Log.Release();
+                log = new NewTurnEventLog(null);
+                log.TurnPlayer = AoWHSMap.Current.CurrentPlayer;
+                log.Mode = NewTurnEventLogMode.Dialog;
+                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
+                log.Text = AbilityRules.TranslateResourceString(s_itsYourTurnText);
+                AoWHSMap.Current.TriggerExecuteEventLog(log, false, ShowNewTurnCallback);
+                log.Release();
             }
             else
             {
-                Log = new NewTurnEventLog(null);
-                Log.FTurnPlayer = AoWHSMap.Current.FCurrentPlayer;
-                Log.FMode = NewTurnEventLog.Mode.Dialog;
-                Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
-                if (Player == 0)
+                log = new NewTurnEventLog(null);
+                log.TurnPlayer = AoWHSMap.Current.CurrentPlayer;
+                log.Mode = NewTurnEventLogMode.Dialog;
+                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
+                if (player == 0)
                 {
-                    Log.FText = AbilityRules.TranslateRStr(IndependentsAreMovingRStr);
+                    log.Text = AbilityRules.TranslateResourceString(s_independentsAreMovingText);
                 }
                 else
                 {
-                    var name = AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
-                    Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(PlayerIsMovingRStr), [name]);
+                    var name = AoWHSMap.Current.Players.GetPlayers(player).GetName();
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_playerIsMovingFormat), [name]);
                 }
 
-                AoWHSMap.Current.TriggerExecuteEventLog(Log, true, null);
-                Log.Release();
+                AoWHSMap.Current.TriggerExecuteEventLog(log, true, null);
+                log.Release();
             }
         }
         else
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human && Player == AoWHSMap.Current.FSeatedPlayer)
+            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human && player == AoWHSMap.Current.SeatedPlayer)
             {
-                if (AoWHSMap.Current.FGameType != GameType.Tutorial || AoWHSMap.Current.FDay != 1)
+                if (AoWHSMap.Current.GameType != GameType.Tutorial || AoWHSMap.Current.Day != 1)
                 {
                     AoWHSMap.Current.ResetTurnTimer();
                     AoWHSMap.Current.EnableTurnTimer();
                     AoWHSMap.Current.ResetSeatedPlayerView();
-                    Log = new NewTurnEventLog(null);
-                    Log.FTurnPlayer = Player;
-                    Log.FMode = NewTurnEventLog.Mode.Dialog;
-                    Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                    Log.FText = AbilityRules.TranslateRStr(ItsYourTurnRStr);
-                    AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
-                    Log.Release();
+                    log = new NewTurnEventLog(null);
+                    log.TurnPlayer = player;
+                    log.Mode = NewTurnEventLogMode.Dialog;
+                    log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
+                    log.Text = AbilityRules.TranslateResourceString(s_itsYourTurnText);
+                    AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
+                    log.Release();
                     ReplayLogbook();
                 }
                 else
                 {
-                    AoWHSMap.Current.FTutorialControl.ShowMessage(50, false, true);
+                    AoWHSMap.Current.TutorialControl.ShowMessage(50, false, true);
                 }
             }
         }
 
-        base.NewTurn(Player);
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Email && GameTables.AoWEngine.FRegistry.GetAutoSave())
+        base.NewTurn(player);
+        if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Email && GameTables.GameEngine.Registry.GetAutoSave())
         {
             AutoSave();
         }
 
         AoWHSMap.Current.UnlockMapChangedEvent();
         AoWHSMap.Current.InvalidateMap();
-        if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
+        if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
-            AoWHSMap.Current.FAIExecuter.ActivatePlayer(Player);
-            if (Player == 0)
+            AoWHSMap.Current.AIExecutor.ActivatePlayer(player);
+            if (player == 0)
             {
-                var independents = AbilityRules.TranslateRStr(GameTables.IndependentsRStr);
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(AreMovingRStr), [independents]);
+                var independents = AbilityRules.TranslateResourceString(GameTables.s_independentsText);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_areMovingFormat), [independents]);
                 AoWHSMap.Current.ShowMessage(format);
             }
             else
             {
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(AreMovingRStr), [raceNamesPlural]);
+                var players = AoWHSMap.Current.Players.GetPlayers(player);
+                var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[players.PlayerRace]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_areMovingFormat), [raceNamesPlural]);
                 AoWHSMap.Current.ShowMessage(format);
             }
         }
         else
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\NEWTURN.WAV");
-            if (AoWHSMap.Current.FDay == 1 && (AoWHSMap.Current.FRequestCombatType || Player == AoWHSMap.Current.FSeatedPlayer))
+            if (AoWHSMap.Current.Day == 1 && (AoWHSMap.Current.RequestCombatType || player == AoWHSMap.Current.SeatedPlayer))
             {
-                if (Set<GameType>.Of(GameType.Custom, GameType.Tutorial).Contains(AoWHSMap.Current.FGameType))
+                if (Set<GameType>.Of(GameType.Custom, GameType.Tutorial).Contains(AoWHSMap.Current.GameType))
                 {
-                    BookLog = new ShowBookEventLog(null);
-                    AoWHSMap.Current.TriggerExecuteEventLog(BookLog, false, null);
-                    BookLog.Release();
+                    bookLog = new ShowBookEventLog(null);
+                    AoWHSMap.Current.TriggerExecuteEventLog(bookLog, false, null);
+                    bookLog.Release();
                 }
 
-                if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FResearchSpellID == 0)
+                if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId == 0)
                 {
-                    Spells = new SpellList();
-                    AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.ListResearchSpells(ref Spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
-                    if (Spells.GetCount() > 0)
+                    spells = new SpellList();
+                    AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ListResearchSpells(ref spells, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+                    if (spells.GetCount() > 0)
                     {
-                        MagicLog = new PlayerMagicEventLog(null);
-                        MagicLog.FMode = PlayerMagicEventLog.EventMode.StartResearch;
-                        AoWHSMap.Current.TriggerExecuteEventLog(MagicLog, false, null);
-                        MagicLog.Release();
+                        magicLog = new PlayerMagicEventLog(null);
+                        magicLog.Mode = PlayerMagicEventLog.EventMode.StartResearch;
+                        AoWHSMap.Current.TriggerExecuteEventLog(magicLog, false, null);
+                        magicLog.Release();
                     }
 
-                    Spells?.Dispose();
+                    spells?.Dispose();
                 }
 
-                AoWHSMap.Current.FTutorialControl.ShowMessage(52, false, true);
+                AoWHSMap.Current.TutorialControl.ShowMessage(52, false, true);
             }
         }
     }
@@ -157,15 +157,15 @@ public partial class TurnPlayerControl : PlayerControl
     {
         if (AoWHSMap.Current.GetTurnTimerEnabled())
         {
-            if (AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer)
+            if (AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
             {
                 if (AoWHSMap.Current.GetTurnTimeLeft() <= 0)
                 {
-                    if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.None && !AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FSingleProcessCycle)
+                    if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None && !AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).SingleProcessCycle)
                     {
-                        if (AoWHSMap.Current.FTokenManager.PlayerReady(AoWHSMap.Current.FSeatedPlayer))
+                        if (AoWHSMap.Current.TokenManager.PlayerReady(AoWHSMap.Current.SeatedPlayer))
                         {
-                            AbilityRules.EndPlayerTurn(AoWHSMap.Current.FSeatedPlayer);
+                            AbilityRules.EndPlayerTurn(AoWHSMap.Current.SeatedPlayer);
                         }
                     }
                 }
@@ -177,7 +177,7 @@ public partial class TurnPlayerControl : PlayerControl
     public override void Setup()
     {
         base.Setup();
-        AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = true;
+        AoWHSMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
     }
 
     // PlayerC.PAS:766
@@ -186,50 +186,50 @@ public partial class TurnPlayerControl : PlayerControl
         base.StartNewMap();
         DefaultStartMap();
         NewDay();
-        if (!AoWHSMap.Current.FRequestCombatType)
+        if (!AoWHSMap.Current.RequestCombatType)
         {
-            var item = AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
+            var item = AoWHSMap.Current.Players.LocalHumanPlayers[0];
             AoWHSMap.Current.SetSeatedPlayer((sbyte)item);
             AoWHSMap.Current.ResetSeatedPlayerView();
         }
 
-        NewTurn((sbyte)AoWHSMap.Current.FTurnOrder[1]);
+        NewTurn((sbyte)AoWHSMap.Current.TurnOrder[1]);
     }
 
     // PlayerC.PAS:835
     public override void StartLoadedMap()
     {
-        if (!IsEmpty(AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FSettings))
+        if (!IsEmpty(AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).Settings))
         {
-            ValidatePassword(AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FSettings);
+            ValidatePassword(AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).Settings);
         }
         else
         {
-            StartLoadedMapEx();
+            ContinueLoadedMap();
         }
     }
 
     // PlayerC.PAS:832
     public override void PasswordValidated()
     {
-        StartLoadedMapEx();
+        ContinueLoadedMap();
     }
 
     // PlayerC.PAS:854
-    public override void SetPlayerGameOverStatus(sbyte Player, GameOverStatus Status)
+    public override void SetPlayerGameOverStatus(sbyte player, GameOverStatus status)
     {
-        base.SetPlayerGameOverStatus(Player, Status);
-        if (!AoWHSMap.Current.FRequestCombatType || AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
+        base.SetPlayerGameOverStatus(player, status);
+        if (!AoWHSMap.Current.RequestCombatType || AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Session.Player.Status.Terminated;
-            AoWHSMap.Current.FPlayers.Update();
-            AoWHSMap.Current.TriggerPlayerTerminatedEvent(Player);
-            if (AoWHSMap.Current.FCurrentPlayer == Player && AoWHSMap.Current.FPlayers.GetPlayers(Player).GetLocal())
+            AoWHSMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
+            AoWHSMap.Current.Players.Update();
+            AoWHSMap.Current.TriggerPlayerTerminatedEvent(player);
+            if (AoWHSMap.Current.CurrentPlayer == player && AoWHSMap.Current.Players.GetPlayers(player).GetLocal())
             {
-                AbilityRules.EndPlayerTurn(AoWHSMap.Current.FCurrentPlayer);
+                AbilityRules.EndPlayerTurn(AoWHSMap.Current.CurrentPlayer);
             }
 
-            if (AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count == 0)
+            if (AoWHSMap.Current.Players.LocalHumanPlayers.Count == 0)
             {
                 AoWHSMap.Current.TriggerGameTerminatedEvent();
             }
@@ -237,44 +237,44 @@ public partial class TurnPlayerControl : PlayerControl
     }
 
     // PlayerC.PAS:868
-    public override void GameOver(sbyte Player, GameOverStatus Status)
+    public override void GameOver(sbyte player, GameOverStatus status)
     {
         AoWHSMap.Current.LockGameOverEvent();
-        base.GameOver(Player, Status);
+        base.GameOver(player, status);
         AoWHSMap.Current.UnlockGameOverEvent();
     }
 
     // PlayerC.PAS:842
-    public override void GameOverEventHandled(sbyte Player)
+    public override void GameOverEventHandled(sbyte player)
     {
-        if (AoWHSMap.Current.FRequestCombatType)
+        if (AoWHSMap.Current.RequestCombatType)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Session.Player.Status.Terminated;
-            AoWHSMap.Current.FPlayers.Update();
-            AoWHSMap.Current.TriggerPlayerTerminatedEvent(Player);
-            if (AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count == 0)
+            AoWHSMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
+            AoWHSMap.Current.Players.Update();
+            AoWHSMap.Current.TriggerPlayerTerminatedEvent(player);
+            if (AoWHSMap.Current.Players.LocalHumanPlayers.Count == 0)
             {
                 AoWHSMap.Current.TriggerGameTerminatedEvent();
             }
             else
             {
-                AbilityRules.EndPlayerTurn(AoWHSMap.Current.FCurrentPlayer);
+                AbilityRules.EndPlayerTurn(AoWHSMap.Current.CurrentPlayer);
             }
         }
     }
 
     // PlayerC.PAS:715
-    public override void EndTurn(sbyte Player)
+    public override void EndTurn(sbyte player)
     {
-        EndTurnEventLog Log;
-        int Index;
-        bool Found;
-        sbyte NextPlayer;
-        base.EndTurn(Player);
-        if (Player == AoWHSMap.Current.FSeatedPlayer)
+        EndTurnEventLog log;
+        int index;
+        bool found;
+        sbyte nextPlayer;
+        base.EndTurn(player);
+        if (player == AoWHSMap.Current.SeatedPlayer)
         {
             AoWHSMap.Current.ZeroTurnTimer();
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Playing)
+            if (AoWHSMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
             {
                 AoWHSMap.Current.ClearExecuteEventLogBuffer();
             }
@@ -282,39 +282,39 @@ public partial class TurnPlayerControl : PlayerControl
             AoWHSMap.Current.Selection.UnselectLocation();
         }
 
-        if (Player == AoWHSMap.Current.FCurrentPlayer)
+        if (player == AoWHSMap.Current.CurrentPlayer)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
+            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
             {
-                AoWHSMap.Current.FAIExecuter.DeactivatePlayer(Player);
+                AoWHSMap.Current.AIExecutor.DeactivatePlayer(player);
             }
 
-            Log = new EndTurnEventLog(null);
-            AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FEventLogbook.AddEvent(Log);
-            Log.Release();
-            Index = AoWHSMap.Current.FTurnOrder.IndexOf((byte)AoWHSMap.Current.FCurrentPlayer);
-            Found = false;
-            while (!Found)
+            log = new EndTurnEventLog(null);
+            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).EventLogbook.AddEvent(log);
+            log.Release();
+            index = AoWHSMap.Current.TurnOrder.IndexOf((byte)AoWHSMap.Current.CurrentPlayer);
+            found = false;
+            while (!found)
             {
-                Index += 1;
-                if (Index == AoWHSMap.Current.FTurnOrder.Count)
+                index += 1;
+                if (index == AoWHSMap.Current.TurnOrder.Count)
                 {
                     NewDay();
-                    Index = 0;
+                    index = 0;
                 }
 
-                NextPlayer = (sbyte)AoWHSMap.Current.FTurnOrder[Index];
-                Found = AoWHSMap.Current.FPlayers.GetPlayers(NextPlayer).FStatus == Session.Player.Status.Playing;
-                if (!Found)
+                nextPlayer = (sbyte)AoWHSMap.Current.TurnOrder[index];
+                found = AoWHSMap.Current.Players.GetPlayers(nextPlayer).Status == PlayerStatus.Playing;
+                if (!found)
                 {
-                    base.NewTurn(NextPlayer);
-                    base.EndTurn(NextPlayer);
+                    base.NewTurn(nextPlayer);
+                    base.EndTurn(nextPlayer);
                 }
             }
 
-            if (AoWHSMap.Current.FTurnOrder.Count != 0)
+            if (AoWHSMap.Current.TurnOrder.Count != 0)
             {
-                NewTurn((sbyte)AoWHSMap.Current.FTurnOrder[Index]);
+                NewTurn((sbyte)AoWHSMap.Current.TurnOrder[index]);
             }
             else
             {
@@ -324,109 +324,109 @@ public partial class TurnPlayerControl : PlayerControl
     }
 
     // PlayerC.PAS:693
-    public override void SetSeatedPlayer(sbyte Player)
+    public override void SetSeatedPlayer(sbyte player)
     {
         AoWHSMap.Current.LockMapChangedEvent();
-        base.SetSeatedPlayer(Player);
+        base.SetSeatedPlayer(player);
         AoWHSMap.Current.UnlockMapChangedEvent();
         AoWHSMap.Current.InvalidateMap();
     }
 
     // PlayerC.PAS:779
-    public virtual void StartLoadedMapEx()
+    public virtual void ContinueLoadedMap()
     {
-        NewTurnEventLog Log = default;
+        NewTurnEventLog log = default;
         DefaultStartMap();
-        AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(AoWHSMap.Current.FCurrentPlayer);
-        if (AoWHSMap.Current.FRequestCombatType)
+        AoWHSMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(AoWHSMap.Current.CurrentPlayer);
+        if (AoWHSMap.Current.RequestCombatType)
         {
             AoWHSMap.Current.SetSeatedPlayer(-1);
-            if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPlayerType == PlayerType.Human)
+            if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PlayerType == PlayerType.Human)
             {
-                Log = new NewTurnEventLog(null);
-                Log.FTurnPlayer = AoWHSMap.Current.FCurrentPlayer;
-                Log.FMode = NewTurnEventLog.Mode.Dialog;
-                Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                Log.FText = AbilityRules.TranslateRStr(GameText.YourTurnContinuesRStr);
-                AoWHSMap.Current.TriggerExecuteEventLog(Log, false, StartGameCallBack);
-                Log.Release();
+                log = new NewTurnEventLog(null);
+                log.TurnPlayer = AoWHSMap.Current.CurrentPlayer;
+                log.Mode = NewTurnEventLogMode.Dialog;
+                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
+                log.Text = AbilityRules.TranslateResourceString(GameText.s_yourTurnContinuesText);
+                AoWHSMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
+                log.Release();
             }
             else
             {
-                Log = new NewTurnEventLog(null);
-                Log.FTurnPlayer = AoWHSMap.Current.FCurrentPlayer;
-                Log.FMode = NewTurnEventLog.Mode.Dialog;
-                Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
-                if (AoWHSMap.Current.FCurrentPlayer == 0)
+                log = new NewTurnEventLog(null);
+                log.TurnPlayer = AoWHSMap.Current.CurrentPlayer;
+                log.Mode = NewTurnEventLogMode.Dialog;
+                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
+                if (AoWHSMap.Current.CurrentPlayer == 0)
                 {
-                    Log.FText = AbilityRules.TranslateRStr(IndependentsAreMovingRStr);
+                    log.Text = AbilityRules.TranslateResourceString(s_independentsAreMovingText);
                 }
                 else
                 {
-                    var name = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).GetName();
-                    Log.FText = AbilityRules.Format(AbilityRules.TranslateRStr(PlayerIsMovingRStr), [name]);
+                    var name = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).GetName();
+                    log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_playerIsMovingFormat), [name]);
                 }
 
-                AoWHSMap.Current.TriggerExecuteEventLog(Log, true, null);
-                Log.Release();
+                AoWHSMap.Current.TriggerExecuteEventLog(log, true, null);
+                log.Release();
             }
         }
         else
         {
-            var item = AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
+            var item = AoWHSMap.Current.Players.LocalHumanPlayers[0];
             AoWHSMap.Current.SetSeatedPlayer((sbyte)item);
             AoWHSMap.Current.ResetSeatedPlayerView();
-            if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPlayerType == PlayerType.Human && AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer)
+            if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PlayerType == PlayerType.Human && AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
             {
-                Log = new NewTurnEventLog(null);
-                Log.FTurnPlayer = AoWHSMap.Current.FSeatedPlayer;
-                Log.FMode = NewTurnEventLog.Mode.Dialog;
-                Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                Log.FText = AbilityRules.TranslateRStr(GameText.YourTurnContinuesRStr);
-                AoWHSMap.Current.TriggerExecuteEventLog(Log, false, StartGameCallBack);
-                Log.Release();
+                log = new NewTurnEventLog(null);
+                log.TurnPlayer = AoWHSMap.Current.SeatedPlayer;
+                log.Mode = NewTurnEventLogMode.Dialog;
+                log.DialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
+                log.Text = AbilityRules.TranslateResourceString(GameText.s_yourTurnContinuesText);
+                AoWHSMap.Current.TriggerExecuteEventLog(log, false, StartGameCallback);
+                log.Release();
             }
         }
 
-        if (AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPlayerType != PlayerType.Human)
+        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).PlayerType != PlayerType.Human)
         {
-            AoWHSMap.Current.FAIExecuter.ActivatePlayer(AoWHSMap.Current.FCurrentPlayer);
+            AoWHSMap.Current.AIExecutor.ActivatePlayer(AoWHSMap.Current.CurrentPlayer);
         }
 
-        GameTables.AoWEngine.OutputDebugStr("Random Seed: " + IntToStr(AoWHSMap.Current.FDefendersSeed));
+        GameTables.GameEngine.OutputDebugString("Random Seed: " + IntToStr(AoWHSMap.Current.DefendersSeed));
     }
 
     // PlayerC.PAS:683
     public void ReplayLogbook()
     {
-        EventLogbook Book;
-        int Index;
-        Book = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FEventLogbook;
-        Index = Book.FindFirstLogEx(131811, AoWHSMap.Current.FCurrentPlayer, AoWHSMap.Current.FDay - 1);
-        for (int I = Index + 1, last = Book.GetCount() - 1; I <= last; I++)
+        EventLogbook book;
+        int index;
+        book = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.CurrentPlayer).EventLogbook;
+        index = book.FindFirstLog(131811, AoWHSMap.Current.CurrentPlayer, AoWHSMap.Current.Day - 1);
+        for (int I = index + 1, last = book.GetCount() - 1; I <= last; I++)
         {
-            Book.GetLogs(I).Execute(false, ExecuteTrigger.NewTurn, null);
+            book.GetLogs(I).Execute(false, ExecuteTrigger.NewTurn, null);
         }
     }
 
     // PlayerC.PAS:701
-    public void ShowNewTurnCallBack(EventLog Log)
+    public void ShowNewTurnCallback(EventLog log)
     {
-        SetSeatedPlayer(AoWHSMap.Current.FCurrentPlayer);
+        SetSeatedPlayer(AoWHSMap.Current.CurrentPlayer);
         AoWHSMap.Current.ResetTurnTimer();
         AoWHSMap.Current.EnableTurnTimer();
-        if (AoWHSMap.Current.FCurrentPlayer != -1)
+        if (AoWHSMap.Current.CurrentPlayer != -1)
         {
             ReplayLogbook();
         }
     }
 
     // PlayerC.PAS:709
-    public void StartGameCallBack(EventLog Log)
+    public void StartGameCallback(EventLog log)
     {
-        if (AoWHSMap.Current.FSeatedPlayer == -1)
+        if (AoWHSMap.Current.SeatedPlayer == -1)
         {
-            SetSeatedPlayer(AoWHSMap.Current.FCurrentPlayer);
+            SetSeatedPlayer(AoWHSMap.Current.CurrentPlayer);
         }
 
         AoWHSMap.Current.EnableTurnTimer();
@@ -435,15 +435,15 @@ public partial class TurnPlayerControl : PlayerControl
     // PlayerC.PAS:758
     public void DefaultStartMap()
     {
-        AoWHSMap.Current.FPlayers.Update();
-        AoWHSMap.Current.FRequestCombatType = AoWHSMap.Current.FConnectionType == PlayerConnectionType.Email || (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count > 1);
-        AoWHSMap.Current.FShowIndependentMoves = !AoWHSMap.Current.FRequestCombatType;
+        AoWHSMap.Current.Players.Update();
+        AoWHSMap.Current.RequestCombatType = AoWHSMap.Current.ConnectionType == PlayerConnectionType.Email || (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local && AoWHSMap.Current.Players.LocalHumanPlayers.Count > 1);
+        AoWHSMap.Current.ShowIndependentMoves = !AoWHSMap.Current.RequestCombatType;
     }
 
-    private static readonly string ItsYourTurnRStr = "It's your turn!";
-    private static readonly string IndependentsAreMovingRStr = "Independents are moving";
-    private static readonly string PlayerIsMovingRStr = "%s is moving";
-    private static readonly string AreMovingRStr = "%s are moving";
+    private static readonly string s_itsYourTurnText = "It's your turn!";
+    private static readonly string s_independentsAreMovingText = "Independents are moving";
+    private static readonly string s_playerIsMovingFormat = "%s is moving";
+    private static readonly string s_areMovingFormat = "%s are moving";
 
     // intf_P1_04.inc:26
 

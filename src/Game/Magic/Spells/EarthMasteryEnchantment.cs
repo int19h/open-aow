@@ -14,73 +14,73 @@ namespace Aow.Game.Magic.Spells;
 public partial class EarthMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:1828
-    public new const int ClassID = 135970;
+    public new const int ClassId = 135970;
 
     // GlobalEnchantmentSpells.pas:1820
     public EarthMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.EarthMasteryRStr);
-        FEnchantmentType = GlobalEnchantmentType.None;
-        FDispelMana = 175;
+        Name = AbilityRules.TranslateResourceString(GameText.s_earthMasteryText);
+        EnchantmentType = GlobalEnchantmentType.None;
+        DispelMana = 175;
     }
 
     // GlobalEnchantmentSpells.pas:1831
     public override int GetAIUpkeepPriority() => 1250;
 
     // GlobalEnchantmentSpells.pas:1861
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        Player APlayer;
-        base.Deactivate(Player);
-        APlayer = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        var playerMagicControl = APlayer.FMagicControl;
-        playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
+        Player playerLocal;
+        base.Deactivate(player);
+        playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        var playerMagicControl = playerLocal.MagicControl;
+        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
-        for (int I = APlayer.FArmies.Count - 1; I >= 0; I--)
+        for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
         {
-            for (int J = APlayer.FArmies.GetArmy(I).Count - 1; J >= 0; J--)
+            for (int J = playerLocal.Armies.GetArmy(I).Count - 1; J >= 0; J--)
             {
-                APlayer.FArmies.GetArmy(I).GetUnit(J).ResetEarthMasteryStoneSkin();
+                playerLocal.Armies.GetArmy(I).GetUnit(J).ResetEarthMasteryStoneSkin();
             }
         }
 
         // { Original doubles Air. }
-        AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(MagicSphere.Air);
+        AoWHSMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Air);
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:1834
-    public override bool CanActivate(sbyte Player, ref string Reason)
+    public override bool CanActivate(sbyte player, ref string reason)
     {
-        bool Result = base.CanActivate(Player, ref Reason);
-        if (Result)
+        bool result = base.CanActivate(player, ref reason);
+        if (result)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
+            if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
             {
-                Reason = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.XIsAlreadyActiveRStr), [FName]);
-                Result = false;
+                reason = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat), [Name]);
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:1845
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        Player APlayer;
-        base.Activate(Player);
+        Player playerLocal;
+        base.Activate(player);
         // { Original doubles Air. }
-        AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(MagicSphere.Air);
-        APlayer = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        var playerMagicControl = APlayer.FMagicControl;
-        playerMagicControl.SetActiveEnchantments(playerMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
+        AoWHSMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Air);
+        playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        var playerMagicControl = playerLocal.MagicControl;
+        playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
-        for (int I = APlayer.FArmies.Count - 1; I >= 0; I--)
+        for (int I = playerLocal.Armies.Count - 1; I >= 0; I--)
         {
-            for (int J = APlayer.FArmies.GetArmy(I).Count - 1; J >= 0; J--)
+            for (int J = playerLocal.Armies.GetArmy(I).Count - 1; J >= 0; J--)
             {
-                APlayer.FArmies.GetArmy(I).GetUnit(J).SetEarthMasteryStoneSkin();
+                playerLocal.Armies.GetArmy(I).GetUnit(J).SetEarthMasteryStoneSkin();
             }
         }
 

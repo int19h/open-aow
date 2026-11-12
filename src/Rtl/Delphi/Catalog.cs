@@ -8,23 +8,23 @@ public sealed class Catalog<TKey, TValue>(string kind) where TKey : notnull wher
 {
     private sealed record Snapshot(Dictionary<TKey, TValue> Entries, ReadOnlyCollection<TValue> All);
 
-    private readonly object writeLock = new();
-    private Snapshot snapshot = new([], Array.AsReadOnly(Array.Empty<TValue>()));
+    private readonly object _writeLock = new();
+    private Snapshot _snapshot = new([], Array.AsReadOnly(Array.Empty<TValue>()));
 
     public TValue Add(TKey key, TValue value)
     {
         ArgumentNullException.ThrowIfNull(key);
         ArgumentNullException.ThrowIfNull(value);
-        lock (writeLock)
+        lock (_writeLock)
         {
-            var previous = snapshot;
+            var previous = _snapshot;
             if (previous.Entries.ContainsKey(key))
                 throw new InvalidOperationException($"Duplicate {kind} key: {key}.");
             var entries = new Dictionary<TKey, TValue>(previous.Entries) { [key] = value };
             var values = new TValue[previous.All.Count + 1];
             previous.All.CopyTo(values, 0);
             values[^1] = value;
-            Volatile.Write(ref snapshot, new Snapshot(entries, Array.AsReadOnly(values)));
+            Volatile.Write(ref _snapshot, new Snapshot(entries, Array.AsReadOnly(values)));
         }
         return value;
     }
@@ -33,7 +33,7 @@ public sealed class Catalog<TKey, TValue>(string kind) where TKey : notnull wher
         : throw new InvalidOperationException($"Absent {kind} key: {key}.");
 
     public bool TryGet(TKey key, [MaybeNullWhen(false)] out TValue value) =>
-        Volatile.Read(ref snapshot).Entries.TryGetValue(key, out value);
+        Volatile.Read(ref _snapshot).Entries.TryGetValue(key, out value);
 
-    public IReadOnlyList<TValue> All => Volatile.Read(ref snapshot).All;
+    public IReadOnlyList<TValue> All => Volatile.Read(ref _snapshot).All;
 }

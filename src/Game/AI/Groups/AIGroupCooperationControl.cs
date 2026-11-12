@@ -26,37 +26,37 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:2839
     public AIGroupCooperationControl(ECustomNode owner) : base(owner)
     {
-        FGroups = new AIRecruitmentGroupList(null);
+        Groups = new AIRecruitmentGroupList(null);
     }
 
-    public bool FComplete;
-    public AIGroupControl FControl;
-    public AIRecruitmentGroupList FGroups;
-    public CooperationMode FMode;
-    public int FRemainingStrength;
-    public Int32Array10 FRemainingStrengths;
-    public float FPathStrengthFactor;
-    public AIGroupControlTarget FTarget;
-    public int FCooperateStrength;
-    public Set<DamageType> FDamageTypes;
-    public Int32Array10 FCooperateStrengths;
-    public int FSuperiority;
+    public bool Complete;
+    public AIGroupControl Control;
+    public AIRecruitmentGroupList Groups;
+    public CooperationMode Mode;
+    public int RemainingStrength;
+    public Int32Array10 RemainingStrengths;
+    public float PathStrengthFactor;
+    public AIGroupControlTarget Target;
+    public int CooperateStrength;
+    public Set<DamageType> DamageTypes;
+    public Int32Array10 CooperateStrengths;
+    public int Superiority;
 
     // AIGroup.pas:2845
     public override void Dispose()
     {
-        FGroups?.Dispose();
+        Groups?.Dispose();
         base.Dispose();
     }
 
     // AIGroup.pas:2919
-    public override bool GetBusy() => FState != -1;
+    public override bool GetBusy() => State != -1;
 
     // AIGroup.pas:2932
-    public override bool Activate(AIGroupControl Control)
+    public override bool Activate(AIGroupControl control)
     {
-        FControl = Control;
-        FRemainingStrength = FCooperateStrength;
+        Control = control;
+        RemainingStrength = CooperateStrength;
         UpdateCompletion();
         return true;
     }
@@ -65,23 +65,23 @@ public partial class AIGroupCooperationControl : AIGroupTask
     public override bool Process()
     {
         int I;
-        switch (FState)
+        switch (State)
         {
             case 0:
-                AoWHSMap.Current.FAIExecuter.UseProcessTime(500);
-                FControl.FRecruitmentGroups.Validate(FControl);
+                AoWHSMap.Current.AIExecutor.UseProcessTime(500);
+                Control.RecruitmentGroups.Validate(Control);
                 I = 0;
-                while (!FComplete && I != FControl.FRecruitmentGroups.Count)
+                while (!Complete && I != Control.RecruitmentGroups.Count)
                 {
-                    if (ValidCooperationGroup(FControl.FRecruitmentGroups.GetRecruitmentGroups(I)))
+                    if (ValidCooperationGroup(Control.RecruitmentGroups.GetRecruitmentGroups(I)))
                     {
-                        AddCooperationGroup(FControl.FRecruitmentGroups.GetRecruitmentGroups(I));
+                        AddCooperationGroup(Control.RecruitmentGroups.GetRecruitmentGroups(I));
                     }
 
                     I += 1;
                 }
 
-                if ((FGroups.Count != 0 && FMode == CooperationMode.AutoCooperate) || (FMode == CooperationMode.CompleteCooperateOnly && FComplete))
+                if ((Groups.Count != 0 && Mode == CooperationMode.AutoCooperate) || (Mode == CooperationMode.CompleteCooperateOnly && Complete))
                 {
                     ExecuteCooperation();
                 }
@@ -94,71 +94,71 @@ public partial class AIGroupCooperationControl : AIGroupTask
     }
 
     // AIGroup.pas:2924
-    public virtual bool Setup(AIGroupControl Control, AIGroupControlTarget Target)
+    public virtual bool Setup(AIGroupControl control, AIGroupControlTarget target)
     {
         Reset();
-        FTarget = Target;
+        Target = target;
         return true;
     }
 
     // AIGroup.pas:2851
     public int GetCooperateMoveDays()
     {
-        int Moves;
-        int Days;
-        int Result = -1;
+        int moves;
+        int days;
+        int result = -1;
         // { Original bug: the first cooperation group is skipped. }
-        for (int I = 1, last = FGroups.Count - 1; I <= last; I++)
+        for (int I = 1, last = Groups.Count - 1; I <= last; I++)
         {
-            Moves = FGroups.GetRecruitmentGroups(I).FGroup.GetMovesMin();
-            if (Moves > 0)
+            moves = Groups.GetRecruitmentGroups(I).Group.GetMovesMin();
+            if (moves > 0)
             {
-                Days = (FGroups.GetRecruitmentGroups(I).FMovePoints - 1) / Moves;
-                if (Result < Days)
+                days = (Groups.GetRecruitmentGroups(I).MovePoints - 1) / moves;
+                if (result < days)
                 {
-                    Result = Days;
+                    result = days;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2868
-    public int GetCooperatedStrength() => FCooperateStrength - FRemainingStrength;
+    public int GetCooperatedStrength() => CooperateStrength - RemainingStrength;
 
     // AIGroup.pas:2873
-    public int GetCooperateStrengthEx(DamageType DamageType) => FCooperateStrengths[(int)DamageType];
+    public int GetCooperateStrength(DamageType damageType) => CooperateStrengths[(int)damageType];
 
     // AIGroup.pas:2878
-    public void SetCooperateStrengthEx(DamageType DamageType, int Value)
+    public void SetCooperateStrength(DamageType damageType, int value)
     {
-        FCooperateStrengths[(int)DamageType] = Value;
+        CooperateStrengths[(int)damageType] = value;
     }
 
     // AIGroup.pas:2883
     public void UpdateCompletion()
     {
         DamageType D;
-        FComplete = FRemainingStrength <= 0;
-        if (FComplete)
+        Complete = RemainingStrength <= 0;
+        if (Complete)
         {
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
                 D = (DamageType)dOrdinal;
-                if (FRemainingStrengths[(int)D] > 0)
+                if (RemainingStrengths[(int)D] > 0)
                 {
-                    FComplete = false;
+                    Complete = false;
                     return;
                 }
             }
 
-            if (FSuperiority != -1)
+            if (Superiority != -1)
             {
-                FControl.FCombatPredictor.Execute();
-                if (FControl.FCombatPredictor.GetSuperiority() < FSuperiority)
+                Control.CombatPredictor.Execute();
+                if (Control.CombatPredictor.GetSuperiority() < Superiority)
                 {
-                    FComplete = false;
+                    Complete = false;
                 }
             }
         }
@@ -167,39 +167,39 @@ public partial class AIGroupCooperationControl : AIGroupTask
     // AIGroup.pas:2905
     public void Reset()
     {
-        FGroups.Clear();
-        FComplete = false;
-        FMode = CooperationMode.None;
-        FTarget = null;
-        FCooperateStrength = 0;
-        FDamageTypes = AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
-        FCooperateStrengths = default;
-        FSuperiority = 120;
-        FPathStrengthFactor = (float)0.8;
-        FState = 0;
+        Groups.Clear();
+        Complete = false;
+        Mode = CooperationMode.None;
+        Target = null;
+        CooperateStrength = 0;
+        DamageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        CooperateStrengths = default;
+        Superiority = 120;
+        PathStrengthFactor = (float)0.8;
+        State = 0;
     }
 
     // AIGroup.pas:2940
-    public void AddCooperationGroup(AIRecruitmentGroup Group)
+    public void AddCooperationGroup(AIRecruitmentGroup group)
     {
-        Troop AUnit;
+        Troop troop;
         DamageType D;
-        FGroups.AddChild(Group);
-        for (int I = Group.FGroup.Count - 1; I >= 0; I--)
+        Groups.AddChild(group);
+        for (int I = group.Group.Count - 1; I >= 0; I--)
         {
-            AUnit = Group.FGroup.GetUnit(I);
-            var strengthMax = AUnit.GetStrengthMax(FDamageTypes);
-            FRemainingStrength -= strengthMax;
+            troop = group.Group.GetUnit(I);
+            var strengthMax = troop.GetStrengthMax(DamageTypes);
+            RemainingStrength -= strengthMax;
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
                 D = (DamageType)dOrdinal;
-                var strength = AUnit.GetStrength(D);
-                FRemainingStrengths[(int)D] -= strength;
+                var strength = troop.GetStrength(D);
+                RemainingStrengths[(int)D] -= strength;
             }
 
-            if (FSuperiority != -1)
+            if (Superiority != -1)
             {
-                FControl.FCombatPredictor.AddUnit(AUnit);
+                Control.CombatPredictor.AddUnit(troop);
             }
         }
 
@@ -207,125 +207,125 @@ public partial class AIGroupCooperationControl : AIGroupTask
     }
 
     // AIGroup.pas:2958
-    public bool ValidCooperationGroup(AIRecruitmentGroup Group)
+    public bool ValidCooperationGroup(AIRecruitmentGroup group)
     {
-        bool Result;
-        int Strength1;
-        int Strength2;
-        int Strength;
-        int[] Location__cell = new int[1];
-        ref int Location = ref Location__cell[0];
-        int Advantage1;
-        int Advantage2;
-        int Moves;
-        int OtherMoves;
-        int Threshold;
-        AIGroup Group1;
-        AIGroup Group2;
-        if (Group.FGroup.FTransporterID == -1 && ((Unsafe.As<MapCoordinate, int>(ref Group.FGroup.FTargetXYL) == Unsafe.As<MapCoordinate, int>(ref FTarget.FLocation) && Group.FGroup.FTargetType == AIGroupTargetStatus.Setup) || Set<AIGroupTargetStatus>.Of(AIGroupTargetStatus.None, AIGroupTargetStatus.Idle).Contains(Group.FGroup.FTargetType)) && Group.FGroup.CooperateWithGroup(FControl.FGroup, FTarget))
+        bool result;
+        int strength1;
+        int strength2;
+        int strength;
+        int[] locationCell = new int[1];
+        ref int location = ref locationCell[0];
+        int advantage1;
+        int advantage2;
+        int moves;
+        int otherMoves;
+        int threshold;
+        AIGroup group1;
+        AIGroup group2;
+        if (group.Group.TransporterId == -1 && ((Unsafe.As<MapCoordinate, int>(ref group.Group.TargetMapCoordinate) == Unsafe.As<MapCoordinate, int>(ref Target.Location) && group.Group.TargetType == AIGroupTargetStatus.Setup) || Set<AIGroupTargetStatus>.Of(AIGroupTargetStatus.None, AIGroupTargetStatus.Idle).Contains(group.Group.TargetType)) && group.Group.CooperateWithGroup(Control.Group, Target))
         {
-            if (Group.FPathStrength != 0)
+            if (group.PathStrength != 0)
             {
-                Location = Group.FGroup.GetLoc();
-                Strength1 = Group.FGroup.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-                Group1 = Group.FGroup;
-                Advantage1 = -GetBattleFieldStrengthAdvantage(Location, Group1.FPlayer, Group1.FIndependentRelation, Group1, 1, 10, AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                location = group.Group.GetLocation();
+                strength1 = group.Group.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                group1 = group.Group;
+                advantage1 = -GetBattleFieldStrengthAdvantage(location, group1.Player, group1.IndependentRelation, group1, 1, 10, AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
 
-                Location = FControl.FGroup.GetLoc();
-                Strength2 = FControl.FGroup.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-                Group2 = FControl.FGroup;
-                Advantage2 = -GetBattleFieldStrengthAdvantage(Location, Group2.FPlayer, Group2.FIndependentRelation, Group2, 1, 10, AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                location = Control.Group.GetLocation();
+                strength2 = Control.Group.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                group2 = Control.Group;
+                advantage2 = -GetBattleFieldStrengthAdvantage(location, group2.Player, group2.IndependentRelation, group2, 1, 10, AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
 
-                if (Strength1 < Strength2)
+                if (strength1 < strength2)
                 {
-                    Strength = Strength1;
+                    strength = strength1;
                 }
                 else
                 {
-                    Strength = Strength2;
+                    strength = strength2;
                 }
 
                 // { Original bug: compares the first advantage with itself. }
-                if (Advantage1 > Advantage1 + 0)
+                if (advantage1 > advantage1 + 0)
                 {
                 }
                 else
                 {
-                    Advantage1 = Advantage2;
+                    advantage1 = advantage2;
                 }
 
-                Threshold = Round((double)Group.FPathStrength * FPathStrengthFactor);
-                if (Strength < Threshold && Strength >= Advantage1)
+                threshold = Round((double)group.PathStrength * PathStrengthFactor);
+                if (strength < threshold && strength >= advantage1)
                 {
-                    Moves = Group.FGroup.GetMovePointsMin();
-                    OtherMoves = FControl.FGroup.GetMovePointsMin();
-                    if (OtherMoves < Moves)
+                    moves = group.Group.GetMovePointsMin();
+                    otherMoves = Control.Group.GetMovePointsMin();
+                    if (otherMoves < moves)
                     {
-                        Moves = OtherMoves;
+                        moves = otherMoves;
                     }
 
-                    Result = Moves >= Group.FMovePoints;
+                    result = moves >= group.MovePoints;
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2998
     public void ExecuteCooperation()
     {
-        AIGroup Group;
-        Troop Leader;
-        for (int I = FGroups.Count - 1; I >= 0; I--)
+        AIGroup group;
+        Troop leader;
+        for (int I = Groups.Count - 1; I >= 0; I--)
         {
-            Group = FGroups.GetRecruitmentGroups(I).FGroup;
-            if (Group.FTargetType == AIGroupTargetStatus.Setup && FTarget.FMovePoints > Group.FTargetMovePoints)
+            group = Groups.GetRecruitmentGroups(I).Group;
+            if (group.TargetType == AIGroupTargetStatus.Setup && Target.MovePoints > group.TargetMovePoints)
             {
-                Leader = Group.FLeader;
+                leader = group.Leader;
             }
             else
             {
-                Leader = FControl.FGroup.FLeader;
+                leader = Control.Group.Leader;
             }
 
-            for (int J = Group.FProductions.Count - 1; J >= 0; J--)
+            for (int J = group.Productions.Count - 1; J >= 0; J--)
             {
-                Group.FProductions.ChangeGroup(J, FControl.FGroup);
+                group.Productions.ChangeGroup(J, Control.Group);
             }
 
-            FControl.FGroup.AddUnits(Group);
-            FControl.FGroup.SetLeader(Leader);
+            Control.Group.AddUnits(group);
+            Control.Group.SetLeader(leader);
         }
     }
 
-    private static int GetBattleFieldStrengthAdvantage(int Location, sbyte Player, sbyte Relation, UnitList Units, int FriendlyRadius, int EnemyRadius, Set<DamageType> DamageTypes)
+    private static int GetBattleFieldStrengthAdvantage(int location, sbyte player, sbyte relation, UnitList units, int friendlyRadius, int enemyRadius, Set<DamageType> damageTypes)
     {
-        BattleFieldInfo Info = default(BattleFieldInfo);
-        BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, Relation, Set<BattleFieldInfoRequestsElement>.Of(Array.Empty<BattleFieldInfoRequestsElement>()), DamageTypes);
-        Info.EnemyRelations = Set<byte>.WithBounds(0, 7);
-        Info.Units = Units;
-        Info.Requests += Set<BattleFieldInfoRequestsElement>.Of(new BattleFieldInfoRequestsElement[1] { BattleFieldInfoRequestsElement.IgnorePassiveIndependents });
-        AoWHSMap.Current.RetrieveBattleFieldInfo(Unsafe.As<int, MapCoordinate>(ref Location).X, Unsafe.As<int, MapCoordinate>(ref Location).Y, Unsafe.As<int, MapCoordinate>(ref Location).L, FriendlyRadius, ref Info);
-        int friendlyStrength = Info.FriendlyStrength;
-        BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, Relation, Set<BattleFieldInfoRequestsElement>.Of(Array.Empty<BattleFieldInfoRequestsElement>()), DamageTypes);
-        Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
-        Info.Units = Units;
-        Info.Requests += Set<BattleFieldInfoRequestsElement>.Of(new BattleFieldInfoRequestsElement[1] { BattleFieldInfoRequestsElement.IgnorePassiveIndependents });
-        AoWHSMap.Current.RetrieveBattleFieldInfo(Unsafe.As<int, MapCoordinate>(ref Location).X, Unsafe.As<int, MapCoordinate>(ref Location).Y, Unsafe.As<int, MapCoordinate>(ref Location).L, EnemyRadius, ref Info);
-        int strength = Info.Strength;
+        BattleFieldInfo info = default(BattleFieldInfo);
+        BattleFieldInfo.SetupBattleFieldInfo(ref info, player, relation, Set<BattleFieldInfoRequestsElement>.Of(Array.Empty<BattleFieldInfoRequestsElement>()), damageTypes);
+        info.EnemyRelations = Set<byte>.WithBounds(0, 7);
+        info.Units = units;
+        info.Requests += Set<BattleFieldInfoRequestsElement>.Of(new BattleFieldInfoRequestsElement[1] { BattleFieldInfoRequestsElement.IgnorePassiveIndependents });
+        AoWHSMap.Current.RetrieveBattleFieldInfo(Unsafe.As<int, MapCoordinate>(ref location).X, Unsafe.As<int, MapCoordinate>(ref location).Y, Unsafe.As<int, MapCoordinate>(ref location).MapLevel, friendlyRadius, ref info);
+        int friendlyStrength = info.FriendlyStrength;
+        BattleFieldInfo.SetupBattleFieldInfo(ref info, player, relation, Set<BattleFieldInfoRequestsElement>.Of(Array.Empty<BattleFieldInfoRequestsElement>()), damageTypes);
+        info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
+        info.Units = units;
+        info.Requests += Set<BattleFieldInfoRequestsElement>.Of(new BattleFieldInfoRequestsElement[1] { BattleFieldInfoRequestsElement.IgnorePassiveIndependents });
+        AoWHSMap.Current.RetrieveBattleFieldInfo(Unsafe.As<int, MapCoordinate>(ref location).X, Unsafe.As<int, MapCoordinate>(ref location).Y, Unsafe.As<int, MapCoordinate>(ref location).MapLevel, enemyRadius, ref info);
+        int strength = info.Strength;
         return friendlyStrength - strength;
     }
 

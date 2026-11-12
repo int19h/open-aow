@@ -4,32 +4,32 @@ using Aow.Engine.Storage;
 
 namespace Aow.Game.Audio;
 
-// FFileName. One wave file of a sequence
+// _fileName. One wave file of a sequence
 public partial class Sfx : EngineObject
 {
-    public new const int ClassID = 2162689;
+    public new const int ClassId = 2162689;
 
     public Sfx(ECustomNode owner) : base(owner)
     { }
 
-    internal string FFileName = "";
+    internal string _fileName = "";
 
     // Sound.pas:1027
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(EngineServices.smText))
+        base.ReadWrite(stream);
+        if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            Stream.rwString(ref FFileName, 5);
+            stream.rwString(ref _fileName, 5);
         }
     }
 
     // Sound.pas:1034
-    public Sample Play() => AudioPlayback.PlaySample(FFileName);
+    public Sample Play() => AudioPlayback.PlaySample(_fileName);
 
     // Sound.pas:1039
-    public Sample PlayEx(int Volume, bool Looped, int Delay, SamplePanning Panning, SampleCallBack CallBack) => AudioPlayback.PlaySampleEx(FFileName, Volume, Looped, Delay, Panning, CallBack);
+    public Sample Play(int volume, bool looped, int delay, SamplePanning panning, SampleCallBack callback) => AudioPlayback.PlaySample(_fileName, volume, looped, delay, panning, callback);
 
-    public string FileName { get => FFileName; set => FFileName = value; }
+    public string FileName { get => _fileName; set => _fileName = value; }
 
 }

@@ -219,9 +219,9 @@ public sealed class SystemTests
     public void ClassCastAbortHaltAndAssertKeepTheirReports()
     {
         Assert.Null(As<object>(null));
-        var obj = new object();
-        Assert.Same(obj, As<object>(obj));
-        Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Generated.Sample>(obj)).Message);
+        var objectValue = new object();
+        Assert.Same(objectValue, As<object>(objectValue));
+        Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Generated.Sample>(objectValue)).Message);
         Assert.Throws<AbortException>(Abort);
         Assert.Equal(0, Assert.Throws<HaltException>(() => Halt()).ExitCode);
         Assert.Equal(-1, Assert.Throws<HaltException>(() => Halt(-1)).ExitCode);
@@ -251,9 +251,9 @@ public sealed class SystemTests
     [Fact]
     public void CommandLineUsesHostSuppliedSnapshot()
     {
-        string[] args = ["game.exe", "one", "two words"];
-        SetCommandLine(args);
-        args[1] = "changed";
+        string[] arguments = ["game.exe", "one", "two words"];
+        SetCommandLine(arguments);
+        arguments[1] = "changed";
         Assert.Equal(2, ParamCount());
         Assert.Equal("game.exe", ParamStr(0));
         Assert.Equal("one", ParamStr(1));

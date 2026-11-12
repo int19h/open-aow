@@ -21,70 +21,70 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:1712
     public AIBudgetManager(ECustomNode owner) : base(owner)
     {
-        FBudgets = new AIBudgetList(null);
-        FGoldIncomeFactor = (float)0.75;
-        FManaIncomeFactor = (float)0.75;
-        FGoldReserveFactor = (float)0.5;
-        FManaReserveFactor = (float)0.5;
+        Budgets = new AIBudgetList(null);
+        GoldIncomeFactor = (float)0.75;
+        ManaIncomeFactor = (float)0.75;
+        GoldReserveFactor = (float)0.5;
+        ManaReserveFactor = (float)0.5;
     }
 
-    public Player FPlayer;
-    public AIBudgetList FBudgets;
-    public float FGoldIncomeFactor;
-    public float FManaIncomeFactor;
-    public float FGoldReserveFactor;
-    public float FManaReserveFactor;
-    public int FProductionGoldUpkeep;
-    public int FProductionManaUpkeep;
-    public int FGoldUpkeep;
-    public int FManaUpkeep;
-    public int FGold;
-    public int FMana;
-    public AIBudget FDefaultBudget;
+    public Player Player;
+    public AIBudgetList Budgets;
+    public float GoldIncomeFactor;
+    public float ManaIncomeFactor;
+    public float GoldReserveFactor;
+    public float ManaReserveFactor;
+    public int ProductionGoldUpkeep;
+    public int ProductionManaUpkeep;
+    public int GoldUpkeep;
+    public int ManaUpkeep;
+    public int Gold;
+    public int Mana;
+    public AIBudget DefaultBudget;
 
     // AI.pas:1722
     public override void Dispose()
     {
-        FBudgets?.Dispose();
+        Budgets?.Dispose();
         base.Dispose();
     }
 
     // AI.pas:1728
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FBudgets, 20);
-        Stream.rwInteger(ref FGold, 21);
-        Stream.rwInteger(ref FMana, 22);
-        Stream.rwInteger(ref FGoldUpkeep, 23);
-        Stream.rwInteger(ref FManaUpkeep, 24);
-        Stream.rwInteger(ref FProductionGoldUpkeep, 25);
-        Stream.rwInteger(ref FProductionManaUpkeep, 26);
+        base.ReadWrite(stream);
+        stream.rwEObject(Budgets, 20);
+        stream.rwInteger(ref Gold, 21);
+        stream.rwInteger(ref Mana, 22);
+        stream.rwInteger(ref GoldUpkeep, 23);
+        stream.rwInteger(ref ManaUpkeep, 24);
+        stream.rwInteger(ref ProductionGoldUpkeep, 25);
+        stream.rwInteger(ref ProductionManaUpkeep, 26);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Object("Budgets", FBudgets);
-        persister.Int("Gold", ref FGold);
-        persister.Int("Mana", ref FMana);
-        persister.Int("GoldUpkeep", ref FGoldUpkeep);
-        persister.Int("ManaUpkeep", ref FManaUpkeep);
-        persister.Int("ProductionGoldUpkeep", ref FProductionGoldUpkeep);
-        persister.Int("ProductionManaUpkeep", ref FProductionManaUpkeep);
+        persister.Object("Budgets", Budgets);
+        persister.Int32("Gold", ref Gold);
+        persister.Int32("Mana", ref Mana);
+        persister.Int32("GoldUpkeep", ref GoldUpkeep);
+        persister.Int32("ManaUpkeep", ref ManaUpkeep);
+        persister.Int32("ProductionGoldUpkeep", ref ProductionGoldUpkeep);
+        persister.Int32("ProductionManaUpkeep", ref ProductionManaUpkeep);
     }
 
     // AI.pas:2166
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (FPlayer.FPlayerType != PlayerType.Human && Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (Player.PlayerType != PlayerType.Human && message.MessageId == 536870920)
         {
-            FDefaultBudget = (AIBudget)FBudgets.FindChild(131741);
-            if (FDefaultBudget == null)
+            DefaultBudget = (AIBudget)Budgets.FindChild(131741);
+            if (DefaultBudget == null)
             {
-                FDefaultBudget = new AISavingsBudget(null);
-                FDefaultBudget.SetOwner(FBudgets);
+                DefaultBudget = new AISavingsBudget(null);
+                DefaultBudget.SetOwner(Budgets);
             }
         }
     }
@@ -92,97 +92,97 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:1740
     public int GetBudgetGoldUpkeep()
     {
-        int Result = 0;
-        for (int I = FBudgets.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = Budgets.Count - 1; I >= 0; I--)
         {
-            Result += FBudgets.GetBudgets(I).FGoldUpkeep;
+            result += Budgets.GetBudgets(I).GoldUpkeep;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1749
     public int GetBudgetManaUpkeep()
     {
-        int Result = 0;
-        for (int I = FBudgets.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = Budgets.Count - 1; I >= 0; I--)
         {
-            Result += FBudgets.GetBudgets(I).FManaUpkeep;
+            result += Budgets.GetBudgets(I).ManaUpkeep;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1758
     public int GetReservedBudgetGold()
     {
-        int Result = 0;
-        for (int I = FBudgets.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = Budgets.Count - 1; I >= 0; I--)
         {
-            Result += FBudgets.GetBudgets(I).FGold;
+            result += Budgets.GetBudgets(I).Gold;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1767
     public int GetReservedBudgetMana()
     {
-        int Result = 0;
-        for (int I = FBudgets.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = Budgets.Count - 1; I >= 0; I--)
         {
-            Result += FBudgets.GetBudgets(I).FMana;
+            result += Budgets.GetBudgets(I).Mana;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1776
     public int GetRequiredBudgetDayGold()
     {
-        int Result = 0;
-        for (int I = FBudgets.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = Budgets.Count - 1; I >= 0; I--)
         {
-            Result += FBudgets.GetBudgets(I).FDayGold;
+            result += Budgets.GetBudgets(I).DayGold;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1785
     public int GetRequiredBudgetDayMana()
     {
-        int Result = 0;
-        for (int I = FBudgets.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = Budgets.Count - 1; I >= 0; I--)
         {
-            Result += FBudgets.GetBudgets(I).FDayMana;
+            result += Budgets.GetBudgets(I).DayMana;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1794
     public void UpdateBudgetDayRequirements()
     {
-        for (int I = FBudgets.Count - 1; I >= 0; I--)
+        for (int I = Budgets.Count - 1; I >= 0; I--)
         {
-            FBudgets.GetBudgets(I).UpdateDayRequirements();
+            Budgets.GetBudgets(I).UpdateDayRequirements();
         }
     }
 
     // AI.pas:1802
     public void UpdateProductionUpkeep()
     {
-        ProductionControl Control;
-        FProductionManaUpkeep = 0;
-        FProductionGoldUpkeep = 0;
-        for (int I = this.FPlayer.FProductionControls.Count - 1; I >= 0; I--)
+        ProductionControl control;
+        ProductionManaUpkeep = 0;
+        ProductionGoldUpkeep = 0;
+        for (int I = this.Player.ProductionControls.Count - 1; I >= 0; I--)
         {
-            Control = this.FPlayer.FProductionControls.GetPC(I);
-            if (Control.FStatus == ProductionControl.Status.Producing && Control.FQueue.GetItem(0).Order is ProduceUnit && Control.FSettings.FUnit != null)
+            control = this.Player.ProductionControls.GetPC(I);
+            if (control.Status == ProductionControlStatus.Producing && control.Queue.GetItem(0).Order is ProduceUnit && control.Settings.Unit != null)
             {
-                FProductionGoldUpkeep += Control.FSettings.FGoldUpkeep;
-                FProductionManaUpkeep += Control.FSettings.FManaUpkeep;
+                ProductionGoldUpkeep += control.Settings.GoldUpkeep;
+                ProductionManaUpkeep += control.Settings.ManaUpkeep;
             }
         }
     }
@@ -190,56 +190,56 @@ public partial class AIBudgetManager : EngineObject
     // AI.pas:1825
     public int GetGroupsGoldBudget()
     {
-        int Result = 0;
-        for (int I = this.FPlayer.FAIGroups.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = this.Player.AIGroups.Count - 1; I >= 0; I--)
         {
-            Result += this.FPlayer.FAIGroups.GetGroups(I).GetGoldBudget();
+            result += this.Player.AIGroups.GetGroups(I).GetGoldBudget();
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1837
     public int GetGroupsManaBudget()
     {
-        int Result = 0;
-        for (int I = this.FPlayer.FAIGroups.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = this.Player.AIGroups.Count - 1; I >= 0; I--)
         {
-            Result += this.FPlayer.FAIGroups.GetGroups(I).GetManaBudget();
+            result += this.Player.AIGroups.GetGroups(I).GetManaBudget();
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1849
-    public void ReserveForBudgets(int Gold, int Mana)
+    public void ReserveForBudgets(int gold, int mana)
     {
         int I;
         int M;
         int G;
-        int TotalGold;
-        int TotalMana;
-        int GoldLeft;
-        int ManaLeft;
-        GoldLeft = Gold;
-        ManaLeft = Mana;
-        TotalGold = GetRequiredBudgetDayGold();
-        TotalMana = GetRequiredBudgetDayMana();
-        I = FBudgets.Count;
-        while (I != 0 && (GoldLeft > 0 || ManaLeft > 0))
+        int totalGold;
+        int totalMana;
+        int goldLeft;
+        int manaLeft;
+        goldLeft = gold;
+        manaLeft = mana;
+        totalGold = GetRequiredBudgetDayGold();
+        totalMana = GetRequiredBudgetDayMana();
+        I = Budgets.Count;
+        while (I != 0 && (goldLeft > 0 || manaLeft > 0))
         {
             I -= 1;
-            if (TotalGold != 0)
+            if (totalGold != 0)
             {
-                G = Round((double)(FBudgets.GetBudgets(I).FDayGold * Gold) / TotalGold);
-                if (G > FBudgets.GetBudgets(I).FDayGold)
+                G = Round((double)(Budgets.GetBudgets(I).DayGold * gold) / totalGold);
+                if (G > Budgets.GetBudgets(I).DayGold)
                 {
-                    G = FBudgets.GetBudgets(I).FDayGold;
+                    G = Budgets.GetBudgets(I).DayGold;
                 }
 
-                if (G > GoldLeft)
+                if (G > goldLeft)
                 {
-                    G = GoldLeft;
+                    G = goldLeft;
                 }
             }
             else
@@ -247,17 +247,17 @@ public partial class AIBudgetManager : EngineObject
                 G = 0;
             }
 
-            if (TotalMana != 0)
+            if (totalMana != 0)
             {
-                M = Round((double)(FBudgets.GetBudgets(I).FDayMana * Mana) / TotalMana);
-                if (M > FBudgets.GetBudgets(I).FDayMana)
+                M = Round((double)(Budgets.GetBudgets(I).DayMana * mana) / totalMana);
+                if (M > Budgets.GetBudgets(I).DayMana)
                 {
-                    M = FBudgets.GetBudgets(I).FDayMana;
+                    M = Budgets.GetBudgets(I).DayMana;
                 }
 
-                if (M > ManaLeft)
+                if (M > manaLeft)
                 {
-                    M = ManaLeft;
+                    M = manaLeft;
                 }
             }
             else
@@ -265,46 +265,46 @@ public partial class AIBudgetManager : EngineObject
                 M = 0;
             }
 
-            var aiBudget = FBudgets.GetBudgets(I);
-            aiBudget.FGold += G;
-            aiBudget.FMana += M;
-            aiBudget.FDayGold -= G;
-            aiBudget.FDayMana -= M;
+            var aiBudget = Budgets.GetBudgets(I);
+            aiBudget.Gold += G;
+            aiBudget.Mana += M;
+            aiBudget.DayGold -= G;
+            aiBudget.DayMana -= M;
 
-            GoldLeft -= G;
-            ManaLeft -= M;
+            goldLeft -= G;
+            manaLeft -= M;
         }
     }
 
     // AI.pas:1887
-    public void ReturnFromBudgets(int Gold, int Mana)
+    public void ReturnFromBudgets(int gold, int mana)
     {
         int I;
         int G;
         int M;
-        int TotalGold;
-        int TotalMana;
-        int GoldLeft;
-        int ManaLeft;
-        GoldLeft = Gold;
-        ManaLeft = Mana;
-        TotalGold = GetReservedBudgetGold();
-        TotalMana = GetReservedBudgetMana();
-        I = FBudgets.Count;
-        while (I != 0 && (GoldLeft > 0 || ManaLeft > 0))
+        int totalGold;
+        int totalMana;
+        int goldLeft;
+        int manaLeft;
+        goldLeft = gold;
+        manaLeft = mana;
+        totalGold = GetReservedBudgetGold();
+        totalMana = GetReservedBudgetMana();
+        I = Budgets.Count;
+        while (I != 0 && (goldLeft > 0 || manaLeft > 0))
         {
             I -= 1;
-            if (TotalGold != 0 && GoldLeft > 0)
+            if (totalGold != 0 && goldLeft > 0)
             {
-                G = Round((double)(FBudgets.GetBudgets(I).FGold * Gold) / TotalGold) + 1;
-                if (G > FBudgets.GetBudgets(I).FGold)
+                G = Round((double)(Budgets.GetBudgets(I).Gold * gold) / totalGold) + 1;
+                if (G > Budgets.GetBudgets(I).Gold)
                 {
-                    G = FBudgets.GetBudgets(I).FGold;
+                    G = Budgets.GetBudgets(I).Gold;
                 }
 
-                if (G > GoldLeft)
+                if (G > goldLeft)
                 {
-                    G = GoldLeft;
+                    G = goldLeft;
                 }
             }
             else
@@ -312,18 +312,18 @@ public partial class AIBudgetManager : EngineObject
                 G = 0;
             }
 
-            if (TotalMana != 0 && ManaLeft > 0)
+            if (totalMana != 0 && manaLeft > 0)
             {
                 // { Original bug: mana returns are weighted by reserved gold. }
-                M = Round((double)(FBudgets.GetBudgets(I).FGold * Mana) / TotalMana) + 1;
-                if (M > FBudgets.GetBudgets(I).FMana)
+                M = Round((double)(Budgets.GetBudgets(I).Gold * mana) / totalMana) + 1;
+                if (M > Budgets.GetBudgets(I).Mana)
                 {
-                    M = FBudgets.GetBudgets(I).FMana;
+                    M = Budgets.GetBudgets(I).Mana;
                 }
 
-                if (M > ManaLeft)
+                if (M > manaLeft)
                 {
-                    M = ManaLeft;
+                    M = manaLeft;
                 }
             }
             else
@@ -331,405 +331,405 @@ public partial class AIBudgetManager : EngineObject
                 M = 0;
             }
 
-            var aiBudget = FBudgets.GetBudgets(I);
-            aiBudget.FGold -= G;
-            aiBudget.FMana -= M;
+            var aiBudget = Budgets.GetBudgets(I);
+            aiBudget.Gold -= G;
+            aiBudget.Mana -= M;
 
-            GoldLeft -= G;
-            ManaLeft -= M;
+            goldLeft -= G;
+            manaLeft -= M;
         }
     }
 
     // AI.pas:1924
     public void ValidateReservations()
     {
-        int Gold;
-        int Mana;
-        Gold = GetReservedBudgetGold() - FPlayer.FGems;
-        Mana = GetReservedBudgetMana() - FPlayer.FMagicControl.FMana;
-        if (Gold < 0)
+        int gold;
+        int mana;
+        gold = GetReservedBudgetGold() - Player.Gems;
+        mana = GetReservedBudgetMana() - Player.MagicControl.Mana;
+        if (gold < 0)
         {
-            Gold = 0;
+            gold = 0;
         }
 
-        if (Mana < 0)
+        if (mana < 0)
         {
-            Mana = 0;
+            mana = 0;
         }
 
-        if (Gold > 0 || Mana > 0)
+        if (gold > 0 || mana > 0)
         {
-            GameTables.AoWEngine.OutputDebugMessage(AbilityRules.TMPDID, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
-            ReturnFromBudgets(Gold, Mana);
+            GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_temporaryDebugChannel, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(gold) + "/MANA:" + IntToStr(mana) + ")");
+            ReturnFromBudgets(gold, mana);
         }
     }
 
     // AI.pas:1940
     public void OutputDebugInfo()
     {
-        for (int I = 0, last = FBudgets.Count - 1; I <= last; I++)
+        for (int I = 0, last = Budgets.Count - 1; I <= last; I++)
         {
-            FBudgets.GetBudgets(I).OutputDebugInfo();
+            Budgets.GetBudgets(I).OutputDebugInfo();
         }
 
         var groupsGoldBudget = GetGroupsGoldBudget();
         var groupsManaBudget = GetGroupsManaBudget();
-        GameTables.AoWEngine.OutputDebugMessage(AbilityRules.TMPDID, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
-        GameTables.AoWEngine.OutputDebugMessage(AbilityRules.TMPDID, "POOL (GOLD:" + IntToStr(FGold) + "/MANA:" + IntToStr(FMana) + ")");
-        GameTables.AoWEngine.OutputDebugMessage(AbilityRules.TMPDID, "REAL (GOLD:" + IntToStr(FPlayer.FGems) + "/MANA:" + IntToStr(FPlayer.FMagicControl.FMana) + ")");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_temporaryDebugChannel, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_temporaryDebugChannel, "POOL (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_temporaryDebugChannel, "REAL (GOLD:" + IntToStr(Player.Gems) + "/MANA:" + IntToStr(Player.MagicControl.Mana) + ")");
     }
 
     // AI.pas:1954
     public void ValidateManaUpkeep()
     {
-        if (FManaUpkeep < 0)
+        if (ManaUpkeep < 0)
         {
-            FPlayer.FMagicControl.AIOverrideUpkeep(16777215, Math.Abs(FManaUpkeep));
+            Player.MagicControl.AIOverrideUpkeep(16777215, Math.Abs(ManaUpkeep));
         }
     }
 
     // AI.pas:1960
     public void UpdateBudgets()
     {
-        int RequiredGold;
-        int RequiredMana;
-        int Gold;
-        int Mana;
-        int GoldUpkeep;
+        int requiredGold;
+        int requiredMana;
+        int gold;
+        int mana;
+        int goldUpkeep;
         int ManaUpkeep;
-        int ReserveGold;
-        int ReserveMana;
+        int reserveGold;
+        int reserveMana;
         ValidateReservations();
         UpdateProductionUpkeep();
         UpdateBudgetDayRequirements();
         var reservedBudgetGold = GetReservedBudgetGold();
         var groupsGoldBudget = GetGroupsGoldBudget();
-        Gold = FPlayer.FGems - reservedBudgetGold - groupsGoldBudget;
+        gold = Player.Gems - reservedBudgetGold - groupsGoldBudget;
         var reservedBudgetMana = GetReservedBudgetMana();
         var groupsManaBudget = GetGroupsManaBudget();
-        Mana = FPlayer.FMagicControl.FMana - reservedBudgetMana - groupsManaBudget;
-        var upkeep = FPlayer.GetUpkeep();
+        mana = Player.MagicControl.Mana - reservedBudgetMana - groupsManaBudget;
+        var upkeep = Player.GetUpkeep();
         var budgetGoldUpkeep = GetBudgetGoldUpkeep();
-        GoldUpkeep = upkeep + FProductionGoldUpkeep + budgetGoldUpkeep;
-        var manaUpkeep = FPlayer.FMagicControl.GetManaUpkeep();
+        goldUpkeep = upkeep + ProductionGoldUpkeep + budgetGoldUpkeep;
+        var manaUpkeep = Player.MagicControl.GetManaUpkeep();
         var budgetManaUpkeep = GetBudgetManaUpkeep();
-        ManaUpkeep = manaUpkeep + FProductionManaUpkeep + budgetManaUpkeep;
-        FGoldUpkeep = Round((double)FPlayer.FIncome * FGoldIncomeFactor) - GoldUpkeep;
-        FManaUpkeep = Round((double)FPlayer.FMagicControl.GetManaIncome() * FManaIncomeFactor) - ManaUpkeep;
-        if (FManaUpkeep < 0)
+        ManaUpkeep = manaUpkeep + ProductionManaUpkeep + budgetManaUpkeep;
+        GoldUpkeep = Round((double)Player.Income * GoldIncomeFactor) - goldUpkeep;
+        this.ManaUpkeep = Round((double)Player.MagicControl.GetManaIncome() * ManaIncomeFactor) - ManaUpkeep;
+        if (this.ManaUpkeep < 0)
         {
             ValidateManaUpkeep();
         }
 
-        RequiredGold = GetRequiredBudgetDayGold();
-        RequiredMana = GetRequiredBudgetDayMana();
-        ReserveGold = Round((double)Gold * FGoldReserveFactor);
-        ReserveMana = Round((double)Mana * FManaReserveFactor);
-        if (ReserveGold > RequiredGold)
+        requiredGold = GetRequiredBudgetDayGold();
+        requiredMana = GetRequiredBudgetDayMana();
+        reserveGold = Round((double)gold * GoldReserveFactor);
+        reserveMana = Round((double)mana * ManaReserveFactor);
+        if (reserveGold > requiredGold)
         {
-            ReserveGold = RequiredGold;
+            reserveGold = requiredGold;
         }
 
-        if (ReserveMana > RequiredMana)
+        if (reserveMana > requiredMana)
         {
-            ReserveMana = RequiredMana;
+            reserveMana = requiredMana;
         }
 
-        ReserveForBudgets(ReserveGold, ReserveMana);
-        FGold = Gold - ReserveGold;
-        FMana = Mana - ReserveMana;
+        ReserveForBudgets(reserveGold, reserveMana);
+        Gold = gold - reserveGold;
+        Mana = mana - reserveMana;
     }
 
     // AI.pas:1985
-    public bool RequestProductionExpense(int Gold, int GoldUpkeep, int Mana, int ManaUpkeep) => (Gold == 0 || Gold <= FGold) && (Mana == 0 || Mana <= FMana) && (GoldUpkeep == 0 || GoldUpkeep <= FGoldUpkeep) && (ManaUpkeep == 0 || ManaUpkeep <= FManaUpkeep);
+    public bool RequestProductionExpense(int gold, int goldUpkeep, int mana, int manaUpkeep) => (gold == 0 || gold <= Gold) && (mana == 0 || mana <= Mana) && (goldUpkeep == 0 || goldUpkeep <= GoldUpkeep) && (manaUpkeep == 0 || manaUpkeep <= ManaUpkeep);
 
     // AI.pas:1993
-    public bool RequestProductionExpenseEx(int Gold, int GoldUpkeep, int Mana, int ManaUpkeep, AIBudget Budget)
+    public bool RequestProductionExpense(int gold, int goldUpkeep, int mana, int manaUpkeep, AIBudget budget)
     {
         int G;
         int M;
-        G = FGold;
-        M = FMana;
-        if (Budget != null)
+        G = Gold;
+        M = Mana;
+        if (budget != null)
         {
-            G += Budget.FGold;
-            M += Budget.FMana;
+            G += budget.Gold;
+            M += budget.Mana;
         }
 
-        return (Gold == 0 || G >= Gold) && (Mana == 0 || Mana <= M) && (GoldUpkeep == 0 || FGoldUpkeep >= GoldUpkeep) && (ManaUpkeep == 0 || FManaUpkeep >= ManaUpkeep);
+        return (gold == 0 || G >= gold) && (mana == 0 || mana <= M) && (goldUpkeep == 0 || GoldUpkeep >= goldUpkeep) && (manaUpkeep == 0 || ManaUpkeep >= manaUpkeep);
     }
 
     // AI.pas:2010
-    public bool ProductionExpenseMade(int Gold, int GoldUpkeep, int Mana, int ManaUpkeep)
+    public bool ProductionExpenseMade(int gold, int goldUpkeep, int mana, int manaUpkeep)
     {
-        bool Result;
-        if (RequestProductionExpense(Gold, GoldUpkeep, Mana, ManaUpkeep))
+        bool result;
+        if (RequestProductionExpense(gold, goldUpkeep, mana, manaUpkeep))
         {
-            if (Gold < 0)
+            if (gold < 0)
             {
-                Gold = 0;
+                gold = 0;
             }
 
-            if (Mana < 0)
+            if (mana < 0)
             {
-                Mana = 0;
+                mana = 0;
             }
 
-            if (ManaUpkeep < 0)
+            if (manaUpkeep < 0)
             {
-                ManaUpkeep = 0;
+                manaUpkeep = 0;
             }
 
-            if (GoldUpkeep < 0)
+            if (goldUpkeep < 0)
             {
-                GoldUpkeep = 0;
+                goldUpkeep = 0;
             }
 
-            FGold -= Gold;
-            FMana -= Mana;
-            FGoldUpkeep -= GoldUpkeep;
-            FManaUpkeep -= ManaUpkeep;
-            FProductionGoldUpkeep += GoldUpkeep;
-            FProductionManaUpkeep += ManaUpkeep;
-            Result = true;
+            Gold -= gold;
+            Mana -= mana;
+            GoldUpkeep -= goldUpkeep;
+            ManaUpkeep -= manaUpkeep;
+            ProductionGoldUpkeep += goldUpkeep;
+            ProductionManaUpkeep += manaUpkeep;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:2029
-    public bool RequestBudgetExpense(int Gold, int Mana, AIBudget Budget, bool UsePool)
+    public bool RequestBudgetExpense(int gold, int mana, AIBudget budget, bool usePool)
     {
         int G;
         int M;
         G = 0;
         M = 0;
-        if (Budget != null)
+        if (budget != null)
         {
-            G += Budget.FGold;
-            M += Budget.FMana;
+            G += budget.Gold;
+            M += budget.Mana;
         }
 
-        if (UsePool)
+        if (usePool)
         {
-            G += FGold;
-            M += FMana;
+            G += Gold;
+            M += Mana;
         }
 
-        return (Gold == 0 || Gold <= G) && (Mana == 0 || Mana <= M);
+        return (gold == 0 || gold <= G) && (mana == 0 || mana <= M);
     }
 
     // AI.pas:2049
-    public bool BudgetExpenseMade(int Gold, int Mana, AIBudget Budget, ExpenseMode Mode)
+    public bool BudgetExpenseMade(int gold, int mana, AIBudget budget, ExpenseMode mode)
     {
-        bool Result;
-        if (RequestBudgetExpense(Gold, Mana, Budget, Mode != ExpenseMode.Budget))
+        bool result;
+        if (RequestBudgetExpense(gold, mana, budget, mode != ExpenseMode.Budget))
         {
-            if (Gold < 0)
+            if (gold < 0)
             {
-                Gold = 0;
+                gold = 0;
             }
 
-            if (Mana < 0)
+            if (mana < 0)
             {
-                Mana = 0;
+                mana = 0;
             }
 
-            if (Mode == ExpenseMode.PoolThenBudget)
+            if (mode == ExpenseMode.PoolThenBudget)
             {
-                if (Gold < FGold)
+                if (gold < Gold)
                 {
-                    FGold -= Gold;
+                    Gold -= gold;
+                    gold = 0;
+                }
+                else
+                {
+                    gold -= Gold;
+                    this.Gold = 0;
+                }
+
+                if (mana < Mana)
+                {
+                    Mana -= mana;
+                    mana = 0;
+                }
+                else
+                {
+                    mana -= Mana;
+                    this.Mana = 0;
+                }
+            }
+
+            if (budget != null)
+            {
+                if (gold < budget.Gold)
+                {
+                    budget.Gold -= gold;
+                    gold = 0;
+                }
+                else
+                {
+                    gold -= budget.Gold;
+                    budget.Gold = 0;
+                }
+
+                if (mana < budget.Mana)
+                {
+                    budget.Mana -= mana;
+                    mana = 0;
+                }
+                else
+                {
+                    mana -= budget.Mana;
+                    budget.Mana = 0;
+                }
+            }
+
+            if (mode == ExpenseMode.BudgetThenPool)
+            {
+                if (gold < Gold)
+                {
+                    Gold -= gold;
+                }
+                else
+                {
                     Gold = 0;
                 }
+
+                if (mana < Mana)
+                {
+                    Mana -= mana;
+                }
                 else
                 {
-                    Gold -= FGold;
-                    FGold = 0;
-                }
-
-                if (Mana < FMana)
-                {
-                    FMana -= Mana;
                     Mana = 0;
                 }
-                else
-                {
-                    Mana -= FMana;
-                    FMana = 0;
-                }
             }
 
-            if (Budget != null)
-            {
-                if (Gold < Budget.FGold)
-                {
-                    Budget.FGold -= Gold;
-                    Gold = 0;
-                }
-                else
-                {
-                    Gold -= Budget.FGold;
-                    Budget.FGold = 0;
-                }
-
-                if (Mana < Budget.FMana)
-                {
-                    Budget.FMana -= Mana;
-                    Mana = 0;
-                }
-                else
-                {
-                    Mana -= Budget.FMana;
-                    Budget.FMana = 0;
-                }
-            }
-
-            if (Mode == ExpenseMode.BudgetThenPool)
-            {
-                if (Gold < FGold)
-                {
-                    FGold -= Gold;
-                }
-                else
-                {
-                    FGold = 0;
-                }
-
-                if (Mana < FMana)
-                {
-                    FMana -= Mana;
-                }
-                else
-                {
-                    FMana = 0;
-                }
-            }
-
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:2113
-    public bool RequestBudgetExpenseEx(int Gold, int Mana, int GoldUpkeep, int ManaUpkeep, AIBudget Budget, bool UsePool)
+    public bool RequestBudgetExpense(int gold, int mana, int goldUpkeep, int manaUpkeep, AIBudget budget, bool usePool)
     {
-        if (Gold < 0)
+        if (gold < 0)
         {
-            Gold = 0;
+            gold = 0;
         }
 
-        if (Mana < 0)
+        if (mana < 0)
         {
-            Mana = 0;
+            mana = 0;
         }
 
-        if (ManaUpkeep < 0)
+        if (manaUpkeep < 0)
         {
-            ManaUpkeep = 0;
+            manaUpkeep = 0;
         }
 
-        if (GoldUpkeep < 0)
+        if (goldUpkeep < 0)
         {
-            GoldUpkeep = 0;
+            goldUpkeep = 0;
         }
 
-        return RequestBudgetExpense(Gold, Mana, Budget, UsePool) && (GoldUpkeep == 0 || GoldUpkeep <= FGoldUpkeep) && (ManaUpkeep == 0 || ManaUpkeep <= FManaUpkeep);
+        return RequestBudgetExpense(gold, mana, budget, usePool) && (goldUpkeep == 0 || goldUpkeep <= GoldUpkeep) && (manaUpkeep == 0 || manaUpkeep <= ManaUpkeep);
     }
 
     // AI.pas:2124
-    public bool BudgetExpenseMadeEx(int Gold, int Mana, int GoldUpkeep, int ManaUpkeep, AIBudget Budget, ExpenseMode Mode)
+    public bool BudgetExpenseMade(int gold, int mana, int goldUpkeep, int manaUpkeep, AIBudget budget, ExpenseMode mode)
     {
-        bool Result;
-        if (RequestBudgetExpenseEx(Gold, Mana, GoldUpkeep, ManaUpkeep, Budget, Mode != ExpenseMode.Budget))
+        bool result;
+        if (RequestBudgetExpense(gold, mana, goldUpkeep, manaUpkeep, budget, mode != ExpenseMode.Budget))
         {
-            if (Gold < 0)
+            if (gold < 0)
             {
-                Gold = 0;
+                gold = 0;
             }
 
-            if (Mana < 0)
+            if (mana < 0)
             {
-                Mana = 0;
+                mana = 0;
             }
 
-            if (ManaUpkeep < 0)
+            if (manaUpkeep < 0)
             {
-                ManaUpkeep = 0;
+                manaUpkeep = 0;
             }
 
-            if (GoldUpkeep < 0)
+            if (goldUpkeep < 0)
             {
-                GoldUpkeep = 0;
+                goldUpkeep = 0;
             }
 
-            Result = BudgetExpenseMade(Gold, Mana, Budget, Mode);
-            FGoldUpkeep -= GoldUpkeep;
-            FManaUpkeep -= ManaUpkeep;
+            result = BudgetExpenseMade(gold, mana, budget, mode);
+            GoldUpkeep -= goldUpkeep;
+            ManaUpkeep -= manaUpkeep;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:2139
-    public bool RequestExpense(int Gold, int Mana) => Gold >= 0 && Mana >= 0 && Gold <= FGold && Mana <= FMana;
+    public bool RequestExpense(int gold, int mana) => gold >= 0 && mana >= 0 && gold <= Gold && mana <= Mana;
 
     // AI.pas:2144
-    public bool ExpenseMade(int Gold, int Mana)
+    public bool ExpenseMade(int gold, int mana)
     {
-        bool Result;
-        if (RequestExpense(Gold, Mana))
+        bool result;
+        if (RequestExpense(gold, mana))
         {
-            if (Gold < 0)
+            if (gold < 0)
             {
-                Gold = 0;
+                gold = 0;
             }
 
-            if (Mana < 0)
+            if (mana < 0)
             {
-                Mana = 0;
+                mana = 0;
             }
 
-            FGold -= Gold;
-            FMana -= Mana;
-            Result = true;
+            Gold -= gold;
+            Mana -= mana;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:2157
-    public bool ReturnExpense(int Gold, int Mana)
+    public bool ReturnExpense(int gold, int mana)
     {
-        if (Gold < 0)
+        if (gold < 0)
         {
-            Gold = 0;
+            gold = 0;
         }
 
-        if (Mana < 0)
+        if (mana < 0)
         {
-            Mana = 0;
+            mana = 0;
         }
 
-        FGold += Gold;
-        FMana += Mana;
+        Gold += gold;
+        Mana += mana;
         return true;
     }
 

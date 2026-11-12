@@ -111,7 +111,7 @@ public sealed class MapNetSoundFailureTests
         foreach (var descriptor in new[] { EngineClass.Of<AoWMapLevel>(), EngineClass.Of<CombatMapLevel>() })
         {
             var owner = new SoundOwner();
-            var level = Assert.IsAssignableFrom<MapLevel>(descriptor.Create(owner));
+            var level = Assert.IsAssignableFrom<MapLevel>(descriptor.CreateInstance(owner));
             Assert.IsType(descriptor.Type, level);
             Assert.Same(level, Assert.Single(owner.Members));
             Assert.Same(owner, level.Owner);
@@ -133,7 +133,7 @@ public sealed class MapNetSoundFailureTests
         {
             var data = SampleData.Create("reference");
             Assert.Equal(1, data.RefCount);
-            Assert.Throws<InvalidDataException>(() => new SampleClass("FailingSample", FailingSample.Create).Create(data));
+            Assert.Throws<InvalidDataException>(() => new SampleClass("FailingSample", FailingSample.Create).CreateInstance(data));
             Assert.Empty(AudioHost.SampleList.List.Take(AudioHost.SampleList.Count));
             Assert.Equal(1, data.RefCount);
             Assert.Same(data, AudioHost.SampleDataList.Find("reference"));
@@ -169,7 +169,7 @@ public sealed class MapNetSoundFailureTests
             SampleData? previous = null;
             for (int i = 0; i < 2; i++)
             {
-                var error = Record.Exception(() => meta.Create(path));
+                var error = Record.Exception(() => meta.CreateInstance(path));
                 if (corrupt)
                 {
                     Assert.IsType<InvalidDataException>(error);

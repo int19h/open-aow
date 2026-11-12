@@ -3,12 +3,12 @@
 namespace Aow.Game.Draw;
 
 // the asynchronous frame loop. calls TCustomDisplay.UpdateFrame through Synchronize at the
-// frame rate. FDisplay, FBusy, FLastTime
+// frame rate. _display, _busy, _lastTime
 public partial class UpdateFrameThread
 {
-    internal CustomDisplay FDisplay;
-    internal bool FBusy;
-    internal int FLastTime;
+    internal CustomDisplay _display;
+    internal bool _busy;
+    internal int _lastTime;
 
     // DisplayC.pas:1069
     internal void TriggerUpdateFrame()
@@ -25,7 +25,7 @@ public partial class UpdateFrameThread
     }
 
     // DisplayC.pas:1105
-    public UpdateFrameThread(CustomDisplay ADisplay)
+    public UpdateFrameThread(CustomDisplay display)
     {
         /* TODO: Implement Classes.Create in the platform or editor service. */
         throw new NotImplementedException();

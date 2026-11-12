@@ -22,73 +22,73 @@ public partial class RaiseTerrainTokenEvent : GlobalTargetSpellTokenEvent
     { }
 
     // Mountain.pas:258
-    public new const int ClassID = 135946;
+    public new const int ClassId = 135946;
 
     // Mountain.pas:317
     public override bool Process(Troop source, int value)
     {
         base.Process(source, value);
         RaiseTerrain(source);
-        AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+        AoWHSMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 1);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         return false;
     }
 
     // Mountain.pas:261
-    public void RaiseTerrain(Troop Caster)
+    public void RaiseTerrain(Troop caster)
     {
-        DelphiList Resources = default;
-        MapLevel Level = default;
-        HexNumberWalkData Walk = default;
-        AoWMapField Field = default;
-        RaisedMountain Mountain = default;
-        MapObjectResource Resource = default;
+        DelphiList resources = default;
+        MapLevel level = default;
+        HexNumberWalkData walk = default;
+        AoWMapField field = default;
+        RaisedMountain mountain = default;
+        MapObjectResource resource = default;
         int I = default;
-        bool Found = default;
-        ImageSequenceAnimation Anim = default;
-        Resources = AoWHSSet.Current.MapObjectResourceList.FChildren;
-        Level = AoWHSMap.Current.MapContainer.MapLevels[FLocation.L];
-        HexNumberWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-        while (Walk.Radius <= 1)
+        bool found = default;
+        ImageSequenceAnimation animation = default;
+        resources = AoWHSSet.Current.MapObjectResourceList._children;
+        level = AoWHSMap.Current.MapContainer.MapLevels[Location.MapLevel];
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
+        while (walk.Radius <= 1)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                Field = (AoWMapField)Level.Field[Walk.X, Walk.Y];
-                Resource = null;
-                if (((GlobalTargetSpell)AoWHSSet.Current.FSpellControl.GetSpell(19)).ValidTargetMapF(Field))
+                field = (AoWMapField)level.Field[walk.X, walk.Y];
+                resource = null;
+                if (((GlobalTargetSpell)AoWHSSet.Current.SpellControl.GetSpell(19)).ValidTargetMapField(field))
                 {
-                    Found = false;
-                    I = Resources.Count;
-                    while (!Found && I != 0)
+                    found = false;
+                    I = resources.Count;
+                    while (!found && I != 0)
                     {
                         I -= 1;
-                        Resource = (MapObjectResource)Resources.List[I];
-                        Found = Resource.EClass.ClassID == 131435 && Resource.TerrainList.UsedTerrain() == 1;
+                        resource = (MapObjectResource)resources.List[I];
+                        found = resource.EngineClass.ClassId == 131435 && resource.TerrainList.UsedTerrain() == 1;
                     }
 
-                    if (Found)
+                    if (found)
                     {
-                        Field.RestoreTerrain();
-                        Mountain = (RaisedMountain)Resource.CreateResourceUser();
-                        Mountain.FDuration = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
-                        Mountain.FPlayer = Caster.FPlayer;
-                        Mountain.FOriginalOverlay = Field.OverlayType;
-                        AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, FLocation.L, 0, -1);
-                        if (AoWHSMap.Current.PlaceHX(Mountain, Walk.X, Walk.Y, FLocation.L))
+                        field.RestoreTerrain();
+                        mountain = (RaisedMountain)resource.CreateResourceUser();
+                        mountain.Duration = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
+                        mountain.Player = caster.Player;
+                        mountain.OriginalOverlay = field.OverlayType;
+                        AoWHSMap.Current.ClearTerrain(walk.X, walk.Y, Location.MapLevel, 0, -1);
+                        if (AoWHSMap.Current.PlaceHex(mountain, walk.X, walk.Y, Location.MapLevel))
                         {
-                            Mountain.FMode = Mountain.FMode + Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
-                            Anim = new ImageSequenceAnimation(null);
-                            Anim.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(19).FCastImages.ImageSequences[0]);
-                            Anim.FOnShow = Mountain.ShowRaiseTerrainAnimation;
-                            Anim.FOnNewFrame = Mountain.NewFrameRaiseTerrainAnimation;
-                            Anim.FFrameCounter = -AoWHSMap.Current.Random(15);
-                            AoWHSMap.Current.PlaceHX(Anim, Walk.X, Walk.Y, FLocation.L);
+                            mountain.Mode = mountain.Mode + Set<RaisedMountainMode>.Of(RaisedMountainMode.Raising);
+                            animation = new ImageSequenceAnimation(null);
+                            animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(19).CastImages.ImageSequences[0]);
+                            animation.OnShow = mountain.ShowRaiseTerrainAnimation;
+                            animation.OnNewFrame = mountain.NewFrameRaiseTerrainAnimation;
+                            animation.FrameCounter = -AoWHSMap.Current.Random(15);
+                            AoWHSMap.Current.PlaceHex(animation, walk.X, walk.Y, Location.MapLevel);
                         }
                     }
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 

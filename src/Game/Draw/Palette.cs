@@ -8,44 +8,44 @@ namespace Aow.Game.Draw;
 
 public partial class Palette
 {
-    public int PixelFormatID;
+    public int PixelFormatId;
     public Entry[] Entries = new Entry[256];
 
     // GFXE.pas:11050
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        Stream.ReadExactly(Bytes.Of(ref PixelFormatID, 4));
-        Stream.ReadExactly(MemoryMarshal.AsBytes((Span<Entry>)Entries).Slice(0, 1024));
+        stream.ReadExactly(Bytes.Of(ref PixelFormatId, 4));
+        stream.ReadExactly(MemoryMarshal.AsBytes((Span<Entry>)Entries).Slice(0, 1024));
     }
 
     // GFXE.pas:11056
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        Stream.Write(Bytes.Of(ref PixelFormatID, 4));
-        Stream.Write(MemoryMarshal.AsBytes((ReadOnlySpan<Entry>)Entries).Slice(0, 1024));
+        stream.Write(Bytes.Of(ref PixelFormatId, 4));
+        stream.Write(MemoryMarshal.AsBytes((ReadOnlySpan<Entry>)Entries).Slice(0, 1024));
     }
 
     // GFXE.pas:11068
     // The original returns a pointer to the entry, a reference here.
-    public ref Entry GetEntry(int Index) => ref Entries[Index];
+    public ref Entry GetEntry(int index) => ref Entries[index];
 
     // GFXE.pas:11073
-    public int Remap(int NewPixelFormatID)
+    public int Remap(int newPixelFormatId)
     {
-        int Result = PixelFormats.GFXE_OK;
-        if (NewPixelFormatID != PixelFormatID)
+        int result = PixelFormats.GFXE_OK;
+        if (newPixelFormatId != PixelFormatId)
         {
-            switch (PixelFormatID)
+            switch (PixelFormatId)
             {
                 case PixelFormats.pfBGR24:
-                    switch (NewPixelFormatID)
+                    switch (newPixelFormatId)
                     {
                         case PixelFormats.pfRGB565:
                             {
                                 for (int I = 0; I <= 255; I++)
                                 {
                                     ref Entry paletteEntry = ref Entries[I];
-                                    paletteEntry.W = (ushort)(((paletteEntry.R & 248) << 8) + ((paletteEntry.G & 252) << 3) + (int)(((uint)paletteEntry.B) >> 3));
+                                    paletteEntry.PackedColor = (ushort)(((paletteEntry.Red & 248) << 8) + ((paletteEntry.Green & 252) << 3) + (int)(((uint)paletteEntry.Blue) >> 3));
                                 }
                             }
 
@@ -55,29 +55,29 @@ public partial class Palette
                                 for (int I = 0; I <= 255; I++)
                                 {
                                     ref Entry paletteEntry = ref Entries[I];
-                                    paletteEntry.W = (ushort)(((paletteEntry.R & 248) << 7) + ((paletteEntry.G & 248) << 2) + (int)(((uint)paletteEntry.B) >> 3));
+                                    paletteEntry.PackedColor = (ushort)(((paletteEntry.Red & 248) << 7) + ((paletteEntry.Green & 248) << 2) + (int)(((uint)paletteEntry.Blue) >> 3));
                                 }
                             }
 
                             break;
                         case PixelFormats.pfXRGB32:
-                            Result = PixelFormats.GFXE_OK;
+                            result = PixelFormats.GFXE_OK;
                             break;
                         default:
-                            Result = PixelFormats.GFXE_NOTSUPPORTED;
+                            result = PixelFormats.GFXE_NOTSUPPORTED;
                             break;
                     }
 
                     break;
                 case PixelFormats.pfRGB24:
-                    switch (NewPixelFormatID)
+                    switch (newPixelFormatId)
                     {
                         case PixelFormats.pfRGB565:
                             {
                                 for (int I = 0; I <= 255; I++)
                                 {
                                     ref Entry paletteEntry = ref Entries[I];
-                                    paletteEntry.W = (ushort)(((paletteEntry.B & 248) << 8) + ((paletteEntry.G & 252) << 3) + (int)(((uint)paletteEntry.R) >> 3));
+                                    paletteEntry.PackedColor = (ushort)(((paletteEntry.Blue & 248) << 8) + ((paletteEntry.Green & 252) << 3) + (int)(((uint)paletteEntry.Red) >> 3));
                                 }
                             }
 
@@ -87,106 +87,106 @@ public partial class Palette
                                 for (int I = 0; I <= 255; I++)
                                 {
                                     ref Entry paletteEntry = ref Entries[I];
-                                    paletteEntry.W = (ushort)(((paletteEntry.B & 248) << 7) + ((paletteEntry.G & 248) << 2) + (int)(((uint)paletteEntry.R) >> 3));
+                                    paletteEntry.PackedColor = (ushort)(((paletteEntry.Blue & 248) << 7) + ((paletteEntry.Green & 248) << 2) + (int)(((uint)paletteEntry.Red) >> 3));
                                 }
                             }
 
                             break;
                         case PixelFormats.pfXRGB32:
-                            Result = PixelFormats.GFXE_OK;
+                            result = PixelFormats.GFXE_OK;
                             break;
                         default:
-                            Result = PixelFormats.GFXE_NOTSUPPORTED;
+                            result = PixelFormats.GFXE_NOTSUPPORTED;
                             break;
                     }
 
                     break;
                 default:
-                    Result = PixelFormats.GFXE_NOTSUPPORTED;
+                    result = PixelFormats.GFXE_NOTSUPPORTED;
                     break;
             }
 
-            if (Succeeded(Result))
+            if (Succeeded(result))
             {
-                PixelFormatID = NewPixelFormatID;
+                PixelFormatId = newPixelFormatId;
             }
         }
         else
         {
-            Result = PixelFormats.GFXE_OK;
+            result = PixelFormats.GFXE_OK;
         }
 
-        return Result;
+        return result;
     }
 
     // GFXE.pas:11140
-    public bool Compare(Palette Palette)
+    public bool Compare(Palette palette)
     {
-        bool Result;
+        bool result;
         int I;
-        if (Palette.PixelFormatID == PixelFormatID)
+        if (palette.PixelFormatId == PixelFormatId)
         {
-            switch (PixelFormatID & 31)
+            switch (PixelFormatId & 31)
             {
                 case 8:
-                    Result = true;
+                    result = true;
                     I = 255;
-                    while (I >= 0 && Result)
+                    while (I >= 0 && result)
                     {
-                        Result = Palette.Entries[I].W == Entries[I].W;
+                        result = palette.Entries[I].PackedColor == Entries[I].PackedColor;
                         I -= 1;
                     }
 
                     break;
                 case 16:
-                    Result = true;
+                    result = true;
                     I = 255;
-                    while (I >= 0 && Result)
+                    while (I >= 0 && result)
                     {
-                        Result = Palette.Entries[I].W == Entries[I].W;
+                        result = palette.Entries[I].PackedColor == Entries[I].PackedColor;
                         I -= 1;
                     }
 
                     break;
                 case 24:
-                    Result = true;
+                    result = true;
                     I = 255;
-                    while (I >= 0 && Result)
+                    while (I >= 0 && result)
                     {
-                        Result = Palette.Entries[I].W == Entries[I].W && Palette.Entries[I].B == Entries[I].B;
+                        result = palette.Entries[I].PackedColor == Entries[I].PackedColor && palette.Entries[I].Blue == Entries[I].Blue;
                         I -= 1;
                     }
 
                     break;
                 case 32:
-                    Result = CompareMem(MemoryMarshal.AsBytes((ReadOnlySpan<Entry>)Entries).Slice(0, 1024), MemoryMarshal.AsBytes((ReadOnlySpan<Entry>)Palette.Entries).Slice(0, 1024), 1024);
+                    result = CompareMem(MemoryMarshal.AsBytes((ReadOnlySpan<Entry>)Entries).Slice(0, 1024), MemoryMarshal.AsBytes((ReadOnlySpan<Entry>)palette.Entries).Slice(0, 1024), 1024);
                     break;
                 default:
-                    Result = false;
+                    result = false;
                     break;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 4)]
     public struct Entry
     {
         [FieldOffset(0)]
-        public byte R;
+        public byte Red;
         [FieldOffset(1)]
-        public byte G;
+        public byte Green;
         [FieldOffset(2)]
-        public byte B;
+        public byte Blue;
         [FieldOffset(3)]
         public byte Reserved;
         [FieldOffset(0)]
-        public ushort W;
+        public ushort PackedColor;
         [FieldOffset(0)]
         public int Value;
     }

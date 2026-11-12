@@ -3,39 +3,39 @@ namespace Aow.Rtl.Localize;
 
 public partial class IvDictionary
 {
-    private readonly MldDictionary dictionary = new();
+    private readonly MldDictionary _dictionary = new();
 
     public string DictionaryName { get; private set; } = "";
-    public MldDictionary Reader => dictionary;
+    public MldDictionary Reader => _dictionary;
 
     internal void SelectLanguage(int language)
     {
         if (language == 1 && DictionaryName == "ResourceStringDictionary")
             language = LocalizationRuntime.ReadLanguage(RtlUnit.Settings);
-        dictionary.SetLanguage(language);
-        FLanguage = dictionary.Language;
+        _dictionary.SetLanguage(language);
+        Language = _dictionary.Language;
     }
 
     internal void NameDictionary(string name) => DictionaryName = name;
 
     internal void OpenDictionary()
     {
-        dictionary.Close();
-        dictionary.SetLanguage(FLanguage);
-        dictionary.Open(FFileName);
+        _dictionary.Close();
+        _dictionary.SetLanguage(Language);
+        _dictionary.Open(FileName);
         if (DictionaryName == "ResourceStringDictionary")
         {
-            string path = RtlUnit.Files.ExpandPath(FFileName);
+            string path = RtlUnit.Files.ExpandPath(FileName);
             LocalizationRuntime.StartupDirectory = Path.GetDirectoryName(Path.GetDirectoryName(path)) ?? "";
         }
     }
 
     public string TranslateContext(string source, string form, string component)
-        => dictionary.TranslateContext(source, form, component);
+        => _dictionary.TranslateContext(source, form, component);
 
     public override void Dispose()
     {
-        dictionary.Close();
+        _dictionary.Close();
         base.Dispose();
     }
 }

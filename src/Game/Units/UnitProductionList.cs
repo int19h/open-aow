@@ -11,39 +11,39 @@ public partial class UnitProductionList : ENode
     { }
 
     // Structur.PAS:14
-    public UnitProduction GetItem(int Index)
+    public UnitProduction GetItem(int index)
     {
-        UnitProduction Result;
-        if (Index >= 0 && Index < Count)
+        UnitProduction result;
+        if (index >= 0 && index < Count)
         {
-            Result = (UnitProduction)FChildren.List[Index];
+            result = (UnitProduction)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:20
-    public void Add(int UnitIndex, bool Researched)
+    public void Add(int unitIndex, bool researched)
     {
         var unitProduction = new UnitProduction(this);
-        unitProduction.FUnitIndex = UnitIndex;
-        unitProduction.FResearched = Researched;
+        unitProduction.UnitIndex = unitIndex;
+        unitProduction.Researched = researched;
     }
 
     // Structur.PAS:29
-    public int IndexOf(int Index)
+    public int IndexOf(int index)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (Index == GetItem(Result).FUnitIndex)
+            result -= 1;
+            if (index == GetItem(result).UnitIndex)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -53,20 +53,20 @@ public partial class UnitProductionList : ENode
     // Structur.PAS:55
     public void SortOnLevel()
     {
-        FChildren.Sort(CompareUnitProductionLevel);
+        _children.Sort(CompareUnitProductionLevel);
     }
 
-    private static int CompareUnitProductionLevel(object Item1, object Item2)
+    private static int CompareUnitProductionLevel(object item1, object item2)
     {
-        UnitProduction tUnitProduction = (UnitProduction)Item1;
-        int num = ((AoWHSSet.Current.FUnitResources.GetUnitResource(tUnitProduction.FUnitIndex) != null) ? (AoWHSSet.Current.FUnitResources.GetUnitResource(tUnitProduction.FUnitIndex).FLevel * 2) : 0);
-        int num2 = ((AoWHSSet.Current.FUnitResources.GetUnitResource(((UnitProduction)Item2).FUnitIndex) != null) ? (AoWHSSet.Current.FUnitResources.GetUnitResource(((UnitProduction)Item2).FUnitIndex).FLevel * 2) : 0);
-        int num3 = num - num2;
-        if (num3 == 0)
+        UnitProduction unitProduction = (UnitProduction)item1;
+        int number = ((AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex) != null) ? (AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 2) : 0);
+        int number2 = ((AoWHSSet.Current.UnitResources.GetUnitResource(((UnitProduction)item2).UnitIndex) != null) ? (AoWHSSet.Current.UnitResources.GetUnitResource(((UnitProduction)item2).UnitIndex).Level * 2) : 0);
+        int number3 = number - number2;
+        if (number3 == 0)
         {
-            num3 = ((UnitProduction)Item1).FUnitIndex - ((UnitProduction)Item2).FUnitIndex;
+            number3 = ((UnitProduction)item1).UnitIndex - ((UnitProduction)item2).UnitIndex;
         }
-        return num3;
+        return number3;
     }
 
     // Engine.pas:631

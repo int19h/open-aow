@@ -7,20 +7,20 @@ public partial class AltarResource : PlayerStructureResource
 {
     public AltarResource(ECustomNode owner) : base(owner)
     {
-        FClaimed = false;
-        FRazeable = true;
-        FRazeDefenderBudget = 150;
-        FRebuildGold = 50;
-        FRebuildDays = 2;
+        Claimed = false;
+        Razeable = true;
+        RazeDefenderBudget = 150;
+        RebuildGold = 50;
+        RebuildDays = 2;
     }
 
     // Altar.pas:307
-    public new const int ClassID = 132082;
+    public new const int ClassId = 132082;
 
     // Altar.pas:294
 
     // Altar.pas:310
-    public override int ResourceUserClassID() => 132081;
+    public override int ResourceUserClassId() => 132081;
 
     // Altar.pas:49
 

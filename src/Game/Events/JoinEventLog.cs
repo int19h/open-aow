@@ -24,131 +24,131 @@ public partial class JoinEventLog : EventLog
     // Diplomacy.pas:1
     public JoinEventLog(ECustomNode owner) : base(owner)
     {
-        FUnitIDs = new Int32List();
-        FJoinMessage = new StringList();
-        FLocation.X = -1;
-        FLocation.Y = -1;
-        FLocation.L = -1;
-        FJoinIndex = -1;
+        UnitIds = new Int32List();
+        JoinMessage = new StringList();
+        Location.X = -1;
+        Location.Y = -1;
+        Location.MapLevel = -1;
+        JoinIndex = -1;
     }
 
-    public int FFirstUnitID;
-    public Int32List FUnitIDs;
-    public MapCoordinate FLocation;
-    public byte FSelection;
-    public int FJoinIndex;
-    public StringList FJoinMessage;
-    public int FGold;
-    public JoinMode FJoinMode;
-    public string FText = "";
+    public int FirstUnitId;
+    public Int32List UnitIds;
+    public MapCoordinate Location;
+    public byte Selection;
+    public int JoinIndex;
+    public StringList JoinMessage;
+    public int Gold;
+    public JoinMode JoinMode;
+    public string Text = "";
 
     // Diplomacy.pas:12
     public override void Dispose()
     {
-        FUnitIDs?.Dispose();
-        FJoinMessage?.Dispose();
+        UnitIds?.Dispose();
+        JoinMessage?.Dispose();
         base.Dispose();
     }
 
     // Diplomacy.pas:19
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FFirstUnitID, 21);
-        Stream.rwStreamProc(22, FUnitIDs.LoadFromStream, FUnitIDs.SaveToStream);
-        Stream.rwByte(ref FSelection, 23);
-        Stream.rwStrings(FJoinMessage, 24);
-        Stream.rwInteger(ref FGold, 25);
-        Stream.rwInteger(ref Unsafe.As<MapCoordinate, int>(ref FLocation), 26);
-        Stream.rwData(Bytes.Of(ref FJoinMode, 1), 1, 27);
-        Stream.rwString(ref FText, 28);
-        Stream.rwIntegerEx(ref FJoinIndex, -1, 29);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref FirstUnitId, 21);
+        stream.rwStreamProc(22, UnitIds.LoadFromStream, UnitIds.SaveToStream);
+        stream.rwByte(ref Selection, 23);
+        stream.rwStrings(JoinMessage, 24);
+        stream.rwInteger(ref Gold, 25);
+        stream.rwInteger(ref Unsafe.As<MapCoordinate, int>(ref Location), 26);
+        stream.rwData(Bytes.Of(ref JoinMode, 1), 1, 27);
+        stream.rwString(ref Text, 28);
+        stream.rwIntegerEx(ref JoinIndex, -1, 29);
     }
 
     // Diplomacy.pas:58
     public virtual bool Validate()
     {
         int I;
-        Troop AUnit;
-        MapCoordinate Location = default;
-        bool Result = true;
-        I = FUnitIDs.Count;
-        while (Result && I != 0)
+        Troop troop;
+        MapCoordinate location = default;
+        bool result = true;
+        I = UnitIds.Count;
+        while (result && I != 0)
         {
             I -= 1;
-            var item = FUnitIDs[I];
-            AUnit = AoWHSMap.Current.FUnitControl.FindUnit(item);
+            var item = UnitIds[I];
+            troop = AoWHSMap.Current.UnitControl.FindUnit(item);
             // { Original behavior: missing and dead units do not invalidate the offer. }
-            if (AUnit != null && AUnit.FPlayer == 0)
+            if (troop != null && troop.Player == 0)
             {
-                AUnit.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
-                Result = FLocation.X == Location.X && FLocation.Y == Location.Y && FLocation.L == Location.L;
+                troop.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+                result = Location.X == location.X && Location.Y == location.Y && Location.MapLevel == location.MapLevel;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:80
-    public virtual void ListJoinUnits(UnitList Units, ref byte Selection)
+    public virtual void ListJoinUnits(UnitList units, ref byte selection)
     {
-        Troop AUnit;
-        for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
+        Troop troop;
+        for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)
         {
-            var item = FUnitIDs[I];
-            AUnit = AoWHSMap.Current.FUnitControl.FindUnit(item);
-            Units.AddUnit(AUnit);
+            var item = UnitIds[I];
+            troop = AoWHSMap.Current.UnitControl.FindUnit(item);
+            units.AddUnit(troop);
         }
 
-        Selection = FSelection;
+        selection = Selection;
     }
 
     // Diplomacy.pas:93
-    public virtual bool Accept(ref string ErrorText)
+    public virtual bool Accept(ref string errorText)
     {
-        bool Result;
-        if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FGems >= FGold)
+        bool result;
+        if (AoWHSMap.Current.Players.GetPlayers(_player).Gems >= Gold)
         {
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
-            ErrorText = AbilityRules.TranslateRStr(GameText.P5NotEnoughGoldRStr);
+            result = false;
+            errorText = AbilityRules.TranslateResourceString(GameText.s_tributeNotEnoughGoldText);
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:105
     public virtual bool Cancel() => true;
 
     // Diplomacy.pas:110
-    public virtual bool Reject(ref string ErrorText) => true;
+    public virtual bool Reject(ref string errorText) => true;
 
     // Diplomacy.pas:33
-    public void SetupJoinArmy(Army Army, sbyte Player, JoinMode JoinMode)
+    public void SetupJoinArmy(Army army, sbyte player, JoinMode joinMode)
     {
-        FFirstUnitID = 0;
-        FPlayer = (sbyte)(byte)Player;
-        FSelection = Army.GetJoinSelection(Player);
-        FGold = Army.JoinAmount(Player, FSelection);
-        FJoinMode = JoinMode;
-        FUnitIDs.Clear();
-        for (int I = 0, last = Army.Count - 1; I <= last; I++)
+        FirstUnitId = 0;
+        _player = (sbyte)(byte)player;
+        Selection = army.GetJoinSelection(player);
+        Gold = army.JoinAmount(player, Selection);
+        JoinMode = joinMode;
+        UnitIds.Clear();
+        for (int I = 0, last = army.Count - 1; I <= last; I++)
         {
-            if (FFirstUnitID == 0 && ((1 << I) & FSelection) != 0)
+            if (FirstUnitId == 0 && ((1 << I) & Selection) != 0)
             {
-                FFirstUnitID = Army.GetUnit(I).FUnitID;
-                var selectionCount = Army.SelectionCount(FSelection);
-                Army.GetUnit(I).GetJoinMessage(Player, selectionCount - 1, FGold, JoinMode, FJoinMessage);
+                FirstUnitId = army.GetUnit(I).UnitId;
+                var selectionCount = army.SelectionCount(Selection);
+                army.GetUnit(I).GetJoinMessage(player, selectionCount - 1, Gold, joinMode, JoinMessage);
             }
 
-            var unit = Army.GetUnit(I);
-            FUnitIDs.Add(unit.FUnitID);
+            var troop = army.GetUnit(I);
+            UnitIds.Add(troop.UnitId);
         }
 
-        FLocation = HexGeometry.PackXYL(Army.FX, Army.FY, Army.FL);
+        Location = HexGeometry.PackMapCoordinate(army.X, army.Y, army.MapLevel);
     }
 
 }

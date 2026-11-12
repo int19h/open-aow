@@ -5,15 +5,15 @@ namespace Aow.Formats;
 /// <summary>A JSON path such as root.Players.Children[1].Leader, built only when a diagnostic needs it.</summary>
 public sealed class DocumentNodePath
 {
-    private readonly DocumentNodePath? parent;
-    private readonly string? name;
-    private readonly int index;
+    private readonly DocumentNodePath? _parent;
+    private readonly string? _name;
+    private readonly int _index;
 
     private DocumentNodePath(DocumentNodePath? parent, string? name, int index)
     {
-        this.parent = parent;
-        this.name = name;
-        this.index = index;
+        this._parent = parent;
+        this._name = name;
+        this._index = index;
     }
 
     public static DocumentNodePath Root { get; } = new(null, "root", -1);
@@ -28,17 +28,17 @@ public sealed class DocumentNodePath
     public override string ToString()
     {
         var parts = new List<DocumentNodePath>();
-        for (var p = this; p is not null; p = p.parent) parts.Add(p);
+        for (var p = this; p is not null; p = p._parent) parts.Add(p);
         parts.Reverse();
         var builder = new StringBuilder();
         foreach (var p in parts)
         {
-            if (p.name is not null)
+            if (p._name is not null)
             {
                 if (builder.Length > 0) builder.Append('.');
-                builder.Append(p.name);
+                builder.Append(p._name);
             }
-            else builder.Append('[').Append(p.index).Append(']');
+            else builder.Append('[').Append(p._index).Append(']');
         }
         return builder.ToString();
     }

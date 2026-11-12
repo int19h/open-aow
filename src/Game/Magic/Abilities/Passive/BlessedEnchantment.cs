@@ -9,50 +9,50 @@ public partial class BlessedEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1211
     public BlessedEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(BlessedRStr);
-        FAbilityID = 158;
+        AbilityName = AbilityRules.TranslateResourceString(s_blessedText);
+        AbilityId = 158;
     }
 
     // PassiveAb.pas:1219
-    public override sbyte GetDefense(AbilityOwner Owner) => 1;
+    public override sbyte GetDefense(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1225
-    public override sbyte GetResistance(AbilityOwner Owner) => 1;
+    public override sbyte GetResistance(AbilityOwner owner) => 1;
 
     // PassiveAb.pas:1231
-    public override string GetSourceName(AbilityOwner Owner)
+    public override string GetSourceName(AbilityOwner owner)
     {
-        string Result;
+        string result;
         // { Original assumes the ability data and enchantment exist. }
-        var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
-        if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
+        var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+        if (unitEnchantmentAbilityData.Enchantment.Source == -2)
         {
-            Result = AbilityRules.TranslateRStr(GameText.LifeMasteryRStr);
+            result = AbilityRules.TranslateResourceString(GameText.s_lifeMasteryText);
         }
         else
         {
-            Result = base.GetSourceName(Owner);
+            result = base.GetSourceName(owner);
         }
 
-        return Result;
+        return result;
     }
 
     // PassiveAb.pas:1242
-    public override int GetAIUpkeepPriority(AbilityOwner Owner)
+    public override int GetAIUpkeepPriority(AbilityOwner owner)
     {
-        if (Owner is not Troop unit)
+        if (owner is not Troop troop)
         {
             return 0;
         }
 
-        int Result = unit.GetUnitLevel() + 200;
-        if (unit is Leader)
+        int result = troop.GetUnitLevel() + 200;
+        if (troop is Leader)
         {
-            Result += 50;
+            result += 50;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string BlessedRStr = "Blessed";
+    private static readonly string s_blessedText = "Blessed";
 }

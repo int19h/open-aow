@@ -15,9 +15,9 @@ public partial class GreatHail : CombatSpell
     // CombatSpells.pas:1472
     public GreatHail(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GreatHailRStr);
-        FSpellID = 116;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_greatHailText);
+        SpellId = 116;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 5;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
@@ -26,5 +26,5 @@ public partial class GreatHail : CombatSpell
         spellCombatInfo.Radius = 2;
     }
 
-    private static readonly string GreatHailRStr = "Great Hail";
+    private static readonly string s_greatHailText = "Great Hail";
 }

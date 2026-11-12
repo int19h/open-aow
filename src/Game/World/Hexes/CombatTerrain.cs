@@ -21,12 +21,12 @@ public partial class CombatTerrain : TerrainMapObject
     { }
 
     // CombatTerrain.pas:82
-    public new const int ClassID = 2228582;
+    public new const int ClassId = 2228582;
 
-    public CombatTerrainShadow FShadow;
-    public int FHitPoints;
-    public bool FDamaged;
-    public int FDefense;
+    public CombatTerrainShadow Shadow;
+    public int HitPoints;
+    public bool Damaged;
+    public int Defense;
 
     // CombatTerrain.pas:85
     public override void Dispose()
@@ -38,134 +38,134 @@ public partial class CombatTerrain : TerrainMapObject
     // CombatTerrain.pas:269
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
-        if (Result)
+        bool result = base.PlaceOnMap();
+        if (result)
         {
-            var yhx = Yhx;
-            var xhx = Xhx;
-            UpdateMapFields((MapLevel)Owner.Owner, xhx, yhx);
+            var hexY = HexY;
+            var hexX = HexX;
+            UpdateMapFields((MapLevel)Owner.Owner, hexX, hexY);
         }
 
-        return Result;
+        return result;
     }
 
     // CombatTerrain.pas:275
     public override void RemoveFromMap()
     {
-        MapLevel MapLevel;
-        MapLevel = (MapLevel)Owner.Owner;
+        MapLevel mapLevel;
+        mapLevel = (MapLevel)Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(MapLevel, FXhx, FYhx);
+        UpdateMapFields(mapLevel, _hexX, _hexY);
     }
 
     // CombatTerrain.pas:149
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        AbilityCombatInfo AbilityInfo = default;
-        SpellCombatInfo SpellInfo = default;
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.HN == 0)
+        AbilityCombatInfo abilityInfo = default;
+        SpellCombatInfo spellInfo = default;
+        base.MapFieldMessageProc(ref message);
+        if (message.HexNumber == 0)
         {
-            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)FResource).DecorationType))
+            if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)_resource).DecorationType))
             {
-                switch (Msg.MsgID)
+                switch (message.MessageId)
                 {
                     case 200704:
-                        AoWHSSet.Current.FAbilityControl.GetAbility(65).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                        AoWHSSet.Current.AbilityControl.GetAbility(65).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole);
+                        var executeDamageRole = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole);
                         break;
                     case 200705:
-                        AoWHSSet.Current.FAbilityControl.GetAbility(24).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                        AoWHSSet.Current.AbilityControl.GetAbility(24).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole2 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole2);
+                        var executeDamageRole2 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole2);
                         break;
                     case 200706:
-                        AoWHSSet.Current.FAbilityControl.GetAbility(44).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                        AoWHSSet.Current.AbilityControl.GetAbility(44).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole3 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole3);
+                        var executeDamageRole3 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole3);
                         break;
                     case 200707:
-                        AoWHSSet.Current.FSpellControl.GetSpell(117).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        AoWHSSet.Current.SpellControl.GetSpell(117).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole4 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole4);
+                        var executeDamageRole4 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole4);
                         break;
                     case 200714:
-                        AoWHSSet.Current.FAbilityControl.GetAbility(31).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                        AoWHSSet.Current.AbilityControl.GetAbility(31).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole5);
+                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole5);
                         break;
                     case 200715:
-                        AoWHSSet.Current.FSpellControl.GetSpell(113).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        AoWHSSet.Current.SpellControl.GetSpell(113).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole6 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole6);
+                        var executeDamageRole6 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole6);
                         break;
                     case 200722:
-                        if (Msg.Param[1].Int == 30 || Msg.Param[1].Int == 86)
+                        if (message.Param[1].Int == 30 || message.Param[1].Int == 86)
                         {
-                            AoWHSSet.Current.FAbilityControl.GetAbility(Msg.Param[1].Int).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                            AoWHSSet.Current.AbilityControl.GetAbility(message.Param[1].Int).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref abilityInfo);
                             RandSeed = AoWHSMap.Current.Random(16777215);
-                            var executeDamageRole7 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - FDefense);
-                            SetHitPoints(FHitPoints - executeDamageRole7);
+                            var executeDamageRole7 = AbilityRules.ExecuteDamageRole(abilityInfo.Damage, abilityInfo.Attack - Defense);
+                            SetHitPoints(HitPoints - executeDamageRole7);
                         }
 
                         break;
                     case 200723:
-                        if (Msg.Param[1].Int == 114)
+                        if (message.Param[1].Int == 114)
                         {
-                            AoWHSSet.Current.FSpellControl.GetSpell(Msg.Param[1].Int).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                            AoWHSSet.Current.SpellControl.GetSpell(message.Param[1].Int).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                             RandSeed = AoWHSMap.Current.Random(16777215);
-                            var executeDamageRole7 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
-                            SetHitPoints(FHitPoints - executeDamageRole7);
+                            var executeDamageRole7 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - Defense);
+                            SetHitPoints(HitPoints - executeDamageRole7);
                         }
 
                         break;
                     case 200710:
-                        AoWHSSet.Current.FSpellControl.GetSpell(116).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        AoWHSSet.Current.SpellControl.GetSpell(116).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole8 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole8);
+                        var executeDamageRole8 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole8);
                         break;
                     case 200717:
-                        AoWHSSet.Current.FSpellControl.GetSpell(127).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        AoWHSSet.Current.SpellControl.GetSpell(127).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole9 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole9);
+                        var executeDamageRole9 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole9);
                         break;
                     case 200718:
-                        AoWHSSet.Current.FSpellControl.GetSpell(128).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        AoWHSSet.Current.SpellControl.GetSpell(128).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole10 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole10);
+                        var executeDamageRole10 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole10);
                         break;
                     case 200708:
-                        FDamaged = Msg.Param[1].Int == 0;
-                        AoWHSSet.Current.FSpellControl.GetSpell(112).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        Damaged = message.Param[1].Int == 0;
+                        AoWHSSet.Current.SpellControl.GetSpell(112).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole11 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole11);
-                        Msg.Param[1] = 1;
+                        var executeDamageRole11 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole11);
+                        message.Param[1] = 1;
                         break;
                     case 200711:
                         RandSeed = AoWHSMap.Current.Random(16777215);
-                        var executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.TCDamage[1], TacticalTables.TCAttack[1] - FDefense);
-                        SetHitPoints(FHitPoints - executeDamageRole12);
+                        var executeDamageRole12 = AbilityRules.ExecuteDamageRole(TacticalTables.s_tacticalBattleDamage[1], TacticalTables.s_tacticalBattleAttack[1] - Defense);
+                        SetHitPoints(HitPoints - executeDamageRole12);
                         break;
                 }
             }
 
-            switch (Msg.MsgID)
+            switch (message.MessageId)
             {
                 case 135169:
-                    if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0 && Msg.Param[0].Int < ((Resource)FResource).FDefense)
+                    if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0 && message.Param[0].Int < ((Resource)_resource).Defense)
                     {
-                        Msg.Param[0] = ((Resource)FResource).FDefense;
+                        message.Param[0] = ((Resource)_resource).Defense;
                     }
 
                     break;
@@ -174,14 +174,14 @@ public partial class CombatTerrain : TerrainMapObject
     }
 
     // CombatTerrain.pas:291
-    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
+        if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
         {
-            if (FResource.TerrainList.GetOverlay(Info.HN) == 8)
+            if (_resource.TerrainList.GetOverlay(info.HexNumber) == 8)
             {
-                MoveResult.Code = -1;
-                MoveResult.Done = true;
+                moveResult.Code = -1;
+                moveResult.Done = true;
             }
         }
     }
@@ -190,16 +190,16 @@ public partial class CombatTerrain : TerrainMapObject
     public override void Activate()
     {
         base.Activate();
-        if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)FResource).DecorationType))
+        if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).Contains((byte)((TerrainMapObjectResource)_resource).DecorationType))
         {
-            FHitPoints = 3;
+            HitPoints = 3;
         }
         else
         {
-            FHitPoints = 0;
+            HitPoints = 0;
         }
 
-        FDefense = -2;
+        Defense = -2;
         CreateShadow();
     }
 
@@ -211,84 +211,84 @@ public partial class CombatTerrain : TerrainMapObject
     }
 
     // CombatTerrain.pas:284
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        base.UpdateMapField(Info);
-        if (Info.HN < FResource.TerrainList.Count)
+        base.UpdateMapField(info);
+        if (info.HexNumber < _resource.TerrainList.Count)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 16384;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16384;
         }
     }
 
     // CombatTerrain.pas:124
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!FStatus.Contains(MapObjectStatusElement.Visible))
+        if (!_status.Contains(MapObjectStatusElement.Visible))
         {
-            base.MakeVisible(VisibilityList);
-            if (FShadow != null)
+            base.MakeVisible(visibilityList);
+            if (Shadow != null)
             {
-                var showPriority = FShadow.GetShowPriority();
-                VisibilityList.AddSortChild(FShadow, showPriority);
+                var showPriority = Shadow.GetShowPriority();
+                visibilityList.AddSortChild(Shadow, showPriority);
             }
         }
     }
 
     // CombatTerrain.pas:91
-    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
 
     // CombatTerrain.pas:106
-    public override bool CanPlaceOnHS(HexSprite HS) => base.CanPlaceOnHS(HS) || HS is AbstractRoad;
+    public override bool CanPlaceOnHexSprite(HexSprite hexSprite) => base.CanPlaceOnHexSprite(hexSprite) || hexSprite is AbstractRoad;
 
     // CombatTerrain.pas:96
     public void DestroyShadow()
     {
-        if (FShadow != null)
+        if (Shadow != null)
         {
             if (GetVisible())
             {
-                FResource.Engine.HSMap.DynamicVisibleHS.RemoveChild(FShadow);
+                _resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(Shadow);
             }
 
-            FShadow?.Dispose();
-            FShadow = null;
+            Shadow?.Dispose();
+            Shadow = null;
         }
     }
 
     // CombatTerrain.pas:111
     public void CreateShadow()
     {
-        if (FResource.ImageSequenceList.GetImageSequence(40) != null)
+        if (_resource.ImageSequenceList.GetImageSequence(40) != null)
         {
-            if (FShadow != null)
+            if (Shadow != null)
             {
                 DestroyShadow();
             }
 
-            if (AoWHSMap.Current == null || AoWHSMap.Current.FShowUnitShadows)
+            if (AoWHSMap.Current == null || AoWHSMap.Current.ShowUnitShadows)
             {
-                FShadow = new CombatTerrainShadow(null);
-                FShadow.FTerrain = this;
+                Shadow = new CombatTerrainShadow(null);
+                Shadow._terrain = this;
             }
         }
     }
 
     // CombatTerrain.pas:133
-    public void SetHitPoints(int Value)
+    public void SetHitPoints(int value)
     {
         // { Original ignores Value and only marks the terrain damaged. }
-        FDamaged = true;
+        Damaged = true;
     }
 
     // CombatTerrain.pas:138
-    public void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
-        XhpSurf = X - XhpSurf;
-        YhpSurf = Y - YhpSurf;
-        FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
+        HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+        pixelXSurface = X - pixelXSurface;
+        pixelYSurface = Y - pixelYSurface;
+        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(((MapField)Owner).HexX + (((MapField)Owner).HexY << 4)));
     }
 
     public new partial class Resource : TerrainMapObjectResource
@@ -297,25 +297,25 @@ public partial class CombatTerrain : TerrainMapObject
         { }
 
         // CombatTerrain.pas:301
-        public new const int ClassID = 2228583;
+        public new const int ClassId = 2228583;
 
-        public sbyte FBurnValue;
-        public sbyte FDefense;
-        public byte FHitPoints;
-        public bool FMeleeTarget;
+        public sbyte BurnValue;
+        public sbyte Defense;
+        public byte HitPoints;
+        public bool MeleeTarget;
 
         // CombatTerrain.pas:310
-        public override void ReadWrite(EStorageStream Stream)
+        public override void ReadWrite(EStorageStream stream)
         {
-            base.ReadWrite(Stream);
-            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDefense), 20);
-            Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FBurnValue), 21);
-            Stream.rwByte(ref FHitPoints, 22);
-            Stream.rwBool(ref FMeleeTarget, 23);
+            base.ReadWrite(stream);
+            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Defense), 20);
+            stream.rwByte(ref Unsafe.As<sbyte, byte>(ref BurnValue), 21);
+            stream.rwByte(ref HitPoints, 22);
+            stream.rwBool(ref MeleeTarget, 23);
         }
 
         // CombatTerrain.pas:304
-        public override int ResourceUserClassID() => 2228582;
+        public override int ResourceUserClassId() => 2228582;
 
         // CombatTerrain.pas:307
         public override string ResourceEditName() => "Combat Terrain";

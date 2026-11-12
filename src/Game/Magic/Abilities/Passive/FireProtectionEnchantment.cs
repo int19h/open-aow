@@ -9,27 +9,27 @@ public partial class FireProtectionEnchantment : UnitEnchantmentAbility
     // PassiveAb.pas:1054
     public FireProtectionEnchantment(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(FireProtectionRStr);
-        FAbilityID = 167;
+        AbilityName = AbilityRules.TranslateResourceString(s_fireProtectionText);
+        AbilityId = 167;
     }
 
     // PassiveAb.pas:1062
-    public override string GetSourceName(AbilityOwner Owner)
+    public override string GetSourceName(AbilityOwner owner)
     {
-        string Result;
+        string result;
         // { Original assumes the ability data and enchantment exist. }
-        var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
-        if (unitEnchantmentAbilityData.FEnchantment.FSource == -2)
+        var unitEnchantmentAbilityData = (UnitEnchantmentAbilityData)owner.GetAbilityData(AbilityId);
+        if (unitEnchantmentAbilityData.Enchantment.Source == -2)
         {
-            Result = AbilityRules.TranslateRStr(GameText.FireMasteryRStr);
+            result = AbilityRules.TranslateResourceString(GameText.s_fireMasteryText);
         }
         else
         {
-            Result = base.GetSourceName(Owner);
+            result = base.GetSourceName(owner);
         }
 
-        return Result;
+        return result;
     }
 
-    internal static readonly string FireProtectionRStr = "Fire Protection";
+    internal static readonly string s_fireProtectionText = "Fire Protection";
 }

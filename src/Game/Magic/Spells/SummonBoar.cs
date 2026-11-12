@@ -10,14 +10,14 @@ public partial class SummonBoar : SummonSpell
     // SummonSpells.pas:354
     public SummonBoar(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SummonBoarRStr);
-        FSpellID = 31;
-        FBaseManaCost = 5;
-        FSpellLevel = 1;
-        FMagicSphere = MagicSphere.Earth;
-        FUnitIndices.Add(235);
-        FCastDuration = 5;
+        SpellName = AbilityRules.TranslateResourceString(s_summonBoarText);
+        SpellId = 31;
+        BaseManaCost = 5;
+        SpellLevel = 1;
+        MagicSphere = MagicSphere.Earth;
+        UnitIndices.Add(235);
+        CastDuration = 5;
     }
 
-    private static readonly string SummonBoarRStr = "Summon Boar";
+    private static readonly string s_summonBoarText = "Summon Boar";
 }

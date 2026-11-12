@@ -25,8 +25,8 @@ internal static class TroopConstants
         Text = ByteArray128.From([73, 110, 118, 97, 108, 105, 100, 32, 85, 110, 102, 111, 103, 32, 82, 97, 110, 103, 101, 0])
     };
 
-    internal static Set<AbilitySelectionType> TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes = Set<AbilitySelectionType>.FromMask(1UL);
+    internal static Set<AbilitySelectionType> s_defaultAbilitySelectionTypes = Set<AbilitySelectionType>.FromMask(1UL);
 
-    internal static Set<DamageType> TAbstractUnit_GetStrengthMax__AllDamageTypes = Set<DamageType>.FromMask(1023UL);
+    internal static Set<DamageType> s_allDamageTypes = Set<DamageType>.FromMask(1023UL);
 
 }

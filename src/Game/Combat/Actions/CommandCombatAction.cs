@@ -13,81 +13,81 @@ namespace Aow.Game.Combat.Actions;
 // (ability ID, success)
 public partial class CommandCombatAction : SingleTargetCombatAction
 {
-    public new const int ClassID = 131763;
+    public new const int ClassId = 131763;
 
     public CommandCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public int FAbilityID;
-    public bool FSuccessful;
+    public int AbilityId;
+    public bool Successful;
 
     // AoWAb.PAS:5044
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FAbilityID, 20);
-        Stream.rwBool(ref FSuccessful, 21);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref AbilityId, 20);
+        stream.rwBool(ref Successful, 21);
     }
 
     // AoWAb.PAS:5063
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatUnit Source;
-        CombatUnit Target;
-        if (FSuccessful)
+        CombatUnit source;
+        CombatUnit target;
+        if (Successful)
         {
-            Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
-            Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
-            Source.SetExperience(Source.GetExperience() + Target.GetLevel());
+            source = (CombatUnit)combat.CombatData.FindId(SourceId);
+            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            source.SetExperience(source.GetExperience() + target.GetLevel());
             for (int I = 0; I <= 2; I++)
             {
-                ((CommandAbility)AoWHSSet.Current.FAbilityControl.GetAbility(AbilityRules.CommandAbilityIDs[I])).ResetCommandedUnits(Target);
+                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.s_commandAbilityIds[I])).ResetCommandedUnits(target);
             }
 
             for (int I = 0; I <= 2; I++)
             {
-                ((CommandAbility)AoWHSSet.Current.FAbilityControl.GetAbility(AbilityRules.CommandAbilityIDs[I])).Uncommand(Target);
+                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.s_commandAbilityIds[I])).Uncommand(target);
             }
 
-            if (Source.GetSide() != Target.GetSide())
+            if (source.GetSide() != target.GetSide())
             {
-                ((CommandAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).Command(Source, Target);
+                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).Command(source, target);
             }
         }
     }
 
     // AoWAb.PAS:5081
-    public override bool Play(CombatViewer Viewer)
+    public override bool Play(CombatViewer viewer)
     {
-        if (Viewer.FTime == 0)
+        if (viewer.Time == 0)
         {
-            AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID).FSFXLibrary.Play(0);
+            AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).SfxLibrary.Play(0);
         }
 
-        if (Viewer.FDelay == Viewer.FTime)
+        if (viewer.Delay == viewer.Time)
         {
-            Execute(Viewer.FCombat);
+            Execute(viewer.Combat);
         }
 
-        return Viewer.FDelay * 2 > Viewer.FTime;
+        return viewer.Delay * 2 > viewer.Time;
     }
 
     // AoWAb.PAS:5056
-    public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void ShowObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
-        if (Obj.FID == FSourceID)
+        base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
+        if (objectValue.Id == SourceId)
         {
-            AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID).FImageSequences.Show(0, X + 32, Y + 32, Viewer.FTime, Surface);
+            AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 
     // AoWAb.PAS:5050
-    public void Initialize(byte SourceID, byte TargetID, bool Successful)
+    public void Initialize(byte sourceId, byte targetId, bool successful)
     {
-        FSourceID = SourceID;
-        FTargetID = TargetID;
-        FSuccessful = Successful;
+        SourceId = sourceId;
+        TargetId = targetId;
+        Successful = successful;
     }
 
     // intf_P3_02.inc:38

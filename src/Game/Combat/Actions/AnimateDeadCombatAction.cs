@@ -11,31 +11,31 @@ namespace Aow.Game.Combat.Actions;
 public partial class AnimateDeadCombatAction : ExclusiveCombatSpellCombatAction
 {
     // CombatSpells.pas:2021
-    public new const int ClassID = 131782;
+    public new const int ClassId = 131782;
 
     public AnimateDeadCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:2024
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatUnit Source;
-        CombatUnit Target;
-        Unit NewUnit;
-        base.Execute(Combat);
-        if (FSucceeded)
+        CombatUnit source;
+        CombatUnit target;
+        Unit newUnit;
+        base.Execute(combat);
+        if (Succeeded)
         {
-            Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
-            Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
-            NewUnit = new Unit(null);
-            NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(201));
-            NewUnit.SetPlayer(Source.FUnit.FPlayer);
-            NewUnit.ExpandAbility(130);
-            NewUnit.Activate();
-            Target.SetUnit(NewUnit);
-            NewUnit.Release();
-            Target.SetStatus(Target.FStatus - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
-            Target.SetCombatPlayer((byte)Source.FCombatPlayer);
+            source = (CombatUnit)combat.CombatData.FindId(SourceId);
+            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            newUnit = new Unit(null);
+            newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(201));
+            newUnit.SetPlayer(source.Troop.Player);
+            newUnit.ExpandAbility(130);
+            newUnit.Activate();
+            target.SetUnit(newUnit);
+            newUnit.Release();
+            target.SetStatus(target.Status - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed));
+            target.SetCombatPlayer((byte)source.CombatPlayer);
         }
     }
 

@@ -9,149 +9,149 @@ namespace Aow.Game.World.Hexes;
 
 public partial class LowerIsometricHex
 {
-    public override void ShowDynamic(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary IL;
-        int Xhp = default;
-        int Yhp = default;
-        int Variant;
+        CustomImageLibrary imageLibrary;
+        int pixelX = default;
+        int pixelY = default;
+        int variant;
         int X;
         int Y;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        Xhp = Xhp - XhpSurf - 8;
-        Yhp = Yhp - YhpSurf;
-        IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        Variant = FrameFixtureInputs.TextureVariant(this);
-        if (Variant == 3)
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        pixelX = pixelX - pixelXSurface - 8;
+        pixelY = pixelY - pixelYSurface;
+        imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        variant = FrameFixtureInputs.TextureVariant(this);
+        if (variant == 3)
         {
-            Variant = 0;
+            variant = 0;
         }
 
-        if (FOpenSides != 0)
+        if (OpenSides != 0)
         {
-            X = Xhp - 19;
-            Y = Yhp - 32;
-            if ((FOpenSides & 1) != 0)
+            X = pixelX - 19;
+            Y = pixelY - 32;
+            if ((OpenSides & 1) != 0)
             {
-                if ((FOpenSides & 35) == 35)
+                if ((OpenSides & 35) == 35)
                 {
-                    IL[6].Show(X, Y, SurfaceDesc);
+                    imageLibrary[6].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 35) == 1)
+                    if ((OpenSides & 35) == 1)
                     {
-                        IL[13].Show(X, Y, SurfaceDesc);
+                        imageLibrary[13].Show(X, Y, lockedSurface);
                     }
                 }
 
-                if ((FOpenSides & 7) == 7)
+                if ((OpenSides & 7) == 7)
                 {
-                    IL[25].Show(X, Y, SurfaceDesc);
+                    imageLibrary[25].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 3) == 3)
+                    if ((OpenSides & 3) == 3)
                     {
-                        IL[Variant + 3].Show(X, Y, SurfaceDesc);
+                        imageLibrary[variant + 3].Show(X, Y, lockedSurface);
                     }
                 }
 
-                if ((FOpenSides & 49) == 49)
+                if ((OpenSides & 49) == 49)
                 {
-                    IL[24].Show(X, Y, SurfaceDesc);
+                    imageLibrary[24].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 33) == 33)
+                    if ((OpenSides & 33) == 33)
                     {
-                        IL[Variant + 0].Show(X, Y, SurfaceDesc);
+                        imageLibrary[variant + 0].Show(X, Y, lockedSurface);
                     }
                 }
             }
             else
             {
-                if ((FOpenSides & 6) == 6)
+                if ((OpenSides & 6) == 6)
                 {
-                    IL[Variant + 10].Show(X, Y, SurfaceDesc);
+                    imageLibrary[variant + 10].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 2) == 2)
+                    if ((OpenSides & 2) == 2)
                     {
-                        IL[17].Show(X, Y, SurfaceDesc);
+                        imageLibrary[17].Show(X, Y, lockedSurface);
                     }
                 }
 
-                if ((FOpenSides & 48) == 48)
+                if ((OpenSides & 48) == 48)
                 {
-                    IL[Variant + 7].Show(X, Y, SurfaceDesc);
+                    imageLibrary[variant + 7].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 32) == 32)
+                    if ((OpenSides & 32) == 32)
                     {
-                        IL[16].Show(X, Y, SurfaceDesc);
+                        imageLibrary[16].Show(X, Y, lockedSurface);
                     }
                 }
             }
 
-            if ((FOpenSides & 8) != 0)
+            if ((OpenSides & 8) != 0)
             {
-                if ((FOpenSides & 14) == 14)
+                if ((OpenSides & 14) == 14)
                 {
-                    IL[22].Show(X, Y + 1, SurfaceDesc);
+                    imageLibrary[22].Show(X, Y + 1, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 12) == 12)
+                    if ((OpenSides & 12) == 12)
                     {
-                        if (Variant == 2)
+                        if (variant == 2)
                         {
-                            IL[19].Show(X, Y + 1, SurfaceDesc);
+                            imageLibrary[19].Show(X, Y + 1, lockedSurface);
                         }
                         else
                         {
-                            IL[Variant + 30].Show(X, Y + 1, SurfaceDesc);
+                            imageLibrary[variant + 30].Show(X, Y + 1, lockedSurface);
                         }
                     }
                 }
 
-                if ((FOpenSides & 56) == 56)
+                if ((OpenSides & 56) == 56)
                 {
-                    IL[21].Show(X, Y, SurfaceDesc);
+                    imageLibrary[21].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 24) == 24)
+                    if ((OpenSides & 24) == 24)
                     {
-                        if (Variant == 2)
+                        if (variant == 2)
                         {
-                            IL[18].Show(X, Y + 1, SurfaceDesc);
+                            imageLibrary[18].Show(X, Y + 1, lockedSurface);
                         }
                         else
                         {
-                            IL[Variant + 28].Show(X, Y, SurfaceDesc);
+                            imageLibrary[variant + 28].Show(X, Y, lockedSurface);
                         }
                     }
                 }
 
-                if ((FOpenSides & 28) == 8)
+                if ((OpenSides & 28) == 8)
                 {
-                    IL[23].Show(X, Y, SurfaceDesc);
+                    imageLibrary[23].Show(X, Y, lockedSurface);
                 }
             }
             else
             {
-                if ((FOpenSides & 14) == 4)
+                if ((OpenSides & 14) == 4)
                 {
-                    IL[15].Show(X, Y, SurfaceDesc);
+                    imageLibrary[15].Show(X, Y, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 56) == 16)
+                    if ((OpenSides & 56) == 16)
                     {
-                        IL[14].Show(X, Y, SurfaceDesc);
+                        imageLibrary[14].Show(X, Y, lockedSurface);
                     }
                 }
             }

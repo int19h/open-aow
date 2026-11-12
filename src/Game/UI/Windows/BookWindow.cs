@@ -10,19 +10,19 @@ namespace Aow.Game.UI.Windows;
 // surface, page-turn mode
 public partial class BookWindow : Window
 {
-    public NotifyEvent<BookWindow> FOnAnimationComplete;
-    public bool FFirstAnimationFrame;
-    public bool FPreviousSurfaceValid;
-    public PageTurnControl FPageTurn;
-    public bool FAnimating;
-    public Surface FPageSurface;
-    public PageTurnMode FPageTurnMode;
+    public NotifyEvent<BookWindow> OnAnimationComplete;
+    public bool FirstAnimationFrame;
+    public bool PreviousSurfaceValid;
+    public PageTurnControl PageTurn;
+    public bool Animating;
+    public Surface PageSurface;
+    public PageTurnMode PageTurnMode;
 
     // AoWBookWindow.pas:50
     public override void Dispose()
     {
         Surface S;
-        S = FPageSurface;
+        S = PageSurface;
         if (S != null)
         {
             S?.Dispose();
@@ -34,21 +34,21 @@ public partial class BookWindow : Window
     // AoWBookWindow.pas:44
     public BookWindow(Component owner) : base(owner)
     {
-        FPageTurn = new PageTurnControl();
+        PageTurn = new PageTurnControl();
     }
 
     // AoWBookWindow.pas:78
     public override void Update()
     {
-        if (FVisible && FAnimating)
+        if (_visible && Animating)
         {
-            FSurfaceValid = false;
-            if (!FPageTurn.UpdateScene())
+            SurfaceValid = false;
+            if (!PageTurn.UpdateScene())
             {
-                FAnimating = false;
-                if (FOnAnimationComplete != null)
+                Animating = false;
+                if (OnAnimationComplete != null)
                 {
-                    FOnAnimationComplete(this);
+                    OnAnimationComplete(this);
                 }
             }
         }
@@ -57,223 +57,223 @@ public partial class BookWindow : Window
     }
 
     // AoWBookWindow.pas:59
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
         Surface S;
-        if (Value != FVisible)
+        if (value != _visible)
         {
-            FAnimating = false;
-            if (FFreeSurfaceOnHide)
+            Animating = false;
+            if (_freeSurfaceOnHide)
             {
-                S = FPageSurface;
+                S = PageSurface;
                 if (S != null)
                 {
                     S?.Dispose();
-                    FPageSurface = null;
+                    PageSurface = null;
                 }
             }
         }
 
-        base.SetVisible(Value);
+        base.SetVisible(value);
     }
 
     // AoWBookWindow.pas:113
-    public override void DrawSurface(Surface Surface)
+    public override void DrawSurface(Surface surface)
     {
-        FPreviousSurfaceValid = FSurfaceValid;
-        base.DrawSurface(Surface);
-        if (FPreviousSurfaceValid && FAnimating)
+        PreviousSurfaceValid = SurfaceValid;
+        base.DrawSurface(surface);
+        if (PreviousSurfaceValid && Animating)
         {
-            Blt(Surface);
+            Blit(surface);
         }
     }
 
     // AoWBookWindow.pas:186
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = FAnimating;
-        if (!FAnimating)
+        Handled = Animating;
+        if (!Animating)
         {
-            base.CheckMouseDown(Button, Shift, X, Y);
+            base.CheckMouseDown(button, shift, X, Y);
         }
         else
         {
-            if (X > FWinLeft - 1 && X < FWinLeft + FWinWidth && Y > FWinTop - 1 && Y < FWinTop + FWinHeight)
+            if (X > _winLeft - 1 && X < _winLeft + _winWidth && Y > _winTop - 1 && Y < _winTop + _winHeight)
             {
-                FSurfaceValid = false;
-                FAnimating = false;
-                if (FOnAnimationComplete != null)
+                SurfaceValid = false;
+                Animating = false;
+                if (OnAnimationComplete != null)
                 {
-                    FOnAnimationComplete(this);
+                    OnAnimationComplete(this);
                 }
             }
         }
     }
 
     // AoWBookWindow.pas:199
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = FAnimating;
-        if (!FAnimating)
+        Handled = Animating;
+        if (!Animating)
         {
-            base.CheckMouseUp(Button, Shift, X, Y);
+            base.CheckMouseUp(button, shift, X, Y);
         }
     }
 
     // AoWBookWindow.pas:205
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = FAnimating;
-        if (!FAnimating)
+        Handled = Animating;
+        if (!Animating)
         {
-            base.CheckMouseMove(Shift, X, Y);
+            base.CheckMouseMove(shift, X, Y);
         }
     }
 
     // AoWBookWindow.pas:92
-    public void StartAnim(PageTurnMode Mode)
+    public void StartAnimation(PageTurnMode mode)
     {
-        LockedSurface Source = default;
-        LockedSurface Dest = default;
+        LockedSurface source = default;
+        LockedSurface destination = default;
         Rect R;
-        if (FBackSurface != null && FPageSurface != null)
+        if (BackSurface != null && PageSurface != null)
         {
-            R = new Rect(0, 0, FWinWidth, FWinHeight);
-            FBackSurface.Lock(ref Source);
-            FPageSurface.Lock(ref Dest);
-            LockedSurface.BltSDRectClipped(Source, R, Dest, 0, 0);
-            FPageSurface.Unlock();
-            FBackSurface.Unlock();
-            FPageTurn.SetPageDimensions(271, 368);
-            FPageTurn.FSpeed = 15;
-            FPageTurn.Start(Mode);
-            FPageTurnMode = Mode;
-            FDrawn = false;
-            FAnimating = true;
-            FFirstAnimationFrame = true;
+            R = new Rect(0, 0, _winWidth, _winHeight);
+            BackSurface.Lock(ref source);
+            PageSurface.Lock(ref destination);
+            LockedSurface.BlitSurfaceDescriptionRectangleClipped(source, R, destination, 0, 0);
+            PageSurface.Unlock();
+            BackSurface.Unlock();
+            PageTurn.SetPageDimensions(271, 368);
+            PageTurn.Speed = 15;
+            PageTurn.Start(mode);
+            PageTurnMode = mode;
+            Drawn = false;
+            Animating = true;
+            FirstAnimationFrame = true;
         }
     }
 
     [Published]
-    public NotifyEvent<BookWindow> OnAnimDone { get => FOnAnimationComplete; set => FOnAnimationComplete = value; }
+    public NotifyEvent<BookWindow> OnAnimationDone { get => OnAnimationComplete; set => OnAnimationComplete = value; }
 
     public new NotifyEvent<BookWindow> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<BookWindow> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<BookWindow> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<BookWindow> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<BookWindow> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<BookWindow> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<BookWindow> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<BookWindow> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<BookWindow> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 
     public new AoWOnDrawBackEvent<BookWindow> OnDrawBack
     {
-        get => EventSlot.Get(this, FOnDrawBack);
-        set => EventSlot.Set(this, ref FOnDrawBack, value);
+        get => EventSlot.Get(this, _onDrawBack);
+        set => EventSlot.Set(this, ref _onDrawBack, value);
     }
 
     public new NotifyEvent<BookWindow> OnEnter
     {
-        get => EventSlot.Get(this, FOnEnter);
-        set => EventSlot.Set(this, ref FOnEnter, value);
+        get => EventSlot.Get(this, _onEnter);
+        set => EventSlot.Set(this, ref _onEnter, value);
     }
 
     public new NotifyEvent<BookWindow> OnExit
     {
-        get => EventSlot.Get(this, FOnExit);
-        set => EventSlot.Set(this, ref FOnExit, value);
+        get => EventSlot.Get(this, _onExit);
+        set => EventSlot.Set(this, ref _onExit, value);
     }
 
     public new NotifyEvent<BookWindow> OnChangeCursor
     {
-        get => EventSlot.Get(this, FOnChangeCursor);
-        set => EventSlot.Set(this, ref FOnChangeCursor, value);
+        get => EventSlot.Get(this, _onChangeCursor);
+        set => EventSlot.Set(this, ref _onChangeCursor, value);
     }
 
     public new AoWOnDrawSurface<BookWindow> OnDrawSurface
     {
-        get => EventSlot.Get(this, FOnDrawSurface);
-        set => EventSlot.Set(this, ref FOnDrawSurface, value);
+        get => EventSlot.Get(this, _onDrawSurface);
+        set => EventSlot.Set(this, ref _onDrawSurface, value);
     }
 
     public new AoWOnDrawSurface<BookWindow> OnPreDrawSurface
     {
-        get => EventSlot.Get(this, FOnPreDrawSurface);
-        set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
+        get => EventSlot.Get(this, _onPreDrawSurface);
+        set => EventSlot.Set(this, ref _onPreDrawSurface, value);
     }
 
     public new NotifyEvent<BookWindow> OnDrag
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new NotifyEvent<BookWindow> OnResize
     {
-        get => EventSlot.Get(this, FOnResize);
-        set => EventSlot.Set(this, ref FOnResize, value);
+        get => EventSlot.Get(this, _onResize);
+        set => EventSlot.Set(this, ref _onResize, value);
     }
 
     public new NotifyEvent<BookWindow> OnInternalResize
     {
-        get => EventSlot.Get(this, FOnInternalResize);
-        set => EventSlot.Set(this, ref FOnInternalResize, value);
+        get => EventSlot.Get(this, _onInternalResize);
+        set => EventSlot.Set(this, ref _onInternalResize, value);
     }
 
     public new NotifyEvent<BookWindow> OnHide
     {
-        get => EventSlot.Get(this, FOnHide);
-        set => EventSlot.Set(this, ref FOnHide, value);
+        get => EventSlot.Get(this, _onHide);
+        set => EventSlot.Set(this, ref _onHide, value);
     }
 
     public new NotifyEvent<BookWindow> OnShow
     {
-        get => EventSlot.Get(this, FOnShow);
-        set => EventSlot.Set(this, ref FOnShow, value);
+        get => EventSlot.Get(this, _onShow);
+        set => EventSlot.Set(this, ref _onShow, value);
     }
 }

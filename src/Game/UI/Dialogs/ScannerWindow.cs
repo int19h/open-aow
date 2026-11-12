@@ -33,15 +33,15 @@ public partial class ScannerWindow : DataModule
             switch (ScannerTab.Selected)
             {
                 case 0:
-                    Scanner.FUpdateStep = -1;
+                    Scanner.UpdateStep = -1;
                     AoWHSMap.Current.ViewLevel(0);
                     break;
                 case 1:
-                    Scanner.FUpdateStep = -1;
+                    Scanner.UpdateStep = -1;
                     AoWHSMap.Current.ViewLevel(1);
                     break;
                 case 2:
-                    Scanner.FUpdateStep = -1;
+                    Scanner.UpdateStep = -1;
                     AoWHSMap.Current.ViewLevel(2);
                     break;
             }
@@ -49,10 +49,10 @@ public partial class ScannerWindow : DataModule
     }
 
     // AoWSWindow.pas:61
-    public void ArmyCheckChange(CheckBox Sender)
+    public void ArmyCheckChange(CheckBox sender)
     {
         Scanner.SetArmies(ArmyCheck.Checked);
-        if (Sender.Checked)
+        if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
         }
@@ -63,10 +63,10 @@ public partial class ScannerWindow : DataModule
     }
 
     // AoWSWindow.pas:67
-    public void BuildingCheckChange(CheckBox Sender)
+    public void BuildingCheckChange(CheckBox sender)
     {
         Scanner.SetBuildings(BuildingCheck.Checked);
-        if (Sender.Checked)
+        if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
         }
@@ -77,10 +77,10 @@ public partial class ScannerWindow : DataModule
     }
 
     // AoWSWindow.pas:73
-    public void NaturalCheckChange(CheckBox Sender)
+    public void NaturalCheckChange(CheckBox sender)
     {
         Scanner.SetNaturals(NaturalCheck.Checked);
-        if (Sender.Checked)
+        if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
         }
@@ -93,7 +93,7 @@ public partial class ScannerWindow : DataModule
     // AoWSWindow.pas:79
     public void ScannerWindowResize()
     {
-        this.MainWindow.Alignment.RightOffset = this.MainWindow.FWinManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
+        this.MainWindow.Alignment.RightOffset = this.MainWindow._windowManager.WinWidth - this.MainWindow.WinLeft - this.MainWindow.WinWidth;
         this.MainWindow.Alignment.TopOffset = this.MainWindow.WinTop;
     }
 
@@ -107,19 +107,19 @@ public partial class ScannerWindow : DataModule
     // AoWSWindow.pas:94
     public void ScannerChangeTileBox()
     {
-        DialogHosts.MWindow.MapViewer.SceneX = (DialogHosts.SWindow.Scanner.FTLeft + 6) * 33;
-        DialogHosts.MWindow.MapViewer.SceneY = (DialogHosts.SWindow.Scanner.FTTop + 6) * 33;
-        if (AoWHSMap.Current.FSeatedPlayer != -1)
+        DialogHosts.MapWindow.MapViewer.SceneX = (DialogHosts.ScannerWindow.Scanner.TLeft + 6) * 33;
+        DialogHosts.MapWindow.MapViewer.SceneY = (DialogHosts.ScannerWindow.Scanner.TTop + 6) * 33;
+        if (AoWHSMap.Current.SeatedPlayer != -1)
         {
-            DialogHosts.SWindow.Scanner.SetTWidth(DialogHosts.MWindow.MapViewer.SceneWidth / 32);
-            DialogHosts.SWindow.Scanner.SetTHeight(DialogHosts.MWindow.MapViewer.SceneHeight / 32);
-            DialogHosts.SWindow.Scanner.SetTLeft(DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
-            DialogHosts.SWindow.Scanner.SetTTop(DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
+            DialogHosts.ScannerWindow.Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
+            DialogHosts.ScannerWindow.Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);
+            DialogHosts.ScannerWindow.Scanner.SetTLeft(DialogHosts.MapWindow.MapViewer.SceneX / 32 - 6);
+            DialogHosts.ScannerWindow.Scanner.SetTTop(DialogHosts.MapWindow.MapViewer.SceneY / 32 - 6);
         }
     }
 
     // AoWSWindow.pas:107
-    public void ScannerTabMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void ScannerTabMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         DialogHosts.General.PlayButtonSound(0);
     }

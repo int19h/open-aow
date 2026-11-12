@@ -19,139 +19,139 @@ namespace Aow.Game.Units;
 // library name, image index, item type, library, references, hidden
 public partial class ItemGraphics : EngineResource
 {
-    public new const int ClassID = 131689;
+    public new const int ClassId = 131689;
 
     public ItemGraphics(ECustomNode owner) : base(owner)
     { }
 
-    public string FImageLibraryName = "";
-    public int FImageIndex;
-    public ItemType FItemType;
-    public CustomImageLibrary FImageLibrary;
-    public int FRefCount;
-    public bool FHidden;
+    public string ImageLibraryName = "";
+    public int ImageIndex;
+    public ItemType ItemType;
+    public CustomImageLibrary ImageLibrary;
+    public int RefCount;
+    public bool Hidden;
 
     // Army.PAS:5093
-    public override GameEngine GetEngine() => GameTables.AoWEngine;
+    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Army.PAS:5167
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        base.ReadWrite(stream);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Stream.rwString(ref FImageLibraryName, 6);
+            stream.rwString(ref ImageLibraryName, 6);
         }
 
-        Stream.rwInteger(ref FImageIndex, 7);
-        Stream.rwData(Bytes.Of(ref FItemType, 1), 1, 8);
-        Stream.rwBool(ref FHidden, 9);
+        stream.rwInteger(ref ImageIndex, 7);
+        stream.rwData(Bytes.Of(ref ItemType, 1), 1, 8);
+        stream.rwBool(ref Hidden, 9);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.String("ImageLibraryName", ref FImageLibraryName);
-        persister.Int("ImageIndex", ref FImageIndex);
-        persister.Enum("ItemType", ref FItemType);
-        persister.Bool("Hidden", ref FHidden);
+        persister.String("ImageLibraryName", ref ImageLibraryName);
+        persister.Int32("ImageIndex", ref ImageIndex);
+        persister.Enum("ItemType", ref ItemType);
+        persister.Boolean("Hidden", ref Hidden);
     }
 
     // Army.PAS:5138
     public override int AddRef()
     {
-        if (FRefCount == 0)
+        if (RefCount == 0)
         {
-            LinkToIL();
+            LinkToImageLibrary();
         }
 
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // Army.PAS:5145
     public override int Release()
     {
-        FRefCount -= 1;
-        if (FRefCount == 0)
+        RefCount -= 1;
+        if (RefCount == 0)
         {
-            ReleaseIL();
+            ReleaseImageLibrary();
         }
 
-        return FRefCount;
+        return RefCount;
     }
 
     // Army.PAS:5152
     public override LibraryImage GetCellImage()
     {
-        LibraryImage Image;
+        LibraryImage image;
         AddRef();
-        Image = FImageLibrary[FImageIndex];
+        image = ImageLibrary[ImageIndex];
         Release();
-        return Image;
+        return image;
     }
 
     // Army.PAS:5103
-    public int ItemGFXIndex() => Owner.FindChildIndex(this);
+    public int ItemGraphicsIndex() => Owner.FindChildIndex(this);
 
     // Army.PAS:5108
-    public void LinkToIL()
+    public void LinkToImageLibrary()
     {
-        ReleaseIL();
-        if (!IsEmpty(FImageLibraryName))
+        ReleaseImageLibrary();
+        if (!IsEmpty(ImageLibraryName))
         {
-            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
+            ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
         }
         else
         {
-            FImageLibrary = null;
+            ImageLibrary = null;
         }
     }
 
     // Army.PAS:5116
-    public void ReleaseIL()
+    public void ReleaseImageLibrary()
     {
-        if (FImageLibrary != null)
+        if (ImageLibrary != null)
         {
-            if (!IsEmpty(FImageLibraryName))
+            if (!IsEmpty(ImageLibraryName))
             {
-                AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
+                AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
             }
 
-            FImageLibrary = null;
+            ImageLibrary = null;
         }
     }
 
     // Army.PAS:5126
-    public void SetImageLibraryName(string Value)
+    public void SetImageLibraryName(string value)
     {
-        if (!IsEmpty(FImageLibraryName))
+        if (!IsEmpty(ImageLibraryName))
         {
-            AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
-            FImageLibrary = null;
+            AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
+            ImageLibrary = null;
         }
 
-        FImageLibraryName = Value;
-        if (!IsEmpty(FImageLibraryName) && FRefCount != 0)
+        ImageLibraryName = value;
+        if (!IsEmpty(ImageLibraryName) && RefCount != 0)
         {
-            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
+            ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
         }
     }
 
     // Army.PAS:5161
     public LibraryImage GetItemImage()
     {
-        LibraryImage Result;
-        if (FImageLibrary != null)
+        LibraryImage result;
+        if (ImageLibrary != null)
         {
-            Result = FImageLibrary[FImageIndex];
+            result = ImageLibrary[ImageIndex];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
 }

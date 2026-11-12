@@ -15,9 +15,9 @@ public partial class ChainLightning : CombatSpell
     // CombatSpells.pas:1224
     public ChainLightning(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(ChainLightningRStr);
-        FSpellID = 107;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_chainLightningText);
+        SpellId = 107;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 4;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Lightning);
@@ -26,5 +26,5 @@ public partial class ChainLightning : CombatSpell
         spellCombatInfo.Radius = 3;
     }
 
-    private static readonly string ChainLightningRStr = "Chain Lighting";
+    private static readonly string s_chainLightningText = "Chain Lighting";
 }

@@ -109,7 +109,7 @@ Two Delphi features need a design, not a mapping:
    (`is`, `ClassName`, equality, `InheritsFrom`) use `System.Type`. Dispatch on a class (virtual
    class methods, virtual constructors through a class reference, 15 `class of` types) uses a
    metaclass object that exists only for the classes that need one: 1,014 of 1,307 under the
-   survey of 2026-10-25, almost all through `EngineObject.ClassID` (Delphi `TEObject`), with nothing emitted per class
+   survey of 2026-10-25, almost all through `EngineObject.ClassId` (Delphi `TEObject`), with nothing emitted per class
    beyond the class methods the source declares (`specs/transpiler.md` 4.4). In Delphi a virtual
    class method called on an instance dispatches on the instance's run-time class, which the
    survey found at 222 sites, so instances reach their metaclass through `ClassType`. In the second
@@ -136,13 +136,13 @@ A type is `Foo`. An interface is `IFoo`. A generic parameter is the only name th
 
 A name that clashes with a .NET type is a reason to use the .NET type. A distinct class keeps a short name only when every use refers to the port's type. `Object` and `List` are out of that set. `Component` stays, because the port does not use `System.ComponentModel.Component`.
 
-Own-format documents store the current names. The loader accepts an older stored name through `src/Rtl/Delphi/names.csv`. A name that comes from an original game file stays the Delphi string. Form class names in the language dictionaries are that case.
+Own-format documents store the current names. The loader accepts an older stored type or enum member name through `src/Rtl/Delphi/names.csv` and an older property name through the property's `oldNames` in `src/Formats/schema.json`. A name that comes from an original game file stays the Delphi string. Form class names in the language dictionaries are that case.
 
 A Delphi citation in these documents keeps the Delphi name. That is a Delphi unit, a Delphi routine, a quoted Delphi source line, or a `.pas` or `.dfm` reference. Where prose names a port type and the Delphi name helps a reader find the source, the C# name comes first and the Delphi name follows once in parentheses.
 
 Names follow the .NET identifier-names guide. A type, a member and a constant use PascalCase. A parameter and a local use camelCase. A private instance field uses `_camelCase` and a private static field uses `s_camelCase`. Names are whole words. The short words kept in this project are Aow, Hex, Info, Id, IO, UI, AI, Tcp, Cpu and the file format names. A two-letter acronym is uppercase. A longer acronym is Pascal-cased.
 
-A ported type drops the Delphi T prefix and any recovery prefix. A generic parameter stays `TFoo`. The Delphi prefix still marks a type that is not fully ported. A type uses the CLR name when that name is the meaning, as in `Int32` and `SByte`. A nested type does not repeat its owner. A metaclass keeps `Class` at the end of its name. A type name has no `Abstract` prefix. The hex and road bases keep the names issue 200 owns, which are `AbstractHexagon`, `AbstractBorderHexagon`, `AbstractRoad`, `AbstractHexagonResource`, `AbstractBorderHexagonResource` and `AbstractRoadResource`.
+A ported type drops the Delphi T prefix and any recovery prefix. A generic parameter stays `TFoo`. The Delphi prefix still marks a type that is not fully ported. A type uses the CLR name when that name is the meaning, as in `Int32` and `SByte`. A nested type does not repeat its owner. A nested enum whose name a member of its class needs moves out beside the class as `FooBar` (class `Foo`, member `Foo.Bar`), so no member takes a `Current` prefix. A metaclass keeps `Class` at the end of its name. A type name has no `Abstract` prefix. The hex and road bases keep the names issue 200 owns, which are `AbstractHexagon`, `AbstractBorderHexagon`, `AbstractRoad`, `AbstractHexagonResource`, `AbstractBorderHexagonResource` and `AbstractRoadResource`.
 
 ## 3. Transpile strategy
 

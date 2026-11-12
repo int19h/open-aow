@@ -22,134 +22,134 @@ public partial class ResurrectHero : Spell
     // GlobalSpells.pas:980
     public ResurrectHero(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(ResurrectHeroRStr);
-        FSpellID = 66;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 0;
-        FSpellLevel = 2;
-        FMagicSphere = MagicSphere.Cosmos;
+        SpellName = AbilityRules.TranslateResourceString(s_resurrectHeroText);
+        SpellId = 66;
+        SpellType = SpellType.Global;
+        BaseManaCost = 0;
+        SpellLevel = 2;
+        MagicSphere = MagicSphere.Cosmos;
     }
 
     // GlobalSpells.pas:991
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool Result = default;
+        bool result = default;
         sbyte X = default;
         sbyte Y = default;
-        sbyte Layer = default;
-        TwinkleAnimation Animation = default;
-        HeroList Heroes;
-        Hero Hero;
-        ArmyHexSprite Army;
-        LocationTextEventLog Log;
-        HeroEmergeEventLog EmergeLog = default;
-        ArmyInfoEventLog InfoLog = default;
-        if (ExecuteCount == 0)
+        sbyte layer = default;
+        TwinkleAnimation animation = default;
+        HeroList heroes;
+        Hero hero;
+        ArmyHexSprite army;
+        LocationTextEventLog log;
+        HeroEmergeEventLog emergeLog = default;
+        ArmyInfoEventLog infoLog = default;
+        if (executeCount == 0)
         {
-            Source.GetLocation(ref X, ref Y, ref Layer);
-            AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, Layer, 0);
-            Animation = new TwinkleAnimation(null);
-            Animation.Setup(FCastImages.GetImageSequence(0), Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
-            AoWHSMap.Current.PlaceHX(Animation, X, Y, Layer);
-            if (Source.FPlayer == AoWHSMap.Current.FSeatedPlayer || AoWHSMap.Current.Watching(X, Y, Layer, 0))
+            source.GetLocation(ref X, ref Y, ref layer);
+            AoWHSMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
+            animation = new TwinkleAnimation(null);
+            animation.Setup(CastImages.GetImageSequence(0), Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
+            AoWHSMap.Current.PlaceHex(animation, X, Y, layer);
+            if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(X, Y, layer, 0))
             {
-                FCastSounds.Play(0);
+                CastSounds.Play(0);
             }
         }
 
-        if (ExecuteCount == 20)
+        if (executeCount == 20)
         {
-            Heroes = new HeroList(null);
-            AoWHSMap.Current.FHeroControl.ListDeadHeroes(Heroes);
-            for (int I = Heroes.Count - 1; I >= 0; I--)
+            heroes = new HeroList(null);
+            AoWHSMap.Current.HeroControl.ListDeadHeroes(heroes);
+            for (int I = heroes.Count - 1; I >= 0; I--)
             {
-                if (Heroes.GetHero(I) is Leader || Heroes.GetHero(I).GetLevel() > AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FBaseHeroJoinLevel + 2)
+                if (heroes.GetHero(I) is Leader || heroes.GetHero(I).GetLevel() > AoWHSMap.Current.Players.GetPlayers(source.Player).BaseHeroJoinLevel + 2)
                 {
-                    Heroes.RemoveChild(Heroes.GetHero(I));
+                    heroes.RemoveChild(heroes.GetHero(I));
                 }
             }
 
-            if (Heroes.Count != 0)
+            if (heroes.Count != 0)
             {
-                Source.GetLocation(ref X, ref Y, ref Layer);
-                var count = Heroes.Count;
-                Hero = Heroes.GetHero(AoWHSMap.Current.Random(count));
-                Hero.Resurrect();
-                Army = Hero.Place(X, Y, Layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
-                Log = new LocationTextEventLog(null);
-                Log.FPlayer = Source.FPlayer;
-                Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(XResurrectedRStr), [Hero.FHeroName]);
-                var lhx = Army.GetLhx();
-                var yhx = Army.GetYhx();
-                Log.SetLocation(Army.GetXhx(), yhx, lhx);
-                var armyYhx = Army.GetYhx();
-                var armyLhx = Army.GetLhx();
-                var xhx = Army.GetXhx();
-                EventLog.DistributeLocationEventLog(Log, Source.FPlayer, xhx, armyYhx, armyLhx, false);
-                Log.Release();
-                if (Hero.OfferToJoin(Source.FPlayer))
+                source.GetLocation(ref X, ref Y, ref layer);
+                var count = heroes.Count;
+                hero = heroes.GetHero(AoWHSMap.Current.Random(count));
+                hero.Resurrect();
+                army = hero.Place(X, Y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+                log = new LocationTextEventLog(null);
+                log._player = source.Player;
+                log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_resurrectedFormat), [hero.HeroName]);
+                var hexLevel = army.GetHexLevel();
+                var hexY = army.GetHexY();
+                log.SetLocation(army.GetHexX(), hexY, hexLevel);
+                var armyHexY = army.GetHexY();
+                var armyHexLevel = army.GetHexLevel();
+                var hexX = army.GetHexX();
+                EventLog.DistributeLocationEventLog(log, source.Player, hexX, armyHexY, armyHexLevel, false);
+                log.Release();
+                if (hero.OfferToJoin(source.Player))
                 {
-                    EmergeLog = new HeroEmergeEventLog(null);
-                    EmergeLog.Setup(Hero, Source.FPlayer, HeroEmergeEventLog.HeroJoinMode.Resurrected);
-                    EmergeLog.Execute(true, ExecuteTrigger.Event, null);
-                    EmergeLog.Release();
+                    emergeLog = new HeroEmergeEventLog(null);
+                    emergeLog.Setup(hero, source.Player, HeroEmergeEventLog.HeroJoinMode.Resurrected);
+                    emergeLog.Execute(true, ExecuteTrigger.Event, null);
+                    emergeLog.Release();
                 }
                 else
                 {
-                    InfoLog = new ArmyInfoEventLog(null);
-                    var indexOf = Army.FArmy.IndexOf(Hero);
-                    InfoLog.FArmyView.Setup(Army.FArmy, (byte)(1 << indexOf));
-                    InfoLog.FSelection = 255;
-                    InfoLog.FPlayer = Source.FPlayer;
-                    var noJoinResurrection = AbilityRules.TranslateRStr(NoJoinResurrectionRStr);
-                    InfoLog.FMessages.Text = noJoinResurrection;
-                    InfoLog.FTriggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
-                    InfoLog.Execute(true, ExecuteTrigger.Event, null);
-                    InfoLog.Release();
+                    infoLog = new ArmyInfoEventLog(null);
+                    var indexOf = army.Army.IndexOf(hero);
+                    infoLog.ArmyView.Setup(army.Army, (byte)(1 << indexOf));
+                    infoLog.Selection = 255;
+                    infoLog._player = source.Player;
+                    var noJoinResurrection = AbilityRules.TranslateResourceString(s_noJoinResurrectionText);
+                    infoLog.Messages.Text = noJoinResurrection;
+                    infoLog.Triggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
+                    infoLog.Execute(true, ExecuteTrigger.Event, null);
+                    infoLog.Release();
                 }
             }
             else
             {
-                var noHeroAnswersYourCall = AbilityRules.TranslateRStr(GameText.NoHeroAnswersYourCallRStr);
+                var noHeroAnswersYourCall = AbilityRules.TranslateResourceString(GameText.s_noHeroAnswersYourCallText);
                 AoWHSMap.Current.ShowMessage(noHeroAnswersYourCall);
             }
 
-            CastingDone(Source, Event.FEventMana);
-            Heroes?.Dispose();
-            Result = false;
+            CastingDone(source, eventValue.EventMana);
+            heroes?.Dispose();
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:1062
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result;
-        string Reason = "";
-        SpellTokenEvent Event;
-        base.Activate(Source);
-        if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        bool result;
+        string reason = "";
+        SpellTokenEvent eventValue;
+        base.Activate(source);
+        if (CanActivate(source, ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            Event = new SpellTokenEvent(null);
-            Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new SpellTokenEvent(null);
+            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string NoJoinResurrectionRStr = "I needed that... Goodbye.";
-    private static readonly string ResurrectHeroRStr = "Resurrect Hero";
-    private static readonly string XResurrectedRStr = "%s resurrected";
+    private static readonly string s_noJoinResurrectionText = "I needed that... Goodbye.";
+    private static readonly string s_resurrectHeroText = "Resurrect Hero";
+    private static readonly string s_resurrectedFormat = "%s resurrected";
 }

@@ -14,7 +14,7 @@ public partial class BloodShrineAnimation : Animation
     public override void NewFrame()
     {
         base.NewFrame();
-        if (FFrameCounter > 20)
+        if (FrameCounter > 20)
         {
             Dispose();
         }

@@ -16,9 +16,9 @@ public partial class Slow : CombatSpell
     // CombatSpells.pas:1284
     public Slow(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.SlowRStr);
-        FSpellID = 110;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_slowText);
+        SpellId = 110;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 9;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
@@ -27,31 +27,31 @@ public partial class Slow : CombatSpell
     }
 
     // CombatSpells.pas:1313
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        SlowCombatAction Action;
-        Action = new SlowCombatAction(null);
-        Action.FSourceID = Source.FID;
-        Action.FTargetID = Target.FID;
-        Action.FSpellID = FSpellID;
-        if (ChargeMana)
+        SlowCombatAction action;
+        action = new SlowCombatAction(null);
+        action.SourceId = source.Id;
+        action.TargetId = target.Id;
+        action.SpellId = SpellId;
+        if (chargeMana)
         {
-            Action.FManaCost = FBaseManaCost;
+            action.ManaCost = BaseManaCost;
         }
 
-        if (!Target.GetAbilityEnabled(132))
+        if (!target.GetAbilityEnabled(132))
         {
-            var resistance = Target.GetResistance();
-            Action.FSucceeded = HitChance.HitRole(FCombatInfo.Attack - resistance);
+            var resistance = target.GetResistance();
+            action.Succeeded = HitChance.HitRole(CombatInfo.Attack - resistance);
         }
 
-        return Action;
+        return action;
     }
 
     // CombatSpells.pas:1300
-    public override void GetCombatDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
+    public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        ref var abilityDamageValues = ref Values;
+        ref var abilityDamageValues = ref values;
         abilityDamageValues.SourceDamage = 0;
         abilityDamageValues.SourceCost = 0;
         abilityDamageValues.TargetDamage = 0;

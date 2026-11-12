@@ -15,66 +15,66 @@ public partial class TerrainMapObject : MultiHexMapObject
     }
 
     // Terrain.pas:65
-    public new const int ClassID = 131430;
+    public new const int ClassId = 131430;
 
     // Terrain.pas:60
 
     // Terrain.pas:179
-    public override bool CanChangeTerrain(in HexSpriteSenderInfo Info)
+    public override bool CanChangeTerrain(in HexSpriteSenderInfo info)
     {
-        bool Result;
-        if (this != Info.Sender)
+        bool result;
+        if (this != info.Sender)
         {
-            if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+            if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
             {
-                var terrain = FResource.TerrainList.GetTerrain(Info.HN);
-                if (GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType)
+                var terrain = _resource.TerrainList.GetTerrain(info.HexNumber);
+                if (GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, _hexX, _hexY, terrain) == info.MapField.TerrainType)
                 {
-                    Result = CanChangeOwnTerrain(Info.HN);
+                    result = CanChangeOwnTerrain(info.HexNumber);
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Terrain.pas:195
-    public override void ChangeTerrain(in HexSpriteTerrainInfo Info)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
-        sbyte TerrainType;
-        sbyte NewTerrainType;
+        sbyte terrainType;
+        sbyte newTerrainType;
         TerrainMapObjectResource R;
-        ECustomNode OldOwner;
-        TerrainType = FResource.TerrainList.GetTerrain(Info.HN);
-        if (TerrainType >= 0 && TerrainType != Info.TerrainType)
+        ECustomNode oldOwner;
+        terrainType = _resource.TerrainList.GetTerrain(info.HexNumber);
+        if (terrainType >= 0 && terrainType != info.TerrainType)
         {
-            var terrain = FResource.TerrainList.GetTerrain(Info.HN);
-            NewTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, FXhx, FYhx, terrain);
-            if (NewTerrainType != TerrainType)
+            var terrain = _resource.TerrainList.GetTerrain(info.HexNumber);
+            newTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, _hexX, _hexY, terrain);
+            if (newTerrainType != terrainType)
             {
-                R = FindTerrainResource((byte)NewTerrainType);
+                R = FindTerrainResource((byte)newTerrainType);
                 if (R != null)
                 {
-                    OldOwner = Owner;
+                    oldOwner = Owner;
                     RemoveFromMap();
                     SetResource(R);
-                    Owner = OldOwner;
+                    Owner = oldOwner;
                     PlaceOnMap();
-                    if (FResource.Level <= 15)
+                    if (_resource.Level <= 15)
                     {
-                        FResource.Engine.HSMap.StaticSceneInvalid = true;
+                        _resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
                     }
 
                     OverrideTerrain();
@@ -88,17 +88,17 @@ public partial class TerrainMapObject : MultiHexMapObject
     }
 
     // Terrain.pas:275
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (Msg.MsgID == 16)
+        if (message.MessageId == 16)
         {
-            if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+            if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
-                ClearTerrain(Msg.MapField, Msg.HN);
+                ClearTerrain(message.MapField, message.HexNumber);
             }
             else
             {
-                if (Msg.HN == 0)
+                if (message.HexNumber == 0)
                 {
                     Dispose();
                 }
@@ -106,76 +106,76 @@ public partial class TerrainMapObject : MultiHexMapObject
         }
         else
         {
-            base.MapFieldMsgProc(ref Msg);
+            base.MapFieldMessageProc(ref message);
         }
 
-        if (Msg.MsgID == 17)
+        if (message.MessageId == 17)
         {
-            if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+            if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
-                Msg.Result = ((TerrainMapObjectResource)FResource).FDecorationType;
+                message.Result = ((TerrainMapObjectResource)_resource)._decorationType;
             }
         }
     }
 
     // Terrain.pas:291
-    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
-        if (Result && !GetEditMode())
+        bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
+        if (result && !GetEditMode())
         {
             OverrideTerrain();
         }
 
-        return Result;
+        return result;
     }
 
     // Terrain.pas:226
-    public virtual void ClearTerrain(MapField MapField, int HN)
+    public virtual void ClearTerrain(MapField mapField, int hexNumber)
     {
-        int Xhx;
-        int Yhx;
-        int Lhx;
+        int hexX;
+        int hexY;
+        int hexLevel;
         int X = default;
         int Y = default;
-        TerrainList TerrainList;
-        HSMap Map;
+        TerrainList terrainList;
+        HSMap map;
         TerrainMapObjectResource R;
-        EngineObjectList Resources;
+        EngineObjectList resources;
         int I;
-        bool Found;
-        if (FResource.TerrainList.UsedTerrain() > 1)
+        bool found;
+        if (_resource.TerrainList.UsedTerrain() > 1)
         {
             R = null;
-            Resources = GetResourceList(FResource.Engine).FChildren;
-            I = Resources.Count;
-            Found = false;
-            while (!Found && I != 0)
+            resources = GetResourceList(_resource.Engine)._children;
+            I = resources.Count;
+            found = false;
+            while (!found && I != 0)
             {
                 I -= 1;
-                if (Resources.List[I] is TerrainMapObjectResource terrain)
+                if (resources.List[I] is TerrainMapObjectResource terrain)
                 {
                     R = terrain;
-                    Found = R.EClass.ClassID == FResource.EClass.ClassID && R.FDecorationType == ((TerrainMapObjectResource)FResource).FDecorationType && R.FTerrainType == ((TerrainMapObjectResource)FResource).FTerrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
+                    found = R.EngineClass.ClassId == _resource.EngineClass.ClassId && R._decorationType == ((TerrainMapObjectResource)_resource)._decorationType && R._terrainType == ((TerrainMapObjectResource)_resource)._terrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
                 }
             }
 
-            if (Found)
+            if (found)
             {
-                Xhx = GetXhx();
-                Yhx = GetYhx();
-                Lhx = GetLhx();
-                Map = ((MapLevel)Owner.Owner).Map;
-                TerrainList = FResource.TerrainList;
+                hexX = GetHexX();
+                hexY = GetHexY();
+                hexLevel = GetHexLevel();
+                map = ((MapLevel)Owner.Owner).Map;
+                terrainList = _resource.TerrainList;
                 Dispose();
                 I = 0;
-                int last = TerrainList.Count - 1;
+                int last = terrainList.Count - 1;
                 for (; I <= last; I += 1)
                 {
-                    if (TerrainList.GetTerrain(I) >= 0 && I != HN)
+                    if (terrainList.GetTerrain(I) >= 0 && I != hexNumber)
                     {
-                        HexGeometry.CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
-                        R.PlaceResourceUser(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
+                        HexGeometry.CenterHexNumberToHex(hexX, hexY, I, ref X, ref Y);
+                        R.PlaceResourceUser(map, (sbyte)X, (sbyte)Y, (sbyte)hexLevel);
                     }
                 }
             }
@@ -191,61 +191,61 @@ public partial class TerrainMapObject : MultiHexMapObject
     }
 
     // Terrain.pas:70
-    public virtual TerrainMapObjectResource FindDecorationResource(byte DecorationType)
+    public virtual TerrainMapObjectResource FindDecorationResource(byte decorationType)
     {
-        TerrainMapObjectResource Result;
-        DelphiList Candidates;
-        EngineObjectList Resources;
+        TerrainMapObjectResource result;
+        DelphiList candidates;
+        EngineObjectList resources;
         TerrainMapObjectResource R;
-        Candidates = new DelphiList();
-        Resources = GetResourceList(FResource.Engine).FChildren;
-        for (int I = 0, last = Resources.Count - 1; I <= last; I++)
+        candidates = new DelphiList();
+        resources = GetResourceList(_resource.Engine)._children;
+        for (int I = 0, last = resources.Count - 1; I <= last; I++)
         {
-            if (Resources.List[I] is TerrainMapObjectResource terrain)
+            if (resources.List[I] is TerrainMapObjectResource terrain)
             {
                 R = terrain;
-                if (R.EClass.ClassID == FResource.EClass.ClassID && R.FTerrainType == ((TerrainMapObjectResource)FResource).FTerrainType && R.FDecorationType == DecorationType && R != FResource && R.TerrainList.CompareTerrain(FResource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
+                if (R.EngineClass.ClassId == _resource.EngineClass.ClassId && R._terrainType == ((TerrainMapObjectResource)_resource)._terrainType && R._decorationType == decorationType && R != _resource && R.TerrainList.CompareTerrain(_resource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 {
-                    Candidates.Add(R);
+                    candidates.Add(R);
                 }
             }
         }
 
-        if (Candidates.Count != 0)
+        if (candidates.Count != 0)
         {
-            var random = Random(Candidates.Count);
-            Result = (TerrainMapObjectResource)Candidates.List[random];
+            var random = Random(candidates.Count);
+            result = (TerrainMapObjectResource)candidates.List[random];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        Candidates?.Dispose();
-        return Result;
+        candidates?.Dispose();
+        return result;
     }
 
     // Terrain.pas:160
-    public bool CanChangeOwnTerrain(int HN)
+    public bool CanChangeOwnTerrain(int hexNumber)
     {
-        MapLevel Level;
-        int Count;
-        HexNumberWalkData Walk = default;
-        bool Result = true;
-        Level = (MapLevel)Owner.Owner;
-        Count = GetTerrainCount();
-        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
-        while (Walk.HN < Count && Result)
+        MapLevel level;
+        int count;
+        HexNumberWalkData walk = default;
+        bool result = true;
+        level = (MapLevel)Owner.Owner;
+        count = GetTerrainCount();
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        while (walk.HexNumber < count && result)
         {
-            if (Walk.HN != HN && GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
+            if (walk.HexNumber != hexNumber && GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                Result = Level.GetField(Walk.X, Walk.Y).CanChangeTerrainEx(this);
+                result = level.GetField(walk.X, walk.Y).CanChangeTerrain(this);
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        return Result;
+        return result;
     }
 
     // Terrain.pas:19

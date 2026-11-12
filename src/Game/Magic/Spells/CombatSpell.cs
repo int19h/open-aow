@@ -15,136 +15,136 @@ namespace Aow.Game.Magic.Spells;
 // combat statistics (attack, damage, types, repeats, range, radius, targets). damage mode
 public partial class CombatSpell : Spell
 {
-    public SpellCombatInfo FCombatInfo;
-    public byte FDamageMode;
+    public SpellCombatInfo CombatInfo;
+    public byte DamageMode;
 
     // CombatSpells.pas:632
     public CombatSpell(ECustomNode owner) : base(owner)
     {
-        FSpellType = SpellType.Combat;
-        FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Combat);
-        FCombatInfo.Radius = 1;
-        FCombatInfo.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
-        FCastDuration = 5;
-        FDamageMode = 0;
+        SpellType = SpellType.Combat;
+        SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Combat);
+        CombatInfo.Radius = 1;
+        CombatInfo.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        CastDuration = 5;
+        DamageMode = 0;
     }
 
     // CombatSpells.pas:655
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        CombatSpellCombatAction Action;
-        Action = new CombatSpellCombatAction(null);
-        Action.FSpellID = FSpellID;
-        Action.GenerateEx(Source, Target, FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, FDamageMode);
-        if (ChargeMana)
+        CombatSpellCombatAction action;
+        action = new CombatSpellCombatAction(null);
+        action.SpellId = SpellId;
+        action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, DamageMode);
+        if (chargeMana)
         {
-            Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
+            action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
         }
 
-        return Action;
+        return action;
     }
 
     // CombatSpells.pas:643
-    public override void GetCombatInfo(Troop Source, ref SpellCombatInfo Info)
+    public override void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {
-        Info = FCombatInfo;
+        info = CombatInfo;
     }
 
     // CombatSpells.pas:648
-    public override int GetCombatDamageValue(CombatObject Source, CombatObject Target)
+    public override int GetCombatDamageValue(CombatObject source, CombatObject target)
     {
-        var hitPoints = Target.GetHitPoints();
-        var defense = Target.GetDefense();
-        var resistance = Target.GetResistance();
-        var immunityTypes = Target.GetImmunityTypes();
-        var protectionTypes = Target.GetProtectionTypes();
-        return AbilityRules.StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes) * FCombatInfo.RepeatCount;
+        var hitPoints = target.GetHitPoints();
+        var defense = target.GetDefense();
+        var resistance = target.GetResistance();
+        var immunityTypes = target.GetImmunityTypes();
+        var protectionTypes = target.GetProtectionTypes();
+        return AbilityRules.StatisticsToLimitedDamageValue(CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, hitPoints, defense, resistance, immunityTypes, protectionTypes) * CombatInfo.RepeatCount;
     }
 
     // CombatSpells.pas:668
-    public override void GetCombatDamageValueEx(CombatObject Source, CombatObject Target, ref AbilityDamageValues Values)
+    public override void GetCombatDamageValues(CombatObject source, CombatObject target, ref AbilityDamageValues values)
     {
-        Set<DamageType> Protection;
-        Set<DamageType> Immunity;
-        Protection = Target.GetProtectionTypes();
-        Immunity = Target.GetImmunityTypes();
-        Values.DamageTypes = FCombatInfo.DamageTypes;
-        var hitPoints = Target.GetHitPoints();
-        var defense = Target.GetDefense();
-        var resistance = Target.GetResistance();
-        var statisticsToLimitedDV = AbilityRules.StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, hitPoints, defense, resistance, Immunity, Protection);
-        Values.SourceDamage = statisticsToLimitedDV * FCombatInfo.RepeatCount;
+        Set<DamageType> protection;
+        Set<DamageType> immunity;
+        protection = target.GetProtectionTypes();
+        immunity = target.GetImmunityTypes();
+        values.DamageTypes = CombatInfo.DamageTypes;
+        var hitPoints = target.GetHitPoints();
+        var defense = target.GetDefense();
+        var resistance = target.GetResistance();
+        var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, hitPoints, defense, resistance, immunity, protection);
+        values.SourceDamage = statisticsToLimitedDamageValue * CombatInfo.RepeatCount;
         // { Original recomputes the value, using resistance in place of defense for mode 1. }
-        if (FDamageMode == 1)
+        if (DamageMode == 1)
         {
-            var targetHitPoints = Target.GetHitPoints();
-            var targetResistance = Target.GetResistance();
-            var resistance2 = Target.GetResistance();
-            var statisticsToLimitedDV2 = AbilityRules.StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, targetHitPoints, targetResistance, resistance2, Immunity, Protection);
-            Values.SourceDamage = statisticsToLimitedDV2 * FCombatInfo.RepeatCount;
+            var targetHitPoints = target.GetHitPoints();
+            var targetResistance = target.GetResistance();
+            var resistance2 = target.GetResistance();
+            var statisticsToLimitedDamageValue2 = AbilityRules.StatisticsToLimitedDamageValue(CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, targetHitPoints, targetResistance, resistance2, immunity, protection);
+            values.SourceDamage = statisticsToLimitedDamageValue2 * CombatInfo.RepeatCount;
         }
         else
         {
-            var a2HitPoints = Target.GetHitPoints();
-            var targetDefense = Target.GetDefense();
-            var a2Resistance = Target.GetResistance();
-            var statisticsToLimitedDV2 = AbilityRules.StatisticsToLimitedDV(FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, a2HitPoints, targetDefense, a2Resistance, Immunity, Protection);
-            Values.SourceDamage = statisticsToLimitedDV2 * FCombatInfo.RepeatCount;
+            var a2HitPoints = target.GetHitPoints();
+            var targetDefense = target.GetDefense();
+            var a2Resistance = target.GetResistance();
+            var statisticsToLimitedDamageValue2 = AbilityRules.StatisticsToLimitedDamageValue(CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, a2HitPoints, targetDefense, a2Resistance, immunity, protection);
+            values.SourceDamage = statisticsToLimitedDamageValue2 * CombatInfo.RepeatCount;
         }
 
-        var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(FCombatInfo.Damage, FCombatInfo.DamageTypes, Protection, Immunity);
-        Values.SourceCost = statisticsToMaxDamage * FCombatInfo.RepeatCount;
-        Values.TargetDamage = 0;
-        Values.TargetCost = 0;
+        var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(CombatInfo.Damage, CombatInfo.DamageTypes, protection, immunity);
+        values.SourceCost = statisticsToMaxDamage * CombatInfo.RepeatCount;
+        values.TargetDamage = 0;
+        values.TargetCost = 0;
     }
 
     // CombatSpells.pas:754
-    public override void fcPrefetchCombatCommands(FastBattleCommandList Commands)
+    public override void FastBattlePrefetchCombatCommands(FastBattleCommandList commands)
     {
-        Troop Hero;
-        int Distance;
-        string Reason = "";
-        CombatObject Target;
-        FastBattleSpellCommand Command;
-        AbilityDamageValues Values = default;
-        Hero = ((CombatUnit)Commands.FSource).FUnit;
-        if (Hero is Hero && ((Hero)Hero).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
+        Troop hero;
+        int distance;
+        string reason = "";
+        CombatObject target;
+        FastBattleSpellCommand command;
+        AbilityDamageValues values = default;
+        hero = ((CombatUnit)commands.Source).Troop;
+        if (hero is Hero && ((Hero)hero).CanCastSpellInstantly(SpellId, BaseManaCost, ref reason))
         {
-            Distance = Commands.FCombat.GetRoundDistance();
-            if (FCombatInfo.Range == -1)
+            distance = commands.Combat.GetRoundDistance();
+            if (CombatInfo.Range == -1)
             {
-                Distance += 8;
+                distance += 8;
             }
             else
             {
-                if (FCombatInfo.Range >= 12)
+                if (CombatInfo.Range >= 12)
                 {
-                    Distance += 4;
+                    distance += 4;
                 }
                 else
                 {
-                    if (FCombatInfo.Range >= 8)
+                    if (CombatInfo.Range >= 8)
                     {
-                        Distance += 2;
+                        distance += 2;
                     }
                 }
             }
 
-            for (int I = 0, last = Commands.FTargetSide.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = commands.TargetSide.GetCount() - 1; I <= last; I++)
             {
-                Target = Commands.FTargetSide.GetObjects(I);
-                if (Target.GetEnabled() && Target.fcRoundDistance() <= Distance)
+                target = commands.TargetSide.GetObjects(I);
+                if (target.GetEnabled() && target.FastBattleRoundDistance() <= distance)
                 {
-                    var wallSituation = Commands.FSource.FCombat.GetWallSituation(Commands.FSource, Target);
-                    fcGetDamageValueEx(Commands.FSource, Target, wallSituation, ref Values);
-                    if (Values.SourceDamage != 0)
+                    var wallSituation = commands.Source.Combat.GetWallSituation(commands.Source, target);
+                    FastBattleGetDamageValues(commands.Source, target, wallSituation, ref values);
+                    if (values.SourceDamage != 0)
                     {
-                        Command = new FastBattleSpellCommand(52);
-                        Command.FTarget = Commands.FTargetSide.GetObjects(I);
-                        Command.FMoveCost = 1;
-                        Command.FSpellID = FSpellID;
-                        Command.FExpectedDV = AbilityRules.DVtoDEV(Values.SourceDamage, Values.TargetDamage, Commands.FSource, Target);
-                        Commands.Add(Command);
+                        command = new FastBattleSpellCommand(52);
+                        command.Target = commands.TargetSide.GetObjects(I);
+                        command.MoveCost = 1;
+                        command.SpellId = SpellId;
+                        command.ExpectedDamageValue = AbilityRules.DamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, commands.Source, target);
+                        commands.Add(command);
                     }
                 }
             }
@@ -152,182 +152,182 @@ public partial class CombatSpell : Spell
     }
 
     // CombatSpells.pas:791
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
+    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
-        int Count;
-        CombatAction Action;
-        CombatObject Other;
-        int Distance;
-        CombatObject Target;
-        DelphiList Targets;
-        Combat.Battle Combat;
-        Target = Command.FTarget;
-        for (int I = 0, last = FCombatInfo.RepeatCount - 1; I <= last; I++)
+        int count;
+        CombatAction action;
+        CombatObject other;
+        int distance;
+        CombatObject target;
+        DelphiList targets;
+        Combat.Battle combat;
+        target = command.Target;
+        for (int I = 0, last = CombatInfo.RepeatCount - 1; I <= last; I++)
         {
-            if (!Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                Action = CreateCA(Source, Target, I == 0);
-                Source.FCombat.ExecuteCombatAction(Action);
-                Action.Release();
+                action = CreateCombatAction(source, target, I == 0);
+                source.Combat.ExecuteCombatAction(action);
+                action.Release();
             }
         }
 
-        if (FCombatInfo.Radius > 1)
+        if (CombatInfo.Radius > 1)
         {
-            Combat = Source.FCombat;
-            Targets = new DelphiList();
-            Distance = Combat.GetRoundDistance();
-            if (FCombatInfo.Range == -1)
+            combat = source.Combat;
+            targets = new DelphiList();
+            distance = combat.GetRoundDistance();
+            if (CombatInfo.Range == -1)
             {
-                Distance += 8;
+                distance += 8;
             }
             else
             {
-                if (FCombatInfo.Range >= 12)
+                if (CombatInfo.Range >= 12)
                 {
-                    Distance += 4;
+                    distance += 4;
                 }
                 else
                 {
-                    if (FCombatInfo.Range >= 8)
+                    if (CombatInfo.Range >= 8)
                     {
-                        Distance += 2;
+                        distance += 2;
                     }
                 }
             }
 
-            for (int I = Combat.FSides[(int)Target.GetSide()].GetCount() - 1; I >= 0; I--)
+            for (int I = combat.Sides[(int)target.GetSide()].GetCount() - 1; I >= 0; I--)
             {
-                var side = Target.GetSide();
-                Other = Combat.FSides[(int)side].GetObjects(I);
-                bool condition = Other != Target && Other.GetEnabled() && (int)(((uint)Other.FPosition) >> 4) == (int)(((uint)Target.FPosition) >> 4) && Distance >= Other.fcRoundDistance();
+                var side = target.GetSide();
+                other = combat.Sides[(int)side].GetObjects(I);
+                bool condition = other != target && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && distance >= other.FastBattleRoundDistance();
                 if (condition)
                 {
-                    var immunityTypes = Other.GetImmunityTypes();
-                    condition = FCombatInfo.DamageTypes - immunityTypes != Set<DamageType>.Of();
+                    var immunityTypes = other.GetImmunityTypes();
+                    condition = CombatInfo.DamageTypes - immunityTypes != Set<DamageType>.Of();
                 }
 
                 if (condition)
                 {
-                    Targets.Add(Other);
+                    targets.Add(other);
                 }
             }
 
             // { Original shifts Random(4) by two, so this adds no random extra targets. }
-            Count = (int)(((uint)AoWHSMap.Current.Random(4)) >> 2) + FCombatInfo.Radius;
-            while (Count != 0 && Targets.Count != 0)
+            count = (int)(((uint)AoWHSMap.Current.Random(4)) >> 2) + CombatInfo.Radius;
+            while (count != 0 && targets.Count != 0)
             {
-                Other = (CombatObject)Targets[AoWHSMap.Current.Random(Targets.Count)];
-                for (int J = 0, last = FCombatInfo.RepeatCount - 1; J <= last; J++)
+                other = (CombatObject)targets[AoWHSMap.Current.Random(targets.Count)];
+                for (int J = 0, last = CombatInfo.RepeatCount - 1; J <= last; J++)
                 {
-                    if (!Other.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+                    if (!other.Status.Contains(CombatObjectStatusElement.Destroyed))
                     {
-                        Action = CreateCA(Source, Other, false);
-                        Source.FCombat.ExecuteCombatAction(Action);
-                        Action.Release();
+                        action = CreateCombatAction(source, other, false);
+                        source.Combat.ExecuteCombatAction(action);
+                        action.Release();
                     }
                 }
 
-                Targets.Remove(Other);
-                Count -= 1;
+                targets.Remove(other);
+                count -= 1;
             }
 
-            Targets?.Dispose();
+            targets?.Dispose();
         }
 
         return true;
     }
 
     // CombatSpells.pas:693
-    public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
+    public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        Set<DamageType> DamageTypes;
-        Set<DamageType> Protection;
-        Set<DamageType> Immunity;
-        int Count;
-        int Distance;
-        CombatObject Other;
-        Combat.Battle Combat;
-        int Damage;
-        int Defense;
-        if (WallSituation == WallSituation.None || FCombatInfo.Range == -1 || FCombatInfo.Range >= 8)
+        Set<DamageType> damageTypes;
+        Set<DamageType> protection;
+        Set<DamageType> immunity;
+        int count;
+        int distance;
+        CombatObject other;
+        Combat.Battle combat;
+        int damage;
+        int defense;
+        if (wallSituation == WallSituation.None || CombatInfo.Range == -1 || CombatInfo.Range >= 8)
         {
-            Protection = Target.GetProtectionTypes();
-            Immunity = Target.GetImmunityTypes();
-            DamageTypes = FCombatInfo.DamageTypes;
-            Damage = FCombatInfo.Damage;
-            Defense = Target.GetDefense();
-            if (WallSituation == WallSituation.Target && (Set<DamageType>.Of(DamageType.Magic, DamageType.Death, DamageType.Holy) & FCombatInfo.DamageTypes) == Set<DamageType>.Of())
+            protection = target.GetProtectionTypes();
+            immunity = target.GetImmunityTypes();
+            damageTypes = CombatInfo.DamageTypes;
+            damage = CombatInfo.Damage;
+            defense = target.GetDefense();
+            if (wallSituation == WallSituation.Target && (Set<DamageType>.Of(DamageType.Magic, DamageType.Death, DamageType.Holy) & CombatInfo.DamageTypes) == Set<DamageType>.Of())
             {
-                Defense += 2;
+                defense += 2;
             }
 
-            Values.DamageTypes = DamageTypes;
-            var hitPoints = Target.GetHitPoints();
-            var resistance = Target.GetResistance();
-            var statisticsToLimitedDV = AbilityRules.StatisticsToLimitedDV(FCombatInfo.Attack, Damage, DamageTypes, hitPoints, Defense, resistance, Immunity, Protection);
-            Values.SourceDamage = statisticsToLimitedDV * FCombatInfo.RepeatCount;
-            if (FCombatInfo.Radius > 1)
+            values.DamageTypes = damageTypes;
+            var hitPoints = target.GetHitPoints();
+            var resistance = target.GetResistance();
+            var statisticsToLimitedDamageValue = AbilityRules.StatisticsToLimitedDamageValue(CombatInfo.Attack, damage, damageTypes, hitPoints, defense, resistance, immunity, protection);
+            values.SourceDamage = statisticsToLimitedDamageValue * CombatInfo.RepeatCount;
+            if (CombatInfo.Radius > 1)
             {
-                Values.SourceDamage = (int)(((uint)(Values.SourceDamage * FCombatInfo.Radius)) >> 1);
+                values.SourceDamage = (int)(((uint)(values.SourceDamage * CombatInfo.Radius)) >> 1);
             }
 
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(Damage, DamageTypes, Protection, Immunity);
-            Values.SourceCost = statisticsToMaxDamage * FCombatInfo.RepeatCount;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            if (Values.SourceDamage != 0 && FCombatInfo.Radius > 1)
+            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(damage, damageTypes, protection, immunity);
+            values.SourceCost = statisticsToMaxDamage * CombatInfo.RepeatCount;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            if (values.SourceDamage != 0 && CombatInfo.Radius > 1)
             {
-                Combat = Source.FCombat;
-                Count = 0;
-                Distance = Combat.GetRoundDistance();
-                if (FCombatInfo.Range == -1)
+                combat = source.Combat;
+                count = 0;
+                distance = combat.GetRoundDistance();
+                if (CombatInfo.Range == -1)
                 {
-                    Distance += 8;
+                    distance += 8;
                 }
                 else
                 {
-                    if (FCombatInfo.Range >= 12)
+                    if (CombatInfo.Range >= 12)
                     {
-                        Distance += 4;
+                        distance += 4;
                     }
                     else
                     {
-                        if (FCombatInfo.Range >= 8)
+                        if (CombatInfo.Range >= 8)
                         {
-                            Distance += 2;
+                            distance += 2;
                         }
                     }
                 }
 
-                for (int I = Combat.FSides[(int)Target.GetSide()].GetCount() - 1; I >= 0; I--)
+                for (int I = combat.Sides[(int)target.GetSide()].GetCount() - 1; I >= 0; I--)
                 {
-                    var side = Target.GetSide();
-                    Other = Combat.FSides[(int)side].GetObjects(I);
-                    if (Target != Other && Other.GetEnabled() && (int)(((uint)Other.FPosition) >> 4) == (int)(((uint)Target.FPosition) >> 4) && Other.fcRoundDistance() <= Distance && DamageTypes - Other.GetImmunityTypes() != Set<DamageType>.Of())
+                    var side = target.GetSide();
+                    other = combat.Sides[(int)side].GetObjects(I);
+                    if (target != other && other.GetEnabled() && (int)(((uint)other.Position) >> 4) == (int)(((uint)target.Position) >> 4) && other.FastBattleRoundDistance() <= distance && damageTypes - other.GetImmunityTypes() != Set<DamageType>.Of())
                     {
-                        Count += 1;
+                        count += 1;
                     }
                 }
 
-                if (Count != 0)
+                if (count != 0)
                 {
-                    if (FCombatInfo.Radius < Count)
+                    if (CombatInfo.Radius < count)
                     {
-                        Count = FCombatInfo.Radius;
+                        count = CombatInfo.Radius;
                     }
 
-                    Values.SourceDamage += Round((double)(Values.SourceDamage * Count) * 0.5);
+                    values.SourceDamage += Round((double)(values.SourceDamage * count) * 0.5);
                 }
             }
         }
         else
         {
-            Values.SourceDamage = 0;
-            Values.SourceCost = 0;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of();
+            values.SourceDamage = 0;
+            values.SourceCost = 0;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of();
         }
     }
 }

@@ -61,312 +61,312 @@ public partial class ResultsWindow : DataModule
     public CheckBox ManaCB;
     public Label ManaLbl;
     public IvTranslator Translator;
-    public int FMaxTurns;
-    public int FMaxGold;
-    public int FMaxMana;
-    public int FMaxArmies;
-    public int FReservedF0;
-    public int FMaxHeroes;
-    public int FMaxStructures;
-    public int FMaxStrength;
-    public ByteList FPlayers;
-    public List<CheckBox> FControls;
+    public int MaxTurns;
+    public int MaxGold;
+    public int MaxMana;
+    public int MaxArmies;
+    public int UnusedMaximum;
+    public int MaxHeroes;
+    public int MaxStructures;
+    public int MaxStrength;
+    public ByteList Players;
+    public List<CheckBox> Controls;
 
     // AoWResultsWin.pas:93
     public void UpdateSelection()
     {
-        PlayerStatistics Stats;
-        FMaxTurns = 1;
-        FMaxGold = 1;
-        FMaxMana = 1;
-        FMaxArmies = 1;
-        FReservedF0 = 1;
-        FMaxHeroes = 1;
-        FMaxStructures = 1;
-        FMaxStrength = 1;
-        for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
+        PlayerStatistics stats;
+        MaxTurns = 1;
+        MaxGold = 1;
+        MaxMana = 1;
+        MaxArmies = 1;
+        UnusedMaximum = 1;
+        MaxHeroes = 1;
+        MaxStructures = 1;
+        MaxStrength = 1;
+        for (int I = 0, last = Players.Count - 1; I <= last; I++)
         {
-            var player = FPlayers[I];
-            Stats = AoWHSMap.Current.FPlayers.GetPlayers(player).FStatistics;
-            var count = Stats.FTurnInfo.GetCount();
-            if (FMaxTurns < count)
+            var player = Players[I];
+            stats = AoWHSMap.Current.Players.GetPlayers(player).Statistics;
+            var count = stats.TurnInfo.GetCount();
+            if (MaxTurns < count)
             {
-                FMaxTurns = Stats.FTurnInfo.GetCount();
+                MaxTurns = stats.TurnInfo.GetCount();
             }
 
-            for (int J = 0, lastJ = Stats.FTurnInfo.GetCount() - 1; J <= lastJ; J++)
+            for (int J = 0, lastJ = stats.TurnInfo.GetCount() - 1; J <= lastJ; J++)
             {
-                var turnInfo = Stats.FTurnInfo.GetTurnInfo(J);
-                if (FMaxArmies < turnInfo.FArmyStrength)
+                var turnInfo = stats.TurnInfo.GetTurnInfo(J);
+                if (MaxArmies < turnInfo.ArmyStrength)
                 {
-                    FMaxArmies = Stats.FTurnInfo.GetTurnInfo(J).FArmyStrength;
+                    MaxArmies = stats.TurnInfo.GetTurnInfo(J).ArmyStrength;
                 }
 
-                var fTurnInfoTurnInfo = Stats.FTurnInfo.GetTurnInfo(J);
-                if (FMaxGold < fTurnInfoTurnInfo.FGold)
+                var fTurnInfoTurnInfo = stats.TurnInfo.GetTurnInfo(J);
+                if (MaxGold < fTurnInfoTurnInfo.Gold)
                 {
-                    FMaxGold = Stats.FTurnInfo.GetTurnInfo(J).FGold;
+                    MaxGold = stats.TurnInfo.GetTurnInfo(J).Gold;
                 }
 
-                var turnInfo2 = Stats.FTurnInfo.GetTurnInfo(J);
-                if (FMaxMana < turnInfo2.FMana)
+                var turnInfo2 = stats.TurnInfo.GetTurnInfo(J);
+                if (MaxMana < turnInfo2.Mana)
                 {
-                    FMaxMana = Stats.FTurnInfo.GetTurnInfo(J).FMana;
+                    MaxMana = stats.TurnInfo.GetTurnInfo(J).Mana;
                 }
 
-                var turnInfo3 = Stats.FTurnInfo.GetTurnInfo(J);
-                if (FMaxHeroes < turnInfo3.FHeroes)
+                var turnInfo3 = stats.TurnInfo.GetTurnInfo(J);
+                if (MaxHeroes < turnInfo3.Heroes)
                 {
-                    FMaxHeroes = Stats.FTurnInfo.GetTurnInfo(J).FHeroes;
+                    MaxHeroes = stats.TurnInfo.GetTurnInfo(J).Heroes;
                 }
 
-                var turnInfo4 = Stats.FTurnInfo.GetTurnInfo(J);
-                if (FMaxStructures < turnInfo4.FStructures)
+                var turnInfo4 = stats.TurnInfo.GetTurnInfo(J);
+                if (MaxStructures < turnInfo4.Structures)
                 {
-                    FMaxStructures = Stats.FTurnInfo.GetTurnInfo(J).FStructures;
+                    MaxStructures = stats.TurnInfo.GetTurnInfo(J).Structures;
                 }
 
-                var superiority = Stats.FTurnInfo.GetTurnInfo(J).GetSuperiority();
-                if (FMaxStrength < superiority)
+                var superiority = stats.TurnInfo.GetTurnInfo(J).GetSuperiority();
+                if (MaxStrength < superiority)
                 {
-                    FMaxStrength = Stats.FTurnInfo.GetTurnInfo(J).GetSuperiority();
+                    MaxStrength = stats.TurnInfo.GetTurnInfo(J).GetSuperiority();
                 }
             }
         }
 
-        var turn = AbilityRules.TranslateRStr(TurnRStr);
-        TurnLbl.Text = turn + " " + IntToStr(FMaxTurns);
+        var turn = AbilityRules.TranslateResourceString(s_turnText);
+        TurnLbl.Text = turn + " " + IntToStr(MaxTurns);
     }
 
     // AoWResultsWin.pas:250
-    public void DrawGraphs(in LockedSurface Surface)
+    public void DrawGraphs(in LockedSurface surface)
     {
-        Rect Bounds = default;
-        Bounds.Left = ResultsPnl.WinLeft + Axis.WinLeft + 5;
-        Bounds.Top = ResultsPnl.WinTop + Axis.WinTop + 4;
-        Bounds.Right = ResultsPnl.WinLeft + Axis.WinLeft + 338;
-        Bounds.Bottom = ResultsPnl.WinTop + Axis.WinTop + 117;
-        for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
+        Rect bounds = default;
+        bounds.Left = ResultsPnl.WinLeft + Axis.WinLeft + 5;
+        bounds.Top = ResultsPnl.WinTop + Axis.WinTop + 4;
+        bounds.Right = ResultsPnl.WinLeft + Axis.WinLeft + 338;
+        bounds.Bottom = ResultsPnl.WinTop + Axis.WinTop + 117;
+        for (int I = 0, last = Players.Count - 1; I <= last; I++)
         {
             if (GoldCB.Checked)
             {
-                DrawGold((sbyte)FPlayers[I], Bounds, Surface);
+                DrawGold((sbyte)Players[I], bounds, surface);
             }
 
             if (ManaCB.Checked)
             {
-                DrawMana((sbyte)FPlayers[I], Bounds, Surface);
+                DrawMana((sbyte)Players[I], bounds, surface);
             }
 
             if (HeroesCB.Checked)
             {
-                DrawHeroes((sbyte)FPlayers[I], Bounds, Surface);
+                DrawHeroes((sbyte)Players[I], bounds, surface);
             }
 
             if (StructuresCB.Checked)
             {
-                DrawStructures((sbyte)FPlayers[I], Bounds, Surface);
+                DrawStructures((sbyte)Players[I], bounds, surface);
             }
 
             if (ArmiesCB.Checked)
             {
-                DrawArmies((sbyte)FPlayers[I], Bounds, Surface);
+                DrawArmies((sbyte)Players[I], bounds, surface);
             }
 
             if (StrengthCB.Checked)
             {
-                DrawStrength((sbyte)FPlayers[I], Bounds, Surface);
+                DrawStrength((sbyte)Players[I], bounds, surface);
             }
         }
     }
 
     // AoWResultsWin.pas:123
-    public void DrawGraph(LibraryImage Image, Int32List Values, int Turns, int Maximum, in Rect R, in LockedSurface Surface)
+    public void DrawGraph(LibraryImage image, Int32List values, int turns, int maximum, in Rect R, in LockedSurface surface)
     {
-        int Width;
-        int LastY;
-        int Y1;
-        int X2;
-        float XStep;
-        float YStep;
-        int NextY;
-        int X1;
-        int Y2;
-        int Height;
-        if (Values.Count != 0)
+        int width;
+        int lastY;
+        int y1;
+        int x2;
+        float xStep;
+        float yStep;
+        int nextY;
+        int x1;
+        int y2;
+        int height;
+        if (values.Count != 0)
         {
-            Width = R.Right - R.Left;
-            Height = R.Bottom - R.Top;
-            if (Turns >= 2)
+            width = R.Right - R.Left;
+            height = R.Bottom - R.Top;
+            if (turns >= 2)
             {
-                XStep = (float)((double)Width / (Turns - 1));
+                xStep = (float)((double)width / (turns - 1));
             }
             else
             {
-                XStep = Width;
+                xStep = width;
             }
 
-            YStep = (float)((double)Height / Maximum);
-            LastY = Values[0];
-            for (int I = 1, last = Values.Count - 1; I <= last; I++)
+            yStep = (float)((double)height / maximum);
+            lastY = values[0];
+            for (int I = 1, last = values.Count - 1; I <= last; I++)
             {
-                NextY = Values[I];
-                X1 = Round((double)(I - 1) * XStep);
-                Y1 = Round((double)LastY * YStep);
+                nextY = values[I];
+                x1 = Round((double)(I - 1) * xStep);
+                y1 = Round((double)lastY * yStep);
                 // { Original advances from the rounded previous x coordinate. }
-                X2 = Round((double)X1 + XStep);
-                Y2 = Round((double)NextY * YStep);
-                DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
-                LastY = NextY;
+                x2 = Round((double)x1 + xStep);
+                y2 = Round((double)nextY * yStep);
+                DrawImageLine(image, x1 + R.Left, R.Bottom - y1, R.Left + x2, R.Bottom - y2, 1, surface);
+                lastY = nextY;
             }
 
-            if (Values.Count == 1)
+            if (values.Count == 1)
             {
-                X1 = 0;
-                NextY = Round((double)LastY * YStep);
-                Y1 = NextY;
-                X2 = Width - 1;
+                x1 = 0;
+                nextY = Round((double)lastY * yStep);
+                y1 = nextY;
+                x2 = width - 1;
                 // { Original repeats the rounding and discards its result. }
-                Round((double)LastY * YStep);
-                Y2 = NextY;
-                DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
+                Round((double)lastY * yStep);
+                y2 = nextY;
+                DrawImageLine(image, x1 + R.Left, R.Bottom - y1, R.Left + x2, R.Bottom - y2, 1, surface);
             }
         }
     }
 
     // AoWResultsWin.pas:160
-    public void DrawGold(sbyte Player, in Rect R, in LockedSurface Surface)
+    public void DrawGold(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List Values;
-        TurnInfo Info;
-        Values = new Int32List();
-        Info = AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
-        for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
+        Int32List values;
+        TurnInfo info;
+        values = new Int32List();
+        info = AoWHSMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
         {
-            Values.Add(Info.GetTurnInfo(I).FGold);
+            values.Add(info.GetTurnInfo(I).Gold);
         }
 
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxGold, R, Surface);
-        Values?.Dispose();
-        KeyMax.Text = IntToStr(FMaxGold);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxGold, R, surface);
+        values?.Dispose();
+        KeyMax.Text = IntToStr(MaxGold);
     }
 
     // AoWResultsWin.pas:175
-    public void DrawMana(sbyte Player, in Rect R, in LockedSurface Surface)
+    public void DrawMana(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List Values;
-        TurnInfo Info;
-        Values = new Int32List();
-        Info = AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
-        for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
+        Int32List values;
+        TurnInfo info;
+        values = new Int32List();
+        info = AoWHSMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
         {
-            Values.Add(Info.GetTurnInfo(I).FMana);
+            values.Add(info.GetTurnInfo(I).Mana);
         }
 
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxMana, R, Surface);
-        Values?.Dispose();
-        KeyMax.Text = IntToStr(FMaxMana);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxMana, R, surface);
+        values?.Dispose();
+        KeyMax.Text = IntToStr(MaxMana);
     }
 
     // AoWResultsWin.pas:190
-    public void DrawHeroes(sbyte Player, in Rect R, in LockedSurface Surface)
+    public void DrawHeroes(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List Values;
-        TurnInfo Info;
-        Values = new Int32List();
-        Info = AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
-        for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
+        Int32List values;
+        TurnInfo info;
+        values = new Int32List();
+        info = AoWHSMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
         {
-            Values.Add(Info.GetTurnInfo(I).FHeroes);
+            values.Add(info.GetTurnInfo(I).Heroes);
         }
 
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxHeroes, R, Surface);
-        Values?.Dispose();
-        KeyMax.Text = IntToStr(FMaxHeroes);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxHeroes, R, surface);
+        values?.Dispose();
+        KeyMax.Text = IntToStr(MaxHeroes);
     }
 
     // AoWResultsWin.pas:205
-    public void DrawArmies(sbyte Player, in Rect R, in LockedSurface Surface)
+    public void DrawArmies(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List Values;
-        TurnInfo Info;
-        Values = new Int32List();
-        Info = AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
-        for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
+        Int32List values;
+        TurnInfo info;
+        values = new Int32List();
+        info = AoWHSMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
         {
-            Values.Add(Info.GetTurnInfo(I).FArmyStrength);
+            values.Add(info.GetTurnInfo(I).ArmyStrength);
         }
 
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxArmies, R, Surface);
-        Values?.Dispose();
-        KeyMax.Text = IntToStr(FMaxArmies);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxArmies, R, surface);
+        values?.Dispose();
+        KeyMax.Text = IntToStr(MaxArmies);
     }
 
     // AoWResultsWin.pas:220
-    public void DrawStructures(sbyte Player, in Rect R, in LockedSurface Surface)
+    public void DrawStructures(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List Values;
-        TurnInfo Info;
-        Values = new Int32List();
-        Info = AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
-        for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
+        Int32List values;
+        TurnInfo info;
+        values = new Int32List();
+        info = AoWHSMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
         {
-            Values.Add(Info.GetTurnInfo(I).FStructures);
+            values.Add(info.GetTurnInfo(I).Structures);
         }
 
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStructures, R, Surface);
-        Values?.Dispose();
-        KeyMax.Text = IntToStr(FMaxStructures);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxStructures, R, surface);
+        values?.Dispose();
+        KeyMax.Text = IntToStr(MaxStructures);
     }
 
     // AoWResultsWin.pas:235
-    public void DrawStrength(sbyte Player, in Rect R, in LockedSurface Surface)
+    public void DrawStrength(sbyte player, in Rect R, in LockedSurface surface)
     {
-        Int32List Values;
-        TurnInfo Info;
-        Values = new Int32List();
-        Info = AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
-        for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
+        Int32List values;
+        TurnInfo info;
+        values = new Int32List();
+        info = AoWHSMap.Current.Players.GetPlayers(player).Statistics.TurnInfo;
+        for (int I = 0, last = info.GetCount() - 1; I <= last; I++)
         {
-            Values.Add(Info.GetTurnInfo(I).GetSuperiority());
+            values.Add(info.GetTurnInfo(I).GetSuperiority());
         }
 
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStrength, R, Surface);
-        Values?.Dispose();
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+        DrawGraph(DialogHosts.UIGraphics.EndScene[playerLocal.PlayerRace + 13], values, MaxTurns, MaxStrength, R, surface);
+        values?.Dispose();
         // { Original strength graph labels the structures maximum. }
-        KeyMax.Text = IntToStr(FMaxStructures);
+        KeyMax.Text = IntToStr(MaxStructures);
     }
 
     // AoWResultsWin.pas:270
     public void ResultsWinCreate()
     {
-        FPlayers = new ByteList();
-        FControls = new List<CheckBox>();
-        FControls.Add(P1CB);
-        FControls.Add(P2CB);
-        FControls.Add(P3CB);
-        FControls.Add(P4CB);
-        FControls.Add(P5CB);
-        FControls.Add(P6CB);
-        FControls.Add(P7CB);
-        FControls.Add(P8CB);
-        FControls.Add(P9CB);
-        FControls.Add(P10CB);
-        FControls.Add(P11CB);
-        FControls.Add(P12CB);
+        Players = new ByteList();
+        Controls = new List<CheckBox>();
+        Controls.Add(P1CB);
+        Controls.Add(P2CB);
+        Controls.Add(P3CB);
+        Controls.Add(P4CB);
+        Controls.Add(P5CB);
+        Controls.Add(P6CB);
+        Controls.Add(P7CB);
+        Controls.Add(P8CB);
+        Controls.Add(P9CB);
+        Controls.Add(P10CB);
+        Controls.Add(P11CB);
+        Controls.Add(P12CB);
     }
 
     // AoWResultsWin.pas:288
     public void ResultsWinDestroy()
     {
-        FPlayers?.Dispose();
-        FControls?.Clear();
+        Players?.Dispose();
+        Controls?.Clear();
     }
 
     // AoWResultsWin.pas:294
@@ -374,11 +374,11 @@ public partial class ResultsWindow : DataModule
     {
         FinishPyre(DialogHosts.PyreScreen);
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.ResultsWin.ResultsPnl.Visible = false;
-        AudioPlayback.FadeMusicVolume(DialogHosts.SoundDlg.MusicVolume.Position, 2);
-        if (AoWHSMap.Current.FGameStatus == AoWHSMap.GameStatus.Terminated)
+        DialogHosts.ResultsWindow.ResultsPnl.Visible = false;
+        AudioPlayback.FadeMusicVolume(DialogHosts.SoundDialog.MusicVolume.Position, 2);
+        if (AoWHSMap.Current.GameStatus == AoWHSMapGameStatus.Terminated)
         {
-            if (GameTables.AoWEngine.FCampaign == null)
+            if (GameTables.GameEngine.Campaign == null)
             {
                 DialogHosts.General.ReturnToTitle();
             }
@@ -409,15 +409,15 @@ public partial class ResultsWindow : DataModule
     }
 
     // AoWResultsWin.pas:324
-    public void AxisDraw(LockedSurface Surface)
+    public void AxisDraw(LockedSurface surface)
     {
-        DrawGraphs(Surface);
+        DrawGraphs(surface);
     }
 
     // AoWResultsWin.pas:329
     public void AgendaChange()
     {
-        ResultsPnl.FDrawn = false;
+        ResultsPnl.Drawn = false;
     }
 
     // AoWResultsWin.pas:334
@@ -427,37 +427,37 @@ public partial class ResultsWindow : DataModule
     }
 
     // AoWResultsWin.pas:339
-    public void P1CBPreDraw(CheckBox Sender, LockedSurface Surface, int Slot)
+    public void P1CBPreDraw(CheckBox sender, LockedSurface surface, int slot)
     {
         Rect R;
-        var component = Sender;
-        if (Slot < FPlayers.Count)
+        var component = sender;
+        if (slot < Players.Count)
         {
             R = new Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
-            var player = FPlayers[Slot];
-            if (AoWHSMap.Current.FPlayers.GetPlayers(player).GetFace() != null)
+            var player = Players[slot];
+            if (AoWHSMap.Current.Players.GetPlayers(player).GetFace() != null)
             {
-                var player2 = FPlayers[Slot];
-                AoWHSMap.Current.FPlayers.GetPlayers(player2).FLeader.ShowFace(R, Surface);
+                var player2 = Players[slot];
+                AoWHSMap.Current.Players.GetPlayers(player2).Leader.ShowFace(R, surface);
             }
 
-            var player3 = FPlayers[Slot];
-            var playerPlayerRace = AoWHSMap.Current.FPlayers.GetPlayers(player3);
-            DialogHosts.IntGfxMod.RelWin[playerPlayerRace.FPlayerRace + 16].ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
+            var player3 = Players[slot];
+            var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(player3);
+            DialogHosts.UIGraphics.RelWin[playerPlayerRace.PlayerRace + 16].ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, surface);
         }
     }
 
     // AoWResultsWin.pas:355
-    public void P1CBChange(CheckBox Sender, int Slot)
+    public void P1CBChange(CheckBox sender, int slot)
     {
-        CheckBox Control;
-        Control = Sender;
-        if (Control.Checked)
+        CheckBox control;
+        control = sender;
+        if (control.Checked)
         {
-            if (FPlayers.Count > Slot)
+            if (Players.Count > slot)
             {
-                var player = FPlayers[Slot];
-                var nameEx = AoWHSMap.Current.FPlayers.GetPlayers(player).GetNameEx();
+                var player = Players[slot];
+                var nameEx = AoWHSMap.Current.Players.GetPlayers(player).GetNameWithRace();
                 SideLbl.Text = nameEx;
             }
 
@@ -469,179 +469,179 @@ public partial class ResultsWindow : DataModule
         }
     }
 
-    private static readonly string TurnRStr = "Turn";
+    private static readonly string s_turnText = "Turn";
 
-    private static void FinishPyre(PyreScreen Dialog)
+    private static void FinishPyre(PyreScreen dialog)
     {
-        AudioPlayback.SetSFXVolume(DialogHosts.SoundDlg.SFXVolume.Position);
-        Dialog.ClearFire();
-        if (Dialog.FSavedSongStatus != null)
+        AudioPlayback.SetSfxVolume(DialogHosts.SoundDialog.SFXVolume.Position);
+        dialog.ClearFire();
+        if (dialog.SavedSongStatus != null)
         {
-            SongStatus.RestoreSongStatus(Dialog.FSavedSongStatus);
-            Dialog.FSavedSongStatus = null;
+            SongStatus.RestoreSongStatus(dialog.SavedSongStatus);
+            dialog.SavedSongStatus = null;
         }
-        Dialog.FGameOverEvent.Handled();
+        dialog.GameOverEvent.Handled();
         DialogHosts.General.Manager.OverlayPriority = 0;
-        ExecuteDoneEvent fDone = Dialog.FDone;
-        GameOverEventLog fGameOverEvent = Dialog.FGameOverEvent;
-        Dialog.FDone = null;
-        Dialog.FGameOverEvent = null;
+        ExecuteDoneEvent fDone = dialog.Done;
+        GameOverEventLog fGameOverEvent = dialog.GameOverEvent;
+        dialog.Done = null;
+        dialog.GameOverEvent = null;
         fDone?.Invoke(fGameOverEvent);
         fGameOverEvent?.Release();
     }
 
-    private static void DrawImageLine(LibraryImage Image, int X1, int Y1, int X2, int Y2, int Spacing, in LockedSurface SD)
+    private static void DrawImageLine(LibraryImage image, int x1, int y1, int x2, int y2, int spacing, in LockedSurface lockedSurface)
     {
-        int num = 0;
+        int number = 0;
         int i;
         int j;
-        if (X1 > X2)
+        if (x1 > x2)
         {
-            i = X2;
-            X2 = X1;
-            X1 = i;
-            j = Y2;
-            Y2 = Y1;
-            Y1 = j;
+            i = x2;
+            x2 = x1;
+            x1 = i;
+            j = y2;
+            y2 = y1;
+            y1 = j;
         }
         else
         {
-            i = X1;
-            j = Y1;
+            i = x1;
+            j = y1;
         }
-        int num2;
-        int num3;
-        int num4;
-        int num7;
-        int num6;
-        if (Y1 <= Y2)
+        int number2;
+        int number3;
+        int number4;
+        int number7;
+        int number6;
+        if (y1 <= y2)
         {
-            num2 = X2 - X1;
-            num3 = Y2 - Y1;
-            if (num3 >= num2)
+            number2 = x2 - x1;
+            number3 = y2 - y1;
+            if (number3 >= number2)
             {
-                num4 = (num2 - num3) * 2;
-                int num5 = num2 * 2;
-                num6 = num5 - num3;
-                for (; j != Y2; j++)
+                number4 = (number2 - number3) * 2;
+                int number5 = number2 * 2;
+                number6 = number5 - number3;
+                for (; j != y2; j++)
                 {
-                    if (num == 0)
+                    if (number == 0)
                     {
-                        Image.Show(i, j, in SD);
-                        num = Spacing;
+                        image.Show(i, j, in lockedSurface);
+                        number = spacing;
                     }
                     else
                     {
-                        num--;
+                        number--;
                     }
-                    if (num6 >= 0)
+                    if (number6 >= 0)
                     {
-                        num6 += num4;
+                        number6 += number4;
                         i++;
                     }
                     else
                     {
-                        num6 += num5;
+                        number6 += number5;
                     }
                 }
-                if (num == 0)
+                if (number == 0)
                 {
-                    Image.Show(i, j, in SD);
+                    image.Show(i, j, in lockedSurface);
                 }
                 return;
             }
-            num4 = (num3 - num2) * 2;
-            num7 = num3 * 2;
-            num6 = num7 - num2;
-            for (; i != X2; i++)
+            number4 = (number3 - number2) * 2;
+            number7 = number3 * 2;
+            number6 = number7 - number2;
+            for (; i != x2; i++)
             {
-                if (num == 0)
+                if (number == 0)
                 {
-                    Image.Show(i, j, in SD);
-                    num = Spacing;
+                    image.Show(i, j, in lockedSurface);
+                    number = spacing;
                 }
                 else
                 {
-                    num--;
+                    number--;
                 }
-                if (num6 >= 0)
+                if (number6 >= 0)
                 {
-                    num6 += num4;
+                    number6 += number4;
                     j++;
                 }
                 else
                 {
-                    num6 += num7;
+                    number6 += number7;
                 }
             }
-            if (num == 0)
+            if (number == 0)
             {
-                Image.Show(i, j, in SD);
+                image.Show(i, j, in lockedSurface);
             }
             return;
         }
-        num2 = X2 - X1;
-        num3 = Y1 - Y2;
-        if (num3 >= num2)
+        number2 = x2 - x1;
+        number3 = y1 - y2;
+        if (number3 >= number2)
         {
-            num4 = (num2 - num3) * 2;
-            int num5 = num2 * 2;
-            num6 = num5 - num3;
-            while (j != Y2)
+            number4 = (number2 - number3) * 2;
+            int number5 = number2 * 2;
+            number6 = number5 - number3;
+            while (j != y2)
             {
-                if (num == 0)
+                if (number == 0)
                 {
-                    Image.Show(i, j, in SD);
-                    num = Spacing;
+                    image.Show(i, j, in lockedSurface);
+                    number = spacing;
                 }
                 else
                 {
-                    num--;
+                    number--;
                 }
-                if (num6 >= 0)
+                if (number6 >= 0)
                 {
-                    num6 += num4;
+                    number6 += number4;
                     i++;
                 }
                 else
                 {
-                    num6 += num5;
+                    number6 += number5;
                 }
                 j--;
             }
-            if (num == 0)
+            if (number == 0)
             {
-                Image.Show(i, j, in SD);
+                image.Show(i, j, in lockedSurface);
             }
             return;
         }
-        num4 = (num3 - num2) * 2;
-        num7 = num3 * 2;
-        num6 = num7 - num2;
-        for (; i != X2; i++)
+        number4 = (number3 - number2) * 2;
+        number7 = number3 * 2;
+        number6 = number7 - number2;
+        for (; i != x2; i++)
         {
-            if (num == 0)
+            if (number == 0)
             {
-                Image.Show(i, j, in SD);
-                num = Spacing;
+                image.Show(i, j, in lockedSurface);
+                number = spacing;
             }
             else
             {
-                num--;
+                number--;
             }
-            if (num6 >= 0)
+            if (number6 >= 0)
             {
-                num6 += num4;
+                number6 += number4;
                 j--;
             }
             else
             {
-                num6 += num7;
+                number6 += number7;
             }
         }
-        if (num == 0)
+        if (number == 0)
         {
-            Image.Show(i, j, in SD);
+            image.Show(i, j, in lockedSurface);
         }
     }
 }

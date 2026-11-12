@@ -14,33 +14,33 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-// FState (bit 0 razed), FIncomeSource
+// State (bit 0 razed), IncomeSource
 public partial class Mine : PlayerStructure
 {
     public Mine(ECustomNode owner) : base(owner)
     {
-        FIncomeSource = new PlayerStructureIncomeSource(null);
-        FIncomeSource.Setup(this);
+        IncomeSource = new PlayerStructureIncomeSource(null);
+        IncomeSource.Setup(this);
     }
 
     // Mine.pas:82
-    public new const int ClassID = 131962;
+    public new const int ClassId = 131962;
 
-    public byte FState;
-    public PlayerStructureIncomeSource FIncomeSource;
+    public byte State;
+    public PlayerStructureIncomeSource IncomeSource;
 
     // Mine.pas:76
     public override void Dispose()
     {
         base.Dispose();
-        FIncomeSource?.Dispose();
+        IncomeSource?.Dispose();
     }
 
     // Mine.pas:172
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref FState, 1), 1, 20);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref State, 1), 1, 20);
     }
 
     // Mine.pas:69
@@ -49,75 +49,75 @@ public partial class Mine : PlayerStructure
     public override void Activate()
     {
         base.Activate();
-        if (FPlayer != -1)
+        if (Player != -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
+            AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(IncomeSource);
         }
     }
 
     // Mine.pas:150
     public override void Deactivate()
     {
-        if (FPlayer != -1)
+        if (Player != -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
+            AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(IncomeSource);
         }
 
         base.Deactivate();
     }
 
     // Mine.pas:161
-    public override void SetRazed(bool Value)
+    public override void SetRazed(bool value)
     {
-        if (Value)
+        if (value)
         {
             SetPlayer(-1);
-            FState = (byte)(Set<byte>.FromMask(FState) + Set<byte>.WithBounds(0, 7).With(0)).Image;
+            State = (byte)(Set<byte>.FromMask(State) + Set<byte>.WithBounds(0, 7).With(0)).Image;
         }
         else
         {
-            FState = (byte)(Set<byte>.FromMask(FState) - Set<byte>.WithBounds(0, 7).With(0)).Image;
+            State = (byte)(Set<byte>.FromMask(State) - Set<byte>.WithBounds(0, 7).With(0)).Image;
         }
 
-        this.FImageIndex = GetTerrainTypeImage(TerrainType);
+        this._imageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Mine.pas:93
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(AbilityRules.TranslateRStr(GameText.ProducingXIncomeRStr), [IntToStr(income)]);
+        return RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_producingIncomeFormat), [IntToStr(income)]);
     }
 
     // Mine.pas:99
-    public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
+    public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        int CandidatePriority;
+        int candidatePriority;
         if (!GetRazed() || GetBuilding())
         {
-            CandidatePriority = Data.Priority;
-            switch (Info.Mode)
+            candidatePriority = data.Priority;
+            switch (info.Mode)
             {
                 case AITargetMode.Attack:
-                    if ((byte)Info.Player != (byte)FPlayer && !GetRazed())
+                    if ((byte)info.Player != (byte)Player && !GetRazed())
                     {
-                        if ((byte)FPlayer == 0)
+                        if ((byte)Player == 0)
                         {
-                            CandidatePriority = 50;
+                            candidatePriority = 50;
                         }
                         else
                         {
-                            if (AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, (sbyte)(byte)FPlayer, 0))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, (sbyte)(byte)Player, 0))
                             {
-                                CandidatePriority = 50 - AoWHSMap.Current.FPlayers.GetPlayers(Info.Player).FIncome / 2;
-                                if (CandidatePriority < 25)
+                                candidatePriority = 50 - AoWHSMap.Current.Players.GetPlayers(info.Player).Income / 2;
+                                if (candidatePriority < 25)
                                 {
-                                    CandidatePriority = 25;
+                                    candidatePriority = 25;
                                 }
 
-                                if (CandidatePriority > 75)
+                                if (candidatePriority > 75)
                                 {
-                                    CandidatePriority = 75;
+                                    candidatePriority = 75;
                                 }
                             }
                         }
@@ -125,43 +125,43 @@ public partial class Mine : PlayerStructure
 
                     break;
                 case AITargetMode.Defend:
-                    if ((byte)Info.Player == (byte)FPlayer)
+                    if ((byte)info.Player == (byte)Player)
                     {
-                        Data.Priority = 20;
+                        data.Priority = 20;
                     }
 
                     break;
             }
 
             // { Original can overwrite the special kind-6 priority with the previous higher value. }
-            if (Data.Priority < CandidatePriority)
+            if (data.Priority < candidatePriority)
             {
-                Data.Priority = CandidatePriority;
+                data.Priority = candidatePriority;
             }
         }
     }
 
     // Mine.pas:126
-    public override void SetPlayer(sbyte Player)
+    public override void SetPlayer(sbyte player)
     {
-        if (Player != FPlayer)
+        if (player != Player)
         {
-            if (FStatus.Contains(MapObjectStatusElement.Activated))
+            if (_status.Contains(MapObjectStatusElement.Activated))
             {
-                if (FPlayer != -1)
+                if (Player != -1)
                 {
-                    AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
+                    AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).UnregisterIncomeSource(IncomeSource);
                 }
 
-                base.SetPlayer(Player);
-                if (FPlayer != -1)
+                base.SetPlayer(player);
+                if (Player != -1)
                 {
-                    AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
+                    AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)Player).RegisterIncomeSource(IncomeSource);
                 }
             }
             else
             {
-                base.SetPlayer(Player);
+                base.SetPlayer(player);
             }
         }
     }
@@ -169,66 +169,66 @@ public partial class Mine : PlayerStructure
     // Mine.pas:85
     public override int GetIncome()
     {
-        int Result;
+        int result;
         if (!GetRazed() && !GetBuilding())
         {
-            Result = 10;
+            result = 10;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Mine.pas:178
-    public override string GetCombatEventText(Battle Combat)
+    public override string GetCombatEventText(Battle combat)
     {
-        string Result;
-        if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
+        string result;
+        if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
         {
-            Result = AbilityRules.TranslateRStr(MineBattleWonRStr);
+            result = AbilityRules.TranslateResourceString(s_mineBattleWonText);
         }
         else
         {
-            Result = "";
+            result = "";
         }
 
-        return Result;
+        return result;
     }
 
     // Mine.pas:25
-    public override bool GetRazed() => (FState & 1) != 0;
+    public override bool GetRazed() => (State & 1) != 0;
 
-    private static readonly string MineBattleWonRStr = "Mine captured";
+    private static readonly string s_mineBattleWonText = "Mine captured";
 
     public new partial class Resource : PlayerStructureResource
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FTerrainBound = false;
-            FClaimed = false;
-            FRazeable = true;
-            FRazeDefenderBudget = 75;
-            FRebuildGold = 25;
-            FRebuildDays = 2;
+            TerrainBound = false;
+            Claimed = false;
+            Razeable = true;
+            RazeDefenderBudget = 75;
+            RebuildGold = 25;
+            RebuildDays = 2;
         }
 
         // Mine.pas:200
-        public new const int ClassID = 131963;
+        public new const int ClassId = 131963;
 
         // Mine.pas:186
 
         // Mine.pas:203
-        public override int ResourceUserClassID() => 131962;
+        public override int ResourceUserClassId() => 131962;
 
         // Mine.pas:41
 
         // Mine.pas:197
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(MineRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_mineText);
 
-        private static readonly string MineRStr = "Mine";
+        private static readonly string s_mineText = "Mine";
 
     }
 }

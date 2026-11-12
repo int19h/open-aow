@@ -14,7 +14,7 @@ public partial class SpringOfLifeAnimation : Animation
     public override void NewFrame()
     {
         base.NewFrame();
-        if (FFrameCounter > 20)
+        if (FrameCounter > 20)
         {
             Dispose();
         }
@@ -23,8 +23,8 @@ public partial class SpringOfLifeAnimation : Animation
     // Animation.pas:43
 
     // Spring.pas:59
-    public override Set<AnimationControlModeElement> AnimationControlMode() => SpringMode;
+    public override Set<AnimationControlModeElement> AnimationControlMode() => s_springMode;
 
-    private static Set<AnimationControlModeElement> SpringMode = Set<AnimationControlModeElement>.FromMask(17uL);
+    private static Set<AnimationControlModeElement> s_springMode = Set<AnimationControlModeElement>.FromMask(17uL);
 
 }

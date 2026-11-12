@@ -19,47 +19,47 @@ public partial class StormSpellTokenEvent : SpellTokenEvent
     { }
 
     // Storms.pas:730
-    public new const int ClassID = 135937;
+    public new const int ClassId = 135937;
 
-    public Storm FStorm;
-    public sbyte FX;
-    public sbyte FY;
-    public sbyte FL;
+    public Storm Storm;
+    public sbyte X;
+    public sbyte Y;
+    public sbyte MapLevel;
 
     // Storms.pas:735
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FX), 20);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FY), 21);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FL), 22);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref X), 20);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Y), 21);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MapLevel), 22);
     }
 
     // Storms.pas:743
     public override bool Process(Troop source, int value)
     {
-        bool Result;
+        bool result;
         base.Process(source, value);
         if (value == 0)
         {
-            FStorm = ((StormSpell)AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID)).CreateStorm();
-            FStorm.InitializeStorm(source.FPlayer, FX, FY, FL);
-            AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+            Storm = ((StormSpell)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).CreateStorm();
+            Storm.InitializeStorm(source.Player, X, Y, MapLevel);
+            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
 
-        if (!FStorm.UpdateStorm())
+        if (!Storm.UpdateStorm())
         {
-            FStorm.FinalizeStorm();
-            FStorm?.Dispose();
-            FStorm = null;
-            Result = false;
+            Storm.FinalizeStorm();
+            Storm?.Dispose();
+            Storm = null;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:230

@@ -9,30 +9,30 @@ public partial class FuryAbility : UnitEnchantmentAbility
     // PassiveAb.pas:1160
     public FuryAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(GameText.FuryRStr);
-        FAbilityID = 156;
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_furyText);
+        AbilityId = 156;
     }
 
     // PassiveAb.pas:1168
-    public override sbyte GetAttack(AbilityOwner Owner) => 2;
+    public override sbyte GetAttack(AbilityOwner owner) => 2;
 
     // PassiveAb.pas:1174
-    public override sbyte GetDefense(AbilityOwner Owner) => -1;
+    public override sbyte GetDefense(AbilityOwner owner) => -1;
 
     // PassiveAb.pas:1180
-    public override int GetAIUpkeepPriority(AbilityOwner Owner)
+    public override int GetAIUpkeepPriority(AbilityOwner owner)
     {
-        if (Owner is not Troop unit)
+        if (owner is not Troop troop)
         {
             return 0;
         }
 
-        int Result = unit.GetUnitLevel() + 200;
-        if (unit is Leader)
+        int result = troop.GetUnitLevel() + 200;
+        if (troop is Leader)
         {
-            Result -= 50;
+            result -= 50;
         }
 
-        return Result;
+        return result;
     }
 }

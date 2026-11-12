@@ -22,194 +22,194 @@ public partial class CallHero : Spell
     // GlobalSpells.pas:1184
     public CallHero(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(CallHeroRStr);
-        FSpellID = 69;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 0;
-        FSpellLevel = 2;
-        FMagicSphere = MagicSphere.Cosmos;
+        SpellName = AbilityRules.TranslateResourceString(s_callHeroText);
+        SpellId = 69;
+        SpellType = SpellType.Global;
+        BaseManaCost = 0;
+        SpellLevel = 2;
+        MagicSphere = MagicSphere.Cosmos;
     }
 
     // GlobalSpells.pas:1250
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
-        bool ShowSource;
-        bool ShowTarget;
+        bool showSource;
+        bool showTarget;
         sbyte X = default;
         sbyte Y = default;
-        sbyte Layer = default;
-        Hero Hero;
-        ArmyHexSprite Army;
-        ImageSequenceAnimation Animation;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        Source.GetLocation(ref X, ref Y, ref Layer);
-        Hero = FindCallHero(Source);
-        if (Hero != null)
+        sbyte layer = default;
+        Hero hero;
+        ArmyHexSprite army;
+        ImageSequenceAnimation animation;
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        source.GetLocation(ref X, ref Y, ref layer);
+        hero = FindCallHero(source);
+        if (hero != null)
         {
-            if (Hero.Owner == null)
+            if (hero.Owner == null)
             {
-                Hero.SetHitPoints(Hero.GetHits());
+                hero.SetHitPoints(hero.GetHits());
             }
 
-            Army = Hero.Place(X, Y, Layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
-            ShowSource = AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || AoWHSMap.Current.VisibleForPlayer(X, Y, Layer, AoWHSMap.Current.FSeatedPlayer);
-            bool condition = AoWHSMap.Current.FSeatedPlayer == Source.FPlayer;
+            army = hero.Place(X, Y, layer, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea, UnitPlaceModeElement.CreateNewArmy));
+            showSource = AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.VisibleForPlayer(X, Y, layer, AoWHSMap.Current.SeatedPlayer);
+            bool condition = AoWHSMap.Current.SeatedPlayer == source.Player;
             if (!condition)
             {
-                var lhx = Army.GetLhx();
-                var yhx = Army.GetYhx();
-                var xhx = Army.GetXhx();
-                condition = AoWHSMap.Current.VisibleForPlayer(xhx, yhx, lhx, AoWHSMap.Current.FSeatedPlayer);
+                var hexLevel = army.GetHexLevel();
+                var hexY = army.GetHexY();
+                var hexX = army.GetHexX();
+                condition = AoWHSMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, AoWHSMap.Current.SeatedPlayer);
             }
 
-            ShowTarget = condition;
-            if (ShowSource)
+            showTarget = condition;
+            if (showSource)
             {
-                if (AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(0) != null)
+                if (AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
                 {
-                    Animation = new ImageSequenceAnimation(null);
-                    Animation.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(0));
-                    AoWHSMap.Current.PlaceHX(Animation, X, Y, Layer);
+                    animation = new ImageSequenceAnimation(null);
+                    animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
+                    AoWHSMap.Current.PlaceHex(animation, X, Y, layer);
                 }
             }
 
-            if (ShowTarget)
+            if (showTarget)
             {
-                if (AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(0) != null)
+                if (AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
                 {
-                    Animation = new ImageSequenceAnimation(null);
-                    Animation.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(0));
-                    var lhx = Army.GetLhx();
-                    var yhx = Army.GetYhx();
-                    var xhx = Army.GetXhx();
-                    AoWHSMap.Current.PlaceHX(Animation, xhx, yhx, lhx);
+                    animation = new ImageSequenceAnimation(null);
+                    animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
+                    var hexLevel = army.GetHexLevel();
+                    var hexY = army.GetHexY();
+                    var hexX = army.GetHexX();
+                    AoWHSMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
                 }
             }
 
-            if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
+            if (AoWHSMap.Current.SeatedPlayer == source.Player)
             {
-                var lhx = Army.GetLhx();
-                var yhx = Army.GetYhx();
-                var xhx = Army.GetXhx();
-                AoWHSMap.Current.CenterViewTo(xhx, yhx, lhx);
+                var hexLevel = army.GetHexLevel();
+                var hexY = army.GetHexY();
+                var hexX = army.GetHexX();
+                AoWHSMap.Current.CenterViewTo(hexX, hexY, hexLevel);
             }
             else
             {
-                var lhx = Army.GetLhx();
-                var yhx = Army.GetYhx();
-                var xhx = Army.GetXhx();
-                AoWHSMap.Current.ValidateObservation(Source.FPlayer, xhx, yhx, lhx, 0);
+                var hexLevel = army.GetHexLevel();
+                var hexY = army.GetHexY();
+                var hexX = army.GetHexX();
+                AoWHSMap.Current.ValidateObservation(source.Player, hexX, hexY, hexLevel, 0);
             }
 
-            bool test = AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || AoWHSMap.Current.Watching(X, Y, Layer, 0);
+            bool test = AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.Watching(X, Y, layer, 0);
             if (!test)
             {
-                var lhx = Army.GetLhx();
-                var yhx = Army.GetYhx();
-                var xhx = Army.GetXhx();
-                test = AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+                var hexLevel = army.GetHexLevel();
+                var hexY = army.GetHexY();
+                var hexX = army.GetHexX();
+                test = AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0);
             }
 
             if (test)
             {
-                AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
             }
         }
         else
         {
-            if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
+            if (AoWHSMap.Current.SeatedPlayer == source.Player)
             {
-                var noHeroAnsweredYourCall = AbilityRules.TranslateRStr(NoHeroAnsweredYourCallRStr);
+                var noHeroAnsweredYourCall = AbilityRules.TranslateResourceString(s_noHeroAnsweredYourCallText);
                 AoWHSMap.Current.ShowMessage(noHeroAnsweredYourCall);
-                AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
             }
         }
 
-        var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-        AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CastingDone(Source, spell.FBaseManaCost);
+        var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+        AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }
 
     // GlobalSpells.pas:1195
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result;
-        string Reason = "";
-        SpellTokenEvent Event;
-        if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        bool result;
+        string reason = "";
+        SpellTokenEvent eventValue;
+        if (CanActivate(source, ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            Event = new SpellTokenEvent(null);
-            Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new SpellTokenEvent(null);
+            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:1212
-    public Hero FindCallHero(Troop Source)
+    public Hero FindCallHero(Troop source)
     {
-        Hero Result;
-        Hero Hero;
-        DoubleItemList<Hero> Heroes;
-        int Index;
-        Heroes = new DoubleItemList<Hero>();
-        for (int I = AoWHSMap.Current.FHeroControl.GetCount() - 1; I >= 0; I--)
+        Hero result;
+        Hero hero;
+        DoubleItemList<Hero> heroes;
+        int index;
+        heroes = new DoubleItemList<Hero>();
+        for (int I = AoWHSMap.Current.HeroControl.GetCount() - 1; I >= 0; I--)
         {
-            Hero = AoWHSMap.Current.FHeroControl.GetHero(I);
-            if (Hero.FPlayer == 0 && Hero.Owner is Army && Hero.ArmyOwner.FX != -1)
+            hero = AoWHSMap.Current.HeroControl.GetHero(I);
+            if (hero.Player == 0 && hero.Owner is Army && hero.ArmyOwner.X != -1)
             {
-                if (Hero.OfferToJoin(Source.FPlayer))
+                if (hero.OfferToJoin(source.Player))
                 {
-                    Heroes.AddAB(Hero, 10);
+                    heroes.AddAbility(hero, 10);
                 }
                 else
                 {
-                    Heroes.AddAB(Hero, 1);
+                    heroes.AddAbility(hero, 1);
                 }
             }
         }
 
-        if (Heroes.Count == 0)
+        if (heroes.Count == 0)
         {
-            for (int I = AoWHSMap.Current.FHeroControl.GetCount() - 1; I >= 0; I--)
+            for (int I = AoWHSMap.Current.HeroControl.GetCount() - 1; I >= 0; I--)
             {
-                Hero = AoWHSMap.Current.FHeroControl.GetHero(I);
-                if (!Hero.FUnitStatus.Contains(UnitStatusElement.Killed) && Hero.FPlayer <= 0 && Hero.Owner == null)
+                hero = AoWHSMap.Current.HeroControl.GetHero(I);
+                if (!hero.UnitStatus.Contains(UnitStatusElement.Killed) && hero.Player <= 0 && hero.Owner == null)
                 {
-                    if (Hero.OfferToJoin(Source.FPlayer))
+                    if (hero.OfferToJoin(source.Player))
                     {
-                        Heroes.AddAB(Hero, 10);
+                        heroes.AddAbility(hero, 10);
                     }
                     else
                     {
-                        Heroes.AddAB(Hero, 1);
+                        heroes.AddAbility(hero, 1);
                     }
                 }
             }
         }
 
-        if (Heroes.Count != 0)
+        if (heroes.Count != 0)
         {
             RandSeed = AoWHSMap.Current.Random(16777215);
-            Index = Heroes.RandomChanceItemB(0);
-            Result = Heroes[Index].A;
+            index = heroes.RandomChanceItemB(0);
+            result = heroes[index].First;
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        Heroes?.Dispose();
-        return Result;
+        heroes?.Dispose();
+        return result;
     }
 
-    private static readonly string CallHeroRStr = "Call Hero";
-    private static readonly string NoHeroAnsweredYourCallRStr = "No hero answered your call";
+    private static readonly string s_callHeroText = "Call Hero";
+    private static readonly string s_noHeroAnsweredYourCallText = "No hero answered your call";
 }

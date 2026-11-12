@@ -23,13 +23,13 @@ internal static class RecordMigration
 
     internal static Migration Step { get; } = new(2, Name, Apply);
 
-    private static readonly Lazy<FormatSchema> version2 = new(() => Load("Aow.Formats.Migrations.schema-v2.json", "schema-v2.json"));
+    private static readonly Lazy<FormatSchema> s_version2 = new(() => Load("Aow.Formats.Migrations.schema-v2.json", "schema-v2.json"));
 
     /// <summary>The version 2 schema this step walks. A version 2 import uses it.</summary>
-    internal static FormatSchema Version2 => version2.Value;
+    internal static FormatSchema Version2 => s_version2.Value;
 
     // Declaring class and property. An inherited property keeps the class that declared it.
-    private static readonly HashSet<string> Pinned =
+    private static readonly HashSet<string> s_pinned =
     [
         "TAIGroup.IndependentRelation",
         "TAIGroup.TargetMode",
@@ -82,6 +82,39 @@ internal static class RecordMigration
     // The class-name step rewrites $class after this migration, so the chain asks for a second pass.
     internal static void RefreshFingerprints(JsonObject document) => RefreshLayouts(document);
 
+    /// <summary>
+    /// Runs an edit of member names and recomputes only the fingerprints that held before it, so a
+    /// stale fingerprint stays stale.
+    /// </summary>
+    internal static void KeepFingerprints(JsonObject document, Func<bool> edit)
+    {
+        if (document["$container"] is not JsonObject container || container["profile"] is not JsonString profile)
+        {
+            edit();
+            return;
+        }
+        var valid = new HashSet<JsonObject>(ReferenceEqualityComparer.Instance);
+        Collect(document, profile.Value, valid);
+        if (!edit()) return;
+        Refresh(document, profile.Value, valid);
+    }
+
+    private static void Collect(JsonValue value, string profile, HashSet<JsonObject> valid)
+    {
+        if (value is JsonObject objectValue)
+        {
+            string here = ProfileOf(objectValue, profile);
+            if (objectValue["$layout"] is JsonObject layout && layout["fingerprint"] is JsonString stored
+                && stored.Value == LayoutResidue.Fingerprint(objectValue, here))
+                valid.Add(objectValue);
+            foreach (var member in objectValue.Members) Collect(member.Value, here, valid);
+        }
+        else if (value is JsonArray array)
+        {
+            foreach (var item in array.Items) Collect(item, profile, valid);
+        }
+    }
+
     // The fingerprint covers the visible values. A container and a nested campaign map use their
     // own profile. Every other object uses the profile of the document or map that holds it.
     private static void RefreshLayouts(JsonObject document)
@@ -90,25 +123,26 @@ internal static class RecordMigration
         Refresh(document, profile.Value);
     }
 
-    private static void Refresh(JsonValue value, string profile)
+    private static void Refresh(JsonValue value, string profile, HashSet<JsonObject>? only = null)
     {
-        if (value is JsonObject obj)
+        if (value is JsonObject objectValue)
         {
-            string here = ProfileOf(obj, profile);
-            if (obj["$layout"] is JsonObject layout && layout.Find("fingerprint") is { } fingerprint)
-                fingerprint.Value = new JsonString(LayoutResidue.Fingerprint(obj, here));
-            foreach (var member in obj.Members) Refresh(member.Value, here);
+            string here = ProfileOf(objectValue, profile);
+            if (objectValue["$layout"] is JsonObject layout && layout.Find("fingerprint") is { } fingerprint
+                && (only is null || only.Contains(objectValue)))
+                fingerprint.Value = new JsonString(LayoutResidue.Fingerprint(objectValue, here));
+            foreach (var member in objectValue.Members) Refresh(member.Value, here, only);
         }
         else if (value is JsonArray array)
         {
-            foreach (var item in array.Items) Refresh(item, profile);
+            foreach (var item in array.Items) Refresh(item, profile, only);
         }
     }
 
-    private static string ProfileOf(JsonObject obj, string inherited)
+    private static string ProfileOf(JsonObject objectValue, string inherited)
     {
-        if (obj["profile"] is JsonString direct) return direct.Value;
-        if (obj["$container"] is JsonObject box && box["profile"] is JsonString nested) return nested.Value;
+        if (objectValue["profile"] is JsonString direct) return direct.Value;
+        if (objectValue["$container"] is JsonObject box && box["profile"] is JsonString nested) return nested.Value;
         return inherited;
     }
 
@@ -124,8 +158,8 @@ internal static class RecordMigration
     private static void Walk(JsonObject document)
     {
         if (document["root"] is not JsonObject root) return;
-        if (RootClass(document, root) is not SchemaClass cls) return;
-        Visit(root, cls, DocumentNodePath.Root);
+        if (RootClass(document, root) is not SchemaClass classValue) return;
+        Visit(root, classValue, DocumentNodePath.Root);
     }
 
     private static SchemaClass? RootClass(JsonObject document, JsonObject root)
@@ -138,11 +172,11 @@ internal static class RecordMigration
         return null;
     }
 
-    private static void Visit(JsonObject obj, SchemaClass cls, DocumentNodePath path)
+    private static void Visit(JsonObject objectValue, SchemaClass classValue, DocumentNodePath path)
     {
-        foreach (var prop in cls.Properties)
+        foreach (var prop in classValue.Properties)
         {
-            var member = obj.Find(prop.Name);
+            var member = objectValue.Find(prop.Name);
             if (member is null) continue;
             var at = path.Member(prop.Name);
             if (prop.IsDynamic)
@@ -151,22 +185,22 @@ internal static class RecordMigration
                     for (int i = 0; i < array.Items.Count; i++) VisitDynamic(array.Items[i], prop, at.Item(i));
                 continue;
             }
-            Convert(member, prop, obj, cls, at);
+            Convert(member, prop, objectValue, classValue, at);
         }
     }
 
     private static void VisitDynamic(JsonValue item, SchemaProperty prop, DocumentNodePath path)
     {
-        if (item is not JsonObject obj) return;
+        if (item is not JsonObject objectValue) return;
         if (prop.Codec is FixedObjectCodec fixedObject)
-            Visit(obj, Version2.Get(fixedObject.ClassName), path);
-        else if (prop.Codec is CreatedObjectCodec && obj["$class"] is JsonString name && Version2.Find(name.Value) is { } cls)
-            Visit(obj, cls, path);
+            Visit(objectValue, Version2.Get(fixedObject.ClassName), path);
+        else if (prop.Codec is CreatedObjectCodec && objectValue["$class"] is JsonString name && Version2.Find(name.Value) is { } classValue)
+            Visit(objectValue, classValue, path);
     }
 
     private static void Convert(JsonMember member, SchemaProperty prop, JsonObject owner, SchemaClass ownerClass, DocumentNodePath path)
     {
-        if (Pinned.Contains(prop.Owner.Name + "." + prop.Name))
+        if (s_pinned.Contains(prop.Owner.Name + "." + prop.Name))
         {
             member.Value = Rewrite(member.Value, prop, owner, path);
             return;
@@ -200,7 +234,7 @@ internal static class RecordMigration
         }
     }
 
-    private static readonly Dictionary<string, PropertyCodec> Targets = BuildTargets();
+    private static readonly Dictionary<string, PropertyCodec> s_targets = BuildTargets();
 
     private static JsonValue Rewrite(JsonValue value, SchemaProperty prop, JsonObject owner, DocumentNodePath path)
     {
@@ -216,22 +250,22 @@ internal static class RecordMigration
             throw Fail(Codes.Type, prop.Name + " is hexadecimal in version 2.", path);
         }
         string key = prop.Owner.Name + "." + prop.Name;
-        if (!Targets.TryGetValue(key, out var codec))
+        if (!s_targets.TryGetValue(key, out var codec))
             throw new InvalidOperationException("Version 3 has no pinned codec for " + key + ".");
-        var ctx = new DecodeContext(bytes, Version2, "game", "migration", null, FormatLimits.Default, new LayoutCounts());
+        var context = new DecodeContext(bytes, Version2, "game", "migration", null, FormatLimits.Default, new LayoutCounts());
         var site = new ValueSite { Property = prop, Id = prop.Id ?? 0, Path = path, Owner = owner };
-        return codec.Decode(ctx, 0, bytes.Length, site);
+        return codec.Decode(context, 0, bytes.Length, site);
     }
 
     private static Dictionary<string, PropertyCodec> BuildTargets()
     {
         var rawByte = new IntegerCodec(1, false, raw: true);
-        var rawInt = new IntegerCodec(4, true, raw: true);
+        var rawInteger = new IntegerCodec(4, true, raw: true);
         var targets = new Dictionary<string, PropertyCodec>(StringComparer.Ordinal)
         {
             ["TAIGroup.IndependentRelation"] = new IntegerCodec(1, true, raw: true),
             ["TAIGroup.TargetMode"] = rawByte,
-            ["TAnimation.Dimensions"] = new CatalogRecordCodec(RectLayout()),
+            ["TAnimation.Dimensions"] = new CatalogRecordCodec(RectangleLayout()),
             ["TAoWHSMap.VictoryMode"] = rawByte,
             ["TArmyInfoEventLog.Selection"] = rawByte,
             ["TCity.WallType"] = rawByte,
@@ -257,8 +291,8 @@ internal static class RecordMigration
             ["TPlayerSetupSettings.OriginalBehavior"] = new CatalogRecordCodec(BehaviorLayout()),
             ["TProductionPlace.DefenderLevel"] = rawByte,
             ["TProductionPlace.RazedState"] = rawByte,
-            ["TRangedAttackCA.AbilityID"] = rawInt,
-            ["TRemotePlayer.RemoteID"] = rawInt,
+            ["TRangedAttackCA.AbilityID"] = rawInteger,
+            ["TRemotePlayer.RemoteID"] = rawInteger,
             ["TSetupSettings.PlayMode"] = rawByte,
             ["TSetupSettings.VictoryCondition"] = rawByte,
             ["TSetupSettings.IndependentAIMode"] = rawByte,
@@ -267,17 +301,17 @@ internal static class RecordMigration
             ["TUnitGFXResource._UnitGFXResource_30"] = rawByte,
             ["TUnitResource.Champion"] = new RawBooleanCodec(),
             ["TWMCampaignScenario.MapKind"] = rawByte,
-            ["TWizardsTower.SpellID"] = rawInt,
+            ["TWizardsTower.SpellID"] = rawInteger,
         };
-        foreach (var name in Pinned)
+        foreach (var name in s_pinned)
             if (!targets.ContainsKey(name))
                 throw new InvalidOperationException("Version 3 has no pinned codec for " + name + ".");
-        if (targets.Count != Pinned.Count)
+        if (targets.Count != s_pinned.Count)
             throw new InvalidOperationException("A pinned codec is not in the version 2 walk.");
         return targets;
     }
 
-    private static RecordTypeInfo RectLayout() => new()
+    private static RecordTypeInfo RectangleLayout() => new()
     {
         Name = "TRect",
         Size = 16,

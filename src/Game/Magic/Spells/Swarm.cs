@@ -15,9 +15,9 @@ public partial class Swarm : CombatSpell
     // CombatSpells.pas:1455
     public Swarm(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SwarmRStr);
-        FSpellID = 115;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_swarmText);
+        SpellId = 115;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 2;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);
@@ -26,5 +26,5 @@ public partial class Swarm : CombatSpell
         spellCombatInfo.Radius = 5;
     }
 
-    private static readonly string SwarmRStr = "Swarm";
+    private static readonly string s_swarmText = "Swarm";
 }

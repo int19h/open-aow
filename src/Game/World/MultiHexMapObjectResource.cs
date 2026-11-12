@@ -8,48 +8,48 @@ namespace Aow.Game.World;
 // 14 and 15, part of the show priority offset)
 public partial class MultiHexMapObjectResource : MapObjectResource
 {
-    public new const int ClassID = 65877;
+    public new const int ClassId = 65877;
 
     public MultiHexMapObjectResource(ECustomNode owner) : base(owner)
     {
-        SetdXmainP(16);
-        SetdYmainP(32);
+        SetMainPointOffsetX(16);
+        SetMainPointOffsetY(32);
     }
 
-    protected internal int FdXImage;
-    protected internal int FdYImage;
-    protected internal int FdXmainP;
-    protected internal int FdYmainP;
+    protected internal int _imageOffsetX;
+    protected internal int _imageOffsetY;
+    protected internal int _mainPointOffsetX;
+    protected internal int _mainPointOffsetY;
 
     // MAPOBJ.PAS:1256
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FdXImage, 12);
-        Stream.rwInteger(ref FdYImage, 13);
-        Stream.rwInteger(ref FdXmainP, 14);
-        Stream.rwInteger(ref FdYmainP, 15);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref _imageOffsetX, 12);
+        stream.rwInteger(ref _imageOffsetY, 13);
+        stream.rwInteger(ref _mainPointOffsetX, 14);
+        stream.rwInteger(ref _mainPointOffsetY, 15);
     }
 
     // MAPOBJ.PAS:1232
 
     // MAPOBJ.PAS:1244
-    public virtual void SetdXmainP(int Value)
+    public virtual void SetMainPointOffsetX(int value)
     {
-        FdXmainP = Value;
-        CalcShowPriorityOffset(FdXmainP, FdYmainP, FLevel);
+        _mainPointOffsetX = value;
+        CalculateShowPriorityOffset(_mainPointOffsetX, _mainPointOffsetY, _level);
     }
 
     // MAPOBJ.PAS:1250
-    public virtual void SetdYmainP(int Value)
+    public virtual void SetMainPointOffsetY(int value)
     {
-        FdYmainP = Value;
-        CalcShowPriorityOffset(FdXmainP, FdYmainP, FLevel);
+        _mainPointOffsetY = value;
+        CalculateShowPriorityOffset(_mainPointOffsetX, _mainPointOffsetY, _level);
     }
 
-    public int dXImage { get => FdXImage; set => FdXImage = value; }
-    public int dYImage { get => FdYImage; set => FdYImage = value; }
-    public int dXmainP { get => FdXmainP; set => SetdXmainP(value); }
-    public int dYmainP { get => FdYmainP; set => SetdYmainP(value); }
+    public int ImageOffsetX { get => _imageOffsetX; set => _imageOffsetX = value; }
+    public int ImageOffsetY { get => _imageOffsetY; set => _imageOffsetY = value; }
+    public int MainPointOffsetX { get => _mainPointOffsetX; set => SetMainPointOffsetX(value); }
+    public int MainPointOffsetY { get => _mainPointOffsetY; set => SetMainPointOffsetY(value); }
 
 }

@@ -14,16 +14,16 @@ using Aow.Rtl;
 
 namespace Aow.Game.Combat;
 
-// Inherited combat layout. FHostPlayer
+// Inherited combat layout. HostPlayer
 public partial class TacticalBattle : Battle
 {
     // AoWTC.pas:5081
-    public new const int ClassID = 2228496;
+    public new const int ClassId = 2228496;
 
     public TacticalBattle(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte FHostPlayer;
+    public sbyte HostPlayer;
 
     // AoWTC.pas:5086
     public override CombatUnit CreateCombatUnit() => new TacticalBattleUnit(null);
@@ -35,64 +35,64 @@ public partial class TacticalBattle : Battle
     public override void Initialize()
     {
         base.Initialize();
-        FCombatData.FTurnOrder.Clear();
-        FCombatData.FTurnOrder.Add((byte)FCombatData.FAttackerPlayer);
-        FHostPlayer = -1;
-        for (int I = 0, last = AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
+        CombatData.TurnOrder.Clear();
+        CombatData.TurnOrder.Add((byte)CombatData.AttackerPlayer);
+        HostPlayer = -1;
+        for (int I = 0, last = AoWHSMap.Current.Players.GetCount() - 1; I <= last; I++)
         {
-            if (FHostPlayer == -1)
+            if (HostPlayer == -1)
             {
-                if (AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType == PlayerType.Human)
+                if (AoWHSMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human)
                 {
-                    if (AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus != Player.Status.Terminated)
+                    if (AoWHSMap.Current.Players.GetPlayers(I).Status != PlayerStatus.Terminated)
                     {
-                        FHostPlayer = (sbyte)I;
+                        HostPlayer = (sbyte)I;
                     }
                 }
             }
         }
 
-        for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = CombatData.Players.GetCount() - 1; I <= last; I++)
         {
-            if (FCombatData.FTurnOrder.IndexOf((byte)I) == -1)
+            if (CombatData.TurnOrder.IndexOf((byte)I) == -1)
             {
-                if (FCombatData.FPlayers.GetPlayers((sbyte)I).FSideIndex == 0)
+                if (CombatData.Players.GetPlayers((sbyte)I).SideIndex == 0)
                 {
-                    FCombatData.FTurnOrder.Add((byte)I);
+                    CombatData.TurnOrder.Add((byte)I);
                 }
             }
 
-            var playerPlayer = FCombatData.FPlayers.GetPlayers((sbyte)I);
-            if (AoWHSMap.Current.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType != PlayerType.Human)
+            var playerPlayer = CombatData.Players.GetPlayers((sbyte)I);
+            if (AoWHSMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType != PlayerType.Human)
             {
-                if (AoWHSMap.Current.FPlayerCommunicator.PCC is RemotePlayerCommunicationControl)
+                if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl)
                 {
-                    var playerConnectionMode = AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
-                    var player = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                    ((RemotePlayerCommunicationControl)AoWHSMap.Current.FPlayerCommunicator.PCC).SetConnectionMode(player.FPlayer, playerConnectionMode.ConnectionMode);
-                    var playerSystemID = AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(FHostPlayer);
-                    var player2 = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                    ((RemotePlayerCommunicationControl)AoWHSMap.Current.FPlayerCommunicator.PCC).SetSystemID(player2.FPlayer, playerSystemID.SystemID);
+                    var playerConnectionMode = AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
+                    var player = CombatData.Players.GetPlayers((sbyte)I);
+                    ((RemotePlayerCommunicationControl)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetConnectionMode(player.Player, playerConnectionMode.ConnectionMode);
+                    var playerSystemId = AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(HostPlayer);
+                    var player2 = CombatData.Players.GetPlayers((sbyte)I);
+                    ((RemotePlayerCommunicationControl)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl).SetSystemId(player2.Player, playerSystemId.SystemId);
                 }
             }
         }
 
-        for (int I = 0, last = AoWHSMap.Current.FTokenManager.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSMap.Current.TokenManager.GetCount() - 1; I <= last; I++)
         {
-            if (AoWHSMap.Current.FTokenManager.GetTokenControl(I).Local() || AoWHSMap.Current.FTokenManager.GetTokenControl(I).Global())
+            if (AoWHSMap.Current.TokenManager.GetTokenControl(I).Local() || AoWHSMap.Current.TokenManager.GetTokenControl(I).Global())
             {
-                AoWHSMap.Current.FTokenManager.GetTokenControl(I).ClearEvents();
+                AoWHSMap.Current.TokenManager.GetTokenControl(I).ClearEvents();
             }
         }
 
-        FCombatData.FTurnOrder.Add((byte)FCombatData.FDefenderPlayer);
-        for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
+        CombatData.TurnOrder.Add((byte)CombatData.DefenderPlayer);
+        for (int I = 0, last = CombatData.Players.GetCount() - 1; I <= last; I++)
         {
-            if (FCombatData.FTurnOrder.IndexOf((byte)I) == -1)
+            if (CombatData.TurnOrder.IndexOf((byte)I) == -1)
             {
-                if (FCombatData.FPlayers.GetPlayers((sbyte)I).FSideIndex == 1)
+                if (CombatData.Players.GetPlayers((sbyte)I).SideIndex == 1)
                 {
-                    FCombatData.FTurnOrder.Add((byte)I);
+                    CombatData.TurnOrder.Add((byte)I);
                 }
             }
         }
@@ -103,7 +103,7 @@ public partial class TacticalBattle : Battle
     // AoWTC.pas:5091
     public override void Deactivate()
     {
-        if (FCombatResult != CombatResult.CannotBreachWall)
+        if (CombatResult != CombatResult.CannotBreachWall)
         {
             UpdateStatus();
         }
@@ -115,110 +115,110 @@ public partial class TacticalBattle : Battle
     public bool ValidateWallCombat()
     {
         int I;
-        CombatSide Side;
-        Side = FSides[(int)CombatSideIndex.Attacker];
-        bool Result = FCombatData.FParties.GetParty(0).FWall == 0;
-        I = Side.GetCount();
-        while (!Result && I > 0)
+        CombatSide side;
+        side = Sides[(int)CombatSideIndex.Attacker];
+        bool result = CombatData.Parties.GetParty(0).Wall == 0;
+        I = side.GetCount();
+        while (!result && I > 0)
         {
             I -= 1;
-            Result = (Side.GetObjects(I).WallCombatFeatures() & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of();
+            result = (side.GetObjects(I).WallCombatFeatures() & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of();
         }
 
-        return Result;
+        return result;
     }
 
     public override CombatResult Execute()
     {
         if (HeadlessHooks.Tactical || FrameFixtureInputs.Tactical)
         {
-            FHostPlayer = 0;
+            HostPlayer = 0;
             HeadlessHooks.TacticalExecutions++;
         }
-        CombatResult Result = default;
-        RandomBattleMapGenerator Generator = default;
-        int Seated = default;
+        CombatResult result = default;
+        RandomBattleMapGenerator generator = default;
+        int seated = default;
         if (!ValidateWallCombat())
         {
             SetLogCombatActions(1);
-            SetLogbookHeader(AbilityRules.TranslateRStr(GameText.CannotBreachWallRStr));
-            FCombatResult = CombatResult.CannotBreachWall;
-            Result = FCombatResult;
+            SetLogbookHeader(AbilityRules.TranslateResourceString(GameText.s_cannotBreachWallText));
+            CombatResult = CombatResult.CannotBreachWall;
+            result = CombatResult;
         }
         else
         {
-            if (FSides[(int)CombatSideIndex.Defender].GetCount() == FSides[(int)CombatSideIndex.Defender].FConquerCount)
+            if (Sides[(int)CombatSideIndex.Defender].GetCount() == Sides[(int)CombatSideIndex.Defender].ConquerCount)
             {
                 SetLogCombatActions(1);
-                SetLogbookHeader(AbilityRules.TranslateRStr(GameText.CannotInflictDamageRStr));
-                FCombatResult = CombatResult.CannotInflictDamage;
-                Result = FCombatResult;
+                SetLogbookHeader(AbilityRules.TranslateResourceString(GameText.s_cannotInflictDamageText));
+                CombatResult = CombatResult.CannotInflictDamage;
+                result = CombatResult;
             }
             else
             {
-                if (FSides[(int)CombatSideIndex.Defender].GetCount() == 0)
+                if (Sides[(int)CombatSideIndex.Defender].GetCount() == 0)
                 {
-                    Result = CombatResult.NoDefenders;
+                    result = CombatResult.NoDefenders;
                 }
                 else
                 {
-                    AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = true;
-                    Generator = new RandomBattleMapGenerator();
-                    Generator.RandomMap(this, FCombatData.FX, FCombatData.FY, FCombatData.FL);
-                    Generator?.Dispose();
-                    bool condition = AoWHSMap.Current.FStartingGame || AoWHSMap.Current.VisibleForPlayer(FCombatData.FX, FCombatData.FY, FCombatData.FL, AoWHSMap.Current.FSeatedPlayer);
-                    CombatMap.Current.FPlaySounds = condition;
-                    if (!CombatMap.Current.FPlaySounds)
+                    AoWHSMap.Current.TokenManager.TokenExecutor.HoldTacticalBattle = true;
+                    generator = new RandomBattleMapGenerator();
+                    generator.RandomMap(this, CombatData.X, CombatData.Y, CombatData.MapLevel);
+                    generator?.Dispose();
+                    bool condition = AoWHSMap.Current.StartingGame || AoWHSMap.Current.VisibleForPlayer(CombatData.X, CombatData.Y, CombatData.MapLevel, AoWHSMap.Current.SeatedPlayer);
+                    CombatMap.Current.PlaySounds = condition;
+                    if (!CombatMap.Current.PlaySounds)
                     {
-                        for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
+                        for (int I = 0, last = CombatData.Players.GetCount() - 1; I <= last; I++)
                         {
-                            var playerPlayer = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                            if (AoWHSMap.Current.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == PlayerType.Human)
+                            var playerPlayer = CombatData.Players.GetPlayers((sbyte)I);
+                            if (AoWHSMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
                             {
-                                var player = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                if (AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).GetLocal())
+                                var player = CombatData.Players.GetPlayers((sbyte)I);
+                                if (AoWHSMap.Current.Players.GetPlayers(player.Player).GetLocal())
                                 {
-                                    CombatMap.Current.FPlaySounds = true;
+                                    CombatMap.Current.PlaySounds = true;
                                 }
                             }
                         }
                     }
 
-                    CombatMap.Current.FDeselectEventsStore.Raise(this);
-                    Seated = -1;
-                    for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
+                    CombatMap.Current._deselectEventsStore.Raise(this);
+                    seated = -1;
+                    for (int I = 0, last = CombatData.Players.GetCount() - 1; I <= last; I++)
                     {
-                        if (Seated == -1)
+                        if (seated == -1)
                         {
-                            var playerPlayer = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                            if (AoWHSMap.Current.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == PlayerType.Human)
+                            var playerPlayer = CombatData.Players.GetPlayers((sbyte)I);
+                            if (AoWHSMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
                             {
-                                var player = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                if (AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(player.FPlayer).ConnectionMode != ConnectionMode.Remote)
+                                var player = CombatData.Players.GetPlayers((sbyte)I);
+                                if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(player.Player).ConnectionMode != ConnectionMode.Remote)
                                 {
-                                    var player2 = FCombatData.FPlayers.GetPlayers((sbyte)I);
-                                    if (AoWHSMap.Current.FPlayers.GetPlayers(player2.FPlayer).FStatus != Player.Status.Terminated)
+                                    var player2 = CombatData.Players.GetPlayers((sbyte)I);
+                                    if (AoWHSMap.Current.Players.GetPlayers(player2.Player).Status != PlayerStatus.Terminated)
                                     {
-                                        Seated = I;
+                                        seated = I;
                                     }
                                 }
                             }
                         }
                     }
 
-                    CombatMap.Current.SetSeatedCombatPlayer((sbyte)Seated);
+                    CombatMap.Current.SetSeatedCombatPlayer((sbyte)seated);
                     CombatMap.Current.CenterViewTo(32, 29, 0);
-                    CombatMap.Current.FCombat.NewRound();
-                    var turnOrder = FCombatData.FTurnOrder[0];
+                    CombatMap.Current.Combat.NewRound();
+                    var turnOrder = CombatData.TurnOrder[0];
                     CombatMap.Current.NewTurn((sbyte)turnOrder);
-                    Result = CombatResult.Busy;
-                    FOnTerminated = _ => CombatMap.Current.EndCombat();
+                    result = CombatResult.Busy;
+                    OnTerminated = _ => CombatMap.Current.EndCombat();
                     SetLogCombatActions(1);
                 }
             }
         }
 
         FrameFixtureInputs.TacticalInitialized?.Invoke();
-        return Result;
+        return result;
     }
 }

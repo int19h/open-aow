@@ -11,10 +11,10 @@ public partial class BlendTable5Bit : BlendTable
         public Span<byte> this[int I] => bytes.AsSpan(I * 32, 32);
     }
 
-    public new Rows Table => new(FTable);
+    public new Rows Table => new(_table);
 
     // The 32 by 32 bytes of the table in one span, as the blenders read it.
-    public ReadOnlySpan<byte> Bytes => FTable;
+    public ReadOnlySpan<byte> Bytes => _table;
 
     // GFXE.pas:9609
     public BlendTable5Bit()
@@ -25,9 +25,9 @@ public partial class BlendTable5Bit : BlendTable
     // GFXE.pas:9621
     public override BlendTable Copy()
     {
-        BlendTable Result = new BlendTable5Bit();
-        Result.Assign(this);
-        return Result;
+        BlendTable result = new BlendTable5Bit();
+        result.Assign(this);
+        return result;
     }
 
 }

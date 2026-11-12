@@ -16,14 +16,14 @@ public partial class AIMoveExecutorMoveQueue : ENode
     }
 
     // AIGroup.pas:4508
-    public AIMoveExecutorMove GetMoves(int Index) => (AIMoveExecutorMove)FChildren.List[Index];
+    public AIMoveExecutorMove GetMoves(int index) => (AIMoveExecutorMove)_children.List[index];
 
     // AIGroup.pas:4513
     public void Reset()
     {
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            ((AIMoveExecutorUnitList)FChildren.List[I]).SetStatus(255, AIMoveExecutorUnitStatus.Ready);
+            ((AIMoveExecutorUnitList)_children.List[I]).SetStatus(255, AIMoveExecutorUnitStatus.Ready);
         }
 
         Clear();

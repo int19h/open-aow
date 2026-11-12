@@ -24,121 +24,121 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Combat;
 
 // FPlayers. FCombat. FUnitPositions. FSeatedCombatPlayer. FCurrentCombatPlayer. turn/player
-// events. FMoveControl. FUnitSelection. selection/unit events. FAI. FEffects. FWalls.
-// FFleeLocations. FEndTurnPending. FPlaySounds. FPositionStatus. FRound
+// events. MoveControl. UnitSelection. selection/unit events. AI. Effects. Walls.
+// FleeLocations. EndTurnPending. PlaySounds. PositionStatus. Round
 public partial class CombatMap : CustomCombatMap
 {
     // AoWTC.pas:2183
-    public new const int ClassID = 2228480;
+    public new const int ClassId = 2228480;
 
-    public TacticalBattlePlayerList FPlayers;
-    public TacticalBattle FCombat;
-    public UnitPositionControl FUnitPositions;
-    public sbyte FSeatedCombatPlayer;
-    public sbyte FCurrentCombatPlayer;
+    public TacticalBattlePlayerList Players;
+    public TacticalBattle Combat;
+    public UnitPositionControl UnitPositions;
+    public sbyte SeatedCombatPlayer;
+    public sbyte CurrentCombatPlayer;
 
-    internal EventStore<sbyte> FChangeTurnEventsStore;
+    internal EventStore<sbyte> _changeTurnEventsStore;
 
     public event NotifyEvent<sbyte> FChangeTurnEvents
     {
-        add => FChangeTurnEventsStore.Add(value);
-        remove => FChangeTurnEventsStore.Remove(value);
+        add => _changeTurnEventsStore.Add(value);
+        remove => _changeTurnEventsStore.Remove(value);
     }
 
-    internal EventStore<CombatMap> FPlayerChangedEventsStore;
+    internal EventStore<CombatMap> _playerChangedEventsStore;
 
     public event NotifyEvent<CombatMap> FPlayerChangedEvents
     {
-        add => FPlayerChangedEventsStore.Add(value);
-        remove => FPlayerChangedEventsStore.Remove(value);
+        add => _playerChangedEventsStore.Add(value);
+        remove => _playerChangedEventsStore.Remove(value);
     }
 
-    internal EventStore<sbyte> FSeatedPlayerChangedEventsStore;
+    internal EventStore<sbyte> _seatedPlayerChangedEventsStore;
 
     public event NotifyEvent<sbyte> FSeatedPlayerChangedEvents
     {
-        add => FSeatedPlayerChangedEventsStore.Add(value);
-        remove => FSeatedPlayerChangedEventsStore.Remove(value);
+        add => _seatedPlayerChangedEventsStore.Add(value);
+        remove => _seatedPlayerChangedEventsStore.Remove(value);
     }
 
-    public CombatMoveControl FMoveControl;
-    public CombatUnitSelectionControl FUnitSelection;
+    public CombatMoveControl MoveControl;
+    public CombatUnitSelectionControl UnitSelection;
 
-    internal EventStore<TacticalBattle> FSelectEventsStore;
+    internal EventStore<TacticalBattle> _selectEventsStore;
 
     public event NotifyEvent<TacticalBattle> FSelectEvents
     {
-        add => FSelectEventsStore.Add(value);
-        remove => FSelectEventsStore.Remove(value);
+        add => _selectEventsStore.Add(value);
+        remove => _selectEventsStore.Remove(value);
     }
 
-    internal EventStore<TacticalBattle> FDeselectEventsStore;
+    internal EventStore<TacticalBattle> _deselectEventsStore;
 
     public event NotifyEvent<TacticalBattle> FDeselectEvents
     {
-        add => FDeselectEventsStore.Add(value);
-        remove => FDeselectEventsStore.Remove(value);
+        add => _deselectEventsStore.Add(value);
+        remove => _deselectEventsStore.Remove(value);
     }
 
-    public MapObject FCenterViewLocation;
+    public MapObject CenterViewLocation;
 
-    internal EventStore<HexSprite> FMouseOverTargetEventsStore;
+    internal EventStore<HexSprite> _mouseOverTargetEventsStore;
 
     public event NotifyEvent<HexSprite> FMouseOverTargetEvents
     {
-        add => FMouseOverTargetEventsStore.Add(value);
-        remove => FMouseOverTargetEventsStore.Remove(value);
+        add => _mouseOverTargetEventsStore.Add(value);
+        remove => _mouseOverTargetEventsStore.Remove(value);
     }
 
     // CMapCtrl
 
-    internal EventStore<TacticalBattleUnitHexSprite> FUnitChangedEventsStore;
+    internal EventStore<TacticalBattleUnitHexSprite> _unitChangedEventsStore;
 
     public event NotifyEvent<TacticalBattleUnitHexSprite> FUnitChangedEvents
     {
-        add => FUnitChangedEventsStore.Add(value);
-        remove => FUnitChangedEventsStore.Remove(value);
+        add => _unitChangedEventsStore.Add(value);
+        remove => _unitChangedEventsStore.Remove(value);
     }
 
     // CMapCtrl
-    public BattleAI FAI;
-    public List<BattleEffectSprite> FEffects;
-    public List<World.Terrain.CityWall> FWalls;
-    public List<FleeLocation> FFleeLocations;
-    public bool FEndTurnPending;
-    public bool FPlaySounds;
-    public ByteArray8 FPositionStatus;
-    public int FRound;
+    public BattleAI AI;
+    public List<BattleEffectSprite> Effects;
+    public List<World.Terrain.CityWall> Walls;
+    public List<FleeLocation> FleeLocations;
+    public bool EndTurnPending;
+    public bool PlaySounds;
+    public ByteArray8 PositionStatus;
+    public int Round;
 
     // AoWTC.pas:2213
     public override void Dispose()
     {
-        while (FEffects.Count > 0)
+        while (Effects.Count > 0)
         {
-            var effect = FEffects[0];
-            DynamicFixedVisibleHS.RemoveChild((EngineObject)effect);
-            var effect2 = FEffects[0];
-            DynamicVisibleHS.RemoveChild((EngineObject)effect2);
-            (FEffects[0] as IDisposable)?.Dispose();
-            FEffects.RemoveAt(0);
+            var effect = Effects[0];
+            DynamicFixedVisibleHexSprite.RemoveChild((EngineObject)effect);
+            var effect2 = Effects[0];
+            DynamicVisibleHexSprite.RemoveChild((EngineObject)effect2);
+            (Effects[0] as IDisposable)?.Dispose();
+            Effects.RemoveAt(0);
         }
 
         base.Dispose();
         Current = null;
-        FUnitPositions?.Dispose();
-        FChangeTurnEventsStore.Clear();
-        FPlayerChangedEventsStore.Clear();
-        FSeatedPlayerChangedEventsStore.Clear();
-        FSelectEventsStore.Clear();
-        FDeselectEventsStore.Clear();
-        FMouseOverTargetEventsStore.Clear();
-        FUnitChangedEventsStore.Clear();
-        FMoveControl?.Dispose();
-        FUnitSelection?.Dispose();
-        FEffects?.Clear();
-        FWalls?.Clear();
-        FFleeLocations?.Clear();
-        FAI?.Dispose();
+        UnitPositions?.Dispose();
+        _changeTurnEventsStore.Clear();
+        _playerChangedEventsStore.Clear();
+        _seatedPlayerChangedEventsStore.Clear();
+        _selectEventsStore.Clear();
+        _deselectEventsStore.Clear();
+        _mouseOverTargetEventsStore.Clear();
+        _unitChangedEventsStore.Clear();
+        MoveControl?.Dispose();
+        UnitSelection?.Dispose();
+        Effects?.Clear();
+        Walls?.Clear();
+        FleeLocations?.Clear();
+        AI?.Dispose();
     }
 
     // AoWTC.pas:2189
@@ -147,40 +147,40 @@ public partial class CombatMap : CustomCombatMap
     // AoWTC.pas:2186
     public CombatMap(ECustomNode owner) : base(owner)
     {
-        FUnitPositions = new UnitPositionControl(null);
-        FChangeTurnEventsStore = new();
-        FPlayerChangedEventsStore = new();
-        FSeatedPlayerChangedEventsStore = new();
-        FMoveControl = new CombatMoveControl(this);
-        FSelectEventsStore = new();
-        FDeselectEventsStore = new();
-        FMouseOverTargetEventsStore = new();
-        FUnitChangedEventsStore = new();
-        FPlayers = new TacticalBattlePlayerList();
-        FUnitSelection = new CombatUnitSelectionControl();
-        ((GameMapMouse)Mouse).FRectangleSelectEvents += FUnitSelection.RectangleSelectEvent;
-        FEffects = new List<BattleEffectSprite>();
-        FWalls = new List<World.Terrain.CityWall>();
-        FFleeLocations = new List<FleeLocation>();
-        FAI = new BattleAI();
+        UnitPositions = new UnitPositionControl(null);
+        _changeTurnEventsStore = new();
+        _playerChangedEventsStore = new();
+        _seatedPlayerChangedEventsStore = new();
+        MoveControl = new CombatMoveControl(this);
+        _selectEventsStore = new();
+        _deselectEventsStore = new();
+        _mouseOverTargetEventsStore = new();
+        _unitChangedEventsStore = new();
+        Players = new TacticalBattlePlayerList();
+        UnitSelection = new CombatUnitSelectionControl();
+        ((GameMapMouse)Mouse).FRectangleSelectEvents += UnitSelection.RectangleSelectEvent;
+        Effects = new List<BattleEffectSprite>();
+        Walls = new List<World.Terrain.CityWall>();
+        FleeLocations = new List<FleeLocation>();
+        AI = new BattleAI();
         Mouse.SetCapture(this);
         Mouse.OnMove += MouseMoveEvent;
         Mouse.CursorMode = 256;
         for (int I = 0; I <= 7; I++)
         {
-            FPositionStatus[I] = 2;
+            PositionStatus[I] = 2;
         }
     }
 
     // AoWTC.pas:2249
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        if (Msg.MsgID == 536870920 && !Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId == 536870920 && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            SetCombat((TacticalBattle)AoWHSMap.Current.FCombat);
+            SetCombat((TacticalBattle)AoWHSMap.Current.Combat);
         }
 
-        base.MsgProc(ref Msg, Sender);
+        base.MessageProc(ref message, sender);
     }
 
     // AoWTC.pas:2240
@@ -189,26 +189,26 @@ public partial class CombatMap : CustomCombatMap
     // AoWTC.pas:2267
     public override void InitializeNewMap()
     {
-        HexControl Control;
+        HexControl control;
         for (int X = 6, last = MapContainer.Width - 7; X <= last; X++)
         {
             for (int Y = 6, lastY = MapContainer.Height - 7; Y <= lastY; Y++)
             {
-                AoWHSSet.Current.FCombatHexagons.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 1);
+                AoWHSSet.Current.CombatHexes.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 1);
             }
         }
 
-        Control = Engine.HSSet.HexagonControl;
+        control = Engine.HexSpriteSet.HexControl;
         for (int X = 0, last = MapContainer.Width - 1; X <= last; X++)
         {
             for (int Y = 0; Y <= 5; Y++)
             {
-                Control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
+                control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
             }
 
             for (int Y = MapContainer.Height - 6, lastY = MapContainer.Height - 1; Y <= lastY; Y++)
             {
-                Control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
+                control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
             }
         }
 
@@ -216,34 +216,34 @@ public partial class CombatMap : CustomCombatMap
         {
             for (int X = 0; X <= 5; X++)
             {
-                Control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
+                control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
             }
 
             for (int X = MapContainer.Width - 6, last = MapContainer.Width - 1; X <= last; X++)
             {
-                Control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
+                control.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 15);
             }
         }
     }
 
     // AoWTC.pas:2338
-    public override void DrawDynamicScene(ref LockedSurface SD)
+    public override void DrawDynamicScene(ref LockedSurface lockedSurface)
     {
-        base.DrawDynamicScene(ref SD);
+        base.DrawDynamicScene(ref lockedSurface);
         if (AoWHSMap.Current != null)
         {
-            DrawFog(SD);
+            DrawFog(lockedSurface);
         }
 
-        if (FShowGrid)
+        if (ShowGrid)
         {
-            DrawGrid(SD);
+            DrawGrid(lockedSurface);
         }
 
-        DrawMoveRoute(SD);
-        if (((GameMapMouse)Mouse).FSelectionRectangle.Left != -1)
+        DrawMoveRoute(lockedSurface);
+        if (((GameMapMouse)Mouse).SelectionRectangle.Left != -1)
         {
-            DrawSelectionRect(ViewXhp, ViewYhp, ((GameMapMouse)Mouse).FSelectionRectangle, SD);
+            DrawSelectionRectangle(ViewPixelX, ViewPixelY, ((GameMapMouse)Mouse).SelectionRectangle, lockedSurface);
         }
     }
 
@@ -251,19 +251,19 @@ public partial class CombatMap : CustomCombatMap
     public override void NewFrame()
     {
         int I;
-        BattleEffectSprite Effect;
+        BattleEffectSprite effect;
         if (!Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             I = 0;
-            while (I < FEffects.Count)
+            while (I < Effects.Count)
             {
-                Effect = FEffects[I];
-                if (Effect.FDone)
+                effect = Effects[I];
+                if (effect.Done)
                 {
-                    DynamicFixedVisibleHS.RemoveChild(Effect);
-                    DynamicVisibleHS.RemoveChild(Effect);
-                    Effect?.Dispose();
-                    FEffects.RemoveAt(I);
+                    DynamicFixedVisibleHexSprite.RemoveChild(effect);
+                    DynamicVisibleHexSprite.RemoveChild(effect);
+                    effect?.Dispose();
+                    Effects.RemoveAt(I);
                 }
                 else
                 {
@@ -273,25 +273,25 @@ public partial class CombatMap : CustomCombatMap
         }
 
         base.NewFrame();
-        if (!Status.Contains(HexSpriteMapStatusElement.Editting) && FCombat != null)
+        if (!Status.Contains(HexSpriteMapStatusElement.Editting) && Combat != null)
         {
             UpdateCursor();
-            if (FEndTurnPending && (AoWHSMap.Current.FPlayers.GetPlayers(FCurrentPlayer).FPlayerType != PlayerType.Human && AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(FCombat.FHostPlayer).ConnectionMode != ConnectionMode.Remote || FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(FCurrentPlayer).ConnectionMode != ConnectionMode.Remote))
+            if (EndTurnPending && (AoWHSMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote || Players.GetPlayers(CurrentCombatPlayer).Auto && AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(CurrentPlayer).ConnectionMode != ConnectionMode.Remote))
             {
-                switch (FAI.Status)
+                switch (AI.Status)
                 {
                     case BattleAI.AIStatus.Idle:
-                        GameTables.AoWEngine.OutputDebugStr("AI for Player " + IntToStr(FCurrentPlayer) + " turn begins.");
-                        FAI.BeginTurn();
+                        GameTables.GameEngine.OutputDebugString("AI for Player " + IntToStr(CurrentPlayer) + " turn begins.");
+                        AI.BeginTurn();
                         break;
                     case BattleAI.AIStatus.Busy:
-                        FAI.ContinueTurn();
+                        AI.ContinueTurn();
                         break;
                     case BattleAI.AIStatus.Done:
                         if (EndTurn(true))
                         {
-                            FAI.Status = BattleAI.AIStatus.Idle;
-                            GameTables.AoWEngine.OutputDebugStr("AI for Player " + IntToStr(FCurrentPlayer) + " turn ends.");
+                            AI.Status = BattleAI.AIStatus.Idle;
+                            GameTables.GameEngine.OutputDebugString("AI for Player " + IntToStr(CurrentPlayer) + " turn ends.");
                         }
 
                         break;
@@ -301,89 +301,89 @@ public partial class CombatMap : CustomCombatMap
     }
 
     // AoWTC.pas:2515
-    public override void DropHeroItem(Hero Hero, Item Item)
+    public override void DropHeroItem(Hero hero, Item item)
     {
         sbyte X;
         sbyte Y;
         sbyte L;
-        ItemHexSprite HS;
+        ItemHexSprite hexSprite;
         int I;
         X = -1;
         Y = -1;
         L = -1;
-        I = FCombat.FCombatData.GetCount();
+        I = Combat.CombatData.GetCount();
         while (I != 0 && X == -1)
         {
             I -= 1;
-            if (FCombat.FCombatData.GetObjects(I) is TacticalBattleUnit && ((CombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == Hero)
+            if (Combat.CombatData.GetObjects(I) is TacticalBattleUnit && ((CombatUnit)Combat.CombatData.GetObjects(I)).Troop == hero)
             {
-                X = ((TacticalBattleUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx();
-                Y = ((TacticalBattleUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                X = ((TacticalBattleUnit)Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexX();
+                Y = ((TacticalBattleUnit)Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexY();
                 L = 0;
             }
         }
 
         if (X > -1)
         {
-            HS = (ItemHexSprite)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
-            if (HS == null)
+            hexSprite = (ItemHexSprite)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+            if (hexSprite == null)
             {
-                HS = new TacticalBattleItemHexSprite(null);
+                hexSprite = new TacticalBattleItemHexSprite(null);
                 // { Original bug: a failed placement leaves the new item sprite allocated. }
-                if (Current.PlaceHX(HS, X, Y, L))
+                if (Current.PlaceHex(hexSprite, X, Y, L))
                 {
-                    Item.SetOwner(HS.FItems);
+                    item.SetOwner(hexSprite.Items);
                 }
             }
             else
             {
-                Item.SetOwner(HS.FItems);
+                item.SetOwner(hexSprite.Items);
             }
         }
     }
 
     // AoWTC.pas:2544
-    public override ItemList GetHeroItemsOnGround(Hero Hero)
+    public override ItemList GetHeroItemsOnGround(Hero hero)
     {
-        ItemHexSprite HS;
+        ItemHexSprite hexSprite;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        ItemList Result = null;
-        GetUnitLocation(Hero, ref X, ref Y, ref L);
+        ItemList result = null;
+        GetUnitLocation(hero, ref X, ref Y, ref L);
         if (X > -1)
         {
-            HS = (ItemHexSprite)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
-            if (HS != null)
+            hexSprite = (ItemHexSprite)MapContainer.GetField(X, Y, L).FindOwnedChild(131697);
+            if (hexSprite != null)
             {
-                Result = HS.FItems;
+                result = hexSprite.Items;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:2243
-    public void SetCombat(TacticalBattle Combat)
+    public void SetCombat(TacticalBattle combat)
     {
-        FCombat = Combat;
-        if (FCombat != null)
+        Combat = combat;
+        if (Combat != null)
         {
-            FPlayers.FPlayers = FCombat.FCombatData.FPlayers;
+            Players.Players = Combat.CombatData.Players;
         }
     }
 
     // AoWTC.pas:2256
-    public void MouseMoveEvent(object Sender)
+    public void MouseMoveEvent(object sender)
     {
-        TacticalBattleUnitHexSprite HS;
-        if (!Current.Status.Contains(HexSpriteMapStatusElement.Editting) && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && Mouse.Xhx != -1 && Mouse.Yhx != -1 && Mouse.Capture == null)
+        TacticalBattleUnitHexSprite hexSprite;
+        if (!Current.Status.Contains(HexSpriteMapStatusElement.Editting) && !Players.GetPlayers(CurrentCombatPlayer).Auto && Mouse.HexX != -1 && Mouse.HexY != -1 && Mouse.Capture == null)
         {
             Mouse.CursorMode = 0;
-            var yhx = Mouse.Yhx;
-            var xhx = Mouse.Xhx;
-            HS = (TacticalBattleUnitHexSprite)MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484);
-            if (HS != null)
+            var hexY = Mouse.HexY;
+            var hexX = Mouse.HexX;
+            hexSprite = (TacticalBattleUnitHexSprite)MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484);
+            if (hexSprite != null)
             {
                 Mouse.CursorMode = 257;
             }
@@ -391,138 +391,138 @@ public partial class CombatMap : CustomCombatMap
     }
 
     // AoWTC.pas:2288
-    public void SetSeatedCombatPlayer(sbyte Player)
+    public void SetSeatedCombatPlayer(sbyte player)
     {
-        FSeatedCombatPlayer = Player;
-        if (Player == -1)
+        SeatedCombatPlayer = player;
+        if (player == -1)
         {
             SetSeatedPlayer(-1);
         }
         else
         {
-            SetSeatedPlayer(FCombat.FCombatData.FPlayers.GetPlayers(FSeatedCombatPlayer).FPlayer);
+            SetSeatedPlayer(Combat.CombatData.Players.GetPlayers(SeatedCombatPlayer).Player);
         }
 
-        FSeatedPlayerChangedEventsStore.Raise(FCurrentCombatPlayer);
+        _seatedPlayerChangedEventsStore.Raise(CurrentCombatPlayer);
     }
 
     // AoWTC.pas:2296
-    public void NewTurn(sbyte Player)
+    public void NewTurn(sbyte player)
     {
         TacticalBattleUnit U;
-        EngineMessage Msg = default;
-        FCurrentCombatPlayer = Player;
-        if (Player == 0)
+        EngineMessage message = default;
+        CurrentCombatPlayer = player;
+        if (player == 0)
         {
-            FRound += 1;
+            Round += 1;
         }
 
-        SetCurrentPlayer(FPlayers.GetPlayers(FCurrentCombatPlayer).FPlayer);
-        FCombat.NewTurn((byte)FCurrentCombatPlayer);
-        FUnitSelection.Unselect();
-        AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(FCurrentPlayer);
-        if (FPlayers.GetPlayers(FCurrentCombatPlayer).FPlayer == 0)
+        SetCurrentPlayer(Players.GetPlayers(CurrentCombatPlayer).Player);
+        Combat.NewTurn((byte)CurrentCombatPlayer);
+        UnitSelection.Unselect();
+        AoWHSMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(CurrentPlayer);
+        if (Players.GetPlayers(CurrentCombatPlayer).Player == 0)
         {
-            var ind = AbilityRules.TranslateRStr(IndRStr);
-            var beginRound = AbilityRules.TranslateRStr(BeginRoundRStr);
+            var ind = AbilityRules.TranslateResourceString(s_independentsText);
+            var beginRound = AbilityRules.TranslateResourceString(s_beginRoundText);
             ShowMessage(ind + " " + beginRound);
         }
         else
         {
-            var player = FPlayers.GetPlayers(FCurrentCombatPlayer);
-            var playerPlayerRace = AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer);
-            var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
-            var beginRound = AbilityRules.TranslateRStr(BeginRoundRStr);
+            var playerLocal = Players.GetPlayers(CurrentCombatPlayer);
+            var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(playerLocal.Player);
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+            var beginRound = AbilityRules.TranslateResourceString(s_beginRoundText);
             ShowMessage(raceNamesPlural + " " + beginRound);
         }
 
-        var playerPlayer = FPlayers.GetPlayers(FCurrentCombatPlayer);
-        if (AoWHSMap.Current.FPlayers.GetPlayers(playerPlayer.FPlayer).FPlayerType == PlayerType.Human)
+        var playerPlayer = Players.GetPlayers(CurrentCombatPlayer);
+        if (AoWHSMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
         {
-            var player = FPlayers.GetPlayers(FCurrentCombatPlayer);
-            if (AoWHSMap.Current.FPlayerCommunicator.PCC.GetPlayers(player.FPlayer).ConnectionMode != ConnectionMode.Remote)
+            var playerLocal = Players.GetPlayers(CurrentCombatPlayer);
+            if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(playerLocal.Player).ConnectionMode != ConnectionMode.Remote)
             {
-                SetSeatedCombatPlayer(FCurrentCombatPlayer);
-                if (FPlayers.GetPlayers(FCurrentCombatPlayer).FLastX == 0)
+                SetSeatedCombatPlayer(CurrentCombatPlayer);
+                if (Players.GetPlayers(CurrentCombatPlayer).LastX == 0)
                 {
                     U = GetNextUnit(null, true, true);
                     if (U != null)
                     {
-                        var xhx = U.FUnitHS.GetXhx();
-                        FPlayers.GetPlayers(FCurrentCombatPlayer).FLastX = xhx;
-                        var yhx = U.FUnitHS.GetYhx();
-                        FPlayers.GetPlayers(FCurrentCombatPlayer).FLastY = yhx;
-                        if (FExplorationEnabled)
+                        var hexX = U.UnitHexSprite.GetHexX();
+                        Players.GetPlayers(CurrentCombatPlayer).LastX = hexX;
+                        var hexY = U.UnitHexSprite.GetHexY();
+                        Players.GetPlayers(CurrentCombatPlayer).LastY = hexY;
+                        if (ExplorationEnabled)
                         {
-                            for (int I = 0, last = FPlayers.GetCount() - 1; I <= last; I++)
+                            for (int I = 0, last = Players.GetCount() - 1; I <= last; I++)
                             {
-                                if (FCurrentCombatPlayer != I)
+                                if (CurrentCombatPlayer != I)
                                 {
-                                    var fUnitHSXhx = U.FUnitHS.GetXhx();
-                                    FPlayers.GetPlayers((sbyte)I).FLastX = fUnitHSXhx;
-                                    var fUnitHSYhx = U.FUnitHS.GetYhx();
-                                    FPlayers.GetPlayers((sbyte)I).FLastY = fUnitHSYhx;
+                                    var fUnitHexSpriteHexX = U.UnitHexSprite.GetHexX();
+                                    Players.GetPlayers((sbyte)I).LastX = fUnitHexSpriteHexX;
+                                    var fUnitHexSpriteHexY = U.UnitHexSprite.GetHexY();
+                                    Players.GetPlayers((sbyte)I).LastY = fUnitHexSpriteHexY;
                                 }
                             }
                         }
                     }
                 }
 
-                var playerLastY = FPlayers.GetPlayers(FSeatedCombatPlayer);
-                CenterViewTo(FPlayers.GetPlayers(FSeatedCombatPlayer).FLastX, playerLastY.FLastY, 0);
+                var playerLastY = Players.GetPlayers(SeatedCombatPlayer);
+                CenterViewTo(Players.GetPlayers(SeatedCombatPlayer).LastX, playerLastY.LastY, 0);
             }
         }
 
         AudioPlayback.PlaySample("Sfx\\Events\\NewEvent.wav");
-        EngineMessage.InitMsg(ref Msg, 537006081, this);
-        SendMsg(ref Msg, this);
-        if (FExplorationEnabled)
+        EngineMessage.InitializeMessage(ref message, 537006081, this);
+        SendMessage(ref message, this);
+        if (ExplorationEnabled)
         {
-            var rect = new Rect(0, 0, 65, 58);
-            TriggerMapChangedEvent(rect, 0);
+            var rectangle = new Rect(0, 0, 65, 58);
+            TriggerMapChangedEvent(rectangle, 0);
         }
 
-        FUnitSelection.Unselect();
-        FChangeTurnEventsStore.Raise(FCurrentCombatPlayer);
+        UnitSelection.Unselect();
+        _changeTurnEventsStore.Raise(CurrentCombatPlayer);
     }
 
     // AoWTC.pas:2348
-    public void DrawMoveRoute(in LockedSurface SD)
+    public void DrawMoveRoute(in LockedSurface lockedSurface)
     {
-        FUnitSelection.ShowMovePaths(SD);
+        UnitSelection.ShowMovePaths(lockedSurface);
     }
 
     // AoWTC.pas:2351
-    public bool EndTurn(bool Automatic)
+    public bool EndTurn(bool automatic)
     {
-        TacticalBattleEndTurnTokenEvent TE;
-        bool Result = false;
-        if (!Automatic)
+        TacticalBattleEndTurnTokenEvent tokenEvent;
+        bool result = false;
+        if (!automatic)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(FCurrentPlayer).FPlayerType != PlayerType.Human)
+            if (AoWHSMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human)
             {
-                return Result;
+                return result;
             }
 
-            if (Current.FSeatedCombatPlayer != Current.FCurrentCombatPlayer)
+            if (Current.SeatedCombatPlayer != Current.CurrentCombatPlayer)
             {
-                return Result;
+                return result;
             }
         }
 
-        if (AoWHSMap.Current.FTokenManager.PlayerReady(FCurrentPlayer))
+        if (AoWHSMap.Current.TokenManager.PlayerReady(CurrentPlayer))
         {
-            TE = CreateTCEndTurnTE(FCurrentPlayer);
-            if (TE != null)
+            tokenEvent = CreateTacticalBattleEndTurnTokenEvent(CurrentPlayer);
+            if (tokenEvent != null)
             {
-                AoWHSMap.Current.FTokenManager.GetTokenControl(FCurrentPlayer).AddEvent(TE);
-                TE.Release();
-                Result = true;
-                FEndTurnPending = false;
+                AoWHSMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
+                tokenEvent.Release();
+                result = true;
+                EndTurnPending = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:2370
@@ -534,115 +534,115 @@ public partial class CombatMap : CustomCombatMap
     // { Intentionally empty in the original. }
     public bool GetEndTurnStatus()
     {
-        bool Result = true;
-        for (int I = 0, last = FPlayers.GetCount() - 1; I <= last; I++)
+        bool result = true;
+        for (int I = 0, last = Players.GetCount() - 1; I <= last; I++)
         {
-            Result = Result && FPlayers.GetPlayers((sbyte)I).FEndTurn;
+            result = result && Players.GetPlayers((sbyte)I).EndTurn;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:2381
-    public TacticalBattleUnit GetNextUnit(TacticalBattleUnit U, bool AllUnits, bool Forward)
+    public TacticalBattleUnit GetNextUnit(TacticalBattleUnit U, bool allUnits, bool forward)
     {
-        int Index;
+        int index;
         int I;
-        int Start;
-        int Step;
+        int start;
+        int step;
         if (U != null && !U.GetEnabled())
         {
             U = null;
         }
 
-        TacticalBattleUnit Result = U;
-        if (Forward)
+        TacticalBattleUnit result = U;
+        if (forward)
         {
-            Step = 1;
+            step = 1;
         }
         else
         {
-            Step = -1;
+            step = -1;
         }
 
-        Index = 0;
+        index = 0;
         I = 0;
-        Start = 0;
+        start = 0;
         if (U != null)
         {
-            while (I < this.FCombat.FCombatData.GetCount())
+            while (I < this.Combat.CombatData.GetCount())
             {
-                if (this.FCombat.FCombatData.GetObjects(I) == U)
+                if (this.Combat.CombatData.GetObjects(I) == U)
                 {
-                    Index = I + Step;
-                    Start = I;
-                    I = this.FCombat.FCombatData.GetCount();
+                    index = I + step;
+                    start = I;
+                    I = this.Combat.CombatData.GetCount();
                 }
 
                 I += 1;
             }
         }
 
-        while (Index < this.FCombat.FCombatData.GetCount() && Index > -1)
+        while (index < this.Combat.CombatData.GetCount() && index > -1)
         {
-            if (this.FCombat.FCombatData.GetObjects(Index) != null && this.FCombat.FCombatData.GetObjects(Index) is CombatUnit && (AllUnits || ((TacticalBattleUnit)this.FCombat.FCombatData.GetObjects(Index)).FMovePoints > 0) && this.FCombat.FCombatData.GetObjects(Index).GetEnabled() && this.FCombat.FCombatData.GetObjects(Index).FCombatPlayer == FCurrentCombatPlayer)
+            if (this.Combat.CombatData.GetObjects(index) != null && this.Combat.CombatData.GetObjects(index) is CombatUnit && (allUnits || ((TacticalBattleUnit)this.Combat.CombatData.GetObjects(index)).MovePoints > 0) && this.Combat.CombatData.GetObjects(index).GetEnabled() && this.Combat.CombatData.GetObjects(index).CombatPlayer == CurrentCombatPlayer)
             {
-                Result = (TacticalBattleUnit)this.FCombat.FCombatData.GetObjects(Index);
-                Index = -10;
+                result = (TacticalBattleUnit)this.Combat.CombatData.GetObjects(index);
+                index = -10;
             }
 
-            Index = Index + Step;
+            index = index + step;
         }
 
-        if (Result == U)
+        if (result == U)
         {
-            if (Forward)
+            if (forward)
             {
-                Index = 0;
+                index = 0;
             }
             else
             {
-                Index = this.FCombat.FCombatData.GetCount() - 1;
+                index = this.Combat.CombatData.GetCount() - 1;
             }
 
-            while (Index != Start && Index > -1 && Index < this.FCombat.FCombatData.GetCount())
+            while (index != start && index > -1 && index < this.Combat.CombatData.GetCount())
             {
-                if (this.FCombat.FCombatData.GetObjects(Index) != null && this.FCombat.FCombatData.GetObjects(Index) is CombatUnit && (AllUnits || ((TacticalBattleUnit)this.FCombat.FCombatData.GetObjects(Index)).FMovePoints > 0) && this.FCombat.FCombatData.GetObjects(Index).GetEnabled() && this.FCombat.FCombatData.GetObjects(Index).FCombatPlayer == FCurrentCombatPlayer)
+                if (this.Combat.CombatData.GetObjects(index) != null && this.Combat.CombatData.GetObjects(index) is CombatUnit && (allUnits || ((TacticalBattleUnit)this.Combat.CombatData.GetObjects(index)).MovePoints > 0) && this.Combat.CombatData.GetObjects(index).GetEnabled() && this.Combat.CombatData.GetObjects(index).CombatPlayer == CurrentCombatPlayer)
                 {
-                    Result = (TacticalBattleUnit)this.FCombat.FCombatData.GetObjects(Index);
-                    Index = -10;
+                    result = (TacticalBattleUnit)this.Combat.CombatData.GetObjects(index);
+                    index = -10;
                 }
 
-                Index = Index + Step;
+                index = index + step;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:2466
-    public BattleEffectSprite AddEffect(BattleEffectType EffectType)
+    public BattleEffectSprite AddEffect(BattleEffectType effectType)
     {
-        BattleEffectSprite Result = new BattleEffectSprite(null);
-        FEffects.Add(Result);
-        Result.Activate();
-        Result.FEffectType = EffectType;
-        DynamicFixedVisibleHS.AddChild(Result);
-        return Result;
+        BattleEffectSprite result = new BattleEffectSprite(null);
+        Effects.Add(result);
+        result.Activate();
+        result.EffectType = effectType;
+        DynamicFixedVisibleHexSprite.AddChild(result);
+        return result;
     }
 
     // AoWTC.pas:2475
     public void UpdateCursor()
     {
-        if (!((FSeatedPlayer == -1 || AoWHSMap.Current.FTokenManager.PlayerReady(FSeatedPlayer)) && FSeatedPlayer == FCurrentPlayer && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && Current.FSeatedCombatPlayer == Current.FCurrentCombatPlayer))
+        if (!((SeatedPlayer == -1 || AoWHSMap.Current.TokenManager.PlayerReady(SeatedPlayer)) && SeatedPlayer == CurrentPlayer && !Players.GetPlayers(CurrentCombatPlayer).Auto && Current.SeatedCombatPlayer == Current.CurrentCombatPlayer))
         {
             Mouse.Cursor = (int)(((uint)Frame) >> 2) % 4 + 6;
         }
         else
         {
-            if (FUnitSelection.GetTCUnitHS() != null)
+            if (UnitSelection.GetTacticalBattleUnitHexSprite() != null)
             {
-                FUnitSelection.UpdateMoveCursor();
+                UnitSelection.UpdateMoveCursor();
             }
 
             switch (Mouse.CursorMode)
@@ -663,31 +663,31 @@ public partial class CombatMap : CustomCombatMap
     // AoWTC.pas:2489
     public void EndCombat()
     {
-        TerminateCombatTokenEvent TE;
-        TE = new TerminateCombatTokenEvent(null);
-        AoWHSMap.Current.FTokenManager.TokenExecuter.AddSystemEvent(TE);
-        TE.Release();
+        TerminateCombatTokenEvent tokenEvent;
+        tokenEvent = new TerminateCombatTokenEvent(null);
+        AoWHSMap.Current.TokenManager.TokenExecutor.AddSystemEvent(tokenEvent);
+        tokenEvent.Release();
     }
 
     // AoWTC.pas:2497
-    public void SelectNextUnit(bool Forward)
+    public void SelectNextUnit(bool forward)
     {
         TacticalBattleUnit U;
         int X = default;
         int Y = default;
-        if (FSeatedCombatPlayer == FCurrentCombatPlayer)
+        if (SeatedCombatPlayer == CurrentCombatPlayer)
         {
-            U = GetNextUnit(FPlayers.GetPlayers(FSeatedCombatPlayer).FLastUnit, false, Forward);
+            U = GetNextUnit(Players.GetPlayers(SeatedCombatPlayer).LastUnit, false, forward);
             if (U != null)
             {
-                if (FUnitSelection.GetTCUnitHS() != U.FUnitHS)
+                if (UnitSelection.GetTacticalBattleUnitHexSprite() != U.UnitHexSprite)
                 {
-                    FPlayers.GetPlayers(FSeatedCombatPlayer).FLastUnit = U;
-                    var yhx = U.FUnitHS.GetYhx();
-                    CenterViewTo(U.FUnitHS.GetXhx(), yhx, 0);
+                    Players.GetPlayers(SeatedCombatPlayer).LastUnit = U;
+                    var hexY = U.UnitHexSprite.GetHexY();
+                    CenterViewTo(U.UnitHexSprite.GetHexX(), hexY, 0);
                     Selection.UnselectLocation();
-                    var fUnitHSYhx = U.FUnitHS.GetYhx();
-                    HexGeometry.HXtoHP(U.FUnitHS.GetXhx(), fUnitHSYhx, ref X, ref Y);
+                    var fUnitHexSpriteHexY = U.UnitHexSprite.GetHexY();
+                    HexGeometry.HexToPixel(U.UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, ref X, ref Y);
                     Selection.SelectLocation(X, Y, 0);
                 }
             }
@@ -704,14 +704,14 @@ public partial class CombatMap : CustomCombatMap
         int I;
         X = -1;
         I = 0;
-        while (I < FCombat.FCombatData.GetCount())
+        while (I < Combat.CombatData.GetCount())
         {
-            if (FCombat.FCombatData.GetObjects(I) is TacticalBattleUnit && ((CombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == U && FCombat.FCombatData.GetObjects(I).GetEnabled())
+            if (Combat.CombatData.GetObjects(I) is TacticalBattleUnit && ((CombatUnit)Combat.CombatData.GetObjects(I)).Troop == U && Combat.CombatData.GetObjects(I).GetEnabled())
             {
-                X = ((TacticalBattleUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx();
-                Y = ((TacticalBattleUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                X = ((TacticalBattleUnit)Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexX();
+                Y = ((TacticalBattleUnit)Combat.CombatData.GetObjects(I)).UnitHexSprite.GetHexY();
                 L = 0;
-                I = FCombat.FCombatData.GetCount();
+                I = Combat.CombatData.GetCount();
             }
             else
             {
@@ -721,70 +721,70 @@ public partial class CombatMap : CustomCombatMap
     }
 
     // AoWTC.pas:2572
-    public void Surrender(sbyte Mode)
+    public void Surrender(sbyte mode)
     {
-        TacticalBattleEndCombatTokenEvent TE;
-        if (AoWHSMap.Current.FTokenManager.PlayerReady(Current.FCurrentPlayer) && FCurrentCombatPlayer == FSeatedCombatPlayer)
+        TacticalBattleEndCombatTokenEvent tokenEvent;
+        if (AoWHSMap.Current.TokenManager.PlayerReady(Current.CurrentPlayer) && CurrentCombatPlayer == SeatedCombatPlayer)
         {
-            FUnitSelection.Unselect();
-            TE = CreateTCEndCombatTE();
-            if (TE != null)
+            UnitSelection.Unselect();
+            tokenEvent = CreateTacticalBattleEndCombatTokenEvent();
+            if (tokenEvent != null)
             {
-                AoWHSMap.Current.FTokenManager.GetTokenControl(FCurrentPlayer).AddEvent(TE);
-                TE.Release();
+                AoWHSMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
+                tokenEvent.Release();
             }
         }
     }
 
-    private static readonly string IndRStr = "Independents";
+    private static readonly string s_independentsText = "Independents";
 
-    private static readonly string BeginRoundRStr = "begin their round.";
+    private static readonly string s_beginRoundText = "begin their round.";
 
-    private static TacticalBattleEndCombatTokenEvent CreateTCEndCombatTE() => new TacticalBattleEndCombatTokenEvent(null);
+    private static TacticalBattleEndCombatTokenEvent CreateTacticalBattleEndCombatTokenEvent() => new TacticalBattleEndCombatTokenEvent(null);
 
-    private static TacticalBattleEndTurnTokenEvent CreateTCEndTurnTE(sbyte Player)
+    private static TacticalBattleEndTurnTokenEvent CreateTacticalBattleEndTurnTokenEvent(sbyte player)
     {
-        TacticalBattleEndTurnTokenEvent Result;
-        if (Player != -1 && AoWHSMap.Current.FTokenManager.PlayerReady(Player))
+        TacticalBattleEndTurnTokenEvent result;
+        if (player != -1 && AoWHSMap.Current.TokenManager.PlayerReady(player))
         {
-            Result = new TacticalBattleEndTurnTokenEvent(null);
+            result = new TacticalBattleEndTurnTokenEvent(null);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void PlaceOverviewUnit(CombatMap Map, Troop U, int Position, int Index)
+    internal static void PlaceOverviewUnit(CombatMap map, Troop U, int position, int index)
     {
-        OverviewUnitHexSprite HS;
-        sbyte Overlay;
-        TacticalBattleUnitHexSprite Occupant;
-        int X0;
-        int Y0;
+        OverviewUnitHexSprite hexSprite;
+        sbyte overlay;
+        TacticalBattleUnitHexSprite occupant;
+        int x0;
+        int y0;
         int X = default;
         int Y = default;
         int I;
         MapCoordinate P;
-        HS = new OverviewUnitHexSprite(null);
-        HS.SetU(U);
-        P = Map.FUnitPositions.GetUnitPosition(Position, Index);
-        X0 = P.X;
-        Y0 = P.Y;
+        hexSprite = new OverviewUnitHexSprite(null);
+        hexSprite.SetU(U);
+        P = map.UnitPositions.GetUnitPosition(position, index);
+        x0 = P.X;
+        y0 = P.Y;
         I = 0;
         do
         {
-            HexGeometry.CenterHNtoHX(X0, Y0, I, ref X, ref Y);
-            Overlay = Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType;
-            Occupant = (TacticalBattleUnitHexSprite)Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+            HexGeometry.CenterHexNumberToHex(x0, y0, I, ref X, ref Y);
+            overlay = Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType;
+            occupant = (TacticalBattleUnitHexSprite)Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
             I += 1;
         }
-        while (!(Overlay != 8 && Occupant == null));
-        if (!Map.PlaceHX(HS, X, Y, 0))
+        while (!(overlay != 8 && occupant == null));
+        if (!map.PlaceHex(hexSprite, X, Y, 0))
         {
-            HS?.Dispose();
+            hexSprite?.Dispose();
         }
     }
 

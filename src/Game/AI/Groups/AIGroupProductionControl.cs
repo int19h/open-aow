@@ -28,53 +28,53 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2440
     public AIGroupProductionControl(ECustomNode owner) : base(owner)
     {
-        FProductions = new AIGroupUnitProductionList(null);
-        FProduceableUnits = new AIGroupUnitProductionList(null);
+        Productions = new AIGroupUnitProductionList(null);
+        ProducibleUnits = new AIGroupUnitProductionList(null);
     }
 
-    public AIGroupControl FControl;
-    public Mode FMode;
-    public bool FComplete;
-    public int FGold;
-    public int FMana;
-    public int FGoldUpkeep;
-    public int FManaUpkeep;
-    public AIGroupUnitProductionList FProductions;
-    public AIGroupUnitProductionList FProduceableUnits;
-    public Int32Array10 FRemainingStrengths;
-    public int FRemainingStrength;
-    public int FProduceStrength;
-    public Set<DamageType> FDamageTypes;
-    public Int32Array10 FProduceStrengths;
-    public int FPriorityRange;
-    public bool FMultiple;
-    public int FGroupID;
-    public int FSuperiority;
-    public int FMovePointPriority;
-    public bool FAllowResearch;
-    public int FResearchPriority;
-    public Set<MoveType> FMoveTypes;
-    public int FMovesMin;
-    public float FPathStrengthFactor;
+    public AIGroupControl Control;
+    public AIGroupProductionControlMode Mode;
+    public bool Complete;
+    public int Gold;
+    public int Mana;
+    public int GoldUpkeep;
+    public int ManaUpkeep;
+    public AIGroupUnitProductionList Productions;
+    public AIGroupUnitProductionList ProducibleUnits;
+    public Int32Array10 RemainingStrengths;
+    public int RemainingStrength;
+    public int ProduceStrength;
+    public Set<DamageType> DamageTypes;
+    public Int32Array10 ProduceStrengths;
+    public int PriorityRange;
+    public bool Multiple;
+    public int GroupId;
+    public int Superiority;
+    public int MovePointPriority;
+    public bool AllowResearch;
+    public int ResearchPriority;
+    public Set<MoveType> MoveTypes;
+    public int MovesMin;
+    public float PathStrengthFactor;
 
     // AIGroup.pas:2447
     public override void Dispose()
     {
-        FProductions?.Dispose();
-        FProductions = null;
-        FProduceableUnits?.Dispose();
-        FProduceableUnits = null;
+        Productions?.Dispose();
+        Productions = null;
+        ProducibleUnits?.Dispose();
+        ProducibleUnits = null;
         base.Dispose();
     }
 
     // AIGroup.pas:2471
-    public override bool GetBusy() => FState != -1;
+    public override bool GetBusy() => State != -1;
 
     // AIGroup.pas:2654
-    public override bool Activate(AIGroupControl Control)
+    public override bool Activate(AIGroupControl control)
     {
-        FControl = Control;
-        FRemainingStrength = FProduceStrength;
+        Control = control;
+        RemainingStrength = ProduceStrength;
         UpdateCompletion();
         return true;
     }
@@ -82,82 +82,82 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2772
     public override bool Process()
     {
-        int Index;
-        AIGroupUnitProduction Production;
-        bool Finished;
-        switch (FState)
+        int index;
+        AIGroupUnitProduction production;
+        bool finished;
+        switch (State)
         {
             case 0:
-                if (FControl.FGroup.FProductions.Count == 0)
+                if (Control.Group.Productions.Count == 0)
                 {
-                    AoWHSMap.Current.FAIExecuter.UseProcessTime(500);
-                    Finished = false;
-                    FControl.FProductionLocations.Validate(FControl);
-                    while (!FComplete && !Finished)
+                    AoWHSMap.Current.AIExecutor.UseProcessTime(500);
+                    finished = false;
+                    Control.ProductionLocations.Validate(Control);
+                    while (!Complete && !finished)
                     {
-                        UpdateProduceableUnits();
-                        if (FProduceableUnits.Count != 0)
+                        UpdateProducibleUnits();
+                        if (ProducibleUnits.Count != 0)
                         {
-                            Index = 0;
+                            index = 0;
                             while (true)
                             {
-                                bool condition = FProduceableUnits.Count > Index + 1;
+                                bool condition = ProducibleUnits.Count > index + 1;
                                 if (condition)
                                 {
-                                    var unitProductions = FProduceableUnits.GetUnitProductions(Index + 1);
-                                    var fProduceableUnitsUnitProductions = FProduceableUnits.GetUnitProductions(0);
-                                    condition = unitProductions.FPriority > fProduceableUnitsUnitProductions.FPriority - FPriorityRange;
+                                    var unitProductions = ProducibleUnits.GetUnitProductions(index + 1);
+                                    var fProducibleUnitsUnitProductions = ProducibleUnits.GetUnitProductions(0);
+                                    condition = unitProductions.Priority > fProducibleUnitsUnitProductions.Priority - PriorityRange;
                                 }
 
                                 if (!condition)
                                     break;
-                                Index += 1;
+                                index += 1;
                             }
 
                             // { Original passes the last eligible index, not the candidate count. }
-                            Index = AoWHSMap.Current.Random(Index);
-                            AddProduction(FProduceableUnits.GetUnitProductions(Index));
-                            if (!FMultiple)
+                            index = AoWHSMap.Current.Random(index);
+                            AddProduction(ProducibleUnits.GetUnitProductions(index));
+                            if (!Multiple)
                             {
-                                Finished = true;
+                                finished = true;
                             }
                         }
                         else
                         {
-                            Finished = true;
+                            finished = true;
                         }
                     }
 
-                    if ((FProductions.Count != 0 && FMode == Mode.AutoProduce) || (FMode == Mode.CompleteProduceOnly && FComplete))
+                    if ((Productions.Count != 0 && Mode == AIGroupProductionControlMode.AutoProduce) || (Mode == AIGroupProductionControlMode.CompleteProduceOnly && Complete))
                     {
-                        ExecuteProductions(FGroupID);
+                        ExecuteProductions(GroupId);
                     }
 
                     Done();
                 }
                 else
                 {
-                    for (int I = 0, last = FControl.FGroup.FProductions.Count - 1; I <= last; I++)
+                    for (int I = 0, last = Control.Group.Productions.Count - 1; I <= last; I++)
                     {
-                        Production = new AIGroupUnitProduction(null);
-                        Production.SetU(FControl.FGroup.FProductions.GetProductions(I).FControl.FSettings.FUnit);
-                        if (Production.FU != null)
+                        production = new AIGroupUnitProduction(null);
+                        production.SetU(Control.Group.Productions.GetProductions(I).Control.Settings.Unit);
+                        if (production.Unit != null)
                         {
-                            Production.FGold = 0;
-                            Production.FMana = 0;
-                            Production.FGoldUpkeep = 0;
-                            Production.FManaUpkeep = 0;
-                            var productions = FControl.FGroup.FProductions.GetProductions(I);
-                            Production.SetProductionLocation(FControl.FProductionLocations.FindPC(productions.FControl));
-                            Production.FPriority = 0;
-                            Production.FResearch = false;
-                            if (Production.FProductionLocation != null)
+                            production.Gold = 0;
+                            production.Mana = 0;
+                            production.GoldUpkeep = 0;
+                            production.ManaUpkeep = 0;
+                            var productions = Control.Group.Productions.GetProductions(I);
+                            production.SetProductionLocation(Control.ProductionLocations.FindPC(productions.Control));
+                            production.Priority = 0;
+                            production.Research = false;
+                            if (production.ProductionLocation != null)
                             {
-                                AddProduction(Production);
+                                AddProduction(production);
                             }
                         }
 
-                        Production.Release();
+                        production.Release();
                     }
 
                     Done();
@@ -173,222 +173,222 @@ public partial class AIGroupProductionControl : AIGroupTask
     }
 
     // AIGroup.pas:2647
-    public virtual bool Setup(AIGroupControl Control)
+    public virtual bool Setup(AIGroupControl control)
     {
         Reset();
-        FGroupID = Control.FGroup.FGroupID;
+        GroupId = control.Group.GroupId;
         return true;
     }
 
     // AIGroup.pas:2456
-    public int GetProducedStrength() => FProduceStrength - FRemainingStrength;
+    public int GetProducedStrength() => ProduceStrength - RemainingStrength;
 
     // AIGroup.pas:2461
-    public int GetProduceStrengthEx(DamageType DamageType) => FProduceStrengths[(int)DamageType];
+    public int GetProduceStrength(DamageType damageType) => ProduceStrengths[(int)damageType];
 
     // AIGroup.pas:2466
-    public void SetProduceStrengthEx(DamageType DamageType, int Value)
+    public void SetProduceStrength(DamageType damageType, int value)
     {
-        FProduceStrengths[(int)DamageType] = Value;
+        ProduceStrengths[(int)damageType] = value;
     }
 
     // AIGroup.pas:2476
-    public int UnitProductionPriority(Unit AUnit)
+    public int UnitProductionPriority(Unit unit)
     {
-        bool Usefull;
+        bool useful;
         DamageType D;
-        int Result = -1;
-        Usefull = AUnit.GetMoves() > FMovesMin && (AUnit.GetMoveTypes() & FMoveTypes) != Set<MoveType>.Of();
-        Usefull = Usefull && AUnit.GetUnitMoraleValue(FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation) >= 50;
-        if (Usefull && FControl.FGroup.FPlayer == 0)
+        int result = -1;
+        useful = unit.GetMoves() > MovesMin && (unit.GetMoveTypes() & MoveTypes) != Set<MoveType>.Of();
+        useful = useful && unit.GetUnitMoraleValue(Control.Group.Player, Control.Group.IndependentRelation) >= 50;
+        if (useful && Control.Group.Player == 0)
         {
-            Usefull = FControl.FGroup.FIndependentRelation < 0 || AUnit.GetIndependentRelation() < 0 || AUnit.GetIndependentRelation() == FControl.FGroup.FIndependentRelation;
+            useful = Control.Group.IndependentRelation < 0 || unit.GetIndependentRelation() < 0 || unit.GetIndependentRelation() == Control.Group.IndependentRelation;
         }
 
-        if (Usefull)
+        if (useful)
         {
-            Usefull = FRemainingStrength > 0 && AUnit.GetStrengthMax(FDamageTypes) > 0;
-            if (!Usefull)
+            useful = RemainingStrength > 0 && unit.GetStrengthMax(DamageTypes) > 0;
+            if (!useful)
             {
                 for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
                 {
                     D = (DamageType)dOrdinal;
-                    Usefull = FRemainingStrengths[(int)D] > 0 && AUnit.GetStrength(D) > 0;
+                    useful = RemainingStrengths[(int)D] > 0 && unit.GetStrength(D) > 0;
                     // { Original bug: a useful per-type strength returns the initial -1 priority. }
-                    if (Usefull)
+                    if (useful)
                     {
-                        return Result;
+                        return result;
                     }
                 }
 
-                if (!Usefull && FSuperiority != -1)
+                if (!useful && Superiority != -1)
                 {
-                    Usefull = (FControl.FCombatPredictor.Usefullness(AUnit) & 8388608) != 0;
-                    if (Usefull)
+                    useful = (Control.CombatPredictor.Usefullness(unit) & 8388608) != 0;
+                    if (useful)
                     {
-                        Result += 50;
+                        result += 50;
                     }
                 }
             }
         }
 
-        if (Usefull)
+        if (useful)
         {
-            Result += RosterTables.GetUnitIndexAIPriority(AUnit.FUnitResource.UnitResourceIndex(), FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation);
+            result += RosterTables.GetUnitIndexAIPriority(unit.UnitResource.UnitResourceIndex(), Control.Group.Player, Control.Group.IndependentRelation);
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2514
     public int GetCurrentProductionTime()
     {
-        int Result = -1;
-        for (int I = 0, last = FProductions.Count - 1; I <= last; I++)
+        int result = -1;
+        for (int I = 0, last = Productions.Count - 1; I <= last; I++)
         {
-            if (FProductions.GetUnitProductions(I).FProductionTime > Result)
+            if (Productions.GetUnitProductions(I).ProductionTime > result)
             {
-                Result = FProductions.GetUnitProductions(I).FProductionTime;
+                result = Productions.GetUnitProductions(I).ProductionTime;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2524
     public int GetCompleteProductionTime()
     {
-        int Result = GetCurrentProductionTime();
-        if (Result != -1 && FRemainingStrength > 0 && GetProducedStrength() > 0)
+        int result = GetCurrentProductionTime();
+        if (result != -1 && RemainingStrength > 0 && GetProducedStrength() > 0)
         {
             var producedStrength = GetProducedStrength();
-            Result += (int)((double)((double)((double)FRemainingStrength / producedStrength) * Result) + 0.999);
+            result += (int)((double)((double)((double)RemainingStrength / producedStrength) * result) + 0.999);
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2531
     public void UpdateCompletion()
     {
         DamageType D;
-        FComplete = FRemainingStrength <= 0;
-        if (FComplete)
+        Complete = RemainingStrength <= 0;
+        if (Complete)
         {
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
                 D = (DamageType)dOrdinal;
-                if (FRemainingStrengths[(int)D] > 0)
+                if (RemainingStrengths[(int)D] > 0)
                 {
-                    FComplete = false;
+                    Complete = false;
                     return;
                 }
             }
 
-            if (FSuperiority != -1)
+            if (Superiority != -1)
             {
-                FControl.FCombatPredictor.Execute();
-                if (FControl.FCombatPredictor.GetSuperiority() < FSuperiority)
+                Control.CombatPredictor.Execute();
+                if (Control.CombatPredictor.GetSuperiority() < Superiority)
                 {
-                    FComplete = false;
+                    Complete = false;
                 }
             }
         }
     }
 
     // AIGroup.pas:2553
-    public bool ExecuteProductions(int GroupID)
+    public bool ExecuteProductions(int groupId)
     {
-        AIGroupUnitProduction Production;
-        ProductionControl Control;
-        bool Result = true;
-        for (int I = 0, last = FProductions.Count - 1; I <= last; I++)
+        AIGroupUnitProduction production;
+        ProductionControl control;
+        bool result = true;
+        for (int I = 0, last = Productions.Count - 1; I <= last; I++)
         {
-            Production = FProductions.GetUnitProductions(I);
-            Control = Production.FProductionLocation.FProductionControl;
-            if (!Production.FResearch)
+            production = Productions.GetUnitProductions(I);
+            control = production.ProductionLocation.ProductionControl;
+            if (!production.Research)
             {
-                var unitResourceIndex = Production.FU.FUnitResource.UnitResourceIndex();
-                if (Control.ExecuteAIProduction(Control.FUnitProductions.IndexOf(unitResourceIndex), GroupID))
+                var unitResourceIndex = production.Unit.UnitResource.UnitResourceIndex();
+                if (control.ExecuteAIProduction(control.UnitProductions.IndexOf(unitResourceIndex), groupId))
                 {
-                    AoWHSMap.Current.FPlayers.GetPlayers(FControl.FGroup.FPlayer).FAIBudget.ProductionExpenseMade(Production.FGold, Production.FGoldUpkeep, Production.FMana, Production.FManaUpkeep);
+                    AoWHSMap.Current.Players.GetPlayers(Control.Group.Player).AIBudget.ProductionExpenseMade(production.Gold, production.GoldUpkeep, production.Mana, production.ManaUpkeep);
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
             else
             {
-                var unitResourceIndex = Production.FU.FUnitResource.UnitResourceIndex();
-                if (Control.ExecuteAIResearch(Control.FUnitProductions.IndexOf(unitResourceIndex)))
+                var unitResourceIndex = production.Unit.UnitResource.UnitResourceIndex();
+                if (control.ExecuteAIResearch(control.UnitProductions.IndexOf(unitResourceIndex)))
                 {
-                    AoWHSMap.Current.FPlayers.GetPlayers(FControl.FGroup.FPlayer).FAIBudget.ProductionExpenseMade(Production.FGold, Production.FGoldUpkeep, Production.FMana, Production.FManaUpkeep);
+                    AoWHSMap.Current.Players.GetPlayers(Control.Group.Player).AIBudget.ProductionExpenseMade(production.Gold, production.GoldUpkeep, production.Mana, production.ManaUpkeep);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2581
-    public void AddProduction(AIGroupUnitProduction Production)
+    public void AddProduction(AIGroupUnitProduction production)
     {
         DamageType D;
-        FProductions.AddChild(Production);
-        FGold += Production.FGold;
-        FMana += Production.FMana;
+        Productions.AddChild(production);
+        Gold += production.Gold;
+        Mana += production.Mana;
         // { Original bug: upkeep is based on total costs rather than accumulated upkeep. }
-        FGoldUpkeep = FGold + Production.FGoldUpkeep;
-        FManaUpkeep = FMana + Production.FManaUpkeep;
+        GoldUpkeep = Gold + production.GoldUpkeep;
+        ManaUpkeep = Mana + production.ManaUpkeep;
         for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
         {
             D = (DamageType)dOrdinal;
-            var strength = Production.FU.GetStrength(D);
-            FRemainingStrengths[(int)D] -= strength;
+            var strength = production.Unit.GetStrength(D);
+            RemainingStrengths[(int)D] -= strength;
         }
 
-        var strengthMax = Production.FU.GetStrengthMax(FDamageTypes);
-        FRemainingStrength -= strengthMax;
-        if (FSuperiority != -1)
+        var strengthMax = production.Unit.GetStrengthMax(DamageTypes);
+        RemainingStrength -= strengthMax;
+        if (Superiority != -1)
         {
-            FControl.FCombatPredictor.AddUnit(Production.FU);
+            Control.CombatPredictor.AddUnit(production.Unit);
         }
 
         UpdateCompletion();
     }
 
     // AIGroup.pas:2599
-    public void DeleteProduction(int Index)
+    public void DeleteProduction(int index)
     {
-        AIGroupUnitProduction Production;
+        AIGroupUnitProduction production;
         DamageType D;
-        if (Index >= 0 && Index < FProductions.Count)
+        if (index >= 0 && index < Productions.Count)
         {
-            Production = FProductions.GetUnitProductions(Index);
-            FGold -= Production.FGold;
-            FMana -= Production.FMana;
-            FGoldUpkeep -= Production.FGoldUpkeep;
-            FManaUpkeep -= Production.FManaUpkeep;
+            production = Productions.GetUnitProductions(index);
+            Gold -= production.Gold;
+            Mana -= production.Mana;
+            GoldUpkeep -= production.GoldUpkeep;
+            ManaUpkeep -= production.ManaUpkeep;
             for (int dOrdinal = (int)(DamageType)0; dOrdinal <= (int)(DamageType)9; dOrdinal++)
             {
                 D = (DamageType)dOrdinal;
-                var strength = Production.FU.GetStrength(D);
-                FRemainingStrengths[(int)D] += strength;
+                var strength = production.Unit.GetStrength(D);
+                RemainingStrengths[(int)D] += strength;
             }
 
-            var strengthMax = Production.FU.GetStrengthMax(FDamageTypes);
-            FRemainingStrength += strengthMax;
-            if (FSuperiority != -1)
+            var strengthMax = production.Unit.GetStrengthMax(DamageTypes);
+            RemainingStrength += strengthMax;
+            if (Superiority != -1)
             {
-                FControl.FCombatPredictor.DeleteUnit(Production.FU);
+                Control.CombatPredictor.DeleteUnit(production.Unit);
             }
 
-            FProductions.RemoveChild(Production);
+            Productions.RemoveChild(production);
             UpdateCompletion();
         }
     }
@@ -396,107 +396,107 @@ public partial class AIGroupProductionControl : AIGroupTask
     // AIGroup.pas:2621
     public void Reset()
     {
-        FProductions.Clear();
-        FState = 0;
-        FMovesMin = 0;
-        FSuperiority = -1;
+        Productions.Clear();
+        State = 0;
+        MovesMin = 0;
+        Superiority = -1;
         // { Original clears the production list twice and leaves the candidate list alone. }
-        FProductions.Clear();
-        FGold = 0;
-        FMana = 0;
-        FGoldUpkeep = 0;
-        FManaUpkeep = 0;
-        FProduceStrength = 0;
-        FDamageTypes = AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
-        FProduceStrengths = default;
-        FMoveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
-        FComplete = false;
-        FMode = Mode.AutoProduce;
-        FMultiple = false;
-        FGroupID = 0;
-        FMovePointPriority = -5;
-        FResearchPriority = -500;
-        FAllowResearch = true;
-        FPathStrengthFactor = (float)0.8;
+        Productions.Clear();
+        Gold = 0;
+        Mana = 0;
+        GoldUpkeep = 0;
+        ManaUpkeep = 0;
+        ProduceStrength = 0;
+        DamageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        ProduceStrengths = default;
+        MoveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
+        Complete = false;
+        Mode = AIGroupProductionControlMode.AutoProduce;
+        Multiple = false;
+        GroupId = 0;
+        MovePointPriority = -5;
+        ResearchPriority = -500;
+        AllowResearch = true;
+        PathStrengthFactor = (float)0.8;
     }
 
     // AIGroup.pas:2662
-    public bool ListProduceableUnits(AIGroupProductionLocation Location)
+    public bool ListProducibleUnits(AIGroupProductionLocation location)
     {
-        AIGroupUnitProduction Production;
-        int Priority;
-        Unit TestUnit;
-        Unit NewUnit;
-        bool Result = false;
-        if (Location.FProductionControl.FStatus == ProductionControl.Status.Idle)
+        AIGroupUnitProduction production;
+        int priority;
+        Unit testUnit;
+        Unit newUnit;
+        bool result = false;
+        if (location.ProductionControl.Status == ProductionControlStatus.Idle)
         {
-            TestUnit = new Unit(null);
-            for (int I = 0, last = Location.FProductionControl.FUnitProductions.Count - 1; I <= last; I++)
+            testUnit = new Unit(null);
+            for (int I = 0, last = location.ProductionControl.UnitProductions.Count - 1; I <= last; I++)
             {
-                if (Location.FProductionControl.FUnitProductions.GetItem(I).FUnitIndex != -1)
+                if (location.ProductionControl.UnitProductions.GetItem(I).UnitIndex != -1)
                 {
-                    if (Location.FProductionControl.FUnitProductions.GetItem(I).FResearched)
+                    if (location.ProductionControl.UnitProductions.GetItem(I).Researched)
                     {
-                        var unitProductionManaUpkeep = Location.FProductionControl.UnitProductionManaUpkeep(I);
-                        var unitProductionMana = Location.FProductionControl.UnitProductionMana(I);
-                        var unitProductionGoldUpkeep = Location.FProductionControl.UnitProductionGoldUpkeep(I);
-                        var unitProductionGold = Location.FProductionControl.UnitProductionGold(I);
-                        if (AoWHSMap.Current.FPlayers.GetPlayers(FControl.FGroup.FPlayer).FAIBudget.RequestProductionExpense(unitProductionGold + FGold, unitProductionGoldUpkeep + FGoldUpkeep, unitProductionMana + FMana, unitProductionManaUpkeep + FManaUpkeep))
+                        var unitProductionManaUpkeep = location.ProductionControl.UnitProductionManaUpkeep(I);
+                        var unitProductionMana = location.ProductionControl.UnitProductionMana(I);
+                        var unitProductionGoldUpkeep = location.ProductionControl.UnitProductionGoldUpkeep(I);
+                        var unitProductionGold = location.ProductionControl.UnitProductionGold(I);
+                        if (AoWHSMap.Current.Players.GetPlayers(Control.Group.Player).AIBudget.RequestProductionExpense(unitProductionGold + Gold, unitProductionGoldUpkeep + GoldUpkeep, unitProductionMana + Mana, unitProductionManaUpkeep + ManaUpkeep))
                         {
-                            var unitProduction = Location.FProductionControl.FUnitProductions.GetItem(I);
-                            TestUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex));
-                            Priority = UnitProductionPriority(TestUnit);
-                            if (Priority != -1)
+                            var unitProduction = location.ProductionControl.UnitProductions.GetItem(I);
+                            testUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
+                            priority = UnitProductionPriority(testUnit);
+                            if (priority != -1)
                             {
-                                NewUnit = new Unit(null);
-                                var fUnitProductionsItem = Location.FProductionControl.FUnitProductions.GetItem(I);
-                                NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(fUnitProductionsItem.FUnitIndex));
-                                Production = new AIGroupUnitProduction(null);
-                                Production.SetU(NewUnit);
-                                Production.FGold = Location.FProductionControl.UnitProductionGold(I);
-                                Production.FMana = Location.FProductionControl.UnitProductionMana(I);
-                                Production.FGoldUpkeep = Location.FProductionControl.UnitProductionGoldUpkeep(I);
-                                Production.FManaUpkeep = Location.FProductionControl.UnitProductionManaUpkeep(I);
-                                Production.SetProductionLocation(Location);
-                                Production.FPriority = FMovePointPriority * Location.FMovePoints + Priority;
-                                Production.FResearch = false;
-                                Production.FProductionTime = Location.FProductionControl.UnitProductionTime(I);
-                                FProduceableUnits.AddChild(Production);
-                                Production.Release();
-                                NewUnit.Release();
-                                Result = true;
+                                newUnit = new Unit(null);
+                                var fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(I);
+                                newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(fUnitProductionsItem.UnitIndex));
+                                production = new AIGroupUnitProduction(null);
+                                production.SetU(newUnit);
+                                production.Gold = location.ProductionControl.UnitProductionGold(I);
+                                production.Mana = location.ProductionControl.UnitProductionMana(I);
+                                production.GoldUpkeep = location.ProductionControl.UnitProductionGoldUpkeep(I);
+                                production.ManaUpkeep = location.ProductionControl.UnitProductionManaUpkeep(I);
+                                production.SetProductionLocation(location);
+                                production.Priority = MovePointPriority * location.MovePoints + priority;
+                                production.Research = false;
+                                production.ProductionTime = location.ProductionControl.UnitProductionTime(I);
+                                ProducibleUnits.AddChild(production);
+                                production.Release();
+                                newUnit.Release();
+                                result = true;
                             }
                         }
                     }
                     else
                     {
-                        if (FAllowResearch)
+                        if (AllowResearch)
                         {
-                            var unitResearchMana = Location.FProductionControl.UnitResearchMana(I);
-                            var unitResearchGold = Location.FProductionControl.UnitResearchGold(I);
-                            if (AoWHSMap.Current.FPlayers.GetPlayers(FControl.FGroup.FPlayer).FAIBudget.RequestProductionExpense(unitResearchGold + FGold, FGoldUpkeep, unitResearchMana + FMana, FManaUpkeep))
+                            var unitResearchMana = location.ProductionControl.UnitResearchMana(I);
+                            var unitResearchGold = location.ProductionControl.UnitResearchGold(I);
+                            if (AoWHSMap.Current.Players.GetPlayers(Control.Group.Player).AIBudget.RequestProductionExpense(unitResearchGold + Gold, GoldUpkeep, unitResearchMana + Mana, ManaUpkeep))
                             {
-                                var item = Location.FProductionControl.FUnitProductions.GetItem(I);
-                                TestUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(item.FUnitIndex));
-                                Priority = UnitProductionPriority(TestUnit);
-                                if (Priority != -1)
+                                var item = location.ProductionControl.UnitProductions.GetItem(I);
+                                testUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(item.UnitIndex));
+                                priority = UnitProductionPriority(testUnit);
+                                if (priority != -1)
                                 {
-                                    NewUnit = new Unit(null);
-                                    var fUnitProductionsItem = Location.FProductionControl.FUnitProductions.GetItem(I);
-                                    NewUnit.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(fUnitProductionsItem.FUnitIndex));
-                                    Production = new AIGroupUnitProduction(null);
-                                    Production.SetU(NewUnit);
-                                    Production.FGold = Location.FProductionControl.UnitResearchGold(I);
-                                    Production.FMana = Location.FProductionControl.UnitResearchMana(I);
-                                    Production.FGoldUpkeep = Location.FProductionControl.UnitProductionGoldUpkeep(I);
-                                    Production.FManaUpkeep = Location.FProductionControl.UnitProductionManaUpkeep(I);
-                                    Production.SetProductionLocation(Location);
-                                    Production.FPriority = FMovePointPriority * Location.FMovePoints + Priority + FResearchPriority;
-                                    Production.FResearch = true;
-                                    FProduceableUnits.AddChild(Production);
-                                    Production.Release();
-                                    NewUnit.Release();
-                                    Result = true;
+                                    newUnit = new Unit(null);
+                                    var fUnitProductionsItem = location.ProductionControl.UnitProductions.GetItem(I);
+                                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(fUnitProductionsItem.UnitIndex));
+                                    production = new AIGroupUnitProduction(null);
+                                    production.SetU(newUnit);
+                                    production.Gold = location.ProductionControl.UnitResearchGold(I);
+                                    production.Mana = location.ProductionControl.UnitResearchMana(I);
+                                    production.GoldUpkeep = location.ProductionControl.UnitProductionGoldUpkeep(I);
+                                    production.ManaUpkeep = location.ProductionControl.UnitProductionManaUpkeep(I);
+                                    production.SetProductionLocation(location);
+                                    production.Priority = MovePointPriority * location.MovePoints + priority + ResearchPriority;
+                                    production.Research = true;
+                                    ProducibleUnits.AddChild(production);
+                                    production.Release();
+                                    newUnit.Release();
+                                    result = true;
                                 }
                             }
                         }
@@ -504,55 +504,55 @@ public partial class AIGroupProductionControl : AIGroupTask
                 }
             }
 
-            TestUnit?.Dispose();
+            testUnit?.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2743
-    public bool ValidProductionLocation(AIGroupProductionLocation Location)
+    public bool ValidProductionLocation(AIGroupProductionLocation location)
     {
-        bool Result;
-        if (Location.FPathStrength != 0)
+        bool result;
+        if (location.PathStrength != 0)
         {
-            Result = FControl.FGroup.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)Location.FPathStrength * FPathStrengthFactor) || FControl.FGroup.GetMovePointsMin() >= Location.FMovePoints;
+            result = Control.Group.GetStrengthMax(AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)location.PathStrength * PathStrengthFactor) || Control.Group.GetMovePointsMin() >= location.MovePoints;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:2761
-    public void UpdateProduceableUnits()
+    public void UpdateProducibleUnits()
     {
-        FProduceableUnits.Clear();
-        for (int I = 0, last = FControl.FProductionLocations.Count - 1; I <= last; I++)
+        ProducibleUnits.Clear();
+        for (int I = 0, last = Control.ProductionLocations.Count - 1; I <= last; I++)
         {
-            if (ValidProductionLocation(FControl.FProductionLocations.GetProductionLocation(I)))
+            if (ValidProductionLocation(Control.ProductionLocations.GetProductionLocation(I)))
             {
-                ListProduceableUnits(FControl.FProductionLocations.GetProductionLocation(I));
+                ListProducibleUnits(Control.ProductionLocations.GetProductionLocation(I));
             }
         }
 
-        FProduceableUnits.FChildren.Sort(CompareProduceableUnits);
+        ProducibleUnits._children.Sort(CompareProducibleUnits);
     }
 
-    private static int CompareProduceableUnits(object Item1, object Item2)
+    private static int CompareProducibleUnits(object item1, object item2)
     {
-        return ((AIGroupUnitProduction)Item2).FPriority - ((AIGroupUnitProduction)Item1).FPriority;
-    }
-
-    public enum Mode : byte
-    {
-        None = 0, AutoProduce = 1, CompleteProduceOnly = 2
+        return ((AIGroupUnitProduction)item2).Priority - ((AIGroupUnitProduction)item1).Priority;
     }
 
     // intf_P5_07.inc:537
 
     // intf_P5_07.inc:537
 
+}
+
+public enum AIGroupProductionControlMode : byte
+{
+    None = 0, AutoProduce = 1, CompleteProduceOnly = 2
 }

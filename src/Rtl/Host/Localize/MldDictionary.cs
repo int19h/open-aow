@@ -17,10 +17,10 @@ public sealed record MldInfo(int Offset, string Description, string Owner,
 
 public sealed class MldDictionary
 {
-    private MldEntry[] sorted = [];
-    private MldEntry[] contextual = [];
-    private string? fileName;
-    private int language = 1;
+    private MldEntry[] _sorted = [];
+    private MldEntry[] _contextual = [];
+    private string? _fileName;
+    private int _language = 1;
 
     public int Version { get; private set; }
     public int ByteOrder { get; private set; }
@@ -32,7 +32,7 @@ public sealed class MldDictionary
     public ReadOnlyCollection<MldEntry> Entries { get; private set; } = Array.AsReadOnly<MldEntry>([]);
     public MldInfo? Info { get; private set; }
     public bool IsOpen { get; private set; }
-    public int Language => language;
+    public int Language => _language;
 
     public void Open(string path)
     {
@@ -40,7 +40,7 @@ public sealed class MldDictionary
         if (!RtlUnit.Files.FileExists(path)) return;
         using var stream = RtlUnit.Files.Open(path, RtlUnit.fmOpenRead);
         Read(stream);
-        fileName = path;
+        _fileName = path;
     }
 
     public void Read(Stream stream)
@@ -61,11 +61,11 @@ public sealed class MldDictionary
         reader.LittleEndian = ByteOrder != 0;
         reader.Ansi = CharacterSet != 0;
         reader.Position = 12;
-        int languageCount = reader.Word(), languageOffset = reader.Offset();
-        int entryCount = reader.Word(), entryOffset = reader.Offset();
-        int localeCount = reader.Word();
+        int languageCount = reader.UInt16(), languageOffset = reader.Offset();
+        int entryCount = reader.UInt16(), entryOffset = reader.Offset();
+        int localeCount = reader.UInt16();
         _ = reader.Offset();
-        int infoSize = reader.Word(), infoOffset = reader.Offset();
+        int infoSize = reader.UInt16(), infoOffset = reader.Offset();
         if (Version == 1) { infoSize = 0; infoOffset = 0; }
         if (languageCount == 0) throw new InvalidDataException("MLD has no native language");
         if (localeCount != 0) throw new InvalidDataException("MLD locale records are unsupported");
@@ -75,15 +75,15 @@ public sealed class MldDictionary
         for (int i = 0; i < languageCount; i++)
         {
             int start = reader.Position;
-            int? block = Version >= 3 ? reader.Word() : null;
-            int primary = reader.Word();
+            int? block = Version >= 3 ? reader.UInt16() : null;
+            int primary = reader.UInt16();
             var isoLanguage = Version >= 2 ? reader.Chars(2) : "";
-            int sub = reader.Word();
+            int sub = reader.UInt16();
             var country = Version >= 2 ? reader.Chars(2) : "";
             var allSubs = reader.Text();
             var countries = Version >= 2 ? reader.Text() : "";
-            int charset = Version >= 3 ? reader.Word() : 0;
-            int codePage = reader.Word();
+            int charset = Version >= 3 ? reader.UInt16() : 0;
+            int codePage = reader.UInt16();
             if (reader.Ansi && codePage is not (0 or 1252))
                 throw new InvalidDataException($"Unsupported MLD code page {codePage}");
             byte options = reader.Byte();
@@ -122,12 +122,12 @@ public sealed class MldDictionary
             reader.Seek(infoOffset);
             var description = reader.Text();
             var owner = reader.Text();
-            var users = RtlUnit.Strings(reader.Word());
+            var users = RtlUnit.Strings(reader.UInt16());
             for (int i = 0; i < users.Length; i++) users[i] = reader.Text();
             string? timestamp = null;
             if (Version >= 3)
             {
-                int day = reader.Byte(), month = reader.Byte(), year = reader.Word();
+                int day = reader.Byte(), month = reader.Byte(), year = reader.UInt16();
                 int hour = reader.Byte(), minute = reader.Byte(), second = reader.Byte();
                 timestamp = FormattableString.Invariant($"{year:D4}-{month:D2}-{day:D2}T{hour:D2}:{minute:D2}:{second:D2}");
             }
@@ -149,8 +149,8 @@ public sealed class MldDictionary
         FileSize = bytes.Length;
         ConsumedBytes = consumed;
         // OrderBy preserves on-disk order for equal keys.
-        sorted = entries.OrderBy(SortKey, Cp1252.Comparer).ToArray();
-        contextual = sorted;
+        _sorted = entries.OrderBy(SortKey, Cp1252.Comparer).ToArray();
+        _contextual = _sorted;
         IsOpen = true;
     }
 
@@ -160,21 +160,21 @@ public sealed class MldDictionary
     public string SortKey(MldEntry entry) => ContextCode == 0 ? entry.Native : Key(entry);
 
     /// <summary>The entries in the order the binary search reads them.</summary>
-    public ReadOnlyCollection<MldEntry> SortedEntries => Array.AsReadOnly(sorted);
+    public ReadOnlyCollection<MldEntry> SortedEntries => Array.AsReadOnly(_sorted);
 
     public void SetLanguage(int value)
     {
         if (value is < -1 or > 5) throw new ArgumentOutOfRangeException(nameof(value));
-        language = value == -1 ? LocalizationLanguage.Automatic() : value;
-        if (fileName is string path) Open(path);
+        _language = value == -1 ? LocalizationLanguage.Automatic() : value;
+        if (_fileName is string path) Open(path);
     }
 
     public void Close()
     {
-        fileName = null;
+        _fileName = null;
         IsOpen = false;
-        sorted = [];
-        contextual = [];
+        _sorted = [];
+        _contextual = [];
         Languages = Array.AsReadOnly<MldLanguage>([]);
         Entries = Array.AsReadOnly<MldEntry>([]);
         Info = null;
@@ -184,7 +184,7 @@ public sealed class MldDictionary
     private MldEntry? Find(string source)
     {
         var key = ContextCode == 0 ? source : source + "\u007F";
-        return Search(sorted, key, entry => ContextCode == 0 ? entry.Native : entry.Native + "\u007F");
+        return Search(_sorted, key, entry => ContextCode == 0 ? entry.Native : entry.Native + "\u007F");
     }
 
     private static MldEntry? Search(MldEntry[] entries, string key, Func<MldEntry, string> selector)
@@ -203,8 +203,8 @@ public sealed class MldDictionary
 
     private string Translation(string source, MldEntry? entry)
     {
-        if (entry is null || language == 0 || language > entry.Translations.Count) return source;
-        var translated = entry.Translations[language - 1];
+        if (entry is null || _language == 0 || _language > entry.Translations.Count) return source;
+        var translated = entry.Translations[_language - 1];
         return translated.Length == 0 ? source : translated;
     }
 
@@ -215,7 +215,7 @@ public sealed class MldDictionary
         if (source.Length == 0 || ContextCode == 0) return Translate(source);
         var key = source + "\u007F" + (ContextCode is 1 or 3 ? form : "")
             + (ContextCode is 1 or 2 ? component : "");
-        return Translation(source, Search(contextual, key, Key) ?? Find(source));
+        return Translation(source, Search(_contextual, key, Key) ?? Find(source));
     }
 
     private sealed class Reader(byte[] data)
@@ -241,7 +241,7 @@ public sealed class MldDictionary
         }
 
         public byte Byte() => Take(1)[0];
-        public int Word() => LittleEndian ? BinaryPrimitives.ReadUInt16LittleEndian(Take(2)) : BinaryPrimitives.ReadUInt16BigEndian(Take(2));
+        public int UInt16() => LittleEndian ? BinaryPrimitives.ReadUInt16LittleEndian(Take(2)) : BinaryPrimitives.ReadUInt16BigEndian(Take(2));
 
         public int Offset()
         {
@@ -250,7 +250,7 @@ public sealed class MldDictionary
             return (int)offset;
         }
 
-        public string Text() => Chars(Word());
+        public string Text() => Chars(UInt16());
 
         public string Chars(int count)
         {

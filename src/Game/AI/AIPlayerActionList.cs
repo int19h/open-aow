@@ -10,10 +10,10 @@ public partial class AIPlayerActionList : ENode
     { }
 
     // AI.pas:26
-    public AIPlayerAction GetActions(int Index) => (AIPlayerAction)FChildren.List[Index];
+    public AIPlayerAction GetActions(int index) => (AIPlayerAction)_children.List[index];
 
     // AI.pas:31
-    public int IndexOf(AIPlayerAction Action) => FChildren.IndexOf(Action);
+    public int IndexOf(AIPlayerAction action) => _children.IndexOf(action);
 
     // Engine.pas:631
 

@@ -17,172 +17,172 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-// FName. FRace. FChampion. FNickname. unit statistics. FAbilities[rank]. FTransportCapacity.
-// FDescription. FObtainValue. size. blood
+// Name. Race. Champion. Nickname. unit statistics. Abilities[rank]. TransportCapacity.
+// Description. ObtainValue. size. blood
 public partial class UnitResource : TroopResource
 {
-    public new const int ClassID = 131602;
+    public new const int ClassId = 131602;
 
     // UnitRes.PAS:73
     public UnitResource(ECustomNode owner) : base(owner)
     {
-        Unit.Rank Rank;
+        Unit.Rank rank;
 
-        FDescription = new StringList();
+        Description = new StringList();
         for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
         {
-            Rank = (Unit.Rank)rankOrdinal;
+            rank = (Unit.Rank)rankOrdinal;
             var unitResourceAbilityOwner = new UnitResourceAbilityOwner(null);
-            FAbilities[(int)Rank] = unitResourceAbilityOwner;
+            Abilities[(int)rank] = unitResourceAbilityOwner;
         }
 
-        FMoves = 16;
-        FHits = 5;
-        FAttack = 3;
-        FDefense = 3;
-        FResistance = 3;
-        FDamage = 3;
-        FUnitSize = UnitSize.Medium;
-        FBloodType = BloodType.Red;
+        Moves = 16;
+        Hits = 5;
+        Attack = 3;
+        Defense = 3;
+        Resistance = 3;
+        Damage = 3;
+        UnitSize = UnitSize.Medium;
+        BloodType = BloodType.Red;
     }
 
-    public string FName = "";
-    public sbyte FRace;
-    public bool FChampion;
-    public string FNickname = "";
-    public Alignment FAlignment;
-    public sbyte FAttack;
-    public sbyte FDefense;
-    public sbyte FDamage;
-    public sbyte FHits;
-    public sbyte FMoves;
-    public sbyte FResistance;
-    public sbyte FLevel;
-    public UnitType FUnitType;
-    public UnitGender FGender;
-    public AbilityOwnerArray3 FAbilities;
-    public byte FTransportCapacity;
-    public StringList FDescription;
-    public int FObtainValue;
-    public UnitSize FUnitSize;
-    public BloodType FBloodType;
+    public string Name = "";
+    public sbyte Race;
+    public bool Champion;
+    public string Nickname = "";
+    public Alignment Alignment;
+    public sbyte Attack;
+    public sbyte Defense;
+    public sbyte Damage;
+    public sbyte Hits;
+    public sbyte Moves;
+    public sbyte Resistance;
+    public sbyte Level;
+    public UnitType UnitType;
+    public UnitGender Gender;
+    public AbilityOwnerArray3 Abilities;
+    public byte TransportCapacity;
+    public StringList Description;
+    public int ObtainValue;
+    public UnitSize UnitSize;
+    public BloodType BloodType;
 
     // UnitRes.PAS:92
     public override void Dispose()
     {
-        Unit.Rank Rank;
-        FDescription?.Dispose();
+        Unit.Rank rank;
+        Description?.Dispose();
         for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
         {
-            Rank = (Unit.Rank)rankOrdinal;
-            FAbilities[(int)Rank]?.Dispose();
+            rank = (Unit.Rank)rankOrdinal;
+            Abilities[(int)rank]?.Dispose();
         }
 
         base.Dispose();
     }
 
     // UnitRes.PAS:156
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        Unit.Rank Rank;
-        base.ReadWrite(Stream);
-        Stream.rwString(ref FName, 10);
-        Stream.rwString(ref FNickname, 11);
-        Stream.rwData(Bytes.Of(ref FAlignment, 1), 1, 12);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FRace), 13);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FAttack), 14);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDefense), 15);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDamage), 16);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FHits), 17);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FMoves), 18);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FResistance), 19);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FLevel), 20);
-        Stream.rwData(Bytes.Of(ref FUnitType, 1), 1, 21);
-        Stream.rwData(Bytes.Of(ref FChampion, 1), 1, 22);
-        Stream.rwData(Bytes.Of(ref FGender, 1), 1, 23);
-        Stream.rwByte(ref FTransportCapacity, 24);
-        Stream.rwEObject(FAbilities[(int)Unit.Rank.None], 25);
-        Stream.rwStrings(FDescription, 26);
-        Stream.rwInteger(ref FObtainValue, 27);
-        Stream.rwData(Bytes.Of(ref FUnitSize, 1), 1, 28);
-        Stream.rwData(Bytes.Of(ref FBloodType, 1), 1, 29);
-        Stream.rwEObject(FAbilities[(int)Unit.Rank.Silver], 30);
-        Stream.rwEObject(FAbilities[(int)Unit.Rank.Gold], 31);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        Unit.Rank rank;
+        base.ReadWrite(stream);
+        stream.rwString(ref Name, 10);
+        stream.rwString(ref Nickname, 11);
+        stream.rwData(Bytes.Of(ref Alignment, 1), 1, 12);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 13);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Attack), 14);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Defense), 15);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Damage), 16);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Hits), 17);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Moves), 18);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Resistance), 19);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Level), 20);
+        stream.rwData(Bytes.Of(ref UnitType, 1), 1, 21);
+        stream.rwData(Bytes.Of(ref Champion, 1), 1, 22);
+        stream.rwData(Bytes.Of(ref Gender, 1), 1, 23);
+        stream.rwByte(ref TransportCapacity, 24);
+        stream.rwEObject(Abilities[(int)Unit.Rank.None], 25);
+        stream.rwStrings(Description, 26);
+        stream.rwInteger(ref ObtainValue, 27);
+        stream.rwData(Bytes.Of(ref UnitSize, 1), 1, 28);
+        stream.rwData(Bytes.Of(ref BloodType, 1), 1, 29);
+        stream.rwEObject(Abilities[(int)Unit.Rank.Silver], 30);
+        stream.rwEObject(Abilities[(int)Unit.Rank.Gold], 31);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
             {
-                Rank = (Unit.Rank)rankOrdinal;
-                FAbilities[(int)Rank].ValidateOwnerTypeAbilities();
+                rank = (Unit.Rank)rankOrdinal;
+                Abilities[(int)rank].ValidateOwnerTypeAbilities();
             }
         }
     }
 
     // UnitRes.PAS:130
-    public override int ResourceUserClassID() => 131604;
+    public override int ResourceUserClassId() => 131604;
 
     // UnitRes.PAS:134
     public override EngineObject CreateResourceUser()
     {
-        EngineObject Result = base.CreateResourceUser();
-        if (Result != null)
+        EngineObject result = base.CreateResourceUser();
+        if (result != null)
         {
-            ((UnitHexSprite)Result).SetUnitGFXResourceIndex(FUnitGFXResourceIndex);
+            ((UnitHexSprite)result).SetUnitGraphicsResourceIndex(UnitGraphicsResourceIndex);
         }
 
-        return Result;
+        return result;
     }
 
     // UnitRes.PAS:188
-    public override bool DropUnit(int Xhx, int Yhx, int Lhx)
+    public override bool DropUnit(int hexX, int hexY, int hexLevel)
     {
-        sbyte Player;
-        Unit AUnit;
+        sbyte player;
+        Unit unit;
         if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            Player = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx)).GetPlayer();
-            if (Player == -1)
+            player = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel)).GetPlayer();
+            if (player == -1)
             {
-                Player = AoWHSMap.Current.FEditorPlayer;
+                player = AoWHSMap.Current.EditorPlayer;
             }
         }
         else
         {
-            Player = -1;
+            player = -1;
         }
 
-        AUnit = new Unit(null);
-        AUnit.SetUnitResource(this);
-        bool Result = AUnit.Place(Xhx, Yhx, Lhx, Player, Set<UnitPlaceModeElement>.Of()) != null;
-        AUnit.Release();
-        return Result;
+        unit = new Unit(null);
+        unit.SetUnitResource(this);
+        bool result = unit.Place(hexX, hexY, hexLevel, player, Set<UnitPlaceModeElement>.Of()) != null;
+        unit.Release();
+        return result;
     }
 
     // UnitRes.PAS:122
-    public override int GetObtainValue() => FObtainValue;
+    public override int GetObtainValue() => ObtainValue;
 
     // UnitRes.PAS:102
-    public Set<MoveType> GetMoveTypes() => FAbilities[(int)Unit.Rank.None].GetAbMoveTypesAll();
+    public Set<MoveType> GetMoveTypes() => Abilities[(int)Unit.Rank.None].GetAbilityMoveTypesAll();
 
     // UnitRes.PAS:111
     public byte GetTransportCapacity()
     {
-        byte Result = (byte)AoWHSSet.Current.FAbilityControl.GetAbility(50).GetLevel(FAbilities[(int)Unit.Rank.None]);
-        if (Result < FTransportCapacity)
+        byte result = (byte)AoWHSSet.Current.AbilityControl.GetAbility(50).GetLevel(Abilities[(int)Unit.Rank.None]);
+        if (result < TransportCapacity)
         {
-            Result = FTransportCapacity;
+            result = TransportCapacity;
         }
 
-        return Result;
+        return result;
     }
 
     // UnitRes.PAS:118
-    public sbyte GetUpkeep() => (sbyte)(FLevel + 1);
+    public sbyte GetUpkeep() => (sbyte)(Level + 1);
 
     // UnitRes.PAS:126
-    public void SetDescription(StringCollection Value)
+    public void SetDescription(StringCollection value)
     {
-        FDescription.Assign(Value);
+        Description.Assign(value);
     }
 
     // UnitRes.PAS:141
@@ -191,13 +191,13 @@ public partial class UnitResource : TroopResource
     // UnitRes.PAS:149
     public string GetUnitName()
     {
-        string Result = FName;
-        if (!IsEmpty(FNickname))
+        string result = Name;
+        if (!IsEmpty(Nickname))
         {
-            Result = Result + " " + FNickname;
+            result = result + " " + Nickname;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P2_05.inc:243

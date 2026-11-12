@@ -21,138 +21,138 @@ public partial class CheatTokenEvent : TokenEvent
     public CheatTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131829;
+    public new const int ClassId = 131829;
 
-    public sbyte FPlayer;
-    public int FCheatID;
+    public sbyte Player;
+    public int CheatId;
 
     // MoveT.PAS:3460
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 20);
-        Stream.rwInteger(ref FCheatID, 21);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 20);
+        stream.rwInteger(ref CheatId, 21);
     }
 
     // MoveT.PAS:3467
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        base.Execute(TE);
-        switch (FCheatID)
+        base.Execute(tokenEvent);
+        switch (CheatId)
         {
             case 0:
                 {
-                    for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        var players = AoWHSMap.Current.FPlayers.GetPlayers(I);
-                        AoWHSMap.Current.FPlayers.GetPlayers(I).SetGems(players.FGems + 1000);
+                        var players = AoWHSMap.Current.Players.GetPlayers(I);
+                        AoWHSMap.Current.Players.GetPlayers(I).SetGems(players.Gems + 1000);
                     }
                 }
 
                 break;
             case 1:
                 {
-                    for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        var players = AoWHSMap.Current.FPlayers.GetPlayers(I);
-                        AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.SetMana(players.FMagicControl.FMana + 1000);
+                        var players = AoWHSMap.Current.Players.GetPlayers(I);
+                        AoWHSMap.Current.Players.GetPlayers(I).MagicControl.SetMana(players.MagicControl.Mana + 1000);
                     }
                 }
 
                 break;
             case 2:
-                AoWHSMap.Current.SetExplorationEnabled(!AoWHSMap.Current.FExplorationEnabled);
-                if (AoWHSMap.Current.FExplorationEnabled)
+                AoWHSMap.Current.SetExplorationEnabled(!AoWHSMap.Current.ExplorationEnabled);
+                if (AoWHSMap.Current.ExplorationEnabled)
                 {
-                    var p5ExplorationEnabled = AbilityRules.TranslateRStr(P5ExplorationEnabledRStr);
-                    AoWHSMap.Current.ShowMessage(p5ExplorationEnabled);
+                    var explorationEnabled = AbilityRules.TranslateResourceString(s_explorationEnabledText);
+                    AoWHSMap.Current.ShowMessage(explorationEnabled);
                 }
                 else
                 {
-                    var p5ExplorationDisabled = AbilityRules.TranslateRStr(P5ExplorationDisabledRStr);
-                    AoWHSMap.Current.ShowMessage(p5ExplorationDisabled);
+                    var explorationDisabled = AbilityRules.TranslateResourceString(s_explorationDisabledText);
+                    AoWHSMap.Current.ShowMessage(explorationDisabled);
                 }
 
                 break;
             case 3:
-                AoWHSMap.Current.SetFogEnabled(!AoWHSMap.Current.FFogEnabled);
-                if (AoWHSMap.Current.FFogEnabled)
+                AoWHSMap.Current.SetFogEnabled(!AoWHSMap.Current.FogEnabled);
+                if (AoWHSMap.Current.FogEnabled)
                 {
-                    var p5FogEnabled = AbilityRules.TranslateRStr(P5FogEnabledRStr);
-                    AoWHSMap.Current.ShowMessage(p5FogEnabled);
+                    var fogEnabled = AbilityRules.TranslateResourceString(s_fogEnabledText);
+                    AoWHSMap.Current.ShowMessage(fogEnabled);
                 }
                 else
                 {
-                    var p5FogDisabled = AbilityRules.TranslateRStr(P5FogDisabledRStr);
-                    AoWHSMap.Current.ShowMessage(p5FogDisabled);
+                    var fogDisabled = AbilityRules.TranslateResourceString(s_fogDisabledText);
+                    AoWHSMap.Current.ShowMessage(fogDisabled);
                 }
 
                 break;
             case 4:
-                var cheatEnabled = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled();
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FCheatEnabled = !cheatEnabled;
-                if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled())
+                var cheatEnabled = AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
+                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.CheatEnabled = !cheatEnabled;
+                if (AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
                 {
-                    var p5SpellCheatEnabled = AbilityRules.TranslateRStr(P5SpellCheatEnabledRStr);
-                    AoWHSMap.Current.ShowMessage(p5SpellCheatEnabled);
+                    var spellCheatEnabled = AbilityRules.TranslateResourceString(s_spellCheatEnabledText);
+                    AoWHSMap.Current.ShowMessage(spellCheatEnabled);
                 }
                 else
                 {
-                    var p5SpellCheatDisabled = AbilityRules.TranslateRStr(P5SpellCheatDisabledRStr);
-                    AoWHSMap.Current.ShowMessage(p5SpellCheatDisabled);
+                    var spellCheatDisabled = AbilityRules.TranslateResourceString(s_spellCheatDisabledText);
+                    AoWHSMap.Current.ShowMessage(spellCheatDisabled);
                 }
 
                 {
-                    for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        var fMagicControlCheatEnabled = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled();
-                        AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.FCheatEnabled = fMagicControlCheatEnabled;
+                        var fMagicControlCheatEnabled = AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled();
+                        AoWHSMap.Current.Players.GetPlayers(I).MagicControl.CheatEnabled = fMagicControlCheatEnabled;
                     }
                 }
 
                 break;
             case 5:
-                AoWHSMap.Current.FPlayerControl.GameOver(FPlayer, GameOverStatus.Won);
+                AoWHSMap.Current.PlayerControl.GameOver(Player, GameOverStatus.Won);
                 break;
             case 6:
-                AoWHSMap.Current.FUnlimitedMoves = !AoWHSMap.Current.FUnlimitedMoves;
-                if (AoWHSMap.Current.FUnlimitedMoves)
+                AoWHSMap.Current.UnlimitedMoves = !AoWHSMap.Current.UnlimitedMoves;
+                if (AoWHSMap.Current.UnlimitedMoves)
                 {
-                    var p5FreeMovementEnabled = AbilityRules.TranslateRStr(P5FreeMovementEnabledRStr);
-                    AoWHSMap.Current.ShowMessage(p5FreeMovementEnabled);
+                    var freeMovementEnabled = AbilityRules.TranslateResourceString(s_freeMovementEnabledText);
+                    AoWHSMap.Current.ShowMessage(freeMovementEnabled);
                 }
                 else
                 {
-                    var p5FreeMovementDisabled = AbilityRules.TranslateRStr(P5FreeMovementDisabledRStr);
-                    AoWHSMap.Current.ShowMessage(p5FreeMovementDisabled);
+                    var freeMovementDisabled = AbilityRules.TranslateResourceString(s_freeMovementDisabledText);
+                    AoWHSMap.Current.ShowMessage(freeMovementDisabled);
                 }
 
                 break;
             case 7:
                 {
-                    for (int I = AoWHSMap.Current.FPlayers.GetPlayers(0).FStructures.Count - 1; I >= 0; I--)
+                    for (int I = AoWHSMap.Current.Players.GetPlayers(0).Structures.Count - 1; I >= 0; I--)
                     {
-                        if (AoWHSMap.Current.FPlayers.GetPlayers(0).FStructures.GetStructure(I).EClass.ClassID == 131336)
+                        if (AoWHSMap.Current.Players.GetPlayers(0).Structures.GetStructure(I).EngineClass.ClassId == 131336)
                         {
-                            AoWHSMap.Current.FPlayers.GetPlayers(0).FStructures.GetStructure(I).SetPlayer(FPlayer);
+                            AoWHSMap.Current.Players.GetPlayers(0).Structures.GetStructure(I).SetPlayer(Player);
                         }
                     }
                 }
 
                 break;
             case 8:
-                AoWHSMap.Current.FPlayerControl.GameOver(FPlayer, GameOverStatus.Lost);
+                AoWHSMap.Current.PlayerControl.GameOver(Player, GameOverStatus.Lost);
                 break;
             case 9:
                 {
-                    for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.FSpells.Clear();
-                        for (int J = 1, lastJ = AoWHSSet.Current.FSpellControl.GetCount() - 1; J <= lastJ; J++)
+                        AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Spells.Clear();
+                        for (int J = 1, lastJ = AoWHSSet.Current.SpellControl.GetCount() - 1; J <= lastJ; J++)
                         {
-                            if (AoWHSSet.Current.FSpellControl.GetSpell(J) != null)
+                            if (AoWHSSet.Current.SpellControl.GetSpell(J) != null)
                             {
-                                AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.FSpells.Add(J);
+                                AoWHSMap.Current.Players.GetPlayers(I).MagicControl.Spells.Add(J);
                             }
                         }
                     }
@@ -165,14 +165,14 @@ public partial class CheatTokenEvent : TokenEvent
         return ExecuteResult.Done;
     }
 
-    private static readonly string P5ExplorationEnabledRStr = "Exploration Enabled";
-    private static readonly string P5ExplorationDisabledRStr = "Exploration Disabled";
-    private static readonly string P5FogEnabledRStr = "Fog Enabled";
-    private static readonly string P5FogDisabledRStr = "Fog Disabled";
-    private static readonly string P5SpellCheatEnabledRStr = "All spells enabled";
-    private static readonly string P5SpellCheatDisabledRStr = "All spells disabled";
-    private static readonly string P5FreeMovementEnabledRStr = "Free movement enabled";
-    private static readonly string P5FreeMovementDisabledRStr = "Free movement disabled";
+    private static readonly string s_explorationEnabledText = "Exploration Enabled";
+    private static readonly string s_explorationDisabledText = "Exploration Disabled";
+    private static readonly string s_fogEnabledText = "Fog Enabled";
+    private static readonly string s_fogDisabledText = "Fog Disabled";
+    private static readonly string s_spellCheatEnabledText = "All spells enabled";
+    private static readonly string s_spellCheatDisabledText = "All spells disabled";
+    private static readonly string s_freeMovementEnabledText = "Free movement enabled";
+    private static readonly string s_freeMovementDisabledText = "Free movement disabled";
 
     // NetworkE.pas:230
 

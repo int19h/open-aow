@@ -15,7 +15,7 @@ public struct HexNumberWalkData
     [FieldOffset(4)]
     public int Step;
     [FieldOffset(8)]
-    public int HN;
+    public int HexNumber;
     [FieldOffset(12)]
     public int Radius;
     [FieldOffset(16)]
@@ -27,16 +27,16 @@ public struct HexNumberWalkData
     [FieldOffset(28)]
     public int CenterY;
 
-    internal static void WalkToNextHN(ref HexNumberWalkData walk)
+    internal static void WalkToNextHexNumber(ref HexNumberWalkData walk)
     {
-        walk.HN = walk.HN + 1;
+        walk.HexNumber = walk.HexNumber + 1;
         int parity = walk.X & 1;
         int side = walk.Side;
         walk.Step = walk.Step + 1;
         if (walk.Step < walk.Radius || side != 5)
         {
-            walk.X = walk.X + HexGeometry.HNWalkTable[parity][side].X;
-            walk.Y = walk.Y + HexGeometry.HNWalkTable[parity][side].Y;
+            walk.X = walk.X + HexGeometry.s_hexNumberWalkTable[parity][side].X;
+            walk.Y = walk.Y + HexGeometry.s_hexNumberWalkTable[parity][side].Y;
             if (walk.Step >= walk.Radius)
             {
                 walk.Side = side + 1;
@@ -53,25 +53,25 @@ public struct HexNumberWalkData
         }
     }
 
-    internal static void InitHNWalk(ref HexNumberWalkData Walk, int Xhx, int Yhx, int Radius)
+    internal static void InitializeHexNumberWalk(ref HexNumberWalkData walk, int hexX, int hexY, int radius)
     {
-        if (Radius == 0)
+        if (radius == 0)
         {
-            Walk.HN = 0;
-            Walk.Side = 5;
+            walk.HexNumber = 0;
+            walk.Side = 5;
         }
         else
         {
-            Walk.HN = (Radius - 1) * Radius * 3 + 1;
-            Walk.Side = 0;
+            walk.HexNumber = (radius - 1) * radius * 3 + 1;
+            walk.Side = 0;
         }
 
-        Walk.CenterX = Xhx;
-        Walk.CenterY = Yhx;
-        Walk.Radius = Radius;
-        Walk.X = Xhx;
-        Walk.Y = Yhx - Radius;
-        Walk.Step = 0;
+        walk.CenterX = hexX;
+        walk.CenterY = hexY;
+        walk.Radius = radius;
+        walk.X = hexX;
+        walk.Y = hexY - radius;
+        walk.Step = 0;
     }
 
 }

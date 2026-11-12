@@ -16,34 +16,34 @@ public partial class AIGroupTask : EngineObject
     // AIGroup.pas:1354
     public AIGroupTask(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
-        FState = -1;
+        RefCount = 1;
+        State = -1;
     }
 
-    public int FRefCount;
-    public int FProcessCycles;
-    public AIGroupControl FGroupControl;
-    public Set<AIGroupTaskStatusElement> FStatus;
-    public int FState;
+    public int RefCount;
+    public int ProcessCycles;
+    public AIGroupControl GroupControl;
+    public Set<AIGroupTaskStatusElement> Status;
+    public int State;
 
     // AIGroup.pas:1361
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // AIGroup.pas:1367
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (FRefCount == 0)
+        RefCount -= 1;
+        int result = RefCount;
+        if (RefCount == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:1374
@@ -52,22 +52,22 @@ public partial class AIGroupTask : EngineObject
     }
 
     // AIGroup.pas:1383
-    public virtual bool GetBusy() => FStatus.Contains(AIGroupTaskStatusElement.Activated) && FState != -1;
+    public virtual bool GetBusy() => Status.Contains(AIGroupTaskStatusElement.Activated) && State != -1;
 
     // AIGroup.pas:1388
-    public virtual bool Activate(AIGroupControl Control)
+    public virtual bool Activate(AIGroupControl control)
     {
-        FProcessCycles = 0;
-        FGroupControl = Control;
-        FStatus = FStatus + Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
-        FState = 0;
+        ProcessCycles = 0;
+        GroupControl = control;
+        Status = Status + Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
+        State = 0;
         return true;
     }
 
     // AIGroup.pas:1397
     public virtual void Deactivate()
     {
-        FStatus = FStatus - Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
+        Status = Status - Set<AIGroupTaskStatusElement>.Of(AIGroupTaskStatusElement.Activated);
     }
 
     // AIGroup.pas:1402
@@ -80,32 +80,32 @@ public partial class AIGroupTask : EngineObject
     // AIGroup.pas:1378
     public void Done()
     {
-        FState = -1;
+        State = -1;
     }
 
     // AIGroup.pas:1408
     public bool MainProcess()
     {
-        bool Busy;
+        bool busy;
         int I;
         try
         {
-            FProcessCycles += 1;
+            ProcessCycles += 1;
             Validate();
-            Busy = false;
+            busy = false;
             I = 0;
-            while (!Busy && FState != -1 && (I == 0 || AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 0))
+            while (!busy && State != -1 && (I == 0 || AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0))
             {
                 I += 1;
-                Busy = Process();
+                busy = Process();
             }
         }
         catch
         {
-            throw new InvalidOperationException(this.GetType().Name + " exception during state (" + IntToStr(FState) + ")");
+            throw new InvalidOperationException(this.GetType().Name + " exception during state (" + IntToStr(State) + ")");
         }
 
-        return FState != -1;
+        return State != -1;
     }
 
     // intf_P5_07.inc:218

@@ -14,78 +14,78 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Events;
 
 // { }
-// FLogbook
+// Logbook
 public partial class CombatEventLog : EventLog
 {
     public CombatEventLog(ECustomNode owner) : base(owner)
     { }
 
     // Combat2.pas:413
-    public new const int ClassID = 131810;
+    public new const int ClassId = 131810;
 
-    public CombatLogbook FLogbook;
+    public CombatLogbook Logbook;
 
     // Combat2.pas:405
     public override void Dispose()
     {
         CombatLogbook L;
-        L = FLogbook;
+        L = Logbook;
         if (L != null)
         {
             L.Release();
-            FLogbook = null;
+            Logbook = null;
         }
 
         base.Dispose();
     }
 
     // Combat2.pas:428
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwCreateEObject(ref FLogbook, null, 20);
+        base.ReadWrite(stream);
+        stream.rwCreateEObject(ref Logbook, null, 20);
     }
 
     // Combat2.pas:461
-    public override string GetText() => FLogbook.FFinalData.FHeader;
+    public override string GetText() => Logbook.FinalData.Header;
 
     // Combat2.pas:431
     public override int GetTextColor()
     {
-        int Result;
-        CombatData Data;
-        Data = FLogbook.FFinalData;
-        if (Data.FPlayers.GetPlayers(Data.FAttackerPlayer).FPlayer != 0)
+        int result;
+        CombatData data;
+        data = Logbook.FinalData;
+        if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
-            var players = Data.FPlayers.GetPlayers(Data.FAttackerPlayer);
-            var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(players.FPlayer);
-            Result = AbilityRules.RaceColors[fPlayersPlayers.FPlayerRace];
+            var players = data.Players.GetPlayers(data.AttackerPlayer);
+            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(players.Player);
+            result = AbilityRules.RaceColors[fPlayersPlayers.PlayerRace];
         }
         else
         {
-            Result = AbilityRules.RaceColors[12];
+            result = AbilityRules.RaceColors[12];
         }
 
-        return Result;
+        return result;
     }
 
     // Combat2.pas:440
     public override int GetLeftIcon()
     {
-        int Result;
-        CombatData Data;
-        Data = FLogbook.FFinalData;
-        if (Data.FPlayers.GetPlayers(Data.FAttackerPlayer).FPlayer != 0)
+        int result;
+        CombatData data;
+        data = Logbook.FinalData;
+        if (data.Players.GetPlayers(data.AttackerPlayer).Player != 0)
         {
-            var players = Data.FPlayers.GetPlayers(Data.FAttackerPlayer);
-            Result = AoWHSMap.Current.FPlayers.GetPlayers(players.FPlayer).FPlayerRace;
+            var players = data.Players.GetPlayers(data.AttackerPlayer);
+            result = AoWHSMap.Current.Players.GetPlayers(players.Player).PlayerRace;
         }
         else
         {
-            Result = 12;
+            result = 12;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat2.pas:449
@@ -94,26 +94,26 @@ public partial class CombatEventLog : EventLog
     // Combat2.pas:452
     public override int GetRightIcon()
     {
-        int Result;
-        CombatData Data;
-        Data = FLogbook.FFinalData;
-        if (Data.FPlayers.GetPlayers(Data.FDefenderPlayer).FPlayer != 0)
+        int result;
+        CombatData data;
+        data = Logbook.FinalData;
+        if (data.Players.GetPlayers(data.DefenderPlayer).Player != 0)
         {
-            var players = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-            Result = AoWHSMap.Current.FPlayers.GetPlayers(players.FPlayer).FPlayerRace;
+            var players = data.Players.GetPlayers(data.DefenderPlayer);
+            result = AoWHSMap.Current.Players.GetPlayers(players.Player).PlayerRace;
         }
         else
         {
-            Result = 12;
+            result = 12;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat2.pas:467
-    public override void PlayLoggedSFX(EventLogbook Logbook)
+    public override void PlayLoggedSfx(EventLogbook logbook)
     {
-        if (FLogbook.FInitialData.FPlayers.IndexOfPlayer((byte)AoWHSMap.Current.FSeatedPlayer) != -1)
+        if (Logbook.InitialData.Players.IndexOfPlayer((byte)AoWHSMap.Current.SeatedPlayer) != -1)
         {
             AudioPlayback.PlaySample("SFX\\EVENTS\\ROLL.WAV");
         }
@@ -124,73 +124,73 @@ public partial class CombatEventLog : EventLog
     }
 
     // Combat2.pas:474
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool ShowCombat = default;
-        CombatData Data = default;
-        bool Result = false;
-        switch (Trigger)
+        bool showCombat = default;
+        CombatData data = default;
+        bool result = false;
+        switch (trigger)
         {
             case ExecuteTrigger.User:
-                AoWHSMap.Current.TriggerExecuteEventLog(this, false, Done);
-                Result = true;
+                AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                result = true;
                 break;
             case ExecuteTrigger.Event:
             case ExecuteTrigger.NewTurn:
-                if (FLogbook.FInitialData.FPlayers.IndexOfPlayer((byte)AoWHSMap.Current.FSeatedPlayer) != -1)
+                if (Logbook.InitialData.Players.IndexOfPlayer((byte)AoWHSMap.Current.SeatedPlayer) != -1)
                 {
-                    Data = FLogbook.FInitialData;
-                    ShowCombat = Data.FPlayers.GetPlayers(Data.FAttackerPlayer).FPlayer == AoWHSMap.Current.FSeatedPlayer;
-                    ShowCombat = ShowCombat || AoWHSMap.Current.FRequestCombatType && AoWHSMap.Current.FConnectionType == PlayerConnectionType.Email && FLogbook.FInitialData.FPlayers.GetPlayers(FLogbook.FInitialData.FDefenderPlayer).FPlayer == AoWHSMap.Current.FSeatedPlayer;
-                    ShowCombat = ShowCombat || Trigger == ExecuteTrigger.Event && AoWHSMap.Current.FPlayMode == PlayMode.Turn && GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Combat);
-                    ShowCombat = ShowCombat || Trigger == ExecuteTrigger.Event && AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Combat);
-                    ShowCombat = ShowCombat && FLogbook.FCombatResult != CombatResult.NoDefenders;
+                    data = Logbook.InitialData;
+                    showCombat = data.Players.GetPlayers(data.AttackerPlayer).Player == AoWHSMap.Current.SeatedPlayer;
+                    showCombat = showCombat || AoWHSMap.Current.RequestCombatType && AoWHSMap.Current.ConnectionType == PlayerConnectionType.Email && Logbook.InitialData.Players.GetPlayers(Logbook.InitialData.DefenderPlayer).Player == AoWHSMap.Current.SeatedPlayer;
+                    showCombat = showCombat || trigger == ExecuteTrigger.Event && AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Combat);
+                    showCombat = showCombat || trigger == ExecuteTrigger.Event && AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Combat);
+                    showCombat = showCombat && Logbook.CombatResult != CombatResult.NoDefenders;
                 }
                 else
                 {
-                    ShowCombat = false;
+                    showCombat = false;
                 }
 
-                ShowCombat = ShowCombat || FLogbook.F_CombatLogbook_19;
-                if (ShowCombat)
+                showCombat = showCombat || Logbook.PlayerEliminated;
+                if (showCombat)
                 {
-                    AoWHSMap.Current.TriggerExecuteEventLog(this, false, Done);
-                    Result = true;
+                    AoWHSMap.Current.TriggerExecuteEventLog(this, false, done);
+                    result = true;
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
 
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // Combat2.pas:416
-    public void SetCombatLogbook(CombatLogbook Logbook)
+    public void SetCombatLogbook(CombatLogbook logbook)
     {
-        CombatLogbook Old;
-        Old = FLogbook;
-        if (Old != Logbook)
+        CombatLogbook old;
+        old = Logbook;
+        if (old != logbook)
         {
-            if (Old != null)
+            if (old != null)
             {
-                Old.Release();
+                old.Release();
             }
 
-            FLogbook = Logbook;
-            if (FLogbook != null)
+            Logbook = logbook;
+            if (Logbook != null)
             {
-                FLogbook.AddRef();
+                Logbook.AddRef();
             }
         }
     }
 
     public override void ViewLocation()
     {
-        var data = FLogbook.FFinalData;
-        CenterViewTo((sbyte)data.FX, (sbyte)data.FY, (sbyte)data.FL);
+        var data = Logbook.FinalData;
+        CenterViewTo((sbyte)data.X, (sbyte)data.Y, (sbyte)data.MapLevel);
     }
 }

@@ -11,27 +11,27 @@ namespace Aow.Game.Session;
 // day, relation
 public partial class DiplomaticRelationHistoryItem : EngineObject
 {
-    public new const int ClassID = 131354;
+    public new const int ClassId = 131354;
 
     public DiplomaticRelationHistoryItem(ECustomNode owner) : base(owner)
     { }
 
-    public int FDay;
-    public DiplomaticRelation FRelation;
+    public int Day;
+    public DiplomaticRelation Relation;
 
     // Player.PAS:33
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FDay, 20);
-        Stream.rwData(Bytes.Of(ref FRelation, 1), 1, 21);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Day, 20);
+        stream.rwData(Bytes.Of(ref Relation, 1), 1, 21);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("Day", ref FDay);
-        persister.Enum("Relation", ref FRelation);
+        persister.Int32("Day", ref Day);
+        persister.Enum("Relation", ref Relation);
     }
 
     // Engine.pas:524

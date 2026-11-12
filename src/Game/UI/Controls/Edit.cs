@@ -19,40 +19,40 @@ namespace Aow.Game.UI.Controls;
 // counted from FFirstChar). FRedraw is the input focus
 public partial class Edit : Control
 {
-    public int FMaxChars;
-    public byte FCursorChar;
-    public byte FPassWordChar;
-    public bool FCursorShown;
-    public int FBlinkDelay;
-    public int FBlinkCount;
-    public int FShownChars;
-    public int FFirstChar;
-    public bool FEditable;
-    public InterfaceImageLibrary FILEdit;
-    public NotifyEvent<Edit> FOnExit;
-    public NotifyEvent<Edit> FOnReturn;
-    public int FILIndex;
-    public int FCursorPos;
+    public int _maxChars;
+    public byte _cursorChar;
+    public byte _passWordChar;
+    public bool CursorShown;
+    public int _blinkDelay;
+    public int BlinkCount;
+    public int ShownChars;
+    public int FirstChar;
+    public bool _editable;
+    public InterfaceImageLibrary _imageLibraryEdit;
+    public NotifyEvent<Edit> _onExit;
+    public NotifyEvent<Edit> _onReturn;
+    public int _imageLibraryIndex;
+    public int CursorPosition;
 
     // AoWEdit.pas:79
     public Edit(Component owner) : base(owner)
     {
-        FCursorChar = 124;
-        FCursorShown = true;
-        FEditable = true;
+        _cursorChar = 124;
+        CursorShown = true;
+        _editable = true;
     }
 
     // AoWEdit.pas:87
     public override void Validate()
     {
-        if (FILEdit != null)
+        if (_imageLibraryEdit != null)
         {
-            FILEdit = FILEdit.CheckIL(FILIndex, 3, this);
+            _imageLibraryEdit = _imageLibraryEdit.CheckImageLibrary(_imageLibraryIndex, 3, this);
         }
 
-        if (FILEdit != null && FAOWFont != null)
+        if (_imageLibraryEdit != null && _font != null)
         {
-            FValid = true;
+            Valid = true;
         }
 
         base.Validate();
@@ -61,31 +61,31 @@ public partial class Edit : Control
     // AoWEdit.pas:96
     public override void SetSize()
     {
-        var ilEditWidth = FILEdit[FILIndex];
-        var ilEdit = FILEdit[FILIndex + 2];
-        if (ilEditWidth.Width + ilEdit.Width > FWinWidth)
+        var imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex];
+        var imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
+        if (imageLibraryEditWidth.Width + imageLibraryEdit.Width > _winWidth)
         {
-            var ilEdit2 = FILEdit[FILIndex];
-            var ilEdit3 = FILEdit[FILIndex + 2];
-            FWinWidth = ilEdit2.Width + ilEdit3.Width;
+            var imageLibraryEdit2 = _imageLibraryEdit[_imageLibraryIndex];
+            var imageLibraryEdit3 = _imageLibraryEdit[_imageLibraryIndex + 2];
+            _winWidth = imageLibraryEdit2.Width + imageLibraryEdit3.Width;
         }
 
-        FWinHeight = FILEdit[FILIndex].Height;
-        FFirstChar = 1;
-        if (FText.Length < FCursorPos)
+        _winHeight = _imageLibraryEdit[_imageLibraryIndex].Height;
+        FirstChar = 1;
+        if (_text.Length < CursorPosition)
         {
-            FCursorPos = FText.Length;
+            CursorPosition = _text.Length;
         }
 
-        if (FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length - FFirstChar)) > FWinWidth - 2 * FBorderWidth - 1)
+        if (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length - FirstChar)) > _winWidth - 2 * _borderWidth - 1)
         {
-            while (FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length)) > FWinWidth - 2 * FBorderWidth - 1)
+            while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > _winWidth - 2 * _borderWidth - 1)
             {
-                FFirstChar += 1;
+                FirstChar += 1;
             }
         }
 
-        FShownChars = FText.Length - FFirstChar + 1;
+        ShownChars = _text.Length - FirstChar + 1;
         base.SetSize();
     }
 
@@ -93,75 +93,75 @@ public partial class Edit : Control
     public override void Update()
     {
         base.Update();
-        if (FVisible && FEditable && FBlinkDelay > 0 && FRedraw == true)
+        if (_visible && _editable && _blinkDelay > 0 && Redraw == true)
         {
-            FBlinkCount += 1;
-            if (FBlinkCount > FBlinkDelay)
+            BlinkCount += 1;
+            if (BlinkCount > _blinkDelay)
             {
-                FDrawn = false;
-                FBlinkCount = 0;
-                if (FCursorShown == true)
+                Drawn = false;
+                BlinkCount = 0;
+                if (CursorShown == true)
                 {
-                    FCursorShown = false;
+                    CursorShown = false;
                 }
                 else
                 {
-                    FCursorShown = true;
+                    CursorShown = true;
                 }
             }
         }
     }
 
     // AoWEdit.pas:155
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
         string S = "";
-        Rect OldClip = default;
+        Rect oldClip = default;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                if (FOnPreDraw != null)
+                if (_onPreDraw != null)
                 {
-                    FOnPreDraw(this, SurfDesc);
+                    _onPreDraw(this, lockedSurface);
                 }
 
-                var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                FILEdit.DrawILLh(FILIndex, rect, ref SurfDesc);
-                OldClip = SurfDesc.ClipRect;
-                var ilEditWidth = FILEdit[FILIndex + 2];
-                if (FAOWWindow.FWinLeft + FWinLeft + FWinWidth - ilEditWidth.Width < OldClip.Right)
+                var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                _imageLibraryEdit.DrawHorizontalStrip(_imageLibraryIndex, rectangle, ref lockedSurface);
+                oldClip = lockedSurface.ClipRectangle;
+                var imageLibraryEditWidth = _imageLibraryEdit[_imageLibraryIndex + 2];
+                if (_window._winLeft + _winLeft + _winWidth - imageLibraryEditWidth.Width < oldClip.Right)
                 {
-                    var ilEdit = FILEdit[FILIndex + 2];
-                    SurfDesc.ClipRect.Right = FAOWWindow.FWinLeft + FWinLeft + FWinWidth - ilEdit.Width;
+                    var imageLibraryEdit = _imageLibraryEdit[_imageLibraryIndex + 2];
+                    lockedSurface.ClipRectangle.Right = _window._winLeft + _winLeft + _winWidth - imageLibraryEdit.Width;
                 }
 
-                FAOWFont.Color = FColor;
-                if (FPassWordChar == 0)
+                _font.Color = Color;
+                if (_passWordChar == 0)
                 {
-                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, Copy(FText, FFirstChar, FShownChars), SurfDesc);
+                    _font.SetText(_window._winLeft + _winLeft + _borderWidth, _window._winTop + _winTop + _borderHeight, Copy(_text, FirstChar, ShownChars), lockedSurface);
                 }
                 else
                 {
                     S = "";
-                    for (int I = 0, last = FShownChars - 1; I <= last; I++)
+                    for (int I = 0, last = ShownChars - 1; I <= last; I++)
                     {
-                        S = S + Cp1252.Text(FPassWordChar);
+                        S = S + Cp1252.Text(_passWordChar);
                     }
 
-                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, S, SurfDesc);
+                    _font.SetText(_window._winLeft + _winLeft + _borderWidth, _window._winTop + _winTop + _borderHeight, S, lockedSurface);
                 }
 
-                SurfDesc.ClipRect = OldClip;
-                if (FEditable && FRedraw == true && FCursorShown == true)
+                lockedSurface.ClipRectangle = oldClip;
+                if (_editable && Redraw == true && CursorShown == true)
                 {
-                    var textWidth = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FCursorPos));
-                    FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FBorderWidth + textWidth, FAOWWindow.FWinTop + FWinTop + FBorderHeight, Cp1252.Text(FCursorChar), SurfDesc);
+                    var textWidth = _font.GetTextWidth(Copy(_text, FirstChar, CursorPosition));
+                    _font.SetText(_window._winLeft + _winLeft + _borderWidth + textWidth, _window._winTop + _winTop + _borderHeight, Cp1252.Text(_cursorChar), lockedSurface);
                 }
 
-                if (FOnDraw != null)
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
             }
         }
@@ -172,146 +172,146 @@ public partial class Edit : Control
     }
 
     // AoWEdit.pas:197
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         int W = default;
         int I = default;
-        bool OldRedraw;
-        base.CheckMouseDown(Button, Shift, X, Y);
-        FHandled = false;
-        FMouseDown = false;
-        OldRedraw = FRedraw;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        bool oldRedraw;
+        base.CheckMouseDown(button, shift, X, Y);
+        Handled = false;
+        MouseDown = false;
+        oldRedraw = Redraw;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FValid == true && FVisible == true)
+            Handled = true;
+            if (Valid == true && _visible == true)
             {
-                if (Button == MouseButton.Left)
+                if (button == MouseButton.Left)
                 {
-                    if (FEditable == true)
+                    if (_editable == true)
                     {
-                        FRedraw = true;
+                        Redraw = true;
                     }
 
-                    var textWidth = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length));
-                    if (X > FAOWWindow.FWinLeft + FWinLeft + FBorderWidth + textWidth)
+                    var textWidth = _font.GetTextWidth(Copy(_text, FirstChar, _text.Length));
+                    if (X > _window._winLeft + _winLeft + _borderWidth + textWidth)
                     {
-                        FFirstChar = 1;
-                        if (FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length - FFirstChar)) > FWinWidth - 2 * FBorderWidth - 1)
+                        FirstChar = 1;
+                        if (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length - FirstChar)) > _winWidth - 2 * _borderWidth - 1)
                         {
-                            while (FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length)) > FWinWidth - 2 * FBorderWidth - 1)
+                            while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > _winWidth - 2 * _borderWidth - 1)
                             {
-                                FFirstChar += 1;
+                                FirstChar += 1;
                             }
                         }
 
-                        FCursorPos = FText.Length - FFirstChar + 1;
+                        CursorPosition = _text.Length - FirstChar + 1;
                     }
                     else
                     {
                         I = 0;
-                        W = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, I + 1));
-                        while (X > FAOWWindow.FWinLeft + FWinLeft + FBorderWidth + W && FText.Length > I + FFirstChar - 1)
+                        W = _font.GetTextWidth(Copy(_text, FirstChar, I + 1));
+                        while (X > _window._winLeft + _winLeft + _borderWidth + W && _text.Length > I + FirstChar - 1)
                         {
                             I += 1;
-                            W = FAOWFont.GetTextWidth(Copy(FText, FFirstChar, I + 1));
+                            W = _font.GetTextWidth(Copy(_text, FirstChar, I + 1));
                         }
 
-                        FCursorPos = I;
+                        CursorPosition = I;
                     }
 
-                    FCursorShown = FEditable;
-                    FBlinkCount = 0;
-                    FDrawn = false;
+                    CursorShown = _editable;
+                    BlinkCount = 0;
+                    Drawn = false;
                 }
 
-                if (FOnMouseDown != null)
+                if (_onMouseDown != null)
                 {
-                    FOnMouseDown(this, Button, Shift, X, Y);
+                    _onMouseDown(this, button, shift, X, Y);
                 }
             }
         }
         else
         {
-            if (FCursorShown)
+            if (CursorShown)
             {
-                FCursorShown = false;
-                if (FOnExit != null)
+                CursorShown = false;
+                if (_onExit != null)
                 {
-                    FOnExit(this);
+                    _onExit(this);
                 }
             }
 
-            FRedraw = false;
+            Redraw = false;
         }
 
-        if (FRedraw != OldRedraw)
+        if (Redraw != oldRedraw)
         {
-            FDrawn = false;
+            Drawn = false;
         }
     }
 
     // AoWEdit.pas:261
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FOnMouseUp != null)
+            Handled = true;
+            if (_onMouseUp != null)
             {
-                FOnMouseUp(this, Button, Shift, X, Y);
+                _onMouseUp(this, button, shift, X, Y);
             }
         }
     }
 
     // AoWEdit.pas:273
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseMove(Shift, X, Y);
-        FHandled = false;
-        if (FVisible && X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        base.CheckMouseMove(shift, X, Y);
+        Handled = false;
+        if (_visible && X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FEditable == true)
+            Handled = true;
+            if (_editable == true)
             {
-                FAOWWindow.FCursor = -4;
+                _window._cursor = -4;
             }
 
-            if (FOnMouseMove != null)
+            if (_onMouseMove != null)
             {
-                FOnMouseMove(this, Shift, X, Y);
+                _onMouseMove(this, shift, X, Y);
             }
         }
     }
 
     // AoWEdit.pas:289
-    public override void CheckKeyPress(ref byte Key)
+    public override void CheckKeyPress(ref byte key)
     {
         byte C = default;
-        bool Scroll;
-        FHandled = FRedraw;
-        Scroll = true;
-        if (FEditable && FRedraw == true && FValid == true && FVisible == true)
+        bool scroll;
+        Handled = Redraw;
+        scroll = true;
+        if (_editable && Redraw == true && Valid == true && _visible == true)
         {
-            FCursorShown = true;
-            switch (Key)
+            CursorShown = true;
+            switch (key)
             {
                 case 8:
-                    if (FCursorPos > 0)
+                    if (CursorPosition > 0)
                     {
-                        FText = Copy(FText, 1, FCursorPos + FFirstChar - 2) + Copy(FText, FCursorPos + FFirstChar, FText.Length - FCursorPos - FFirstChar + 1);
-                        FCursorPos = FCursorPos + FFirstChar - 2;
+                        _text = Copy(_text, 1, CursorPosition + FirstChar - 2) + Copy(_text, CursorPosition + FirstChar, _text.Length - CursorPosition - FirstChar + 1);
+                        CursorPosition = CursorPosition + FirstChar - 2;
                     }
 
-                    FFirstChar = 1;
+                    FirstChar = 1;
                     break;
                 case 13:
-                    FCursorShown = false;
-                    FRedraw = false;
-                    if (FOnReturn != null)
+                    CursorShown = false;
+                    Redraw = false;
+                    if (_onReturn != null)
                     {
-                        FOnReturn(this);
+                        _onReturn(this);
                     }
 
                     break;
@@ -320,198 +320,198 @@ public partial class Edit : Control
                 case >= 14 and <= 31:
                     break;
                 default:
-                    C = Key;
-                    if (FText.Length < FMaxChars || FMaxChars == 0)
+                    C = key;
+                    if (_text.Length < _maxChars || _maxChars == 0)
                     {
-                        FText = Copy(FText, 1, FFirstChar + FCursorPos - 1) + Cp1252.Text(C) + Copy(FText, FFirstChar + FCursorPos, FText.Length - FCursorPos - FFirstChar + 1);
-                        FCursorPos += 1;
-                        FCursorPos = FCursorPos + FFirstChar - 1;
-                        FFirstChar = 1;
+                        _text = Copy(_text, 1, FirstChar + CursorPosition - 1) + Cp1252.Text(C) + Copy(_text, FirstChar + CursorPosition, _text.Length - CursorPosition - FirstChar + 1);
+                        CursorPosition += 1;
+                        CursorPosition = CursorPosition + FirstChar - 1;
+                        FirstChar = 1;
                     }
 
                     break;
             }
 
-            if (Scroll == true)
+            if (scroll == true)
             {
-                while (FAOWFont.GetTextWidth(Copy(FText, FFirstChar, FText.Length)) > FWinWidth - 2 * FBorderWidth - 1)
+                while (_font.GetTextWidth(Copy(_text, FirstChar, _text.Length)) > _winWidth - 2 * _borderWidth - 1)
                 {
-                    FFirstChar += 1;
-                    FCursorPos -= 1;
+                    FirstChar += 1;
+                    CursorPosition -= 1;
                 }
 
-                FShownChars = FText.Length - FFirstChar + 1;
-                if (FCursorPos < 0)
+                ShownChars = _text.Length - FirstChar + 1;
+                if (CursorPosition < 0)
                 {
-                    FCursorPos = 0;
+                    CursorPosition = 0;
                 }
             }
 
-            FBlinkCount = 0;
-            FDrawn = false;
-            if (FOnKeyPress != null)
+            BlinkCount = 0;
+            Drawn = false;
+            if (_onKeyPress != null)
             {
-                FOnKeyPress(this, ref Key);
+                _onKeyPress(this, ref key);
             }
 
-            if (FOnChange != null)
+            if (_onChange != null)
             {
-                FOnChange(this);
+                _onChange(this);
             }
         }
     }
 
     // AoWEdit.pas:119
-    public virtual void SetILEdit(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryEdit(InterfaceImageLibrary value)
     {
-        if (Value != FILEdit)
+        if (value != _imageLibraryEdit)
         {
-            FValid = false;
-            FILEdit = Value;
+            Valid = false;
+            _imageLibraryEdit = value;
         }
     }
 
     // AoWEdit.pas:113
-    public void SetGText(string Value)
+    public void SetGText(string value)
     {
-        FText = Value;
-        FSized = false;
+        _text = value;
+        Sized = false;
     }
 
     // AoWEdit.pas:128
-    public void SetILIndex(int Value)
+    public void SetImageLibraryIndex(int value)
     {
-        if (Value != FILIndex)
+        if (value != _imageLibraryIndex)
         {
-            FILIndex = Value;
-            FValid = false;
+            _imageLibraryIndex = value;
+            Valid = false;
         }
     }
 
     [Published]
-    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont Font { get => _font; set => _font = value; }
 
     [Published]
-    public string Text { get => FText; set => SetGText(value); }
+    public string Text { get => _text; set => SetGText(value); }
 
     [Published]
-    public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
+    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
 
     [Published]
-    public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
+    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
-    public int MaxChars { get => FMaxChars; set => FMaxChars = value; }
+    public int MaxChars { get => _maxChars; set => _maxChars = value; }
 
     [Published]
-    public byte CursorChar { get => FCursorChar; set => FCursorChar = value; }
+    public byte CursorChar { get => _cursorChar; set => _cursorChar = value; }
 
     [Published]
-    public int BlinkDelay { get => FBlinkDelay; set => FBlinkDelay = value; }
+    public int BlinkDelay { get => _blinkDelay; set => _blinkDelay = value; }
 
     [Published]
-    public bool Editable { get => FEditable; set => FEditable = value; }
+    public bool Editable { get => _editable; set => _editable = value; }
 
     [Published]
-    public InterfaceImageLibrary ILEdit { get => FILEdit; set => SetILEdit(value); }
+    public InterfaceImageLibrary ImageLibraryEdit { get => _imageLibraryEdit; set => SetImageLibraryEdit(value); }
 
     [Published]
-    public int ILIndex { get => FILIndex; set => SetILIndex(value); }
+    public int ImageLibraryIndex { get => _imageLibraryIndex; set => SetImageLibraryIndex(value); }
 
     [Published]
-    public NotifyEvent<Edit> OnExit { get => FOnExit; set => FOnExit = value; }
+    public NotifyEvent<Edit> OnExit { get => _onExit; set => _onExit = value; }
 
     [Published]
-    public NotifyEvent<Edit> OnReturn { get => FOnReturn; set => FOnReturn = value; }
+    public NotifyEvent<Edit> OnReturn { get => _onReturn; set => _onReturn = value; }
 
     [Published]
-    public byte PassWordChar { get => FPassWordChar; set => FPassWordChar = value; }
+    public byte PassWordChar { get => _passWordChar; set => _passWordChar = value; }
 
     // AoWEdit.pas:350. Clipboard integration has no host in this port.
     public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        FHandled = FRedraw;
-        if (!FEditable || !FRedraw || !FValid || !FVisible) return;
+        Handled = Redraw;
+        if (!_editable || !Redraw || !Valid || !_visible) return;
         switch (key)
         {
             case 37:
-                if (FCursorPos > 0) FCursorPos--;
-                else if (FFirstChar > 1) FFirstChar--;
+                if (CursorPosition > 0) CursorPosition--;
+                else if (FirstChar > 1) FirstChar--;
                 break;
             case 39:
-                if (FShownChars > FCursorPos) FCursorPos++;
-                else if (FFirstChar + FShownChars < FText.Length) FFirstChar++;
+                if (ShownChars > CursorPosition) CursorPosition++;
+                else if (FirstChar + ShownChars < _text.Length) FirstChar++;
                 break;
             case 46:
-                if (FCursorPos < FText.Length)
+                if (CursorPosition < _text.Length)
                 {
-                    FText = Copy(FText, 1, FCursorPos + FFirstChar - 1) +
-                        Copy(FText, FCursorPos + FFirstChar + 1, FText.Length - FCursorPos - FFirstChar);
-                    FCursorPos += FFirstChar - 1;
-                    FFirstChar = 1;
+                    _text = Copy(_text, 1, CursorPosition + FirstChar - 1) +
+                        Copy(_text, CursorPosition + FirstChar + 1, _text.Length - CursorPosition - FirstChar);
+                    CursorPosition += FirstChar - 1;
+                    FirstChar = 1;
                 }
                 break;
         }
-        FShownChars = FText.Length - FFirstChar + 1;
-        FCursorPos = Math.Max(FCursorPos, 0);
-        FCursorShown = true;
-        FBlinkCount = 0;
-        FDrawn = false;
-        FOnKeyDown?.Invoke(this, ref key, shift);
-        FOnChange?.Invoke(this);
+        ShownChars = _text.Length - FirstChar + 1;
+        CursorPosition = Math.Max(CursorPosition, 0);
+        CursorShown = true;
+        BlinkCount = 0;
+        Drawn = false;
+        _onKeyDown?.Invoke(this, ref key, shift);
+        _onChange?.Invoke(this);
     }
 
     public new NotifyEvent<Edit> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<Edit> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<Edit> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<Edit> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<Edit> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<Edit> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<Edit> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<Edit> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<Edit> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

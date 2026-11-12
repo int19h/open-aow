@@ -15,9 +15,9 @@ public partial class SacrificialFlame : CombatSpell
     // CombatSpells.pas:1934
     public SacrificialFlame(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SacrificialFlameRStr);
-        FSpellID = 128;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_sacrificialFlameText);
+        SpellId = 128;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Fire);
@@ -26,5 +26,5 @@ public partial class SacrificialFlame : CombatSpell
         spellCombatInfo.Radius = 3;
     }
 
-    private static readonly string SacrificialFlameRStr = "Sacrificial Flame";
+    private static readonly string s_sacrificialFlameText = "Sacrificial Flame";
 }

@@ -17,71 +17,71 @@ public partial class MultiLevelAbility : AdjustableAbility
     // AoWAb.PAS:248
     public MultiLevelAbility(ECustomNode owner) : base(owner)
     {
-        FLevelCosts = new Int32List();
-        FMaxLevel = 4;
+        LevelCosts = new Int32List();
+        MaxLevel = 4;
     }
 
-    public int FMaxLevel;
-    public Int32List FLevelCosts;
+    public int MaxLevel;
+    public Int32List LevelCosts;
 
     // AoWAb.PAS:255
     public override void Dispose()
     {
-        FLevelCosts?.Dispose();
+        LevelCosts?.Dispose();
         base.Dispose();
     }
 
     // AoWAb.PAS:322
-    public virtual string GetLevelName(int Level) => "Unknown " + IntToStr(Level);
+    public virtual string GetLevelName(int level) => "Unknown " + IntToStr(level);
 
     // AoWAb.PAS:317
     // { branch past the missing-data exit and nil-owner zero result }
-    public override EngineClass AbilityDataClass() => AbilityRules.P4MultiLevelDataClass;
+    public override EngineClass AbilityDataClass() => AbilityRules.s_multiLevelDataClass;
 
-    public override int GetLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;
-    public override int GetInherentLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;
+    public override int GetLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(AbilityId))?.Level ?? 0;
+    public override int GetInherentLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(AbilityId))?.Level ?? 0;
     public override string GetName(AbilityOwner owner) => GetLevelName(GetLevel(owner));
     public override string ExpandName(AbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
 
     public override int ExpandCost(AbilityOwner owner)
     {
         int level = GetInherentLevel(owner);
-        return level >= FMaxLevel ? 0 : FLevelCosts.Get(level + 1);
+        return level >= MaxLevel ? 0 : LevelCosts.Get(level + 1);
     }
 
-    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & FSelectionTypes) != default(Set<AbilitySelectionType>) && GetInherentLevel(owner) < FMaxLevel;
+    public override bool CanExpand(AbilityOwner owner) => (owner.GetAbilitySelectionTypes() & SelectionTypes) != default(Set<AbilitySelectionType>) && GetInherentLevel(owner) < MaxLevel;
 
     public override int GetSkillPoints(AbilityOwner owner)
     {
         int level = GetInherentLevel(owner), sum = 0;
         // The original reads the current level cost on every iteration.
-        for (int i = level; i >= 1; --i) sum = sum + FLevelCosts.Get(level);
+        for (int i = level; i >= 1; --i) sum = sum + LevelCosts.Get(level);
         return sum;
     }
 
     public override bool Expand(AbilityOwner owner)
     {
-        var data = (MultiLevelAbilityData)owner.GetAbilityData(FAbilityID);
+        var data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
         if (data == null)
         {
-            data = (MultiLevelAbilityData)AbilityDataClass().Create(null);
-            data.FLevelAbilityID = (ushort)FAbilityID;
-            data.FLevel = 1;
-            SetAb(owner, FAbilityID, 1);
+            data = (MultiLevelAbilityData)AbilityDataClass().CreateInstance(null);
+            data.LevelAbilityId = (ushort)AbilityId;
+            data.Level = 1;
+            SetAbility(owner, AbilityId, 1);
             owner.AddAbilityData(data);
             return true;
         }
-        if (data.FLevel == FMaxLevel) return false;
-        data.FLevel = (byte)(data.FLevel + 1);
+        if (data.Level == MaxLevel) return false;
+        data.Level = (byte)(data.Level + 1);
         return true;
     }
 
     public override bool Remove(AbilityOwner owner)
     {
-        var data = (MultiLevelAbilityData)owner.GetAbilityData(FAbilityID);
-        if (data == null) { SetAb(owner, FAbilityID, 0); return false; }
-        if (data.FLevel == 1) { SetAb(owner, FAbilityID, 0); owner.RemoveAbilityData(data); }
-        else data.FLevel = (byte)(data.FLevel - 1);
+        var data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+        if (data == null) { SetAbility(owner, AbilityId, 0); return false; }
+        if (data.Level == 1) { SetAbility(owner, AbilityId, 0); owner.RemoveAbilityData(data); }
+        else data.Level = (byte)(data.Level - 1);
         return true;
     }
 }

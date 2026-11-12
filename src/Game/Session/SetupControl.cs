@@ -18,237 +18,237 @@ namespace Aow.Game.Session;
 
 public partial class SetupControl : Component
 {
-    public Set<SetupStatusElement> FStatus;
-    public SetupPhase FPhase;
-    public SetupSettings FSettings;
-    public MemoryStream FStream;
-    public int FUpdateCount;
-    public RemotePlayer FRemotePlayer;
-    public Event FOnSettingChanged;
-    public LoadMapEvent FOnLoadMap;
-    public Event FOnSetupMap;
-    public Event FOnStart;
-    public Event FOnAbort;
-    public CustomizeLeaderEvent FOnCustomizeLeader;
-    public Event FOnSynchronize;
-    public Event FOnPlayerSetupDone;
-    public EjectPlayerEvent FOnEjectPlayer;
-    public IncompatibleVersionEvent FOnIncompatibleVersion;
-    public SendDataEvent FOnSendData;
-    public SendMapEvent FOnSendMap;
-    public Event FOnSendingMaps;
+    public Set<SetupStatusElement> Status;
+    public SetupPhase Phase;
+    public SetupSettings Settings;
+    public MemoryStream Stream;
+    public int UpdateCount;
+    public RemotePlayer RemotePlayer;
+    public Event _onSettingChanged;
+    public LoadMapEvent _onLoadMap;
+    public Event _onSetupMap;
+    public Event _onStart;
+    public Event _onAbort;
+    public CustomizeLeaderEvent _onCustomizeLeader;
+    public Event _onSynchronize;
+    public Event _onPlayerSetupDone;
+    public EjectPlayerEvent _onEjectPlayer;
+    public IncompatibleVersionEvent _onIncompatibleVersion;
+    public SendDataEvent _onSendData;
+    public SendMapEvent _onSendMap;
+    public Event _onSendingMaps;
 
     // AoWSetup.pas:448
     public override void Dispose()
     {
-        FSettings?.Dispose();
-        FRemotePlayer?.Dispose();
-        FStream?.Dispose();
+        Settings?.Dispose();
+        RemotePlayer?.Dispose();
+        Stream?.Dispose();
         base.Dispose();
     }
 
     // AoWSetup.pas:436
     public SetupControl(Component owner) : base(owner)
     {
-        FSettings = new SetupSettings(null);
-        FRemotePlayer = new RemotePlayer(null);
-        FRemotePlayer.FRemoteID = 0;
-        FRemotePlayer.FPreferredRace = 255;
-        FStream = new MemoryStream();
+        Settings = new SetupSettings(null);
+        RemotePlayer = new RemotePlayer(null);
+        RemotePlayer.RemoteId = 0;
+        RemotePlayer.PreferredRace = 255;
+        Stream = new MemoryStream();
     }
 
     // AoWSetup.pas:456
-    public void SendData(object Data, int Size, int Recipient)
+    public void SendData(object data, int size, int recipient)
     {
-        if (FOnSendData != null)
+        if (_onSendData != null)
         {
-            FOnSendData(Data, Size, Recipient);
+            _onSendData(data, size, recipient);
         }
     }
 
     // AoWSetup.pas:461
-    public void SendPackage(SetupPackage Package, int Recipient)
+    public void SendPackage(SetupPackage package, int recipient)
     {
-        MemoryStream Stream;
-        Stream = new MemoryStream();
+        MemoryStream stream;
+        stream = new MemoryStream();
         try
         {
-            GameTables.AoWEngine.StoreEObject(Stream, Package, null);
-            var size = (int)Stream.Length;
-            SendData(Stream.GetBuffer(), size, Recipient);
-            var streamSize = (int)Stream.Length;
-            GameTables.AoWEngine.OutputDebugMessage(NetworkSession.NetworkEngineDID, "SetupPackage Send (ID:" + IntToStr(Package.FMessageID) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(Recipient));
+            GameTables.GameEngine.StoreEngineObject(stream, package, null);
+            var size = (int)stream.Length;
+            SendData(stream.GetBuffer(), size, recipient);
+            var streamSize = (int)stream.Length;
+            GameTables.GameEngine.OutputDebugMessage(NetworkSession.s_networkEngineDebugChannel, "SetupPackage Send (ID:" + IntToStr(package.MessageId) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(recipient));
         }
         finally
         {
-            Stream?.Dispose();
+            stream?.Dispose();
         }
     }
 
     // AoWSetup.pas:476
-    public void SendMessage(int MessageID, EngineObject Obj, int Param2, int Param1, int Recipient)
+    public void SendMessage(int messageId, EngineObject objectValue, int param2, int param1, int recipient)
     {
-        SetupPackage Package;
+        SetupPackage package;
         if (GetRemote())
         {
-            Package = new SetupPackage(null);
-            Package.FMessageID = MessageID;
-            if (Obj != null)
+            package = new SetupPackage(null);
+            package.MessageId = messageId;
+            if (objectValue != null)
             {
-                Package.FData = Obj.Copy(GameTables.AoWEngine);
+                package.Data = objectValue.Copy(GameTables.GameEngine);
             }
 
-            Package.FParam2 = Param2;
-            Package.FParam1 = Param1;
-            SendPackage(Package, Recipient);
-            Package?.Dispose();
+            package.Param2 = param2;
+            package.Param1 = param1;
+            SendPackage(package, recipient);
+            package?.Dispose();
         }
     }
 
     // AoWSetup.pas:492
-    public void SendHostMessage(int MessageID, EngineObject Obj, int Param2, int Param1)
+    public void SendHostMessage(int messageId, EngineObject objectValue, int param2, int param1)
     {
-        SetupPackage Package;
+        SetupPackage package;
         if (GetRemote())
         {
-            Package = new SetupPackage(null);
-            Package.FMessageID = MessageID;
-            if (Obj != null)
+            package = new SetupPackage(null);
+            package.MessageId = messageId;
+            if (objectValue != null)
             {
-                Package.FData = Obj.Copy(GameTables.AoWEngine);
+                package.Data = objectValue.Copy(GameTables.GameEngine);
             }
 
-            Package.FParam2 = Param2;
-            Package.FParam1 = Param1;
+            package.Param2 = param2;
+            package.Param1 = param1;
             if (!GetHost())
             {
-                SendPackage(Package, 0);
+                SendPackage(package, 0);
             }
             else
             {
-                PackageReceived(Package, FRemotePlayer.FRemoteID);
+                PackageReceived(package, RemotePlayer.RemoteId);
             }
 
-            Package?.Dispose();
+            package?.Dispose();
         }
     }
 
     // AoWSetup.pas:509
-    public void DataReceived(object Data, int Size, int SenderID)
+    public void DataReceived(object data, int size, int senderId)
     {
-        EngineObject Obj = default;
-        MemoryStream Stream;
-        Stream = new MemoryStream();
-        Stream.SetLength(Size);
-        Move(BufferBytes(Data)[..Size], Stream.GetBuffer().AsSpan(0, Size), Size);
-        Stream.Position = 0;
+        EngineObject objectValue = default;
+        MemoryStream stream;
+        stream = new MemoryStream();
+        stream.SetLength(size);
+        Move(BufferBytes(data)[..size], stream.GetBuffer().AsSpan(0, size), size);
+        stream.Position = 0;
         try
         {
-            Obj = GameTables.AoWEngine.RetrieveEObject(Stream, null);
-            if (Obj is SetupPackage)
+            objectValue = GameTables.GameEngine.RetrieveEngineObject(stream, null);
+            if (objectValue is SetupPackage)
             {
-                var size = (int)Stream.Length;
-                GameTables.AoWEngine.OutputDebugMessage(NetworkSession.NetworkEngineDID, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)Obj).FMessageID) + "/Size:" + IntToStr(size) + ") from " + IntToStr(SenderID));
-                PackageReceived((SetupPackage)Obj, SenderID);
+                var sizeLocal = (int)stream.Length;
+                GameTables.GameEngine.OutputDebugMessage(NetworkSession.s_networkEngineDebugChannel, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)objectValue).MessageId) + "/Size:" + IntToStr(sizeLocal) + ") from " + IntToStr(senderId));
+                PackageReceived((SetupPackage)objectValue, senderId);
             }
 
-            Obj?.Dispose();
+            objectValue?.Dispose();
         }
         catch
         {
             // { Original swallows the exception and frees the stream again below. }
-            Stream?.Dispose();
+            stream?.Dispose();
         }
 
-        Stream?.Dispose();
+        stream?.Dispose();
     }
 
     // AoWSetup.pas:530
-    public bool ValidateCompatibleVersion(int Version)
+    public bool ValidateCompatibleVersion(int version)
     {
-        int Major;
-        Major = (int)(((uint)(GameTables.AoWEngine.FVersion & -65536)) >> 16);
-        Version = (int)(((uint)(Version & -65536)) >> 16);
-        return Major == Version;
+        int major;
+        major = (int)(((uint)(GameTables.GameEngine.Version & -65536)) >> 16);
+        version = (int)(((uint)(version & -65536)) >> 16);
+        return major == version;
     }
 
     // AoWSetup.pas:537
-    public void hConnectPlayer(RemotePlayer Player)
+    public void ConnectPlayer(RemotePlayer player)
     {
-        if (FPhase == SetupPhase.SetupPlayers && (ValidateCompatibleVersion(Player.FVersion) || FRemotePlayer.FRemoteID == Player.FRemoteID))
+        if (Phase == SetupPhase.SetupPlayers && (ValidateCompatibleVersion(player.Version) || RemotePlayer.RemoteId == player.RemoteId))
         {
-            if (FSettings.FRemotePlayers.IndexOfRemoteID(Player.FRemoteID) == -1)
+            if (Settings.RemotePlayers.IndexOfRemoteId(player.RemoteId) == -1)
             {
-                Player = (RemotePlayer)Player.Copy(GameTables.AoWEngine);
-                Player.FName = ValidatePlayerName(Player.FName);
-                Player.FMapValidation = MapValidationInfo.Unknown;
-                Player.SetOwner(FSettings.FRemotePlayers);
+                player = (RemotePlayer)player.Copy(GameTables.GameEngine);
+                player.Name = ValidatePlayerName(player.Name);
+                player.MapValidation = MapValidationInfo.Unknown;
+                player.SetOwner(Settings.RemotePlayers);
                 UpdateSettings();
             }
         }
         else
         {
-            if ((int)(((uint)Player.FVersion) >> 24) == 1 && (((int)(((uint)Player.FVersion) >> 16)) & 255) <= 10)
+            if ((int)(((uint)player.Version) >> 24) == 1 && (((int)(((uint)player.Version) >> 16)) & 255) <= 10)
             {
-                if (FOnEjectPlayer != null)
+                if (_onEjectPlayer != null)
                 {
-                    FOnEjectPlayer(this, Player.FRemoteID);
+                    _onEjectPlayer(this, player.RemoteId);
                 }
             }
             else
             {
-                var minorVersion = GameTables.AoWEngine.GetMinorVersion();
-                SendMessage(9, null, GameTables.AoWEngine.GetMajorVersion(), minorVersion, Player.FRemoteID);
+                var minorVersion = GameTables.GameEngine.GetMinorVersion();
+                SendMessage(9, null, GameTables.GameEngine.GetMajorVersion(), minorVersion, player.RemoteId);
             }
         }
     }
 
     // AoWSetup.pas:556
-    public void hDisconnectPlayer(int RemoteID)
+    public void DisconnectPlayer(int remoteId)
     {
         int I;
         int J;
-        I = FSettings.FRemotePlayers.IndexOfRemoteID(RemoteID);
+        I = Settings.RemotePlayers.IndexOfRemoteId(remoteId);
         if (I != -1)
         {
-            J = FSettings.IndexOfRemoteID(RemoteID);
+            J = Settings.IndexOfRemoteId(remoteId);
             if (J != -1)
             {
                 ResetPlayerSettings(J);
             }
 
-            FSettings.FRemotePlayers.GetPlayers(I)?.Dispose();
+            Settings.RemotePlayers.GetPlayers(I)?.Dispose();
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:569
-    public void hUpdatePlayer(RemotePlayer Player)
+    public void UpdatePlayer(RemotePlayer player)
     {
         int I;
-        I = FSettings.FRemotePlayers.IndexOfRemoteID(Player.FRemoteID);
+        I = Settings.RemotePlayers.IndexOfRemoteId(player.RemoteId);
         if (I != -1)
         {
-            FSettings.FRemotePlayers.GetPlayers(I).Assign(Player, GameTables.AoWEngine);
-            FSettings.FRemotePlayers.GetPlayers(I).FName = "";
-            var validatePlayerName = ValidatePlayerName(Player.FName);
-            FSettings.FRemotePlayers.GetPlayers(I).FName = validatePlayerName;
+            Settings.RemotePlayers.GetPlayers(I).Assign(player, GameTables.GameEngine);
+            Settings.RemotePlayers.GetPlayers(I).Name = "";
+            var validatePlayerName = ValidatePlayerName(player.Name);
+            Settings.RemotePlayers.GetPlayers(I).Name = validatePlayerName;
             UpdatePreferredRaces();
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:583
-    public bool CanSetHostRemoteID(int RemoteID)
+    public bool CanSetHostRemoteId(int remoteId)
     {
-        bool Result;
+        bool result;
         int I;
-        if (GetHost() && RemoteID != FSettings.FHostRemoteID)
+        if (GetHost() && remoteId != Settings.HostRemoteId)
         {
-            I = FSettings.FRemotePlayers.IndexOfRemoteID(RemoteID);
+            I = Settings.RemotePlayers.IndexOfRemoteId(remoteId);
             if (I != -1)
             {
-                Result = FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == MapValidationInfo.Valid;
+                result = Settings.RemotePlayers.GetPlayers(I).MapValidation == MapValidationInfo.Valid;
             }
             else
             {
@@ -257,26 +257,26 @@ public partial class SetupControl : Component
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:594
-    public void hSetHostRemoteID(int RemoteID)
+    public void SetHostRemoteId(int remoteId)
     {
-        if (CanSetHostRemoteID(RemoteID))
+        if (CanSetHostRemoteId(remoteId))
         {
-            FSettings.FHostRemoteID = RemoteID;
+            Settings.HostRemoteId = remoteId;
             if (GetRemote())
             {
-                SendMessage(4, FSettings, 0, 0, 0);
+                SendMessage(4, Settings, 0, 0, 0);
             }
 
-            if (FOnSettingChanged != null)
+            if (_onSettingChanged != null)
             {
-                FOnSettingChanged(this);
+                _onSettingChanged(this);
             }
         }
     }
@@ -284,100 +284,100 @@ public partial class SetupControl : Component
     // AoWSetup.pas:604
     public void ValidateMap()
     {
-        string FileName;
-        MapValidationInfo Validation;
-        if (!IsEmpty(FSettings.FMapName) && FRemotePlayer.FMapValidation != MapValidationInfo.Valid)
+        string fileName;
+        MapValidationInfo validation;
+        if (!IsEmpty(Settings.MapName) && RemotePlayer.MapValidation != MapValidationInfo.Valid)
         {
-            if (AoWHSSet.Current.FHSSCRC == FSettings.FSetCRC)
+            if (AoWHSSet.Current.HssCrc == Settings.SetCrc)
             {
                 // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
-                FileName = FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FSettings.FMapName);
-                if (FileExists(FileName))
+                fileName = FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + Settings.MapName);
+                if (FileExists(fileName))
                 {
-                    if (FileBoundary.ImageCrc32(FileName, GameProfile.WorldMap) == FSettings.FMapCRC)
+                    if (FileBoundary.ImageCrc32(fileName, GameProfile.WorldMap) == Settings.MapCrc)
                     {
-                        Validation = MapValidationInfo.Valid;
+                        validation = MapValidationInfo.Valid;
                     }
                     else
                     {
-                        Validation = MapValidationInfo.InvalidMap;
+                        validation = MapValidationInfo.InvalidMap;
                     }
                 }
                 else
                 {
-                    Validation = MapValidationInfo.InvalidMap;
+                    validation = MapValidationInfo.InvalidMap;
                 }
             }
             else
             {
-                Validation = MapValidationInfo.Invalid;
+                validation = MapValidationInfo.Invalid;
             }
 
-            bool condition = Validation == MapValidationInfo.InvalidMap && FStream.Length != 0;
+            bool condition = validation == MapValidationInfo.InvalidMap && Stream.Length != 0;
             if (condition)
             {
-                var size = (int)FStream.Length;
-                condition = EngineServices.GetCRC32(FStream.GetBuffer(), size) == FSettings.FMapCRC;
+                var size = (int)Stream.Length;
+                condition = EngineServices.GetCrc32(Stream.GetBuffer(), size) == Settings.MapCrc;
             }
 
             if (condition)
             {
-                Validation = MapValidationInfo.Valid;
+                validation = MapValidationInfo.Valid;
             }
 
-            if (Validation != FRemotePlayer.FMapValidation)
+            if (validation != RemotePlayer.MapValidation)
             {
-                FRemotePlayer.FMapValidation = Validation;
-                SendHostMessage(3, FRemotePlayer, 0, 0);
+                RemotePlayer.MapValidation = validation;
+                SendHostMessage(3, RemotePlayer, 0, 0);
             }
         }
     }
 
     // AoWSetup.pas:627
-    public void PackageReceived(SetupPackage Package, int SenderID)
+    public void PackageReceived(SetupPackage package, int senderId)
     {
         int I = default;
-        switch (Package.FMessageID)
+        switch (package.MessageId)
         {
             case 1:
-                hConnectPlayer((RemotePlayer)Package.FData);
+                ConnectPlayer((RemotePlayer)package.Data);
                 break;
             case 2:
                 if (GetHost())
                 {
-                    hDisconnectPlayer(Package.FParam2);
+                    DisconnectPlayer(package.Param2);
                 }
 
                 break;
             case 3:
                 if (GetHost())
                 {
-                    hUpdatePlayer((RemotePlayer)Package.FData);
+                    UpdatePlayer((RemotePlayer)package.Data);
                 }
 
                 break;
             case 4:
-                if (!GetHost() && FPhase == SetupPhase.SetupPlayers)
+                if (!GetHost() && Phase == SetupPhase.SetupPlayers)
                 {
-                    FSettings.Assign(Package.FData, GameTables.AoWEngine);
-                    I = FSettings.FRemotePlayers.IndexOfRemoteID(FRemotePlayer.FRemoteID);
+                    Settings.Assign(package.Data, GameTables.GameEngine);
+                    I = Settings.RemotePlayers.IndexOfRemoteId(RemotePlayer.RemoteId);
                     if (I != -1)
                     {
-                        var playerName = FSettings.FRemotePlayers.GetPlayers(I);
-                        FRemotePlayer.FName = playerName.FName;
-                        var playerPreferredRace = FSettings.FRemotePlayers.GetPlayers(I);
-                        FRemotePlayer.FPreferredRace = playerPreferredRace.FPreferredRace;
-                        var playerMapValidation = FSettings.FRemotePlayers.GetPlayers(I);
-                        FRemotePlayer.FMapValidation = playerMapValidation.FMapValidation;
-                        if (FRemotePlayer.FMapValidation == MapValidationInfo.Unknown)
+                        var playerName = Settings.RemotePlayers.GetPlayers(I);
+                        RemotePlayer.Name = playerName.Name;
+                        var playerPreferredRace = Settings.RemotePlayers.GetPlayers(I);
+                        RemotePlayer.PreferredRace = playerPreferredRace.PreferredRace;
+                        var playerMapValidation = Settings.RemotePlayers.GetPlayers(I);
+                        RemotePlayer.MapValidation = playerMapValidation.MapValidation;
+                        if (RemotePlayer.MapValidation == MapValidationInfo.Unknown)
                         {
                             ValidateMap();
                         }
                     }
 
-                    if (FOnSettingChanged != null)
+                    if (_onSettingChanged != null)
                     {
-                        FOnSettingChanged(this);
+                        _onSettingChanged(this);
                     }
                 }
 
@@ -385,24 +385,24 @@ public partial class SetupControl : Component
             case 5:
                 if (!GetHost())
                 {
-                    FSettings.Assign(Package.FData, GameTables.AoWEngine);
-                    I = FSettings.FRemotePlayers.IndexOfRemoteID(FRemotePlayer.FRemoteID);
+                    Settings.Assign(package.Data, GameTables.GameEngine);
+                    I = Settings.RemotePlayers.IndexOfRemoteId(RemotePlayer.RemoteId);
                     if (I != -1)
                     {
-                        var playerName = FSettings.FRemotePlayers.GetPlayers(I);
-                        FRemotePlayer.FName = playerName.FName;
-                        var playerPreferredRace = FSettings.FRemotePlayers.GetPlayers(I);
-                        FRemotePlayer.FPreferredRace = playerPreferredRace.FPreferredRace;
-                        var playerMapValidation = FSettings.FRemotePlayers.GetPlayers(I);
-                        FRemotePlayer.FMapValidation = playerMapValidation.FMapValidation;
-                        if (FRemotePlayer.FMapValidation == MapValidationInfo.Unknown)
+                        var playerName = Settings.RemotePlayers.GetPlayers(I);
+                        RemotePlayer.Name = playerName.Name;
+                        var playerPreferredRace = Settings.RemotePlayers.GetPlayers(I);
+                        RemotePlayer.PreferredRace = playerPreferredRace.PreferredRace;
+                        var playerMapValidation = Settings.RemotePlayers.GetPlayers(I);
+                        RemotePlayer.MapValidation = playerMapValidation.MapValidation;
+                        if (RemotePlayer.MapValidation == MapValidationInfo.Unknown)
                         {
                             ValidateMap();
                         }
 
-                        if (FOnSettingChanged != null)
+                        if (_onSettingChanged != null)
                         {
-                            FOnSettingChanged(this);
+                            _onSettingChanged(this);
                         }
 
                         LoadMap();
@@ -413,21 +413,21 @@ public partial class SetupControl : Component
             case 8:
                 if (GetHost())
                 {
-                    hLeaderCustomized(Package.FParam2, (Leader)Package.FData);
+                    LeaderCustomized(package.Param2, (Leader)package.Data);
                 }
 
                 break;
             case 7:
                 if (GetHost())
                 {
-                    hMapLoaded(Package.FParam2);
+                    MapLoaded(package.Param2);
                 }
 
                 break;
             case 6:
                 if (!GetHost())
                 {
-                    FSettings.Assign(Package.FData, GameTables.AoWEngine);
+                    Settings.Assign(package.Data, GameTables.GameEngine);
                     SetupMap();
                 }
 
@@ -435,18 +435,18 @@ public partial class SetupControl : Component
             case 10:
                 if (!GetHost())
                 {
-                    FPhase = SetupPhase.SendMap;
-                    if (FOnSendingMaps != null)
+                    Phase = SetupPhase.SendMap;
+                    if (_onSendingMaps != null)
                     {
-                        FOnSendingMaps(this);
+                        _onSendingMaps(this);
                     }
                 }
 
                 break;
             case 11:
-                if (GetHost() && hValidateSendMap())
+                if (GetHost() && ValidateSendMap())
                 {
-                    SendMessage(5, FSettings, 0, 0, 0);
+                    SendMessage(5, Settings, 0, 0, 0);
                     LoadMap();
                 }
 
@@ -454,9 +454,9 @@ public partial class SetupControl : Component
             case 9:
                 if (!GetHost())
                 {
-                    if (FOnIncompatibleVersion != null)
+                    if (_onIncompatibleVersion != null)
                     {
-                        FOnIncompatibleVersion(this, Package.FParam2, Package.FParam1);
+                        _onIncompatibleVersion(this, package.Param2, package.Param1);
                     }
                 }
 
@@ -467,96 +467,96 @@ public partial class SetupControl : Component
     // AoWSetup.pas:683
     public void LoadMap()
     {
-        FPhase = SetupPhase.LoadMap;
-        if (FOnLoadMap != null)
+        Phase = SetupPhase.LoadMap;
+        if (_onLoadMap != null)
         {
-            FOnLoadMap(this, GameTables.AoWEngine.StartupDirectory + FSettings.FMapName);
+            _onLoadMap(this, GameTables.GameEngine.StartupDirectory + Settings.MapName);
         }
     }
 
     // AoWSetup.pas:689
-    public bool hValidateSendMap()
+    public bool ValidateSendMap()
     {
-        bool Result = default;
-        MemoryStream Stream;
+        bool result = default;
+        MemoryStream stream;
         int I;
-        int RemoteID;
+        int remoteId;
         int J = default;
-        I = FSettings.Count;
-        RemoteID = 0;
-        while (I != 0 && RemoteID == 0)
+        I = Settings.Count;
+        remoteId = 0;
+        while (I != 0 && remoteId == 0)
         {
             I -= 1;
-            if (FSettings.GetSettings(I).FBehavior.PlayerType == 0 && GetRemote() && FSettings.GetSettings(I).FBehavior.Flags != FRemotePlayer.FRemoteID)
+            if (Settings.GetSettings(I).Behavior.PlayerType == 0 && GetRemote() && Settings.GetSettings(I).Behavior.Flags != RemotePlayer.RemoteId)
             {
-                var setting = FSettings.GetSettings(I);
-                J = FSettings.FRemotePlayers.IndexOfRemoteID(setting.FBehavior.Flags);
-                if (J != -1 && FSettings.FRemotePlayers.GetPlayers(J).FMapValidation == MapValidationInfo.InvalidMap)
+                var setting = Settings.GetSettings(I);
+                J = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
+                if (J != -1 && Settings.RemotePlayers.GetPlayers(J).MapValidation == MapValidationInfo.InvalidMap)
                 {
-                    RemoteID = FSettings.GetSettings(I).FBehavior.Flags;
+                    remoteId = Settings.GetSettings(I).Behavior.Flags;
                 }
             }
         }
 
-        if (RemoteID != 0)
+        if (remoteId != 0)
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
             // reads, for an own document as for an original (own-formats.md 4.1).
-            Stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(GameTables.AoWEngine.StartupDirectory + FSettings.FMapName, GameProfile.WorldMap));
-            if (FOnSendMap != null)
+            stream = GameEngine.ImageStream(FileBoundary.LoadOrRaise(GameTables.GameEngine.StartupDirectory + Settings.MapName, GameProfile.WorldMap));
+            if (_onSendMap != null)
             {
-                var size = (int)Stream.Length;
-                FOnSendMap(this, Stream.GetBuffer(), size, RemoteID);
+                var size = (int)stream.Length;
+                _onSendMap(this, stream.GetBuffer(), size, remoteId);
             }
 
-            Stream?.Dispose();
-            Result = false;
+            stream?.Dispose();
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:715
-    public void hSendMap()
+    public void SendMap()
     {
-        FPhase = SetupPhase.SendMap;
-        if (FOnSendingMaps != null)
+        Phase = SetupPhase.SendMap;
+        if (_onSendingMaps != null)
         {
-            FOnSendingMaps(this);
+            _onSendingMaps(this);
         }
 
-        SendMessage(10, FSettings, 0, 0, 0);
-        if (hValidateSendMap())
+        SendMessage(10, Settings, 0, 0, 0);
+        if (ValidateSendMap())
         {
-            SendMessage(5, FSettings, 0, 0, 0);
+            SendMessage(5, Settings, 0, 0, 0);
             LoadMap();
         }
     }
 
     // AoWSetup.pas:727
-    public void MapReceived(object Data, int Size)
+    public void MapReceived(object data, int size)
     {
         if (!GetHost())
         {
-            FStream.SetLength(Size);
-            Move(BufferBytes(Data)[..Size], FStream.GetBuffer().AsSpan(0, Size), Size);
+            Stream.SetLength(size);
+            Move(BufferBytes(data)[..size], Stream.GetBuffer().AsSpan(0, size), size);
             ValidateMap();
-            SendHostMessage(11, FRemotePlayer, 0, 0);
+            SendHostMessage(11, RemotePlayer, 0, 0);
         }
     }
 
     // AoWSetup.pas:738
-    public void hMapLoaded(int Index)
+    public void MapLoaded(int index)
     {
         if (GetHost())
         {
-            var setting = FSettings.GetSettings(Index);
-            FSettings.GetSettings(Index).FStatus = setting.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Loaded);
-            if (!hValidateSetupMap())
+            var setting = Settings.GetSettings(index);
+            Settings.GetSettings(index).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Loaded);
+            if (!ValidateSetupMap())
             {
                 UpdateSettings();
             }
@@ -567,21 +567,21 @@ public partial class SetupControl : Component
     public void MapLoaded()
     {
         int I = default;
-        if (FSettings.FMapDay != 0 || !FSettings.FCustomizeLeaders)
+        if (Settings.MapDay != 0 || !Settings.CustomizeLeaders)
         {
-            FPhase = SetupPhase.Synchronize;
-            if (FOnSynchronize != null)
+            Phase = SetupPhase.Synchronize;
+            if (_onSynchronize != null)
             {
-                FOnSynchronize(this);
+                _onSynchronize(this);
             }
         }
 
         if (GetRemote())
         {
-            I = FSettings.IndexOfRemoteID(FRemotePlayer.FRemoteID);
+            I = Settings.IndexOfRemoteId(RemotePlayer.RemoteId);
             if (GetHost())
             {
-                hMapLoaded(I);
+                MapLoaded(I);
             }
             else
             {
@@ -591,37 +591,37 @@ public partial class SetupControl : Component
         else
         {
             I = 0;
-            int last = FSettings.Count - 1;
+            int last = Settings.Count - 1;
             for (; I <= last; I += 1)
             {
-                if (FSettings.GetSettings(I).FBehavior.PlayerType == 0)
+                if (Settings.GetSettings(I).Behavior.PlayerType == 0)
                 {
-                    var setting = FSettings.GetSettings(I);
-                    FSettings.GetSettings(I).FStatus = setting.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Loaded);
+                    var setting = Settings.GetSettings(I);
+                    Settings.GetSettings(I).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Loaded);
                 }
             }
 
-            if (!hValidateSetupMap())
+            if (!ValidateSetupMap())
             {
                 UpdateSettings();
             }
         }
 
-        if (FSettings.FMapDay == 0 && FSettings.FCustomizeLeaders)
+        if (Settings.MapDay == 0 && Settings.CustomizeLeaders)
         {
             CustomizeLeaders();
         }
     }
 
     // AoWSetup.pas:768
-    public void hLeaderCustomized(int Index, Leader Leader)
+    public void LeaderCustomized(int index, Leader leader)
     {
         if (GetHost())
         {
-            FSettings.GetSettings(Index).FLeader.Assign(Leader, GameTables.AoWEngine);
-            var setting = FSettings.GetSettings(Index);
-            FSettings.GetSettings(Index).FStatus = setting.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.LeaderCustomized);
-            if (!hValidateSetupMap())
+            Settings.GetSettings(index).Leader.Assign(leader, GameTables.GameEngine);
+            var setting = Settings.GetSettings(index);
+            Settings.GetSettings(index).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.LeaderCustomized);
+            if (!ValidateSetupMap())
             {
                 UpdateSettings();
             }
@@ -631,94 +631,94 @@ public partial class SetupControl : Component
     // AoWSetup.pas:777
     public bool CustomizeLeaders()
     {
-        bool Found;
+        bool found;
         int I;
-        CustomizeLeaderControl CLC = default;
-        FPhase = SetupPhase.CustomizeLeaders;
-        bool Result = false;
-        Found = false;
+        CustomizeLeaderControl cLC = default;
+        Phase = SetupPhase.CustomizeLeaders;
+        bool result = false;
+        found = false;
         I = 0;
-        while (!Found && I != FSettings.Count)
+        while (!found && I != Settings.Count)
         {
-            Found = FSettings.GetSettings(I).FBehavior.PlayerType == 0 && (!GetRemote() || FSettings.GetSettings(I).FBehavior.Flags == FRemotePlayer.FRemoteID) && !FSettings.GetSettings(I).FStatus.Contains(PlayerSetupStatusElement.LeaderCustomized);
-            if (!Found)
+            found = Settings.GetSettings(I).Behavior.PlayerType == 0 && (!GetRemote() || Settings.GetSettings(I).Behavior.Flags == RemotePlayer.RemoteId) && !Settings.GetSettings(I).Status.Contains(PlayerSetupStatusElement.LeaderCustomized);
+            if (!found)
             {
                 I += 1;
             }
         }
 
-        if (Found)
+        if (found)
         {
-            CLC = new CustomizeLeaderControl(null);
-            CLC.FSetupControl = this;
-            CLC.FPlayerIndex = I;
-            var settingRace = FSettings.GetSettings(I);
-            CLC.FItems.Add(settingRace.FRace);
-            var settingLeader = FSettings.GetSettings(I);
-            CLC.FLeader.Assign(settingLeader.FLeader, GameTables.AoWEngine);
-            var setting = FSettings.GetSettings(I);
-            CLC.FOriginalLeader.Assign(setting.FLeader, GameTables.AoWEngine);
+            cLC = new CustomizeLeaderControl(null);
+            cLC.SetupControl = this;
+            cLC.PlayerIndex = I;
+            var settingRace = Settings.GetSettings(I);
+            cLC.Items.Add(settingRace.Race);
+            var settingLeader = Settings.GetSettings(I);
+            cLC.Leader.Assign(settingLeader.Leader, GameTables.GameEngine);
+            var setting = Settings.GetSettings(I);
+            cLC.OriginalLeader.Assign(setting.Leader, GameTables.GameEngine);
             if (GetRemote())
             {
-                CLC.FLeader.FHeroName = FRemotePlayer.FName;
-                CLC.FOriginalLeader.FHeroName = FRemotePlayer.FName;
+                cLC.Leader.HeroName = RemotePlayer.Name;
+                cLC.OriginalLeader.HeroName = RemotePlayer.Name;
             }
 
-            if (!FSettings.FLeadersOnMap)
+            if (!Settings.LeadersOnMap)
             {
-                CLC.FMode = Set<LeaderSetupModeElement>.FromMask((CLC.FMode - Set<LeaderSetupModeElement>.Of((LeaderSetupModeElement)1)).Mask);
+                cLC.Mode = Set<LeaderSetupModeElement>.FromMask((cLC.Mode - Set<LeaderSetupModeElement>.Of((LeaderSetupModeElement)1)).Mask);
             }
 
-            if (FOnCustomizeLeader != null)
+            if (_onCustomizeLeader != null)
             {
-                FOnCustomizeLeader(this, CLC);
-                Result = true;
+                _onCustomizeLeader(this, cLC);
+                result = true;
             }
 
-            CLC.Release();
+            cLC.Release();
         }
         else
         {
-            FPhase = SetupPhase.Synchronize;
-            if (FOnSynchronize != null)
+            Phase = SetupPhase.Synchronize;
+            if (_onSynchronize != null)
             {
-                FOnSynchronize(this);
+                _onSynchronize(this);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:817
-    public void LeaderCustomized(CustomizeLeaderControl Control)
+    public void LeaderCustomized(CustomizeLeaderControl control)
     {
         if (!GetHost())
         {
-            SendHostMessage(8, Control.FOriginalLeader, Control.FPlayerIndex, 0);
-            FSettings.GetSettings(Control.FPlayerIndex).FLeader.Assign(Control.FOriginalLeader, GameTables.AoWEngine);
+            SendHostMessage(8, control.OriginalLeader, control.PlayerIndex, 0);
+            Settings.GetSettings(control.PlayerIndex).Leader.Assign(control.OriginalLeader, GameTables.GameEngine);
         }
         else
         {
-            hLeaderCustomized(Control.FPlayerIndex, Control.FOriginalLeader);
+            LeaderCustomized(control.PlayerIndex, control.OriginalLeader);
         }
 
-        if (FStatus.Contains(SetupStatusElement.Busy))
+        if (Status.Contains(SetupStatusElement.Busy))
         {
-            var setting = FSettings.GetSettings(Control.FPlayerIndex);
-            FSettings.GetSettings(Control.FPlayerIndex).FStatus = setting.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.LeaderCustomized);
+            var setting = Settings.GetSettings(control.PlayerIndex);
+            Settings.GetSettings(control.PlayerIndex).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.LeaderCustomized);
             CustomizeLeaders();
         }
     }
 
     // AoWSetup.pas:830
-    public void ListPCCInfo(PlayerCommunicationControl PCC)
+    public void ListPlayerCommunicationControlInfo(PlayerCommunicationControl playerCommunicationControl)
     {
         string S;
-        for (int I = 0, last = PCC.Count - 1; I <= last; I++)
+        for (int I = 0, last = playerCommunicationControl.Count - 1; I <= last; I++)
         {
-            var player = PCC.Players[I];
-            S = "Player (" + IntToStr(I) + ") at system:" + IntToStr(player.SystemID) + " CM:";
-            switch (PCC.Players[I].ConnectionMode)
+            var player = playerCommunicationControl.Players[I];
+            S = "Player (" + IntToStr(I) + ") at system:" + IntToStr(player.SystemId) + " CM:";
+            switch (playerCommunicationControl.Players[I].ConnectionMode)
             {
                 case ConnectionMode.Global:
                     S = S + "Global";
@@ -731,31 +731,31 @@ public partial class SetupControl : Component
                     break;
             }
 
-            GameTables.AoWEngine.OutputDebugMessage(NetworkSession.NetworkEngineDID, S);
+            GameTables.GameEngine.OutputDebugMessage(NetworkSession.s_networkEngineDebugChannel, S);
         }
     }
 
     // AoWSetup.pas:844
     public void RemoveIndependentPlayers()
     {
-        Player Player;
-        for (int I = AoWHSMap.Current.FPlayers.GetCount() - 1; I >= 1; I--)
+        Player player;
+        for (int I = AoWHSMap.Current.Players.GetCount() - 1; I >= 1; I--)
         {
-            Player = AoWHSMap.Current.FPlayers.GetPlayers(I);
-            if (Player.FPlayerType == PlayerType.Independent)
+            player = AoWHSMap.Current.Players.GetPlayers(I);
+            if (player.PlayerType == PlayerType.Independent)
             {
-                for (int J = Player.FStructures.GetCount() - 1; J >= 0; J--)
+                for (int J = player.Structures.GetCount() - 1; J >= 0; J--)
                 {
-                    Player.FStructures.GetStructure(J).SetPlayer(0);
+                    player.Structures.GetStructure(J).SetPlayer(0);
                 }
 
-                for (int J = Player.FArmies.GetCount() - 1; J >= 0; J--)
+                for (int J = player.Armies.GetCount() - 1; J >= 0; J--)
                 {
-                    Player.FArmies.GetArmy(J).SetPlayer(0);
+                    player.Armies.GetArmy(J).SetPlayer(0);
                 }
 
-                Player.FLeader.SetOwner(null);
-                Player.FStatus = Session.Player.Status.Terminated;
+                player.Leader.SetOwner(null);
+                player.Status = PlayerStatus.Terminated;
             }
         }
     }
@@ -763,135 +763,135 @@ public partial class SetupControl : Component
     // AoWSetup.pas:847
     public void SetupMap()
     {
-        int Index = default;
+        int index = default;
         Player Player = default;
-        RemotePlayerCommunicationControl RemotePCC = default;
-        LocalPlayerCommunicationControl LocalPCC = default;
-        FPhase = SetupPhase.SetupMap;
-        for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
+        RemotePlayerCommunicationControl remotePlayerCommunicationControl = default;
+        LocalPlayerCommunicationControl localPlayerCommunicationControl = default;
+        Phase = SetupPhase.SetupMap;
+        for (int I = 0, last = Settings.GetCount() - 1; I <= last; I++)
         {
-            var settingPlayerID = FSettings.GetSettings(I);
-            Player = AoWHSMap.Current.FPlayers.GetPlayers((sbyte)settingPlayerID.FPlayerID);
-            Player.FPlayerType = (PlayerType)FSettings.GetSettings(I).FBehavior.PlayerType;
-            Player.FBehavior = (Player.Behavior)FSettings.GetSettings(I).FBehaviorMode;
-            if (FSettings.FConnectionType == 2)
+            var settingPlayerId = Settings.GetSettings(I);
+            Player = AoWHSMap.Current.Players.GetPlayers((sbyte)settingPlayerId.PlayerId);
+            Player.PlayerType = (PlayerType)Settings.GetSettings(I).Behavior.PlayerType;
+            Player.Behavior = (PlayerBehavior)Settings.GetSettings(I).BehaviorMode;
+            if (Settings.ConnectionType == 2)
             {
-                var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
-                if (CompareText(FSettings.GetSettings(I).FEmailAddress, localEmailAddress) != 0)
+                var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+                if (CompareText(Settings.GetSettings(I).EmailAddress, localEmailAddress) != 0)
                 {
-                    var setting = FSettings.GetSettings(I);
-                    Player.FPBEMSettings.FEmailGame.FEmailAddress = setting.FEmailAddress;
-                    Player.FPBEMSettings.FEmailGame.FName = FSettings.FEmailGameName;
+                    var setting = Settings.GetSettings(I);
+                    Player.PbemSettings.EmailGame.EmailAddress = setting.EmailAddress;
+                    Player.PbemSettings.EmailGame.Name = Settings.EmailGameName;
                 }
                 else
                 {
-                    var setting = FSettings.GetSettings(I);
-                    var emailGame = GameTables.AoWEngine.FEmailGames.CreateEmailGame(FSettings.FEmailGameName, setting.FEmailAddress);
-                    Player.FPBEMSettings.SetGame(emailGame);
+                    var setting = Settings.GetSettings(I);
+                    var emailGame = GameTables.GameEngine.EmailGames.CreateEmailGame(Settings.EmailGameName, setting.EmailAddress);
+                    Player.PbemSettings.SetGame(emailGame);
                 }
             }
 
-            if (FSettings.FMapDay == 0)
+            if (Settings.MapDay == 0)
             {
-                Player.FLeader.UpdateFromLibraryBegin();
-                var setting = FSettings.GetSettings(I);
-                Player.FLeader.Assign(setting.FLeader, GameTables.AoWEngine);
-                Player.FLeader.UpdateFromLibraryEnd();
+                Player.Leader.UpdateFromLibraryBegin();
+                var setting = Settings.GetSettings(I);
+                Player.Leader.Assign(setting.Leader, GameTables.GameEngine);
+                Player.Leader.UpdateFromLibraryEnd();
             }
 
             if (GetRemote())
             {
-                if (FSettings.GetSettings(I).FBehavior.PlayerType == 0 && (FSettings.FMapDay != 0 || !FSettings.FCustomizeLeaders))
+                if (Settings.GetSettings(I).Behavior.PlayerType == 0 && (Settings.MapDay != 0 || !Settings.CustomizeLeaders))
                 {
-                    var setting = FSettings.GetSettings(I);
-                    Index = FSettings.FRemotePlayers.IndexOfRemoteID(setting.FBehavior.Flags);
-                    if (Index != -1)
+                    var setting = Settings.GetSettings(I);
+                    index = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
+                    if (index != -1)
                     {
-                        var player = FSettings.FRemotePlayers.GetPlayers(Index);
-                        Player.FLeader.FHeroName = player.FName;
+                        var player = Settings.RemotePlayers.GetPlayers(index);
+                        Player.Leader.HeroName = player.Name;
                     }
                 }
             }
         }
 
-        AoWHSMap.Current.FConnectionType = (PlayerConnectionType)FSettings.FConnectionType;
+        AoWHSMap.Current.ConnectionType = (PlayerConnectionType)Settings.ConnectionType;
         if (GetRemote())
         {
-            RemotePCC = new RemotePlayerCommunicationControl();
-            RemotePCC.Setup(AoWHSMap.Current.FPlayers.GetCount(), FRemotePlayer.FRemoteID);
-            RemotePCC.SetConnectionMode(0, ConnectionMode.Global);
-            RemotePCC.SetSystemID(0, FRemotePlayer.FRemoteID);
-            for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
+            remotePlayerCommunicationControl = new RemotePlayerCommunicationControl();
+            remotePlayerCommunicationControl.Setup(AoWHSMap.Current.Players.GetCount(), RemotePlayer.RemoteId);
+            remotePlayerCommunicationControl.SetConnectionMode(0, ConnectionMode.Global);
+            remotePlayerCommunicationControl.SetSystemId(0, RemotePlayer.RemoteId);
+            for (int I = 0, last = Settings.GetCount() - 1; I <= last; I++)
             {
-                if (FSettings.GetSettings(I).FBehavior.PlayerType != 0)
+                if (Settings.GetSettings(I).Behavior.PlayerType != 0)
                 {
-                    RemotePCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, ConnectionMode.Global);
-                    RemotePCC.SetSystemID((sbyte)FSettings.GetSettings(I).FPlayerID, FRemotePlayer.FRemoteID);
+                    remotePlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(I).PlayerId, ConnectionMode.Global);
+                    remotePlayerCommunicationControl.SetSystemId((sbyte)Settings.GetSettings(I).PlayerId, RemotePlayer.RemoteId);
                 }
                 else
                 {
-                    if (FSettings.GetSettings(I).FBehavior.Flags == FRemotePlayer.FRemoteID)
+                    if (Settings.GetSettings(I).Behavior.Flags == RemotePlayer.RemoteId)
                     {
-                        RemotePCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, ConnectionMode.Local);
+                        remotePlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(I).PlayerId, ConnectionMode.Local);
                     }
                     else
                     {
-                        RemotePCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, ConnectionMode.Remote);
+                        remotePlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(I).PlayerId, ConnectionMode.Remote);
                     }
 
-                    var setting = FSettings.GetSettings(I);
-                    RemotePCC.SetSystemID((sbyte)FSettings.GetSettings(I).FPlayerID, setting.FBehavior.Flags);
+                    var setting = Settings.GetSettings(I);
+                    remotePlayerCommunicationControl.SetSystemId((sbyte)Settings.GetSettings(I).PlayerId, setting.Behavior.Flags);
                 }
             }
 
-            AoWHSMap.Current.FPlayerCommunicator.ActivatePCC(RemotePCC);
-            RemotePCC.OnSendData = FOnSendData;
-            ListPCCInfo(RemotePCC);
-            RemotePCC.Release();
+            AoWHSMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(remotePlayerCommunicationControl);
+            remotePlayerCommunicationControl.OnSendData = _onSendData;
+            ListPlayerCommunicationControlInfo(remotePlayerCommunicationControl);
+            remotePlayerCommunicationControl.Release();
         }
         else
         {
-            LocalPCC = new LocalPlayerCommunicationControl();
-            LocalPCC.Setup(AoWHSMap.Current.FPlayers.GetCount());
-            LocalPCC.SetConnectionMode(0, ConnectionMode.Global);
-            for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
+            localPlayerCommunicationControl = new LocalPlayerCommunicationControl();
+            localPlayerCommunicationControl.Setup(AoWHSMap.Current.Players.GetCount());
+            localPlayerCommunicationControl.SetConnectionMode(0, ConnectionMode.Global);
+            for (int I = 0, last = Settings.GetCount() - 1; I <= last; I++)
             {
-                if (FSettings.GetSettings(I).FBehavior.PlayerType == 0)
+                if (Settings.GetSettings(I).Behavior.PlayerType == 0)
                 {
-                    LocalPCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, ConnectionMode.Local);
+                    localPlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(I).PlayerId, ConnectionMode.Local);
                 }
                 else
                 {
-                    LocalPCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, ConnectionMode.Global);
+                    localPlayerCommunicationControl.SetConnectionMode((sbyte)Settings.GetSettings(I).PlayerId, ConnectionMode.Global);
                 }
             }
 
-            AoWHSMap.Current.FPlayerCommunicator.ActivatePCC(LocalPCC);
-            ListPCCInfo(LocalPCC);
-            LocalPCC.Release();
+            AoWHSMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(localPlayerCommunicationControl);
+            ListPlayerCommunicationControlInfo(localPlayerCommunicationControl);
+            localPlayerCommunicationControl.Release();
         }
 
-        if (FSettings.FMapDay == 0)
+        if (Settings.MapDay == 0)
         {
-            AoWHSMap.Current.FInitialRandomSeed = FSettings.FRandomSeed;
-            AoWHSMap.Current.FFixedLeaders = FSettings.FLeadersOnMap;
-            AoWHSMap.Current.FAlliedVictory = FSettings.FAlliedVictory;
-            AoWHSMap.Current.SetExplorationEnabled(FSettings.FExplorationEnabled);
+            AoWHSMap.Current.InitialRandomSeed = Settings.RandomSeed;
+            AoWHSMap.Current.FixedLeaders = Settings.LeadersOnMap;
+            AoWHSMap.Current.AlliedVictory = Settings.AlliedVictory;
+            AoWHSMap.Current.SetExplorationEnabled(Settings.ExplorationEnabled);
             AoWHSMap.Current.SetFogEnabled(true);
         }
 
-        AoWHSMap.Current.FDayLimit = FSettings.FDayLimit;
-        AoWHSMap.Current.FTurnTime = FSettings.FTurnTime;
-        AoWHSMap.Current.FVictoryMode = FSettings.FTacticalCombatAvailability;
-        AoWHSMap.Current.FLeadersFixed = FSettings.FCustomizeLeaders;
-        AoWHSMap.Current.FStartingGame = FSettings.FAlwaysViewTC;
+        AoWHSMap.Current.DayLimit = Settings.DayLimit;
+        AoWHSMap.Current.TurnTime = Settings.TurnTime;
+        AoWHSMap.Current.VictoryMode = Settings.TacticalBattleAvailability;
+        AoWHSMap.Current.LeadersFixed = Settings.CustomizeLeaders;
+        AoWHSMap.Current.StartingGame = Settings.AlwaysViewTacticalBattle;
         RemoveIndependentPlayers();
-        AoWHSMap.Current.SetupPlayerControl((PlayMode)FSettings.FPlayMode, (PlayerConnectionType)FSettings.FConnectionType);
-        if (FOnSetupMap != null)
+        AoWHSMap.Current.SetupPlayerControl((PlayMode)Settings.PlayMode, (PlayerConnectionType)Settings.ConnectionType);
+        if (_onSetupMap != null)
         {
             try
             {
-                FOnSetupMap(this);
+                _onSetupMap(this);
             }
             catch
             {
@@ -899,11 +899,11 @@ public partial class SetupControl : Component
         }
 
         Reset();
-        if (FOnStart != null)
+        if (_onStart != null)
         {
             try
             {
-                FOnStart(this);
+                _onStart(this);
             }
             catch
             {
@@ -912,319 +912,319 @@ public partial class SetupControl : Component
     }
 
     // AoWSetup.pas:858
-    public bool hValidateSetupMap()
+    public bool ValidateSetupMap()
     {
-        bool Result;
+        bool result;
         int I;
         if (GetHost())
         {
-            Result = true;
-            I = FSettings.Count;
-            while (Result && I != 0)
+            result = true;
+            I = Settings.Count;
+            while (result && I != 0)
             {
                 I -= 1;
-                if (FSettings.GetSettings(I).FBehavior.PlayerType == 0)
+                if (Settings.GetSettings(I).Behavior.PlayerType == 0)
                 {
-                    Result = FSettings.GetSettings(I).FStatus.Contains(PlayerSetupStatusElement.Loaded) && (!FSettings.FCustomizeLeaders || FSettings.GetSettings(I).FStatus.Contains(PlayerSetupStatusElement.LeaderCustomized));
+                    result = Settings.GetSettings(I).Status.Contains(PlayerSetupStatusElement.Loaded) && (!Settings.CustomizeLeaders || Settings.GetSettings(I).Status.Contains(PlayerSetupStatusElement.LeaderCustomized));
                 }
             }
 
-            if (Result)
+            if (result)
             {
-                SendMessage(6, FSettings, 0, 0, 0);
+                SendMessage(6, Settings, 0, 0, 0);
                 SetupMap();
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:879
     public void UpdateSettings()
     {
-        if (FUpdateCount == 0 && GetHost())
+        if (UpdateCount == 0 && GetHost())
         {
-            FUpdateCount += 1;
+            UpdateCount += 1;
             if (GetRemote())
             {
-                SendMessage(4, FSettings, 0, 0, 0);
+                SendMessage(4, Settings, 0, 0, 0);
             }
 
-            if (FOnSettingChanged != null)
+            if (_onSettingChanged != null)
             {
-                FOnSettingChanged(this);
+                _onSettingChanged(this);
             }
 
-            FUpdateCount -= 1;
+            UpdateCount -= 1;
         }
     }
 
     // AoWSetup.pas:889
     public void BeginUpdate()
     {
-        FUpdateCount += 1;
+        UpdateCount += 1;
     }
 
     // AoWSetup.pas:893
     public void EndUpdate()
     {
-        FUpdateCount -= 1;
-        if (FUpdateCount == 0)
+        UpdateCount -= 1;
+        if (UpdateCount == 0)
         {
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:898
-    public bool GetRemote() => FStatus.Contains(SetupStatusElement.Remote);
+    public bool GetRemote() => Status.Contains(SetupStatusElement.Remote);
 
     // AoWSetup.pas:902
-    public bool GetHost() => FSettings.FHostRemoteID == FRemotePlayer.FRemoteID;
+    public bool GetHost() => Settings.HostRemoteId == RemotePlayer.RemoteId;
 
     // AoWSetup.pas:906
     public void Reset()
     {
-        FPhase = SetupPhase.Idle;
-        FStatus = Set<SetupStatusElement>.Of();
-        FRemotePlayer.FName = "";
-        FRemotePlayer.FMapValidation = MapValidationInfo.Unknown;
-        FRemotePlayer.FPreferredRace = 255;
-        FSettings.Reset();
-        FStream.Clear();
+        Phase = SetupPhase.Idle;
+        Status = Set<SetupStatusElement>.Of();
+        RemotePlayer.Name = "";
+        RemotePlayer.MapValidation = MapValidationInfo.Unknown;
+        RemotePlayer.PreferredRace = 255;
+        Settings.Reset();
+        Stream.Clear();
     }
 
     // AoWSetup.pas:916
     public void Disconnect()
     {
-        SendHostMessage(2, null, FRemotePlayer.FRemoteID, 0);
+        SendHostMessage(2, null, RemotePlayer.RemoteId, 0);
     }
 
     // AoWSetup.pas:920
-    public string GetPlayerName() => FRemotePlayer.FName;
+    public string GetPlayerName() => RemotePlayer.Name;
 
     // AoWSetup.pas:924
-    public void SetPlayerName(string Value)
+    public void SetPlayerName(string value)
     {
-        if (Value != FRemotePlayer.FName)
+        if (value != RemotePlayer.Name)
         {
-            FRemotePlayer.FName = Value;
-            SendHostMessage(3, FRemotePlayer, 0, 0);
+            RemotePlayer.Name = value;
+            SendHostMessage(3, RemotePlayer, 0, 0);
         }
     }
 
     // AoWSetup.pas:932
-    public sbyte GetPreferredRace() => (sbyte)FRemotePlayer.FPreferredRace;
+    public sbyte GetPreferredRace() => (sbyte)RemotePlayer.PreferredRace;
 
     // AoWSetup.pas:936
-    public void SetPreferredRace(byte Value)
+    public void SetPreferredRace(byte value)
     {
-        if (Value != FRemotePlayer.FPreferredRace)
+        if (value != RemotePlayer.PreferredRace)
         {
-            FRemotePlayer.FPreferredRace = Value;
-            SendHostMessage(3, FRemotePlayer, 0, 0);
+            RemotePlayer.PreferredRace = value;
+            SendHostMessage(3, RemotePlayer, 0, 0);
         }
     }
 
     // AoWSetup.pas:1276
-    public void ResetPlayerSettings(int Index)
+    public void ResetPlayerSettings(int index)
     {
         Assert(GetHost(), "", "AoWSetup.pas", 1278);
         if (!GetRemote())
         {
-            if (FSettings.GetSettings(Index).FOriginalBehavior.PlayerType != 0)
+            if (Settings.GetSettings(index).OriginalBehavior.PlayerType != 0)
             {
-                var setting = FSettings.GetSettings(Index);
-                FSettings.GetSettings(Index).FBehavior = setting.FOriginalBehavior;
+                var setting = Settings.GetSettings(index);
+                Settings.GetSettings(index).Behavior = setting.OriginalBehavior;
             }
             else
             {
-                FSettings.GetSettings(Index).FBehavior = CPUBehavior;
+                Settings.GetSettings(index).Behavior = s_cpuBehavior;
             }
         }
         else
         {
-            FSettings.GetSettings(Index).FBehavior = FreeBehavior;
+            Settings.GetSettings(index).Behavior = s_freeBehavior;
         }
 
-        var settingStatus = FSettings.GetSettings(Index);
-        FSettings.GetSettings(Index).FStatus = settingStatus.FStatus - Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
+        var settingStatus = Settings.GetSettings(index);
+        Settings.GetSettings(index).Status = settingStatus.Status - Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
     }
 
     // AoWSetup.pas:1289
     public bool UpdatePreferredRaces()
     {
-        int Target;
-        int Old;
-        int Race;
-        bool Again;
+        int target;
+        int old;
+        int race;
+        bool again;
         Assert(GetHost(), "", "AoWSetup.pas", 1292);
-        Again = true;
-        bool Result = false;
-        while (Again)
+        again = true;
+        bool result = false;
+        while (again)
         {
-            Again = false;
-            for (int I = 0, last = FSettings.FRemotePlayers.Count - 1; I <= last; I++)
+            again = false;
+            for (int I = 0, last = Settings.RemotePlayers.Count - 1; I <= last; I++)
             {
-                Race = (sbyte)FSettings.FRemotePlayers.GetPlayers(I).FPreferredRace;
-                if (Race != -1)
+                race = (sbyte)Settings.RemotePlayers.GetPlayers(I).PreferredRace;
+                if (race != -1)
                 {
-                    Target = FSettings.IndexOfRace((byte)Race);
-                    if (Target != -1 && FSettings.GetSettings(Target).FBehavior.Flags == 0 && (FSettings.GetSettings(Target).FStatus & Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed, PlayerSetupStatusElement.Forced)) == Set<PlayerSetupStatusElement>.Of())
+                    target = Settings.IndexOfRace((byte)race);
+                    if (target != -1 && Settings.GetSettings(target).Behavior.Flags == 0 && (Settings.GetSettings(target).Status & Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed, PlayerSetupStatusElement.Forced)) == Set<PlayerSetupStatusElement>.Of())
                     {
-                        var playerRemoteID = FSettings.FRemotePlayers.GetPlayers(I);
-                        Old = FSettings.IndexOfRemoteID(playerRemoteID.FRemoteID);
-                        if (Old == -1 || !FSettings.GetSettings(Old).FStatus.Contains(PlayerSetupStatusElement.Forced))
+                        var playerRemoteId = Settings.RemotePlayers.GetPlayers(I);
+                        old = Settings.IndexOfRemoteId(playerRemoteId.RemoteId);
+                        if (old == -1 || !Settings.GetSettings(old).Status.Contains(PlayerSetupStatusElement.Forced))
                         {
-                            if (Old != -1)
+                            if (old != -1)
                             {
-                                ResetPlayerSettings(Old);
-                                Again = true;
+                                ResetPlayerSettings(old);
+                                again = true;
                             }
 
-                            FSettings.GetSettings(Target).FBehavior.PlayerType = 0;
-                            var player = FSettings.FRemotePlayers.GetPlayers(I);
-                            FSettings.GetSettings(Target).FBehavior.Flags = player.FRemoteID;
-                            Result = true;
+                            Settings.GetSettings(target).Behavior.PlayerType = 0;
+                            var player = Settings.RemotePlayers.GetPlayers(I);
+                            Settings.GetSettings(target).Behavior.Flags = player.RemoteId;
+                            result = true;
                         }
                     }
                 }
                 else
                 {
-                    var player = FSettings.FRemotePlayers.GetPlayers(I);
-                    Old = FSettings.IndexOfRemoteID(player.FRemoteID);
-                    if (Old != -1 && !FSettings.GetSettings(Old).FStatus.Contains(PlayerSetupStatusElement.Forced))
+                    var player = Settings.RemotePlayers.GetPlayers(I);
+                    old = Settings.IndexOfRemoteId(player.RemoteId);
+                    if (old != -1 && !Settings.GetSettings(old).Status.Contains(PlayerSetupStatusElement.Forced))
                     {
-                        ResetPlayerSettings(Old);
-                        Again = true;
+                        ResetPlayerSettings(old);
+                        again = true;
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:944
-    public void ListAvailablePlayers(StringCollection List)
+    public void ListAvailablePlayers(StringCollection list)
     {
         if (GetRemote())
         {
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[5]));
-            for (int I = 0, last = FSettings.FRemotePlayers.Count - 1; I <= last; I++)
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[5]));
+            for (int I = 0, last = Settings.RemotePlayers.Count - 1; I <= last; I++)
             {
-                List.Add(FSettings.FRemotePlayers.GetPlayers(I).FName);
+                list.Add(Settings.RemotePlayers.GetPlayers(I).Name);
             }
 
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[1]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[2]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[3]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[6]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[7]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[4]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[1]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[2]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[3]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[6]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[7]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[4]));
         }
         else
         {
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[0]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[1]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[2]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[3]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[6]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[7]));
-            List.Add(AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[4]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[0]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[1]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[2]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[3]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[6]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[7]));
+            list.Add(AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[4]));
         }
     }
 
     // AoWSetup.pas:970
-    public string ValidatePlayerName(string Name)
+    public string ValidatePlayerName(string name)
     {
-        bool Done;
-        StringList List;
+        bool done;
+        StringList list;
         int I;
-        bool Unique;
-        List = new StringList();
-        ListAvailablePlayers(List);
-        Done = false;
-        string Result = Name;
-        while (!Done)
+        bool unique;
+        list = new StringList();
+        ListAvailablePlayers(list);
+        done = false;
+        string result = name;
+        while (!done)
         {
             I = 0;
-            Unique = true;
-            while (I != List.Count && Unique)
+            unique = true;
+            while (I != list.Count && unique)
             {
-                Unique = CompareText(Result, List[I]) != 0;
+                unique = CompareText(result, list[I]) != 0;
                 I += 1;
             }
 
-            if (!Unique)
+            if (!unique)
             {
                 // { Original reads the last character without guarding an empty name. }
-                if (Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(Result[Result.Length - 1])))
+                if (Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(result[result.Length - 1])))
                 {
-                    Result = Copy(Result, 1, Result.Length - 1) + IntToStr(Cp1252.Byte(Result[Result.Length - 1]) + 1 - 48);
+                    result = Copy(result, 1, result.Length - 1) + IntToStr(Cp1252.Byte(result[result.Length - 1]) + 1 - 48);
                 }
                 else
                 {
-                    Result = Result + "1";
+                    result = result + "1";
                 }
             }
             else
             {
-                Done = true;
+                done = true;
             }
         }
 
-        List?.Dispose();
-        return Result;
+        list?.Dispose();
+        return result;
     }
 
     // AoWSetup.pas:995
-    public bool PlayerNameToPlayerID(string Name, ref SetupPlayerBehavior Behavior)
+    public bool PlayerNameToPlayerId(string name, ref SetupPlayerBehavior behavior)
     {
         int I;
-        byte PlayerType;
-        bool Result = false;
-        I = FSettings.FRemotePlayers.Count;
-        while (!Result && I != 0)
+        byte playerType;
+        bool result = false;
+        I = Settings.RemotePlayers.Count;
+        while (!result && I != 0)
         {
             I -= 1;
-            if (CompareText(FSettings.FRemotePlayers.GetPlayers(I).FName, Name) == 0)
+            if (CompareText(Settings.RemotePlayers.GetPlayers(I).Name, name) == 0)
             {
-                Result = true;
-                Behavior.PlayerType = 0;
-                var player = FSettings.FRemotePlayers.GetPlayers(I);
-                Behavior.Flags = player.FRemoteID;
+                result = true;
+                behavior.PlayerType = 0;
+                var player = Settings.RemotePlayers.GetPlayers(I);
+                behavior.Flags = player.RemoteId;
             }
         }
 
-        if (!Result)
+        if (!result)
         {
-            PlayerType = 0;
-            while (!Result && PlayerType <= 7)
+            playerType = 0;
+            while (!result && playerType <= 7)
             {
-                if (CompareText(Name, AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[PlayerType])) == 0)
+                if (CompareText(name, AbilityRules.TranslateResourceString(GameTables.s_playerTypeTexts[playerType])) == 0)
                 {
-                    Result = true;
-                    Behavior.PlayerType = PlayerType;
-                    Behavior.Flags = 0;
+                    result = true;
+                    behavior.PlayerType = playerType;
+                    behavior.Flags = 0;
                 }
                 else
                 {
-                    PlayerType = (byte)(PlayerType + 1);
+                    playerType = (byte)(playerType + 1);
                 }
             }
         }
 
-        if (!Result)
+        if (!result)
         {
-            Behavior.PlayerType = 5;
-            Behavior.Flags = 0;
+            behavior.PlayerType = 5;
+            behavior.Flags = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:1027
@@ -1232,39 +1232,39 @@ public partial class SetupControl : Component
     {
         int I;
         int J;
-        int PlayerCount;
-        bool Human;
-        Human = false;
-        PlayerCount = 0;
-        bool Result = FSettings.Count != 0;
-        I = FSettings.Count;
-        while (Result && I != 0)
+        int playerCount;
+        bool human;
+        human = false;
+        playerCount = 0;
+        bool result = Settings.Count != 0;
+        I = Settings.Count;
+        while (result && I != 0)
         {
             I -= 1;
-            Result = FSettings.GetSettings(I).FBehavior.PlayerType != 5;
-            var settingBehavior = FSettings.GetSettings(I);
-            if (Set<byte>.WithBounds(0, 255).With(6).With(7).WithRange(0, 3).Contains(settingBehavior.FBehavior.PlayerType))
+            result = Settings.GetSettings(I).Behavior.PlayerType != 5;
+            var settingBehavior = Settings.GetSettings(I);
+            if (Set<byte>.WithBounds(0, 255).With(6).With(7).WithRange(0, 3).Contains(settingBehavior.Behavior.PlayerType))
             {
-                PlayerCount += 1;
+                playerCount += 1;
             }
 
-            Human = Human || FSettings.GetSettings(I).FBehavior.PlayerType == 0;
-            if (Result && FSettings.GetSettings(I).FBehavior.PlayerType == 0 && GetRemote())
+            human = human || Settings.GetSettings(I).Behavior.PlayerType == 0;
+            if (result && Settings.GetSettings(I).Behavior.PlayerType == 0 && GetRemote())
             {
-                var setting = FSettings.GetSettings(I);
-                J = FSettings.FRemotePlayers.IndexOfRemoteID(setting.FBehavior.Flags);
+                var setting = Settings.GetSettings(I);
+                J = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
                 bool condition = J != -1;
                 if (condition)
                 {
-                    var player = FSettings.FRemotePlayers.GetPlayers(J);
-                    condition = Set<MapValidationInfo>.Of(MapValidationInfo.InvalidMap, MapValidationInfo.Valid).Contains(player.FMapValidation);
+                    var player = Settings.RemotePlayers.GetPlayers(J);
+                    condition = Set<MapValidationInfo>.Of(MapValidationInfo.InvalidMap, MapValidationInfo.Valid).Contains(player.MapValidation);
                 }
 
-                Result = condition;
+                result = condition;
             }
         }
 
-        return Result && Human && PlayerCount > 1;
+        return result && human && playerCount > 1;
     }
 
     // AoWSetup.pas:1048
@@ -1272,216 +1272,216 @@ public partial class SetupControl : Component
     {
         int I;
         int J;
-        I = FSettings.Count;
-        bool Result = true;
-        while (Result && I != 0)
+        I = Settings.Count;
+        bool result = true;
+        while (result && I != 0)
         {
             I -= 1;
-            Result = true;
-            if (Result && FSettings.GetSettings(I).FBehavior.PlayerType == 0 && GetRemote())
+            result = true;
+            if (result && Settings.GetSettings(I).Behavior.PlayerType == 0 && GetRemote())
             {
-                var setting = FSettings.GetSettings(I);
-                J = FSettings.FRemotePlayers.IndexOfRemoteID(setting.FBehavior.Flags);
+                var setting = Settings.GetSettings(I);
+                J = Settings.RemotePlayers.IndexOfRemoteId(setting.Behavior.Flags);
                 if (J != -1)
                 {
-                    Result = FSettings.FRemotePlayers.GetPlayers(J).FMapValidation == MapValidationInfo.Valid;
+                    result = Settings.RemotePlayers.GetPlayers(J).MapValidation == MapValidationInfo.Valid;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:1064
-    public bool hPlayerSetupDone()
+    public bool PlayerSetupDone()
     {
-        bool Result = default;
+        bool result = default;
         if (GetHost() && GetPlayerSetupValid())
         {
-            if (FOnPlayerSetupDone != null)
+            if (_onPlayerSetupDone != null)
             {
-                FOnPlayerSetupDone(this);
+                _onPlayerSetupDone(this);
             }
 
             if (GetRemote())
             {
-                for (int I = FSettings.FRemotePlayers.Count - 1; I >= 0; I--)
+                for (int I = Settings.RemotePlayers.Count - 1; I >= 0; I--)
                 {
-                    var playerRemoteID = FSettings.FRemotePlayers.GetPlayers(I);
-                    if (FSettings.IndexOfRemoteID(playerRemoteID.FRemoteID) == -1)
+                    var playerRemoteId = Settings.RemotePlayers.GetPlayers(I);
+                    if (Settings.IndexOfRemoteId(playerRemoteId.RemoteId) == -1)
                     {
-                        if (FOnEjectPlayer != null)
+                        if (_onEjectPlayer != null)
                         {
-                            var player = FSettings.FRemotePlayers.GetPlayers(I);
-                            FOnEjectPlayer(this, player.FRemoteID);
+                            var player = Settings.RemotePlayers.GetPlayers(I);
+                            _onEjectPlayer(this, player.RemoteId);
                         }
 
-                        FSettings.FRemotePlayers.GetPlayers(I)?.Dispose();
+                        Settings.RemotePlayers.GetPlayers(I)?.Dispose();
                     }
                 }
             }
 
             if (GetAllMapsValid())
             {
-                SendMessage(5, FSettings, 0, 0, 0);
+                SendMessage(5, Settings, 0, 0, 0);
                 LoadMap();
             }
             else
             {
-                hSendMap();
+                SendMap();
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:1085
-    public void hSetPlayerBehavior(int Index, byte Value)
+    public void SetPlayerBehavior(int index, byte value)
     {
-        if (GetHost() && Value != FSettings.GetSettings(Index).FBehaviorMode)
+        if (GetHost() && value != Settings.GetSettings(index).BehaviorMode)
         {
-            FSettings.GetSettings(Index).FBehaviorMode = Value;
+            Settings.GetSettings(index).BehaviorMode = value;
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:1093
-    public void hSetExplorationEnabled(bool Value)
+    public void SetExplorationEnabled(bool value)
     {
-        if (GetHost() && Value != FSettings.FExplorationEnabled && FSettings.FMapDay == 0)
+        if (GetHost() && value != Settings.ExplorationEnabled && Settings.MapDay == 0)
         {
-            FSettings.FExplorationEnabled = Value;
+            Settings.ExplorationEnabled = value;
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:1101
-    public void hSetLeadersOnMap(bool Value)
+    public void SetLeadersOnMap(bool value)
     {
-        if (GetHost() && Value != FSettings.FLeadersOnMap && FSettings.FMapDay == 0)
+        if (GetHost() && value != Settings.LeadersOnMap && Settings.MapDay == 0)
         {
-            FSettings.FLeadersOnMap = Value;
+            Settings.LeadersOnMap = value;
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:1109
-    public void hSetTacticalCombatAvailability(byte Value)
+    public void SetTacticalBattleAvailability(byte value)
     {
-        if (GetHost() && Value != FSettings.FTacticalCombatAvailability)
+        if (GetHost() && value != Settings.TacticalBattleAvailability)
         {
-            FSettings.FTacticalCombatAvailability = Value;
+            Settings.TacticalBattleAvailability = value;
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:1117
-    public void hSetAlwaysViewTC(bool Value)
+    public void SetAlwaysViewTacticalBattle(bool value)
     {
-        if (GetHost() && Value != FSettings.FAlwaysViewTC)
+        if (GetHost() && value != Settings.AlwaysViewTacticalBattle)
         {
-            FSettings.FAlwaysViewTC = Value;
+            Settings.AlwaysViewTacticalBattle = value;
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:1125
-    public void hSetAlliedVictory(bool Value)
+    public void SetAlliedVictory(bool value)
     {
-        if (GetHost() && Value != FSettings.FAlliedVictory && FSettings.FMapDay == 0)
+        if (GetHost() && value != Settings.AlliedVictory && Settings.MapDay == 0)
         {
-            FSettings.FAlliedVictory = Value;
+            Settings.AlliedVictory = value;
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:1133
-    public void hSetCustomizeLeaders(bool Value)
+    public void SetCustomizeLeaders(bool value)
     {
-        if (GetHost() && Value != FSettings.FCustomizeLeaders && FSettings.FMapDay == 0)
+        if (GetHost() && value != Settings.CustomizeLeaders && Settings.MapDay == 0)
         {
-            FSettings.FCustomizeLeaders = Value;
+            Settings.CustomizeLeaders = value;
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:1141
-    public void hSetTurnLimitation(int Value)
+    public void SetTurnLimitation(int value)
     {
-        if (GetHost() && Value != FSettings.FDayLimit)
+        if (GetHost() && value != Settings.DayLimit)
         {
-            FSettings.FDayLimit = Value;
+            Settings.DayLimit = value;
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:1149
-    public void hSetTurnTimeLimitation(int Value)
+    public void SetTurnTimeLimitation(int value)
     {
-        if (GetHost() && Value != FSettings.FTurnTime)
+        if (GetHost() && value != Settings.TurnTime)
         {
-            FSettings.FTurnTime = Value;
+            Settings.TurnTime = value;
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:1157
-    public void hSetPlayerID(int Index, in SetupPlayerBehavior Behavior, bool Forced)
+    public void SetPlayerId(int index, in SetupPlayerBehavior behavior, bool forced)
     {
         int I;
-        int PlayerIndex;
+        int playerIndex;
         if (GetHost())
         {
-            PlayerIndex = Index;
-            if (FSettings.GetSettings(PlayerIndex).FBehavior.PlayerType == Behavior.PlayerType && FSettings.GetSettings(PlayerIndex).FBehavior.Flags == Behavior.Flags)
+            playerIndex = index;
+            if (Settings.GetSettings(playerIndex).Behavior.PlayerType == behavior.PlayerType && Settings.GetSettings(playerIndex).Behavior.Flags == behavior.Flags)
             {
                 return;
             }
 
-            if (Behavior.Flags != 0 && FSettings.FRemotePlayers.IndexOfRemoteID(Behavior.Flags) == -1)
+            if (behavior.Flags != 0 && Settings.RemotePlayers.IndexOfRemoteId(behavior.Flags) == -1)
             {
                 return;
             }
 
-            if (!GetRemote() && FSettings.FPlayMode == 2 && Behavior.PlayerType == 0)
+            if (!GetRemote() && Settings.PlayMode == 2 && behavior.PlayerType == 0)
             {
                 I = 0;
-                int last = FSettings.Count - 1;
+                int last = Settings.Count - 1;
                 for (; I <= last; I += 1)
                 {
-                    if (FSettings.GetSettings(I).FBehavior.PlayerType == 0)
+                    if (Settings.GetSettings(I).Behavior.PlayerType == 0)
                     {
                         ResetPlayerSettings(I);
                     }
                 }
             }
 
-            if (GetRemote() && Behavior.PlayerType == 0 && Behavior.Flags != 0)
+            if (GetRemote() && behavior.PlayerType == 0 && behavior.Flags != 0)
             {
-                I = FSettings.IndexOfRemoteID(Behavior.Flags);
+                I = Settings.IndexOfRemoteId(behavior.Flags);
                 if (I != -1)
                 {
                     ResetPlayerSettings(I);
                 }
             }
 
-            ResetPlayerSettings(PlayerIndex);
-            FSettings.GetSettings(PlayerIndex).FBehavior = Behavior;
-            if (Forced && Behavior.PlayerType != 5)
+            ResetPlayerSettings(playerIndex);
+            Settings.GetSettings(playerIndex).Behavior = behavior;
+            if (forced && behavior.PlayerType != 5)
             {
-                var setting = FSettings.GetSettings(PlayerIndex);
-                FSettings.GetSettings(PlayerIndex).FStatus = setting.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
+                var setting = Settings.GetSettings(playerIndex);
+                Settings.GetSettings(playerIndex).Status = setting.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
             }
             else
             {
-                var setting = FSettings.GetSettings(PlayerIndex);
-                FSettings.GetSettings(PlayerIndex).FStatus = setting.FStatus - Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
+                var setting = Settings.GetSettings(playerIndex);
+                Settings.GetSettings(playerIndex).Status = setting.Status - Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
             }
 
             UpdatePreferredRaces();
@@ -1490,25 +1490,25 @@ public partial class SetupControl : Component
     }
 
     // AoWSetup.pas:1182
-    public void hSetPlayMode(byte Value)
+    public void SetPlayMode(byte value)
     {
-        bool First;
-        if (GetHost() && Value != FSettings.FPlayMode)
+        bool first;
+        if (GetHost() && value != Settings.PlayMode)
         {
-            FSettings.FPlayMode = Value;
-            if (!GetRemote() && Value == 2)
+            Settings.PlayMode = value;
+            if (!GetRemote() && value == 2)
             {
-                First = true;
-                for (int I = 0, last = FSettings.Count - 1; I <= last; I++)
+                first = true;
+                for (int I = 0, last = Settings.Count - 1; I <= last; I++)
                 {
-                    if (FSettings.GetSettings(I).FBehavior.PlayerType == 0)
+                    if (Settings.GetSettings(I).Behavior.PlayerType == 0)
                     {
-                        if (!First)
+                        if (!first)
                         {
                             ResetPlayerSettings(I);
                         }
 
-                        First = false;
+                        first = false;
                     }
                 }
             }
@@ -1518,130 +1518,130 @@ public partial class SetupControl : Component
     }
 
     // AoWSetup.pas:1201
-    public void hSetIndependentAIMode(byte Value)
+    public void SetIndependentAIMode(byte value)
     {
-        if (GetHost() && Value != FSettings.FIndependentAIMode)
+        if (GetHost() && value != Settings.IndependentAIMode)
         {
-            FSettings.FIndependentAIMode = Value;
+            Settings.IndependentAIMode = value;
             UpdateSettings();
         }
     }
 
     // AoWSetup.pas:1209
-    public bool hPickMap(string FileName)
+    public bool PickMap(string fileName)
     {
-        bool Result = default;
-        bool FirstHuman = default;
-        PlayerSetupSettings Settings = default;
-        AoWHSMap Preview;
-        Preview = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(GameTables.AoWEngine.StartupDirectory + FileName, GameProfile.WorldMap);
-        if (GetHost() && Preview != null && (!GameTables.AoWEngine.FDemo || Preview.FShowAllPlayers) && Preview.FConnectionType != PlayerConnectionType.Email)
+        bool result = default;
+        bool firstHuman = default;
+        PlayerSetupSettings settings = default;
+        AoWHSMap preview;
+        preview = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(GameTables.GameEngine.StartupDirectory + fileName, GameProfile.WorldMap);
+        if (GetHost() && preview != null && (!GameTables.GameEngine.Demo || preview.ShowAllPlayers) && preview.ConnectionType != PlayerConnectionType.Email)
         {
-            GameTables.AoWEngine.InitializeHSSet(GameTables.AoWEngine.StartupDirectory + Preview.HSSFileName, null);
+            GameTables.GameEngine.InitializeHexSpriteSet(GameTables.GameEngine.StartupDirectory + preview.HssFileName, null);
             Randomize();
-            FSettings.Clear();
-            FSettings.FMapName = FileName;
-            FSettings.FMapDay = Preview.FDay;
-            FSettings.FFileName = Preview.FMapName;
+            Settings.Clear();
+            Settings.MapName = fileName;
+            Settings.MapDay = preview.Day;
+            Settings.FileName = preview.MapName;
             // The map CRC is taken over the engine image, so an own copy and its original agree (own-formats.md 4.1).
-            var fileCRC = FileBoundary.ImageCrc32(GameTables.AoWEngine.StartupDirectory + FileName, GameProfile.WorldMap);
-            FSettings.FMapCRC = fileCRC;
-            FSettings.FSetCRC = AoWHSSet.Current.FHSSCRC;
-            FSettings.FRandomSeed = RandSeed;
-            FSettings.FVictoryCondition = (byte)(int)Preview.FVictoryCondition;
-            if (Preview.FDay != 0)
+            var fileCrc = FileBoundary.ImageCrc32(GameTables.GameEngine.StartupDirectory + fileName, GameProfile.WorldMap);
+            Settings.MapCrc = fileCrc;
+            Settings.SetCrc = AoWHSSet.Current.HssCrc;
+            Settings.RandomSeed = RandSeed;
+            Settings.VictoryCondition = (byte)(int)preview.VictoryCondition;
+            if (preview.Day != 0)
             {
-                FSettings.FLeadersOnMap = Preview.FFixedLeaders;
-                FSettings.FAlliedVictory = Preview.FAlliedVictory;
-                FSettings.FTurnTime = Preview.FTurnTime;
-                FSettings.FDayLimit = Preview.FDayLimit;
-                FSettings.FAlwaysViewTC = Preview.FStartingGame;
-                FSettings.FTacticalCombatAvailability = Preview.FVictoryMode;
+                Settings.LeadersOnMap = preview.FixedLeaders;
+                Settings.AlliedVictory = preview.AlliedVictory;
+                Settings.TurnTime = preview.TurnTime;
+                Settings.DayLimit = preview.DayLimit;
+                Settings.AlwaysViewTacticalBattle = preview.StartingGame;
+                Settings.TacticalBattleAvailability = preview.VictoryMode;
             }
 
-            FirstHuman = true;
-            FRemotePlayer.FPreferredRace = 255;
-            FRemotePlayer.FMapValidation = MapValidationInfo.Valid;
-            for (int I = 0, last = FSettings.FRemotePlayers.GetCount() - 1; I <= last; I++)
+            firstHuman = true;
+            RemotePlayer.PreferredRace = 255;
+            RemotePlayer.MapValidation = MapValidationInfo.Valid;
+            for (int I = 0, last = Settings.RemotePlayers.GetCount() - 1; I <= last; I++)
             {
-                FSettings.FRemotePlayers.GetPlayers(I).FPreferredRace = 255;
-                if (FSettings.FRemotePlayers.GetPlayers(I).FRemoteID == FRemotePlayer.FRemoteID)
+                Settings.RemotePlayers.GetPlayers(I).PreferredRace = 255;
+                if (Settings.RemotePlayers.GetPlayers(I).RemoteId == RemotePlayer.RemoteId)
                 {
-                    FSettings.FRemotePlayers.GetPlayers(I).FMapValidation = MapValidationInfo.Valid;
+                    Settings.RemotePlayers.GetPlayers(I).MapValidation = MapValidationInfo.Valid;
                 }
                 else
                 {
-                    FSettings.FRemotePlayers.GetPlayers(I).FMapValidation = MapValidationInfo.Unknown;
+                    Settings.RemotePlayers.GetPlayers(I).MapValidation = MapValidationInfo.Unknown;
                 }
             }
 
-            for (int I = 1, last = Preview.FPlayers.GetCount() - 1; I <= last; I++)
+            for (int I = 1, last = preview.Players.GetCount() - 1; I <= last; I++)
             {
-                var player = Preview.FPlayers.GetPlayers(I);
-                if (player.FStatus != Player.Status.Terminated)
+                var player = preview.Players.GetPlayers(I);
+                if (player.Status != PlayerStatus.Terminated)
                 {
-                    Settings = new PlayerSetupSettings(this.FSettings);
-                    Settings.FPlayerID = (byte)I;
-                    Settings.FRace = player.FPlayerRace;
-                    Settings.FLeader.Assign(player.FLeaderSetup, GameTables.AoWEngine);
-                    Settings.FBehaviorMode = (byte)(int)player.FBehavior;
-                    if (player.FParticipating)
+                    settings = new PlayerSetupSettings(this.Settings);
+                    settings.PlayerId = (byte)I;
+                    settings.Race = player.PlayerRace;
+                    settings.Leader.Assign(player.LeaderSetup, GameTables.GameEngine);
+                    settings.BehaviorMode = (byte)(int)player.Behavior;
+                    if (player.Participating)
                     {
-                        Settings.FStatus = Settings.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed);
+                        settings.Status = settings.Status + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed);
                     }
 
-                    if (GetRemote() && !player.FParticipating)
+                    if (GetRemote() && !player.Participating)
                     {
-                        Settings.FBehavior.PlayerType = 5;
-                        Settings.FOriginalBehavior.PlayerType = 5;
+                        settings.Behavior.PlayerType = 5;
+                        settings.OriginalBehavior.PlayerType = 5;
                     }
                     else
                     {
-                        Settings.FBehavior.PlayerType = (byte)(int)player.FPlayerType;
-                        Settings.FOriginalBehavior.PlayerType = (byte)(int)player.FPlayerType;
-                        if (player.FPlayerType == PlayerType.Human)
+                        settings.Behavior.PlayerType = (byte)(int)player.PlayerType;
+                        settings.OriginalBehavior.PlayerType = (byte)(int)player.PlayerType;
+                        if (player.PlayerType == PlayerType.Human)
                         {
-                            if (!FirstHuman)
+                            if (!firstHuman)
                             {
-                                Settings.FBehavior.PlayerType = 1;
+                                settings.Behavior.PlayerType = 1;
                             }
 
-                            FirstHuman = false;
+                            firstHuman = false;
                         }
                     }
                 }
             }
 
             UpdateSettings();
-            Preview?.Dispose();
-            Result = true;
+            preview?.Dispose();
+            result = true;
         }
         else
         {
             // { Original leaks a rejected preview map. }
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:1216
-    public void hEjectPlayer(int RemoteID)
+    public void EjectPlayer(int remoteId)
     {
         int I;
         int J = default;
-        if (GetHost() && GetRemote() && RemoteID != 0)
+        if (GetHost() && GetRemote() && remoteId != 0)
         {
-            I = FSettings.FRemotePlayers.IndexOfRemoteID(RemoteID);
+            I = Settings.RemotePlayers.IndexOfRemoteId(remoteId);
             if (I != -1)
             {
-                FSettings.FRemotePlayers.GetPlayers(I)?.Dispose();
-                if (FOnEjectPlayer != null)
+                Settings.RemotePlayers.GetPlayers(I)?.Dispose();
+                if (_onEjectPlayer != null)
                 {
-                    FOnEjectPlayer(this, RemoteID);
+                    _onEjectPlayer(this, remoteId);
                 }
 
-                J = FSettings.IndexOfRemoteID(RemoteID);
+                J = Settings.IndexOfRemoteId(remoteId);
                 if (J != -1)
                 {
                     ResetPlayerSettings(J);
@@ -1654,99 +1654,99 @@ public partial class SetupControl : Component
     }
 
     // AoWSetup.pas:1236
-    public bool SetupHost(string Name, byte Mode, int RemoteID)
+    public bool SetupHost(string name, byte mode, int remoteId)
     {
         Reset();
-        FPhase = SetupPhase.SetupPlayers;
-        this.FSettings.FHostRemoteID = RemoteID;
-        this.FSettings.FConnectionType = Mode;
-        switch (Mode)
+        Phase = SetupPhase.SetupPlayers;
+        this.Settings.HostRemoteId = remoteId;
+        this.Settings.ConnectionType = mode;
+        switch (mode)
         {
             case 2:
-                this.FSettings.FPlayMode = 1;
+                this.Settings.PlayMode = 1;
                 break;
             default:
-                this.FSettings.FPlayMode = 2;
+                this.Settings.PlayMode = 2;
                 break;
         }
 
-        var validatePlayerName = ValidatePlayerName(Name);
-        FRemotePlayer.FName = validatePlayerName;
-        this.FRemotePlayer.FRemoteID = RemoteID;
-        this.FRemotePlayer.FPreferredRace = 255;
-        this.FRemotePlayer.FVersion = GameTables.AoWEngine.FVersion;
+        var validatePlayerName = ValidatePlayerName(name);
+        RemotePlayer.Name = validatePlayerName;
+        this.RemotePlayer.RemoteId = remoteId;
+        this.RemotePlayer.PreferredRace = 255;
+        this.RemotePlayer.Version = GameTables.GameEngine.Version;
 
-        FStatus = FStatus + Set<SetupStatusElement>.Of(SetupStatusElement.Busy);
-        if (RemoteID != 0)
+        Status = Status + Set<SetupStatusElement>.Of(SetupStatusElement.Busy);
+        if (remoteId != 0)
         {
-            hConnectPlayer(FRemotePlayer);
-            FStatus = FStatus + Set<SetupStatusElement>.Of(SetupStatusElement.Remote);
+            ConnectPlayer(RemotePlayer);
+            Status = Status + Set<SetupStatusElement>.Of(SetupStatusElement.Remote);
         }
 
         return true;
     }
 
     // AoWSetup.pas:1264
-    public bool SetupUser(string Name, int RemoteID)
+    public bool SetupUser(string name, int remoteId)
     {
         Reset();
-        FRemotePlayer.FName = Name;
-        FRemotePlayer.FRemoteID = RemoteID;
-        FRemotePlayer.FPreferredRace = 255;
-        FRemotePlayer.FVersion = GameTables.AoWEngine.FVersion;
-        FStatus = FStatus + Set<SetupStatusElement>.Of(SetupStatusElement.Busy, SetupStatusElement.Remote);
-        SendHostMessage(1, FRemotePlayer, 0, 0);
-        FPhase = SetupPhase.SetupPlayers;
+        RemotePlayer.Name = name;
+        RemotePlayer.RemoteId = remoteId;
+        RemotePlayer.PreferredRace = 255;
+        RemotePlayer.Version = GameTables.GameEngine.Version;
+        Status = Status + Set<SetupStatusElement>.Of(SetupStatusElement.Busy, SetupStatusElement.Remote);
+        SendHostMessage(1, RemotePlayer, 0, 0);
+        Phase = SetupPhase.SetupPlayers;
         return true;
     }
 
     [Published]
-    public SendMapEvent OnSendMap { get => FOnSendMap; set => FOnSendMap = value; }
+    public SendMapEvent OnSendMap { get => _onSendMap; set => _onSendMap = value; }
 
     [Published]
-    public SendDataEvent OnSendData { get => FOnSendData; set => FOnSendData = value; }
+    public SendDataEvent OnSendData { get => _onSendData; set => _onSendData = value; }
 
     [Published]
-    public Event OnPlayerSetupDone { get => FOnPlayerSetupDone; set => FOnPlayerSetupDone = value; }
+    public Event OnPlayerSetupDone { get => _onPlayerSetupDone; set => _onPlayerSetupDone = value; }
 
     [Published]
-    public Event OnSettingChanged { get => FOnSettingChanged; set => FOnSettingChanged = value; }
+    public Event OnSettingChanged { get => _onSettingChanged; set => _onSettingChanged = value; }
 
     [Published]
-    public CustomizeLeaderEvent OnCustomizeLeader { get => FOnCustomizeLeader; set => FOnCustomizeLeader = value; }
+    public CustomizeLeaderEvent OnCustomizeLeader { get => _onCustomizeLeader; set => _onCustomizeLeader = value; }
 
     [Published]
-    public LoadMapEvent OnLoadMap { get => FOnLoadMap; set => FOnLoadMap = value; }
+    public LoadMapEvent OnLoadMap { get => _onLoadMap; set => _onLoadMap = value; }
 
     [Published]
-    public Event OnSetupMap { get => FOnSetupMap; set => FOnSetupMap = value; }
+    public Event OnSetupMap { get => _onSetupMap; set => _onSetupMap = value; }
 
     [Published]
-    public Event OnStart { get => FOnStart; set => FOnStart = value; }
+    public Event OnStart { get => _onStart; set => _onStart = value; }
 
     [Published]
-    public Event OnAbort { get => FOnAbort; set => FOnAbort = value; }
+    public Event OnAbort { get => _onAbort; set => _onAbort = value; }
 
     [Published]
-    public Event OnSynchronize { get => FOnSynchronize; set => FOnSynchronize = value; }
+    public Event OnSynchronize { get => _onSynchronize; set => _onSynchronize = value; }
 
     [Published]
-    public EjectPlayerEvent OnEjectPlayer { get => FOnEjectPlayer; set => FOnEjectPlayer = value; }
+    public EjectPlayerEvent OnEjectPlayer { get => _onEjectPlayer; set => _onEjectPlayer = value; }
 
     [Published]
-    public IncompatibleVersionEvent OnIncompatibleVersion { get => FOnIncompatibleVersion; set => FOnIncompatibleVersion = value; }
+    public IncompatibleVersionEvent OnIncompatibleVersion { get => _onIncompatibleVersion; set => _onIncompatibleVersion = value; }
 
     [Published]
-    public Event OnSendingMaps { get => FOnSendingMaps; set => FOnSendingMaps = value; }
+    public Event OnSendingMaps { get => _onSendingMaps; set => _onSendingMaps = value; }
 
-    private static SetupPlayerBehavior CPUBehavior = new SetupPlayerBehavior
+    private static SetupPlayerBehavior s_cpuBehavior = new SetupPlayerBehavior
     {
         PlayerType = 1,
         Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 
-    private static SetupPlayerBehavior FreeBehavior = new SetupPlayerBehavior
+    private static SetupPlayerBehavior s_freeBehavior = new SetupPlayerBehavior
     {
         PlayerType = 5,
         Reserved = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),

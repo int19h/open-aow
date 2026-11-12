@@ -7,13 +7,13 @@ namespace Aow.Game.AI.Groups;
 public partial class TransportAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:801
-    public new const int ClassID = 136295;
+    public new const int ClassId = 136295;
 
     // MainAG.pas:789
     public TransportAIGroup(ECustomNode owner) : base(owner)
     {
-        FProcessPriority = 2;
-        FRecruitmentPriority = 20;
+        ProcessPriority = 2;
+        RecruitmentPriority = 20;
     }
 
     // MainAG.pas:807

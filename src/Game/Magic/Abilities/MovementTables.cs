@@ -57,52 +57,52 @@ internal static class MovementTables
         Text = ByteArray128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
     };
 
-    internal static MoveArmyTokenEvent MoveArmyXYLEx(sbyte Player, ArmyHexSprite Army, byte Selection, sbyte X, sbyte Y, sbyte L, MoveAction Action, bool Force)
+    internal static MoveArmyTokenEvent MoveArmyMapCoordinate(sbyte player, ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, MoveAction action, bool force)
     {
-        MoveArmyTokenEvent Result;
-        MoveControlSettings Settings;
-        Settings = new MoveControlSettings(null);
-        var lhx = Army.GetLhx();
-        var yhx = Army.GetYhx();
-        Settings.SetSourcePos(Army.GetXhx(), yhx, lhx);
-        Settings.FPlayer = Army.FArmy.FPlayer;
-        Settings.FArmyHS = Army;
-        Settings.FSelection = Selection;
-        Settings.SetDestinationPos(X, Y, L);
-        Army.FArmy.CreateMovePointTable(Selection, Bytes.Of(ref Settings.FMovePointTable));
-        AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
-        if (Settings.FPath.Count != 0)
+        MoveArmyTokenEvent result;
+        MoveControlSettings settings;
+        settings = new MoveControlSettings(null);
+        var hexLevel = army.GetHexLevel();
+        var hexY = army.GetHexY();
+        settings.SetSourcePosition(army.GetHexX(), hexY, hexLevel);
+        settings.Player = army.Army.Player;
+        settings.ArmyHexSprite = army;
+        settings.Selection = selection;
+        settings.SetDestinationPosition(X, Y, L);
+        army.Army.CreateMovePointTable(selection, Bytes.Of(ref settings.MovePointTable));
+        AoWHSMap.Current.MoveControl.ProcessMove(settings);
+        if (settings.Path.Count != 0)
         {
-            if ((Force || AoWHSMap.Current.FTokenManager.PlayerReady(Player)) && Settings.FPath.Count > 1)
+            if ((force || AoWHSMap.Current.TokenManager.PlayerReady(player)) && settings.Path.Count > 1)
             {
-                Result = ArmyHexSprite.CreateArmyMoveTE(Army, Selection, Settings.FPath, Action, Set<ArmyMoveModeElement>.Of());
-                if (Result != null)
+                result = ArmyHexSprite.CreateArmyMoveTokenEvent(army, selection, settings.Path, action, Set<ArmyMoveModeElement>.Of());
+                if (result != null)
                 {
-                    AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Result);
+                    AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(result);
                     // { Original returns the token-event pointer after releasing its reference. }
-                    Result.Release();
+                    result.Release();
                 }
                 else
                 {
-                    Result = null;
+                    result = null;
                 }
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        Settings.Release();
-        return Result;
+        settings.Release();
+        return result;
     }
 
     internal static SByteArray16By16By256 MovePointTables;
 
-    internal static int MoveTypesToInt(Set<MoveType> types) => (byte)types.Image;
+    internal static int MoveTypesToInt32(Set<MoveType> types) => (byte)types.Image;
 
 }

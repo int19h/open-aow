@@ -8,64 +8,64 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.Draw;
 
-// FStructure. FFadeEndFrame
+// Structure. FadeEndFrame
 public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
 {
     public MagicSanctuaryOverlayHexSprite(ECustomNode owner) : base(owner)
     {
-        FFadeEndFrame = -1;
+        FadeEndFrame = -1;
     }
 
-    public MagicSanctuary FStructure;
-    public int FFadeEndFrame;
+    public MagicSanctuary Structure;
+    public int FadeEndFrame;
 
     // MagicSanctuary.pas:67
 
     // MagicSanctuary.pas:73
-    public override int GetShowPriority() => FStructure.GetShowPriority() + 134217728;
+    public override int GetShowPriority() => Structure.GetShowPriority() + 134217728;
 
     // MagicSanctuary.pas:78
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int FrameIndex;
-        int Blend;
-        int Xhp = default;
-        int Yhp = default;
-        int FramesLeft;
-        HexGeometry.HXtoHP(FStructure.FXhx, FStructure.FYhx, ref Xhp, ref Yhp);
-        XhpSurf = Xhp - XhpSurf;
-        YhpSurf = Yhp - YhpSurf;
-        Sequence = FStructure.FResource.ImageSequenceList.GetImageSequence(19);
-        if (Sequence != null)
+        ImageSequence sequence;
+        int frameIndex;
+        int blend;
+        int pixelX = default;
+        int pixelY = default;
+        int framesLeft;
+        HexGeometry.HexToPixel(Structure._hexX, Structure._hexY, ref pixelX, ref pixelY);
+        pixelXSurface = pixelX - pixelXSurface;
+        pixelYSurface = pixelY - pixelYSurface;
+        sequence = Structure._resource.ImageSequenceList.GetImageSequence(19);
+        if (sequence != null)
         {
-            Blend = 50;
-            if (FFadeEndFrame != -1 && FFadeEndFrame > AoWHSMap.Current.Frame)
+            blend = 50;
+            if (FadeEndFrame != -1 && FadeEndFrame > AoWHSMap.Current.Frame)
             {
-                FramesLeft = FFadeEndFrame - AoWHSMap.Current.Frame;
-                if (FramesLeft <= 20)
+                framesLeft = FadeEndFrame - AoWHSMap.Current.Frame;
+                if (framesLeft <= 20)
                 {
-                    Blend += (10 - Math.Abs(FramesLeft - 10)) * 3;
+                    blend += (10 - Math.Abs(framesLeft - 10)) * 3;
                 }
                 else
                 {
-                    FFadeEndFrame = -1;
+                    FadeEndFrame = -1;
                 }
             }
             else
             {
-                FFadeEndFrame = -1;
+                FadeEndFrame = -1;
             }
 
-            FrameIndex = Sequence.GetFrameIndex(0, 0);
-            Sequence.ImageLibrary[FrameIndex].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, GraphicsState.IntensityBlendTable.LookupTables[Blend]);
+            frameIndex = sequence.GetFrameIndex(0, 0);
+            sequence.ImageLibrary[frameIndex].ShowBlended(pixelXSurface + sequence.OffsetX, pixelYSurface + sequence.OffsetY, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[blend]);
         }
     }
 
     // MagicSanctuary.pas:105
     public void FadeUp()
     {
-        FFadeEndFrame = AoWHSMap.Current.Frame + 20;
+        FadeEndFrame = AoWHSMap.Current.Frame + 20;
     }
 
     // MagicSanctuary.pas:22

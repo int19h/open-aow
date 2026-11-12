@@ -14,19 +14,19 @@ public partial class AdjacentArmyList : ENode
     { }
 
     // AIGroup.pas:5071
-    public AdjacentArmy GetAdjacentArmies(int Index) => (AdjacentArmy)FChildren.List[Index];
+    public AdjacentArmy GetAdjacentArmies(int index) => (AdjacentArmy)_children.List[index];
 
     // AIGroup.pas:5076
-    public int IndexOfLoc(MapCoordinate Location)
+    public int IndexOfLocation(MapCoordinate location)
     {
-        int Result = Count;
-        Location.Flag = 0;
-        while (Result != 0)
+        int result = Count;
+        location.Tag = 0;
+        while (result != 0)
         {
-            Result -= 1;
-            if (Unsafe.As<MapCoordinate, int>(ref ((AdjacentArmy)FChildren.List[Result]).FLocation) == Unsafe.As<MapCoordinate, int>(ref Location))
+            result -= 1;
+            if (Unsafe.As<MapCoordinate, int>(ref ((AdjacentArmy)_children.List[result]).Location) == Unsafe.As<MapCoordinate, int>(ref location))
             {
-                return Result;
+                return result;
             }
         }
 
@@ -36,36 +36,36 @@ public partial class AdjacentArmyList : ENode
     // AIGroup.pas:5088
     public int GetSlowestArmy()
     {
-        float MaxDays;
-        float Days;
-        MaxDays = -1;
-        int Result = -1;
+        float maxDays;
+        float days;
+        maxDays = -1;
+        int result = -1;
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Days = GetAdjacentArmies(I).GetMovementDays();
-            if ((double)Days > MaxDays)
+            days = GetAdjacentArmies(I).GetMovementDays();
+            if ((double)days > maxDays)
             {
-                Result = I;
-                MaxDays = Days;
+                result = I;
+                maxDays = days;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:5106
     public bool GetAdjacent()
     {
-        MapCoordinateList Locations;
-        Locations = new MapCoordinateList();
+        MapCoordinateList locations;
+        locations = new MapCoordinateList();
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
-            Locations.Add(GetAdjacentArmies(I).FLocation);
+            locations.Add(GetAdjacentArmies(I).Location);
         }
 
-        bool Result = MapCoordinateList.LocationsConnected(Locations);
-        Locations?.Dispose();
-        return Result;
+        bool result = MapCoordinateList.LocationsConnected(locations);
+        locations?.Dispose();
+        return result;
     }
 
     // Engine.pas:631

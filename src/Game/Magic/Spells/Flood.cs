@@ -18,29 +18,29 @@ public partial class Flood : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1356
     public Flood(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.FloodRStr);
-        FSpellID = 50;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 1;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Water;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_floodText);
+        SpellId = 50;
+        SpellType = SpellType.Global;
+        BaseManaCost = 1;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Water;
     }
 
     // GlobalEnchantmentSpells.pas:1370
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        TwinkleAnimation Twinkle;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        Source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-        Twinkle = new TwinkleAnimation(null);
-        Twinkle.Setup(AoWHSSet.Current.FSpellControl.GetSpell(50).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
-        AoWHSMap.Current.PlaceHX(Twinkle, X, Y, L);
-        FCastSounds.Play(0);
-        CastingDone(Source, Event.FEventMana);
+        TwinkleAnimation twinkle;
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        source.GetLocation(ref X, ref Y, ref L);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        twinkle = new TwinkleAnimation(null);
+        twinkle.Setup(AoWHSSet.Current.SpellControl.GetSpell(50).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
+        AoWHSMap.Current.PlaceHex(twinkle, X, Y, L);
+        CastSounds.Play(0);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 
@@ -48,7 +48,7 @@ public partial class Flood : GlobalEnchantmentSpell
     public override GlobalEnchantment CreateEnchantment() => new FloodEnchantment(null);
 
     // GlobalEnchantmentSpells.pas:1367
-    public void ShowAnimation(int Anim, int XhpSurf, int YhpSurf, int SurfaceDesc)
+    public void ShowAnimation(int animation, int pixelXSurface, int pixelYSurface, int surfaceDescription)
     {
     }
 }

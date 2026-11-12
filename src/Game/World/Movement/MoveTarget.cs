@@ -11,22 +11,22 @@ public partial class MoveTarget : EngineObject
     // AIGroup.pas:4215
     public MoveTarget(ECustomNode owner) : base(owner)
     {
-        FRefCount = 1;
+        RefCount = 1;
     }
 
-    public int FRefCount;
-    public AITargetData FData;
-    public MapCoordinate FLocation;
-    public int FMovePoints;
-    public int FTransporterID;
-    public MovePath FMovepath;
+    public int RefCount;
+    public AITargetData Data;
+    public MapCoordinate Location;
+    public int MovePoints;
+    public int TransporterId;
+    public MovePath MovePath;
 
     // AIGroup.pas:4221
     public override void Dispose()
     {
-        if (FMovepath != null)
+        if (MovePath != null)
         {
-            FMovepath?.Dispose();
+            MovePath?.Dispose();
         }
 
         base.Dispose();
@@ -35,21 +35,21 @@ public partial class MoveTarget : EngineObject
     // AIGroup.pas:4227
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // AIGroup.pas:4233
     public override int Release()
     {
-        FRefCount -= 1;
-        int Result = FRefCount;
-        if (Result == 0)
+        RefCount -= 1;
+        int result = RefCount;
+        if (result == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P5_06.inc:204

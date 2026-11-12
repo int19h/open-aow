@@ -9,124 +9,124 @@ namespace Aow.Game.World.Hexes;
 
 public partial class UpperIsometricHex
 {
-    public override void ShowDynamic(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void ShowDynamic(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        CustomImageLibrary IL;
-        int Xhp = default;
-        int Yhp = default;
-        int Variant;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-        Xhp = Xhp - XhpSurf - 8;
-        Yhp = Yhp - YhpSurf;
-        IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        Variant = FrameFixtureInputs.TextureVariant(this);
-        if (Variant == 3)
+        CustomImageLibrary imageLibrary;
+        int pixelX = default;
+        int pixelY = default;
+        int variant;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref pixelX, ref pixelY);
+        pixelX = pixelX - pixelXSurface - 8;
+        pixelY = pixelY - pixelYSurface;
+        imageLibrary = _resource.ImageSequenceList.ImageSequences[0].ImageLibrary;
+        variant = FrameFixtureInputs.TextureVariant(this);
+        if (variant == 3)
         {
-            Variant = 0;
+            variant = 0;
         }
 
-        IL[(int)(((uint)FSides) >> 6) + 40].Show(Xhp, Yhp, SurfaceDesc);
-        if (FOpenSides != 0)
+        imageLibrary[(int)(((uint)Sides) >> 6) + 40].Show(pixelX, pixelY, lockedSurface);
+        if (OpenSides != 0)
         {
-            if ((FOpenSides & 1) != 0)
+            if ((OpenSides & 1) != 0)
             {
-                if ((FOpenSides & 32) == 0)
+                if ((OpenSides & 32) == 0)
                 {
-                    IL[18].Show(Xhp - 19, Yhp - 48 - 16, SurfaceDesc);
+                    imageLibrary[18].Show(pixelX - 19, pixelY - 48 - 16, lockedSurface);
                 }
 
-                if ((FOpenSides & 2) == 0)
+                if ((OpenSides & 2) == 0)
                 {
-                    IL[19].Show(Xhp - 19, Yhp - 48 - 16, SurfaceDesc);
+                    imageLibrary[19].Show(pixelX - 19, pixelY - 48 - 16, lockedSurface);
                 }
 
-                if ((FOpenSides & 34) == 34)
+                if ((OpenSides & 34) == 34)
                 {
-                    IL[23].Show(Xhp - 20, Yhp - 48 - 16, SurfaceDesc);
+                    imageLibrary[23].Show(pixelX - 20, pixelY - 48 - 16, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 34) == 0)
+                    if ((OpenSides & 34) == 0)
                     {
-                        IL[20].Show(Xhp - 20, Yhp - 50 - 16, SurfaceDesc);
+                        imageLibrary[20].Show(pixelX - 20, pixelY - 50 - 16, lockedSurface);
                     }
                 }
             }
 
-            if ((FOpenSides & 8) != 0)
+            if ((OpenSides & 8) != 0)
             {
-                if ((FOpenSides & 16) != 0)
+                if ((OpenSides & 16) != 0)
                 {
-                    if ((FOpenSides & 32) != 0)
+                    if ((OpenSides & 32) != 0)
                     {
-                        IL[17].Show(Xhp - 19 - 32, Yhp - 16, SurfaceDesc);
+                        imageLibrary[17].Show(pixelX - 19 - 32, pixelY - 16, lockedSurface);
                     }
                     else
                     {
-                        IL[Variant + 3].Show(Xhp - 19 - 32, Yhp - 16, SurfaceDesc);
+                        imageLibrary[variant + 3].Show(pixelX - 19 - 32, pixelY - 16, lockedSurface);
                     }
                 }
 
-                if ((FOpenSides & 4) != 0)
+                if ((OpenSides & 4) != 0)
                 {
-                    if ((FOpenSides & 2) != 0)
+                    if ((OpenSides & 2) != 0)
                     {
-                        IL[16].Show(Xhp - 19 + 16 + 16, Yhp - 16, SurfaceDesc);
+                        imageLibrary[16].Show(pixelX - 19 + 16 + 16, pixelY - 16, lockedSurface);
                     }
                     else
                     {
-                        IL[Variant].Show(Xhp - 19 + 16 + 16, Yhp - 16, SurfaceDesc);
+                        imageLibrary[variant].Show(pixelX - 19 + 16 + 16, pixelY - 16, lockedSurface);
                     }
                 }
 
-                if ((FOpenSides & 20) == 20)
+                if ((OpenSides & 20) == 20)
                 {
-                    IL[13].Show(Xhp - 19, Yhp, SurfaceDesc);
+                    imageLibrary[13].Show(pixelX - 19, pixelY, lockedSurface);
                 }
                 else
                 {
-                    if ((FOpenSides & 20) == 0)
+                    if ((OpenSides & 20) == 0)
                     {
-                        IL[6].Show(Xhp - 19, Yhp, SurfaceDesc);
+                        imageLibrary[6].Show(pixelX - 19, pixelY, lockedSurface);
                     }
                 }
             }
             else
             {
-                if ((FOpenSides & 16) != 0)
+                if ((OpenSides & 16) != 0)
                 {
-                    if ((FOpenSides & 32) == 0)
+                    if ((OpenSides & 32) == 0)
                     {
-                        IL[25].Show(Xhp - 19 - 32, Yhp - 16, SurfaceDesc);
+                        imageLibrary[25].Show(pixelX - 19 - 32, pixelY - 16, lockedSurface);
                     }
                     else
                     {
-                        if ((FOpenSides & 1) != 0)
+                        if ((OpenSides & 1) != 0)
                         {
-                            IL[15].Show(Xhp - 19 - 32, Yhp - 16, SurfaceDesc);
+                            imageLibrary[15].Show(pixelX - 19 - 32, pixelY - 16, lockedSurface);
                         }
                         else
                         {
-                            IL[Variant + 10].Show(Xhp - 19 - 32, Yhp - 16, SurfaceDesc);
+                            imageLibrary[variant + 10].Show(pixelX - 19 - 32, pixelY - 16, lockedSurface);
                         }
                     }
                 }
 
-                if ((FOpenSides & 4) != 0)
+                if ((OpenSides & 4) != 0)
                 {
-                    if ((FOpenSides & 2) == 0)
+                    if ((OpenSides & 2) == 0)
                     {
-                        IL[24].Show(Xhp - 19 + 32, Yhp - 16, SurfaceDesc);
+                        imageLibrary[24].Show(pixelX - 19 + 32, pixelY - 16, lockedSurface);
                     }
                     else
                     {
-                        if ((FOpenSides & 1) != 0)
+                        if ((OpenSides & 1) != 0)
                         {
-                            IL[14].Show(Xhp - 19 + 32, Yhp - 16, SurfaceDesc);
+                            imageLibrary[14].Show(pixelX - 19 + 32, pixelY - 16, lockedSurface);
                         }
                         else
                         {
-                            IL[Variant + 7].Show(Xhp - 19 + 32, Yhp - 16, SurfaceDesc);
+                            imageLibrary[variant + 7].Show(pixelX - 19 + 32, pixelY - 16, lockedSurface);
                         }
                     }
                 }

@@ -8,45 +8,45 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Commands;
 
-// FLocation: packed X/Y/layer coordinates
+// Location: packed X/Y/layer coordinates
 public partial class GlobalTargetSpellTokenEvent : SpellTokenEvent
 {
     public GlobalTargetSpellTokenEvent(ECustomNode owner) : base(owner)
     { }
 
     // GlobalTargetSpells.pas:401
-    public new const int ClassID = 135976;
+    public new const int ClassId = 135976;
 
-    public MapCoordinate FLocation;
+    public MapCoordinate Location;
 
     // GlobalTargetSpells.pas:406
     // packed coordinates
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FLocation.Packed, 20);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Location.Packed, 20);
     }
 
     // GlobalTargetSpells.pas:412
-    public void SetLocation(sbyte X, sbyte Y, sbyte Layer)
+    public void SetLocation(sbyte X, sbyte Y, sbyte layer)
     {
-        FLocation.X = X;
-        FLocation.Y = Y;
-        FLocation.L = Layer;
+        Location.X = X;
+        Location.Y = Y;
+        Location.MapLevel = layer;
     }
 
     // GlobalTargetSpells.pas:419
-    public void PlayDefaultEffects(sbyte X, sbyte Y, sbyte Layer)
+    public void PlayDefaultEffects(sbyte X, sbyte Y, sbyte layer)
     {
-        ImageSequenceAnimation Animation;
-        if (AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0] != null)
+        ImageSequenceAnimation animation;
+        if (AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
-            Animation = new ImageSequenceAnimation(null);
-            Animation.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0]);
-            AoWHSMap.Current.PlaceHX(Animation, X, Y, Layer);
+            animation = new ImageSequenceAnimation(null);
+            animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
+            AoWHSMap.Current.PlaceHex(animation, X, Y, layer);
         }
 
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
     }
 
     // NetworkE.pas:230

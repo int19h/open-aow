@@ -11,8 +11,8 @@ public partial class ItemHSList
 
     public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level)
     {
-        x = Sprite.GetXhx();
-        y = Sprite.GetYhx();
-        level = Sprite.GetLhx();
+        x = Sprite.GetHexX();
+        y = Sprite.GetHexY();
+        level = Sprite.GetHexLevel();
     }
 }

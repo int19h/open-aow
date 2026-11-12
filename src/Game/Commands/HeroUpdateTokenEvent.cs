@@ -14,80 +14,80 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-// FUnitID. FMode. FItemID (also spell ID). FParameter
+// UnitId. Mode. ItemId (also spell ID). Parameter
 public partial class HeroUpdateTokenEvent : TokenEvent
 {
     public HeroUpdateTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 135429;
+    public new const int ClassId = 135429;
 
-    public int FUnitID;
-    public Mode FMode;
-    public int FItemID;
-    public int FParameter;
+    public int UnitId;
+    public HeroUpdateTokenEventMode Mode;
+    public int ItemId;
+    public int Parameter;
 
     // Hero.PAS:2279
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FUnitID, 20);
-        Stream.rwData(Bytes.Of(ref FMode, 1), 1, 21);
-        Stream.rwInteger(ref FItemID, 22);
-        Stream.rwInteger(ref FParameter, 23);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref UnitId, 20);
+        stream.rwData(Bytes.Of(ref Mode, 1), 1, 21);
+        stream.rwInteger(ref ItemId, 22);
+        stream.rwInteger(ref Parameter, 23);
     }
 
     // Hero.PAS:2291
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        bool Success;
-        Success = false;
-        Troop unit = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-        if (unit == null)
+        ExecuteResult result;
+        bool success;
+        success = false;
+        Troop troop = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        if (troop == null)
         {
             // A missing id is a nil hero. The original reads FPlayer and faults.
             // ExecuteTokenEvent catches the fault, shows the message and returns erDone.
             // Returning erDoneHalt stops the rest of Process.
-            _ = unit.FPlayer;
+            _ = troop.Player;
         }
 
-        if (unit is Hero Hero && ((AoWHSMap.Current.FCombat == null && AoWHSMap.Current.FCurrentPlayer == Hero.FPlayer) || (AoWHSMap.Current.FCombat != null && AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == Hero.FPlayer)))
+        if (troop is Hero hero && ((AoWHSMap.Current.Combat == null && AoWHSMap.Current.CurrentPlayer == hero.Player) || (AoWHSMap.Current.Combat != null && AoWHSMap.Current.Combat.CombatData.Players.GetPlayers((sbyte)AoWHSMap.Current.Combat.CombatData.CurrentPlayer).Player == hero.Player)))
         {
-            switch (FMode)
+            switch (Mode)
             {
-                case Mode.PlaceItem:
-                    Success = Hero.ExecutePlaceItem(FItemID, (HeroItemPosition)FParameter);
+                case HeroUpdateTokenEventMode.PlaceItem:
+                    success = hero.ExecutePlaceItem(ItemId, (HeroItemPosition)Parameter);
                     break;
-                case Mode.SwapItem:
-                    Success = Hero.ExecuteSwapItem(FItemID, FParameter);
+                case HeroUpdateTokenEventMode.SwapItem:
+                    success = hero.ExecuteSwapItem(ItemId, Parameter);
                     break;
-                case Mode.StartCasting:
-                    Success = Hero.ExecuteStartCasting(FItemID);
+                case HeroUpdateTokenEventMode.StartCasting:
+                    success = hero.ExecuteStartCasting(ItemId);
                     break;
-                case Mode.CancelCasting:
-                    Success = Hero.ExecuteCancelCasting();
+                case HeroUpdateTokenEventMode.CancelCasting:
+                    success = hero.ExecuteCancelCasting();
                     break;
             }
         }
 
-        if (Success)
+        if (success)
         {
-            Result = ExecuteResult.Done;
+            result = ExecuteResult.Done;
         }
         else
         {
-            Result = ExecuteResult.DoneHalt;
+            result = ExecuteResult.DoneHalt;
         }
 
-        return Result;
-    }
-
-    public enum Mode : byte
-    {
-        PlaceItem = 0, SwapItem = 1, StartCasting = 2, CancelCasting = 3
+        return result;
     }
 
     // NetworkE.pas:230
 
+}
+
+public enum HeroUpdateTokenEventMode : byte
+{
+    PlaceItem = 0, SwapItem = 1, StartCasting = 2, CancelCasting = 3
 }

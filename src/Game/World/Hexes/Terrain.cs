@@ -13,14 +13,14 @@ public partial class Terrain : TerrainMapObject
     { }
 
     // AoWTer.pas:89
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001985)
         {
             try
             {
-                if (((TerrainMapObjectResource)FResource).DecorationType == 3)
+                if (((TerrainMapObjectResource)_resource).DecorationType == 3)
                 {
                     ValidateDeadTreeRegrow();
                 }
@@ -33,24 +33,24 @@ public partial class Terrain : TerrainMapObject
 
     // AoWTer.pas:100
     // { Original ignores regrowth failures. }
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.MsgID == 4386)
+        base.MapFieldMessageProc(ref message);
+        if (message.MessageId == 4386)
         {
-            if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
+            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
             {
-                Msg.Result = ((Resource)FResource).FMapFieldResponse;
+                message.Result = ((Resource)_resource).MapFieldResponse;
                 return;
             }
         }
         else
         {
-            if (Msg.MsgID == 4357)
+            if (message.MessageId == 4357)
             {
-                if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
+                if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
                 {
-                    ValidateDenseVegetationBurned(Msg.Param[0].As<Fire>());
+                    ValidateDenseVegetationBurned(message.Param[0].As<Fire>());
                 }
             }
         }
@@ -60,22 +60,22 @@ public partial class Terrain : TerrainMapObject
     public void ValidateDeadTreeRegrow()
     {
         TerrainMapObjectResource R;
-        ECustomNode OldOwner;
+        ECustomNode oldOwner;
         if (Owner.FindOwnedChild(132990) == null)
         {
             if (AoWHSMap.Current.Random(20) == 0)
             {
-                R = FindCompatibleResource(((TerrainMapObjectResource)FResource).TerrainType, 1, 0);
+                R = FindCompatibleResource(((TerrainMapObjectResource)_resource).TerrainType, 1, 0);
                 if (R != null)
                 {
-                    OldOwner = Owner;
+                    oldOwner = Owner;
                     RemoveFromMap();
                     SetResource(R);
-                    Owner = OldOwner;
+                    Owner = oldOwner;
                     PlaceOnMap();
-                    if (FResource.Level <= 15)
+                    if (_resource.Level <= 15)
                     {
-                        FResource.Engine.HSMap.StaticSceneInvalid = true;
+                        _resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
                     }
 
                     OverrideTerrain();
@@ -87,32 +87,32 @@ public partial class Terrain : TerrainMapObject
     // AoWTer.pas:45. Message $1105 carries a TFire whose byte $1E is FAge.
     public void ValidateDenseVegetationBurned(Fire info)
     {
-        if (info.FAge < 2 || FResource.TerrainList.Overlay[0] != 1) return;
-        var resource = FindCompatibleResource(((TerrainMapObjectResource)FResource).TerrainType, 3, 3);
+        if (info.Age < 2 || _resource.TerrainList.Overlay[0] != 1) return;
+        var resource = FindCompatibleResource(((TerrainMapObjectResource)_resource).TerrainType, 3, 3);
         if (resource == null) return;
-        UpdateTerrain((MapLevel)Owner.Owner, GetXhx(), GetYhx());
+        UpdateTerrain((MapLevel)Owner.Owner, GetHexX(), GetHexY());
         var owner = Owner;
         RemoveFromMap();
         SetResource(resource);
         Owner = owner;
         PlaceOnMap();
-        if (FResource.Level <= 15) FResource.Engine.HSMap.StaticSceneInvalid = true;
+        if (_resource.Level <= 15) _resource.Engine.HexSpriteMap.StaticSceneInvalid = true;
         OverrideTerrain();
     }
 
-    // FMapFieldResponse (stream id 20)
+    // MapFieldResponse (stream id 20)
     public new partial class Resource : TerrainMapObjectResource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }
 
-        public int FMapFieldResponse;
+        public int MapFieldResponse;
 
         // AoWTer.pas:116
-        public override void ReadWrite(EStorageStream Stream)
+        public override void ReadWrite(EStorageStream stream)
         {
-            base.ReadWrite(Stream);
-            Stream.rwInteger(ref FMapFieldResponse, 20);
+            base.ReadWrite(stream);
+            stream.rwInteger(ref MapFieldResponse, 20);
         }
     }
 }

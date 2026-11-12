@@ -6,5 +6,5 @@ namespace Aow.Game.Draw;
 [InlineArray(256)]
 public struct HexSpriteArray256
 {
-    private HexSprite element0;
+    private HexSprite _element0;
 }

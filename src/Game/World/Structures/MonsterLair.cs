@@ -11,7 +11,7 @@ public partial class MonsterLair : ItemExplorationSite
     { }
 
     // MonsterL.pas:34
-    public new const int ClassID = 131886;
+    public new const int ClassId = 131886;
 
     public new partial class Resource : ItemExplorationSiteResource
     {
@@ -19,15 +19,15 @@ public partial class MonsterLair : ItemExplorationSite
         { }
 
         // MonsterL.pas:40
-        public new const int ClassID = 131887;
+        public new const int ClassId = 131887;
 
         // MonsterL.pas:43
-        public override int ResourceUserClassID() => 131886;
+        public override int ResourceUserClassId() => 131886;
 
         // MonsterL.pas:37
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(MonsterLairRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_monsterLairText);
 
-        private static readonly string MonsterLairRStr = "Monster Lair";
+        private static readonly string s_monsterLairText = "Monster Lair";
 
     }
 

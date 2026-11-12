@@ -10,8 +10,8 @@ public partial class CosmeticSurgeryAbility : UnitEnchantmentAbility
     // AoWAb.PAS:910
     public CosmeticSurgeryAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(GameText.CosmeticSurgeryRStr);
-        FAbilityID = 126;
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_cosmeticSurgeryText);
+        AbilityId = 126;
     }
 
     // AoWAb.PAS:917

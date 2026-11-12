@@ -10,7 +10,7 @@ namespace Aow.Game.Saves;
 /// </summary>
 public sealed class ContentScope(ValidationContext context, JsonObject root, DocumentNodePath rootPath)
 {
-    private readonly Dictionary<ReferenceDomain, IReadOnlySet<long>> domains = [];
+    private readonly Dictionary<ReferenceDomain, IReadOnlySet<long>> _domains = [];
 
     public ValidationContext Context { get; } = context;
 
@@ -25,7 +25,7 @@ public sealed class ContentScope(ValidationContext context, JsonObject root, Doc
 
     public IReadOnlySet<long> Identities(ReferenceDomain domain)
     {
-        if (!domains.TryGetValue(domain, out var identities)) domains[domain] = identities = domain.Collect(Root);
+        if (!_domains.TryGetValue(domain, out var identities)) _domains[domain] = identities = domain.Collect(Root);
         return identities;
     }
 }

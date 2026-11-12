@@ -42,46 +42,46 @@ public partial class DisjunctionDialog : DataModule
     public IvTranslator Translator;
     public Panel MapViewPnl;
     public UserDrawBox MapView;
-    public DisjunctionSpellCaster FCaster;
-    public int FSortOrder;
-    public sbyte FMapX;
-    public sbyte FMapY;
-    public sbyte FMapL;
+    public DisjunctionSpellCaster Caster;
+    public int SortOrder;
+    public sbyte MapX;
+    public sbyte MapY;
+    public sbyte MapL;
 
     // AoWDisjunctionDlg.pas:179
     public void ClearCaster()
     {
         DialogHosts.General.Manager.OverlayPriority = 0;
-        if (FCaster != null)
+        if (Caster != null)
         {
-            FCaster.Release();
-            FCaster = null;
+            Caster.Release();
+            Caster = null;
         }
     }
 
     // AoWDisjunctionDlg.pas:189
     public void UpdateEnchantments()
     {
-        GlobalMagicControl Magic;
-        string Reason = "";
-        Magic = AoWHSMap.Current.FGlobalMagicControl;
+        GlobalMagicControl magic;
+        string reason = "";
+        magic = AoWHSMap.Current.GlobalMagicControl;
         EnchantmentList.Items.Clear();
         OwnerList.Items.Clear();
-        for (int I = 0, last = Magic.FEnchantments.Count - 1; I <= last; I++)
+        for (int I = 0, last = magic.Enchantments.Count - 1; I <= last; I++)
         {
-            if (Magic.FEnchantments.GetEnchantments(I).FPlayerIndex != AoWHSMap.Current.FSeatedPlayer)
+            if (magic.Enchantments.GetEnchantments(I).PlayerIndex != AoWHSMap.Current.SeatedPlayer)
             {
-                if (Magic.FEnchantments.GetEnchantments(I).VisibleForPlayer(AoWHSMap.Current.FSeatedPlayer))
+                if (magic.Enchantments.GetEnchantments(I).VisibleForPlayer(AoWHSMap.Current.SeatedPlayer))
                 {
-                    if (Magic.FEnchantments.GetEnchantments(I).CanDispel(AoWHSMap.Current.FSeatedPlayer, ref Reason))
+                    if (magic.Enchantments.GetEnchantments(I).CanDispel(AoWHSMap.Current.SeatedPlayer, ref reason))
                     {
-                        Reason = Magic.FEnchantments.GetEnchantments(I).GetName();
-                        var name = Magic.FEnchantments.GetEnchantments(I).GetName();
-                        var enchantmentEnchantmentID = Magic.FEnchantments.GetEnchantments(I);
-                        EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentID.FEnchantmentID));
-                        var enchantmentPlayerIndex = Magic.FEnchantments.GetEnchantments(I);
-                        var player = AoWHSMap.Current.FPlayers.GetPlayers(enchantmentPlayerIndex.FPlayerIndex);
-                        OwnerList.Items.Add(player.FLeader.FHeroName);
+                        reason = magic.Enchantments.GetEnchantments(I).GetName();
+                        var name = magic.Enchantments.GetEnchantments(I).GetName();
+                        var enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(I);
+                        EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentId._enchantmentId));
+                        var enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(I);
+                        var player = AoWHSMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
+                        OwnerList.Items.Add(player.Leader.HeroName);
                     }
                 }
             }
@@ -94,7 +94,7 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:212
     public void SortEnchantments()
     {
-        switch (FSortOrder)
+        switch (SortOrder)
         {
             case 0:
                 StringSorting.SortStringsAscending(EnchantmentList.Items, [OwnerList.Items]);
@@ -114,7 +114,7 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:222
     public void UpdateChance()
     {
-        if (FCaster.GetEnoughMana())
+        if (Caster.GetEnoughMana())
         {
             DisjunctionMana.TextColor = 12632256;
         }
@@ -123,44 +123,44 @@ public partial class DisjunctionDialog : DataModule
             DisjunctionMana.TextColor = 255;
         }
 
-        var spell = AoWHSSet.Current.FSpellControl.GetSpell(51);
-        var mana = FCaster.GetMana();
-        var fSpellControlSpell = AoWHSSet.Current.FSpellControl.GetSpell(51);
-        var fCasterMana = FCaster.GetMana();
-        DisjunctionMana.Text = IntToStr(spell.FBaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.FBaseManaCost + fCasterMana);
-        DisjunctionChance.Text = IntToStr(FCaster.FDispelChance) + "%";
-        var dispelChanceMax = FCaster.GetDispelChanceMax();
+        var spell = AoWHSSet.Current.SpellControl.GetSpell(51);
+        var mana = Caster.GetMana();
+        var fSpellControlSpell = AoWHSSet.Current.SpellControl.GetSpell(51);
+        var fCasterMana = Caster.GetMana();
+        DisjunctionMana.Text = IntToStr(spell.BaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.BaseManaCost + fCasterMana);
+        DisjunctionChance.Text = IntToStr(Caster.DispelChance) + "%";
+        var dispelChanceMax = Caster.GetDispelChanceMax();
         ChanceSlider.Max = dispelChanceMax;
-        ChanceSlider.Position = FCaster.FDispelChance;
+        ChanceSlider.Position = Caster.DispelChance;
     }
 
     // AoWDisjunctionDlg.pas:233
-    public void SelectEnchantment(int Index)
+    public void SelectEnchantment(int index)
     {
-        GlobalEnchantment Enchantment;
-        MapCoordinate Location;
-        if (Index >= 0 && Index < EnchantmentList.Items.Count)
+        GlobalEnchantment enchantment;
+        MapCoordinate location;
+        if (index >= 0 && index < EnchantmentList.Items.Count)
         {
-            EnchantmentList.Selected = Index;
-            OwnerList.Selected = Index;
-            var objectValue = EnchantmentList.Items.Objects[Index];
-            FCaster.SetEnchantmentID(ObjectToInt(objectValue));
-            Enchantment = FCaster.SelectedEnchantment();
-            if (Enchantment != null)
+            EnchantmentList.Selected = index;
+            OwnerList.Selected = index;
+            var objectValue = EnchantmentList.Items.Objects[index];
+            Caster.SetEnchantmentId(ObjectToInt(objectValue));
+            enchantment = Caster.SelectedEnchantment();
+            if (enchantment != null)
             {
-                Location = Enchantment.GetLocation();
-                FMapX = Location.X;
-                FMapY = Location.Y;
-                FMapL = Location.L;
+                location = enchantment.GetLocation();
+                MapX = location.X;
+                MapY = location.Y;
+                MapL = location.MapLevel;
             }
             else
             {
-                FMapX = -1;
+                MapX = -1;
             }
 
-            if (FMapX == -1)
+            if (MapX == -1)
             {
-                FCaster.GetSource().GetLocation(ref FMapX, ref FMapY, ref FMapL);
+                Caster.GetSource().GetLocation(ref MapX, ref MapY, ref MapL);
             }
 
             UpdateChance();
@@ -173,15 +173,15 @@ public partial class DisjunctionDialog : DataModule
     }
 
     // AoWDisjunctionDlg.pas:262
-    public void Execute(DisjunctionSpellCaster Caster)
+    public void Execute(DisjunctionSpellCaster caster)
     {
-        if (FCaster != null)
+        if (Caster != null)
         {
-            FCaster.Release();
+            Caster.Release();
         }
 
-        FCaster = Caster;
-        FCaster.AddRef();
+        Caster = caster;
+        Caster.AddRef();
         UpdateEnchantments();
         SelectEnchantment(0);
         DialogHosts.General.Manager.OverlayPriority = 49;
@@ -197,17 +197,17 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:82
     public void CastBtnClick()
     {
-        string Reason = "";
-        if (FCaster.CanCast(ref Reason))
+        string reason = "";
+        if (Caster.CanCast(ref reason))
         {
-            if (FCaster.Cast())
+            if (Caster.Cast())
             {
                 Dlg.Visible = false;
             }
         }
         else
         {
-            AoWHSMap.Current.ShowMessage(Reason);
+            AoWHSMap.Current.ShowMessage(reason);
         }
     }
 
@@ -226,7 +226,7 @@ public partial class DisjunctionDialog : DataModule
     // AoWDisjunctionDlg.pas:106
     public void ChanceSliderChange()
     {
-        FCaster.SetDispelChance(ChanceSlider.Position);
+        Caster.SetDispelChance(ChanceSlider.Position);
         UpdateChance();
     }
 
@@ -241,13 +241,13 @@ public partial class DisjunctionDialog : DataModule
     public void SortEnchantmentClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FSortOrder == 0)
+        if (SortOrder == 0)
         {
-            FSortOrder = 1;
+            SortOrder = 1;
         }
         else
         {
-            FSortOrder = 0;
+            SortOrder = 0;
         }
 
         SortEnchantments();
@@ -257,13 +257,13 @@ public partial class DisjunctionDialog : DataModule
     public void SortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FSortOrder == 2)
+        if (SortOrder == 2)
         {
-            FSortOrder = 3;
+            SortOrder = 3;
         }
         else
         {
-            FSortOrder = 2;
+            SortOrder = 2;
         }
 
         SortEnchantments();
@@ -276,27 +276,27 @@ public partial class DisjunctionDialog : DataModule
     }
 
     // AoWDisjunctionDlg.pas:142
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
     // AoWDisjunctionDlg.pas:148
-    public void MapViewDraw(UIComponent Sender, LockedSurface SD)
+    public void MapViewDraw(UIComponent sender, LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        LockedSurface MapSD = default;
+        LockedSurface mapSurfaceDescription = default;
         Rect R;
         int W;
         int H;
-        R = new Rect(Dlg.WinLeft + Sender.WinLeft + 1, Dlg.WinTop + Sender.WinTop + 1, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
+        R = new Rect(Dlg.WinLeft + sender.WinLeft + 1, Dlg.WinTop + sender.WinTop + 1, Dlg.WinLeft + sender.WinLeft + sender.WinWidth - 2, Dlg.WinTop + sender.WinTop + sender.WinHeight - 2);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        HexGeometry.HXtoHP(FMapX, FMapY, ref X, ref Y);
+        HexGeometry.HexToPixel(MapX, MapY, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -309,18 +309,18 @@ public partial class DisjunctionDialog : DataModule
             Y = 16;
         }
 
-        LockedSurface.CreateSDfromSD(SD, R, ref MapSD);
-        AoWHSMap.Current.SetViewPort(X, Y, FMapL, R.Right - R.Left, R.Bottom - R.Top);
+        LockedSurface.CreateFrom(lockedSurface, R, ref mapSurfaceDescription);
+        AoWHSMap.Current.SetViewPort(X, Y, MapL, R.Right - R.Left, R.Bottom - R.Top);
         AoWHSMap.Current.UpdateStaticScene();
         AoWHSMap.Current.UpdateDynamicScene();
-        AoWHSMap.Current.DrawStaticScene(ref MapSD);
-        AoWHSMap.Current.DrawDynamicScene(ref MapSD);
+        AoWHSMap.Current.DrawStaticScene(ref mapSurfaceDescription);
+        AoWHSMap.Current.DrawDynamicScene(ref mapSurfaceDescription);
     }
 
     // AoWDisjunctionDlg.pas:170
     public void MapViewUpdate()
     {
         DialogHosts.General.Manager.OverlayPriority = 49;
-        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Current.Frame & 1) != 0;
+        MapView.Drawn = MapView.Drawn && (AoWHSMap.Current.Frame & 1) != 0;
     }
 }

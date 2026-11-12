@@ -12,94 +12,94 @@ public partial class AIGroupManager : AIGroupList
     // AIGroup.pas:564
     public AIGroupManager(ECustomNode owner) : base(owner)
     {
-        FNextID = 1;
-        FRegisteredClasses = new List<AIGroupClass>();
+        NextId = 1;
+        RegisteredClasses = new List<AIGroupClass>();
     }
 
-    public int FNextID;
-    public List<AIGroupClass> FRegisteredClasses;
+    public int NextId;
+    public List<AIGroupClass> RegisteredClasses;
 
     // AIGroup.pas:571
     public override void Dispose()
     {
-        FRegisteredClasses?.Clear();
+        RegisteredClasses?.Clear();
         base.Dispose();
     }
 
     // AIGroup.pas:577
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwIntegerEx(ref FNextID, 1, 30);
+        base.ReadWrite(stream);
+        stream.rwIntegerEx(ref NextId, 1, 30);
     }
 
     // AIGroup.pas:583
-    public void RegisterAIGroupClasses(ReadOnlySpan<AIGroupClass> Classes)
+    public void RegisterAIGroupClasses(ReadOnlySpan<AIGroupClass> classes)
     {
-        for (int I = 0, last = Classes.Length - 1; I <= last; I++)
+        for (int I = 0, last = classes.Length - 1; I <= last; I++)
         {
-            if (FRegisteredClasses.IndexOf(Classes[I]) == -1)
+            if (RegisteredClasses.IndexOf(classes[I]) == -1)
             {
-                FRegisteredClasses.Add(Classes[I]);
+                RegisteredClasses.Add(classes[I]);
             }
         }
     }
 
     // AIGroup.pas:592
-    public void UnregisterAIGroupClasses(ReadOnlySpan<AIGroupClass> Classes)
+    public void UnregisterAIGroupClasses(ReadOnlySpan<AIGroupClass> classes)
     {
-        for (int I = 0, last = Classes.Length - 1; I <= last; I++)
+        for (int I = 0, last = classes.Length - 1; I <= last; I++)
         {
-            FRegisteredClasses.Remove(Classes[I]);
+            RegisteredClasses.Remove(classes[I]);
         }
     }
 
     // AIGroup.pas:600
-    public AIGroup CreateGroup(sbyte Player, sbyte Relation, GroupBehavior Behavior)
+    public AIGroup CreateGroup(sbyte player, sbyte relation, GroupBehavior behavior)
     {
-        AIGroup Result;
+        AIGroup result;
         int I;
-        bool Found;
-        Found = false;
-        I = FRegisteredClasses.Count;
-        while (!Found && I != 0)
+        bool found;
+        found = false;
+        I = RegisteredClasses.Count;
+        while (!found && I != 0)
         {
             I -= 1;
-            Found = Behavior == (FRegisteredClasses[I]).Behavior;
+            found = behavior == (RegisteredClasses[I]).Behavior;
         }
 
-        if (Found)
+        if (found)
         {
-            Result = (FRegisteredClasses[I]).Create(this);
-            Result.FGroupID = CreateUniqueID();
-            Result.FPlayer = Player;
-            Result.FIndependentRelation = Relation;
-            Result.AddRef();
-            Result.Activate();
+            result = (RegisteredClasses[I]).CreateInstance(this);
+            result.GroupId = CreateUniqueId();
+            result.Player = player;
+            result.IndependentRelation = relation;
+            result.AddRef();
+            result.Activate();
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:624
-    public int CreateUniqueID()
+    public int CreateUniqueId()
     {
-        int Result = FNextID;
-        while (IndexOfID(Result) != -1)
+        int result = NextId;
+        while (IndexOfId(result) != -1)
         {
-            Result += 1;
-            if (Result > 268435455)
+            result += 1;
+            if (result > 268435455)
             {
-                Result = 1;
+                result = 1;
             }
         }
 
-        FNextID = Result + 1;
-        return Result;
+        NextId = result + 1;
+        return result;
     }
 
     // intf_P5_07.inc:101

@@ -14,53 +14,53 @@ namespace Aow.Game.UI.Controls;
 // tab), FILIndexUp, FILIndexDown, FPanels (the TAOWPanel objects of the tabs)
 public partial class TabPanel : Control
 {
-    public StringList FItems;
-    public int FSelected;
-    public InterfaceImageLibrary FILButton;
-    public int FBorderHeightSelected;
-    public int FILIndexUp;
-    public int FILIndexDown;
-    public List<Panel> FPanels;
+    public StringList _items;
+    public int _selected;
+    public InterfaceImageLibrary _imageLibraryButton;
+    public int _borderHeightSelected;
+    public int _imageLibraryIndexUp;
+    public int _imageLibraryIndexDown;
+    public List<Panel> Panels;
 
     // AoWTabPanel.pas:62
     public TabPanel(Component owner) : base(owner)
     {
-        FItems = new StringList();
-        FItems.OnChange = OnChangeText;
-        FPanels = new List<Panel>();
+        _items = new StringList();
+        _items.OnChange = OnChangeText;
+        Panels = new List<Panel>();
     }
 
     // AoWTabPanel.pas:70
     public override void Dispose()
     {
         WindowControl P;
-        for (int I = 0, last = FPanels.Count - 1; I <= last; I++)
+        for (int I = 0, last = Panels.Count - 1; I <= last; I++)
         {
-            P = FPanels[I];
+            P = Panels[I];
             P.DetachMenuBar();
         }
 
-        FPanels.Clear();
-        FItems.Dispose();
+        Panels.Clear();
+        _items.Dispose();
         base.Dispose();
     }
 
     // AoWTabPanel.pas:112
     public override void Validate()
     {
-        if (FILButton != null)
+        if (_imageLibraryButton != null)
         {
-            FILButton = FILButton.CheckIL(FILIndexUp, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexUp, 3, this);
         }
 
-        if (FILButton != null)
+        if (_imageLibraryButton != null)
         {
-            FILButton = FILButton.CheckIL(FILIndexDown, 3, this);
+            _imageLibraryButton = _imageLibraryButton.CheckImageLibrary(_imageLibraryIndexDown, 3, this);
         }
 
-        if (FILButton != null && FAOWFont != null)
+        if (_imageLibraryButton != null && _font != null)
         {
-            FValid = true;
+            Valid = true;
         }
 
         base.Validate();
@@ -69,21 +69,21 @@ public partial class TabPanel : Control
     // AoWTabPanel.pas:123
     public override void SetSize()
     {
-        var ilButtonWidth = FILButton[FILIndexUp];
-        var ilButton = FILButton[FILIndexUp + 2];
-        var count = FItems.Count;
-        if ((ilButtonWidth.Width + ilButton.Width) * count > FWinWidth)
+        var imageLibraryButtonWidth = _imageLibraryButton[_imageLibraryIndexUp];
+        var imageLibraryButton = _imageLibraryButton[_imageLibraryIndexUp + 2];
+        var count = _items.Count;
+        if ((imageLibraryButtonWidth.Width + imageLibraryButton.Width) * count > _winWidth)
         {
-            var ilButton2 = FILButton[FILIndexUp];
-            var ilButton3 = FILButton[FILIndexUp + 2];
-            var fItemsCount = FItems.Count;
-            FWinWidth = (ilButton2.Width + ilButton3.Width) * fItemsCount;
+            var imageLibraryButton2 = _imageLibraryButton[_imageLibraryIndexUp];
+            var imageLibraryButton3 = _imageLibraryButton[_imageLibraryIndexUp + 2];
+            var fItemsCount = _items.Count;
+            _winWidth = (imageLibraryButton2.Width + imageLibraryButton3.Width) * fItemsCount;
         }
 
-        FWinHeight = FILButton[FILIndexUp].Height;
-        if (FItems.Count <= FSelected)
+        _winHeight = _imageLibraryButton[_imageLibraryIndexUp].Height;
+        if (_items.Count <= _selected)
         {
-            FSelected = FItems.Count - 1;
+            _selected = _items.Count - 1;
         }
 
         base.SetSize();
@@ -92,58 +92,58 @@ public partial class TabPanel : Control
     // AoWTabPanel.pas:164
     // { Draw: the tabs side by side in equal shares of the width, the text centered; the selected tab
     //   with the down image and its text BorderHeightSelected pixels down }
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
-        Rect OldClip = default;
+        Rect oldClip = default;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                if (FOnPreDraw != null)
+                if (_onPreDraw != null)
                 {
-                    FOnPreDraw(this, SurfDesc);
+                    _onPreDraw(this, lockedSurface);
                 }
 
-                OldClip = SurfDesc.ClipRect;
-                for (int I = 0, last = FItems.Count - 1; I <= last; I++)
+                oldClip = lockedSurface.ClipRectangle;
+                for (int I = 0, last = _items.Count - 1; I <= last; I++)
                 {
-                    if (I != FSelected)
+                    if (I != _selected)
                     {
-                        var count = FItems.Count;
-                        var fItemsCount = FItems.Count;
-                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
-                        FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
-                        if (FAOWFont != null)
+                        var count = _items.Count;
+                        var fItemsCount = _items.Count;
+                        var rectangle = new Rect(_window._winLeft + _winLeft + _winWidth * I / fItemsCount, _window._winTop + _winTop, _winWidth / count, _winHeight);
+                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
+                        if (_font != null)
                         {
-                            FAOWFont.Color = FSelColor;
-                            var item = FItems[I];
-                            var textWidth = FAOWFont.GetTextWidth(item);
-                            var count2 = FItems.Count;
-                            var item2 = FItems[I];
-                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeight, item2, SurfDesc);
+                            _font.Color = SelectedColor;
+                            var item = _items[I];
+                            var textWidth = _font.GetTextWidth(item);
+                            var count2 = _items.Count;
+                            var item2 = _items[I];
+                            _font.SetText(_window._winLeft + _winLeft + _winWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, _window._winTop + _winTop + _borderHeight, item2, lockedSurface);
                         }
                     }
                     else
                     {
-                        var count = FItems.Count;
-                        var fItemsCount = FItems.Count;
-                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
-                        FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
-                        if (FAOWFont != null)
+                        var count = _items.Count;
+                        var fItemsCount = _items.Count;
+                        var rectangle = new Rect(_window._winLeft + _winLeft + _winWidth * I / fItemsCount, _window._winTop + _winTop, _winWidth / count, _winHeight);
+                        _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
+                        if (_font != null)
                         {
-                            FAOWFont.Color = FColor;
-                            var item = FItems[I];
-                            var textWidth = FAOWFont.GetTextWidth(item);
-                            var count2 = FItems.Count;
-                            var item2 = FItems[I];
-                            FAOWFont.SetText(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, FAOWWindow.FWinTop + FWinTop + FBorderHeightSelected, item2, SurfDesc);
+                            _font.Color = Color;
+                            var item = _items[I];
+                            var textWidth = _font.GetTextWidth(item);
+                            var count2 = _items.Count;
+                            var item2 = _items[I];
+                            _font.SetText(_window._winLeft + _winLeft + _winWidth * (2 * I + 1) / (2 * count2) - textWidth / 2, _window._winTop + _winTop + _borderHeightSelected, item2, lockedSurface);
                         }
                     }
                 }
 
-                if (FOnDraw != null)
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
             }
         }
@@ -155,113 +155,113 @@ public partial class TabPanel : Control
 
     // AoWTabPanel.pas:211
     // { CheckMouseDown: a left click on a tab selects it }
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseDown(Button, Shift, X, Y);
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        base.CheckMouseDown(button, shift, X, Y);
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (Button == MouseButton.Left)
+            Handled = true;
+            if (button == MouseButton.Left)
             {
-                var count = FItems.Count;
-                SetIndex((X - FAOWWindow.FWinLeft - FWinLeft) / (FWinWidth / count));
+                var count = _items.Count;
+                SetIndex((X - _window._winLeft - _winLeft) / (_winWidth / count));
             }
 
-            if (FOnMouseDown != null)
+            if (_onMouseDown != null)
             {
-                FOnMouseDown(this, Button, Shift, X, Y);
+                _onMouseDown(this, button, shift, X, Y);
             }
         }
     }
 
     // AoWTabPanel.pas:226
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight && FValid == true && FVisible == true)
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight && Valid == true && _visible == true)
         {
-            FHandled = true;
-            if (FOnMouseUp != null)
+            Handled = true;
+            if (_onMouseUp != null)
             {
-                FOnMouseUp(this, Button, Shift, X, Y);
+                _onMouseUp(this, button, shift, X, Y);
             }
         }
     }
 
     // AoWTabPanel.pas:239
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseMove(Shift, X, Y);
-        FHandled = false;
-        if (X >= FAOWWindow.FWinLeft + FWinLeft && X <= FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 && Y >= FAOWWindow.FWinTop + FWinTop && Y <= FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
+        base.CheckMouseMove(shift, X, Y);
+        Handled = false;
+        if (X >= _window._winLeft + _winLeft && X <= _window._winLeft + _winLeft + _winWidth - 1 && Y >= _window._winTop + _winTop && Y <= _window._winTop + _winTop + _winHeight - 1)
         {
-            FHandled = true;
-            if (FOnMouseMove != null)
+            Handled = true;
+            if (_onMouseMove != null)
             {
-                FOnMouseMove(this, Shift, X, Y);
+                _onMouseMove(this, shift, X, Y);
             }
         }
     }
 
     // AoWTabPanel.pas:252
-    public override void CheckKeyPress(ref byte Key)
+    public override void CheckKeyPress(ref byte key)
     {
-        FHandled = false;
+        Handled = false;
     }
 
     // AoWTabPanel.pas:85
-    public virtual void SetILButton(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryButton(InterfaceImageLibrary value)
     {
-        if (Value != FILButton)
+        if (value != _imageLibraryButton)
         {
-            FValid = false;
-            FILButton = Value;
+            Valid = false;
+            _imageLibraryButton = value;
         }
     }
 
     // AoWTabPanel.pas:94
-    public virtual void SetILUIndex(int Value)
+    public virtual void SetImageLibraryUIndex(int value)
     {
-        if (Value != FILIndexUp)
+        if (value != _imageLibraryIndexUp)
         {
-            FILIndexUp = Value;
-            FValid = false;
+            _imageLibraryIndexUp = value;
+            Valid = false;
         }
     }
 
     // AoWTabPanel.pas:103
-    public virtual void SetILDIndex(int Value)
+    public virtual void SetILDIndex(int value)
     {
-        if (Value != FILIndexDown)
+        if (value != _imageLibraryIndexDown)
         {
-            FILIndexDown = Value;
-            FValid = false;
+            _imageLibraryIndexDown = value;
+            Valid = false;
         }
     }
 
     // AoWTabPanel.pas:133
-    public void SetFStrings(StringList Value)
+    public void SetFStrings(StringList value)
     {
-        FItems.Clear();
-        for (int I = 0, last = Value.Count - 1; I <= last; I++)
+        _items.Clear();
+        for (int I = 0, last = value.Count - 1; I <= last; I++)
         {
-            var valueValue = Value[I];
-            FItems.Add(valueValue);
+            var valueValue = value[I];
+            _items.Add(valueValue);
         }
     }
 
     // AoWTabPanel.pas:143
     // { SetIndex selects a tab: the panels of the tab are shown, the others hidden }
-    public void SetIndex(int Value)
+    public void SetIndex(int value)
     {
-        if (Value != FSelected)
+        if (value != _selected)
         {
-            FSelected = Value;
-            for (int I = 0, last = FPanels.Count - 1; I <= last; I++)
+            _selected = value;
+            for (int I = 0, last = Panels.Count - 1; I <= last; I++)
             {
-                var component = FPanels[I];
-                if (component.FOwnerItem == this.FSelected)
+                var component = Panels[I];
+                if (component._ownerItem == this._selected)
                 {
                     component.SetVisible(true);
                 }
@@ -271,90 +271,90 @@ public partial class TabPanel : Control
                 }
             }
 
-            if (FOnChange != null)
+            if (_onChange != null)
             {
-                FOnChange(this);
+                _onChange(this);
             }
 
-            FDrawn = false;
+            Drawn = false;
         }
     }
 
     [Published]
-    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont Font { get => _font; set => _font = value; }
 
     [Published]
-    public StringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
-    public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
+    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
-    public int Selected { get => FSelected; set => SetIndex(value); }
+    public int Selected { get => _selected; set => SetIndex(value); }
 
     [Published]
-    public InterfaceImageLibrary ILButton { get => FILButton; set => SetILButton(value); }
+    public InterfaceImageLibrary ImageLibraryButton { get => _imageLibraryButton; set => SetImageLibraryButton(value); }
 
     [Published]
-    public int ILIndexDown { get => FILIndexDown; set => SetILDIndex(value); }
+    public int ImageLibraryIndexDown { get => _imageLibraryIndexDown; set => SetILDIndex(value); }
 
     [Published]
-    public int ILIndexUp { get => FILIndexUp; set => SetILUIndex(value); }
+    public int ImageLibraryIndexUp { get => _imageLibraryIndexUp; set => SetImageLibraryUIndex(value); }
 
     [Published]
-    public int BorderHeightSelected { get => FBorderHeightSelected; set => FBorderHeightSelected = value; }
+    public int BorderHeightSelected { get => _borderHeightSelected; set => _borderHeightSelected = value; }
 
     public new NotifyEvent<TabPanel> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<TabPanel> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<TabPanel> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<TabPanel> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<TabPanel> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<TabPanel> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<TabPanel> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<TabPanel> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<TabPanel> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

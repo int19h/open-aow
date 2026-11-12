@@ -15,41 +15,41 @@ public partial class CosmeticSurgerySpellCaster : SpellCaster
     public CosmeticSurgerySpellCaster(ECustomNode owner) : base(owner)
     { }
 
-    public int FFaceIndex;
-    public int FTargetUnitID;
+    public int FaceIndex;
+    public int TargetUnitId;
 
     // UnitSpells.pas:870
-    public override bool CanCast(ref string Reason) => base.CanCast(ref Reason);
+    public override bool CanCast(ref string reason) => base.CanCast(ref reason);
 
     // UnitSpells.pas:875
     public override bool Cast()
     {
-        bool Result;
-        Troop Source;
-        Troop Target;
-        UnitSpellTokenEvent Event;
-        string Reason = "";
-        ((UnitSpell)AoWHSSet.Current.FSpellControl.GetSpell(59)).ResetTargetSelection();
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
-        Target = AoWHSMap.Current.FUnitControl.FindUnit(FTargetUnitID);
-        if (Source != null && Target != null && CanCast(ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        bool result;
+        Troop source;
+        Troop target;
+        UnitSpellTokenEvent eventValue;
+        string reason = "";
+        ((UnitSpell)AoWHSSet.Current.SpellControl.GetSpell(59)).ResetTargetSelection();
+        source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
+        target = AoWHSMap.Current.UnitControl.FindUnit(TargetUnitId);
+        if (source != null && target != null && CanCast(ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            Event = new UnitSpellTokenEvent(null);
-            var spell = AoWHSSet.Current.FSpellControl.GetSpell(59);
-            Event.Initialize(FCasterSpellID, Source, null, spell.FBaseManaCost);
-            Event.FTargetUnitIDs.Add(FTargetUnitID);
-            Event.FSpellData[0] = FFaceIndex;
-            Event.FTargetPlayer = (byte)Target.FPlayer;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new UnitSpellTokenEvent(null);
+            var spell = AoWHSSet.Current.SpellControl.GetSpell(59);
+            eventValue.Initialize(CasterSpellId, source, null, spell.BaseManaCost);
+            eventValue.TargetUnitIds.Add(TargetUnitId);
+            eventValue.SpellData[0] = FaceIndex;
+            eventValue.TargetPlayer = (byte)target.Player;
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
 }

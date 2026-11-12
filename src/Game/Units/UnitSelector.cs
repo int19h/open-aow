@@ -8,129 +8,129 @@ public partial class UnitSelector : IDisposable
     // Ability.PAS:575
     public UnitSelector()
     {
-        FUnits = new UnitUserList(null);
-        FReferences = 1;
-        FCanceled = false;
+        Units = new UnitUserList(null);
+        References = 1;
+        Canceled = false;
     }
 
-    public int FReferences;
-    public sbyte FPlayer;
-    public string FCaption = "";
-    public UnitUserList FUnits;
-    public byte FSelection;
-    public bool FCanceled;
-    public byte FSelectable;
-    public int FSourceUnitID;
-    public NotifyEvent FOnSelect;
-    public NotifyEvent FOnCancel;
+    public int References;
+    public sbyte Player;
+    public string Caption = "";
+    public UnitUserList Units;
+    public byte Selection;
+    public bool Canceled;
+    public byte Selectable;
+    public int SourceUnitId;
+    public NotifyEvent OnSelect;
+    public NotifyEvent OnCancel;
 
     // Ability.PAS:583
     public virtual void Dispose()
     {
-        FUnits?.Dispose();
+        Units?.Dispose();
     }
 
     // Ability.PAS:605
-    public virtual void SetSelection(byte Value)
+    public virtual void SetSelection(byte value)
     {
-        FSelection = (byte)(Value & FSelectable);
+        Selection = (byte)(value & Selectable);
     }
 
     // Ability.PAS:656
-    public virtual bool CanSelectUnit(Troop AUnit) => true;
+    public virtual bool CanSelectUnit(Troop troop) => true;
 
     // Ability.PAS:662
-    public virtual void Setup(Troop Source, UnitList Units)
+    public virtual void Setup(Troop source, UnitList units)
     {
-        if (Source != null)
+        if (source != null)
         {
-            FSourceUnitID = Source.FUnitID;
-            FPlayer = Source.FPlayer;
+            SourceUnitId = source.UnitId;
+            Player = source.Player;
         }
 
-        FUnits.Clear();
-        FUnits.AddUnits(Units);
-        FUnits.SortUnits();
+        Units.Clear();
+        Units.AddUnits(units);
+        Units.SortUnits();
         // { Original accumulates FSelectable rather than clearing it on a new setup. }
-        for (int I = FUnits.GetCount() - 1; I >= 0; I--)
+        for (int I = Units.GetCount() - 1; I >= 0; I--)
         {
             // { The original hard-casts to TUnit, which a hero passes through to the virtual calls. }
-            if (CanSelectUnit(FUnits.GetUnit(I)))
+            if (CanSelectUnit(Units.GetUnit(I)))
             {
-                FSelectable = (byte)(FSelectable | (1 << I));
+                Selectable = (byte)(Selectable | (1 << I));
             }
         }
     }
 
     // Ability.PAS:623
-    public virtual bool CanSelect(ref string Error)
+    public virtual bool CanSelect(ref string error)
     {
-        bool Result;
-        if (FSelection == 0)
+        bool result;
+        if (Selection == 0)
         {
-            Error = AbilityRules.TranslateRStr(GameText.NoUnitSelectedRStr);
-            Result = false;
+            error = AbilityRules.TranslateResourceString(GameText.s_noUnitSelectedText);
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:651
     public virtual void Cancel()
     {
-        if (FOnCancel != null)
+        if (OnCancel != null)
         {
-            FOnCancel(this);
+            OnCancel(this);
         }
     }
 
     // Ability.PAS:589
     public int AddRef()
     {
-        FReferences += 1;
-        return FReferences;
+        References += 1;
+        return References;
     }
 
     // Ability.PAS:595
     public int Release()
     {
-        int Count;
-        FReferences -= 1;
-        Count = FReferences;
-        int Result = Count;
-        if (Count == 0)
+        int count;
+        References -= 1;
+        count = References;
+        int result = count;
+        if (count == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:610
     public int GetSelectionCount()
     {
-        uint Bits;
-        int Result = 0;
-        Bits = FSelection;
-        while ((int)Bits != 0)
+        uint bits;
+        int result = 0;
+        bits = Selection;
+        while ((int)bits != 0)
         {
-            if ((((int)Bits) & 1) != 0)
+            if ((((int)bits) & 1) != 0)
             {
-                Result += 1;
+                result += 1;
             }
 
-            Bits = (uint)(int)(((uint)(int)Bits) >> 1);
+            bits = (uint)(int)(((uint)(int)bits) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P1_08.inc:65
-    public virtual bool Select() { FOnSelect?.Invoke(this); return true; }
+    public virtual bool Select() { OnSelect?.Invoke(this); return true; }
 
     public delegate void NotifyEvent(UnitSelector Selector);
 }

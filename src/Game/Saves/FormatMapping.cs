@@ -12,18 +12,18 @@ namespace Aow.Game.Saves;
 /// </summary>
 public static class FormatMapping
 {
-    private static readonly Dictionary<string, ContentRule[]> mappings = [];
+    private static readonly Dictionary<string, ContentRule[]> s_mappings = [];
 
     /// <summary>Registers the rules of one persisted class. A class registers once.</summary>
     public static void Register(string persistedName, params ContentRule[] rules)
     {
-        if (!mappings.TryAdd(persistedName, rules))
+        if (!s_mappings.TryAdd(persistedName, rules))
             throw new InvalidOperationException("The persisted class " + persistedName + " has two format mappings.");
         foreach (var rule in rules) rule.Attach(persistedName);
     }
 
     /// <summary>The registered mappings by persisted class name.</summary>
-    public static IReadOnlyDictionary<string, ContentRule[]> All => mappings;
+    public static IReadOnlyDictionary<string, ContentRule[]> All => s_mappings;
 
     /// <summary>The game validators the file boundary runs on every load and save.</summary>
     public static IReadOnlyList<IDocumentValidator> Validators { get; } = [new GameContentValidator()];

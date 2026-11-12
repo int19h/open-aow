@@ -30,48 +30,48 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Abilities;
 
-// FUpgradePending. FHeroResource. FHeroResourceIndex. FExperience. FUsedSkillPoints. FDeathDay.
-// FDeathPlayer. FLevel. FHeroStatus. FHeroName. FNickname. FRace. FGender. unit statistics.
-// FCastSpellInstantly. FMovePoints. FHitPoints. FPowerSource. FCastingPoints. FCastingMana.
-// FCastingProgress. FLibraryID. FLibraryName. FRegistered
+// UpgradePending. HeroResource. HeroResourceIndex. Experience. _usedSkillPoints. DeathDay.
+// DeathPlayer. Level. HeroStatus. HeroName. Nickname. Race. Gender. unit statistics.
+// CastSpellInstantly. MovePoints. HitPoints. PowerSource. CastingPoints. CastingManaValue.
+// CastingProgress. LibraryId. LibraryName. Registered
 public partial class Hero : Troop
 {
-    public new const int ClassID = 131632;
+    public new const int ClassId = 131632;
 
-    public int FFaceIndex;
-    public HeroResource FHeroResource;
-    public int FHeroResourceIndex;
-    public int FExperience;
-    public byte FLevel;
-    public int FUsedSkillPoints;
-    public bool FUpgradePending;
-    public Set<HeroStatusElement> FHeroStatus;
-    public int FDeathDay;
-    public sbyte FDeathPlayer;
-    public Set<HeroModeElement> FMode;
-    public string FHeroName = "";
-    public string FNickname = "";
-    public sbyte FRace;
-    public UnitGender FGender;
-    public sbyte FUnitAttack;
-    public sbyte FUnitDefense;
-    public sbyte FUnitDamage;
-    public sbyte FUnitHits;
-    public sbyte FUnitMoves;
-    public sbyte FUnitResistance;
-    public HeroItems FHeroItems;
-    public HeroInventory FInventory;
-    public bool FCastSpellInstantly;
-    public sbyte FMovePoints;
-    public sbyte FHitPoints;
-    public HeroPowerSource FPowerSource;
-    public sbyte FCastingPoints;
-    public int FCastingSpellID;
-    public int FCastingMana;
-    public int FCastingProgress;
-    public int FLibraryID;
-    public string FLibraryName = "";
-    public bool FRegistered;
+    public int FaceIndex;
+    public HeroResource HeroResource;
+    public int HeroResourceIndex;
+    public int Experience;
+    public byte Level;
+    public int _usedSkillPoints;
+    public bool UpgradePending;
+    public Set<HeroStatusElement> HeroStatus;
+    public int DeathDay;
+    public sbyte DeathPlayer;
+    public Set<HeroModeElement> Mode;
+    public string HeroName = "";
+    public string Nickname = "";
+    public sbyte Race;
+    public UnitGender Gender;
+    public sbyte UnitAttack;
+    public sbyte UnitDefense;
+    public sbyte UnitDamage;
+    public sbyte UnitHits;
+    public sbyte UnitMoves;
+    public sbyte UnitResistance;
+    public HeroItems HeroItems;
+    public HeroInventory Inventory;
+    public bool CastSpellInstantly;
+    public sbyte MovePoints;
+    public sbyte HitPoints;
+    public HeroPowerSource PowerSource;
+    public sbyte CastingPoints;
+    public int CastingSpellId;
+    public int CastingManaValue;
+    public int CastingProgress;
+    public int LibraryId;
+    public string LibraryName = "";
+    public bool Registered;
 
     // Hero.PAS:631
     public override void Dispose()
@@ -81,23 +81,23 @@ public partial class Hero : Troop
         AddRef();
         // { Original repeats the reference increment four times. }
         AddRef();
-        if (FRegistered && AoWHSMap.Current != null)
+        if (Registered && AoWHSMap.Current != null)
         {
-            AoWHSMap.Current.FHeroControl.UnRegisterHero(this);
+            AoWHSMap.Current.HeroControl.UnregisterHero(this);
         }
 
         base.Dispose();
-        FHeroItems?.Dispose();
-        FInventory?.Dispose();
-        FPowerSource?.Dispose();
+        HeroItems?.Dispose();
+        Inventory?.Dispose();
+        PowerSource?.Dispose();
     }
 
     // Hero.PAS:683
-    public override void SetOwner(ECustomNode AOwner)
+    public override void SetOwner(ECustomNode owner)
     {
         AddRef();
-        base.SetOwner(AOwner);
-        if (FUnitStatus.Contains(UnitStatusElement.Activated))
+        base.SetOwner(owner);
+        if (UnitStatus.Contains(UnitStatusElement.Activated))
         {
             Changed();
         }
@@ -106,90 +106,90 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:700
-    public override GameEngine GetEngine() => GameTables.AoWEngine;
+    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Hero.PAS:1625
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        sbyte Player = default;
-        int OldExperience = default;
-        Player = FPlayer;
-        Stream.rwInteger(ref FHeroResourceIndex, 8);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        sbyte player = default;
+        int oldExperience = default;
+        player = Player;
+        stream.rwInteger(ref HeroResourceIndex, 8);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             LinkToResource();
         }
 
-        base.ReadWrite(Stream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && FMode.Contains(HeroModeElement.UpdatingFromLibrary))
+        base.ReadWrite(stream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && Mode.Contains(HeroModeElement.UpdatingFromLibrary))
         {
-            FPlayer = Player;
+            Player = player;
         }
 
-        Stream.rwInteger(ref FFaceIndex, 7);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        stream.rwInteger(ref FaceIndex, 7);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            Stream.rwInteger(ref OldExperience, 9);
+            stream.rwInteger(ref oldExperience, 9);
         }
         else
         {
-            OldExperience = 0;
+            oldExperience = 0;
         }
 
-        Stream.rwString(ref FHeroName, 10);
-        Stream.rwString(ref FNickname, 11);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FRace), 12);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FCastingPoints), 13);
-        Stream.rwInteger(ref FCastingSpellID, 14);
-        Stream.rwData(Bytes.Of(ref FGender, 1), 1, 15);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FUnitAttack), 16);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FUnitDefense), 17);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FUnitDamage), 18);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FUnitHits), 19);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FUnitMoves), 20);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FUnitResistance), 21);
-        Stream.rwByte(ref FLevel, 22);
-        Stream.rwBool(ref FUpgradePending, 23);
-        Stream.rwInteger(ref FExperience, 24);
-        RwSet(ref FHeroStatus, 1, 25, Stream.rwData, 0);
-        Stream.rwInteger(ref FDeathDay, 26);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDeathPlayer), 27);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && FExperience == 0)
+        stream.rwString(ref HeroName, 10);
+        stream.rwString(ref Nickname, 11);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 12);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref CastingPoints), 13);
+        stream.rwInteger(ref CastingSpellId, 14);
+        stream.rwData(Bytes.Of(ref Gender, 1), 1, 15);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitAttack), 16);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitDefense), 17);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitDamage), 18);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitHits), 19);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitMoves), 20);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref UnitResistance), 21);
+        stream.rwByte(ref Level, 22);
+        stream.rwBool(ref UpgradePending, 23);
+        stream.rwInteger(ref Experience, 24);
+        RwSet(ref HeroStatus, 1, 25, stream.rwData, 0);
+        stream.rwInteger(ref DeathDay, 26);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DeathPlayer), 27);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read) && Experience == 0)
         {
-            FExperience = LevelToExperience((int)(((uint)OldExperience) >> 5) + 1);
+            Experience = LevelToExperience((int)(((uint)oldExperience) >> 5) + 1);
         }
 
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FMovePoints), 29);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FHitPoints), 30);
-        Stream.rwInteger(ref FCastingMana, 31);
-        Stream.rwBool(ref FCastSpellInstantly, 33);
-        Stream.rwInteger(ref FCastingProgress, 34);
-        Stream.rwIntegerEx(ref FLibraryID, -1, 35);
-        if (!FMode.Contains(HeroModeElement.UpdatingFromLibrary))
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MovePoints), 29);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HitPoints), 30);
+        stream.rwInteger(ref CastingManaValue, 31);
+        stream.rwBool(ref CastSpellInstantly, 33);
+        stream.rwInteger(ref CastingProgress, 34);
+        stream.rwIntegerEx(ref LibraryId, -1, 35);
+        if (!Mode.Contains(HeroModeElement.UpdatingFromLibrary))
         {
-            Stream.rwEObject(FInventory, 36);
-            Stream.rwEObject(FHeroItems, 37);
+            stream.rwEObject(Inventory, 36);
+            stream.rwEObject(HeroItems, 37);
         }
 
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Stream.rwString(ref FLibraryName, 38);
+            stream.rwString(ref LibraryName, 38);
         }
 
-        Stream.rwInteger(ref FUsedSkillPoints, 39);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        stream.rwInteger(ref _usedSkillPoints, 39);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.SetupCompare, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             Loaded();
         }
     }
 
     // Hero.PAS:1694
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001989)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001989)
         {
-            if (AoWHSMap.Current.FPlayers.GetCount() <= FPlayer && Owner == null)
+            if (AoWHSMap.Current.Players.GetCount() <= Player && Owner == null)
             {
                 SetPlayer(-1);
                 return;
@@ -197,20 +197,20 @@ public partial class Hero : Troop
         }
         else
         {
-            if (Msg.MsgID == 65541)
+            if (message.MessageId == 65541)
             {
-                EditDropMsg(ref Msg);
+                EditDropMessage(ref message);
             }
         }
     }
 
     // Hero.PAS:1347
-    public override bool GetAbSet(int index) => base.GetAbSet(index);
+    public override bool GetAbilitySetAt(int index) => base.GetAbilitySetAt(index);
 
     // Hero.PAS:1344
-    public override void SetAbSet(int index, byte value)
+    public override void SetAbilitySet(int index, byte value)
     {
-        base.SetAbSet(index, value);
+        base.SetAbilitySet(index, value);
     }
 
     // Hero.PAS:697
@@ -222,7 +222,7 @@ public partial class Hero : Troop
         base.Changed();
         if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            AoWHSMap.Current.FHeroControl.HeroChanged(this);
+            AoWHSMap.Current.HeroControl.HeroChanged(this);
         }
     }
 
@@ -230,383 +230,383 @@ public partial class Hero : Troop
     public override byte GetUpkeep() => (byte)(GetLevel() * 2 + 5);
 
     // Hero.PAS:680
-    public override sbyte GetUnitLevel() => (sbyte)FLevel;
+    public override sbyte GetUnitLevel() => (sbyte)Level;
 
     // Hero.PAS:818
-    public override sbyte GetRace() => FHeroResource.FRace;
+    public override sbyte GetRace() => HeroResource.Race;
 
     // Hero.PAS:1426
-    public override sbyte GetInherentAttack() => (sbyte)(FHeroResource.FAttack + FUnitAttack);
+    public override sbyte GetInherentAttack() => (sbyte)(HeroResource.Attack + UnitAttack);
 
     // Hero.PAS:1445
-    public override sbyte GetInherentDefense() => (sbyte)(FHeroResource.FDefense + FUnitDefense);
+    public override sbyte GetInherentDefense() => (sbyte)(HeroResource.Defense + UnitDefense);
 
     // Hero.PAS:1464
-    public override sbyte GetInherentDamage() => (sbyte)(FHeroResource.FDamage + FUnitDamage);
+    public override sbyte GetInherentDamage() => (sbyte)(HeroResource.Damage + UnitDamage);
 
     // Hero.PAS:1483
-    public override sbyte GetInherentResistance() => (sbyte)(FHeroResource.FResistance + FUnitResistance);
+    public override sbyte GetInherentResistance() => (sbyte)(HeroResource.Resistance + UnitResistance);
 
     // Hero.PAS:1429
     public override sbyte GetAttack()
     {
-        AbilityOwner AOwner;
-        int Count;
-        Count = GetAbilityCount();
-        sbyte Result = 0;
+        AbilityOwner owner;
+        int count;
+        count = GetAbilityCount();
+        sbyte result = 0;
         // { Original includes the ability-count index in the scan. }
-        for (int I = 0; I <= Count; I++)
+        for (int I = 0; I <= count; I++)
         {
-            AOwner = GetSuperlativeEnabledAbOwner(I);
-            if (AOwner != null)
+            owner = GetSuperlativeEnabledAbilityOwner(I);
+            if (owner != null)
             {
-                Result = (sbyte)(Result + AOwner.GetAbAttack(I));
+                result = (sbyte)(result + owner.GetAbilityAttack(I));
             }
         }
 
-        Result = (sbyte)(FHeroItems.GetAttack() + (FUnitAttack + Result + FHeroResource.FAttack));
-        if (Result < 1)
+        result = (sbyte)(HeroItems.GetAttack() + (UnitAttack + result + HeroResource.Attack));
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 10)
+        if (result > 10)
         {
-            Result = 10;
+            result = 10;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1448
     public override sbyte GetDefense()
     {
-        AbilityOwner AOwner;
-        int Count;
-        Count = GetAbilityCount();
-        sbyte Result = 0;
+        AbilityOwner owner;
+        int count;
+        count = GetAbilityCount();
+        sbyte result = 0;
         // { Original includes the ability-count index in the scan. }
-        for (int I = 0; I <= Count; I++)
+        for (int I = 0; I <= count; I++)
         {
-            AOwner = GetSuperlativeEnabledAbOwner(I);
-            if (AOwner != null)
+            owner = GetSuperlativeEnabledAbilityOwner(I);
+            if (owner != null)
             {
-                Result = (sbyte)(Result + AOwner.GetAbDefense(I));
+                result = (sbyte)(result + owner.GetAbilityDefense(I));
             }
         }
 
-        var defense = FHeroItems.GetDefense();
+        var defense = HeroItems.GetDefense();
         var morale = GetMorale();
-        Result = (sbyte)(defense + (FUnitDefense + Result + FHeroResource.FDefense) + P2MoraleDefense[(int)morale]);
-        if (Result < 1)
+        result = (sbyte)(defense + (UnitDefense + result + HeroResource.Defense) + s_moraleDefense[(int)morale]);
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 10)
+        if (result > 10)
         {
-            Result = 10;
+            result = 10;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1467
     public override sbyte GetDamage()
     {
-        AbilityOwner AOwner;
-        int Count;
-        Count = GetAbilityCount();
-        sbyte Result = 0;
+        AbilityOwner owner;
+        int count;
+        count = GetAbilityCount();
+        sbyte result = 0;
         // { Original includes the ability-count index in the scan. }
-        for (int I = 0; I <= Count; I++)
+        for (int I = 0; I <= count; I++)
         {
-            AOwner = GetSuperlativeEnabledAbOwner(I);
-            if (AOwner != null)
+            owner = GetSuperlativeEnabledAbilityOwner(I);
+            if (owner != null)
             {
-                Result = (sbyte)(Result + AOwner.GetAbDamage(I));
+                result = (sbyte)(result + owner.GetAbilityDamage(I));
             }
         }
 
-        Result = (sbyte)(FHeroItems.GetDamage() + (FUnitDamage + Result + FHeroResource.FDamage));
-        if (Result < 1)
+        result = (sbyte)(HeroItems.GetDamage() + (UnitDamage + result + HeroResource.Damage));
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 10)
+        if (result > 10)
         {
-            Result = 10;
+            result = 10;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1486
     public override sbyte GetResistance()
     {
-        AbilityOwner AOwner;
-        int Count;
-        Count = GetAbilityCount();
-        sbyte Result = 0;
+        AbilityOwner owner;
+        int count;
+        count = GetAbilityCount();
+        sbyte result = 0;
         // { Original includes the ability-count index in the scan. }
-        for (int I = 0; I <= Count; I++)
+        for (int I = 0; I <= count; I++)
         {
-            AOwner = GetSuperlativeEnabledAbOwner(I);
-            if (AOwner != null)
+            owner = GetSuperlativeEnabledAbilityOwner(I);
+            if (owner != null)
             {
-                Result = (sbyte)(Result + AOwner.GetAbResistance(I));
+                result = (sbyte)(result + owner.GetAbilityResistance(I));
             }
         }
 
-        var resistance = FHeroItems.GetResistance();
+        var resistance = HeroItems.GetResistance();
         var morale = GetMorale();
-        Result = (sbyte)(resistance + (FUnitResistance + Result + FHeroResource.FResistance) + P2MoraleResistance[(int)morale]);
-        if (Result < 1)
+        result = (sbyte)(resistance + (UnitResistance + result + HeroResource.Resistance) + s_moraleResistance[(int)morale]);
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 10)
+        if (result > 10)
         {
-            Result = 10;
+            result = 10;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1502
     public override sbyte GetHits()
     {
-        sbyte Result = (sbyte)(FHeroResource.FHits + FUnitHits);
-        if (Result < 1)
+        sbyte result = (sbyte)(HeroResource.Hits + UnitHits);
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 30)
+        if (result > 30)
         {
-            Result = 30;
+            result = 30;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1509
     public override sbyte GetMoves()
     {
-        sbyte Result = (sbyte)(FHeroResource.FMoves + FUnitMoves);
-        if (Result < 1)
+        sbyte result = (sbyte)(HeroResource.Moves + UnitMoves);
+        if (result < 1)
         {
-            Result = 1;
+            result = 1;
         }
 
-        if (Result > 50)
+        if (result > 50)
         {
-            Result = 50;
+            result = 50;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:842
-    public override sbyte GetMovePoints() => FMovePoints;
+    public override sbyte GetMovePoints() => MovePoints;
 
     // Hero.PAS:845
-    public override void SetMovePoints(sbyte Value)
+    public override void SetMovePoints(sbyte value)
     {
-        if (GetMoves() < Value)
+        if (GetMoves() < value)
         {
-            Value = GetMoves();
+            value = GetMoves();
         }
 
-        FMovePoints = Value;
+        MovePoints = value;
     }
 
     // Hero.PAS:851
-    public override sbyte GetHitPoints() => FHitPoints;
+    public override sbyte GetHitPoints() => HitPoints;
 
     // Hero.PAS:854
-    public override void SetHitPoints(sbyte Value)
+    public override void SetHitPoints(sbyte value)
     {
-        if (GetHits() < Value)
+        if (GetHits() < value)
         {
-            Value = GetHits();
+            value = GetHits();
         }
 
-        if (Value < 0)
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        FHitPoints = Value;
+        HitPoints = value;
         UpdateDefensiveStrength();
     }
 
     // Hero.PAS:824
     public override Set<MoveType> GetMoveTypes()
     {
-        Set<MoveType> Result = base.GetMoveTypes();
-        return Result + FHeroItems.GetMoveTypes();
+        Set<MoveType> result = base.GetMoveTypes();
+        return result + HeroItems.GetMoveTypes();
     }
 
     // Hero.PAS:830
     public override Set<DamageType> GetImmunityTypes()
     {
-        Set<DamageType> Result = base.GetImmunityTypes();
-        return Result + FHeroItems.GetImmunityTypes();
+        Set<DamageType> result = base.GetImmunityTypes();
+        return result + HeroItems.GetImmunityTypes();
     }
 
     // Hero.PAS:836
     public override Set<DamageType> GetProtectionTypes()
     {
-        Set<DamageType> Result = base.GetProtectionTypes();
-        return Result + FHeroItems.GetProtectionTypes();
+        Set<DamageType> result = base.GetProtectionTypes();
+        return result + HeroItems.GetProtectionTypes();
     }
 
     // Hero.PAS:1596
     public override LibraryImage GetFace()
     {
-        LibraryImage Result;
-        FaceResource Resource;
-        int Index;
+        LibraryImage result;
+        FaceResource resource;
+        int index;
         if (!GetAbilityEnabled(126))
         {
-            Resource = AoWHSSet.Current.FFaceResources.GetFaceResource(FFaceIndex);
-            if (Resource != null)
+            resource = AoWHSSet.Current.FaceResources.GetFaceResource(FaceIndex);
+            if (resource != null)
             {
-                Result = Resource.GetCellImage();
+                result = resource.GetCellImage();
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
         else
         {
-            Index = ((CosmeticSurgeryEnchantment)((UnitEnchantmentAbilityData)GetAbilityData(126)).FEnchantment).FFaceIndex;
-            Result = AoWHSSet.Current.FFaceResources.GetFaceResource(Index).GetCellImage();
+            index = ((CosmeticSurgeryEnchantment)((UnitEnchantmentAbilityData)GetAbilityData(126)).Enchantment).FaceIndex;
+            result = AoWHSSet.Current.FaceResources.GetFaceResource(index).GetCellImage();
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:821
-    public override string GetName() => FHeroName;
+    public override string GetName() => HeroName;
 
     // Hero.PAS:862
     public override Alignment GetAlignment()
     {
-        Alignment Result;
-        sbyte Race;
+        Alignment result;
+        sbyte race;
         if (GetAbilityEnabled(107))
         {
-            Result = Alignment.PureEvil;
+            result = Alignment.PureEvil;
         }
         else
         {
-            Race = FRace;
-            if (AoWHSSet.Current.FRaceResources.GetRaceResource(Race) != null)
+            race = Race;
+            if (AoWHSSet.Current.RaceResources.GetRaceResource(race) != null)
             {
-                Result = AoWHSSet.Current.FRaceResources.GetRaceResource(Race).GetAlignment();
+                result = AoWHSSet.Current.RaceResources.GetRaceResource(race).GetAlignment();
             }
             else
             {
-                Result = FHeroResource.FAlignment;
+                result = HeroResource.Alignment;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1538
     public override LibraryImage GetPreviewImage()
     {
-        LibraryImage Result;
-        if (FHeroResource != null)
+        LibraryImage result;
+        if (HeroResource != null)
         {
-            Result = FHeroResource.GetPreviewImage();
+            result = HeroResource.GetPreviewImage();
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:732
-    public override UnitGender GetGender() => FGender;
+    public override UnitGender GetGender() => Gender;
 
     // Hero.PAS:735
     public override UnitType GetUnitType() => UnitType.Humanoid;
 
     // Hero.PAS:1003
-    public override int GetUnitGFXResourceIndex() => FHeroResource.FUnitGFXResourceIndex;
+    public override int GetUnitGraphicsResourceIndex() => HeroResource.UnitGraphicsResourceIndex;
 
     // Hero.PAS:644
     public override int GetCampaignTransferPoints()
     {
-        int Result = base.GetCampaignTransferPoints();
-        return Result / 2;
+        int result = base.GetCampaignTransferPoints();
+        return result / 2;
     }
 
     // Hero.PAS:1522
     public override sbyte GetCastingPointsMax()
     {
-        sbyte Result;
+        sbyte result;
         if (GetAbilityEnabled(52))
         {
-            Result = (sbyte)(GetAbilityLevel(52) * 10);
+            result = (sbyte)(GetAbilityLevel(52) * 10);
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1528
-    public override sbyte GetCastingPoints() => FCastingPoints;
+    public override sbyte GetCastingPoints() => CastingPoints;
 
     // Hero.PAS:1531
-    public override void SetCastingPoints(sbyte Value)
+    public override void SetCastingPoints(sbyte value)
     {
-        if (Value > GetCastingPointsMax())
+        if (value > GetCastingPointsMax())
         {
-            Value = GetCastingPointsMax();
+            value = GetCastingPointsMax();
         }
 
-        FCastingPoints = Value;
+        CastingPoints = value;
         Changed();
     }
 
     // Hero.PAS:1516
     public override int GetPowerGeneration()
     {
-        int Result;
+        int result;
         if (GetAbilityEnabled(52))
         {
-            Result = GetAbilityLevel(52) * 5;
+            result = GetAbilityLevel(52) * 5;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:738
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.FDay == 1)
+        if (AoWHSMap.Current.Day == 1)
         {
-            if ((GameTables.AoWEngine.FCampaign == null || AoWHSMap.Current.FPlayers.GetPlayers(FPlayer) == null || AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human) && (!AoWHSMap.Current.FLeadersFixed || !(this is Leader)))
+            if ((GameTables.GameEngine.Campaign == null || AoWHSMap.Current.Players.GetPlayers(Player) == null || AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human) && (!AoWHSMap.Current.LeadersFixed || !(this is Leader)))
             {
-                FUsedSkillPoints = GetSkillPoints();
+                _usedSkillPoints = GetSkillPoints();
             }
 
             UpdateSettings();
@@ -614,110 +614,110 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1311
-    public override void NewTurn(sbyte Player)
+    public override void NewTurn(sbyte player)
     {
-        SpellCastEventLog Log;
-        base.NewTurn(Player);
-        if (Player == FPlayer)
+        SpellCastEventLog log;
+        base.NewTurn(player);
+        if (player == Player)
         {
             ValidateHeroUpgrade();
-            Player = GetCastingPointsMax();
-            FCastingPoints = Player;
-            if (FCastingSpellID != 0 && FCastingMana < FCastingProgress)
+            player = GetCastingPointsMax();
+            CastingPoints = player;
+            if (CastingSpellId != 0 && CastingManaValue < CastingProgress)
             {
-                FCastingMana += Player;
-                FCastingPoints = 0;
-                if (FCastingMana > FCastingProgress)
+                CastingManaValue += player;
+                CastingPoints = 0;
+                if (CastingManaValue > CastingProgress)
                 {
-                    FCastingPoints = (sbyte)(FCastingMana - FCastingProgress);
-                    FCastingMana = FCastingProgress;
+                    CastingPoints = (sbyte)(CastingManaValue - CastingProgress);
+                    CastingManaValue = CastingProgress;
                 }
 
-                if (FCastingMana == FCastingProgress)
+                if (CastingManaValue == CastingProgress)
                 {
-                    Log = new SpellCastEventLog(null);
-                    Log.FPlayer = FPlayer;
-                    Log.FUnitID = FUnitID;
-                    Log.FSpellID = FCastingSpellID;
-                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FEventLogbook.AddEvent(Log);
-                    if (AoWHSMap.Current.FSeatedPlayer == FPlayer && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.Human)
+                    log = new SpellCastEventLog(null);
+                    log._player = Player;
+                    log.UnitId = UnitId;
+                    log.SpellId = CastingSpellId;
+                    AoWHSMap.Current.Players.GetPlayers(Player).EventLogbook.AddEvent(log);
+                    if (AoWHSMap.Current.SeatedPlayer == Player && AoWHSMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Human)
                     {
-                        Log.Execute(false, ExecuteTrigger.Event, null);
+                        log.Execute(false, ExecuteTrigger.Event, null);
                     }
 
-                    Log.Release();
+                    log.Release();
                 }
             }
         }
     }
 
     // Hero.PAS:1418
-    public override int GetAbilityLevel(int AbilityID)
+    public override int GetAbilityLevel(int abilityId)
     {
-        AbilityOwner AOwner;
-        AOwner = GetSuperlativeAbOwner(AbilityID);
-        if (AOwner == null)
+        AbilityOwner owner;
+        owner = GetSuperlativeAbilityOwner(abilityId);
+        if (owner == null)
         {
-            AOwner = this;
+            owner = this;
         }
 
-        return AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetLevel(AOwner);
+        return AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetLevel(owner);
     }
 
     // Hero.PAS:1396
-    public override bool GetAbilityEnabled(int AbilityID) => base.GetAbilityEnabled(AbilityID) || FHeroItems.GetAbilityEnabled(AbilityID) || FInventory.GetAbilityEnabled(AbilityID);
+    public override bool GetAbilityEnabled(int abilityId) => base.GetAbilityEnabled(abilityId) || HeroItems.GetAbilityEnabled(abilityId) || Inventory.GetAbilityEnabled(abilityId);
 
     // Hero.PAS:1403
-    public override bool GetAbilitySet(int AbilityID) => base.GetAbilitySet(AbilityID) || FHeroItems.GetAbilitySet(AbilityID) || FInventory.GetAbilitySet(AbilityID);
+    public override bool GetAbilitySet(int abilityId) => base.GetAbilitySet(abilityId) || HeroItems.GetAbilitySet(abilityId) || Inventory.GetAbilitySet(abilityId);
 
     // Hero.PAS:1410
-    public override string GetAbilityName(int AbilityID)
+    public override string GetAbilityName(int abilityId)
     {
-        AbilityOwner AOwner;
-        AOwner = GetSuperlativeAbOwner(AbilityID);
-        if (AOwner == null)
+        AbilityOwner owner;
+        owner = GetSuperlativeAbilityOwner(abilityId);
+        if (owner == null)
         {
-            AOwner = this;
+            owner = this;
         }
 
-        return AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetName(AOwner);
+        return AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetName(owner);
     }
 
     // Hero.PAS:1393
-    public override AbilityOwner GetAbilityOwner(int AbilityID) => GetSuperlativeAbOwner(AbilityID);
+    public override AbilityOwner GetAbilityOwner(int abilityId) => GetSuperlativeAbilityOwner(abilityId);
 
     // Hero.PAS:1353
     public override int GetAbilityCount()
     {
-        int Count;
-        int Result = GetAbCount();
-        Count = FHeroItems.GetAbilityCount();
-        if (Count > Result)
+        int count;
+        int result = GetAbCount();
+        count = HeroItems.GetAbilityCount();
+        if (count > result)
         {
-            Result = Count;
+            result = count;
         }
 
-        Count = FInventory.GetAbilityCount();
-        if (Count > Result)
+        count = Inventory.GetAbilityCount();
+        if (count > result)
         {
-            Result = Count;
+            result = count;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1028
-    public override int GetExperience() => FExperience;
+    public override int GetExperience() => Experience;
 
     // Hero.PAS:1031
-    public override void SetExperience(int Value)
+    public override void SetExperience(int value)
     {
-        int Maximum;
-        FExperience = Value;
-        Maximum = LevelToExperience(GetLevelMax());
-        if (Maximum < FExperience)
+        int maximum;
+        Experience = value;
+        maximum = LevelToExperience(GetLevelMax());
+        if (maximum < Experience)
         {
-            FExperience = Maximum;
+            Experience = maximum;
         }
 
         Changed();
@@ -726,50 +726,50 @@ public partial class Hero : Troop
     // Hero.PAS:1063
     public override int GetNextLevelExperience()
     {
-        int Result;
-        int Level;
-        int Maximum;
-        Level = GetLevel();
-        Maximum = GetLevelMax();
-        if (Level < Maximum)
+        int result;
+        int level;
+        int maximum;
+        level = GetLevel();
+        maximum = GetLevelMax();
+        if (level < maximum)
         {
-            Result = LevelToExperience(Level + 1);
+            result = LevelToExperience(level + 1);
         }
         else
         {
-            Result = LevelToExperience(Level);
+            result = LevelToExperience(level);
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:729
     public override StringCollection GetDescription() => null;
 
     // Hero.PAS:933
-    public override void SetPlayer(sbyte Player)
+    public override void SetPlayer(sbyte player)
     {
-        if (Player != FPlayer)
+        if (player != Player)
         {
-            bool condition = FPlayer != -1;
+            bool condition = Player != -1;
             if (condition)
             {
-                var count = AoWHSMap.Current.FPlayers.Count;
-                condition = FPlayer < count;
+                var count = AoWHSMap.Current.Players.Count;
+                condition = Player < count;
             }
 
             if (condition)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FHeroes.RemoveChild(this);
+                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(PowerSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).Heroes.RemoveChild(this);
             }
 
-            base.SetPlayer(Player);
-            if (FPlayer != -1)
+            base.SetPlayer(player);
+            if (Player != -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FHeroes.AddChild(this);
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).ResetBaseHeroJoinDay();
+                AoWHSMap.Current.Players.GetPlayers(Player).Heroes.AddChild(this);
+                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(PowerSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).ResetBaseHeroJoinDay();
             }
         }
     }
@@ -780,127 +780,127 @@ public partial class Hero : Troop
     // Hero.PAS:914
     public override bool CanActivate()
     {
-        Hero Hero;
-        bool Result = base.CanActivate();
-        if (Result && !FRegistered && FUnitID != -1)
+        Hero hero;
+        bool result = base.CanActivate();
+        if (result && !Registered && UnitId != -1)
         {
-            Hero = AoWHSMap.Current.FHeroControl.FindID(FUnitID);
-            if (Hero == null || Hero == this)
+            hero = AoWHSMap.Current.HeroControl.FindId(UnitId);
+            if (hero == null || hero == this)
             {
-                Result = true;
+                result = true;
             }
             else
             {
-                if (Hero.Owner == null && CompatibleHero(Hero))
+                if (hero.Owner == null && CompatibleHero(hero))
                 {
-                    Result = true;
+                    result = true;
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:964
     public override void Activate()
     {
-        Hero Hero;
-        if (FUnitID != -1)
+        Hero hero;
+        if (UnitId != -1)
         {
-            Hero = AoWHSMap.Current.FHeroControl.FindID(FUnitID);
-            if (Hero != null && Hero != this && Hero.Owner == null && CompatibleHero(Hero))
+            hero = AoWHSMap.Current.HeroControl.FindId(UnitId);
+            if (hero != null && hero != this && hero.Owner == null && CompatibleHero(hero))
             {
-                AoWHSMap.Current.FHeroControl.UnRegisterHero(Hero);
+                AoWHSMap.Current.HeroControl.UnregisterHero(hero);
             }
         }
 
         if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            FLevel = (byte)GetLevel();
+            Level = (byte)GetLevel();
         }
 
-        if (FHeroResourceIndex == -1)
+        if (HeroResourceIndex == -1)
         {
             SetHeroResourceIndex(0);
         }
 
-        if (FPlayer > 0 && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer) == null && Owner == null)
+        if (Player > 0 && AoWHSMap.Current.Players.GetPlayers(Player) == null && Owner == null)
         {
-            FPlayer = -1;
+            Player = -1;
         }
 
-        if (Owner == null && FGroupID != 0)
+        if (Owner == null && GroupId != 0)
         {
-            FGroupID = 0;
+            GroupId = 0;
         }
 
         base.Activate();
         if (AoWHSMap.Current != null)
         {
-            if (!FMode.Contains(HeroModeElement.SkipLibraryUpdate) && (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || AoWHSMap.Current.FDay == 0))
+            if (!Mode.Contains(HeroModeElement.SkipLibraryUpdate) && (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || AoWHSMap.Current.Day == 0))
             {
                 UpdateFromLibrary();
             }
 
-            if (!FRegistered)
+            if (!Registered)
             {
-                AoWHSMap.Current.FHeroControl.RegisterHero(this);
+                AoWHSMap.Current.HeroControl.RegisterHero(this);
             }
 
-            if (FPlayer != -1 && Owner != null)
+            if (Player != -1 && Owner != null)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FHeroes.AddChild(this);
+                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(PowerSource);
+                AoWHSMap.Current.Players.GetPlayers(Player).Heroes.AddChild(this);
             }
 
-            FInventory.RegisterItems();
-            FHeroItems.RegisterItems();
+            Inventory.RegisterItems();
+            HeroItems.RegisterItems();
         }
     }
 
     // Hero.PAS:993
     public override void Deactivate()
     {
-        bool condition = FPlayer != -1;
+        bool condition = Player != -1;
         if (condition)
         {
-            var count = AoWHSMap.Current.FPlayers.Count;
-            condition = FPlayer < count;
+            var count = AoWHSMap.Current.Players.Count;
+            condition = Player < count;
         }
 
         if (condition)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FHeroes.RemoveChild(this);
+            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(PowerSource);
+            AoWHSMap.Current.Players.GetPlayers(Player).Heroes.RemoveChild(this);
         }
 
         base.Deactivate();
     }
 
     // Hero.PAS:765
-    public override bool CanJoin(sbyte Player)
+    public override bool CanJoin(sbyte player)
     {
-        bool Result;
-        Player APlayer;
-        if (FRace != -1)
+        bool result;
+        Player playerLocal;
+        if (Race != -1)
         {
-            APlayer = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(Player);
-            Result = Set<Status>.Of(Status.Polite, Status.Friendly).Contains(playerRelation);
-            if (Result)
+            playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+            var playerRelation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
+            result = Set<Status>.Of(Status.Polite, Status.Friendly).Contains(playerRelation);
+            if (result)
             {
-                bool condition = FGroup == null || FGroup.GroupClass.Behavior != GroupBehavior.Refuge;
+                bool condition = Group == null || Group.GroupClass.Behavior != GroupBehavior.Refuge;
                 if (condition)
                 {
-                    bool test = !GetAbilityEnabled(128) || Player != FDeathPlayer;
+                    bool test = !GetAbilityEnabled(128) || player != DeathPlayer;
                     if (!test)
                     {
-                        var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                        test = FDeathDay + 2 < players.FDay;
+                        var players = AoWHSMap.Current.Players.GetPlayers(player);
+                        test = DeathDay + 2 < players.Day;
                     }
 
                     condition = test;
@@ -908,95 +908,95 @@ public partial class Hero : Troop
 
                 if (condition)
                 {
-                    Result = Result && APlayer.FHeroes.Count < APlayer.GetHeroCountMax() && GetLevel() <= APlayer.GetHeroJoinLevelMax();
+                    result = result && playerLocal.Heroes.Count < playerLocal.GetHeroCountMax() && GetLevel() <= playerLocal.GetHeroJoinLevelMax();
                 }
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:794
-    public override bool OfferToJoin(sbyte Player)
+    public override bool OfferToJoin(sbyte player)
     {
-        bool Result;
-        Player APlayer;
-        int Seed;
-        int Chance;
-        if (CanJoin(Player))
+        bool result;
+        Player playerLocal;
+        int seed;
+        int chance;
+        if (CanJoin(player))
         {
-            APlayer = AoWHSMap.Current.FPlayers.GetPlayers(Player);
+            playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
             if (EmergedToPlayer() == -1)
             {
-                if ((!GetAbilityEnabled(128) || Player != FDeathPlayer) && (FGroup == null || FGroup.GroupClass.Behavior != GroupBehavior.Refuge))
+                if ((!GetAbilityEnabled(128) || player != DeathPlayer) && (Group == null || Group.GroupClass.Behavior != GroupBehavior.Refuge))
                 {
-                    Chance = APlayer.GetHeroJoinChance(GetLevel());
-                    Seed = RandSeed;
-                    RandSeed = (AoWHSMap.Current.FInitialRandomSeed + AoWHSMap.Current.FDay + FUnitID * 16) & 4088;
-                    Result = Random(100) < Chance;
-                    RandSeed = Seed;
+                    chance = playerLocal.GetHeroJoinChance(GetLevel());
+                    seed = RandSeed;
+                    RandSeed = (AoWHSMap.Current.InitialRandomSeed + AoWHSMap.Current.Day + UnitId * 16) & 4088;
+                    result = Random(100) < chance;
+                    RandSeed = seed;
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
             else
             {
-                Result = Player == EmergedToPlayer();
+                result = player == EmergedToPlayer();
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:706
-    public override int ShowEx(int X, int Y, in LockedSurface SD, in UnitShowInfo Info)
+    public override int Show(int X, int Y, in LockedSurface lockedSurface, in UnitShowInfo info)
     {
-        int Result = base.ShowEx(X, Y, SD, Info);
-        if (Info.Overlays.Contains(UnitOverlayModesElement.Rank))
+        int result = base.Show(X, Y, lockedSurface, info);
+        if (info.Overlays.Contains(UnitOverlayModesElement.Rank))
         {
-            GameTables.AoWEngine.FCombatFont.Color = 16777215;
+            GameTables.GameEngine.CombatFont.Color = 16777215;
             var level = GetLevel();
-            GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 43, Y + 12, IntToStr(level), SD);
+            GameTables.GameEngine.CombatFont.SetTextCentered(X + 43, Y + 12, IntToStr(level), lockedSurface);
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:885
     public override void Killed()
     {
-        HeroItemPosition Position;
-        for (int I = FInventory.Count - 1; I >= 0; I--)
+        HeroItemPosition position;
+        for (int I = Inventory.Count - 1; I >= 0; I--)
         {
-            if (FInventory.GetItem(I) != null)
+            if (Inventory.GetItem(I) != null)
             {
-                ExecutePlaceItem(FInventory.GetItem(I).FItemID, HeroItemPosition.Ground);
+                ExecutePlaceItem(Inventory.GetItem(I).ItemId, HeroItemPosition.Ground);
             }
         }
 
         for (int positionOrdinal = (int)HeroItemPosition.AttackSlot; positionOrdinal <= (int)HeroItemPosition.RightRingSlot; positionOrdinal++)
         {
-            Position = (HeroItemPosition)positionOrdinal;
-            if (FHeroItems.GetPositionItem(Position) != null)
+            position = (HeroItemPosition)positionOrdinal;
+            if (HeroItems.GetPositionItem(position) != null)
             {
-                ExecutePlaceItem(FHeroItems.GetPositionItem(Position).FItemID, HeroItemPosition.Ground);
+                ExecutePlaceItem(HeroItems.GetPositionItem(position).ItemId, HeroItemPosition.Ground);
             }
         }
 
-        FDeathDay = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDay;
-        FDeathPlayer = FPlayer;
+        DeathDay = AoWHSMap.Current.Players.GetPlayers(Player).Day;
+        DeathPlayer = Player;
         base.Killed();
-        FHeroStatus = FHeroStatus + Set<HeroStatusElement>.Of(HeroStatusElement.Died);
+        HeroStatus = HeroStatus + Set<HeroStatusElement>.Of(HeroStatusElement.Died);
         SetPlayer(-1);
         SetOwner(null);
     }
@@ -1005,601 +1005,601 @@ public partial class Hero : Troop
     public override void Resurrect()
     {
         base.Resurrect();
-        FHeroStatus = FHeroStatus - Set<HeroStatusElement>.Of(HeroStatusElement.Died);
+        HeroStatus = HeroStatus - Set<HeroStatusElement>.Of(HeroStatusElement.Died);
     }
 
     // Hero.PAS:908
     public override void Animate()
     {
         base.Animate();
-        FHeroStatus = FHeroStatus - Set<HeroStatusElement>.Of(HeroStatusElement.Died);
+        HeroStatus = HeroStatus - Set<HeroStatusElement>.Of(HeroStatusElement.Died);
     }
 
     // Hero.PAS:691
-    public virtual string GetNickname() => FNickname;
+    public virtual string GetNickname() => Nickname;
 
     // Hero.PAS:694
-    public virtual void SetNickname(string Value)
+    public virtual void SetNickname(string value)
     {
-        FNickname = Value;
+        Nickname = value;
     }
 
     // Hero.PAS:1615
-    public virtual void SetHeroResourceIndex(int Value)
+    public virtual void SetHeroResourceIndex(int value)
     {
-        if (AoWHSSet.Current.FHeroResources.GetHeroResource(Value) != null && Value != FHeroResourceIndex)
+        if (AoWHSSet.Current.HeroResources.GetHeroResource(value) != null && value != HeroResourceIndex)
         {
-            FHeroResourceIndex = Value;
-            FHeroResource = AoWHSSet.Current.FHeroResources.GetHeroResource(Value);
+            HeroResourceIndex = value;
+            HeroResource = AoWHSSet.Current.HeroResources.GetHeroResource(value);
             ResetResourceSettings();
         }
     }
 
     // Hero.PAS:1674
-    public virtual void EditDropMsg(ref EngineMessage Msg)
+    public virtual void EditDropMessage(ref EngineMessage message)
     {
-        MapLevel Level;
+        MapLevel level;
         int L;
         int X = default;
         int Y = default;
-        int Player;
-        bool Placed;
-        Level = Msg.Param[0].As<MapLevel>();
-        L = Msg.Data[1];
-        HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref X, ref Y);
-        if (X >= 0 && Y >= 0 && X < Level.Width && Y < Level.Height)
+        int player;
+        bool placed;
+        level = message.Param[0].As<MapLevel>();
+        L = message.Data[1];
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], ref X, ref Y);
+        if (X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
             if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
-                Player = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetPlayer();
-                if (Player == -1)
+                player = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetPlayer();
+                if (player == -1)
                 {
-                    Player = AoWHSMap.Current.FEditorPlayer;
+                    player = AoWHSMap.Current.EditorPlayer;
                 }
             }
             else
             {
-                Player = -1;
+                player = -1;
             }
 
-            Placed = Place(X, Y, L, (sbyte)Player, Set<UnitPlaceModeElement>.Of()) != null;
+            placed = Place(X, Y, L, (sbyte)player, Set<UnitPlaceModeElement>.Of()) != null;
         }
         else
         {
-            Placed = false;
+            placed = false;
         }
 
-        if (Placed)
+        if (placed)
         {
-            Msg.Result = 0;
+            message.Result = 0;
         }
         else
         {
-            Msg.Result = -1;
+            message.Result = -1;
         }
     }
 
     // Hero.PAS:650
     public string GetLibraryName()
     {
-        string Result = FLibraryName;
-        if (IsEmpty(Result))
+        string result = LibraryName;
+        if (IsEmpty(result))
         {
-            Result = AbilityRules.TranslateRStr(GameText.SystemRStr);
+            result = AbilityRules.TranslateResourceString(GameText.s_systemText);
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:656
     public void UpdateFromLibraryBegin()
     {
-        FMode = FMode + Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
+        Mode = Mode + Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
     }
 
     // Hero.PAS:659
     public void UpdateFromLibraryEnd()
     {
-        FMode = FMode - Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
+        Mode = Mode - Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
     }
 
     // Hero.PAS:662
     public void UpdateFromLibrary()
     {
-        Hero Hero;
-        int ID;
-        if (FLibraryID != -1)
+        Hero hero;
+        int id;
+        if (LibraryId != -1)
         {
-            Hero = AoWHSSet.Current.FHeroLibraries.FindHero(FLibraryName, FLibraryID);
-            if (Hero != null)
+            hero = AoWHSSet.Current.HeroLibraries.FindHero(LibraryName, LibraryId);
+            if (hero != null)
             {
-                ID = FUnitID;
-                FMode = FMode + Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
-                Assign(Hero, GameTables.AoWEngine);
-                FMode = FMode - Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
-                FUnitID = ID;
+                id = UnitId;
+                Mode = Mode + Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
+                Assign(hero, GameTables.GameEngine);
+                Mode = Mode - Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
+                UnitId = id;
                 Changed();
             }
         }
     }
 
     // Hero.PAS:703
-    public bool GetLibraryHero() => FLibraryID != -1;
+    public bool GetLibraryHero() => LibraryId != -1;
 
     // Hero.PAS:751
     public int UsedSkillPoints()
     {
-        int Result = FUnitAttack * 5 + FUnitDefense * 5 + FUnitDamage * 10 + FUnitResistance * 5 + FUnitHits * 5 + FUnitMoves * 2;
+        int result = UnitAttack * 5 + UnitDefense * 5 + UnitDamage * 10 + UnitResistance * 5 + UnitHits * 5 + UnitMoves * 2;
         for (int I = GetAbCount() - 1; I >= 0; I--)
         {
-            if (GetAbSet(I))
+            if (GetAbilitySetAt(I))
             {
-                Result += AoWHSSet.Current.FAbilityControl.GetAbility(I).GetSkillPoints(this);
-                if (FHeroResource.FAbilities.GetAbSet(I))
+                result += AoWHSSet.Current.AbilityControl.GetAbility(I).GetSkillPoints(this);
+                if (HeroResource.Abilities.GetAbilitySetAt(I))
                 {
-                    Result -= AoWHSSet.Current.FAbilityControl.GetAbility(I).GetSkillPoints(FHeroResource.FAbilities);
+                    result -= AoWHSSet.Current.AbilityControl.GetAbility(I).GetSkillPoints(HeroResource.Abilities);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:782
     public sbyte EmergedToPlayer()
     {
         int I;
-        I = AoWHSMap.Current.FPlayers.Count;
-        sbyte Result = -1;
-        while (I != 1 && Result == -1)
+        I = AoWHSMap.Current.Players.Count;
+        sbyte result = -1;
+        while (I != 1 && result == -1)
         {
             I -= 1;
-            if (AoWHSMap.Current.FPlayers.GetPlayers(I).FEmergingHeroID == FUnitID)
+            if (AoWHSMap.Current.Players.GetPlayers(I).EmergingHeroId == UnitId)
             {
-                Result = (sbyte)I;
+                result = (sbyte)I;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:875
-    public void DropItemsOnMap(AoWHSMap Map, sbyte X, sbyte Y, sbyte L)
+    public void DropItemsOnMap(AoWHSMap map, sbyte X, sbyte Y, sbyte L)
     {
-        HeroItemPosition Position;
-        for (int I = FInventory.Count - 1; I >= 0; I--)
+        HeroItemPosition position;
+        for (int I = Inventory.Count - 1; I >= 0; I--)
         {
-            if (FInventory.GetItem(I) != null)
+            if (Inventory.GetItem(I) != null)
             {
-                FInventory.GetItem(I).PlaceOnMap(Map, X, Y, L);
+                Inventory.GetItem(I).PlaceOnMap(map, X, Y, L);
             }
         }
 
         for (int positionOrdinal = (int)HeroItemPosition.AttackSlot; positionOrdinal <= (int)HeroItemPosition.RightRingSlot; positionOrdinal++)
         {
-            Position = (HeroItemPosition)positionOrdinal;
-            if (FHeroItems.GetPositionItem(Position) != null)
+            position = (HeroItemPosition)positionOrdinal;
+            if (HeroItems.GetPositionItem(position) != null)
             {
-                FHeroItems.GetPositionItem(Position).PlaceOnMap(Map, X, Y, L);
+                HeroItems.GetPositionItem(position).PlaceOnMap(map, X, Y, L);
             }
         }
     }
 
     // Hero.PAS:952
-    public bool CompatibleHero(Hero Hero)
+    public bool CompatibleHero(Hero hero)
     {
-        int GroupID;
-        int OtherGroupID;
-        GroupID = FGroupID;
-        OtherGroupID = Hero.FGroupID;
-        Hero.FGroupID = 0;
-        FGroupID = 0;
-        bool Result = Hero.Compare(this, GameTables.AoWEngine);
-        Hero.FGroupID = OtherGroupID;
-        FGroupID = GroupID;
-        return Result;
+        int groupId;
+        int otherGroupId;
+        groupId = GroupId;
+        otherGroupId = hero.GroupId;
+        hero.GroupId = 0;
+        GroupId = 0;
+        bool result = hero.Compare(this, GameTables.GameEngine);
+        hero.GroupId = otherGroupId;
+        GroupId = groupId;
+        return result;
     }
 
     // Hero.PAS:1006
     public int GetSkillPoints()
     {
-        int Result;
+        int result;
         if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             var usedSkillPoints = UsedSkillPoints();
-            Result = FLevel * 10 + 15 - usedSkillPoints - FUsedSkillPoints;
+            result = Level * 10 + 15 - usedSkillPoints - _usedSkillPoints;
         }
         else
         {
             var usedSkillPoints = UsedSkillPoints();
-            Result = FLevel * 10 + 15 - usedSkillPoints;
+            result = Level * 10 + 15 - usedSkillPoints;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1013
-    public int GetSkillPointsMax() => FLevel * 10 + 15 - FUsedSkillPoints;
+    public int GetSkillPointsMax() => Level * 10 + 15 - _usedSkillPoints;
 
     // Hero.PAS:1016
     public int GetLevelMax()
     {
-        int Maximum;
-        int Result = 30;
-        if (AoWHSMap.Current != null && AoWHSMap.Current.FCampaignSettings != null && AoWHSMap.Current.FCampaignSettings.FHeroLevelMax > 0)
+        int maximum;
+        int result = 30;
+        if (AoWHSMap.Current != null && AoWHSMap.Current.CampaignSettings != null && AoWHSMap.Current.CampaignSettings.HeroLevelMax > 0)
         {
-            Maximum = AoWHSMap.Current.FCampaignSettings.FHeroLevelMax;
-            if (Maximum < Result)
+            maximum = AoWHSMap.Current.CampaignSettings.HeroLevelMax;
+            if (maximum < result)
             {
-                Result = Maximum;
+                result = maximum;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1040
-    public int LevelToExperience(int Level)
+    public int LevelToExperience(int level)
     {
-        int Total;
-        int Quotient;
-        Total = 0;
-        for (int I = 1; I <= Level - 1; I++)
+        int total;
+        int quotient;
+        total = 0;
+        for (int I = 1; I <= level - 1; I++)
         {
-            Quotient = I / 5;
-            if (Quotient <= 5)
+            quotient = I / 5;
+            if (quotient <= 5)
             {
-                Total += HeroExperienceTable[Quotient].Experience;
+                total += s_heroExperienceTable[quotient].Experience;
             }
         }
 
-        return Total;
+        return total;
     }
 
     // Hero.PAS:1049
-    public sbyte ExperienceToLevel(int Experience)
+    public sbyte ExperienceToLevel(int experience)
     {
-        int Level;
-        int Total;
-        int Maximum;
-        Level = 1;
-        Total = 0;
-        Maximum = GetLevelMax();
+        int level;
+        int total;
+        int maximum;
+        level = 1;
+        total = 0;
+        maximum = GetLevelMax();
         do
         {
-            Total += HeroExperienceTable[Level / 5].Experience;
-            if (Experience < Total)
+            total += s_heroExperienceTable[level / 5].Experience;
+            if (experience < total)
             {
                 break;
             }
 
-            Level += 1;
+            level += 1;
         }
-        while (!(Level >= Maximum));
-        return (sbyte)Level;
+        while (!(level >= maximum));
+        return (sbyte)level;
     }
 
     // Hero.PAS:1071
-    public sbyte GetLevel() => this.ExperienceToLevel(this.FExperience);
+    public sbyte GetLevel() => this.ExperienceToLevel(this.Experience);
 
     // Hero.PAS:1076
-    public void SetLevel(sbyte Value)
+    public void SetLevel(sbyte value)
     {
-        int Maximum;
-        int Level;
-        int Points;
-        Maximum = GetLevelMax();
-        if (Value < 1)
+        int maximum;
+        int level;
+        int points;
+        maximum = GetLevelMax();
+        if (value < 1)
         {
-            Value = 1;
+            value = 1;
         }
 
-        if (Maximum < Value)
+        if (maximum < value)
         {
-            Value = (sbyte)Maximum;
+            value = (sbyte)maximum;
         }
 
-        Level = GetLevel();
-        if (Level > Value)
+        level = GetLevel();
+        if (level > value)
         {
-            Points = GetSkillPoints();
-            while (Points >= 10 && Level != Value)
+            points = GetSkillPoints();
+            while (points >= 10 && level != value)
             {
-                Level -= 1;
-                Points -= 10;
+                level -= 1;
+                points -= 10;
             }
 
-            Value = (sbyte)Level;
+            value = (sbyte)level;
         }
 
-        FExperience = LevelToExperience(Value);
-        FLevel = (byte)Value;
+        Experience = LevelToExperience(value);
+        Level = (byte)value;
     }
 
     // Hero.PAS:1097
-    public HeroType GetHeroType() => FHeroResource.FHeroType;
+    public HeroType GetHeroType() => HeroResource.HeroType;
 
     // Hero.PAS:1100
-    public void SetUnitAttack(sbyte Value)
+    public void SetUnitAttack(sbyte value)
     {
-        int Points;
-        if (Value < 0)
+        int points;
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value + FHeroResource.FAttack > 10)
+        if (value + HeroResource.Attack > 10)
         {
-            Value = (sbyte)(10 - FHeroResource.FAttack);
+            value = (sbyte)(10 - HeroResource.Attack);
         }
 
-        if (Value > FUnitAttack)
+        if (value > UnitAttack)
         {
-            Points = GetSkillPoints();
-            while (Points >= 5 && Value != FUnitAttack)
+            points = GetSkillPoints();
+            while (points >= 5 && value != UnitAttack)
             {
-                FUnitAttack = (sbyte)(FUnitAttack + 1);
-                Points -= 5;
+                UnitAttack = (sbyte)(UnitAttack + 1);
+                points -= 5;
             }
         }
         else
         {
-            FUnitAttack = Value;
+            UnitAttack = value;
         }
     }
 
     // Hero.PAS:1117
-    public void SetUnitDefense(sbyte Value)
+    public void SetUnitDefense(sbyte value)
     {
-        int Points;
-        if (Value < 0)
+        int points;
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value + FHeroResource.FDefense > 10)
+        if (value + HeroResource.Defense > 10)
         {
-            Value = (sbyte)(10 - FHeroResource.FDefense);
+            value = (sbyte)(10 - HeroResource.Defense);
         }
 
-        if (Value > FUnitDefense)
+        if (value > UnitDefense)
         {
-            Points = GetSkillPoints();
-            while (Points >= 5 && Value != FUnitDefense)
+            points = GetSkillPoints();
+            while (points >= 5 && value != UnitDefense)
             {
-                FUnitDefense = (sbyte)(FUnitDefense + 1);
-                Points -= 5;
+                UnitDefense = (sbyte)(UnitDefense + 1);
+                points -= 5;
             }
         }
         else
         {
-            FUnitDefense = Value;
+            UnitDefense = value;
         }
     }
 
     // Hero.PAS:1134
-    public void SetUnitDamage(sbyte Value)
+    public void SetUnitDamage(sbyte value)
     {
-        int Points;
-        if (Value < 0)
+        int points;
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value + FHeroResource.FDamage > 10)
+        if (value + HeroResource.Damage > 10)
         {
-            Value = (sbyte)(10 - FHeroResource.FDamage);
+            value = (sbyte)(10 - HeroResource.Damage);
         }
 
-        if (Value > FUnitDamage)
+        if (value > UnitDamage)
         {
-            Points = GetSkillPoints();
-            while (Points >= 10 && Value != FUnitDamage)
+            points = GetSkillPoints();
+            while (points >= 10 && value != UnitDamage)
             {
-                FUnitDamage = (sbyte)(FUnitDamage + 1);
-                Points -= 10;
+                UnitDamage = (sbyte)(UnitDamage + 1);
+                points -= 10;
             }
         }
         else
         {
-            FUnitDamage = Value;
+            UnitDamage = value;
         }
     }
 
     // Hero.PAS:1151
-    public void SetUnitHits(sbyte Value)
+    public void SetUnitHits(sbyte value)
     {
-        int Points;
-        if (Value < 0)
+        int points;
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value + FHeroResource.FHits > 30)
+        if (value + HeroResource.Hits > 30)
         {
-            Value = (sbyte)(30 - FHeroResource.FHits);
+            value = (sbyte)(30 - HeroResource.Hits);
         }
 
-        if (Value > FUnitHits)
+        if (value > UnitHits)
         {
-            Points = GetSkillPoints();
-            while (Points >= 5 && Value != FUnitHits)
+            points = GetSkillPoints();
+            while (points >= 5 && value != UnitHits)
             {
-                FUnitHits = (sbyte)(FUnitHits + 1);
-                Points -= 5;
+                UnitHits = (sbyte)(UnitHits + 1);
+                points -= 5;
             }
         }
         else
         {
-            FUnitHits = Value;
+            UnitHits = value;
         }
     }
 
     // Hero.PAS:1168
-    public void SetUnitMoves(sbyte Value)
+    public void SetUnitMoves(sbyte value)
     {
-        int Points;
-        if (Value < 0)
+        int points;
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value + FHeroResource.FMoves > 50)
+        if (value + HeroResource.Moves > 50)
         {
-            Value = (sbyte)(50 - FHeroResource.FMoves);
+            value = (sbyte)(50 - HeroResource.Moves);
         }
 
-        if (Value > FUnitMoves)
+        if (value > UnitMoves)
         {
-            Points = GetSkillPoints();
-            while (Points >= 2 && Value != FUnitMoves)
+            points = GetSkillPoints();
+            while (points >= 2 && value != UnitMoves)
             {
-                FUnitMoves = (sbyte)(FUnitMoves + 1);
-                Points -= 2;
+                UnitMoves = (sbyte)(UnitMoves + 1);
+                points -= 2;
             }
         }
         else
         {
-            FUnitMoves = Value;
+            UnitMoves = value;
         }
     }
 
     // Hero.PAS:1185
-    public void SetUnitResistance(sbyte Value)
+    public void SetUnitResistance(sbyte value)
     {
-        int Points;
-        if (Value < 0)
+        int points;
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value + FHeroResource.FResistance > 10)
+        if (value + HeroResource.Resistance > 10)
         {
-            Value = (sbyte)(10 - FHeroResource.FResistance);
+            value = (sbyte)(10 - HeroResource.Resistance);
         }
 
-        if (Value > FUnitResistance)
+        if (value > UnitResistance)
         {
-            Points = GetSkillPoints();
-            while (Points >= 5 && Value != FUnitResistance)
+            points = GetSkillPoints();
+            while (points >= 5 && value != UnitResistance)
             {
-                FUnitResistance = (sbyte)(FUnitResistance + 1);
-                Points -= 5;
+                UnitResistance = (sbyte)(UnitResistance + 1);
+                points -= 5;
             }
         }
         else
         {
-            FUnitResistance = Value;
+            UnitResistance = value;
         }
     }
 
     // Hero.PAS:1202
     public void LinkToResource()
     {
-        FHeroResource = AoWHSSet.Current.FHeroResources.GetHeroResource(FHeroResourceIndex);
+        HeroResource = AoWHSSet.Current.HeroResources.GetHeroResource(HeroResourceIndex);
     }
 
     // Hero.PAS:1207
     public void Loaded()
     {
-        if (FHeroResource != null)
+        if (HeroResource != null)
         {
-            UpdateDefaultAbilities(FHeroResource.FAbilities);
-            SetUnitAttack(FUnitAttack);
-            SetUnitDefense(FUnitDefense);
-            SetUnitResistance(FUnitResistance);
-            SetUnitDamage(FUnitDamage);
-            SetUnitHits(FUnitHits);
-            SetUnitMoves(FUnitMoves);
+            UpdateDefaultAbilities(HeroResource.Abilities);
+            SetUnitAttack(UnitAttack);
+            SetUnitDefense(UnitDefense);
+            SetUnitResistance(UnitResistance);
+            SetUnitDamage(UnitDamage);
+            SetUnitHits(UnitHits);
+            SetUnitMoves(UnitMoves);
         }
     }
 
     // Hero.PAS:1221
-    public void ListSpells(ref SpellList List)
+    public void ListSpells(ref SpellList list)
     {
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.ListSpells(ref List, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
+        AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.ListSpells(ref list, Set<SpellType>.Of(SpellType.Combat, SpellType.Unit, SpellType.Global));
     }
 
     // Hero.PAS:1226
     public void ExecuteUpgradeHeroAI()
     {
-        DoubleItemList Choices;
-        int Points;
-        int Index;
-        DoubleItemList.DoubleItem Choice;
-        Choices = new DoubleItemList();
+        DoubleItemList choices;
+        int points;
+        int index;
+        DoubleItemList.DoubleItem choice;
+        choices = new DoubleItemList();
         while (true)
         {
-            Choices.Clear();
-            Points = GetSkillPoints();
-            if (Points >= 5 && FUnitAttack + FHeroResource.FAttack < 10)
+            choices.Clear();
+            points = GetSkillPoints();
+            if (points >= 5 && UnitAttack + HeroResource.Attack < 10)
             {
-                Choices.AddAB(0, 10);
+                choices.AddAbility(0, 10);
             }
 
-            if (Points >= 5 && FUnitDefense + FHeroResource.FDefense < 10)
+            if (points >= 5 && UnitDefense + HeroResource.Defense < 10)
             {
-                Choices.AddAB(1, 25);
+                choices.AddAbility(1, 25);
             }
 
-            if (Points >= 5 && FUnitResistance + FHeroResource.FResistance < 10)
+            if (points >= 5 && UnitResistance + HeroResource.Resistance < 10)
             {
-                Choices.AddAB(2, 10);
+                choices.AddAbility(2, 10);
             }
 
-            if (Points >= 10 && FUnitDamage + FHeroResource.FDamage < 10)
+            if (points >= 10 && UnitDamage + HeroResource.Damage < 10)
             {
-                Choices.AddAB(3, 10);
+                choices.AddAbility(3, 10);
             }
 
-            if (Points >= 5 && FUnitHits + FHeroResource.FHits < 30)
+            if (points >= 5 && UnitHits + HeroResource.Hits < 30)
             {
-                Choices.AddAB(4, 10);
+                choices.AddAbility(4, 10);
             }
 
-            if (AoWHSSet.Current.FAbilityControl.GetAbility(46).CanExpand(this) && Points >= AoWHSSet.Current.FAbilityControl.GetAbility(46).ExpandCost(this))
+            if (AoWHSSet.Current.AbilityControl.GetAbility(46).CanExpand(this) && points >= AoWHSSet.Current.AbilityControl.GetAbility(46).ExpandCost(this))
             {
-                Choices.AddAB(5, 10);
+                choices.AddAbility(5, 10);
             }
 
-            if (AoWHSSet.Current.FAbilityControl.GetAbility(22).CanExpand(this) && Points >= AoWHSSet.Current.FAbilityControl.GetAbility(22).ExpandCost(this))
+            if (AoWHSSet.Current.AbilityControl.GetAbility(22).CanExpand(this) && points >= AoWHSSet.Current.AbilityControl.GetAbility(22).ExpandCost(this))
             {
-                Choices.AddAB(6, 10);
+                choices.AddAbility(6, 10);
             }
 
-            if (AoWHSSet.Current.FAbilityControl.GetAbility(52).CanExpand(this))
+            if (AoWHSSet.Current.AbilityControl.GetAbility(52).CanExpand(this))
             {
-                if (Points >= AoWHSSet.Current.FAbilityControl.GetAbility(52).ExpandCost(this))
+                if (points >= AoWHSSet.Current.AbilityControl.GetAbility(52).ExpandCost(this))
                 {
-                    Choices.AddAB(7, 9999);
+                    choices.AddAbility(7, 9999);
                 }
                 else
                 {
-                    Choices.AddAB(7, 100);
+                    choices.AddAbility(7, 100);
                 }
             }
 
-            if (Choices.Count != 0)
+            if (choices.Count != 0)
             {
                 RandSeed = AoWHSMap.Current.Random(16777215);
-                Index = Choices.RandomChanceItemB(0);
-                Choice = Choices[Index];
-                switch (Choice.A)
+                index = choices.RandomChanceItemB(0);
+                choice = choices[index];
+                switch (choice.First)
                 {
                     case 0:
-                        SetUnitAttack((sbyte)(FUnitAttack + 1));
+                        SetUnitAttack((sbyte)(UnitAttack + 1));
                         break;
                     case 1:
-                        SetUnitDefense((sbyte)(FUnitDefense + 1));
+                        SetUnitDefense((sbyte)(UnitDefense + 1));
                         break;
                     case 2:
-                        SetUnitResistance((sbyte)(FUnitResistance + 1));
+                        SetUnitResistance((sbyte)(UnitResistance + 1));
                         break;
                     case 3:
-                        SetUnitDamage((sbyte)(FUnitDamage + 1));
+                        SetUnitDamage((sbyte)(UnitDamage + 1));
                         break;
                     case 4:
-                        SetUnitHits((sbyte)(FUnitHits + 1));
+                        SetUnitHits((sbyte)(UnitHits + 1));
                         break;
                     case 5:
                         ExpandAbility(46);
@@ -1608,24 +1608,24 @@ public partial class Hero : Troop
                         ExpandAbility(22);
                         break;
                     case 7:
-                        if (Points >= AoWHSSet.Current.FAbilityControl.GetAbility(52).ExpandCost(this))
+                        if (points >= AoWHSSet.Current.AbilityControl.GetAbility(52).ExpandCost(this))
                         {
                             ExpandAbility(52);
                         }
                         else
                         {
-                            Points = 0;
+                            points = 0;
                         }
 
                         break;
                 }
             }
 
-            if (Choices.Count == 0 || GetSkillPoints() == 0 || Points == 0)
+            if (choices.Count == 0 || GetSkillPoints() == 0 || points == 0)
                 break;
         }
 
-        Choices?.Dispose();
+        choices?.Dispose();
     }
 
     // Hero.PAS:1269
@@ -1634,63 +1634,63 @@ public partial class Hero : Troop
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        int Level;
-        int OldLevel;
-        HeroUpgradeEventLog Log;
+        int level;
+        int oldLevel;
+        HeroUpgradeEventLog log;
         GetLocation(ref X, ref Y, ref L);
-        if (FPlayer != 0 && X != -1)
+        if (Player != 0 && X != -1)
         {
-            FUpgradePending = false;
-            Level = GetLevel();
-            if (Level < GetLevelMax())
+            UpgradePending = false;
+            level = GetLevel();
+            if (level < GetLevelMax())
             {
-                if (FPlayer > 0 && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.CPU2)
+                if (Player > 0 && AoWHSMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu2)
                 {
-                    SetExperience(GetExperience() + (HeroExperienceTable[Level / 5].DailyExperience + 1));
+                    SetExperience(GetExperience() + (s_heroExperienceTable[level / 5].DailyExperience + 1));
                 }
                 else
                 {
-                    if (FPlayer > 0 && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.CPU3)
+                    if (Player > 0 && AoWHSMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu3)
                     {
-                        SetExperience(GetExperience() + (HeroExperienceTable[Level / 5].DailyExperience + 2));
+                        SetExperience(GetExperience() + (s_heroExperienceTable[level / 5].DailyExperience + 2));
                     }
                     else
                     {
-                        if (FPlayer > 0 && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.CPU4)
+                        if (Player > 0 && AoWHSMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu4)
                         {
-                            SetExperience(GetExperience() + (HeroExperienceTable[Level / 5].DailyExperience + 3));
+                            SetExperience(GetExperience() + (s_heroExperienceTable[level / 5].DailyExperience + 3));
                         }
                         else
                         {
-                            if (FPlayer > 0 && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.CPU5)
+                            if (Player > 0 && AoWHSMap.Current.Players.GetPlayers(Player).PlayerType == PlayerType.Cpu5)
                             {
-                                SetExperience(GetExperience() + (HeroExperienceTable[Level / 5].DailyExperience + 4));
+                                SetExperience(GetExperience() + (s_heroExperienceTable[level / 5].DailyExperience + 4));
                             }
                             else
                             {
-                                SetExperience(GetExperience() + HeroExperienceTable[Level / 5].DailyExperience);
+                                SetExperience(GetExperience() + s_heroExperienceTable[level / 5].DailyExperience);
                             }
                         }
                     }
                 }
 
-                Level = GetLevel();
+                level = GetLevel();
             }
 
-            if (FLevel < Level)
+            if (Level < level)
             {
-                FUpgradePending = true;
-                OldLevel = FLevel;
-                FLevel = (byte)Level;
-                Log = new HeroUpgradeEventLog(null);
-                Log.FOldLevel = (byte)OldLevel;
-                Log.FNewLevel = FLevel;
-                Log.FDay = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDay;
-                Log.FPlayer = FPlayer;
-                Log.FUnitID = FUnitID;
-                EventLog.DistributeLocationEventLog(Log, FPlayer, X, Y, L, true);
-                Log.Release();
-                if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human)
+                UpgradePending = true;
+                oldLevel = Level;
+                this.Level = (byte)level;
+                log = new HeroUpgradeEventLog(null);
+                log.OldLevel = (byte)oldLevel;
+                log.NewLevel = Level;
+                log._day = AoWHSMap.Current.Players.GetPlayers(Player).Day;
+                log._player = Player;
+                log.UnitId = UnitId;
+                EventLog.DistributeLocationEventLog(log, Player, X, Y, L, true);
+                log.Release();
+                if (AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
                 {
                     ExecuteUpgradeHeroAI();
                 }
@@ -1699,105 +1699,105 @@ public partial class Hero : Troop
     }
 
     // Hero.PAS:1350
-    public bool GetUnitAbilityEnabled(int AbilityID) => base.GetAbilityEnabled(AbilityID);
+    public bool GetUnitAbilityEnabled(int abilityId) => base.GetAbilityEnabled(abilityId);
 
     // Hero.PAS:1363
-    public AbilityOwner GetSuperlativeEnabledAbOwner(int AbilityID)
+    public AbilityOwner GetSuperlativeEnabledAbilityOwner(int abilityId)
     {
-        AbilityOwner Candidate;
-        AbilityOwner Best;
-        if (GetAbEnabled(AbilityID))
+        AbilityOwner candidate;
+        AbilityOwner best;
+        if (GetAbEnabled(abilityId))
         {
-            Best = this;
+            best = this;
         }
         else
         {
-            Best = null;
+            best = null;
         }
 
-        Candidate = FHeroItems.GetSuperlativeEnabledAbOwner(AbilityID);
-        if (Candidate != null)
+        candidate = HeroItems.GetSuperlativeEnabledAbilityOwner(abilityId);
+        if (candidate != null)
         {
-            if (Best == null || Candidate.GetAbLevel(AbilityID) > Best.GetAbLevel(AbilityID))
+            if (best == null || candidate.GetAbLevel(abilityId) > best.GetAbLevel(abilityId))
             {
-                Best = Candidate;
+                best = candidate;
             }
         }
 
-        Candidate = FInventory.GetSuperlativeEnabledAbOwner(AbilityID);
-        if (Candidate != null)
+        candidate = Inventory.GetSuperlativeEnabledAbilityOwner(abilityId);
+        if (candidate != null)
         {
-            if (Best == null || Candidate.GetAbLevel(AbilityID) > Best.GetAbLevel(AbilityID))
+            if (best == null || candidate.GetAbLevel(abilityId) > best.GetAbLevel(abilityId))
             {
-                Best = Candidate;
+                best = candidate;
             }
         }
 
-        return Best;
+        return best;
     }
 
     // Hero.PAS:1378
-    public AbilityOwner GetSuperlativeAbOwner(int AbilityID)
+    public AbilityOwner GetSuperlativeAbilityOwner(int abilityId)
     {
-        AbilityOwner Candidate;
-        AbilityOwner Best;
-        if (GetAbSet(AbilityID))
+        AbilityOwner candidate;
+        AbilityOwner best;
+        if (GetAbilitySetAt(abilityId))
         {
-            Best = this;
+            best = this;
         }
         else
         {
-            Best = null;
+            best = null;
         }
 
-        Candidate = FHeroItems.GetSuperlativeAbOwner(AbilityID);
-        if (Candidate != null)
+        candidate = HeroItems.GetSuperlativeAbilityOwner(abilityId);
+        if (candidate != null)
         {
-            if (Best == null || Candidate.GetAbLevel(AbilityID) > Best.GetAbLevel(AbilityID))
+            if (best == null || candidate.GetAbLevel(abilityId) > best.GetAbLevel(abilityId))
             {
-                Best = Candidate;
+                best = candidate;
             }
         }
 
-        Candidate = FInventory.GetSuperlativeAbOwner(AbilityID);
-        if (Candidate != null)
+        candidate = Inventory.GetSuperlativeAbilityOwner(abilityId);
+        if (candidate != null)
         {
-            if (Best == null || Candidate.GetAbLevel(AbilityID) > Best.GetAbLevel(AbilityID))
+            if (best == null || candidate.GetAbLevel(abilityId) > best.GetAbLevel(abilityId))
             {
-                Best = Candidate;
+                best = candidate;
             }
         }
 
-        return Best;
+        return best;
     }
 
     // Hero.PAS:1544
     public void ResetSkillPoints()
     {
-        AssignAb(FHeroResource.FAbilities);
-        FUnitAttack = 0;
-        FUnitDefense = 0;
-        FUnitDamage = 0;
-        FUnitHits = 0;
-        FUnitMoves = 0;
-        FUnitResistance = 0;
+        AssignAbility(HeroResource.Abilities);
+        UnitAttack = 0;
+        UnitDefense = 0;
+        UnitDamage = 0;
+        UnitHits = 0;
+        UnitMoves = 0;
+        UnitResistance = 0;
     }
 
     // Hero.PAS:1555
     public void ResetResourceSettings()
     {
-        AssignAb(FHeroResource.FAbilities);
-        FUnitAttack = 0;
-        FUnitDefense = 0;
-        FUnitDamage = 0;
-        FUnitHits = 0;
-        FUnitMoves = 0;
-        FUnitResistance = 0;
-        FExperience = 0;
-        FRace = FHeroResource.FRace;
+        AssignAbility(HeroResource.Abilities);
+        UnitAttack = 0;
+        UnitDefense = 0;
+        UnitDamage = 0;
+        UnitHits = 0;
+        UnitMoves = 0;
+        UnitResistance = 0;
+        Experience = 0;
+        Race = HeroResource.Race;
         if (AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            FFaceIndex = FHeroResource.FFaceIndex;
+            FaceIndex = HeroResource.FaceIndex;
         }
 
         Changed();
@@ -1806,384 +1806,384 @@ public partial class Hero : Troop
     // Hero.PAS:1570
     public void UpdateSettings()
     {
-        FMovePoints = GetMoves();
-        FHitPoints = GetHits();
-        FCastingPoints = GetCastingPointsMax();
-        FLevel = (byte)ExperienceToLevel(FExperience);
+        MovePoints = GetMoves();
+        HitPoints = GetHits();
+        CastingPoints = GetCastingPointsMax();
+        Level = (byte)ExperienceToLevel(Experience);
         Changed();
     }
 
     // Hero.PAS:1579
-    public void SetRace(sbyte Value)
+    public void SetRace(sbyte value)
     {
-        bool Found;
-        int Index;
-        HeroResource Resource;
-        if (FRace != Value)
+        bool found;
+        int index;
+        HeroResource resource;
+        if (Race != value)
         {
-            Found = false;
-            Index = AoWHSSet.Current.FHeroResources.GetCount();
-            while (!Found && Index != 0)
+            found = false;
+            index = AoWHSSet.Current.HeroResources.GetCount();
+            while (!found && index != 0)
             {
-                Index -= 1;
-                Resource = AoWHSSet.Current.FHeroResources.GetHeroResource(Index);
-                Found = Resource != null && Resource.FRace == Value && GetHeroType() == Resource.FHeroType;
+                index -= 1;
+                resource = AoWHSSet.Current.HeroResources.GetHeroResource(index);
+                found = resource != null && resource.Race == value && GetHeroType() == resource.HeroType;
             }
 
-            if (Found)
+            if (found)
             {
-                SetHeroResourceIndex(Index);
+                SetHeroResourceIndex(index);
             }
         }
     }
 
     // Hero.PAS:1612
-    public void SetFaceIndex(int Value)
+    public void SetFaceIndex(int value)
     {
-        FFaceIndex = Value;
+        FaceIndex = value;
     }
 
     // Hero.PAS:1708
-    public HeroUpdateTokenEvent CreateHeroUpdateTE()
+    public HeroUpdateTokenEvent CreateHeroUpdateTokenEvent()
     {
-        HeroUpdateTokenEvent Result = new HeroUpdateTokenEvent(null);
-        Result.FUnitID = FUnitID;
-        return Result;
+        HeroUpdateTokenEvent result = new HeroUpdateTokenEvent(null);
+        result.UnitId = UnitId;
+        return result;
     }
 
     // Hero.PAS:1714
     public ItemList GetItemsOnGround()
     {
-        ItemList Result;
-        CustomCombatMap Map;
-        Map = AoWHSMap.Current.FCombatMap;
-        if (Map != null)
+        ItemList result;
+        CustomCombatMap map;
+        map = AoWHSMap.Current.CombatMap;
+        if (map != null)
         {
-            Result = Map.GetHeroItemsOnGround(this);
+            result = map.GetHeroItemsOnGround(this);
         }
         else
         {
-            Result = AoWHSMap.Current.GetHeroItemsOnGround(this);
+            result = AoWHSMap.Current.GetHeroItemsOnGround(this);
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1722
-    public bool CanUseItem(int ItemID, ref string Reason)
+    public bool CanUseItem(int itemId, ref string reason)
     {
-        bool Result;
-        Item Item;
-        Item = AoWHSMap.Current.FItemControl.FindItem(ItemID);
-        if (Item != null)
+        bool result;
+        Item item;
+        item = AoWHSMap.Current.ItemControl.FindItem(itemId);
+        if (item != null)
         {
-            Result = Item.CanUse(this, ref Reason);
+            result = item.CanUse(this, ref reason);
         }
         else
         {
-            Result = false;
-            Reason = "";
+            result = false;
+            reason = "";
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1734
-    public bool UseItem(int ItemID)
+    public bool UseItem(int itemId)
     {
-        bool Result;
-        Item Item;
-        Item = AoWHSMap.Current.FItemControl.FindItem(ItemID);
-        if (Item != null)
+        bool result;
+        Item item;
+        item = AoWHSMap.Current.ItemControl.FindItem(itemId);
+        if (item != null)
         {
-            Result = Item.Use(this);
+            result = item.Use(this);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1742
-    public bool CanPlaceItem(int ItemID, HeroItemPosition Position)
+    public bool CanPlaceItem(int itemId, HeroItemPosition position)
     {
-        Item Item;
-        sbyte IX = default;
-        sbyte IY = default;
-        sbyte IL = default;
+        Item item;
+        sbyte ix = default;
+        sbyte iy = default;
+        sbyte imageLibrary = default;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        bool Result = false;
-        Item = AoWHSMap.Current.FItemControl.FindItem(ItemID);
-        if (Item != null)
+        bool result = false;
+        item = AoWHSMap.Current.ItemControl.FindItem(itemId);
+        if (item != null)
         {
             GetLocation(ref X, ref Y, ref L);
-            Item.GetLocation(ref IX, ref IY, ref IL);
-            if (AoWHSMap.Current.FCombatMap != null || (X == IX && Y == IY && L == IL))
+            item.GetLocation(ref ix, ref iy, ref imageLibrary);
+            if (AoWHSMap.Current.CombatMap != null || (X == ix && Y == iy && L == imageLibrary))
             {
-                if (Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.AttackSlot, HeroItemPosition.RightRingSlot).Contains(Position))
+                if (Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.AttackSlot, HeroItemPosition.RightRingSlot).Contains(position))
                 {
-                    Result = FHeroItems.CanPlaceItem(Item, Position);
+                    result = HeroItems.CanPlaceItem(item, position);
                 }
                 else
                 {
-                    if (Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.InventorySlot1, HeroItemPosition.InventorySlot8).Contains(Position))
+                    if (Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.InventorySlot1, HeroItemPosition.InventorySlot8).Contains(position))
                     {
-                        Result = FInventory.GetSlot(Position) == null;
+                        result = Inventory.GetSlot(position) == null;
                     }
                     else
                     {
-                        Result = true;
+                        result = true;
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1758
-    public bool CanSwapItem(int ItemID1, int ItemID2)
+    public bool CanSwapItem(int itemId1, int itemId2)
     {
-        Item Item1;
-        Item Item2;
-        bool Result = true;
-        Item1 = AoWHSMap.Current.FItemControl.FindItem(ItemID1);
-        Item2 = AoWHSMap.Current.FItemControl.FindItem(ItemID2);
-        if (Item1 != null && Item2 != null && Item1 != Item2)
+        Item item1;
+        Item item2;
+        bool result = true;
+        item1 = AoWHSMap.Current.ItemControl.FindItem(itemId1);
+        item2 = AoWHSMap.Current.ItemControl.FindItem(itemId2);
+        if (item1 != null && item2 != null && item1 != item2)
         {
-            if (FHeroItems == Item1.Owner || FHeroItems == Item2.Owner)
+            if (HeroItems == item1.Owner || HeroItems == item2.Owner)
             {
-                Result = Item1.FItemType == Item2.FItemType;
+                result = item1.ItemType == item2.ItemType;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1772
-    public bool SwapItem(int ItemID1, int ItemID2)
+    public bool SwapItem(int itemId1, int itemId2)
     {
-        bool Result;
-        HeroUpdateTokenEvent TE;
-        if (CanSwapItem(ItemID1, ItemID2) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        bool result;
+        HeroUpdateTokenEvent tokenEvent;
+        if (CanSwapItem(itemId1, itemId2) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            TE = CreateHeroUpdateTE();
-            TE.FMode = HeroUpdateTokenEvent.Mode.SwapItem;
-            TE.FItemID = ItemID1;
-            TE.FParameter = ItemID2;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = CreateHeroUpdateTokenEvent();
+            tokenEvent.Mode = HeroUpdateTokenEventMode.SwapItem;
+            tokenEvent.ItemId = itemId1;
+            tokenEvent.Parameter = itemId2;
+            AoWHSMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1788
-    public bool PlaceItem(int ItemID, HeroItemPosition Position)
+    public bool PlaceItem(int itemId, HeroItemPosition position)
     {
-        bool Result;
-        HeroUpdateTokenEvent TE;
-        if (CanPlaceItem(ItemID, Position) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        bool result;
+        HeroUpdateTokenEvent tokenEvent;
+        if (CanPlaceItem(itemId, position) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            TE = CreateHeroUpdateTE();
-            TE.FMode = HeroUpdateTokenEvent.Mode.PlaceItem;
-            TE.FItemID = ItemID;
-            TE.FParameter = (int)Position;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = CreateHeroUpdateTokenEvent();
+            tokenEvent.Mode = HeroUpdateTokenEventMode.PlaceItem;
+            tokenEvent.ItemId = itemId;
+            tokenEvent.Parameter = (int)position;
+            AoWHSMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1804
-    public bool ExecuteSwapItem(int ItemID1, int ItemID2)
+    public bool ExecuteSwapItem(int itemId1, int itemId2)
     {
-        bool Result;
-        Item Item1;
-        Item Item2;
-        ItemList Owner1;
-        ItemList Owner2;
-        int Index1;
-        int Index2;
-        if (CanSwapItem(ItemID1, ItemID2))
+        bool result;
+        Item item1;
+        Item item2;
+        ItemList owner1;
+        ItemList owner2;
+        int index1;
+        int index2;
+        if (CanSwapItem(itemId1, itemId2))
         {
-            Item1 = AoWHSMap.Current.FItemControl.FindItem(ItemID1);
-            Item2 = AoWHSMap.Current.FItemControl.FindItem(ItemID2);
-            Owner1 = (ItemList)Item1.Owner;
-            Owner2 = (ItemList)Item2.Owner;
-            Owner1.BeginUpdate();
-            Owner2.BeginUpdate();
-            Index1 = Item1.Owner.FindChildIndex(Item1);
-            Index2 = Item2.Owner.FindChildIndex(Item2);
-            Item1.SetOwner(null);
-            Item2.SetOwner(null);
-            if (Owner1.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
+            item1 = AoWHSMap.Current.ItemControl.FindItem(itemId1);
+            item2 = AoWHSMap.Current.ItemControl.FindItem(itemId2);
+            owner1 = (ItemList)item1.Owner;
+            owner2 = (ItemList)item2.Owner;
+            owner1.BeginUpdate();
+            owner2.BeginUpdate();
+            index1 = item1.Owner.FindChildIndex(item1);
+            index2 = item2.Owner.FindChildIndex(item2);
+            item1.SetOwner(null);
+            item2.SetOwner(null);
+            if (owner1.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
             {
-                Item2.SetArrayOwner(Owner1, Index1);
+                item2.SetArrayOwner(owner1, index1);
             }
             else
             {
-                Item2.SetOwner(Owner1);
+                item2.SetOwner(owner1);
             }
 
-            if (Owner2.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
+            if (owner2.GetControlStyle().Contains(ControlStyleElement.ArrayMode))
             {
-                Item1.SetArrayOwner(Owner2, Index2);
+                item1.SetArrayOwner(owner2, index2);
             }
             else
             {
-                Item1.SetOwner(Owner2);
+                item1.SetOwner(owner2);
             }
 
-            Owner2.EndUpdate();
-            Owner1.EndUpdate();
+            owner2.EndUpdate();
+            owner1.EndUpdate();
             Changed();
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1831
-    public bool AutoPlaceItem(Item Item)
+    public bool AutoPlaceItem(Item item)
     {
-        HeroItemPosition Position;
-        int Slot;
-        bool Result = false;
-        Position = FHeroItems.GetItemTypePosition(Item.FItemType);
-        if (FHeroItems.CanPlaceItem(Item, Position))
+        HeroItemPosition position;
+        int slot;
+        bool result = false;
+        position = HeroItems.GetItemTypePosition(item.ItemType);
+        if (HeroItems.CanPlaceItem(item, position))
         {
-            FHeroItems.PlaceItem(Item, Position);
-            Result = true;
+            HeroItems.PlaceItem(item, position);
+            result = true;
         }
         else
         {
-            Slot = FInventory.GetFreeSlot();
-            if (Slot != -1)
+            slot = Inventory.GetFreeSlot();
+            if (slot != -1)
             {
-                Item.SetArrayOwner(FInventory, Slot);
-                Result = true;
+                item.SetArrayOwner(Inventory, slot);
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1852
-    public bool ExecutePlaceItem(int ItemID, HeroItemPosition Position)
+    public bool ExecutePlaceItem(int itemId, HeroItemPosition position)
     {
-        bool Result;
-        Item Item;
-        CustomCombatMap Map;
-        if (CanPlaceItem(ItemID, Position))
+        bool result;
+        Item item;
+        CustomCombatMap map;
+        if (CanPlaceItem(itemId, position))
         {
-            Item = AoWHSMap.Current.FItemControl.FindItem(ItemID);
-            switch (Position)
+            item = AoWHSMap.Current.ItemControl.FindItem(itemId);
+            switch (position)
             {
                 case HeroItemPosition.Ground:
-                    Map = AoWHSMap.Current.FCombatMap;
-                    if (Map != null)
+                    map = AoWHSMap.Current.CombatMap;
+                    if (map != null)
                     {
-                        Map.DropHeroItem(this, Item);
+                        map.DropHeroItem(this, item);
                     }
                     else
                     {
-                        AoWHSMap.Current.DropHeroItem(this, Item);
+                        AoWHSMap.Current.DropHeroItem(this, item);
                     }
 
                     Changed();
                     break;
                 case >= HeroItemPosition.AttackSlot and <= HeroItemPosition.RightRingSlot:
-                    FHeroItems.PlaceItem(Item, Position);
+                    HeroItems.PlaceItem(item, position);
                     Changed();
                     break;
                 case >= HeroItemPosition.InventorySlot1 and <= HeroItemPosition.InventorySlot8:
-                    Item.SetArrayOwner(FInventory, (int)Position - 6);
+                    item.SetArrayOwner(Inventory, (int)position - 6);
                     Changed();
                     break;
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1876
-    public bool ExecuteStartCasting(int SpellID)
+    public bool ExecuteStartCasting(int spellId)
     {
-        bool Result;
-        Spell Spell;
-        if (FCastingSpellID != 0)
+        bool result;
+        Spell spell;
+        if (CastingSpellId != 0)
         {
             ExecuteCancelCasting();
         }
 
-        Spell = AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
-        var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-        var castingMana = CastingMana(Spell);
-        if (players.FMagicControl.FMana >= castingMana && CastingMana(Spell) > FCastingPoints)
+        spell = AoWHSSet.Current.SpellControl.GetSpell(spellId);
+        var players = AoWHSMap.Current.Players.GetPlayers(Player);
+        var castingMana = CastingMana(spell);
+        if (players.MagicControl.Mana >= castingMana && CastingMana(spell) > CastingPoints)
         {
-            FCastingProgress = CastingMana(Spell);
-            var fPlayersPlayers = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.SetMana(fPlayersPlayers.FMagicControl.FMana - FCastingProgress);
-            FCastingMana = FCastingPoints;
-            FCastingPoints = 0;
-            if (AoWHSMap.Current.FSeatedPlayer == FPlayer)
+            CastingProgress = CastingMana(spell);
+            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(Player);
+            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana - CastingProgress);
+            CastingManaValue = CastingPoints;
+            CastingPoints = 0;
+            if (AoWHSMap.Current.SeatedPlayer == Player)
             {
-                var format = AbilityRules.Format(AbilityRules.TranslateRStr(CastingXInProgressRStr), [Spell.FSpellName]);
+                var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_castingInProgressFormat), [spell.SpellName]);
                 AoWHSMap.Current.ShowMessage(format);
             }
 
-            FCastingSpellID = SpellID;
+            CastingSpellId = spellId;
             Changed();
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1898
     public void RemoveCastingReadyEventLog()
     {
-        EventLogbook Logbook;
-        Logbook = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FEventLogbook;
-        for (int I = Logbook.GetCount() - 1; I >= 0; I--)
+        EventLogbook logbook;
+        logbook = AoWHSMap.Current.Players.GetPlayers(Player).EventLogbook;
+        for (int I = logbook.GetCount() - 1; I >= 0; I--)
         {
-            if (Logbook.GetLogs(I) is SpellCastEventLog && ((SpellCastEventLog)Logbook.GetLogs(I)).FUnitID == FUnitID)
+            if (logbook.GetLogs(I) is SpellCastEventLog && ((SpellCastEventLog)logbook.GetLogs(I)).UnitId == UnitId)
             {
-                Logbook.GetLogs(I).SetOwner(null);
+                logbook.GetLogs(I).SetOwner(null);
             }
         }
     }
@@ -2191,234 +2191,234 @@ public partial class Hero : Troop
     // Hero.PAS:1907
     public bool ExecuteCancelCasting()
     {
-        bool Result;
-        if (FCastingSpellID != 0)
+        bool result;
+        if (CastingSpellId != 0)
         {
             RemoveCastingReadyEventLog();
-            if (GetCastingPointsMax() < FCastingPoints + FCastingMana)
+            if (GetCastingPointsMax() < CastingPoints + CastingManaValue)
             {
-                FCastingPoints = GetCastingPointsMax();
+                CastingPoints = GetCastingPointsMax();
             }
             else
             {
-                FCastingPoints = (sbyte)(FCastingPoints + FCastingMana);
+                CastingPoints = (sbyte)(CastingPoints + CastingManaValue);
             }
 
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.SetMana(players.FMagicControl.FMana + FCastingProgress);
-            FCastingSpellID = 0;
-            FCastingMana = 0;
-            FCastingProgress = 0;
+            var players = AoWHSMap.Current.Players.GetPlayers(Player);
+            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(players.MagicControl.Mana + CastingProgress);
+            CastingSpellId = 0;
+            CastingManaValue = 0;
+            CastingProgress = 0;
             Changed();
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:1925
-    public void CastingDone(int SpellID, int Mana)
+    public void CastingDone(int spellId, int mana)
     {
-        if (SpellID == FCastingSpellID)
+        if (spellId == CastingSpellId)
         {
             Assert(CastingReady(), "", "Hero.PAS", 2080);
-            FCastingMana = 0;
-            FCastingProgress = 0;
-            FCastingSpellID = 0;
+            CastingManaValue = 0;
+            CastingProgress = 0;
+            CastingSpellId = 0;
             RemoveCastingReadyEventLog();
         }
         else
         {
-            if (FCastingSpellID != 0)
+            if (CastingSpellId != 0)
             {
                 ExecuteCancelCasting();
             }
 
-            if (!AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled())
+            if (!AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
             {
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.SetMana(players.FMagicControl.FMana - Mana);
-                FCastingPoints = (sbyte)(FCastingPoints - Mana);
+                var players = AoWHSMap.Current.Players.GetPlayers(Player);
+                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(players.MagicControl.Mana - mana);
+                CastingPoints = (sbyte)(CastingPoints - mana);
             }
         }
     }
 
     // Hero.PAS:2098
-    public int CastingMana(Spell Spell)
+    public int CastingMana(Spell spell)
     {
-        int Result = Spell.FBaseManaCost;
-        if (AoWHSMap.Current.FGlobalMagicControl.GetSphereManaDoubled(Spell.FMagicSphere))
+        int result = spell.BaseManaCost;
+        if (AoWHSMap.Current.GlobalMagicControl.GetSphereManaDoubled(spell.MagicSphere))
         {
-            Result = Result * 2;
+            result = result * 2;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2104
-    public int CastingTurns(Spell Spell)
+    public int CastingTurns(Spell spell)
     {
-        int Result;
-        int Mana;
-        int Points;
-        Mana = CastingMana(Spell);
-        Points = FCastingPoints + FCastingMana;
-        if (GetCastingPointsMax() < Points)
+        int result;
+        int mana;
+        int points;
+        mana = CastingMana(spell);
+        points = CastingPoints + CastingManaValue;
+        if (GetCastingPointsMax() < points)
         {
-            Points = GetCastingPointsMax();
+            points = GetCastingPointsMax();
         }
 
-        if (Points < Mana)
+        if (points < mana)
         {
-            Result = (Mana - Points) / GetCastingPointsMax();
-            if ((Mana - Points) % GetCastingPointsMax() != 0)
+            result = (mana - points) / GetCastingPointsMax();
+            if ((mana - points) % GetCastingPointsMax() != 0)
             {
-                Result += 1;
+                result += 1;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2118
-    public bool Casting() => FCastingSpellID != 0;
+    public bool Casting() => CastingSpellId != 0;
 
     // Hero.PAS:2121
-    public bool CastingReady() => FCastingSpellID != 0 && FCastingMana == FCastingProgress;
+    public bool CastingReady() => CastingSpellId != 0 && CastingManaValue == CastingProgress;
 
     // Hero.PAS:2124
     public int CastingTurnsLeft()
     {
-        int Result;
-        if (FCastingSpellID != 0 && GetCastingPointsMax() != 0)
+        int result;
+        if (CastingSpellId != 0 && GetCastingPointsMax() != 0)
         {
-            if (FCastingMana < FCastingProgress)
+            if (CastingManaValue < CastingProgress)
             {
                 var castingPointsMax = GetCastingPointsMax();
-                Result = (FCastingProgress - FCastingMana) / castingPointsMax;
+                result = (CastingProgress - CastingManaValue) / castingPointsMax;
                 var castingPointsMax2 = GetCastingPointsMax();
-                if ((FCastingProgress - FCastingMana) % castingPointsMax2 != 0)
+                if ((CastingProgress - CastingManaValue) % castingPointsMax2 != 0)
                 {
-                    Result += 1;
+                    result += 1;
                 }
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2136
-    public bool CanCastSpellInstantly(int SpellID, int Mana, ref string Reason)
+    public bool CanCastSpellInstantly(int spellId, int mana, ref string reason)
     {
-        bool Result;
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled())
+        bool result;
+        if (!AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
         {
-            if (Mana <= FCastingPoints || SpellID == FCastingSpellID && Casting() && CastingReady())
+            if (mana <= CastingPoints || spellId == CastingSpellId && Casting() && CastingReady())
             {
-                Result = CanCastSpell(SpellID, ref Reason);
+                result = CanCastSpell(spellId, ref reason);
             }
             else
             {
-                Result = false;
-                Reason = AbilityRules.TranslateRStr(GameText.P2NotEnoughCastingPointsRStr);
+                result = false;
+                reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughChannelingPointsText);
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2149
-    public bool CanCastSpell(int SpellID, ref string Reason)
+    public bool CanCastSpell(int spellId, ref string reason)
     {
-        bool Result;
-        Spell Spell;
-        if (FCastingSpellID == 0)
+        bool result;
+        Spell spell;
+        if (CastingSpellId == 0)
         {
-            Spell = AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-            var castingMana = CastingMana(Spell);
-            if (players.FMagicControl.FMana >= castingMana || AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled())
+            spell = AoWHSSet.Current.SpellControl.GetSpell(spellId);
+            var players = AoWHSMap.Current.Players.GetPlayers(Player);
+            var castingMana = CastingMana(spell);
+            if (players.MagicControl.Mana >= castingMana || AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
             {
-                Result = Spell.CanActivate(this, ref Reason);
+                result = spell.CanActivate(this, ref reason);
             }
             else
             {
-                Result = false;
-                Reason = AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
+                result = false;
+                reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
             }
         }
         else
         {
-            Result = SpellID == FCastingSpellID;
-            if (Result && AoWHSSet.Current.FSpellControl.GetSpell(SpellID).FSpellType == SpellType.Global && AoWHSMap.Current.FCombatMap != null)
+            result = spellId == CastingSpellId;
+            if (result && AoWHSSet.Current.SpellControl.GetSpell(spellId).SpellType == SpellType.Global && AoWHSMap.Current.CombatMap != null)
             {
-                Reason = AbilityRules.TranslateRStr(CannotCastSpellInCombatRStr);
-                Result = false;
+                reason = AbilityRules.TranslateResourceString(s_cannotCastSpellInCombatText);
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2176
-    public bool CastSpell(int SpellID, ref string Reason)
+    public bool CastSpell(int spellId, ref string reason)
     {
-        bool Result;
-        Spell Spell;
-        HeroUpdateTokenEvent TE;
-        if (CanCastSpell(SpellID, ref Reason))
+        bool result;
+        Spell spell;
+        HeroUpdateTokenEvent tokenEvent;
+        if (CanCastSpell(spellId, ref reason))
         {
-            if (FCastingSpellID == 0)
+            if (CastingSpellId == 0)
             {
-                Spell = AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
-                if (CastingMana(Spell) <= FCastingPoints || AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled())
+                spell = AoWHSSet.Current.SpellControl.GetSpell(spellId);
+                if (CastingMana(spell) <= CastingPoints || AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
                 {
-                    Result = Spell.CanActivate(this, ref Reason) && Spell.Activate(this);
+                    result = spell.CanActivate(this, ref reason) && spell.Activate(this);
                 }
                 else
                 {
-                    if (!AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+                    if (!AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
                     {
-                        var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                        var castingMana = CastingMana(Spell);
-                        if (players.FMagicControl.FMana >= castingMana)
+                        var players = AoWHSMap.Current.Players.GetPlayers(Player);
+                        var castingMana = CastingMana(spell);
+                        if (players.MagicControl.Mana >= castingMana)
                         {
-                            TE = CreateHeroUpdateTE();
-                            TE.FMode = HeroUpdateTokenEvent.Mode.StartCasting;
-                            TE.FItemID = SpellID;
-                            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
-                            TE.Release();
-                            Result = true;
+                            tokenEvent = CreateHeroUpdateTokenEvent();
+                            tokenEvent.Mode = HeroUpdateTokenEventMode.StartCasting;
+                            tokenEvent.ItemId = spellId;
+                            AoWHSMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
+                            tokenEvent.Release();
+                            result = true;
                         }
                         else
                         {
-                            Result = false;
-                            Reason = AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
+                            result = false;
+                            reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
                         }
                     }
                     else
                     {
-                        Result = false;
+                        result = false;
                     }
                 }
             }
@@ -2426,105 +2426,105 @@ public partial class Hero : Troop
             {
                 if (CastingReady())
                 {
-                    Spell = AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
-                    Result = Spell.CanActivate(this, ref Reason) && Spell.Activate(this);
+                    spell = AoWHSSet.Current.SpellControl.GetSpell(spellId);
+                    result = spell.CanActivate(this, ref reason) && spell.Activate(this);
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2220
-    public bool CanCastCombatSpell(int SpellID, ref string Reason)
+    public bool CanCastCombatSpell(int spellId, ref string reason)
     {
-        bool Result;
-        Spell Spell;
-        if (FCastingSpellID == 0)
+        bool result;
+        Spell spell;
+        if (CastingSpellId == 0)
         {
-            Spell = AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
-            if (CastingMana(Spell) <= FCastingPoints || AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled())
+            spell = AoWHSSet.Current.SpellControl.GetSpell(spellId);
+            if (CastingMana(spell) <= CastingPoints || AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
             {
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                var castingMana = CastingMana(Spell);
-                if (players.FMagicControl.FMana >= castingMana || AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled())
+                var players = AoWHSMap.Current.Players.GetPlayers(Player);
+                var castingMana = CastingMana(spell);
+                if (players.MagicControl.Mana >= castingMana || AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.GetCheatEnabled())
                 {
-                    Result = Spell.CanActivateCombat(this, ref Reason);
+                    result = spell.CanActivateCombat(this, ref reason);
                 }
                 else
                 {
-                    Result = false;
-                    Reason = AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
+                    result = false;
+                    reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
                 }
             }
             else
             {
-                Result = false;
-                Reason = AbilityRules.TranslateRStr(NotEnoughChannelingPointsRStr);
+                result = false;
+                reason = AbilityRules.TranslateResourceString(s_notEnoughChannelingPointsText);
             }
         }
         else
         {
-            Spell = AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
-            Result = Set<SpellType>.Of(SpellType.Combat, SpellType.Unit).Contains(Spell.FSpellType) && CanCastSpellInstantly(SpellID, CastingMana(Spell), ref Reason);
+            spell = AoWHSSet.Current.SpellControl.GetSpell(spellId);
+            result = Set<SpellType>.Of(SpellType.Combat, SpellType.Unit).Contains(spell.SpellType) && CanCastSpellInstantly(spellId, CastingMana(spell), ref reason);
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2252
-    public bool CastCombatSpell(int SpellID, ref string Reason)
+    public bool CastCombatSpell(int spellId, ref string reason)
     {
-        bool Result;
-        Spell Spell;
-        Spell = AoWHSSet.Current.FSpellControl.GetSpell(SpellID);
-        if (CanCastCombatSpell(SpellID, ref Reason))
+        bool result;
+        Spell spell;
+        spell = AoWHSSet.Current.SpellControl.GetSpell(spellId);
+        if (CanCastCombatSpell(spellId, ref reason))
         {
-            Result = Spell.CanActivateCombat(this, ref Reason) && Spell.ActivateCombat(this);
+            result = spell.CanActivateCombat(this, ref reason) && spell.ActivateCombat(this);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2264
     public bool CancelCasting()
     {
-        bool Result;
-        HeroUpdateTokenEvent TE;
+        bool result;
+        HeroUpdateTokenEvent tokenEvent;
         // { Original tests -1 although zero is the idle spell ID. }
-        if (FCastingSpellID != -1 && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        if (CastingSpellId != -1 && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            TE = CreateHeroUpdateTE();
-            TE.FMode = HeroUpdateTokenEvent.Mode.CancelCasting;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
-            TE.Release();
-            Result = true;
+            tokenEvent = CreateHeroUpdateTokenEvent();
+            tokenEvent.Mode = HeroUpdateTokenEventMode.CancelCasting;
+            AoWHSMap.Current.TokenManager.GetTokenControl(Player).AddEvent(tokenEvent);
+            tokenEvent.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string CastingXInProgressRStr = "Casting %s...";
-    private static readonly string CannotCastSpellInCombatRStr = "Cannot cast spell in combat";
-    private static readonly string NotEnoughChannelingPointsRStr = "Not enough channeling points";
-    private static HeroLevelArray6 HeroExperienceTable = HeroLevelArray6.From([new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 25 }, new HeroLevel { DailyExperience = 1, Experience = 25 }]);
-    internal static SByteArray5 P2MoraleResistance = SByteArray5.From([-2, -1, 0, 0, 0]);
-    internal static SByteArray5 P2MoraleDefense = SByteArray5.From([-2, -1, 0, 0, 0]);
+    private static readonly string s_castingInProgressFormat = "Casting %s...";
+    private static readonly string s_cannotCastSpellInCombatText = "Cannot cast spell in combat";
+    private static readonly string s_notEnoughChannelingPointsText = "Not enough channeling points";
+    private static HeroLevelArray6 s_heroExperienceTable = HeroLevelArray6.From([new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 15 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 20 }, new HeroLevel { DailyExperience = 1, Experience = 25 }, new HeroLevel { DailyExperience = 1, Experience = 25 }]);
+    internal static SByteArray5 s_moraleResistance = SByteArray5.From([-2, -1, 0, 0, 0]);
+    internal static SByteArray5 s_moraleDefense = SByteArray5.From([-2, -1, 0, 0, 0]);
 
 }

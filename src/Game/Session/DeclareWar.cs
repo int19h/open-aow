@@ -17,41 +17,41 @@ public sealed partial record DeclareWar : DiplomaticProposal
 
     public override int Icon => 9;
 
-    public override string Name(DiplomaticAction Action) => AbilityRules.TranslateRStr(GameText.P5DeclareWarRStr);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameText.s_declareWarText);
 
-    public override string LogText(DiplomaticAction Action) => AbilityRules.TranslateRStr(GameTables.P5WarRStr);
+    public override string LogText(DiplomaticAction action) => AbilityRules.TranslateResourceString(GameTables.s_warText);
 
-    public override int MiddleIcon(DiplomaticAction Action) => 0x15;
+    public override int MiddleIcon(DiplomaticAction action) => 0x15;
 
-    public override void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation) =>
-        Text.Proposing(Relation == DiplomaticRelation.Unknown ? 151 : 100);
+    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
+        text.Proposing(relation == DiplomaticRelation.Unknown ? 151 : 100);
 
-    public override void Sent(DiplomaticAction Action)
+    public override void Sent(DiplomaticAction action)
     {
-        Action.ApplyRelationModifiers();
-        AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).PlayerSeen((sbyte)(byte)Action.FSource);
-        AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.War);
-        if (Action.FSource == AoWHSMap.Current.FSeatedPlayer)
+        action.ApplyRelationModifiers();
+        AoWHSMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
+        AoWHSMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.War);
+        if (action.Source == AoWHSMap.Current.SeatedPlayer)
         {
-            var p5WarDeclared = AbilityRules.TranslateRStr(P5WarDeclaredRStr);
-            AoWHSMap.Current.ShowMessage(p5WarDeclared);
+            var warDeclared = AbilityRules.TranslateResourceString(s_warDeclaredText);
+            AoWHSMap.Current.ShowMessage(warDeclared);
         }
 
-        Broadcast(Action, -1, Action.FTarget);
+        Broadcast(action, -1, action.Target);
     }
 
-    public override void AnswerAI(DiplomaticAction Action, sbyte Player, DiplomaticRelation Relation, ByteList IdealPeace, ByteList IdealWar) =>
-        Action.UpdateAIDiplomaticActionsLog(Player);
+    public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar) =>
+        action.UpdateAIDiplomaticActionsLog(player);
 
-    public override int RelationModifier(DiplomaticAction Action, sbyte Player, sbyte Race)
+    public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
     {
-        if (Player == Action.FSource && Relation(Action.FSource, Action.FTarget) != DiplomaticRelation.War)
+        if (player == action.Source && Relation(action.Source, action.Target) != DiplomaticRelation.War)
         {
-            int Modifier = Relation(Action.FSource, Action.FTarget) == DiplomaticRelation.Alliance ? -60 : -20;
-            return RaceModifier(Action.FTarget, Race, Modifier);
+            int modifier = Relation(action.Source, action.Target) == DiplomaticRelation.Alliance ? -60 : -20;
+            return RaceModifier(action.Target, race, modifier);
         }
 
-        if (Player == Action.FTarget && Relation(Action.FSource, Action.FTarget) != DiplomaticRelation.War && AoWHSMap.Current.FPlayers.GetPlayers(Action.FSource).FPlayerRace == Race)
+        if (player == action.Target && Relation(action.Source, action.Target) != DiplomaticRelation.War && AoWHSMap.Current.Players.GetPlayers(action.Source).PlayerRace == race)
         {
             return -20;
         }
@@ -59,5 +59,5 @@ public sealed partial record DeclareWar : DiplomaticProposal
         return 0;
     }
 
-    private static readonly string P5WarDeclaredRStr = "War declared";
+    private static readonly string s_warDeclaredText = "War declared";
 }

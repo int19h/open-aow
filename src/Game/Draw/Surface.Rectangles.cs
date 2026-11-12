@@ -4,12 +4,12 @@ namespace Aow.Game.Draw;
 
 public partial class Surface
 {
-    public int BltClipped(Surface target, int x, int y)
-        => BltClipped(target, default, x, y);
+    public int BlitClipped(Surface target, int x, int y)
+        => BlitClipped(target, default, x, y);
 
-    public int BltAreaClipped(Surface target, in Rect area, int x, int y)
-        => BltClipped(target, area, x, y);
+    public int BlitAreaClipped(Surface target, in Rect area, int x, int y)
+        => BlitClipped(target, area, x, y);
 
-    public int BltAreaColorKeyClipped(Surface target, in Rect area, int x, int y, int colorKey)
-        => BltColorKeyClipped(target, area, x, y, colorKey);
+    public int BlitAreaColorKeyClipped(Surface target, in Rect area, int x, int y, int colorKey)
+        => BlitColorKeyClipped(target, area, x, y, colorKey);
 }

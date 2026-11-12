@@ -8,109 +8,109 @@ namespace Aow.Game.Draw;
 public partial class Point3DList : IDisposable
 {
 
-    internal List<Point3D> FList;
+    internal List<Point3D> _list;
 
     // aowFX.pas:93
     public Point3DList()
     {
-        FList = new List<Point3D>();
+        _list = new List<Point3D>();
     }
 
     // aowFX.pas:98
     public virtual void Dispose()
     {
-        for (int I = 0, last = FList.Count - 1; I <= last; I++)
+        for (int I = 0, last = _list.Count - 1; I <= last; I++)
         {
             _ = GetXYZ(I);
         }
 
-        FList?.Clear();
+        _list?.Clear();
     }
 
     // aowFX.pas:108
     public void Clear()
     {
-        for (int I = 0, last = FList.Count - 1; I <= last; I++)
+        for (int I = 0, last = _list.Count - 1; I <= last; I++)
         {
             _ = GetXYZ(I);
         }
 
-        FList.Clear();
+        _list.Clear();
     }
 
     // aowFX.pas:117
-    public void Add(Point3D XYZ)
+    public void Add(Point3D xYZ)
     {
-        FList.Add(XYZ);
+        _list.Add(xYZ);
     }
 
     // aowFX.pas:122
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        FList.RemoveAt(Index);
+        _list.RemoveAt(index);
     }
 
     // aowFX.pas:128
-    public Point3D GetXYZ(int Index)
+    public Point3D GetXYZ(int index)
     {
-        Point3D Result;
-        if (Index >= 0 && Index < FList.Count)
+        Point3D result;
+        if (index >= 0 && index < _list.Count)
         {
-            Result = FList[Index];
+            result = _list[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // aowFX.pas:136
-    public int GetCount() => FList.Count;
+    public int GetCount() => _list.Count;
 
     public int Count { get => GetCount(); }
 
-    public Point3D this[int Index] { get => GetXYZ(Index); }
+    public Point3D this[int index] { get => GetXYZ(index); }
 
-    internal static void ScatterPath(ref Point3DList List)
+    internal static void ScatterPath(ref Point3DList list)
     {
-        int RX;
-        int RY;
-        int DX;
-        int DY;
-        Point3D XYZ;
-        DX = 0;
-        DY = 0;
-        for (int I = 1, last = List.Count - 2; I <= last; I++)
+        int rx;
+        int ry;
+        int deltaX;
+        int deltaY;
+        Point3D xYZ;
+        deltaX = 0;
+        deltaY = 0;
+        for (int I = 1, last = list.Count - 2; I <= last; I++)
         {
-            XYZ = List[I];
-            RX = Random(3);
-            RY = Random(3);
-            if (RX - DX > 1)
+            xYZ = list[I];
+            rx = Random(3);
+            ry = Random(3);
+            if (rx - deltaX > 1)
             {
-                RX = DX + 1;
+                rx = deltaX + 1;
             }
 
-            if (DX - RX > 1)
+            if (deltaX - rx > 1)
             {
-                RX = DX - 1;
+                rx = deltaX - 1;
             }
 
-            if (RY - DY > 1)
+            if (ry - deltaY > 1)
             {
-                RY = DY + 1;
+                ry = deltaY + 1;
             }
 
-            if (DY - RY > 1)
+            if (deltaY - ry > 1)
             {
-                RY = DY - 1;
+                ry = deltaY - 1;
             }
 
-            XYZ.X = XYZ.X + RX - 1;
-            XYZ.Y = XYZ.Y + RY - 1;
-            DX = RX;
-            DY = RY;
+            xYZ.X = xYZ.X + rx - 1;
+            xYZ.Y = xYZ.Y + ry - 1;
+            deltaX = rx;
+            deltaY = ry;
         }
     }
 

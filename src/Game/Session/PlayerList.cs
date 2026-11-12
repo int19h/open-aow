@@ -19,91 +19,91 @@ public partial class PlayerList : EControlStyleNode
     {
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.SaveLoad, ControlStyleElement.FixedChild, ControlStyleElement.ArrayMode));
         SetNumberOfPlayers(2);
-        FLocalControlledPlayers = new ByteList();
-        FLocalHumanPlayers = new ByteList();
-        FActivePlayers = new ByteList();
-        FLocalPlayers = new ByteList();
+        LocalControlledPlayers = new ByteList();
+        LocalHumanPlayers = new ByteList();
+        ActivePlayers = new ByteList();
+        LocalPlayers = new ByteList();
     }
 
-    public ByteList FActivePlayers;
-    public ByteList FLocalControlledPlayers;
-    public ByteList FLocalPlayers;
-    public ByteList FLocalHumanPlayers;
+    public ByteList ActivePlayers;
+    public ByteList LocalControlledPlayers;
+    public ByteList LocalPlayers;
+    public ByteList LocalHumanPlayers;
 
     // Player.PAS:1543
-    public override void Assign(EngineObject Source, GameEngine AEngine)
+    public override void Assign(EngineObject source, GameEngine engine)
     {
-        SetNumberOfPlayers(((PlayerList)Source).GetNumberOfPlayers());
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        SetNumberOfPlayers(((PlayerList)source).GetNumberOfPlayers());
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            var players = ((PlayerList)Source).GetPlayers(I);
-            ((EngineObject)FChildren.List[I]).Assign(players, GameTables.AoWEngine);
+            var players = ((PlayerList)source).GetPlayers(I);
+            ((EngineObject)_children.List[I]).Assign(players, GameTables.GameEngine);
         }
     }
 
     // Player.PAS:1434
-    public int GetDiplomaticRelationCount(sbyte Player, Set<DiplomaticRelation> Relations)
+    public int GetDiplomaticRelationCount(sbyte player, Set<DiplomaticRelation> relations)
     {
-        int Result = 0;
-        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+        int result = 0;
+        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
         {
-            if (I != Player)
+            if (I != player)
             {
-                if (GetPlayers(I).FStatus == Session.Player.Status.Playing)
+                if (GetPlayers(I).Status == PlayerStatus.Playing)
                 {
-                    if (Relations.Contains(GetDiplomaticRelation(Player, (sbyte)I)))
+                    if (relations.Contains(GetDiplomaticRelation(player, (sbyte)I)))
                     {
-                        Result += 1;
+                        result += 1;
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1445
-    public DiplomaticRelation GetDiplomaticRelation(sbyte Player, sbyte OtherPlayer) => ((Player)FChildren.List[Player]).FDiplomaticRelations.GetDiplomaticRelation(OtherPlayer);
+    public DiplomaticRelation GetDiplomaticRelation(sbyte player, sbyte otherPlayer) => ((Player)_children.List[player]).DiplomaticRelations.GetDiplomaticRelation(otherPlayer);
 
     // Player.PAS:1450
-    public void SetDiplomaticRelation(sbyte Player, sbyte OtherPlayer, DiplomaticRelation Relation)
+    public void SetDiplomaticRelation(sbyte player, sbyte otherPlayer, DiplomaticRelation relation)
     {
-        if (((Player)FChildren.List[Player]).FDiplomaticRelations.GetDiplomaticRelation(OtherPlayer) != Relation || ((Player)FChildren.List[OtherPlayer]).FDiplomaticRelations.GetDiplomaticRelation(Player) != Relation)
+        if (((Player)_children.List[player]).DiplomaticRelations.GetDiplomaticRelation(otherPlayer) != relation || ((Player)_children.List[otherPlayer]).DiplomaticRelations.GetDiplomaticRelation(player) != relation)
         {
-            if (Relation == DiplomaticRelation.Alliance)
+            if (relation == DiplomaticRelation.Alliance)
             {
                 for (int I = 1, last = Count - 1; I <= last; I++)
                 {
-                    if (GetPlayers(Player).GetFirstDaySeen((sbyte)I) == -1 && GetPlayers(OtherPlayer).GetFirstDaySeen((sbyte)I) != -1)
+                    if (GetPlayers(player).GetFirstDaySeen((sbyte)I) == -1 && GetPlayers(otherPlayer).GetFirstDaySeen((sbyte)I) != -1)
                     {
-                        GetPlayers(Player).PlayerSeen((sbyte)I);
+                        GetPlayers(player).PlayerSeen((sbyte)I);
                     }
 
-                    if (GetPlayers(OtherPlayer).GetFirstDaySeen((sbyte)I) == -1 && GetPlayers(Player).GetFirstDaySeen((sbyte)I) != -1)
+                    if (GetPlayers(otherPlayer).GetFirstDaySeen((sbyte)I) == -1 && GetPlayers(player).GetFirstDaySeen((sbyte)I) != -1)
                     {
-                        GetPlayers(OtherPlayer).PlayerSeen((sbyte)I);
+                        GetPlayers(otherPlayer).PlayerSeen((sbyte)I);
                     }
                 }
             }
 
-            ((Player)FChildren.List[Player]).FDiplomaticRelations.SetDiplomaticRelation(OtherPlayer, Relation);
-            ((Player)FChildren.List[OtherPlayer]).FDiplomaticRelations.SetDiplomaticRelation(Player, Relation);
-            if (Relation == DiplomaticRelation.War)
+            ((Player)_children.List[player]).DiplomaticRelations.SetDiplomaticRelation(otherPlayer, relation);
+            ((Player)_children.List[otherPlayer]).DiplomaticRelations.SetDiplomaticRelation(player, relation);
+            if (relation == DiplomaticRelation.War)
             {
-                ((Player)FChildren.List[Player]).FAIValidAttackPlayers[OtherPlayer] = true;
-                ((Player)FChildren.List[OtherPlayer]).FAIValidAttackPlayers[Player] = true;
+                ((Player)_children.List[player]).AIValidAttackPlayers[otherPlayer] = true;
+                ((Player)_children.List[otherPlayer]).AIValidAttackPlayers[player] = true;
             }
 
-            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(Relation))
+            if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(relation))
             {
-                ((Player)FChildren.List[Player]).FAIValidAttackPlayers[OtherPlayer] = false;
-                ((Player)FChildren.List[OtherPlayer]).FAIValidAttackPlayers[Player] = false;
+                ((Player)_children.List[player]).AIValidAttackPlayers[otherPlayer] = false;
+                ((Player)_children.List[otherPlayer]).AIValidAttackPlayers[player] = false;
             }
 
-            AoWHSMap.Current.FDiplomaticRelationsChangedEventsStore.Raise(this);
+            AoWHSMap.Current._diplomaticRelationsChangedEventsStore.Raise(this);
             for (int J = Count - 1; J >= 1; J--)
             {
-                ((Player)FChildren.List[J]).FMagicControl.UpdateEnemyEnchantments();
+                ((Player)_children.List[J]).MagicControl.UpdateEnemyEnchantments();
             }
 
             AoWHSMap.Current.UpdateVisibility();
@@ -115,55 +115,55 @@ public partial class PlayerList : EControlStyleNode
     {
         int I;
         I = 1;
-        int Result = 0;
+        int result = 0;
         // { Original tests the active count, not the index, and can run past the list. }
-        while (Result != FChildren.Count)
+        while (result != _children.Count)
         {
-            if (((Player)FChildren.List[I]).FGameOverStatus != GameOverStatus.Lost)
+            if (((Player)_children.List[I]).GameOverStatus != GameOverStatus.Lost)
             {
-                Result += 1;
+                result += 1;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1526
     public void BeginUpdate()
     {
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            ((Player)FChildren.List[I]).BeginUpdate();
+            ((Player)_children.List[I]).BeginUpdate();
         }
     }
 
     // Player.PAS:1534
     public void EndUpdate()
     {
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            ((Player)FChildren.List[I]).EndUpdate();
+            ((Player)_children.List[I]).EndUpdate();
         }
 
         Update();
     }
 
     // Player.PAS:1552
-    public Player GetPlayers(int Index)
+    public Player GetPlayers(int index)
     {
-        Player Result;
-        if (Index >= 0 && Index < FChildren.Count)
+        Player result;
+        if (index >= 0 && index < _children.Count)
         {
-            Result = (Player)FChildren.List[Index];
+            result = (Player)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1559
@@ -171,184 +171,184 @@ public partial class PlayerList : EControlStyleNode
     {
         int I;
         int J;
-        bool Result = true;
-        I = FActivePlayers.Count;
-        while (Result && I != 0)
+        bool result = true;
+        I = ActivePlayers.Count;
+        while (result && I != 0)
         {
             I -= 1;
-            J = FActivePlayers.Count;
-            while (Result && J != 0)
+            J = ActivePlayers.Count;
+            while (result && J != 0)
             {
                 J -= 1;
                 if (J != I)
                 {
-                    var item = FActivePlayers[I];
-                    Result = GetDiplomaticRelation((sbyte)FActivePlayers[J], (sbyte)item) == DiplomaticRelation.Alliance;
+                    var item = ActivePlayers[I];
+                    result = GetDiplomaticRelation((sbyte)ActivePlayers[J], (sbyte)item) == DiplomaticRelation.Alliance;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1577
     public int GetAverageHeroLevel()
     {
-        int Count;
-        Player Player;
-        Count = 0;
-        int Result = 0;
-        for (int I = 1, last = FChildren.Count - 1; I <= last; I++)
+        int count;
+        Player player;
+        count = 0;
+        int result = 0;
+        for (int I = 1, last = _children.Count - 1; I <= last; I++)
         {
-            Player = (Player)FChildren.EObjects[I];
-            for (int J = Player.FHeroes.Count - 1; J >= 0; J--)
+            player = (Player)_children.EObjects[I];
+            for (int J = player.Heroes.Count - 1; J >= 0; J--)
             {
-                Result += Player.FHeroes.GetHero(J).GetLevel();
-                Count += 1;
+                result += player.Heroes.GetHero(J).GetLevel();
+                count += 1;
             }
         }
 
-        if (Count != 0)
+        if (count != 0)
         {
-            Result = Result / Count;
+            result = result / count;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1597
     public int GetAverageHeroCount()
     {
-        int Result = 0;
-        for (int I = 1, last = FChildren.Count - 1; I <= last; I++)
+        int result = 0;
+        for (int I = 1, last = _children.Count - 1; I <= last; I++)
         {
-            Result += ((Player)FChildren.EObjects[I]).FHeroes.Count;
+            result += ((Player)_children.EObjects[I]).Heroes.Count;
         }
 
-        return Result / (FChildren.Count - 1);
+        return result / (_children.Count - 1);
     }
 
     // Player.PAS:1607
     public int GetMaxHeroCount()
     {
-        int Result = 0;
-        for (int I = 1, last = FChildren.Count - 1; I <= last; I++)
+        int result = 0;
+        for (int I = 1, last = _children.Count - 1; I <= last; I++)
         {
-            if (((Player)FChildren.EObjects[I]).FHeroes.Count > Result)
+            if (((Player)_children.EObjects[I]).Heroes.Count > result)
             {
-                Result = ((Player)FChildren.EObjects[I]).FHeroes.Count;
+                result = ((Player)_children.EObjects[I]).Heroes.Count;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1617
-    public byte GetNumberOfPlayers() => (byte)(FChildren.Count - 1);
+    public byte GetNumberOfPlayers() => (byte)(_children.Count - 1);
 
     // Player.PAS:1622
-    public int RaceToPlayer(sbyte Race)
+    public int RaceToPlayer(sbyte race)
     {
         int I;
-        int Result = -1;
+        int result = -1;
         I = 1;
         // { Original uses <> Count and assumes at least the independent player exists. }
-        while (Result == -1 && I != FChildren.Count)
+        while (result == -1 && I != _children.Count)
         {
-            if (((Player)FChildren.List[I]).FPlayerRace == Race)
+            if (((Player)_children.List[I]).PlayerRace == race)
             {
-                Result = I;
+                result = I;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1636
-    public void SetNumberOfPlayers(byte Value)
+    public void SetNumberOfPlayers(byte value)
     {
-        Player Player;
-        if (Value < 2)
+        Player player;
+        if (value < 2)
         {
-            Value = 2;
+            value = 2;
         }
 
-        if (Value > 12)
+        if (value > 12)
         {
-            Value = 12;
+            value = 12;
         }
 
-        while (Count <= Value)
+        while (Count <= value)
         {
-            Player = new Player(null);
-            Player.SetPlayerIndex((sbyte)Count);
+            player = new Player(null);
+            player.SetPlayerIndex((sbyte)Count);
             if (Count == 0)
             {
-                Player.FPlayerType = PlayerType.Independent;
+                player.PlayerType = PlayerType.Independent;
             }
 
-            Player.FPlayerRace = (sbyte)(Count - 1);
-            Player.SetArrayOwner(this, Count);
+            player.PlayerRace = (sbyte)(Count - 1);
+            player.SetArrayOwner(this, Count);
         }
 
-        while (Count > Value + 1)
+        while (Count > value + 1)
         {
             GetPlayers(Count - 1).Dispose();
             var count = Count;
-            FChildren.Delete(count - 1);
+            _children.Delete(count - 1);
         }
     }
 
     // Player.PAS:1657
-    public void ValidateRaces(RaceList Races)
+    public void ValidateRaces(RaceList races)
     {
-        Int32List Available;
-        Int32List Invalid;
+        Int32List available;
+        Int32List invalid;
         int I;
-        int Index;
-        int DefaultRace;
-        Available = new Int32List();
-        Invalid = new Int32List();
+        int index;
+        int defaultRace;
+        available = new Int32List();
+        invalid = new Int32List();
         I = 0;
-        int last = Races.Count - 1;
+        int last = races.Count - 1;
         for (; I <= last; I += 1)
         {
-            if (Races.GetRace(I).FEnabled)
+            if (races.GetRace(I).Enabled)
             {
-                Available.Add(I);
+                available.Add(I);
             }
         }
 
         I = 1;
-        int limit = FChildren.Count - 1;
+        int limit = _children.Count - 1;
         for (; I <= limit; I += 1)
         {
-            Index = Available.IndexOf(((Player)FChildren.List[I]).FPlayerRace);
-            if (Index == -1)
+            index = available.IndexOf(((Player)_children.List[I]).PlayerRace);
+            if (index == -1)
             {
-                Invalid.Add(I);
+                invalid.Add(I);
             }
             else
             {
-                Available.Delete(Index);
+                available.Delete(index);
             }
         }
 
         I = 0;
-        DefaultRace = -1;
-        while (I != AoWHSSet.Current.FRaceResources.Count && DefaultRace == -1)
+        defaultRace = -1;
+        while (I != AoWHSSet.Current.RaceResources.Count && defaultRace == -1)
         {
-            if (AoWHSSet.Current.FRaceResources.GetRaceResource(I) != null)
+            if (AoWHSSet.Current.RaceResources.GetRaceResource(I) != null)
             {
-                if (Races == null || Races.GetRace(I).FEnabled)
+                if (races == null || races.GetRace(I).Enabled)
                 {
-                    DefaultRace = I;
+                    defaultRace = I;
                 }
             }
 
@@ -356,104 +356,104 @@ public partial class PlayerList : EControlStyleNode
         }
 
         I = 0;
-        int last2 = Invalid.Count - 1;
+        int last2 = invalid.Count - 1;
         for (; I <= last2; I += 1)
         {
-            if (Available.Count == 0)
+            if (available.Count == 0)
             {
-                var item = Invalid[I];
-                ((Player)FChildren.List[item]).SetRace((sbyte)DefaultRace);
+                var item = invalid[I];
+                ((Player)_children.List[item]).SetRace((sbyte)defaultRace);
             }
             else
             {
-                var item = Available[0];
-                var invalidItem = Invalid[I];
-                ((Player)FChildren.List[invalidItem]).SetRace((sbyte)item);
-                Available.Delete(0);
+                var item = available[0];
+                var invalidItem = invalid[I];
+                ((Player)_children.List[invalidItem]).SetRace((sbyte)item);
+                available.Delete(0);
             }
         }
 
-        Invalid?.Dispose();
-        Available?.Dispose();
+        invalid?.Dispose();
+        available?.Dispose();
     }
 
     // Player.PAS:1691
-    public int VerifyRaces(RaceList Races)
+    public int VerifyRaces(RaceList races)
     {
-        int Result;
-        bool Valid;
+        int result;
+        bool valid;
         int I;
         int J;
-        Player Player;
-        Valid = true;
+        Player player;
+        valid = true;
         I = 1;
-        while (Valid && I < FChildren.Count)
+        while (valid && I < _children.Count)
         {
-            Player = (Player)FChildren.List[I];
-            Valid = Player.FPlayerRace != -1 && Races.GetRace(Player.FPlayerRace).FEnabled;
-            if (Valid)
+            player = (Player)_children.List[I];
+            valid = player.PlayerRace != -1 && races.GetRace(player.PlayerRace).Enabled;
+            if (valid)
             {
                 J = 1;
-                while (Valid && J != FChildren.Count)
+                while (valid && J != _children.Count)
                 {
-                    Valid = J == I || GetPlayers(J).FPlayerRace != Player.FPlayerRace;
+                    valid = J == I || GetPlayers(J).PlayerRace != player.PlayerRace;
                     J += 1;
                 }
             }
 
-            if (Valid)
+            if (valid)
             {
                 I += 1;
             }
         }
 
-        if (Valid)
+        if (valid)
         {
-            Result = 0;
+            result = 0;
         }
         else
         {
-            Result = I;
+            result = I;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:1718
     public sbyte GetSuperiorPlayer()
     {
-        int Maximum;
-        int BestPlayer;
-        int Value;
-        Maximum = 0;
-        BestPlayer = -1;
+        int maximum;
+        int bestPlayer;
+        int value;
+        maximum = 0;
+        bestPlayer = -1;
         for (int I = 1, last = Count - 1; I <= last; I++)
         {
-            if (GetPlayers(I).FStatus == Player.Status.Playing)
+            if (GetPlayers(I).Status == PlayerStatus.Playing)
             {
-                Value = GetPlayers(I).GetSuperiority();
-                if (Value > Maximum)
+                value = GetPlayers(I).GetSuperiority();
+                if (value > maximum)
                 {
-                    Maximum = Value;
-                    BestPlayer = I;
+                    maximum = value;
+                    bestPlayer = I;
                 }
             }
         }
 
-        return (sbyte)BestPlayer;
+        return (sbyte)bestPlayer;
     }
 
     // Player.PAS:1737
-    public int IndexOfPlayerType(PlayerType PlayerType)
+    public int IndexOfPlayerType(PlayerType playerType)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (GetPlayers(Result).FPlayerType == PlayerType)
+            result -= 1;
+            if (GetPlayers(result).PlayerType == playerType)
             {
                 // { The search index is the function result. }
-                return Result;
+                return result;
             }
         }
 
@@ -463,22 +463,22 @@ public partial class PlayerList : EControlStyleNode
     // intf_P1_03.inc:319
     public void Update()
     {
-        if (AoWHSMap.Current.FPlayerCommunicator.PCC is null) return;
-        FLocalControlledPlayers.Clear();
-        FLocalHumanPlayers.Clear();
-        FLocalPlayers.Clear();
-        FActivePlayers.Clear();
-        for (int i = 0; i < FChildren.Count; i++)
+        if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl is null) return;
+        LocalControlledPlayers.Clear();
+        LocalHumanPlayers.Clear();
+        LocalPlayers.Clear();
+        ActivePlayers.Clear();
+        for (int i = 0; i < _children.Count; i++)
         {
-            var player = (Player)FChildren.List[i];
-            if (player.FStatus != Player.Status.Playing) continue;
-            if (player.FGameOverStatus != GameOverStatus.Lost && i != 0) FActivePlayers.Add((byte)i);
+            var player = (Player)_children.List[i];
+            if (player.Status != PlayerStatus.Playing) continue;
+            if (player.GameOverStatus != GameOverStatus.Lost && i != 0) ActivePlayers.Add((byte)i);
             if (player.GetLocal())
             {
-                FLocalControlledPlayers.Add((byte)i);
-                if (player.FPlayerType == PlayerType.Human) FLocalHumanPlayers.Add((byte)i);
+                LocalControlledPlayers.Add((byte)i);
+                if (player.PlayerType == PlayerType.Human) LocalHumanPlayers.Add((byte)i);
             }
-            if (player.FPlayerType == PlayerType.Human) FLocalPlayers.Add((byte)i);
+            if (player.PlayerType == PlayerType.Human) LocalPlayers.Add((byte)i);
         }
     }
 }

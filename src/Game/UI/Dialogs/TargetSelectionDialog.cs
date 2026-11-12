@@ -32,7 +32,7 @@ public partial class TargetSelectionDialog : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        AoWHSMap.Current.FTargetSelection.Deactivate();
+        AoWHSMap.Current.TargetSelection.Deactivate();
     }
 
     // AoWTargetSelection.pas:51

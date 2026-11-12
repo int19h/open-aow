@@ -6,5 +6,5 @@ namespace Aow.Game.Audio;
 [InlineArray(5)]
 public struct SfxLibraryArray5
 {
-    private SfxLibrary element0;
+    private SfxLibrary _element0;
 }

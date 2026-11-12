@@ -49,19 +49,19 @@ public sealed class MapNetSoundConstructionTests
         var owner = new MapOwner();
         ECustomNode argument = owned ? type == typeof(MapContainer) ? new HSMap(null!) : owner : null!;
         var meta = EngineClass.Of(type);
-        if (engine.FClassTable.TryGetValue(meta.ClassID, out EngineClass? previous) && previous is not null)
-            engine.UnregisterEClasses([previous]);
-        engine.RegisterEClasses([EngineClass.Of(type)]);
+        if (engine._classTable.TryGetValue(meta.ClassId, out EngineClass? previous) && previous is not null)
+            engine.UnregisterEngineClasses([previous]);
+        engine.RegisterEngineClasses([EngineClass.Of(type)]);
         var direct = type == typeof(MapLevel) ? new MapLevel(argument)
             : (EngineObject)Activator.CreateInstance(type, [argument])!;
-        EngineObject[] values = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
+        EngineObject[] values = [direct, meta.CreateInstance(argument), engine.CreateEngineObject(meta.ClassId, argument)];
         try
         {
             foreach (var value in values)
             {
                 Assert.IsType(type, value);
                 Assert.Same(argument, value.Owner);
-                Assert.Same(meta, value.EClass);
+                Assert.Same(meta, value.EngineClass);
                 AssertState(value);
             }
             Assert.Equal(owned && type != typeof(MapField) && type != typeof(MapContainer) ? 3 : 0, owner.Members.Count);
@@ -82,93 +82,93 @@ public sealed class MapNetSoundConstructionTests
             case MapField field:
                 Assert.Equal(-1, field.TerrainType);
                 Assert.Equal(-1, field.OverlayType);
-                Assert.Equal(3, field.FCapacity);
+                Assert.Equal(3, field._capacity);
                 Assert.Equal(0, field.Count);
-                Assert.Equal(24, field.EClass.InstanceSize);
+                Assert.Equal(24, field.EngineClass.InstanceSize);
                 break;
             case MapContainer container:
                 Assert.Equal(0, container.Count);
                 break;
             case HSMap map:
                 Assert.IsType<HexSpriteMapMouse>(map.Mouse);
-                Assert.Same(map, map.Mouse.FHSMap);
+                Assert.Same(map, map.Mouse._hexSpriteMap);
                 Assert.Same(map, map.Selection.Owner);
                 Assert.Same(map, map.Timer.Owner);
-                Assert.Equal(0, map.FHSChangedEventsStore.Count);
-                Assert.Equal(0, map.FTerrainChangedEventsStore.Count);
-                Assert.Equal(0, map.FViewPortChangedEventsStore.Count);
-                Assert.Equal(0, map.FNewFrameEventsStore.Count);
-                Assert.Equal(0, map.FDestroyEventsStore.Count);
-                Assert.Equal(0, map.StaticVisibleHS.Count);
-                Assert.Equal(0, map.DynamicVisibleHS.Count);
-                Assert.Equal(0, map.StaticFixedVisibleHS.Count);
-                Assert.Equal(0, map.DynamicFixedVisibleHS.Count);
+                Assert.Equal(0, map._hexSpriteChangedEventsStore.Count);
+                Assert.Equal(0, map._terrainChangedEventsStore.Count);
+                Assert.Equal(0, map._viewPortChangedEventsStore.Count);
+                Assert.Equal(0, map._newFrameEventsStore.Count);
+                Assert.Equal(0, map._destroyEventsStore.Count);
+                Assert.Equal(0, map.StaticVisibleHexSprite.Count);
+                Assert.Equal(0, map.DynamicVisibleHexSprite.Count);
+                Assert.Equal(0, map.StaticFixedVisibleHexSprite.Count);
+                Assert.Equal(0, map.DynamicFixedVisibleHexSprite.Count);
                 break;
             case MapObjectResource resource:
-                Assert.NotNull(resource.FTerrainList);
-                Assert.NotNull(resource.FImageLibrary);
+                Assert.NotNull(resource._terrainList);
+                Assert.NotNull(resource._imageLibrary);
                 Assert.Equal(value is AbstractHexagonResource ? 0 : 26, resource.Level);
                 if (value is MultiHexMapObjectResource multi)
                 {
-                    Assert.Equal(16, multi.dXmainP);
-                    Assert.Equal(32, multi.dYmainP);
+                    Assert.Equal(16, multi.MainPointOffsetX);
+                    Assert.Equal(32, multi.MainPointOffsetY);
                 }
                 break;
             case MapLevel level:
-                Assert.Equal(65793, level.MapFieldCID);
+                Assert.Equal(65793, level.MapFieldClassId);
                 Assert.Equal(0, level.Fields.Length);
-                Assert.Equal(124, level.EClass.InstanceSize);
+                Assert.Equal(124, level.EngineClass.InstanceSize);
                 break;
             case HexSpriteSelection selection:
-                Assert.Empty(selection.LocationHS);
-                Assert.Equal(0, selection.FOnSelectStore.Count);
-                Assert.Equal(0, selection.FOnDeselectStore.Count);
+                Assert.Empty(selection.LocationHexSprite);
+                Assert.Equal(0, selection._onSelectStore.Count);
+                Assert.Equal(0, selection._onDeselectStore.Count);
                 break;
             case MapObjectResourceTerrainControl control:
-                Assert.Equal(typeof(MapObject), control.MOClass);
+                Assert.Equal(typeof(MapObject), control.MapObjectClass);
                 Assert.Equal(5, control.Tries);
-                Assert.Empty(control.FResources);
+                Assert.Empty(control._resources);
                 break;
             case HSSet set:
-                Assert.NotNull(set.FPlugInControl);
-                Assert.Equal(0, set.FTerrainTypes.Count);
-                Assert.Equal(0, set.FOverlayTypes.Count);
-                Assert.Equal(0, set.FDecorationTypes.Count);
-                Assert.Same(set, set.FHexagonControl.Owner);
-                Assert.Same(set, set.FRoadControl.Owner);
-                Assert.NotNull(set.FMapObjectResourceList);
-                Assert.NotNull(set.FResourceEditSettings);
-                Assert.NotNull(set.FImageLibraryManager);
-                Assert.Equal(0, set.FSFXManager.SFX.Count);
+                Assert.NotNull(set._pluginControl);
+                Assert.Equal(0, set._terrainTypes.Count);
+                Assert.Equal(0, set._overlayTypes.Count);
+                Assert.Equal(0, set._decorationTypes.Count);
+                Assert.Same(set, set._hexControl.Owner);
+                Assert.Same(set, set._roadControl.Owner);
+                Assert.NotNull(set._mapObjectResourceList);
+                Assert.NotNull(set._resourceEditSettings);
+                Assert.NotNull(set._imageLibraryManager);
+                Assert.Equal(0, set._sfxManager.Sfx.Count);
                 break;
             case MapObject sprite:
-                Assert.Null(sprite.FResource);
-                Assert.Equal(default, sprite.FStatus);
+                Assert.Null(sprite._resource);
+                Assert.Equal(default, sprite._status);
                 break;
             case Sfx effect:
                 Assert.Equal("", effect.FileName);
                 break;
             case PlayerCommunicator player:
-                Assert.Null(player.FReceivedPackage);
-                Assert.Equal(0L, player.FSendStream.Length);
-                Assert.Equal(0L, player.FReceiveStream.Length);
-                Assert.Equal(0, player.FOnReceiveStore.Count);
-                Assert.Equal(0, player.FOnProcessStore.Count);
+                Assert.Null(player._receivedPackage);
+                Assert.Equal(0L, player._sendStream.Length);
+                Assert.Equal(0L, player._receiveStream.Length);
+                Assert.Equal(0, player._onReceiveStore.Count);
+                Assert.Equal(0, player._onProcessStore.Count);
                 break;
             case TokenEvent token:
-                Assert.Equal(1, token.FRefCount);
+                Assert.Equal(1, token._refCount);
                 Assert.Equal(-1, token.TokenCounter);
                 break;
             case TokenEventList events:
                 Assert.Equal(0, events.Count);
-                Assert.NotNull(events.FList);
+                Assert.NotNull(events._list);
                 break;
             case DataPackage package:
-                Assert.Equal(1, package.FRefCount);
+                Assert.Equal(1, package._refCount);
                 if (package is TokenPackage tokens) Assert.Equal(0, tokens.TokenEvents.Count);
                 break;
             case PlayerCommunicationSettings settings:
-                Assert.Equal(ConnectionMode.Local, settings.FConnectionMode);
+                Assert.Equal(ConnectionMode.Local, settings._connectionMode);
                 break;
             case SongList songs:
                 Assert.Equal(0, songs.Songs.Count);
@@ -233,54 +233,54 @@ public sealed class MapNetSoundConstructionTests
             {
                 case NewHexSpriteMapSettings map:
                     Assert.Equal((64, 64, 1, 66048, 65795, 65794),
-                        (map.Width, map.Height, map.Levels, map.HSMapClassID, map.MapContainerClassID, map.MapLevelClassID));
-                    Assert.Equal("", map.HSSFileName);
+                        (map.Width, map.Height, map.Levels, map.HexSpriteMapClassId, map.MapContainerClassId, map.MapLevelClassId));
+                    Assert.Equal("", map.HssFileName);
                     break;
                 case TerrainList terrain: Assert.Equal(0, terrain.Count); break;
                 case HexSpriteMapMouse mouse:
-                    Assert.Equal(int.MinValue, mouse.FX);
-                    Assert.Equal(int.MinValue, mouse.FY);
-                    Assert.Equal(0, mouse.FOnUpStore.Count);
-                    Assert.Equal(0, mouse.FOnDownStore.Count);
-                    Assert.Equal(0, mouse.FOnMoveStore.Count);
-                    Assert.Equal(0, mouse.FOnDblClickStore.Count);
-                    Assert.Equal(0, mouse.FOnCaptureChangedStore.Count);
+                    Assert.Equal(int.MinValue, mouse._x);
+                    Assert.Equal(int.MinValue, mouse._y);
+                    Assert.Equal(0, mouse._onUpStore.Count);
+                    Assert.Equal(0, mouse._onDownStore.Count);
+                    Assert.Equal(0, mouse._onMoveStore.Count);
+                    Assert.Equal(0, mouse._onDoubleClickStore.Count);
+                    Assert.Equal(0, mouse._onCaptureChangedStore.Count);
                     break;
                 case MapCoordinateList list:
-                    Assert.Equal(-1, list.FDefault.X);
-                    Assert.Equal(-1, list.FDefault.Y);
-                    Assert.Equal(-1, list.FDefault.L);
-                    Assert.Equal(0, list.FDefault.Flag);
+                    Assert.Equal(-1, list._default.X);
+                    Assert.Equal(-1, list._default.Y);
+                    Assert.Equal(-1, list._default.MapLevel);
+                    Assert.Equal(0, list._default.Tag);
                     Assert.Equal(0, list.Count);
                     break;
                 case TokenControl control:
-                    Assert.Equal(7, control.FPlayer);
-                    Assert.True(control.FActive);
+                    Assert.Equal(7, control._player);
+                    Assert.True(control._active);
                     Assert.Equal(0, control.Count);
                     break;
-                case TokenExecutor executer:
-                    Assert.Equal(0, executer.FEvents.Count);
-                    Assert.Equal(0, executer.FSystemEvents.Count);
-                    Assert.Empty(executer.FTCList);
-                    Assert.Equal(0, executer.FOnEventsExecutedStore.Count);
-                    Assert.Equal(0, executer.FOnActivateTCStore.Count);
+                case TokenExecutor executor:
+                    Assert.Equal(0, executor._events.Count);
+                    Assert.Equal(0, executor._systemEvents.Count);
+                    Assert.Empty(executor._tacticalBattleList);
+                    Assert.Equal(0, executor._onEventsExecutedStore.Count);
+                    Assert.Equal(0, executor._onActivateTacticalBattleStore.Count);
                     break;
                 case TokenManager manager:
                     Assert.Null(manager.Owner);
                     Assert.Equal(0, manager.Count);
-                    Assert.Same(manager, manager.FTokenExecuter.FTokenManager);
-                    Assert.Same(manager, manager.FTokenPackageDistributer.FTokenManager);
+                    Assert.Same(manager, manager._tokenExecutor._tokenManager);
+                    Assert.Same(manager, manager._tokenPackageDistributor._tokenManager);
                     break;
                 case PlayerCommunicationControl communication:
-                    Assert.Equal(1, communication.FRefCount);
+                    Assert.Equal(1, communication._refCount);
                     Assert.Equal(0, communication.Count);
-                    if (value is RemotePlayerCommunicationControl remote) Assert.Equal(0, remote.FPackageDataList.Count);
-                    if (value is LocalPlayerCommunicationControl local) Assert.Equal(0, local.FPackageDataList.Count);
+                    if (value is RemotePlayerCommunicationControl remote) Assert.Equal(0, remote._packageDataList.Count);
+                    if (value is LocalPlayerCommunicationControl local) Assert.Equal(0, local._packageDataList.Count);
                     break;
                 case PackageDataList packages: Assert.Equal(0, packages.Count); break;
-                case TokenPackageDistributor distributer: Assert.Null(distributer.FTokenManager); break;
-                case SoundSystem sound: Assert.Equal(1, sound.FRefCount); break;
-                case UnitSfxManager sfx: Assert.Equal(0, sfx.SFX.Count); break;
+                case TokenPackageDistributor distributor: Assert.Null(distributor._tokenManager); break;
+                case SoundSystem sound: Assert.Equal(1, sound.RefCount); break;
+                case UnitSfxManager sfx: Assert.Equal(0, sfx.Sfx.Count); break;
                 case SongPlayer song:
                     Assert.Equal(-1, song.CurrentIndex);
                     Assert.Equal(0, song.Songs.Count);
@@ -301,10 +301,10 @@ public sealed class MapNetSoundConstructionTests
     {
         using var manager = new TokenManager(null!);
         var control = new TokenControl(manager, 7);
-        Assert.Same(control, manager.FTokenExecuter.FTCList[0]);
-        Assert.Single(manager.FTokenExecuter.FTCList);
+        Assert.Same(control, manager._tokenExecutor._tacticalBattleList[0]);
+        Assert.Single(manager._tokenExecutor._tacticalBattleList);
         control.Dispose();
-        Assert.Empty(manager.FTokenExecuter.FTCList);
+        Assert.Empty(manager._tokenExecutor._tacticalBattleList);
     }
 
     [Fact]
@@ -314,7 +314,7 @@ public sealed class MapNetSoundConstructionTests
         var value = new UnitSfxManager(owner);
         Assert.True(owner.Observed);
         Assert.Same(owner, value.Owner);
-        Assert.Equal(0, value.SFX.Count);
+        Assert.Equal(0, value.Sfx.Count);
         value.Dispose();
         Assert.Equal(0, owner.ComponentCount);
     }
@@ -327,7 +327,7 @@ public sealed class MapNetSoundConstructionTests
         {
             if (operation == Component.Operation.Insert && child is UnitSfxManager manager)
             {
-                Assert.Null(manager.FSFX);
+                Assert.Null(manager._sfx);
                 Observed = true;
             }
             base.Notification(child, operation);

@@ -22,10 +22,10 @@ public sealed class MessageSlotTests
     {
         internal int Calls;
 
-        public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+        public override void MapFieldMessageProc(ref MapFieldMessage message)
         {
             Calls++;
-            proc(ref Msg);
+            proc(ref message);
         }
     }
 
@@ -37,7 +37,7 @@ public sealed class MessageSlotTests
     {
         var field = new MapField(null!);
         var handlers = procs.Select(p => new Handler(p)).ToArray();
-        foreach (var handler in handlers) field.AddHS(handler, 0);
+        foreach (var handler in handlers) field.AddHexSprite(handler, 0);
         return (field, handlers);
     }
 
@@ -63,43 +63,43 @@ public sealed class MessageSlotTests
         // No answer: every handler runs.
         var (field, handlers) = Field(None, None, None);
         MapFieldMessage message = default;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
         Assert.Same(field, message.MapField);
         // An int answer (0x1100, the field's player) and a reference answer (0x1201, the
         // production control) stop the delivery at the same handler.
         (field, handlers) = Field(None, (ref m) => m.Result = 3, None);
         message = default;
-        message.MsgID = 0x1100;
+        message.MessageId = 0x1100;
         message.Result = -1;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(new[] { 1, 1, 0 }, Calls(handlers));
         Assert.Equal(3, message.Result.Int);
         (field, handlers) = Field(None, (ref m) => m.Result = control, None);
         message = default;
-        message.MsgID = 0x1201;
+        message.MessageId = 0x1201;
         message.Result = 0;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(new[] { 1, 1, 0 }, Calls(handlers));
         Assert.Same(control, message.Result.As<object>());
         // A handler writing 0 or nil into a slot that holds 0 has not answered, as in the original.
         (field, handlers) = Field((ref m) => m.Result = 0, (ref m) => m.Result = (object?)null, None);
         message = default;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
         // A reference the caller set before the delivery (0x1109, the combat result query) stays,
         // so every handler runs and fills the object.
         (field, handlers) = Field(None, None, None);
         message = default;
-        message.MsgID = 0x1109;
+        message.MessageId = 0x1109;
         message.Result = control;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
         // Replacing one reference with another is an answer.
         (field, handlers) = Field((ref m) => m.Result = new object(), None);
         message = default;
         message.Result = control;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(new[] { 1, 0 }, Calls(handlers));
     }
 
@@ -109,12 +109,12 @@ public sealed class MessageSlotTests
     {
         using GameEngine engine = new GameEngine(null!);
         EngineMessage message = default;
-        EngineMessage.InitMsg(ref message, 0x20000008, engine);
+        EngineMessage.InitializeMessage(ref message, 0x20000008, engine);
         message.Payload = engine;
         Assert.Same(engine, message.Payload.As<GameEngine>());
         Assert.Throws<InvalidCastException>(() => message.Payload.Int);
         Assert.Equal(-1, message.Result);
-        EngineMessage.InitMsg(ref message, 0x20020002, engine);
+        EngineMessage.InitializeMessage(ref message, 0x20020002, engine);
         Assert.False(message.Payload.HasValue);
         message.Payload = 5;
         Assert.Equal(5, (sbyte)message.Payload.Int);
@@ -130,19 +130,19 @@ public sealed class MessageSlotTests
         int distance = -1;
         var (field, _) = Field((ref m) =>
         {
-            if (m.MsgID == 0x1102) placed = m.Param[0].As<ArmyHexSprite>();
-            else if (m.MsgID == 0x110a) distance = m.Param[0].Int;
+            if (m.MessageId == 0x1102) placed = m.Param[0].As<ArmyHexSprite>();
+            else if (m.MessageId == 0x110a) distance = m.Param[0].Int;
         });
         MapFieldMessage message = default;
-        message.MsgID = 0x1102;
+        message.MessageId = 0x1102;
         message.Param[0] = army;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Same(army, placed);
         Assert.Throws<InvalidCastException>(() => message.Param[0].Int);
         message = default;
-        message.MsgID = 0x110a;
+        message.MessageId = 0x110a;
         message.Param[0] = 4;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(4, distance);
         Assert.Null(message.Param[0].As<ArmyHexSprite>());
     }
@@ -154,20 +154,20 @@ public sealed class MessageSlotTests
         var query = new DefenseRequirementsQuery();
         var (field, _) = Field((ref m) =>
         {
-            if (m.MsgID == 0x1127) m.Param[1].As<DefenseRequirementsQuery>()!.Requirements.Strength = 9;
-            else if (m.MsgID == 0x1101) m.Param[1] = m.Param[1].Int + 2;
+            if (m.MessageId == 0x1127) m.Param[1].As<DefenseRequirementsQuery>()!.Requirements.Strength = 9;
+            else if (m.MessageId == 0x1101) m.Param[1] = m.Param[1].Int + 2;
         });
         MapFieldMessage message = default;
-        message.MsgID = 0x1127;
+        message.MessageId = 0x1127;
         message.Param[0] = 1;
         message.Param[1] = query;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(9, query.Requirements.Strength);
         Assert.Throws<InvalidCastException>(() => message.Param[1].Int);
         message = default;
-        message.MsgID = 0x1101;
+        message.MessageId = 0x1101;
         message.Param[1] = 1;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(3, message.Param[1].Int);
     }
 
@@ -179,19 +179,19 @@ public sealed class MessageSlotTests
         sbyte player = 0;
         var (field, _) = Field((ref m) =>
         {
-            if (m.MsgID == 0x1151) m.Param[2].As<StormDamageQuery>()!.Info.Player = 7;
-            else if (m.MsgID == 0x1150) player = (sbyte)m.Param[2].Int;
+            if (m.MessageId == 0x1151) m.Param[2].As<StormDamageQuery>()!.Info.Player = 7;
+            else if (m.MessageId == 0x1150) player = (sbyte)m.Param[2].Int;
         });
         MapFieldMessage message = default;
-        message.MsgID = 0x1151;
+        message.MessageId = 0x1151;
         message.Param[2] = query;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(7, query.Info.Player);
         Assert.Throws<InvalidCastException>(() => message.Param[2].Int);
         message = default;
-        message.MsgID = 0x1150;
+        message.MessageId = 0x1150;
         message.Param[2] = 3;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(3, player);
         Assert.Null(message.Param[2].As<StormDamageQuery>());
     }
@@ -203,20 +203,20 @@ public sealed class MessageSlotTests
         var control = new ProductionControl(null!);
         var (field, handlers) = Field((ref m) =>
         {
-            if (m.MsgID == 0x1201) m.Result = control;
-            else if (m.MsgID == 0x1100) m.Result = 2;
+            if (m.MessageId == 0x1201) m.Result = control;
+            else if (m.MessageId == 0x1100) m.Result = 2;
         }, None);
         MapFieldMessage message = default;
-        message.MsgID = 0x1201;
+        message.MessageId = 0x1201;
         message.Result = 0;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Same(control, message.Result.As<ProductionControl>());
         Assert.Throws<InvalidCastException>(() => message.Result.Int);
         Assert.Equal(new[] { 1, 0 }, Calls(handlers));
         message = default;
-        message.MsgID = 0x1100;
+        message.MessageId = 0x1100;
         message.Result = -1;
-        field.SendMapFieldMsg(ref message);
+        field.SendMapFieldMessage(ref message);
         Assert.Equal(2, (sbyte)message.Result.Int);
         Assert.Null(message.Result.As<ProductionControl>());
         Assert.Equal(new[] { 2, 0 }, Calls(handlers));

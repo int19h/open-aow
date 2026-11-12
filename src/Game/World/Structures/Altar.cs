@@ -16,182 +16,182 @@ using Aow.Rtl;
 namespace Aow.Game.World.Structures;
 
 // { ot=1 }
-// FStorm, FMode, FRechargeDays
+// Storm, Mode, RechargeDays
 public partial class Altar : PlayerStructure
 {
     public Altar(ECustomNode owner) : base(owner)
     { }
 
     // Altar.pas:59
-    public new const int ClassID = 132081;
+    public new const int ClassId = 132081;
 
-    public Storm FStorm;
-    public Mode FMode;
-    public byte FRechargeDays;
+    public Storm Storm;
+    public AltarMode Mode;
+    public byte RechargeDays;
 
     // Altar.pas:226
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FRechargeDays, 15);
-        Stream.rwData(Bytes.Of(ref FMode, 1), 1, 16);
+        base.ReadWrite(stream);
+        stream.rwByte(ref RechargeDays, 15);
+        stream.rwData(Bytes.Of(ref Mode, 1), 1, 16);
     }
 
     // Altar.pas:248
-    public override void SetRazed(bool Value)
+    public override void SetRazed(bool value)
     {
-        if (Value)
+        if (value)
         {
             SetPlayer(-1);
-            FMode = Mode.Razed;
+            Mode = AltarMode.Razed;
         }
         else
         {
-            FMode = Mode.Idle;
+            Mode = AltarMode.Idle;
         }
 
-        FImageIndex = GetTerrainTypeImage(FTerrainType);
+        _imageIndex = GetTerrainTypeImage(_terrainType);
     }
 
     // Altar.pas:243
-    public override bool GetRazed() => FMode == Mode.Razed;
+    public override bool GetRazed() => Mode == AltarMode.Razed;
 
     // Altar.pas:78
-    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
+    public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        string Reason = "";
-        ExecuteResult Result = base.ExecuteTE(TE, Executer);
-        if (TE.FAction == 0)
+        string reason = "";
+        ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
+        if (tokenEvent.Action == 0)
         {
-            if (Executer.ExecuteCount == 0 && CanTarget(ref Reason))
+            if (executor.ExecuteCount == 0 && CanTarget(ref reason))
             {
-                FStorm = CreateStorm();
-                var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
+                Storm = CreateStorm();
+                var player = AoWHSMap.Current.Players.GetPlayers(Player);
                 var targetMana = TargetMana();
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.SetMana(player.FMagicControl.FMana - targetMana);
-                FRechargeDays = 0;
-                FStorm.InitializeStorm(FPlayer, (sbyte)(TE.FParam & 255), (sbyte)(((int)(((uint)TE.FParam) >> 8)) & 255), (sbyte)(((int)(((uint)TE.FParam) >> 16)) & 255));
+                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(player.MagicControl.Mana - targetMana);
+                RechargeDays = 0;
+                Storm.InitializeStorm(Player, (sbyte)(tokenEvent.Param & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 8)) & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 16)) & 255));
             }
 
-            if (FStorm != null)
+            if (Storm != null)
             {
-                if (!FStorm.UpdateStorm())
+                if (!Storm.UpdateStorm())
                 {
-                    FStorm.FinalizeStorm();
-                    FStorm?.Dispose();
-                    FStorm = null;
-                    Result = ExecuteResult.Done;
+                    Storm.FinalizeStorm();
+                    Storm?.Dispose();
+                    Storm = null;
+                    result = ExecuteResult.Done;
                     Update();
                 }
                 else
                 {
-                    Result = ExecuteResult.Retry;
+                    result = ExecuteResult.Retry;
                 }
             }
             else
             {
-                Result = ExecuteResult.DoneHalt;
+                result = ExecuteResult.DoneHalt;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Altar.pas:220
     public override void NewDay()
     {
         base.NewDay();
-        if (GetRechargeDays() != FRechargeDays)
+        if (GetRechargeDays() != RechargeDays)
         {
-            FRechargeDays = (byte)(FRechargeDays + 1);
+            RechargeDays = (byte)(RechargeDays + 1);
         }
     }
 
     // Altar.pas:70
     public override string GetCurrentActivityText()
     {
-        string Result;
-        if (GetRechargeDays() != FRechargeDays)
+        string result;
+        if (GetRechargeDays() != RechargeDays)
         {
-            var fmtDaysLeftStr = DurationText.FmtDaysLeftStr(GetRechargeDays() - FRechargeDays);
-            Result = AbilityRules.TranslateRStr(ChargingRStr) + " (" + fmtDaysLeftStr + ")";
+            var formatDaysLeftString = DurationText.FormatDaysLeftString(GetRechargeDays() - RechargeDays);
+            result = AbilityRules.TranslateResourceString(s_chargingText) + " (" + formatDaysLeftString + ")";
         }
         else
         {
-            Result = AbilityRules.TranslateRStr(ReadyRStr);
+            result = AbilityRules.TranslateResourceString(s_readyText);
         }
 
-        return Result;
+        return result;
     }
 
     // Altar.pas:259
-    public override bool ExecuteAI(sbyte Player, int Phase)
+    public override bool ExecuteAI(sbyte player, int phase)
     {
-        Storm Storm;
-        MapCoordinate Target = default;
-        BattleFieldInfo Friendly = default;
-        BattleFieldInfo Enemy = default;
-        StormDamageInfo Damage = default;
-        int Value;
-        if (Player == FPlayer && (Phase == 1 || Phase == 2))
+        Storm storm;
+        MapCoordinate target = default;
+        BattleFieldInfo friendly = default;
+        BattleFieldInfo enemy = default;
+        StormDamageInfo damage = default;
+        int value;
+        if (player == Player && (phase == 1 || phase == 2))
         {
-            Storm = CreateStorm();
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            if (Storm.GetBestTarget(Player, GetXhx(), yhx, lhx, 12, ref Target, ref Damage))
+            storm = CreateStorm();
+            var hexLevel = base.GetHexLevel();
+            var hexY = base.GetHexY();
+            if (storm.GetBestTarget(player, base.GetHexX(), hexY, hexLevel, 12, ref target, ref damage))
             {
-                Value = Damage.EnemyDamage - Damage.FriendlyDamage;
-                if ((double)Value > (double)TargetMana() * 0.75)
+                value = damage.EnemyDamage - damage.FriendlyDamage;
+                if ((double)value > (double)TargetMana() * 0.75)
                 {
-                    var playerAIBudget = AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                    var playerAIBudget = AoWHSMap.Current.Players.GetPlayers(player);
                     var targetMana = TargetMana();
-                    if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIBudget.RequestBudgetExpense(0, targetMana, playerAIBudget.FAIBudget.FDefaultBudget, true))
+                    if (AoWHSMap.Current.Players.GetPlayers(player).AIBudget.RequestBudgetExpense(0, targetMana, playerAIBudget.AIBudget.DefaultBudget, true))
                     {
-                        BattleFieldInfo.SetupBattleFieldInfo(ref Friendly, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-                        Friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
-                        var lhx2 = GetLhx();
-                        var yhx2 = GetYhx();
-                        var xhx = GetXhx();
-                        AoWHSMap.Current.RetrieveBattleFieldInfo(xhx, yhx2, lhx2, 1, ref Friendly);
-                        BattleFieldInfo.SetupBattleFieldInfo(ref Enemy, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-                        var lhx3 = GetLhx();
-                        var yhx3 = GetYhx();
-                        var xhx2 = GetXhx();
-                        AoWHSMap.Current.RetrieveBattleFieldInfo(xhx2, yhx3, lhx3, 8, ref Enemy);
-                        if (Friendly.FriendlyStrength < Enemy.Strength || Value > 100)
+                        BattleFieldInfo.SetupBattleFieldInfo(ref friendly, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
+                        var hexLevel2 = base.GetHexLevel();
+                        var hexY2 = base.GetHexY();
+                        var hexX = base.GetHexX();
+                        AoWHSMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, 1, ref friendly);
+                        BattleFieldInfo.SetupBattleFieldInfo(ref enemy, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+                        var hexLevel3 = base.GetHexLevel();
+                        var hexY3 = base.GetHexY();
+                        var hexX2 = base.GetHexX();
+                        AoWHSMap.Current.RetrieveBattleFieldInfo(hexX2, hexY3, hexLevel3, 8, ref enemy);
+                        if (friendly.FriendlyStrength < enemy.Strength || value > 100)
                         {
-                            if (StormTargetSelected(Target.X, Target.Y, Target.L))
+                            if (StormTargetSelected(target.X, target.Y, target.MapLevel))
                             {
-                                var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                                var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
                                 var targetMana2 = TargetMana();
-                                AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIBudget.BudgetExpenseMade(0, targetMana2, player.FAIBudget.FDefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
+                                AoWHSMap.Current.Players.GetPlayers(player).AIBudget.BudgetExpenseMade(0, targetMana2, playerLocal.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
                             }
                         }
                     }
                 }
             }
 
-            Storm?.Dispose();
+            storm?.Dispose();
         }
 
         return false;
     }
 
     // Altar.pas:233
-    public override void SetPlayer(sbyte Player)
+    public override void SetPlayer(sbyte player)
     {
-        if (Player != FPlayer)
+        if (player != Player)
         {
-            base.SetPlayer(Player);
-            if (Player == FPlayer && this == AoWHSMap.Current.FTargetSelection.FSource)
+            base.SetPlayer(player);
+            if (player == Player && this == AoWHSMap.Current.TargetSelection.Source)
             {
-                AoWHSMap.Current.FTargetSelection.Deactivate();
+                AoWHSMap.Current.TargetSelection.Deactivate();
             }
         }
     }
 
     // Altar.pas:65
-    public override int GetDefaultAITargetPriority() => FRechargeDays * 10 + 10;
+    public override int GetDefaultAITargetPriority() => RechargeDays * 10 + 10;
 
     // Altar.pas:62
     public virtual Storm CreateStorm() => null;
@@ -199,140 +199,140 @@ public partial class Altar : PlayerStructure
     // Altar.pas:110
     public virtual bool StormTargetSelected(sbyte X, sbyte Y, sbyte L)
     {
-        bool Result;
-        string Reason = "";
-        StructureTokenEvent Event;
-        if (CanTarget(ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        bool result;
+        string reason = "";
+        StructureTokenEvent eventValue;
+        if (CanTarget(ref reason) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            Event = CreateTE();
-            SetupTE(Event);
-            Event.FParam = X + (Y << 8) + (L << 16);
-            Event.FAction = 0;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = CreateTokenEvent();
+            SetupTokenEvent(eventValue);
+            eventValue.Param = X + (Y << 8) + (L << 16);
+            eventValue.Action = 0;
+            AoWHSMap.Current.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Altar.pas:212
     public virtual byte GetRechargeDays() => 10;
 
     // Altar.pas:153
-    public virtual bool CanTarget(ref string Reason)
+    public virtual bool CanTarget(ref string reason)
     {
-        bool Result;
-        if (TargetMana() <= AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FMana)
+        bool result;
+        if (TargetMana() <= AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.Mana)
         {
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
-            Reason = AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
+            result = false;
+            reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughManaText);
         }
 
-        return Result;
+        return result;
     }
 
     // Altar.pas:164
     public virtual bool Target()
     {
-        bool Result = default;
-        TargetSelectionControl Selection = default;
-        string Reason = "";
-        Selection = AoWHSMap.Current.FTargetSelection;
-        if (!GetRazed() && FPlayer >= 0 && TargetMana() <= AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FMana && CanTarget(ref Reason) && FStorm == null)
+        bool result = default;
+        TargetSelectionControl selection = default;
+        string reason = "";
+        selection = AoWHSMap.Current.TargetSelection;
+        if (!GetRazed() && Player >= 0 && TargetMana() <= AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && Storm == null)
         {
-            Selection.Initialize(this);
-            Selection.FTargetMode = Selection.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-            Selection.FSourceX = GetXhx();
-            Selection.FSourceY = GetYhx();
-            Selection.FSourceL = GetLhx();
-            Selection.FRange = 12;
-            Selection.FOnChange += OnTargetSelectionChange;
-            FStorm = CreateStorm();
-            FStorm.UpdateTargetSelection(AoWHSMap.Current.FTargetSelection);
-            var name = FStorm.Name();
-            var format = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.SelectTargetLocationForXOnMapRStr), [name]);
-            Selection.FText.Text = format;
-            Selection.FTitle = EditName();
-            Selection.FCancelText = AbilityRules.TranslateRStr(GameText.CancelRStr);
-            Selection.FSourceImage = GetTopBorderImage();
-            Selection.FValidTargetImage = GetMiddleBorderImage();
-            Selection.FInvalidTargetImage = GetBottomBorderImage();
-            Selection.Activate();
-            Result = true;
+            selection.Initialize(this);
+            selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+            selection.SourceX = GetHexX();
+            selection.SourceY = GetHexY();
+            selection.SourceL = GetHexLevel();
+            selection.Range = 12;
+            selection.FOnChange += OnTargetSelectionChange;
+            Storm = CreateStorm();
+            Storm.UpdateTargetSelection(AoWHSMap.Current.TargetSelection);
+            var name = Storm.Name();
+            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_selectTargetLocationForOnMapFormat), [name]);
+            selection.Text.Text = format;
+            selection.Title = EditName();
+            selection.CancelText = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+            selection.SourceImage = GetTopBorderImage();
+            selection.ValidTargetImage = GetMiddleBorderImage();
+            selection.InvalidTargetImage = GetBottomBorderImage();
+            selection.Activate();
+            result = true;
             Update();
         }
         else
         {
             // { Original reports success even when targeting cannot start. }
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Altar.pas:202
     public virtual bool CancelTargeting()
     {
-        bool Result;
+        bool result;
         if (GetTargeting())
         {
-            AoWHSMap.Current.FTargetSelection.Deactivate();
-            Result = true;
+            AoWHSMap.Current.TargetSelection.Deactivate();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Altar.pas:215
-    public virtual int TargetMana() => (GetRechargeDays() - FRechargeDays) * 50;
+    public virtual int TargetMana() => (GetRechargeDays() - RechargeDays) * 50;
 
     // Altar.pas:128
-    public void OnTargetSelectionChange(TargetSelectionControl Selection)
+    public void OnTargetSelectionChange(TargetSelectionControl selection)
     {
-        switch (Selection.FChange)
+        switch (selection.Change)
         {
             case TargetSelectionChange.Deactivated:
-                FStorm?.Dispose();
-                FStorm = null;
-                Selection.FOnChange -= OnTargetSelectionChange;
+                Storm?.Dispose();
+                Storm = null;
+                selection.FOnChange -= OnTargetSelectionChange;
                 Update();
                 break;
             case TargetSelectionChange.Selected:
-                Selection.FOnChange -= OnTargetSelectionChange;
-                if (StormTargetSelected(Selection.FTargetX, Selection.FTargetY, Selection.FTargetL))
+                selection.FOnChange -= OnTargetSelectionChange;
+                if (StormTargetSelected(selection.TargetX, selection.TargetY, selection.TargetL))
                 {
-                    Selection.Deactivate();
+                    selection.Deactivate();
                 }
 
-                FStorm?.Dispose();
-                FStorm = null;
+                Storm?.Dispose();
+                Storm = null;
                 Update();
                 break;
         }
     }
 
     // Altar.pas:196
-    public bool GetTargeting() => AoWHSMap.Current.FTargetSelection.FStatus.Contains(TargetSelectionStatusElement.Activated) && this == AoWHSMap.Current.FTargetSelection.FSource;
+    public bool GetTargeting() => AoWHSMap.Current.TargetSelection.Status.Contains(TargetSelectionStatusElement.Activated) && this == AoWHSMap.Current.TargetSelection.Source;
 
-    private static readonly string ChargingRStr = "Charging";
-    private static readonly string ReadyRStr = "Ready";
+    private static readonly string s_chargingText = "Charging";
+    private static readonly string s_readyText = "Ready";
 
-    public enum Mode : byte
-    {
-        Idle = 0, Razed = 1, Rebuilding = 2
-    }
+}
 
+public enum AltarMode : byte
+{
+    Idle = 0, Razed = 1, Rebuilding = 2
 }

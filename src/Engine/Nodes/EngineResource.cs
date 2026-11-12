@@ -13,87 +13,87 @@ namespace Aow.Engine.Nodes;
 // FEditIndex (its cell in that grid). all three integers are persisted (ids 1.3)
 public partial class EngineResource : EngineObject
 {
-    public new const int ClassID = 1024;
+    public new const int ClassId = 1024;
 
     public EngineResource(ECustomNode owner) : base(owner)
     { }
 
-    internal ECustomNode FResourceList;
-    internal int FResourceID;
-    internal int FEditID;
-    internal int FEditIndex;
+    internal ECustomNode _resourceList;
+    internal int _resourceId;
+    internal int _editId;
+    internal int _editIndex;
 
     // Engine.pas:8513
-    public override void SetOwner(ECustomNode AOwner)
+    public override void SetOwner(ECustomNode owner)
     {
-        base.SetOwner(AOwner);
-        FResourceList = AOwner;
+        base.SetOwner(owner);
+        _resourceList = owner;
     }
 
     // Engine.pas:8542
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FResourceID, 1);
-        Stream.rwInteger(ref FEditID, 2);
-        Stream.rwInteger(ref FEditIndex, 3);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref _resourceId, 1);
+        stream.rwInteger(ref _editId, 2);
+        stream.rwInteger(ref _editIndex, 3);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("ResourceID", ref FResourceID);
-        persister.Int("EditID", ref FEditID);
-        persister.Int("EditIndex", ref FEditIndex);
+        persister.Int32("ResourceId", ref _resourceId);
+        persister.Int32("EditId", ref _editId);
+        persister.Int32("EditIndex", ref _editIndex);
     }
 
     // Engine.pas:8519
-    public override void SetArrayOwner(ECustomNode AOwner, int Index)
+    public override void SetArrayOwner(ECustomNode owner, int index)
     {
-        base.SetArrayOwner(AOwner, Index);
-        FResourceList = AOwner;
+        base.SetArrayOwner(owner, index);
+        _resourceList = owner;
     }
 
     // Engine.pas:8533
     public virtual LibraryImage GetCellImage() => null;
 
     // Engine.pas:8538
-    public virtual void SetCellImage(LibraryImage Value)
+    public virtual void SetCellImage(LibraryImage value)
     {
     }
 
     // Engine.pas:8550
-    public virtual int ResourceUserClassID() => 0;
+    public virtual int ResourceUserClassId() => 0;
 
     // Engine.pas:8555
     public virtual EngineObject CreateResourceUser()
     {
-        EngineObject Result;
-        int UserClassID;
-        UserClassID = ResourceUserClassID();
-        if (UserClassID != 0)
+        EngineObject result;
+        int userClassId;
+        userClassId = ResourceUserClassId();
+        if (userClassId != 0)
         {
-            Result = GetEngine().CreateEObject(UserClassID, null);
+            result = GetEngine().CreateEngineObject(userClassId, null);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:8525
-    public virtual void Draw(Canvas Canvas, Rect Rect, Game.Draw.Images.BlitMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
+    public virtual void Draw(Canvas canvas, Rect rectangle, Game.Draw.Images.BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {
         Rect R = default;
-        LibraryDrawing.BltLibraryImage(Canvas, GetCellImage(), Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
+        LibraryDrawing.BlitLibraryImage(canvas, GetCellImage(), rectangle, mode, scaleX, scaleY, bkColor, color, false, ref R);
     }
 
-    public ECustomNode ResourceList { get => FResourceList; set => FResourceList = value; }
-    public int EditID { get => FEditID; set => FEditID = value; }
-    public int EditIndex { get => FEditIndex; set => FEditIndex = value; }
-    public int ResourceID { get => FResourceID; set => FResourceID = value; }
+    public ECustomNode ResourceList { get => _resourceList; set => _resourceList = value; }
+    public int EditId { get => _editId; set => _editId = value; }
+    public int EditIndex { get => _editIndex; set => _editIndex = value; }
+    public int ResourceId { get => _resourceId; set => _resourceId = value; }
     public LibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
 
     // Engine.pas:8508

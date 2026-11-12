@@ -21,26 +21,26 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3121
     public TurnUndeadAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 38;
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
-        FAbilityName = AbilityRules.TranslateRStr(GameText.TurnUndeadRStr);
-        FAbilityType = AbilityType.Combat;
+        AbilityId = 38;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText);
+        AbilityType = AbilityType.Combat;
     }
 
     // AoWAb.PAS:3191
-    public override string GetName(AbilityOwner Owner) => GetLevelName(GetLevel(Owner));
+    public override string GetName(AbilityOwner owner) => GetLevelName(GetLevel(owner));
 
     // AoWAb.PAS:3146
-    public override int GetLevel(AbilityOwner Owner)
+    public override int GetLevel(AbilityOwner owner)
     {
-        int Result;
-        MultiLevelAbilityData Data;
-        if (Owner != null)
+        int result;
+        MultiLevelAbilityData data;
+        if (owner != null)
         {
-            Data = (MultiLevelAbilityData)Owner.GetAbilityData(FAbilityID);
-            if (Data != null)
+            data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+            if (data != null)
             {
-                Result = Data.FLevel;
+                result = data.Level;
             }
             else
             {
@@ -49,47 +49,47 @@ public partial class TurnUndeadAbility : TouchAbility
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3213
     public override int GetSkillPoints(AbilityOwner owner)
     {
-        int Result = GetLevel(owner);
-        return Result * 5;
+        int result = GetLevel(owner);
+        return result * 5;
     }
 
     // AoWAb.PAS:3374
-    public override bool fcExecuteCombatCommand(CombatObject Source, FastBattleCommand Command)
+    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
-        CombatObject Target;
-        TurnUndeadCombatAction Action;
-        StrikeCombatAction Strike;
-        Target = Command.FTarget;
-        fcValidateMoveOutsideWall(Source, Target);
-        Action = CreateTurnUndeadCA(Source, Target);
-        Source.FCombat.ExecuteCombatAction(Action);
-        if (Target.GetEnabled())
+        CombatObject target;
+        TurnUndeadCombatAction action;
+        StrikeCombatAction strike;
+        target = command.Target;
+        FastBattleValidateMoveOutsideWall(source, target);
+        action = CreateTurnUndeadCombatAction(source, target);
+        source.Combat.ExecuteCombatAction(action);
+        if (target.GetEnabled())
         {
-            Strike = CombatObject.CreateStrikeCA(Target, Source, true);
-            if (Strike != null)
+            strike = CombatObject.CreateStrikeCombatAction(target, source, true);
+            if (strike != null)
             {
-                Source.FCombat.ExecuteCombatAction(Strike);
-                Strike.Release();
+                source.Combat.ExecuteCombatAction(strike);
+                strike.Release();
             }
         }
 
-        Action.Release();
+        action.Release();
         return true;
     }
 
     // AoWAb.PAS:3204
     public override bool CanExpand(AbilityOwner owner)
     {
-        if ((owner.GetAbilitySelectionTypes() & FSelectionTypes) == Set<AbilitySelectionType>.Of() || GetLevel(owner) >= 4)
+        if ((owner.GetAbilitySelectionTypes() & SelectionTypes) == Set<AbilitySelectionType>.Of() || GetLevel(owner) >= 4)
         {
             return false;
         }
@@ -100,319 +100,319 @@ public partial class TurnUndeadAbility : TouchAbility
     // AoWAb.PAS:3199
     public override int ExpandCost(AbilityOwner owner)
     {
-        int Result = GetLevel(owner);
-        if (Result < 4)
+        int result = GetLevel(owner);
+        if (result < 4)
         {
-            Result = 5;
+            result = 5;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3195
-    public override string ExpandName(AbilityOwner Owner) => GetLevelName(GetLevel(Owner) + 1);
+    public override string ExpandName(AbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
 
     // AoWAb.PAS:3217
-    public override bool Expand(AbilityOwner Owner)
+    public override bool Expand(AbilityOwner owner)
     {
-        MultiLevelAbilityData Data;
-        bool Result = false;
-        Data = (MultiLevelAbilityData)Owner.GetAbilityData(FAbilityID);
-        if (Data == null)
+        MultiLevelAbilityData data;
+        bool result = false;
+        data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+        if (data == null)
         {
-            Data = new MultiLevelAbilityData(null);
-            Data.FLevelAbilityID = (ushort)FAbilityID;
-            Data.FLevel = 1;
-            SetAb(Owner, FAbilityID, 1);
-            Owner.AddAbilityData(Data);
-            Result = true;
+            data = new MultiLevelAbilityData(null);
+            data.LevelAbilityId = (ushort)AbilityId;
+            data.Level = 1;
+            SetAbility(owner, AbilityId, 1);
+            owner.AddAbilityData(data);
+            result = true;
         }
         else
         {
-            if (Data.FLevel != 4)
+            if (data.Level != 4)
             {
-                Result = true;
-                Data.FLevel = (byte)(Data.FLevel + 1);
+                result = true;
+                data.Level = (byte)(data.Level + 1);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3238
     public override bool Remove(AbilityOwner owner)
     {
-        MultiLevelAbilityData Data;
-        bool Result = true;
-        Data = (MultiLevelAbilityData)owner.GetAbilityData(FAbilityID);
-        if (Data != null)
+        MultiLevelAbilityData data;
+        bool result = true;
+        data = (MultiLevelAbilityData)owner.GetAbilityData(AbilityId);
+        if (data != null)
         {
-            if (Data.FLevel == 1)
+            if (data.Level == 1)
             {
-                SetAb(owner, FAbilityID, 0);
-                owner.RemoveAbilityData(Data);
+                SetAbility(owner, AbilityId, 0);
+                owner.RemoveAbilityData(data);
             }
             else
             {
-                Data.FLevel = (byte)(Data.FLevel - 1);
+                data.Level = (byte)(data.Level - 1);
             }
         }
         else
         {
-            SetAb(owner, FAbilityID, 0);
-            Result = false;
+            SetAbility(owner, AbilityId, 0);
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3293
-    public override int GetDamageValue(Troop Attacker, Troop Defender)
+    public override int GetDamageValue(Troop attacker, Troop defender)
     {
-        int Result;
-        float Probability;
-        if (CanTouchUnit(Attacker, Defender) && !Defender.GetImmunityTypes().Contains(DamageType.None))
+        int result;
+        float probability;
+        if (CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            Probability = TouchRoleProbability(Attacker, Defender);
-            Result = Round((double)((double)Defender.GetHitPoints() * Probability) * 100);
+            probability = TouchRoleProbability(attacker, defender);
+            result = Round((double)((double)defender.GetHitPoints() * probability) * 100);
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3305
-    public override void GetDamageValueEx(Troop Attacker, Troop Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void GetDamageValues(Troop attacker, Troop defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        float Probability;
-        int HitPoints;
-        if (WallSituation == WallSituation.None && CanTouchUnit(Attacker, Defender) && !Defender.GetImmunityTypes().Contains(DamageType.None))
+        float probability;
+        int hitPoints;
+        if (wallSituation == WallSituation.None && CanTouchUnit(attacker, defender) && !defender.GetImmunityTypes().Contains(DamageType.None))
         {
-            Probability = TouchRoleProbability(Attacker, Defender);
-            HitPoints = Defender.GetHitPoints();
-            DamageValues.SourceCost = HitPoints;
-            DamageValues.SourceDamage = Round((double)((double)HitPoints * Probability) * 100);
-            var p4UnitStrikeDV = Troop.P4UnitStrikeDV(Defender, Attacker);
-            DamageValues.TargetDamage = Round((double)p4UnitStrikeDV * ((double)1 - Probability));
-            var protectionTypes = Attacker.GetProtectionTypes();
-            var damageTypes = ((StrikeAbility)AoWHSSet.Current.FAbilityControl.GetAbility(21)).GetDamageTypes(Defender);
-            var immunityTypes = Attacker.GetImmunityTypes();
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(Defender.GetDamage(), damageTypes, immunityTypes, protectionTypes);
-            DamageValues.TargetCost = statisticsToMaxDamage;
-            DamageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
+            probability = TouchRoleProbability(attacker, defender);
+            hitPoints = defender.GetHitPoints();
+            damageValues.SourceCost = hitPoints;
+            damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
+            var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
+            damageValues.TargetDamage = Round((double)unitStrikeDamageValue * ((double)1 - probability));
+            var protectionTypes = attacker.GetProtectionTypes();
+            var damageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender);
+            var immunityTypes = attacker.GetImmunityTypes();
+            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(defender.GetDamage(), damageTypes, immunityTypes, protectionTypes);
+            damageValues.TargetCost = statisticsToMaxDamage;
+            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
         }
         else
         {
-            DamageValues.SourceDamage = 0;
-            DamageValues.SourceCost = 0;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.SourceDamage = 0;
+            damageValues.SourceCost = 0;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // AoWAb.PAS:3168
-    public override void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
+    public override void GetOffensiveStrength(AbilityOwner owner, ref int strength, ref Set<DamageType> types)
     {
-        int Damage;
-        if (Owner is Troop unit)
+        int damage;
+        if (owner is Troop troop)
         {
-            Damage = GetTurnUndeadDamage(GetLevel(unit));
-            if (Damage > 5)
+            damage = GetTurnUndeadDamage(GetLevel(troop));
+            if (damage > 5)
             {
-                Damage = 5;
+                damage = 5;
             }
 
-            Strength = Round((double)(unit.GetAttack() * 4 * Damage) * 0.1);
+            strength = Round((double)(troop.GetAttack() * 4 * damage) * 0.1);
             // { Original reports death damage here, although the attack deals holy damage. }
-            Types = Set<DamageType>.Of(DamageType.Death);
+            types = Set<DamageType>.Of(DamageType.Death);
         }
     }
 
     // AoWAb.PAS:3331
-    public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
+    public override void FastBattleGetDamageValues(CombatObject attacker, CombatObject defender, WallSituation wallSituation, ref AbilityDamageValues damageValues)
     {
-        float Probability;
-        int HitPoints;
-        if (WallSituation == WallSituation.None && CanTouch(Attacker, Defender))
+        float probability;
+        int hitPoints;
+        if (wallSituation == WallSituation.None && CanTouch(attacker, defender))
         {
-            Probability = CombatTouchRoleProbability((CombatUnit)Attacker, Defender);
-            HitPoints = Defender.GetHitPoints();
-            DamageValues.SourceCost = HitPoints;
-            DamageValues.SourceDamage = Round((double)((double)HitPoints * Probability) * 100);
-            var strikeDV = CombatObject.StrikeDV(Defender, Attacker);
-            DamageValues.TargetDamage = Round((double)strikeDV * ((double)1 - Probability));
-            var protectionTypes = Attacker.GetProtectionTypes();
-            var immunityTypes = Attacker.GetImmunityTypes();
-            var meleeDamageTypes = CombatObject.MeleeDamageTypes(Defender);
-            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(Defender.GetDamage(), meleeDamageTypes, immunityTypes, protectionTypes);
-            DamageValues.TargetCost = statisticsToMaxDamage;
-            DamageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
+            probability = CombatTouchRoleProbability((CombatUnit)attacker, defender);
+            hitPoints = defender.GetHitPoints();
+            damageValues.SourceCost = hitPoints;
+            damageValues.SourceDamage = Round((double)((double)hitPoints * probability) * 100);
+            var strikeDamageValue = CombatObject.StrikeDamageValue(defender, attacker);
+            damageValues.TargetDamage = Round((double)strikeDamageValue * ((double)1 - probability));
+            var protectionTypes = attacker.GetProtectionTypes();
+            var immunityTypes = attacker.GetImmunityTypes();
+            var meleeDamageTypes = CombatObject.MeleeDamageTypes(defender);
+            var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(defender.GetDamage(), meleeDamageTypes, immunityTypes, protectionTypes);
+            damageValues.TargetCost = statisticsToMaxDamage;
+            damageValues.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
         }
         else
         {
-            DamageValues.SourceDamage = 0;
-            DamageValues.SourceCost = 0;
-            DamageValues.TargetDamage = 0;
-            DamageValues.TargetCost = 0;
-            DamageValues.DamageTypes = Set<DamageType>.Of();
+            damageValues.SourceDamage = 0;
+            damageValues.SourceCost = 0;
+            damageValues.TargetDamage = 0;
+            damageValues.TargetCost = 0;
+            damageValues.DamageTypes = Set<DamageType>.Of();
         }
     }
 
     // AoWAb.PAS:3282
-    public override void GetCombatInfo(AbilityOwner Owner, ref AbilityCombatInfo Info)
+    public override void GetCombatInfo(AbilityOwner owner, ref AbilityCombatInfo info)
     {
-        int Level;
-        Level = GetLevel(Owner);
-        var touchAttack = GetTouchAttack(Level);
-        Info.Attack = touchAttack;
-        var turnUndeadDamage = GetTurnUndeadDamage(Level);
-        Info.Damage = turnUndeadDamage;
-        Info.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
-        Info.RepeatCount = 1;
-        Info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
+        int level;
+        level = GetLevel(owner);
+        var touchAttack = GetTouchAttack(level);
+        info.Attack = touchAttack;
+        var turnUndeadDamage = GetTurnUndeadDamage(level);
+        info.Damage = turnUndeadDamage;
+        info.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
+        info.RepeatCount = 1;
+        info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Enemy);
     }
 
     // AoWAb.PAS:3260
-    public override sbyte GetTouchAttack(int Level)
+    public override sbyte GetTouchAttack(int level)
     {
-        sbyte Result;
-        switch (Level)
+        sbyte result;
+        switch (level)
         {
             case 1:
-                Result = 4;
+                result = 4;
                 break;
             case 2:
-                Result = 5;
+                result = 5;
                 break;
             case 3:
-                Result = 6;
+                result = 6;
                 break;
             case 4:
-                Result = 7;
+                result = 7;
                 break;
             default:
-                Result = 4;
+                result = 4;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3137
-    public override bool CanTouch(CombatObject Source, CombatObject Target)
+    public override bool CanTouch(CombatObject source, CombatObject target)
     {
-        bool Result = base.CanTouch(Source, Target);
-        if (Result)
+        bool result = base.CanTouch(source, target);
+        if (result)
         {
-            bool condition = Source is CombatUnit && Target is CombatUnit;
+            bool condition = source is CombatUnit && target is CombatUnit;
             if (condition)
             {
-                var unitType = ((CombatUnit)Target).FUnit.GetUnitType();
+                var unitType = ((CombatUnit)target).Troop.GetUnitType();
                 condition = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType);
             }
 
-            Result = condition && ((ushort)((CombatUnit)Target).FUnit.GetRace() == 11 || ((CombatUnit)Target).FUnit.GetAbilityEnabled(129));
+            result = condition && ((ushort)((CombatUnit)target).Troop.GetRace() == 11 || ((CombatUnit)target).Troop.GetAbilityEnabled(129));
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3130
-    public override bool CanTouchUnit(Troop Source, Troop Target)
+    public override bool CanTouchUnit(Troop source, Troop target)
     {
-        bool Result = base.CanTouchUnit(Source, Target);
-        if (Result)
+        bool result = base.CanTouchUnit(source, target);
+        if (result)
         {
-            var unitType = Target.GetUnitType();
-            Result = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && ((ushort)Target.GetRace() == 11 || Target.GetAbilityEnabled(129));
+            var unitType = target.GetUnitType();
+            result = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType) && ((ushort)target.GetRace() == 11 || target.GetAbilityEnabled(129));
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3181
-    public string GetLevelName(int Level)
+    public string GetLevelName(int level)
     {
-        string Result = "";
-        switch (Level)
+        string result = "";
+        switch (level)
         {
             case 0:
-                Result = AbilityRules.TranslateRStr(GameText.TurnUndeadRStr);
+                result = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText);
                 break;
             case 1:
-                Result = AbilityRules.TranslateRStr(GameText.TurnUndeadRStr) + " I";
+                result = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText) + " I";
                 break;
             case 2:
-                Result = AbilityRules.TranslateRStr(GameText.TurnUndeadRStr) + " II";
+                result = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText) + " II";
                 break;
             case 3:
-                Result = AbilityRules.TranslateRStr(GameText.TurnUndeadRStr) + " III";
+                result = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText) + " III";
                 break;
             case 4:
-                Result = AbilityRules.TranslateRStr(GameText.TurnUndeadRStr) + " IV";
+                result = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText) + " IV";
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3271
-    public sbyte GetTurnUndeadDamage(int Level)
+    public sbyte GetTurnUndeadDamage(int level)
     {
-        sbyte Result;
-        switch (Level)
+        sbyte result;
+        switch (level)
         {
             case 1:
-                Result = 4;
+                result = 4;
                 break;
             case 2:
-                Result = 5;
+                result = 5;
                 break;
             case 3:
-                Result = 6;
+                result = 6;
                 break;
             case 4:
-                Result = 7;
+                result = 7;
                 break;
             default:
-                Result = 0;
+                result = 0;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:3356
-    public TurnUndeadCombatAction CreateTurnUndeadCA(CombatObject Source, CombatObject Target)
+    public TurnUndeadCombatAction CreateTurnUndeadCombatAction(CombatObject source, CombatObject target)
     {
-        TurnUndeadCombatAction Action;
-        int Level;
+        TurnUndeadCombatAction action;
+        int level;
         // { These eliminated copies preserve the original saved registers. }
-        Action = new TurnUndeadCombatAction(null);
-        if (HitChance.HitRole(Source.GetAttack() - Target.GetDefense()))
+        action = new TurnUndeadCombatAction(null);
+        if (HitChance.HitRole(source.GetAttack() - target.GetDefense()))
         {
-            Level = Source.GetAbilityLevel(FAbilityID);
-            var turnUndeadDamage = GetTurnUndeadDamage(Level);
-            Action.GenerateEx(Source, Target, GetTouchAttack(Level), turnUndeadDamage, Set<DamageType>.Of(DamageType.Holy), 1);
+            level = source.GetAbilityLevel(AbilityId);
+            var turnUndeadDamage = GetTurnUndeadDamage(level);
+            action.Generate(source, target, GetTouchAttack(level), turnUndeadDamage, Set<DamageType>.Of(DamageType.Holy), 1);
         }
         else
         {
-            Action.FSourceID = Source.FID;
-            Action.FTargetID = Target.FID;
+            action.SourceId = source.Id;
+            action.TargetId = target.Id;
         }
 
-        return Action;
+        return action;
     }
 
     // AoWAb.PAS:3164
-    public override EngineClass AbilityDataClass() => AbilityRules.P4MultiLevelDataClass;
+    public override EngineClass AbilityDataClass() => AbilityRules.s_multiLevelDataClass;
 
 }

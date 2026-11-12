@@ -17,9 +17,9 @@ public sealed class TacticalBattleWallCastTests
 {
     private sealed class PlacedUnitHexSprite(ECustomNode owner) : TacticalBattleUnitHexSprite(owner)
     {
-        public override sbyte GetXhx() => 4;
+        public override sbyte GetHexX() => 4;
 
-        public override sbyte GetYhx() => 9;
+        public override sbyte GetHexY() => 9;
     }
 
     [Fact]
@@ -30,9 +30,9 @@ public sealed class TacticalBattleWallCastTests
         MapCoordinateList path = new MovePath();
         int value = 7;
         var combat = new TacticalBattle(null!);
-        var objects = combat.FCombatData.FCombatObjects;
-        var unit = new TacticalBattleUnit(objects) { FCombat = combat };
-        var wall = new CombatWall(objects) { FCombat = combat };
+        var objects = combat.CombatData.CombatObjects;
+        var unit = new TacticalBattleUnit(objects) { Combat = combat };
+        var wall = new CombatWall(objects) { Combat = combat };
         wall.Setup(1, 1, 0);
         Assert.Equal(-1, ai.MakeTerrainPath(settings, ref path, ref value, unit, wall, true, true, 1));
         Assert.Equal(0, value);
@@ -53,12 +53,12 @@ public sealed class TacticalBattleWallCastTests
         {
             var combat = new TacticalBattle(null!);
             map.SetCombat(combat);
-            var objects = combat.FCombatData.FCombatObjects;
+            var objects = combat.CombatData.CombatObjects;
             var hero = new Troop(null!);
-            var wall = new CombatWall(objects) { FCombat = combat };
+            var wall = new CombatWall(objects) { Combat = combat };
             wall.Setup(1, 1, 0);
-            var unit = new TacticalBattleUnit(objects) { FCombat = combat, FID = 2, FPosition = 1, FUnit = hero };
-            unit.FUnitHS = new PlacedUnitHexSprite(null!) { FUnit = unit };
+            var unit = new TacticalBattleUnit(objects) { Combat = combat, Id = 2, Position = 1, Troop = hero };
+            unit.UnitHexSprite = new PlacedUnitHexSprite(null!) { Unit = unit };
             sbyte x = 0;
             sbyte y = 0;
             sbyte l = 0;

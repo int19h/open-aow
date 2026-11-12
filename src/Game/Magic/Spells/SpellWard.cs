@@ -15,26 +15,26 @@ public partial class SpellWard : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1949
     public SpellWard(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.SpellWardRStr);
-        FSpellID = 65;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 1;
-        FSpellLevel = 3;
-        FMagicSphere = MagicSphere.Earth;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_spellWardText);
+        SpellId = 65;
+        SpellType = SpellType.Global;
+        BaseManaCost = 1;
+        SpellLevel = 3;
+        MagicSphere = MagicSphere.Earth;
     }
 
     // GlobalEnchantmentSpells.pas:1960
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        Source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        source.GetLocation(ref X, ref Y, ref L);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         AoWHSMap.Current.AddEffect(WorldEffectType.SpellWard);
-        FCastSounds.Play(0);
-        CastingDone(Source, Event.FEventMana);
+        CastSounds.Play(0);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 

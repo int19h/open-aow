@@ -9,123 +9,123 @@ namespace Aow.Game.Draw;
 public partial class DisplayController : CustomDisplayController
 {
 
-    internal int FLastFrameTime;
-    internal ushort FFrameCount;
-    internal Set<DisplayControllerStatusElement> FStatus;
-    internal CustomDisplay FDisplay;
-    internal Rect FPrimarySurfaceRgn;
-    internal Matrix FInvMatrix;
-    internal bool FRealizePalet;
-    internal int FLastVBTime;
+    internal int _lastFrameTime;
+    internal ushort _frameCount;
+    internal Set<DisplayControllerStatusElement> _status;
+    internal CustomDisplay _display;
+    internal Rect _primarySurfaceRegion;
+    internal Matrix _inverseMatrix;
+    internal bool _realizePaletteValue;
+    internal int _lastVerticalBlankTime;
 
     public DisplayController(Component owner) : base(owner)
     {
-        FInvMatrix = new Matrix(4, 4);
+        _inverseMatrix = new Matrix(4, 4);
     }
 
     // DisplayC.pas:1031
     public override void Dispose()
     {
-        if (FStatus.Contains(DisplayControllerStatusElement.Activated))
+        if (_status.Contains(DisplayControllerStatusElement.Activated))
         {
             Deactivate();
         }
 
-        if (FInvMatrix != null)
+        if (_inverseMatrix != null)
         {
-            FInvMatrix.Dispose();
-            FInvMatrix = null;
+            _inverseMatrix.Dispose();
+            _inverseMatrix = null;
         }
 
         base.Dispose();
     }
 
     // DisplayC.pas:634
-    public override Matrix GetInvMatrix() => FInvMatrix;
+    public override Matrix GetInverseMatrix() => _inverseMatrix;
 
     // DisplayC.pas:639
     public override int GetSurfaceCount()
     {
-        int Result;
+        int result;
         if (GetDisplay() == null)
         {
-            Result = 0;
+            result = 0;
         }
         else
         {
-            Result = (int)GetDisplay().FBufferingScheme;
+            result = (int)GetDisplay()._bufferingScheme;
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:647
-    public override int BltSurface(int Index)
+    public override int BlitSurface(int index)
     {
-        var primarySurfaceRgn = GetPrimarySurfaceRgn();
+        var primarySurfaceRegion = GetPrimarySurfaceRegion();
         var surface = GetSurface(0);
-        return GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
+        return GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
     }
 
     // DisplayC.pas:652
-    public override int FlipSurface(int Index)
+    public override int FlipSurface(int index)
     {
-        var primarySurfaceRgn = GetPrimarySurfaceRgn();
+        var primarySurfaceRegion = GetPrimarySurfaceRegion();
         var surface = GetSurface(0);
-        int Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
-        if (Succeeded(Result))
+        int result = GetSurface(index).BlitStretch(surface, default, primarySurfaceRegion);
+        if (Succeeded(result))
         {
-            Result = DisplayCodes.DCERR_NOFLIP;
+            result = DisplayCodes.DCERR_NOFLIP;
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:660
     // { Bug kept from the original: the result of Resize is ignored, so Result stays 0. }
-    public override int ResizeBackSurfaces(int AWidth, int AHeight)
+    public override int ResizeBackSurfaces(int width, int height)
     {
         /* TODO: Implement Controls.Color in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:675
-    public override void SetPrimarySurfaceRgn(in Rect R)
+    public override void SetPrimarySurfaceRegion(in Rect R)
     {
-        FPrimarySurfaceRgn = R;
+        _primarySurfaceRegion = R;
     }
 
     // DisplayC.pas:680
     // The original returns @FPrimarySurfaceRgn, which is never nil.
-    public override Rect? GetPrimarySurfaceRgn() => FPrimarySurfaceRgn;
+    public override Rect? GetPrimarySurfaceRegion() => _primarySurfaceRegion;
 
     // DisplayC.pas:685
-    public override Set<DisplayControllerStatusElement> GetStatus() => FStatus;
+    public override Set<DisplayControllerStatusElement> GetStatus() => _status;
 
     // DisplayC.pas:690
     public override int GetHPalette() => 0;
 
     // DisplayC.pas:695
-    public override bool WndProc(ref Message Message)
+    public override bool WindowProc(ref Message message)
     {
-        bool Result = true;
-        if (Message.Msg == 133)
+        bool result = true;
+        if (message.Msg == 133)
         {
-            Result = false;
-            Message.Result = 0;
+            result = false;
+            message.Result = 0;
         }
 
-        if (Message.Msg == 20)
+        if (message.Msg == 20)
         {
-            Result = false;
-            Message.Result = 1;
+            result = false;
+            message.Result = 1;
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:710
-    public override CustomDisplay GetDisplay() => FDisplay;
+    public override CustomDisplay GetDisplay() => _display;
 
     // DisplayC.pas:720
     public override void WindowRecreated()
@@ -133,74 +133,74 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:734
-    public override int Activate(CustomDisplay ADisplay)
+    public override int Activate(CustomDisplay display)
     {
-        int Result;
-        if (!FStatus.Contains(DisplayControllerStatusElement.Activated))
+        int result;
+        if (!_status.Contains(DisplayControllerStatusElement.Activated))
         {
-            FDisplay = ADisplay;
-            FStatus = FStatus + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
-            FDisplay.FCurrentFrameRate = FDisplay.FFrameRate;
+            _display = display;
+            _status = _status + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
+            _display._currentFrameRate = _display._frameRate;
             InvalidateAll();
-            Result = 0;
+            result = 0;
         }
         else
         {
-            Result = DCERR_ACTIVATED;
+            result = DCERR_ACTIVATED;
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:748
     public override int Deactivate()
     {
-        int Result;
-        if (FStatus.Contains(DisplayControllerStatusElement.Activated))
+        int result;
+        if (_status.Contains(DisplayControllerStatusElement.Activated))
         {
-            FStatus = FStatus - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
-            if (FDisplay != null)
+            _status = _status - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Activated);
+            if (_display != null)
             {
-                FDisplay.DeactivateDC();
+                _display.DeactivateDisplayController();
             }
 
-            Result = 0;
-            FDisplay = null;
+            result = 0;
+            _display = null;
         }
         else
         {
-            Result = DisplayCodes.DCERR_NOTACTIVATED;
+            result = DisplayCodes.DCERR_NOTACTIVATED;
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:762
-    public override int SupportDisplayMode(CustomDisplay ADisplay) => DisplayCodes.DCERR_NOTSUPPORTED;
+    public override int SupportDisplayMode(CustomDisplay display) => DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:767
-    public override int SetPalet(Palette Palette) => DisplayCodes.DCERR_NOTSUPPORTED;
+    public override int SetPalette(Palette palette) => DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:772
-    public void RealizePalet()
+    public void RealizePalette()
     {
-        if (FDisplay.FStatus.Contains(DisplayStatusElement.FrameLoopActive))
+        if (_display.Status.Contains(DisplayStatusElement.FrameLoopActive))
         {
-            FRealizePalet = true;
+            _realizePaletteValue = true;
         }
         else
         {
-            RealizePaletNow();
+            RealizePaletteNow();
         }
     }
 
     // DisplayC.pas:780
-    public override int RealizePaletNow() => DisplayCodes.DCERR_NOTSUPPORTED;
+    public override int RealizePaletteNow() => DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:787
     // { The mouse position in the display, or -1, -1 when the mouse is outside or another window has
     //   captured it. }
-    public override void GetMousePos(ref int X, ref int Y)
+    public override void GetMousePosition(ref int X, ref int Y)
     {
         /* TODO: Implement Windows.GetCapture in the platform or editor service. */
         throw new NotImplementedException();
@@ -209,14 +209,14 @@ public partial class DisplayController : CustomDisplayController
     // DisplayC.pas:830
     public override int Hide()
     {
-        FStatus = FStatus - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
+        _status = _status - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
         return 0;
     }
 
     // DisplayC.pas:836
     public override int Show()
     {
-        FStatus = FStatus + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
+        _status = _status + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
         return 0;
     }
 
@@ -224,26 +224,26 @@ public partial class DisplayController : CustomDisplayController
     public override Palette GetPalette() => null;
 
     // DisplayC.pas:873
-    public override void InitInvMatrix(byte AWidth, byte AHeight)
+    public override void InitializeInverseMatrix(byte width, byte height)
     {
-        if (FInvMatrix != null)
+        if (_inverseMatrix != null)
         {
-            FInvMatrix.Dispose();
+            _inverseMatrix.Dispose();
         }
 
-        FInvMatrix = new Matrix(AWidth, AHeight);
+        _inverseMatrix = new Matrix(width, height);
     }
 
     // DisplayC.pas:880
     public override void InvalidateAll()
     {
-        if (FInvMatrix != null)
+        if (_inverseMatrix != null)
         {
-            for (int I = 0, last = this.FInvMatrix.Width - 1; I <= last; I++)
+            for (int I = 0, last = this._inverseMatrix.Width - 1; I <= last; I++)
             {
-                for (int J = 0, lastJ = this.FInvMatrix.Height - 1; J <= lastJ; J++)
+                for (int J = 0, lastJ = this._inverseMatrix.Height - 1; J <= lastJ; J++)
                 {
-                    this.FInvMatrix.SetVal((byte)I, (byte)J, 1);
+                    this._inverseMatrix.SetValue((byte)I, (byte)J, 1);
                 }
             }
         }
@@ -253,171 +253,171 @@ public partial class DisplayController : CustomDisplayController
     // { The size of the largest rectangle of marked blocks with its top left corner at X, Y, grown
     //   first downwards (rows of shrinking width) and then to the right (columns of shrinking
     //   height); BW and BH get its size in blocks, the result is its area. }
-    public override int GetInvBlockSize(int X, int Y, Matrix Matrix, ref int BW, ref int BH)
+    public override int GetInverseBlockSize(int X, int Y, Matrix matrix, ref int bw, ref int bh)
     {
-        int Result;
-        int Size1;
-        int Size2;
-        int W1;
-        int H2;
-        int W2;
-        int H1;
+        int result;
+        int size1;
+        int size2;
+        int w1;
+        int h2;
+        int w2;
+        int h1;
         // P and Q are indexes into Matrix.FData.
         int P;
         int Q;
         int N;
         int L;
-        int Off;
-        bool Ok;
-        P = X + Matrix.FWidth * Y;
-        if (Matrix.FData[P] != 0)
+        int off;
+        bool ok;
+        P = X + matrix._width * Y;
+        if (matrix._data[P] != 0)
         {
-            H1 = 0;
+            h1 = 0;
             Q = P;
-            W1 = Matrix.FWidth - X;
-            Size1 = 0;
+            w1 = matrix._width - X;
+            size1 = 0;
             do
             {
-                N = W1;
+                N = w1;
                 L = 0;
-                while (N != 0 && Matrix.FData[Q + L] != 0)
+                while (N != 0 && matrix._data[Q + L] != 0)
                 {
                     L += 1;
                     N -= 1;
                 }
 
-                Ok = L * H1 >= Size1;
-                if (Ok)
+                ok = L * h1 >= size1;
+                if (ok)
                 {
-                    H1 += 1;
-                    Q = Q + Matrix.FWidth;
-                    W1 = L;
-                    Size1 = H1 * L;
+                    h1 += 1;
+                    Q = Q + matrix._width;
+                    w1 = L;
+                    size1 = h1 * L;
                 }
             }
-            while (!(!Ok || H1 + Y == Matrix.FHeight));
-            BH = H1;
-            BW = W1;
-            W2 = 0;
+            while (!(!ok || h1 + Y == matrix._height));
+            bh = h1;
+            bw = w1;
+            w2 = 0;
             Q = P;
-            H2 = Matrix.FHeight - Y;
-            Size2 = 0;
+            h2 = matrix._height - Y;
+            size2 = 0;
             do
             {
-                N = H2;
+                N = h2;
                 L = 0;
-                Off = 0;
-                while (N != 0 && Matrix.FData[Q + Off] != 0)
+                off = 0;
+                while (N != 0 && matrix._data[Q + off] != 0)
                 {
                     L += 1;
                     N -= 1;
-                    Off += Matrix.FWidth;
+                    off += matrix._width;
                 }
 
-                Ok = L * W2 >= Size2;
-                if (Ok)
+                ok = L * w2 >= size2;
+                if (ok)
                 {
                     Q += 1;
-                    W2 += 1;
-                    H2 = L;
-                    Size2 = W2 * H2;
+                    w2 += 1;
+                    h2 = L;
+                    size2 = w2 * h2;
                 }
             }
-            while (!(!Ok || W2 + X == Matrix.FWidth));
-            if (Size2 > Size1)
+            while (!(!ok || w2 + X == matrix._width));
+            if (size2 > size1)
             {
-                BW = W2;
-                BH = H2;
-                Result = Size2;
+                bw = w2;
+                bh = h2;
+                result = size2;
             }
             else
             {
-                Result = Size1;
+                result = size1;
             }
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // DisplayC.pas:964
-    public override void GetPixPosofBlock(int BX, int BY, Rect R, ref int PX, ref int PY, ref int BW, ref int BH)
+    public override void GetPixelPositionOfBlock(int bx, int by, Rect R, ref int pixelX, ref int pixelY, ref int bw, ref int bh)
     {
         int W;
         int H;
-        W = (R.Right - R.Left + FInvMatrix.FWidth - 1) / FInvMatrix.FWidth;
-        H = (R.Bottom - R.Top + FInvMatrix.FHeight - 1) / FInvMatrix.FHeight;
-        PX = W * BX;
-        PY = H * BY;
-        BW = W;
-        BH = H;
+        W = (R.Right - R.Left + _inverseMatrix._width - 1) / _inverseMatrix._width;
+        H = (R.Bottom - R.Top + _inverseMatrix._height - 1) / _inverseMatrix._height;
+        pixelX = W * bx;
+        pixelY = H * by;
+        bw = W;
+        bh = H;
     }
 
     // DisplayC.pas:976
-    public override void GetBlockPosofPix(int PX, int PY, Rect R, ref int BX, ref int BY)
+    public override void GetBlockPositionOfPixel(int pixelX, int pixelY, Rect R, ref int bx, ref int by)
     {
         int W;
         int H;
-        W = (R.Right - R.Left + 1 + FInvMatrix.FWidth - 1) / FInvMatrix.FWidth;
-        H = (R.Bottom - R.Top + 1 + FInvMatrix.FHeight - 1) / FInvMatrix.FHeight;
-        BX = (PX - R.Left) / W;
-        BY = (PY - R.Top) / H;
+        W = (R.Right - R.Left + 1 + _inverseMatrix._width - 1) / _inverseMatrix._width;
+        H = (R.Bottom - R.Top + 1 + _inverseMatrix._height - 1) / _inverseMatrix._height;
+        bx = (pixelX - R.Left) / W;
+        by = (pixelY - R.Top) / H;
     }
 
     // DisplayC.pas:988
     // { Marks the blocks of the pixel rectangle X, Y, W, H with Value. Bug kept from the original:
     //   the range test checks BY2 >= 0 where BX2 >= 0 was meant (and BY1 twice). }
-    public void InvWndwithValue(int X, int Y, int W, int H, byte Value)
+    public void InverseWndwithValue(int X, int Y, int W, int H, byte value)
     {
-        int BX1 = default;
-        int BX2 = default;
-        int BY1 = default;
-        int BY2 = default;
+        int bx1 = default;
+        int bx2 = default;
+        int by1 = default;
+        int by2 = default;
         Matrix M;
         Rect R = default;
-        if (FInvMatrix != null)
+        if (_inverseMatrix != null)
         {
-            M = FInvMatrix;
+            M = _inverseMatrix;
             R.Left = 0;
             R.Right = GetSurface(1).Width;
             R.Top = 0;
             R.Bottom = GetSurface(1).Height;
-            GetBlockPosofPix(X, Y, R, ref BX1, ref BY1);
-            GetBlockPosofPix(X + W, Y + H, R, ref BX2, ref BY2);
-            if (M.FWidth > BX1 && M.FHeight > BY1 && BY2 >= 0 && BY1 >= 0)
+            GetBlockPositionOfPixel(X, Y, R, ref bx1, ref by1);
+            GetBlockPositionOfPixel(X + W, Y + H, R, ref bx2, ref by2);
+            if (M._width > bx1 && M._height > by1 && by2 >= 0 && by1 >= 0)
             {
-                if (BX1 < 0)
+                if (bx1 < 0)
                 {
-                    BX1 = 0;
+                    bx1 = 0;
                 }
 
-                if (BY1 < 0)
+                if (by1 < 0)
                 {
-                    BY1 = 0;
+                    by1 = 0;
                 }
 
-                if (M.FWidth <= BX2)
+                if (M._width <= bx2)
                 {
-                    BX2 = M.FWidth - 1;
+                    bx2 = M._width - 1;
                 }
 
-                if (M.FHeight <= BY2)
+                if (M._height <= by2)
                 {
-                    BY2 = M.FHeight - 1;
+                    by2 = M._height - 1;
                 }
 
-                X = BX1;
-                int last = BX2;
+                X = bx1;
+                int last = bx2;
                 for (; X <= last; X += 1)
                 {
-                    Y = BY1;
-                    int limit = BY2;
+                    Y = by1;
+                    int limit = by2;
                     for (; Y <= limit; Y += 1)
                     {
-                        M.SetVal((byte)X, (byte)Y, Value);
+                        M.SetValue((byte)X, (byte)Y, value);
                     }
                 }
             }
@@ -427,26 +427,26 @@ public partial class DisplayController : CustomDisplayController
     // DisplayC.pas:1020
     public override void Invalidate(int X, int Y, int W, int H)
     {
-        InvWndwithValue(X, Y, W, H, 1);
+        InverseWndwithValue(X, Y, W, H, 1);
     }
 
     // DisplayC.pas:1043
-    public int GetCurrentFrameRate() => FDisplay.FCurrentFrameRate;
+    public int GetCurrentFrameRate() => _display._currentFrameRate;
 
     // DisplayC.pas:1049
     // { Counts frames; every 5 frames the frame rate is measured. }
     public override void NewFrame()
     {
         int T;
-        if (FFrameCount >= 5)
+        if (_frameCount >= 5)
         {
-            T = PixelFormats.GetElapsedMilliSeconds();
-            FDisplay.FCurrentFrameRate = Round((double)5000 / (T - FLastFrameTime + 1));
-            FFrameCount = 0;
-            FLastFrameTime = T;
+            T = PixelFormats.GetElapsedMilliseconds();
+            _display._currentFrameRate = Round((double)5000 / (T - _lastFrameTime + 1));
+            _frameCount = 0;
+            _lastFrameTime = T;
         }
 
-        FFrameCount = (ushort)(FFrameCount + 1);
+        _frameCount = (ushort)(_frameCount + 1);
     }
 
     // DisplayC.pas:1063

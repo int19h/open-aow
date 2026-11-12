@@ -4,46 +4,46 @@ namespace Aow.Game.Draw;
 
 public sealed class ImageFileClass
 {
-    private static readonly Catalog<Type, ImageFileClass> catalog = new("image file class");
+    private static readonly Catalog<Type, ImageFileClass> s_catalog = new("image file class");
 
     private delegate int LoadImage(string fileName, ref LockedSurface surface, int x, int y);
 
-    private readonly Func<string> getName;
-    private readonly Func<string> getExtension;
-    private readonly Func<string> getDescription;
-    private readonly Func<string, int> getPixelFormatID;
-    private readonly Func<string, Surface> createSurface;
-    private readonly LoadImage loadToSurfaceDesc;
+    private readonly Func<string> _getName;
+    private readonly Func<string> _getExtension;
+    private readonly Func<string> _getDescription;
+    private readonly Func<string, int> _getPixelFormatId;
+    private readonly Func<string, Surface> _createSurface;
+    private readonly LoadImage _loadToSurfaceDescription;
 
     private ImageFileClass(Type type, Func<string> getName, Func<string> getExtension,
-        Func<string> getDescription, Func<string, int> getPixelFormatID,
-        Func<string, Surface> createSurface, LoadImage loadToSurfaceDesc)
+        Func<string> getDescription, Func<string, int> getPixelFormatId,
+        Func<string, Surface> createSurface, LoadImage loadToSurfaceDescription)
     {
         Type = type;
-        this.getName = getName;
-        this.getExtension = getExtension;
-        this.getDescription = getDescription;
-        this.getPixelFormatID = getPixelFormatID;
-        this.createSurface = createSurface;
-        this.loadToSurfaceDesc = loadToSurfaceDesc;
+        this._getName = getName;
+        this._getExtension = getExtension;
+        this._getDescription = getDescription;
+        this._getPixelFormatId = getPixelFormatId;
+        this._createSurface = createSurface;
+        this._loadToSurfaceDescription = loadToSurfaceDescription;
     }
 
     public Type Type { get; }
-    public string ClassName => NameTable.Stored(Type);
-    public string Name => getName();
-    public string Extension => getExtension();
-    public string Description => getDescription();
+    public string StorageKey => NameTable.Stored(Type);
+    public string Name => _getName();
+    public string Extension => _getExtension();
+    public string Description => _getDescription();
 
-    public int GetPixelFormatID(string fileName) => getPixelFormatID(fileName);
-    public Surface CreateSurface(string fileName) => createSurface(fileName);
-    public int LoadToSurfaceDesc(string fileName, ref LockedSurface surface, int x, int y) => loadToSurfaceDesc(fileName, ref surface, x, y);
+    public int GetPixelFormatId(string fileName) => _getPixelFormatId(fileName);
+    public Surface CreateSurface(string fileName) => _createSurface(fileName);
+    public int LoadToSurfaceDescription(string fileName, ref LockedSurface surface, int x, int y) => _loadToSurfaceDescription(fileName, ref surface, x, y);
 
     public static ImageFileClass Register<T>() where T : ImageFile, IImageFileClass =>
-        catalog.Add(typeof(T), new ImageFileClass(typeof(T), static () => T.Name, static () => T.Extension,
-            static () => T.Description, T.GetPixelFormatID, T.CreateSurface, T.LoadToSurfaceDesc));
+        s_catalog.Add(typeof(T), new ImageFileClass(typeof(T), static () => T.Name, static () => T.Extension,
+            static () => T.Description, T.GetPixelFormatId, T.CreateSurface, T.LoadToSurfaceDescription));
 
-    public static ImageFileClass Of<T>() where T : ImageFile, IImageFileClass => catalog[typeof(T)];
-    public static ImageFileClass Of(Type type) => catalog[type];
+    public static ImageFileClass Of<T>() where T : ImageFile, IImageFileClass => s_catalog[typeof(T)];
+    public static ImageFileClass Of(Type type) => s_catalog[type];
 
-    public static IReadOnlyList<ImageFileClass> All => catalog.All;
+    public static IReadOnlyList<ImageFileClass> All => s_catalog.All;
 }

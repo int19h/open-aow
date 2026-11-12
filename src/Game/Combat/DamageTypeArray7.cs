@@ -6,7 +6,7 @@ namespace Aow.Game.Combat;
 [InlineArray(7)]
 public struct DamageTypeArray7
 {
-    private DamageType element0;
+    private DamageType _element0;
 
     public static DamageTypeArray7 From(ReadOnlySpan<DamageType> values)
     {

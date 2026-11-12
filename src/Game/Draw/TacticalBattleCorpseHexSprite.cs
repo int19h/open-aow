@@ -14,107 +14,107 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-// FUnit. FUnitGFX. FFrame. FOffsetX. FOffsetY. FSequenceIndex. FSequenceFrame
+// Unit. UnitGraphics. Frame. OffsetX. OffsetY. SequenceIndex. SequenceFrame
 public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
 {
     public TacticalBattleCorpseHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 2228488;
+    public new const int ClassId = 2228488;
 
-    public TacticalBattleUnit FUnit;
-    public UnitGraphicsResource FUnitGFX;
-    public int FFrame;
-    public int FOffsetX;
-    public int FOffsetY;
-    public int FSequenceIndex;
-    public int FSequenceFrame;
+    public TacticalBattleUnit Unit;
+    public UnitGraphicsResource UnitGraphics;
+    public int Frame;
+    public int OffsetX;
+    public int OffsetY;
+    public int SequenceIndex;
+    public int SequenceFrame;
 
     // AoWTC.pas:4007
     public override byte GetLevel() => 26;
 
     // AoWTC.pas:4012
-    public override int GetShowPriority() => 1744830464 + (FOffsetY << 13) + FOffsetX;
+    public override int GetShowPriority() => 1744830464 + (OffsetY << 13) + OffsetX;
 
     // AoWTC.pas:3985
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Frame;
+        int frame;
         int X = default;
         int Y = default;
-        ImageSequence Sequence;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-        XhpSurf = X - XhpSurf - 15;
-        YhpSurf = Y - YhpSurf - 25;
-        if (FSequenceIndex > -1)
+        ImageSequence sequence;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+        pixelXSurface = X - pixelXSurface - 15;
+        pixelYSurface = Y - pixelYSurface - 25;
+        if (SequenceIndex > -1)
         {
-            Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[FSequenceIndex];
-            while (Sequence != null)
+            sequence = AoWHSSet.Current.ImageSequences.ImageSequences[SequenceIndex];
+            while (sequence != null)
             {
-                Frame = Sequence.GetUnloopedFrameIndex(FSequenceFrame);
-                if (Frame != -1)
+                frame = sequence.GetUnloopedFrameIndex(SequenceFrame);
+                if (frame != -1)
                 {
-                    Sequence.ImageLibrary[Frame].Show(XhpSurf + FOffsetX - 5, YhpSurf + FOffsetY + 10, SurfaceDesc);
+                    sequence.ImageLibrary[frame].Show(pixelXSurface + OffsetX - 5, pixelYSurface + OffsetY + 10, lockedSurface);
                 }
 
-                Sequence = Sequence.Next;
+                sequence = sequence.Next;
             }
         }
 
-        Sequence = FUnitGFX.FSequences.ImageSequences[30];
-        while (Sequence != null)
+        sequence = UnitGraphics.Sequences.ImageSequences[30];
+        while (sequence != null)
         {
-            Frame = Sequence.GetUnloopedFrameIndex(FFrame);
-            if (Frame != -1)
+            frame = sequence.GetUnloopedFrameIndex(Frame);
+            if (frame != -1)
             {
-                Sequence.ImageLibrary[Frame].Show(XhpSurf + FOffsetX, YhpSurf + FOffsetY, SurfaceDesc);
+                sequence.ImageLibrary[frame].Show(pixelXSurface + OffsetX, pixelYSurface + OffsetY, lockedSurface);
             }
 
-            Sequence = Sequence.Next;
+            sequence = sequence.Next;
         }
     }
 
     // AoWTC.pas:4025
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        CombatAction AnimateAction;
-        CombatAction RaiseAction;
+        CombatAction animateAction;
+        CombatAction raiseAction;
         int N;
         int X = default;
         int Y = default;
-        int DX;
-        int DY;
-        BattleEffectSprite Effect;
+        int deltaX;
+        int deltaY;
+        BattleEffectSprite effect;
         float Z = default;
-        float Speed = default;
-        float VZ = default;
-        float Gravity = default;
-        TacticalBattleUnitHexSprite UnitHS;
-        base.MapFieldMsgProc(ref Msg);
-        if (FUnit != null)
+        float speed = default;
+        float vz = default;
+        float gravity = default;
+        TacticalBattleUnitHexSprite unitHexSprite;
+        base.MapFieldMessageProc(ref message);
+        if (Unit != null)
         {
-            if (Msg.MsgID == 200712 && Msg.HN == 0)
+            if (message.MessageId == 200712 && message.HexNumber == 0)
             {
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484) == null)
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) == null)
                 {
-                    var yhx2 = GetYhx();
-                    var xhx2 = GetXhx();
-                    CombatMap.Current.MakeVisible(xhx2, yhx2, 0, 5);
-                    var yhx3 = GetYhx();
-                    HexGeometry.HXtoHP(GetXhx(), yhx3, ref X, ref Y);
-                    for (int Ring = 1; Ring <= 3; Ring++)
+                    var hexY2 = GetHexY();
+                    var hexX2 = GetHexX();
+                    CombatMap.Current.MakeVisible(hexX2, hexY2, 0, 5);
+                    var hexY3 = GetHexY();
+                    HexGeometry.HexToPixel(GetHexX(), hexY3, ref X, ref Y);
+                    for (int ring = 1; ring <= 3; ring++)
                     {
                         N = Random(5);
-                        DX = Random(20) + Ring * 30;
-                        DY = Random(20) + Ring * 30;
+                        deltaX = Random(20) + ring * 30;
+                        deltaY = Random(20) + ring * 30;
                         for (int I = 0; I <= 17; I++)
                         {
-                            Effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
-                            Effect.FAbilityIndex = 52;
-                            Effect.FSpellIndex = Msg.Param[1].Int;
-                            DX = -DX;
+                            effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
+                            effect.AbilityIndex = 52;
+                            effect.SpellIndex = message.Param[1].Int;
+                            deltaX = -deltaX;
                             switch (I)
                             {
                                 case 1:
@@ -126,14 +126,14 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                                 case 13:
                                 case 15:
                                 case 17:
-                                    DY = -DY;
+                                    deltaY = -deltaY;
                                     break;
                             }
 
                             var pi = Math.PI;
                             var sin = Math.Sin((double)((double)(I * 5 + N) * pi) / 180);
                             var mathPI = Math.PI;
-                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)((double)(I * 5 + N) * mathPI) / 180) * DX) + (X + 16), Round((double)sin * DY) / 2 + (Y + 16), X + 16, Y + 16, 100, ref Effect.FPath);
+                            EffectPaths.MakeLinePath(Round((double)Math.Cos((double)((double)(I * 5 + N) * mathPI) / 180) * deltaX) + (X + 16), Round((double)sin * deltaY) / 2 + (Y + 16), X + 16, Y + 16, 100, ref effect.Path);
                         }
                     }
 
@@ -141,52 +141,52 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                 }
             }
 
-            if (Msg.MsgID == 200713 && Msg.HN == 0)
+            if (message.MessageId == 200713 && message.HexNumber == 0)
             {
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                if (CombatMap.Current.MapContainer.MapLevels[0].Field[xhx, yhx].FindOwnedChild(2228484) == null)
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                if (CombatMap.Current.MapContainer.MapLevels[0].Field[hexX, hexY].FindOwnedChild(2228484) == null)
                 {
-                    var yhx2 = GetYhx();
-                    HexGeometry.HXtoHP(GetXhx(), yhx2, ref X, ref Y);
+                    var hexY2 = GetHexY();
+                    HexGeometry.HexToPixel(GetHexX(), hexY2, ref X, ref Y);
                     N = Random(6) + 25;
                     for (int I = 1; I <= N - 1; I++)
                     {
-                        Effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
-                        Effect.FAbilityIndex = 52;
-                        Effect.FSpellIndex = Msg.Param[1].Int;
+                        effect = CombatMap.Current.AddEffect(BattleEffectType.GeyserWater);
+                        effect.AbilityIndex = 52;
+                        effect.SpellIndex = message.Param[1].Int;
                         // { Original uses this smaller value for horizontal speed. }
-                        Speed = (float)((double)(Random(10) + 10) * 0.05);
-                        Gravity = (float)0.5;
-                        VZ = (float)((double)(Random(50) + 50) * 0.05);
+                        speed = (float)((double)(Random(10) + 10) * 0.05);
+                        gravity = (float)0.5;
+                        vz = (float)((double)(Random(50) + 50) * 0.05);
                         Z = 0;
-                        EffectPaths.MakeArcPath(X + 16, Y + 16, I * 360 / N, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                        EffectPaths.MakeArcPath(X + 16, Y + 16, I * 360 / N, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
                     }
 
-                    switch (Msg.Param[1].Int)
+                    switch (message.Param[1].Int)
                     {
                         case 130:
                             RandSeed = AoWHSMap.Current.Random(16777215);
-                            AnimateAction = AoWHSSet.Current.FSpellControl.GetSpell(130).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                            CombatMap.Current.FCombat.ExecuteCombatAction(AnimateAction);
-                            AnimateAction.Release();
+                            animateAction = AoWHSSet.Current.SpellControl.GetSpell(130).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            CombatMap.Current.Combat.ExecuteCombatAction(animateAction);
+                            animateAction.Release();
                             break;
                         case 129:
                             RandSeed = AoWHSMap.Current.Random(16777215);
-                            RaiseAction = AoWHSSet.Current.FSpellControl.GetSpell(129).CreateCA(Msg.Param[0].As<CombatObject>(), FUnit, false);
-                            CombatMap.Current.FCombat.ExecuteCombatAction(RaiseAction);
-                            RaiseAction.Release();
+                            raiseAction = AoWHSSet.Current.SpellControl.GetSpell(129).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            CombatMap.Current.Combat.ExecuteCombatAction(raiseAction);
+                            raiseAction.Release();
                             break;
                     }
 
-                    if (FUnit.GetEnabled())
+                    if (Unit.GetEnabled())
                     {
-                        UnitHS = new TacticalBattleUnitHexSprite(null);
-                        UnitHS.Initialize(FUnit);
-                        UnitHS.SetDirection((byte)(Random(6) + 1));
-                        var yhx3 = GetYhx();
-                        var xhx2 = GetXhx();
-                        CombatMap.Current.PlaceHX(UnitHS, xhx2, yhx3, 0);
+                        unitHexSprite = new TacticalBattleUnitHexSprite(null);
+                        unitHexSprite.Initialize(Unit);
+                        unitHexSprite.SetDirection((byte)(Random(6) + 1));
+                        var hexY3 = GetHexY();
+                        var hexX2 = GetHexX();
+                        CombatMap.Current.PlaceHex(unitHexSprite, hexX2, hexY3, 0);
                     }
 
                     this.Dispose();
@@ -199,32 +199,32 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
     public override void Activate()
     {
         base.Activate();
-        if (FSequenceIndex > -1)
+        if (SequenceIndex > -1)
         {
             CombatMap.Current.NewFrameEvents += NewFrame;
         }
 
-        FUnitGFX.AddRef();
-        FSequenceFrame = -1;
+        UnitGraphics.AddRef();
+        SequenceFrame = -1;
     }
 
     // AoWTC.pas:3966
     public override void Deactivate()
     {
         CombatMap.Current.NewFrameEvents -= NewFrame;
-        FUnitGFX.Release();
+        UnitGraphics.Release();
         base.Deactivate();
     }
 
     // AoWTC.pas:3978
-    public void NewFrame(object Sender)
+    public void NewFrame(object sender)
     {
-        ImageSequence Sequence;
-        Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[FSequenceIndex];
-        var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
-        if (FSequenceFrame + 1 < totalSequenceFrames)
+        ImageSequence sequence;
+        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[SequenceIndex];
+        var totalSequenceFrames = sequence.GetTotalSequenceFrames();
+        if (SequenceFrame + 1 < totalSequenceFrames)
         {
-            FSequenceFrame += 1;
+            SequenceFrame += 1;
         }
     }
 

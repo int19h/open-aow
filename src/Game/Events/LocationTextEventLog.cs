@@ -12,40 +12,40 @@ public partial class LocationTextEventLog : TextEventLog
     // EventLog.pas:725
     public LocationTextEventLog(ECustomNode owner) : base(owner)
     {
-        FXhx = -1;
-        FYhx = -1;
-        FLhx = -1;
+        HexX = -1;
+        HexY = -1;
+        HexLevel = -1;
     }
 
     // EventLog.pas:728
-    public new const int ClassID = 131816;
+    public new const int ClassId = 131816;
 
-    public sbyte FXhx;
-    public sbyte FYhx;
-    public sbyte FLhx;
+    public sbyte HexX;
+    public sbyte HexY;
+    public sbyte HexLevel;
 
     // EventLog.pas:731
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 20);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FYhx), 21);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FLhx), 22);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexX), 20);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexY), 21);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexLevel), 22);
     }
 
     // EventLog.pas:740
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        X = FXhx;
-        Y = FYhx;
-        L = FLhx;
+        X = HexX;
+        Y = HexY;
+        L = HexLevel;
     }
 
     // EventLog.pas:743
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        base.Execute(Mode, Trigger, Done);
-        if (Trigger == ExecuteTrigger.User)
+        base.Execute(mode, trigger, done);
+        if (trigger == ExecuteTrigger.User)
         {
             ViewLocation();
         }
@@ -56,9 +56,9 @@ public partial class LocationTextEventLog : TextEventLog
     // EventLog.pas:737
     public void SetLocation(sbyte X, sbyte Y, sbyte L)
     {
-        FXhx = X;
-        FYhx = Y;
-        FLhx = L;
+        HexX = X;
+        HexY = Y;
+        HexLevel = L;
     }
 
 }

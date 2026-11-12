@@ -6,7 +6,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // the mouse of a map. FHSMap, FX, FY (the position in the view port in pixels, Low(Integer)
-// when outside), FButton, FOnUp, FOnDown, FOnMove, FOnDblClick, FOnCaptureChanged, FCapture
+// when outside), _button, FOnUp, FOnDown, FOnMove, FOnDoubleClick, FOnCaptureChanged, _capture
 // (the object that gets the mouse events), FStatus, FCursor, FCursorMode, FIgnoreDown, FShift,
 // FCursorVisible (and are used by the game only)
 public partial class HexSpriteMapMouse : IDisposable
@@ -14,112 +14,112 @@ public partial class HexSpriteMapMouse : IDisposable
 
     public HexSpriteMapMouse()
     {
-        FOnUpStore = new();
-        FOnDownStore = new();
-        FOnMoveStore = new();
-        FOnDblClickStore = new();
-        FOnCaptureChangedStore = new();
+        _onUpStore = new();
+        _onDownStore = new();
+        _onMoveStore = new();
+        _onDoubleClickStore = new();
+        _onCaptureChangedStore = new();
         Reset();
     }
 
-    internal HSMap FHSMap;
-    internal int FX;
-    internal int FY;
-    internal MouseButton FButton;
+    internal HSMap _hexSpriteMap;
+    internal int _x;
+    internal int _y;
+    internal MouseButton _button;
 
-    internal EventStore<HexSpriteMapMouse> FOnUpStore;
+    internal EventStore<HexSpriteMapMouse> _onUpStore;
 
     internal event NotifyEvent<HexSpriteMapMouse> FOnUp
     {
-        add => FOnUpStore.Add(value);
-        remove => FOnUpStore.Remove(value);
+        add => _onUpStore.Add(value);
+        remove => _onUpStore.Remove(value);
     }
 
-    internal EventStore<HexSpriteMapMouse> FOnDownStore;
+    internal EventStore<HexSpriteMapMouse> _onDownStore;
 
     internal event NotifyEvent<HexSpriteMapMouse> FOnDown
     {
-        add => FOnDownStore.Add(value);
-        remove => FOnDownStore.Remove(value);
+        add => _onDownStore.Add(value);
+        remove => _onDownStore.Remove(value);
     }
 
-    internal EventStore<HexSpriteMapMouse> FOnMoveStore;
+    internal EventStore<HexSpriteMapMouse> _onMoveStore;
 
     internal event NotifyEvent<HexSpriteMapMouse> FOnMove
     {
-        add => FOnMoveStore.Add(value);
-        remove => FOnMoveStore.Remove(value);
+        add => _onMoveStore.Add(value);
+        remove => _onMoveStore.Remove(value);
     }
 
-    internal EventStore<HexSpriteMapMouse> FOnDblClickStore;
+    internal EventStore<HexSpriteMapMouse> _onDoubleClickStore;
 
-    internal event NotifyEvent<HexSpriteMapMouse> FOnDblClick
+    internal event NotifyEvent<HexSpriteMapMouse> FOnDoubleClick
     {
-        add => FOnDblClickStore.Add(value);
-        remove => FOnDblClickStore.Remove(value);
+        add => _onDoubleClickStore.Add(value);
+        remove => _onDoubleClickStore.Remove(value);
     }
 
-    internal EventStore<HexSpriteMapMouse> FOnCaptureChangedStore;
+    internal EventStore<HexSpriteMapMouse> _onCaptureChangedStore;
 
     internal event NotifyEvent<HexSpriteMapMouse> FOnCaptureChanged
     {
-        add => FOnCaptureChangedStore.Add(value);
-        remove => FOnCaptureChangedStore.Remove(value);
+        add => _onCaptureChangedStore.Add(value);
+        remove => _onCaptureChangedStore.Remove(value);
     }
 
-    internal object FCapture;
-    internal Set<StatusElement> FStatus;
-    internal int FCursor;
-    internal int FCursorMode;
-    internal bool FIgnoreDown;
-    internal Set<ShiftState> FShift;
-    internal bool FCursorVisible;
+    internal object _capture;
+    internal Set<StatusElement> _status;
+    internal int _cursor;
+    internal int _cursorMode;
+    internal bool _ignoreDown;
+    internal Set<ShiftState> _shift;
+    internal bool _cursorVisible;
 
     // HSEngine.pas:3475
 
     // HSEngine.pas:3486
     public virtual void Dispose()
     {
-        FOnUpStore.Clear();
-        FOnDownStore.Clear();
-        FOnMoveStore.Clear();
-        FOnDblClickStore.Clear();
-        FOnCaptureChangedStore.Clear();
+        _onUpStore.Clear();
+        _onDownStore.Clear();
+        _onMoveStore.Clear();
+        _onDoubleClickStore.Clear();
+        _onCaptureChangedStore.Clear();
     }
 
     // HSEngine.pas:3505
-    public virtual int GetCursor() => FCursor;
+    public virtual int GetCursor() => _cursor;
 
     // HSEngine.pas:3510
-    public virtual void SetCursor(int Value)
+    public virtual void SetCursor(int value)
     {
-        FCursor = Value;
+        _cursor = value;
     }
 
     // HSEngine.pas:3583
     public virtual bool MouseDown()
     {
-        bool Result = true;
-        if (FCapture == null && GetXhx() != -1)
+        bool result = true;
+        if (_capture == null && GetHexX() != -1)
         {
-            if (FButton == MouseButton.Left)
+            if (_button == MouseButton.Left)
             {
-                var yhp = GetYhp();
-                var xhp = GetXhp();
-                FHSMap.FSelection.SelectLocation(xhp, yhp, FHSMap.FViewL);
-                Result = false;
+                var pixelY = GetPixelY();
+                var pixelX = GetPixelX();
+                _hexSpriteMap._selection.SelectLocation(pixelX, pixelY, _hexSpriteMap._viewL);
+                result = false;
             }
             else
             {
-                if (FButton == MouseButton.Right && !FHSMap.FStatus.Contains(HexSpriteMapStatusElement.Editting))
+                if (_button == MouseButton.Right && !_hexSpriteMap._status.Contains(HexSpriteMapStatusElement.Editting))
                 {
-                    FHSMap.FSelection.UnselectLocation();
-                    Result = false;
+                    _hexSpriteMap._selection.UnselectLocation();
+                    result = false;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:3623
@@ -129,90 +129,90 @@ public partial class HexSpriteMapMouse : IDisposable
     public virtual bool MouseMove() => true;
 
     // HSEngine.pas:3667
-    public virtual bool MouseDblClick() => true;
+    public virtual bool MouseDoubleClick() => true;
 
     // HSEngine.pas:3600
     // { Down and Up set FX twice when the position is outside (an original slip for FY). }
-    public virtual void Down(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public virtual void Down(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (!FIgnoreDown)
+        if (!_ignoreDown)
         {
             if (X >= 0 && Y >= 0)
             {
-                FX = X;
-                FY = Y;
+                _x = X;
+                _y = Y;
             }
             else
             {
-                FX = -2147483648;
-                FX = -2147483648;
+                _x = -2147483648;
+                _x = -2147483648;
             }
 
-            FButton = Button;
-            FShift = Shift;
+            _button = button;
+            _shift = shift;
             if (MouseDown())
             {
-                FOnDownStore.Raise(this);
+                _onDownStore.Raise(this);
             }
         }
         else
         {
-            FIgnoreDown = false;
+            _ignoreDown = false;
         }
     }
 
     // HSEngine.pas:3628
-    public virtual void Up(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public virtual void Up(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         if (X >= 0 && Y >= 0)
         {
-            FX = X;
-            FY = Y;
+            _x = X;
+            _y = Y;
         }
         else
         {
-            FX = -2147483648;
-            FX = -2147483648;
+            _x = -2147483648;
+            _x = -2147483648;
         }
 
-        FButton = Button;
-        FShift = Shift;
+        _button = button;
+        _shift = shift;
         if (MouseUp())
         {
-            FOnUpStore.Raise(this);
+            _onUpStore.Raise(this);
         }
     }
 
     // HSEngine.pas:3651
-    public virtual void Move(Set<ShiftState> Shift, int X, int Y)
+    public virtual void Move(Set<ShiftState> shift, int X, int Y)
     {
         // Port extension: a view wider or taller than the map takes scene points past MaxXhp or MaxYhp.
         // GetXhp and GetYhp still test the map coordinates.
-        if (X >= 0 && Y >= 0 && X <= Math.Max(FHSMap.GetMaxXhp(), FHSMap.FViewWidth) && Y <= Math.Max(FHSMap.GetMaxYhp(), FHSMap.FViewHeight))
+        if (X >= 0 && Y >= 0 && X <= Math.Max(_hexSpriteMap.GetMaxPixelX(), _hexSpriteMap._viewWidth) && Y <= Math.Max(_hexSpriteMap.GetMaxPixelY(), _hexSpriteMap._viewHeight))
         {
-            FX = X;
-            FY = Y;
+            _x = X;
+            _y = Y;
         }
         else
         {
-            FX = -2147483648;
-            FY = -2147483648;
+            _x = -2147483648;
+            _y = -2147483648;
         }
 
         if (MouseMove())
         {
-            FOnMoveStore.Raise(this);
+            _onMoveStore.Raise(this);
         }
     }
 
     // HSEngine.pas:3672
-    public virtual void DblClick()
+    public virtual void DoubleClick()
     {
-        if (GetXhp() != -2147483648)
+        if (GetPixelX() != -2147483648)
         {
-            if (MouseDblClick())
+            if (MouseDoubleClick())
             {
-                FOnDblClickStore.Raise(this);
+                _onDoubleClickStore.Raise(this);
             }
         }
     }
@@ -220,158 +220,158 @@ public partial class HexSpriteMapMouse : IDisposable
     // HSEngine.pas:3496
     public void Reset()
     {
-        FX = -2147483648;
-        FY = -2147483648;
-        FShift = Set<ShiftState>.Of();
-        FCursor = 0;
+        _x = -2147483648;
+        _y = -2147483648;
+        _shift = Set<ShiftState>.Of();
+        _cursor = 0;
         SetCapture(null);
     }
 
     // HSEngine.pas:3515
-    public int GetXhp()
+    public int GetPixelX()
     {
-        int Result;
-        if (FX != -2147483648)
+        int result;
+        if (_x != -2147483648)
         {
-            Result = FHSMap.FViewXhp + FX;
-            if (Result > FHSMap.GetMaxXhp() || Result < 0)
+            result = _hexSpriteMap._viewPixelX + _x;
+            if (result > _hexSpriteMap.GetMaxPixelX() || result < 0)
             {
-                Result = -2147483648;
+                result = -2147483648;
             }
         }
         else
         {
-            Result = -2147483648;
+            result = -2147483648;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:3527
-    public int GetYhp()
+    public int GetPixelY()
     {
-        int Result;
-        if (FY != -2147483648)
+        int result;
+        if (_y != -2147483648)
         {
-            Result = FHSMap.FViewYhp + FY;
-            if (Result > FHSMap.GetMaxYhp() || Result < 0)
+            result = _hexSpriteMap._viewPixelY + _y;
+            if (result > _hexSpriteMap.GetMaxPixelY() || result < 0)
             {
-                Result = -2147483648;
+                result = -2147483648;
             }
         }
         else
         {
-            Result = -2147483648;
+            result = -2147483648;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:3540
     // { Both GetXhx and GetYhx test the result against the width and the height of the map. }
-    public int GetXhx()
+    public int GetHexX()
     {
-        int Result = default;
+        int result = default;
         int Y = default;
-        if (FX != -2147483648)
+        if (_x != -2147483648)
         {
-            HexGeometry.HPtoHX(FHSMap.FViewXhp + FX, 0, ref Result, ref Y);
-            if (Result < 0 || FHSMap.FMapContainer.FWidth <= Result || FHSMap.FMapContainer.FHeight <= Result)
+            HexGeometry.PixelToHex(_hexSpriteMap._viewPixelX + _x, 0, ref result, ref Y);
+            if (result < 0 || _hexSpriteMap._mapContainer._width <= result || _hexSpriteMap._mapContainer._height <= result)
             {
-                Result = -1;
+                result = -1;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:3555
-    public int GetYhx()
+    public int GetHexY()
     {
-        int Result = default;
+        int result = default;
         int X = default;
-        if (FY != -2147483648)
+        if (_y != -2147483648)
         {
-            HexGeometry.HPtoHX(FHSMap.FViewXhp + FX, FHSMap.FViewYhp + FY, ref X, ref Result);
-            if (Result < 0 || FHSMap.FMapContainer.FWidth <= Result || FHSMap.FMapContainer.FHeight <= Result)
+            HexGeometry.PixelToHex(_hexSpriteMap._viewPixelX + _x, _hexSpriteMap._viewPixelY + _y, ref X, ref result);
+            if (result < 0 || _hexSpriteMap._mapContainer._width <= result || _hexSpriteMap._mapContainer._height <= result)
             {
-                Result = -1;
+                result = -1;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:3570
-    public void SetCapture(object Value)
+    public void SetCapture(object value)
     {
-        if (!FStatus.Contains(StatusElement.ChangingCapture) && Value != FCapture)
+        if (!_status.Contains(StatusElement.ChangingCapture) && value != _capture)
         {
-            FStatus = FStatus + Set<StatusElement>.Of(StatusElement.ChangingCapture);
-            FCapture = Value;
-            if (Value == null)
+            _status = _status + Set<StatusElement>.Of(StatusElement.ChangingCapture);
+            _capture = value;
+            if (value == null)
             {
-                FCursor = 0;
+                _cursor = 0;
             }
 
-            FOnCaptureChangedStore.Raise(this);
-            FStatus = FStatus - Set<StatusElement>.Of(StatusElement.ChangingCapture);
+            _onCaptureChangedStore.Raise(this);
+            _status = _status - Set<StatusElement>.Of(StatusElement.ChangingCapture);
         }
     }
 
-    public HSMap HSMap { get => FHSMap; }
-    public int X { get => FX; }
-    public int Y { get => FY; }
-    public int Xhp { get => GetXhp(); }
-    public int Yhp { get => GetYhp(); }
-    public int Xhx { get => GetXhx(); }
-    public int Yhx { get => GetYhx(); }
-    public MouseButton Button { get => FButton; }
-    public Set<ShiftState> Shift { get => FShift; }
+    public HSMap HexSpriteMap { get => _hexSpriteMap; }
+    public int X { get => _x; }
+    public int Y { get => _y; }
+    public int PixelX { get => GetPixelX(); }
+    public int PixelY { get => GetPixelY(); }
+    public int HexX { get => GetHexX(); }
+    public int HexY { get => GetHexY(); }
+    public MouseButton Button { get => _button; }
+    public Set<ShiftState> Shift { get => _shift; }
 
     public event NotifyEvent<HexSpriteMapMouse> OnUp
     {
-        add => FOnUpStore.Add(value);
-        remove => FOnUpStore.Remove(value);
+        add => _onUpStore.Add(value);
+        remove => _onUpStore.Remove(value);
     }
 
     public event NotifyEvent<HexSpriteMapMouse> OnDown
     {
-        add => FOnDownStore.Add(value);
-        remove => FOnDownStore.Remove(value);
+        add => _onDownStore.Add(value);
+        remove => _onDownStore.Remove(value);
     }
 
     public event NotifyEvent<HexSpriteMapMouse> OnMove
     {
-        add => FOnMoveStore.Add(value);
-        remove => FOnMoveStore.Remove(value);
+        add => _onMoveStore.Add(value);
+        remove => _onMoveStore.Remove(value);
     }
 
-    public event NotifyEvent<HexSpriteMapMouse> OnDblClick
+    public event NotifyEvent<HexSpriteMapMouse> OnDoubleClick
     {
-        add => FOnDblClickStore.Add(value);
-        remove => FOnDblClickStore.Remove(value);
+        add => _onDoubleClickStore.Add(value);
+        remove => _onDoubleClickStore.Remove(value);
     }
 
     public event NotifyEvent<HexSpriteMapMouse> OnCaptureChanged
     {
-        add => FOnCaptureChangedStore.Add(value);
-        remove => FOnCaptureChangedStore.Remove(value);
+        add => _onCaptureChangedStore.Add(value);
+        remove => _onCaptureChangedStore.Remove(value);
     }
 
-    public object Capture { get => FCapture; set => SetCapture(value); }
+    public object Capture { get => _capture; set => SetCapture(value); }
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
-    public int CursorMode { get => FCursorMode; set => FCursorMode = value; }
-    public bool IgnoreDown { get => FIgnoreDown; set => FIgnoreDown = value; }
-    public bool CursorVisible { get => FCursorVisible; set => FCursorVisible = value; }
+    public int CursorMode { get => _cursorMode; set => _cursorMode = value; }
+    public bool IgnoreDown { get => _ignoreDown; set => _ignoreDown = value; }
+    public bool CursorVisible { get => _cursorVisible; set => _cursorVisible = value; }
 
     public enum StatusElement : byte
     {

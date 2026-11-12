@@ -6,5 +6,5 @@ namespace Aow.Engine.Buffers;
 [InlineArray(8)]
 public struct BooleanArray8
 {
-    private bool element0;
+    private bool _element0;
 }

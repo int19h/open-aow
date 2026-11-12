@@ -6,7 +6,7 @@ namespace Aow.Engine.Buffers;
 [InlineArray(19)]
 public struct StringArray19
 {
-    private string element0;
+    private string _element0;
 
     public static StringArray19 From(ReadOnlySpan<string> values)
     {

@@ -10,15 +10,15 @@ public partial class SummonGoldDragon : SummonSpell
     // SummonSpells.pas:418
     public SummonGoldDragon(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SummonGoldDragonRStr);
-        FSpellID = 25;
-        FBaseManaCost = 5;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Life;
-        FUnitIndices.Add(216);
-        FCastDuration = 40;
-        FAIBasePriority = 750;
+        SpellName = AbilityRules.TranslateResourceString(s_summonGoldDragonText);
+        SpellId = 25;
+        BaseManaCost = 5;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Life;
+        UnitIndices.Add(216);
+        CastDuration = 40;
+        AIBasePriority = 750;
     }
 
-    private static readonly string SummonGoldDragonRStr = "Summon Gold Dragon";
+    private static readonly string s_summonGoldDragonText = "Summon Gold Dragon";
 }

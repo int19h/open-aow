@@ -18,47 +18,47 @@ public partial class BloodShrine : Structure
     }
 
     // BloodShrine.pas:65
-    public new const int ClassID = 131376;
+    public new const int ClassId = 131376;
 
     // BloodShrine.pas:62
 
     // BloodShrine.pas:103
-    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
-        base.ArmyPlaced(PlacedArmy);
-        ExecuteBloodlust(PlacedArmy);
+        base.ArmyPlaced(placedArmy);
+        ExecuteBloodlust(placedArmy);
     }
 
     // BloodShrine.pas:68
-    public void ShowBlessingAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowBlessingAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
-        Xhp -= XhpSurf;
-        Yhp -= YhpSurf;
-        FResource.ImageSequenceList.Show(20, Xhp, Yhp, Anim.FFrameCounter, SurfaceDesc);
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        pixelX -= pixelXSurface;
+        pixelY -= pixelYSurface;
+        _resource.ImageSequenceList.Show(20, pixelX, pixelY, animation.FrameCounter, lockedSurface);
     }
 
     // BloodShrine.pas:77
-    public void ExecuteBloodlust(ArmyHexSprite ArmyHS)
+    public void ExecuteBloodlust(ArmyHexSprite armyHexSprite)
     {
-        Troop AUnit = default;
+        Troop troop = default;
         Rect R = default;
-        BloodShrineAnimation Anim = default;
-        for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
+        BloodShrineAnimation animation = default;
+        for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
         {
-            AUnit = ArmyHS.FArmy.GetUnit(I);
-            AoWHSSet.Current.FAbilityControl.GetAbility(168).Expand(AUnit);
+            troop = armyHexSprite.Army.GetUnit(I);
+            AoWHSSet.Current.AbilityControl.GetAbility(168).Expand(troop);
         }
 
-        bool condition = ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer;
+        bool condition = armyHexSprite.Army.Player == AoWHSMap.Current.SeatedPlayer;
         if (!condition)
         {
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            condition = AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            condition = AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0);
         }
 
         if (condition)
@@ -66,20 +66,20 @@ public partial class BloodShrine : Structure
             AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
         }
 
-        var lhx2 = GetLhx();
-        var yhx2 = GetYhx();
-        var xhx2 = GetXhx();
-        if (AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
+        var hexLevel2 = GetHexLevel();
+        var hexY2 = GetHexY();
+        var hexX2 = GetHexX();
+        if (AoWHSMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
-            Anim = new BloodShrineAnimation(null);
+            animation = new BloodShrineAnimation(null);
             R = new Rect(-16, -8, 32, 40);
-            Anim.SetDimensions(R);
-            Anim.FAnimationLevel = 27;
-            Anim.FOnShow = ShowBlessingAnimation;
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
+            animation.SetDimensions(R);
+            animation.AnimationLevel = 27;
+            animation.OnShow = ShowBlessingAnimation;
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            AoWHSMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         }
     }
 
@@ -87,24 +87,24 @@ public partial class BloodShrine : Structure
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FTerrainBound = true;
-            FConnectRoads = false;
+            TerrainBound = true;
+            ConnectRoads = false;
         }
 
         // BloodShrine.pas:116
-        public new const int ClassID = 131377;
+        public new const int ClassId = 131377;
 
         // BloodShrine.pas:109
 
         // BloodShrine.pas:122
-        public override int ResourceUserClassID() => 131376;
+        public override int ResourceUserClassId() => 131376;
 
         // BloodShrine.pas:36
 
         // BloodShrine.pas:119
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(BloodShrineRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_bloodShrineText);
 
-        private static readonly string BloodShrineRStr = "Blood Shrine";
+        private static readonly string s_bloodShrineText = "Blood Shrine";
 
     }
 

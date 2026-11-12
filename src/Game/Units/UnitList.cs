@@ -22,14 +22,14 @@ public partial class UnitList : EChangeNotifyNode
     { }
 
     // Unit.PAS:2294
-    public override void MainReadWrite(EStorageStream Stream)
+    public override void MainReadWrite(EStorageStream stream)
     {
-        base.MainReadWrite(Stream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        base.MainReadWrite(stream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+            for (int I = 0, last = _children.Count - 1; I <= last; I++)
             {
-                ((EngineObject)FChildren.List[I]).Release();
+                ((EngineObject)_children.List[I]).Release();
             }
         }
     }
@@ -39,9 +39,9 @@ public partial class UnitList : EChangeNotifyNode
         base.MainPersist(persister);
         if (persister.Loading)
         {
-            for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+            for (int I = 0, last = _children.Count - 1; I <= last; I++)
             {
-                ((EngineObject)FChildren.List[I]).Release();
+                ((EngineObject)_children.List[I]).Release();
             }
         }
     }
@@ -51,10 +51,10 @@ public partial class UnitList : EChangeNotifyNode
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((EngineObject)FChildren.List[I]).SetOwner(null);
+            ((EngineObject)_children.List[I]).SetOwner(null);
         }
 
-        FChildren.Clear();
+        _children.Clear();
     }
 
     // Unit.PAS:2184
@@ -64,76 +64,76 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2162
-    public override int RemoveChild(EngineObject Child)
+    public override int RemoveChild(EngineObject child)
     {
-        int Result = base.RemoveChild(Child);
-        if (Result != -1)
+        int result = base.RemoveChild(child);
+        if (result != -1)
         {
-            Child.Release();
+            child.Release();
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2167
-    public override int AddChild(EngineObject Child)
+    public override int AddChild(EngineObject child)
     {
-        int Result;
-        var unit = Child;
-        if (this.CanAddUnit((Troop)Child))
+        int result;
+        var unit = child;
+        if (this.CanAddUnit((Troop)child))
         {
             unit.AddRef();
-            Result = base.AddChild(Child);
+            result = base.AddChild(child);
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2362
     public virtual sbyte GetPlayer() => -1;
 
     // Unit.PAS:2366
-    public virtual int GetStrength(DamageType DamageType)
+    public virtual int GetStrength(DamageType damageType)
     {
-        int Result = 0;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            Result += ((Troop)FChildren.List[I]).GetStrength(DamageType);
+            result += ((Troop)_children.List[I]).GetStrength(damageType);
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2373
-    public virtual int GetStrengthMax(Set<DamageType> DamageTypes)
+    public virtual int GetStrengthMax(Set<DamageType> damageTypes)
     {
-        int Result = 0;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        int result = 0;
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            Result += ((Troop)FChildren.List[I]).GetStrengthMax(DamageTypes);
+            result += ((Troop)_children.List[I]).GetStrengthMax(damageTypes);
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2356
-    public virtual void GetLocation(ref sbyte Xhx, ref sbyte Yhx, ref sbyte Lhx)
+    public virtual void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
     {
-        Xhx = -1;
-        Yhx = -1;
-        Lhx = -1;
+        hexX = -1;
+        hexY = -1;
+        hexLevel = -1;
     }
 
     // Unit.PAS:2338
     public virtual void SortUnits()
     {
         BeginUpdate();
-        FChildren.Pack();
-        FChildren.Sort(P2CompareUnits);
+        _children.Pack();
+        _children.Sort(CompareUnits);
         EndUpdate();
     }
 
@@ -141,65 +141,65 @@ public partial class UnitList : EChangeNotifyNode
     public virtual void SortOnMoves()
     {
         BeginUpdate();
-        FChildren.Pack();
-        FChildren.Sort(P2CompareUnitMoves);
+        _children.Pack();
+        _children.Sort(CompareUnitMoves);
         EndUpdate();
     }
 
     // Unit.PAS:2188
-    public virtual bool CanAddUnit(Troop AUnit) => AUnit.CanAddToList(this);
+    public virtual bool CanAddUnit(Troop troop) => troop.CanAddToList(this);
 
     // Unit.PAS:2192
-    public virtual bool CanDeleteUnit(Troop AUnit) => true;
+    public virtual bool CanDeleteUnit(Troop troop) => true;
 
     // Unit.PAS:2196
-    public virtual bool AddUnit(Troop AUnit)
+    public virtual bool AddUnit(Troop troop)
     {
-        AUnit.SetOwner(this);
-        return AUnit.Owner == this;
+        troop.SetOwner(this);
+        return troop.Owner == this;
     }
 
     // Unit.PAS:2208
-    public virtual bool DeleteUnit(Troop AUnit)
+    public virtual bool DeleteUnit(Troop troop)
     {
-        bool Result;
-        if (CanDeleteUnit(AUnit))
+        bool result;
+        if (CanDeleteUnit(troop))
         {
-            Result = true;
-            AUnit.SetOwner(null);
+            result = true;
+            troop.SetOwner(null);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:2201
-    public virtual bool AddUnits(UnitList Units)
+    public virtual bool AddUnits(UnitList units)
     {
-        for (int I = Units.Count - 1; I >= 0; I--)
+        for (int I = units.Count - 1; I >= 0; I--)
         {
-            AddUnit(Units.GetUnit(I));
+            AddUnit(units.GetUnit(I));
         }
 
         return true;
     }
 
     // Unit.PAS:2217
-    public int IndexOf(Troop AUnit) => FChildren.IndexOf(AUnit);
+    public int IndexOf(Troop troop) => _children.IndexOf(troop);
 
     // Unit.PAS:2221
-    public int IndexOfID(int ID)
+    public int IndexOfId(int id)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (((Troop)FChildren.List[Result]).FUnitID == ID)
+            result -= 1;
+            if (((Troop)_children.List[result]).UnitId == id)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -207,17 +207,17 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2231
-    public int IndexOfBehavior(GroupBehavior Behavior)
+    public int IndexOfBehavior(GroupBehavior behavior)
     {
-        AIGroup Group;
-        int Result = Count;
-        while (Result != 0)
+        AIGroup group;
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            Group = ((Troop)FChildren.List[Result]).FGroup;
-            if (Group != null && Group.GroupClass.Behavior == Behavior)
+            result -= 1;
+            group = ((Troop)_children.List[result]).Group;
+            if (group != null && group.GroupClass.Behavior == behavior)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -225,15 +225,15 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2243
-    public int IndexOfGroup(AIGroup Group)
+    public int IndexOfGroup(AIGroup group)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (((Troop)FChildren.List[Result]).FGroup == Group)
+            result -= 1;
+            if (((Troop)_children.List[result]).Group == group)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -241,17 +241,17 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2253
-    public int IndexOfGroupID(int ID)
+    public int IndexOfGroupId(int id)
     {
-        AIGroup Group;
-        int Result = Count;
-        while (Result != 0)
+        AIGroup group;
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            Group = ((Troop)FChildren.List[Result]).FGroup;
-            if (Group != null && Group.FGroupID == ID)
+            result -= 1;
+            group = ((Troop)_children.List[result]).Group;
+            if (group != null && group.GroupId == id)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -259,18 +259,18 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2265
-    public Troop FindID(int ID)
+    public Troop FindId(int id)
     {
-        Troop Result;
+        Troop result;
         int I;
         I = Count;
         while (I != 0)
         {
             I -= 1;
-            Result = (Troop)FChildren.List[I];
-            if (Result.FUnitID == ID)
+            result = (Troop)_children.List[I];
+            if (result.UnitId == id)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -278,205 +278,205 @@ public partial class UnitList : EChangeNotifyNode
     }
 
     // Unit.PAS:2277
-    public Troop GetUnit(int Index)
+    public Troop GetUnit(int index)
     {
         // { Original accepts negative indexes and reads the backing array directly. }
-        if (Index < Count)
+        if (index < Count)
         {
-            return (Troop)FChildren.List[Index];
+            return (Troop)_children.List[index];
         }
 
         return null;
     }
 
     // Unit.PAS:2287
-    public void SetUnit(int Index, Troop AUnit)
+    public void SetUnit(int index, Troop troop)
     {
-        while (Index >= Count)
+        while (index >= Count)
         {
-            FChildren.Add(null);
+            _children.Add(null);
         }
 
-        if (FChildren.List[Index] != null)
+        if (_children.List[index] != null)
         {
-            ((EngineObject)FChildren.List[Index]).Release();
+            ((EngineObject)_children.List[index]).Release();
         }
 
-        FChildren.List[Index] = AUnit;
+        _children.List[index] = troop;
         if (UpdateCount == 0)
         {
             Changed();
         }
     }
 
-    private static int P2CompareUnits(object Item1, object Item2)
+    private static int CompareUnits(object item1, object item2)
     {
-        int S1;
-        int S2;
-        var unit = (Troop)Item1;
-        S1 = unit.GetUnitLevel();
-        if (unit.GetTransporter())
+        int s1;
+        int s2;
+        var troop = (Troop)item1;
+        s1 = troop.GetUnitLevel();
+        if (troop.GetTransporter())
         {
-            S1 += 500;
+            s1 += 500;
         }
 
-        if ((Troop)Item1 is Hero)
+        if ((Troop)item1 is Hero)
         {
-            S1 += 50;
-            if ((Troop)Item1 is Leader)
+            s1 += 50;
+            if ((Troop)item1 is Leader)
             {
-                S1 += 100;
+                s1 += 100;
             }
         }
 
-        var unit2 = (Troop)Item2;
-        S2 = unit2.GetUnitLevel();
-        if (unit2.GetTransporter())
+        var troop2 = (Troop)item2;
+        s2 = troop2.GetUnitLevel();
+        if (troop2.GetTransporter())
         {
-            S2 += 500;
+            s2 += 500;
         }
 
-        if ((Troop)Item2 is Hero)
+        if ((Troop)item2 is Hero)
         {
-            S2 += 50;
-            if ((Troop)Item2 is Leader)
+            s2 += 50;
+            if ((Troop)item2 is Leader)
             {
-                S2 += 100;
+                s2 += 100;
             }
         }
 
-        int Result = S2 - S1;
-        if (Result == 0)
+        int result = s2 - s1;
+        if (result == 0)
         {
-            if (((Troop)Item1).FUnitStatus.Contains(UnitStatusElement.Enchanted))
+            if (((Troop)item1).UnitStatus.Contains(UnitStatusElement.Enchanted))
             {
-                S1 = 1;
+                s1 = 1;
             }
             else
             {
-                S1 = 0;
+                s1 = 0;
             }
 
-            if (((Troop)Item2).FUnitStatus.Contains(UnitStatusElement.Enchanted))
+            if (((Troop)item2).UnitStatus.Contains(UnitStatusElement.Enchanted))
             {
-                S2 = 1;
+                s2 = 1;
             }
             else
             {
-                S2 = 0;
+                s2 = 0;
             }
 
-            Result = S2 - S1;
+            result = s2 - s1;
         }
 
-        if (Result == 0)
+        if (result == 0)
         {
-            Result = ((Troop)Item2).GetUnitGFXResourceIndex() - ((Troop)Item1).GetUnitGFXResourceIndex();
-            if (Result == 0)
+            result = ((Troop)item2).GetUnitGraphicsResourceIndex() - ((Troop)item1).GetUnitGraphicsResourceIndex();
+            if (result == 0)
             {
-                Result = ((Troop)Item2).FUnitID - ((Troop)Item1).FUnitID;
+                result = ((Troop)item2).UnitId - ((Troop)item1).UnitId;
             }
         }
 
-        return Result;
+        return result;
     }
 
-    private static int P2CompareUnitMoves(object Item1, object Item2) => ((Troop)Item2).GetMoves() - ((Troop)Item1).GetMoves();
+    private static int CompareUnitMoves(object item1, object item2) => ((Troop)item2).GetMoves() - ((Troop)item1).GetMoves();
 
-    internal static sbyte UnitsToIndependentRelation(UnitList Units, sbyte DefaultRelation)
+    internal static sbyte UnitsToIndependentRelation(UnitList units, sbyte defaultRelation)
     {
-        sbyte Result;
-        bool SameRace;
-        bool Evil;
-        bool Good;
-        bool Neutral;
+        sbyte result;
+        bool sameRace;
+        bool evil;
+        bool good;
+        bool neutral;
         int I;
-        int Race;
-        Troop Unit_;
+        int race;
+        Troop troop;
         Alignment Alignment;
-        sbyte Relation;
-        Relation = -1;
-        SameRace = true;
-        I = Units.FChildren.Count;
-        while (SameRace && I != 0)
+        sbyte relation;
+        relation = -1;
+        sameRace = true;
+        I = units._children.Count;
+        while (sameRace && I != 0)
         {
             I -= 1;
-            Race = ((Troop)Units.FChildren.List[I]).GetRace();
-            if (Race != -1 && Race != Relation)
+            race = ((Troop)units._children.List[I]).GetRace();
+            if (race != -1 && race != relation)
             {
-                if (Relation == -1)
+                if (relation == -1)
                 {
-                    Relation = (sbyte)Race;
+                    relation = (sbyte)race;
                 }
                 else
                 {
-                    SameRace = false;
+                    sameRace = false;
                 }
             }
         }
 
-        if (SameRace && Relation == -1)
+        if (sameRace && relation == -1)
         {
-            Relation = DefaultRelation;
+            relation = defaultRelation;
         }
 
-        if (Relation == -1)
+        if (relation == -1)
         {
-            SameRace = false;
+            sameRace = false;
         }
 
-        I = Units.FChildren.Count;
-        while (SameRace && I != 0)
+        I = units._children.Count;
+        while (sameRace && I != 0)
         {
             I -= 1;
-            bool condition = Relation == ((Troop)Units.FChildren.List[I]).GetRace();
+            bool condition = relation == ((Troop)units._children.List[I]).GetRace();
             if (!condition)
             {
-                var alignment = ((Troop)Units.FChildren.List[I]).GetAlignment();
-                condition = AoWHSSet.Current.FRaceResources.GetRaceResource(Relation).FAlignments.Contains(alignment);
+                var alignment = ((Troop)units._children.List[I]).GetAlignment();
+                condition = AoWHSSet.Current.RaceResources.GetRaceResource(relation).Alignments.Contains(alignment);
             }
 
-            SameRace = condition;
+            sameRace = condition;
         }
 
-        if (!SameRace)
+        if (!sameRace)
         {
-            Evil = true;
-            Good = true;
-            Neutral = true;
+            evil = true;
+            good = true;
+            neutral = true;
             I = 0;
-            int last = Units.FChildren.Count - 1;
+            int last = units._children.Count - 1;
             for (; I <= last; I += 1)
             {
-                Unit_ = (Troop)Units.FChildren.List[I];
-                Alignment = Unit_.GetAlignment();
-                Evil = Evil && AlignmentTables.alsEvil.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(Alignment));
-                Good = Good && AlignmentTables.alsGood.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(Alignment));
-                Neutral = Neutral && AlignmentTables.alsNeutral.Contains(Alignment);
+                troop = (Troop)units._children.List[I];
+                Alignment = troop.GetAlignment();
+                evil = evil && AlignmentTables.s_evilAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.Evil, Game.Units.Alignment.PureEvil).Contains(Alignment));
+                good = good && AlignmentTables.s_goodAlignments.Contains(Alignment) && (troop.GetRace() == -1 || Set<Alignment>.Of(Game.Units.Alignment.PureGood, Game.Units.Alignment.Good).Contains(Alignment));
+                neutral = neutral && AlignmentTables.s_neutralAlignments.Contains(Alignment);
             }
 
-            if (Good && !Evil)
+            if (good && !evil)
             {
-                Result = -2;
+                result = -2;
             }
             else
             {
-                if (Evil && !Good)
+                if (evil && !good)
                 {
-                    Result = -4;
+                    result = -4;
                 }
                 else
                 {
-                    Result = -3;
+                    result = -3;
                 }
             }
         }
         else
         {
-            Result = Relation;
+            result = relation;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:680

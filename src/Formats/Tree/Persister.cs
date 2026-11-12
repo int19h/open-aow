@@ -17,12 +17,12 @@ public interface IPersistable
 /// </summary>
 public interface IPersistableFactory
 {
-    string ClassName(IPersistable obj);
+    string ClassName(IPersistable objectValue);
 
     IPersistable Create(string className);
 
     /// <summary>Frees an object the load created and then dropped. The default leaves it to the caller.</summary>
-    void Release(IPersistable obj) { }
+    void Release(IPersistable objectValue) { }
 }
 
 /// <summary>
@@ -57,19 +57,19 @@ public interface IChildCollection
 /// <summary>One value of a variable-length list. The call stores exactly one value.</summary>
 public interface IItemSlot
 {
-    void Int(ref int value);
+    void Int32(ref int value);
 
     void Byte(ref byte value);
 
     void SByte(ref sbyte value);
 
-    void UShort(ref ushort value);
+    void UInt16(ref ushort value);
 
-    void Short(ref short value);
+    void Int16(ref short value);
 
-    void UInt(ref uint value);
+    void UInt32(ref uint value);
 
-    void Bool(ref bool value);
+    void Boolean(ref bool value);
 
     void String(ref string value);
 
@@ -84,12 +84,12 @@ public delegate void ItemTransfer<T>(IItemSlot slot, ref T value);
 /// <summary>
 /// One symmetric serializer. A call names a member by its schema name and runs for both
 /// directions. On load, an absent member takes the fallback. On save, a value equal to the
-/// fallback is omitted. <see cref="Bool"/> is present only when true. An empty string or an
+/// fallback is omitted. <see cref="Boolean"/> is present only when true. An empty string or an
 /// empty list is omitted. <see cref="Bytes"/> of length zero is omitted, and an absent value
 /// leaves the caller's span unchanged. <see cref="Enum{TEnum}"/> and <see cref="Set{E}"/> are
 /// always stored, including zero, because the original writes every positive-size image. Their
 /// fallback applies only when the member is absent on load. A fixed integer array stores every
-/// element, including zeros. <see cref="RawInt"/>, <see cref="RawByte"/>, <see cref="RawSByte"/>
+/// element, including zeros. <see cref="RawInt32"/>, <see cref="RawByte"/>, <see cref="RawSByte"/>
 /// and <see cref="RawBool"/> store rwData values, zero and false included.
 /// <see cref="BitArray"/> stores the bits whenever the byte length is nonzero.
 /// <see cref="Object"/>, <see cref="Created"/> and
@@ -105,23 +105,23 @@ public interface IPersister
     /// <summary>True on load when the member is present. False on save.</summary>
     bool Has(string name);
 
-    void Int(string name, ref int value, int fallback = 0);
+    void Int32(string name, ref int value, int fallback = 0);
 
     void Byte(string name, ref byte value, byte fallback = 0);
 
     void SByte(string name, ref sbyte value, sbyte fallback = 0);
 
-    void UShort(string name, ref ushort value, ushort fallback = 0);
+    void UInt16(string name, ref ushort value, ushort fallback = 0);
 
-    void Short(string name, ref short value, short fallback = 0);
+    void Int16(string name, ref short value, short fallback = 0);
 
-    void UInt(string name, ref uint value, uint fallback = 0);
+    void UInt32(string name, ref uint value, uint fallback = 0);
 
     void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum;
 
     void Set<E>(string name, ref Set<E> value) where E : unmanaged, Enum;
 
-    void Bool(string name, ref bool value);
+    void Boolean(string name, ref bool value);
 
     void String(string name, ref string value);
 
@@ -132,7 +132,7 @@ public interface IPersister
     void Bytes(string name, Span<byte> data);
 
     /// <summary>An rwData integer. The value is stored even when it is zero. An absent member on load leaves the caller's value.</summary>
-    void RawInt(string name, ref int value);
+    void RawInt32(string name, ref int value);
 
     /// <summary>An rwData byte. The value is stored even when it is zero. An absent member on load leaves the caller's value.</summary>
     void RawByte(string name, ref byte value);
@@ -154,11 +154,11 @@ public interface IPersister
     /// </summary>
     void BitArray(string name, int count, Span<byte> bits);
 
-    void Object(string name, IPersistable obj);
+    void Object(string name, IPersistable objectValue);
 
-    void Created(string name, ref IPersistable? obj);
+    void Created(string name, ref IPersistable? objectValue);
 
-    void Created<T>(string name, ref T? obj) where T : class, IPersistable;
+    void Created<T>(string name, ref T? objectValue) where T : class, IPersistable;
 
     void Children(string name, IChildCollection children);
 

@@ -11,33 +11,33 @@ public partial class BuildersGuild : ProductionPlace
     { }
 
     // BldGuild.pas:37
-    public new const int ClassID = 133422;
+    public new const int ClassId = 133422;
 
     public new partial class Resource : ProductionPlaceResource
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FTerrainBound = true;
-            FClaimed = false;
-            FRazeDefenderBudget = 75;
-            FRebuildGold = 25;
-            FRebuildDays = 1;
+            TerrainBound = true;
+            Claimed = false;
+            RazeDefenderBudget = 75;
+            RebuildGold = 25;
+            RebuildDays = 1;
         }
 
         // BldGuild.pas:53
-        public new const int ClassID = 133423;
+        public new const int ClassId = 133423;
 
         // BldGuild.pas:40
 
         // BldGuild.pas:56
-        public override int ResourceUserClassID() => 133422;
+        public override int ResourceUserClassId() => 133422;
 
         // BldGuild.pas:26
 
         // BldGuild.pas:50
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(BuildersGuildRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_buildersGuildText);
 
-        private static readonly string BuildersGuildRStr = "Builders Guild";
+        private static readonly string s_buildersGuildText = "Builders Guild";
 
     }
 

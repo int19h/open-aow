@@ -12,45 +12,45 @@ public partial class BurningAbility : DurationAbility
     // PassiveAb.pas:756
     public BurningAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(BurningRStr);
-        FAbilityID = 127;
-        FAbilityType = AbilityType.Handicap;
-        FDurationMode = DurationMode.CombatTurn;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(s_burningText);
+        AbilityId = 127;
+        AbilityType = AbilityType.Handicap;
+        DurationMode = DurationMode.CombatTurn;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:773
-    public override void NewCombatTurn(CombatObject CombatObject, sbyte Player)
+    public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        DurationAbilityData Data;
-        Data = (DurationAbilityData)CombatObject.GetAbilityOwner().GetAbilityData(FAbilityID);
-        if (Data != null)
+        DurationAbilityData data;
+        data = (DurationAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
+        if (data != null)
         {
-            if (Data.FDuration != 0 && Data.FPlayerIndex == Player)
+            if (data.Duration != 0 && data.PlayerIndex == player)
             {
-                Data.FDuration = (byte)(Data.FDuration - 1);
-                if (Data.FDuration == 0)
+                data.Duration = (byte)(data.Duration - 1);
+                if (data.Duration == 0)
                 {
-                    CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
+                    combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
                 }
 
-                if (CombatObject.GetAbilityOwner() is Troop unit)
+                if (combatObject.GetAbilityOwner() is Troop troop)
                 {
-                    if (HitChance.HitRole(4 - unit.GetResistance()))
+                    if (HitChance.HitRole(4 - troop.GetResistance()))
                     {
-                        CombatObject.ExecuteDamage(1);
+                        combatObject.ExecuteDamage(1);
                     }
                 }
             }
         }
         else
         {
-            CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
+            combatObject.GetAbilityOwner().RemoveAbility(AbilityId);
         }
     }
 
     // PassiveAb.pas:767
     public override int GetTotalDuration() => 3;
 
-    private static readonly string BurningRStr = "Burning";
+    private static readonly string s_burningText = "Burning";
 }

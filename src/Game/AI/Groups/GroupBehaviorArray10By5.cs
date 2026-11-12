@@ -6,7 +6,7 @@ namespace Aow.Game.AI.Groups;
 [InlineArray(5)]
 public struct GroupBehaviorArray10By5
 {
-    private GroupBehaviorArray10 element0;
+    private GroupBehaviorArray10 _element0;
 
     public static GroupBehaviorArray10By5 From(ReadOnlySpan<GroupBehaviorArray10> values)
     {

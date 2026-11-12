@@ -18,10 +18,10 @@ public partial class TurnUndead : CombatSpell
     // CombatSpells.pas:888
     public TurnUndead(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.TurnUndeadRStr);
-        FSpellID = 101;
-        FDamageMode = 1;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_turnUndeadText);
+        SpellId = 101;
+        DamageMode = 1;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 6;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Holy);
@@ -30,54 +30,54 @@ public partial class TurnUndead : CombatSpell
     }
 
     // CombatSpells.pas:905
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        TurnUndeadSpellCombatAction Action;
-        Action = new TurnUndeadSpellCombatAction(null);
-        Action.FSpellID = FSpellID;
-        Action.FSourceID = Source.FID;
-        Action.FTargetID = Target.FID;
-        if (ChargeMana)
+        TurnUndeadSpellCombatAction action;
+        action = new TurnUndeadSpellCombatAction(null);
+        action.SpellId = SpellId;
+        action.SourceId = source.Id;
+        action.TargetId = target.Id;
+        if (chargeMana)
         {
-            Action.FManaCost = FBaseManaCost;
+            action.ManaCost = BaseManaCost;
         }
 
-        bool condition = Target is CombatUnit;
+        bool condition = target is CombatUnit;
         if (condition)
         {
-            var unitType = ((CombatUnit)Target).FUnit.GetUnitType();
+            var unitType = ((CombatUnit)target).Troop.GetUnitType();
             condition = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType);
         }
 
-        if (condition && (((CombatUnit)Target).FUnit.GetRace() == 11 || ((CombatUnit)Target).FUnit.GetAbilityEnabled(129)))
+        if (condition && (((CombatUnit)target).Troop.GetRace() == 11 || ((CombatUnit)target).Troop.GetAbilityEnabled(129)))
         {
-            Action.GenerateEx(Source, Target, FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes, FDamageMode);
+            action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes, DamageMode);
         }
 
-        return Action;
+        return action;
     }
 
     // CombatSpells.pas:922
-    public override void fcGetDamageValueEx(CombatObject Source, CombatObject Target, WallSituation WallSituation, ref AbilityDamageValues Values)
+    public override void FastBattleGetDamageValues(CombatObject source, CombatObject target, WallSituation wallSituation, ref AbilityDamageValues values)
     {
-        bool condition = Target is CombatUnit;
+        bool condition = target is CombatUnit;
         if (condition)
         {
-            var unitType = ((CombatUnit)Target).FUnit.GetUnitType();
+            var unitType = ((CombatUnit)target).Troop.GetUnitType();
             condition = Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType);
         }
 
-        if (condition && (((CombatUnit)Target).FUnit.GetRace() == 11 || ((CombatUnit)Target).FUnit.GetAbilityEnabled(129)))
+        if (condition && (((CombatUnit)target).Troop.GetRace() == 11 || ((CombatUnit)target).Troop.GetAbilityEnabled(129)))
         {
-            base.fcGetDamageValueEx(Source, Target, WallSituation, ref Values);
+            base.FastBattleGetDamageValues(source, target, wallSituation, ref values);
         }
         else
         {
-            Values.SourceDamage = 0;
-            Values.SourceCost = 0;
-            Values.TargetDamage = 0;
-            Values.TargetCost = 0;
-            Values.DamageTypes = Set<DamageType>.Of();
+            values.SourceDamage = 0;
+            values.SourceCost = 0;
+            values.TargetDamage = 0;
+            values.TargetCost = 0;
+            values.DamageTypes = Set<DamageType>.Of();
         }
     }
 }

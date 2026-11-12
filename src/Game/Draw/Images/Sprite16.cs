@@ -12,39 +12,39 @@ namespace Aow.Game.Draw.Images;
 // pixels)
 public partial class Sprite16 : Image16, ILibraryImageClass
 {
-    static int ILibraryImageClass.ClassID => 22;
+    static int ILibraryImageClass.ClassId => 22;
     static string ILibraryImageClass.Name => "Sprite (16bpp)";
 
-    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new Sprite16(owner);
+    static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Sprite16(owner);
 
-    internal int FPitch;
-    internal byte[] FBuffer;
-    internal int FTransparentColor;
-    internal int FColorKey;
-    internal int FSpriteX;
-    internal int FSpriteY;
-    internal int FSpriteWidth;
-    internal int FSpriteHeight;
+    internal int _pitch;
+    internal byte[] _buffer;
+    internal int _transparentColor;
+    internal int _colorKey;
+    internal int _spriteX;
+    internal int _spriteY;
+    internal int _spriteWidth;
+    internal int _spriteHeight;
 
     // The rows of the sprite: FBuffer from its first byte, FPitch bytes apart.
-    internal SurfaceView View => new(FBuffer, 0, FPitch);
+    internal SurfaceView View => new(_buffer, 0, _pitch);
 
     // ImageLib.pas:4302
-    internal void AllocateDiscardableImageData(int AWidth, int AHeight)
+    internal void AllocateDiscardableImageData(int width, int height)
     {
-        int Size;
-        if (AWidth < 32)
+        int size;
+        if (width < 32)
         {
-            FPitch = ((AWidth << 1) + 3) & ~3;
+            _pitch = ((width << 1) + 3) & ~3;
         }
         else
         {
-            FPitch = ((AWidth << 1) + 7) & ~7;
+            _pitch = ((width << 1) + 7) & ~7;
         }
 
         // The rows start at the first byte of FBuffer, as TPicture08's (graphics.md 6.8).
-        Size = FPitch * AHeight + 7;
-        FBuffer = MemorySurfaces.Reallocate(FBuffer, Size);
+        size = _pitch * height + 7;
+        _buffer = MemorySurfaces.Reallocate(_buffer, size);
     }
 
     // ImageLib.pas:4247
@@ -53,246 +53,246 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:4262
-    public override void SetXshift(int Value)
+    public override void SetXshift(int value)
     {
-        if (Value < -FSpriteX)
+        if (value < -_spriteX)
         {
-            Value = -FSpriteX;
+            value = -_spriteX;
         }
 
-        base.SetXshift(Value);
-        SetWidth(FWidth);
+        base.SetXshift(value);
+        SetWidth(_width);
     }
 
     // ImageLib.pas:4269
-    public override void SetYshift(int Value)
+    public override void SetYshift(int value)
     {
-        if (Value < -FSpriteY)
+        if (value < -_spriteY)
         {
-            Value = -FSpriteY;
+            value = -_spriteY;
         }
 
-        base.SetYshift(Value);
-        SetHeight(FHeight);
+        base.SetYshift(value);
+        SetHeight(_height);
     }
 
     // ImageLib.pas:4276
-    public override void SetWidth(int Value)
+    public override void SetWidth(int value)
     {
         int W;
-        W = FXshift + FSpriteX + FSpriteWidth;
-        if (Value < W)
+        W = _xshift + _spriteX + _spriteWidth;
+        if (value < W)
         {
-            Value = W;
+            value = W;
         }
 
-        base.SetWidth(Value);
+        base.SetWidth(value);
     }
 
     // ImageLib.pas:4285
-    public override void SetHeight(int Value)
+    public override void SetHeight(int value)
     {
         int W;
-        W = FYshift + FSpriteY + FSpriteHeight;
-        if (Value < W)
+        W = _yshift + _spriteY + _spriteHeight;
+        if (value < W)
         {
-            Value = W;
+            value = W;
         }
 
-        base.SetHeight(Value);
+        base.SetHeight(value);
     }
 
     // ImageLib.pas:4294
     public override void GetVisualDimensions(ref Rect R)
     {
-        R.Left = FXshift + FSpriteX;
-        R.Right = R.Left + FSpriteWidth;
-        R.Top = FYshift + FSpriteY;
-        R.Bottom = R.Top + FSpriteHeight;
+        R.Left = _xshift + _spriteX;
+        R.Right = R.Left + _spriteWidth;
+        R.Top = _yshift + _spriteY;
+        R.Bottom = R.Top + _spriteHeight;
     }
 
     // ImageLib.pas:4315
     public override void ReleaseDiscardableImageData()
     {
-        if (FDataLoaded)
+        if (_dataLoaded)
         {
-            FBuffer = null;
-            FDataLoaded = false;
+            _buffer = null;
+            _dataLoaded = false;
         }
     }
 
     // ImageLib.pas:4324
-    public override void ReadImageData(Stream Stream)
+    public override void ReadImageData(Stream stream)
     {
-        base.ReadImageData(Stream);
-        Stream.ReadExactly(Bytes.Of(ref FSpriteWidth, 4));
-        Stream.ReadExactly(Bytes.Of(ref FSpriteHeight, 4));
-        Stream.ReadExactly(Bytes.Of(ref FSpriteX, 4));
-        Stream.ReadExactly(Bytes.Of(ref FSpriteY, 4));
-        Stream.ReadExactly(Bytes.Of(ref FTransparentColor, 4));
+        base.ReadImageData(stream);
+        stream.ReadExactly(Bytes.Of(ref _spriteWidth, 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteHeight, 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteX, 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteY, 4));
+        stream.ReadExactly(Bytes.Of(ref _transparentColor, 4));
     }
 
     // ImageLib.pas:4334
-    public override void WriteImageData(Stream Stream)
+    public override void WriteImageData(Stream stream)
     {
-        base.WriteImageData(Stream);
-        Stream.Write(Bytes.Of(ref FSpriteWidth, 4));
-        Stream.Write(Bytes.Of(ref FSpriteHeight, 4));
-        Stream.Write(Bytes.Of(ref FSpriteX, 4));
-        Stream.Write(Bytes.Of(ref FSpriteY, 4));
-        Stream.Write(Bytes.Of(ref FTransparentColor, 4));
+        base.WriteImageData(stream);
+        stream.Write(Bytes.Of(ref _spriteWidth, 4));
+        stream.Write(Bytes.Of(ref _spriteHeight, 4));
+        stream.Write(Bytes.Of(ref _spriteX, 4));
+        stream.Write(Bytes.Of(ref _spriteY, 4));
+        stream.Write(Bytes.Of(ref _transparentColor, 4));
     }
 
     // ImageLib.pas:4344
-    public override void ReadDiscardableImageData(Stream Stream)
+    public override void ReadDiscardableImageData(Stream stream)
     {
-        base.ReadDiscardableImageData(Stream);
-        AllocateDiscardableImageData(FSpriteWidth, FSpriteHeight);
-        for (int Y = 0, last = FSpriteHeight - 1; Y <= last; Y++)
+        base.ReadDiscardableImageData(stream);
+        AllocateDiscardableImageData(_spriteWidth, _spriteHeight);
+        for (int Y = 0, last = _spriteHeight - 1; Y <= last; Y++)
         {
-            Stream.ReadExactly(FBuffer.AsSpan(Y * FPitch, FSpriteWidth * 2));
+            stream.ReadExactly(_buffer.AsSpan(Y * _pitch, _spriteWidth * 2));
         }
 
-        FColorKey = FTransparentColor;
+        _colorKey = _transparentColor;
     }
 
     // ImageLib.pas:4355
-    public override void WriteDiscardableImageData(Stream Stream)
+    public override void WriteDiscardableImageData(Stream stream)
     {
-        base.WriteDiscardableImageData(Stream);
-        for (int Y = 0, last = FSpriteHeight - 1; Y <= last; Y++)
+        base.WriteDiscardableImageData(stream);
+        for (int Y = 0, last = _spriteHeight - 1; Y <= last; Y++)
         {
-            Stream.Write(FBuffer.AsSpan(Y * FPitch, FSpriteWidth * 2));
+            stream.Write(_buffer.AsSpan(Y * _pitch, _spriteWidth * 2));
         }
     }
 
     // ImageLib.pas:4364
-    public override int RemapToPixelFormat(int PixelFormatID)
+    public override int RemapToPixelFormat(int pixelFormatId)
     {
-        int Result = 0;
-        if (PixelFormatID != FPixelFormatID)
+        int result = 0;
+        if (pixelFormatId != _pixelFormatId)
         {
-            switch (PixelFormatID)
+            switch (pixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    PixelRemap.RemapSurface555to565(View, View, FSpriteWidth, FSpriteHeight);
-                    FColorKey = PixelRemap.RemapPixelInfo(FColorKey, PixelFormats.pfRGB555, null, PixelFormats.pfRGB565, null);
-                    FPixelFormatID = PixelFormats.pfRGB565;
+                    PixelRemap.RemapSurface555To565(View, View, _spriteWidth, _spriteHeight);
+                    _colorKey = PixelRemap.RemapPixelInfo(_colorKey, PixelFormats.pfRGB555, null, PixelFormats.pfRGB565, null);
+                    _pixelFormatId = PixelFormats.pfRGB565;
                     break;
                 case PixelFormats.pfRGB555:
-                    PixelRemap.RemapSurface565to555(View, View, FSpriteWidth, FSpriteHeight);
-                    FColorKey = PixelRemap.RemapPixelInfo(FColorKey, PixelFormats.pfRGB565, null, PixelFormats.pfRGB555, null);
-                    FPixelFormatID = PixelFormats.pfRGB555;
+                    PixelRemap.RemapSurface565To555(View, View, _spriteWidth, _spriteHeight);
+                    _colorKey = PixelRemap.RemapPixelInfo(_colorKey, PixelFormats.pfRGB565, null, PixelFormats.pfRGB555, null);
+                    _pixelFormatId = PixelFormats.pfRGB555;
                     break;
                 default:
-                    Result = PixelFormats.GFXE_NOTSUPPORTED;
+                    result = PixelFormats.GFXE_NOTSUPPORTED;
                     break;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:4386
-    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent, ShowMode.Blended).Contains(ShowMode);
+    public override bool SupportShowMode(ShowMode showMode, int pixelFormatId) => (pixelFormatId == 0 || pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent, ShowMode.Blended).Contains(showMode);
 
     // ImageLib.pas:4392
-    public override void ShowOpaque(int X, int Y, in LockedSurface SD)
+    public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
     {
-        int DX;
-        int Right;
+        int destinationX;
+        int right;
         int W;
         int H;
-        int SX;
-        int SY;
-        int DY;
-        int Bottom;
-        SurfaceView Src;
-        SurfaceView Dst;
-        X += FSpriteX;
-        DX = FXshift + X;
-        W = FSpriteWidth;
-        Right = FSpriteWidth + DX;
-        if (DX < SD.ClipRect.Left)
+        int sx;
+        int sy;
+        int destinationY;
+        int bottom;
+        SurfaceView source;
+        SurfaceView destination;
+        X += _spriteX;
+        destinationX = _xshift + X;
+        W = _spriteWidth;
+        right = _spriteWidth + destinationX;
+        if (destinationX < lockedSurface.ClipRectangle.Left)
         {
-            SX = SD.ClipRect.Left - X;
-            DX = SD.ClipRect.Left;
-            W -= SX;
+            sx = lockedSurface.ClipRectangle.Left - X;
+            destinationX = lockedSurface.ClipRectangle.Left;
+            W -= sx;
         }
         else
         {
-            SX = 0;
+            sx = 0;
         }
 
-        if (Right > SD.ClipRect.Right)
+        if (right > lockedSurface.ClipRectangle.Right)
         {
-            W -= Right - SD.ClipRect.Right;
+            W -= right - lockedSurface.ClipRectangle.Right;
         }
 
         if (W > 0)
         {
-            Y += FSpriteY;
-            DY = Y + FYshift;
-            H = FSpriteHeight;
-            Bottom = DY + FSpriteHeight;
-            if (DY < SD.ClipRect.Top)
+            Y += _spriteY;
+            destinationY = Y + _yshift;
+            H = _spriteHeight;
+            bottom = destinationY + _spriteHeight;
+            if (destinationY < lockedSurface.ClipRectangle.Top)
             {
-                SY = SD.ClipRect.Top - Y;
-                DY = SD.ClipRect.Top;
-                H -= SY;
+                sy = lockedSurface.ClipRectangle.Top - Y;
+                destinationY = lockedSurface.ClipRectangle.Top;
+                H -= sy;
             }
             else
             {
-                SY = 0;
+                sy = 0;
             }
 
-            if (Bottom > SD.ClipRect.Bottom)
+            if (bottom > lockedSurface.ClipRectangle.Bottom)
             {
-                H -= Bottom - SD.ClipRect.Bottom;
+                H -= bottom - lockedSurface.ClipRectangle.Bottom;
             }
 
             if (H > 0)
             {
-                if (!FDataLoaded)
+                if (!_dataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = View.At(SX * 2 + SY * FPitch);
-                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
-                    if (SD.PixelFormatID == FPixelFormatID)
+                    source = View.At(sx * 2 + sy * _pitch);
+                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    if (lockedSurface.PixelFormatId == _pixelFormatId)
                     {
-                        BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
+                        BlitRects.BlitColorKey16(source, destination, W, H, _colorKey);
                     }
                     else
                     {
-                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
+                        BlitRects.BlitColorKey16(source, destination, W, H, _colorKey);
                     }
 
-                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
+                    if (_loadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
                 }
                 else
                 {
-                    Src = View.At(SX * 2 + SY * FPitch);
-                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
-                    if (SD.PixelFormatID == FPixelFormatID)
+                    source = View.At(sx * 2 + sy * _pitch);
+                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    if (lockedSurface.PixelFormatId == _pixelFormatId)
                     {
-                        BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
+                        BlitRects.BlitColorKey16(source, destination, W, H, _colorKey);
                     }
                     else
                     {
-                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        BlitRects.BltColorKey16(Src, Dst, W, H, FColorKey);
+                        BlitRects.BlitColorKey16(source, destination, W, H, _colorKey);
                     }
                 }
             }
@@ -300,132 +300,132 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:4457
-    public override void ShowBlended(int X, int Y, in LockedSurface SD, BlendTable Table)
+    public override void ShowBlended(int X, int Y, in LockedSurface lockedSurface, BlendTable table)
     {
-        int DX;
-        int Right;
+        int destinationX;
+        int right;
         int W;
         int H;
-        int SX;
-        int SY;
-        int DY;
-        int Bottom;
-        SurfaceView Src;
-        SurfaceView Dst;
-        X += FSpriteX;
-        DX = FXshift + X;
-        W = FSpriteWidth;
-        Right = FSpriteWidth + DX;
-        if (DX < SD.ClipRect.Left)
+        int sx;
+        int sy;
+        int destinationY;
+        int bottom;
+        SurfaceView source;
+        SurfaceView destination;
+        X += _spriteX;
+        destinationX = _xshift + X;
+        W = _spriteWidth;
+        right = _spriteWidth + destinationX;
+        if (destinationX < lockedSurface.ClipRectangle.Left)
         {
-            SX = SD.ClipRect.Left - X;
-            DX = SD.ClipRect.Left;
-            W -= SX;
+            sx = lockedSurface.ClipRectangle.Left - X;
+            destinationX = lockedSurface.ClipRectangle.Left;
+            W -= sx;
         }
         else
         {
-            SX = 0;
+            sx = 0;
         }
 
-        if (Right > SD.ClipRect.Right)
+        if (right > lockedSurface.ClipRectangle.Right)
         {
-            W -= Right - SD.ClipRect.Right;
+            W -= right - lockedSurface.ClipRectangle.Right;
         }
 
         if (W > 0)
         {
-            Y += FSpriteY;
-            DY = Y + FYshift;
-            H = FSpriteHeight;
-            Bottom = DY + FSpriteHeight;
-            if (DY < SD.ClipRect.Top)
+            Y += _spriteY;
+            destinationY = Y + _yshift;
+            H = _spriteHeight;
+            bottom = destinationY + _spriteHeight;
+            if (destinationY < lockedSurface.ClipRectangle.Top)
             {
-                SY = SD.ClipRect.Top - Y;
-                DY = SD.ClipRect.Top;
-                H -= SY;
+                sy = lockedSurface.ClipRectangle.Top - Y;
+                destinationY = lockedSurface.ClipRectangle.Top;
+                H -= sy;
             }
             else
             {
-                SY = 0;
+                sy = 0;
             }
 
-            if (Bottom > SD.ClipRect.Bottom)
+            if (bottom > lockedSurface.ClipRectangle.Bottom)
             {
-                H -= Bottom - SD.ClipRect.Bottom;
+                H -= bottom - lockedSurface.ClipRectangle.Bottom;
             }
 
             if (H > 0)
             {
-                if (!FDataLoaded)
+                if (!_dataLoaded)
                 {
                     LoadDiscardableImageData();
-                    Src = View.At(SX * 2 + SY * FPitch);
-                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
-                    if (SD.PixelFormatID == FPixelFormatID)
+                    source = View.At(sx * 2 + sy * _pitch);
+                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    if (lockedSurface.PixelFormatId == _pixelFormatId)
                     {
-                        switch (FPixelFormatID)
+                        switch (_pixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey565(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
                     else
                     {
-                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        switch (FPixelFormatID)
+                        switch (_pixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey565(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
 
-                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
+                    if (_loadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
                 }
                 else
                 {
-                    Src = View.At(SX * 2 + SY * FPitch);
-                    Dst = SD.View((DX << 1) + SD.Pitch * DY);
-                    if (SD.PixelFormatID == FPixelFormatID)
+                    source = View.At(sx * 2 + sy * _pitch);
+                    destination = lockedSurface.View((destinationX << 1) + lockedSurface.Pitch * destinationY);
+                    if (lockedSurface.PixelFormatId == _pixelFormatId)
                     {
-                        switch (FPixelFormatID)
+                        switch (_pixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey565(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
                     else
                     {
-                        if (RemapToPixelFormat(SD.PixelFormatID) != 0)
+                        if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
                         {
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        switch (FPixelFormatID)
+                        switch (_pixelFormatId)
                         {
                             case PixelFormats.pfRGB555:
-                                BlendColorKey555(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey555(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                             case PixelFormats.pfRGB565:
-                                BlendColorKey565(Src, Dst, W, H, FColorKey, ((BlendTable5Bit)Table).Bytes);
+                                BlendColorKey565(source, destination, W, H, _colorKey, ((BlendTable5Bit)table).Bytes);
                                 break;
                         }
                     }
@@ -436,112 +436,112 @@ public partial class Sprite16 : Image16, ILibraryImageClass
 
     // ImageLib.pas:4543
     // { ShowTransparent shows the sprite blended 50% }
-    public override void ShowTransparent(int X, int Y, in LockedSurface SD)
+    public override void ShowTransparent(int X, int Y, in LockedSurface lockedSurface)
     {
-        ShowBlended(X, Y, SD, GraphicsState.AlphaBlendTable.LookupTables[50]);
+        ShowBlended(X, Y, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[50]);
     }
 
     // ImageLib.pas:4548
-    public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555 || PixelFormatID == PixelFormats.pfRGB24 || PixelFormatID == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB24 || pixelFormatId == PixelFormats.pfPAL8;
 
     // ImageLib.pas:4554
-    public override Form CreateGrabForm(Component AOwner, in LockedSurface SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
 
     // ImageLib.pas:4561
     // { GrabImage locks the conversion surface and never unlocks it (an original bug) }
-    public override bool GrabImage(in LockedSurface SD, in Rect R, GrabInfo GrabInfo)
+    public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
     {
-        DataSurface Surface;
-        LockedSurface LSD = default;
-        Rect GR = default;
-        Rect MR = default;
-        int Left;
-        int Top;
-        int Bottom;
+        DataSurface surface;
+        LockedSurface lSD = default;
+        Rect gr = default;
+        Rect mr = default;
+        int left;
+        int top;
+        int bottom;
         // { Absolute views preserve frame slots and the separate GR coordinate reads. }
-        bool Result = true;
+        bool result = true;
         try
         {
-            Surface = null;
+            surface = null;
             try
             {
-                if (SD.BitCount != 16)
+                if (lockedSurface.BitCount != 16)
                 {
-                    Surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565, null);
-                    GR.Left = 0;
-                    GR.Top = 0;
-                    var width = Surface.GetWidth();
-                    GR.Right = width;
-                    var height = Surface.GetHeight();
-                    GR.Bottom = height;
-                    Surface.Lock(ref LSD);
-                    var surfaceWidth = Surface.GetWidth();
-                    var surfaceHeight = Surface.GetHeight();
-                    if (LockedSurface.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
+                    surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565, null);
+                    gr.Left = 0;
+                    gr.Top = 0;
+                    var width = surface.GetWidth();
+                    gr.Right = width;
+                    var height = surface.GetHeight();
+                    gr.Bottom = height;
+                    surface.Lock(ref lSD);
+                    var surfaceWidth = surface.GetWidth();
+                    var surfaceHeight = surface.GetHeight();
+                    if (LockedSurface.RemapSurfacePart(lockedSurface, R.Left, R.Top, surfaceWidth, surfaceHeight, lSD, 0, 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }
 
-                    FTransparentColor = PixelRemap.RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
+                    _transparentColor = PixelRemap.RemapPixelInfo(grabInfo.TransparentPixel, lockedSurface.PixelFormatId, lockedSurface.Palette, lSD.PixelFormatId, null);
                 }
                 else
                 {
-                    LSD = SD;
-                    GR = R;
-                    FTransparentColor = GrabInfo.TransparentPixel;
+                    lSD = lockedSurface;
+                    gr = R;
+                    _transparentColor = grabInfo.TransparentPixel;
                 }
 
                 Clear();
-                FDataLoaded = true;
-                FDataWidth = GR.Right - GR.Left;
-                FDataHeight = GR.Bottom - GR.Top;
-                FWidth = FDataWidth;
-                FHeight = FDataHeight;
-                FFileName = ExtractFileName(GrabInfo.FileName);
-                FFileIndex = GrabInfo.FileIndex;
-                FStoredPixelFormatID = LSD.PixelFormatID;
-                FPixelFormatID = FStoredPixelFormatID;
-                FColorKey = FTransparentColor;
-                LockedSurface.MinimizeTransparentRect(LSD, GR, FTransparentColor, ref MR);
-                Left = MR.Left;
-                FSpriteX = Left - GR.Left;
-                Top = MR.Top;
-                FSpriteY = Top - GR.Top;
-                FSpriteWidth = MR.Right - Left;
-                Bottom = MR.Bottom;
-                FSpriteHeight = Bottom - Top;
-                FDataSize = FSpriteWidth * FSpriteHeight * 2;
-                AllocateDiscardableImageData(FSpriteWidth, FSpriteHeight);
-                for (int Y = Top; Y <= Bottom - 1; Y++)
+                _dataLoaded = true;
+                _dataWidth = gr.Right - gr.Left;
+                _dataHeight = gr.Bottom - gr.Top;
+                _width = _dataWidth;
+                _height = _dataHeight;
+                _fileName = ExtractFileName(grabInfo.FileName);
+                _fileIndex = grabInfo.FileIndex;
+                _storedPixelFormatId = lSD.PixelFormatId;
+                _pixelFormatId = _storedPixelFormatId;
+                _colorKey = _transparentColor;
+                LockedSurface.MinimizeTransparentRectangle(lSD, gr, _transparentColor, ref mr);
+                left = mr.Left;
+                _spriteX = left - gr.Left;
+                top = mr.Top;
+                _spriteY = top - gr.Top;
+                _spriteWidth = mr.Right - left;
+                bottom = mr.Bottom;
+                _spriteHeight = bottom - top;
+                _dataSize = _spriteWidth * _spriteHeight * 2;
+                AllocateDiscardableImageData(_spriteWidth, _spriteHeight);
+                for (int Y = top; Y <= bottom - 1; Y++)
                 {
-                    LSD.View().Bytes(LSD.Pitch * Y + MR.Left * 2, FSpriteWidth * 2).CopyTo(FBuffer.AsSpan((Y - MR.Top) * FPitch, FSpriteWidth * 2));
+                    lSD.View().Bytes(lSD.Pitch * Y + mr.Left * 2, _spriteWidth * 2).CopyTo(_buffer.AsSpan((Y - mr.Top) * _pitch, _spriteWidth * 2));
                 }
             }
             finally
             {
-                if (Surface != null)
+                if (surface != null)
                 {
-                    Surface.Dispose();
+                    surface.Dispose();
                 }
             }
         }
         catch
         {
             ReleaseDiscardableImageData();
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static void BlendColorKey555(SurfaceView Src, SurfaceView Dst, int Width, int Height, int ColorKey, ReadOnlySpan<byte> Table)
+    private static void BlendColorKey555(SurfaceView source, SurfaceView destination, int width, int height, int colorKey, ReadOnlySpan<byte> table)
     {
-        Blit.BlendColorKey555(Src, Dst, Width, Height, ColorKey, Table);
+        Blit.BlendColorKey555(source, destination, width, height, colorKey, table);
     }
 
-    private static void BlendColorKey565(SurfaceView Src, SurfaceView Dst, int Width, int Height, int ColorKey, ReadOnlySpan<byte> Table)
+    private static void BlendColorKey565(SurfaceView source, SurfaceView destination, int width, int height, int colorKey, ReadOnlySpan<byte> table)
     {
-        Blit.BlendColorKey565(Src, Dst, Width, Height, ColorKey, Table);
+        Blit.BlendColorKey565(source, destination, width, height, colorKey, table);
     }
 
 }

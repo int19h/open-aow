@@ -34,9 +34,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         internal int ArmyQueries;
 
-        public override EngineObject FindOwnedChild(int AClassID)
+        public override EngineObject FindOwnedChild(int classId)
         {
-            if (AClassID == ArmyHexSprite.ClassID) ArmyQueries++;
+            if (classId == ArmyHexSprite.ClassId) ArmyQueries++;
             return null!;
         }
     }
@@ -61,14 +61,14 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private static void Apply(Structure structure, State state)
     {
-        if (structure is PlayerStructure player) player.FPlayer = state.Owned ? Viewer : OtherPlayer;
-        GameTables.AoWEngine.FDebug = state.Debug;
-        structure.FBuildingPlayer = state.Building ? (sbyte)3 : (sbyte)-1;
+        if (structure is PlayerStructure player) player.Player = state.Owned ? Viewer : OtherPlayer;
+        GameTables.GameEngine.Debug = state.Debug;
+        structure.BuildingPlayer = state.Building ? (sbyte)3 : (sbyte)-1;
         if (state.Razed) Raze(structure);
         if (structure is City city)
         {
-            var war = Set<City.ModeElement>.Of(City.ModeElement.Warmode);
-            city.FMode = state.War ? city.FMode + war : city.FMode - war;
+            var war = Set<City.ModeElement>.Of(City.ModeElement.WarMode);
+            city.Mode = state.War ? city.Mode + war : city.Mode - war;
         }
         Assert.Equal(state.Razed, structure.GetRazed());
         Assert.Equal(state.Building, structure.GetBuilding());
@@ -79,163 +79,163 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         switch (structure)
         {
-            case City city: city.FMode = city.FMode + Set<City.ModeElement>.Of(City.ModeElement.Razed); break;
-            case Farm farm: farm.FMode = farm.FMode + Set<Farm.ModeElement>.Of(Farm.ModeElement.Razed); break;
-            case Mine mine: mine.FState |= 1; break;
-            case PowerNode node: node.FState = node.FState + Set<PowerNode.StateElement>.Of(PowerNode.StateElement.Razed); break;
-            case ProductionPlace place: place.FRazedState = 1; break;
-            case Teleport teleport: teleport.FState = teleport.FState + Set<Teleport.StateElement>.Of(Teleport.StateElement.Razed); break;
-            case Tower tower: tower.FState = tower.FState + Set<Tower.StateElement>.Of(Tower.StateElement.Razed); break;
-            case Altar altar: altar.FMode = Altar.Mode.Razed; break;
+            case City city: city.Mode = city.Mode + Set<City.ModeElement>.Of(City.ModeElement.Razed); break;
+            case Farm farm: farm.Mode = farm.Mode + Set<Farm.ModeElement>.Of(Farm.ModeElement.Razed); break;
+            case Mine mine: mine.State |= 1; break;
+            case PowerNode node: node.State = node.State + Set<PowerNode.StateElement>.Of(PowerNode.StateElement.Razed); break;
+            case ProductionPlace place: place.RazedState = 1; break;
+            case Teleport teleport: teleport.State = teleport.State + Set<Teleport.StateElement>.Of(Teleport.StateElement.Razed); break;
+            case Tower tower: tower.State = tower.State + Set<Tower.StateElement>.Of(Tower.StateElement.Razed); break;
+            case Altar altar: altar.Mode = AltarMode.Razed; break;
             default: throw new InvalidOperationException("no razed state for " + structure.GetType().Name);
         }
     }
 
     // AoWInfoWin.pas:616 ShowStructureInfo.
-    private static string OldInfoPanel(Structure Structure, sbyte Seated)
+    private static string OldInfoPanel(Structure structure, sbyte seated)
     {
-        if (Structure.GetBuilding()) return "Building";
-        if (Structure.GetRazed()) return "Razed";
-        if (Structure is PlayerStructure)
+        if (structure.GetBuilding()) return "Building";
+        if (structure.GetRazed()) return "Razed";
+        if (structure is PlayerStructure)
         {
-            if (((PlayerStructure)Structure).FPlayer == Seated || GameTables.AoWEngine.FDebug)
+            if (((PlayerStructure)structure).Player == seated || GameTables.GameEngine.Debug)
             {
-                if (Structure is City) return ((City)Structure).FMode.Contains(City.ModeElement.Warmode) ? "WarCity" : "City";
-                if (Structure is ProductionPlace) return ((ProductionPlace)Structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome";
-                if (Structure is Mine) return "Mine";
-                if (Structure is PowerNode) return "PowerNode";
-                if (Structure is Farm) return "Farm";
-                if (Structure is Tower) return "WatchTower";
-                if (Structure is Altar) return "Altar";
+                if (structure is City) return ((City)structure).Mode.Contains(City.ModeElement.WarMode) ? "WarCity" : "City";
+                if (structure is ProductionPlace) return ((ProductionPlace)structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome";
+                if (structure is Mine) return "Mine";
+                if (structure is PowerNode) return "PowerNode";
+                if (structure is Farm) return "Farm";
+                if (structure is Tower) return "WatchTower";
+                if (structure is Altar) return "Altar";
                 return "Generic";
             }
-            if (Structure is City && ((City)Structure).FMode.Contains(City.ModeElement.Warmode)) return "WarCity";
+            if (structure is City && ((City)structure).Mode.Contains(City.ModeElement.WarMode)) return "WarCity";
             return "OtherPlayer";
         }
-        if (Structure is Sign) return "Sign";
-        if (Structure is Cave) return "Cave";
-        if (Structure is Teleport) return "Teleport";
-        if (Structure is ExplorationSite) return "ExplorationSite";
-        if (Structure is WizardsTower) return "WizardsTower";
-        if (Structure is Arena) return "Arena";
+        if (structure is Sign) return "Sign";
+        if (structure is Cave) return "Cave";
+        if (structure is Teleport) return "Teleport";
+        if (structure is ExplorationSite) return "ExplorationSite";
+        if (structure is WizardsTower) return "WizardsTower";
+        if (structure is Arena) return "Arena";
         return "Generic";
     }
 
     // AoWInfoWin.pas:190 MainBtnClick, the structure branch. The altar arm runs with targeting
     // under way, so it cancels the targeting.
-    private static string OldInfoButton(Structure Structure)
+    private static string OldInfoButton(Structure structure)
     {
-        if (Structure is City) return "CityScreen";
-        if (Structure is ProductionPlace) return "ProductionScreen";
-        if (Structure is Cave) return "Action(Cave)";
-        if (Structure is Teleport) return "Action(Teleport)";
-        if (Structure is ExplorationSite) return "Action(ExplorationSite)";
-        if (Structure is WizardsTower) return "Action(WizardsTower)";
-        if (Structure is Arena) return "Action(Arena)";
-        if (Structure is Altar) return "Action(Altar)";
+        if (structure is City) return "CityScreen";
+        if (structure is ProductionPlace) return "ProductionScreen";
+        if (structure is Cave) return "Action(Cave)";
+        if (structure is Teleport) return "Action(Teleport)";
+        if (structure is ExplorationSite) return "Action(ExplorationSite)";
+        if (structure is WizardsTower) return "Action(WizardsTower)";
+        if (structure is Arena) return "Action(Arena)";
+        if (structure is Altar) return "Action(Altar)";
         return "None";
     }
 
     // aowMapEvents.pas:518 TheMapStructureDblClick, past the selected structure test.
-    private static string OldDoubleClick(Structure Structure, sbyte Seated)
+    private static string OldDoubleClick(Structure structure, sbyte seated)
     {
-        if (Structure is City && ((City)Structure).FPlayer == Seated) return "CityScreen";
-        if (Structure is ProductionPlace && ((ProductionPlace)Structure).CanDblClick() && ((PlayerStructure)Structure).FPlayer == Seated) return "ProductionScreen";
-        if (Structure is WizardsTower) return "Action(WizardsTower)";
-        if (Structure is Arena) return "Action(Arena)";
+        if (structure is City && ((City)structure).Player == seated) return "CityScreen";
+        if (structure is ProductionPlace && ((ProductionPlace)structure).CanDoubleClick() && ((PlayerStructure)structure).Player == seated) return "ProductionScreen";
+        if (structure is WizardsTower) return "Action(WizardsTower)";
+        if (structure is Arena) return "Action(Arena)";
         return "None";
     }
 
     // AoWTC.pas:4156 TRndTacHsm.RandomMap, the class id switch for a structure. The bridge arm
     // stays in the generator, a bridge is no structure.
-    private static string OldCombatMapName(int ClassID, bool SiteCombat, ref bool RandomTerrain, bool FRandomTerrain,
-        Func<int, bool> NeighborHoldsCity, out bool TakesItems, out int FixedTags)
+    private static string OldCombatMapName(int classId, bool siteCombat, ref bool randomTerrain, bool fRandomTerrain,
+        Func<int, bool> neighborHoldsCity, out bool takesItems, out int fixedTags)
     {
-        string FileName = "TCMaps\\";
-        TakesItems = false;
-        FixedTags = 0;
-        string Site(string Prefix, int Variants, bool Items, out bool TakesItems, ref int FixedTags)
+        string fileName = "TCMaps\\";
+        takesItems = false;
+        fixedTags = 0;
+        string Site(string prefix, int variants, bool items, out bool takesItems, ref int fixedTags)
         {
-            TakesItems = false;
-            if (!SiteCombat) return "Blank000";
-            TakesItems = Items;
-            string Name = Prefix + Runtime.IntToStr(Runtime.Random(Variants));
-            for (int I = 1; I <= 6; I++) FixedTags |= 1 << I;
-            return Name;
+            takesItems = false;
+            if (!siteCombat) return "Blank000";
+            takesItems = items;
+            string name = prefix + Runtime.IntToStr(Runtime.Random(variants));
+            for (int I = 1; I <= 6; I++) fixedTags |= 1 << I;
+            return name;
         }
-        switch (ClassID)
+        switch (classId)
         {
             case 131336:
-                FileName = FileName + "0";
+                fileName = fileName + "0";
                 for (int I = 1; I <= 6; I++)
                 {
-                    if (NeighborHoldsCity(I))
+                    if (neighborHoldsCity(I))
                     {
-                        FileName = FileName + Runtime.IntToStr(I);
-                        FixedTags |= 1 << I;
+                        fileName = fileName + Runtime.IntToStr(I);
+                        fixedTags |= 1 << I;
                     }
                 }
-                while (FileName.Length < 11) FileName = FileName + "x";
-                FileName = FileName + "C000";
+                while (fileName.Length < 11) fileName = fileName + "x";
+                fileName = fileName + "C000";
                 break;
-            case 131950: FileName = FileName + "Farmx000"; break;
-            case 131962: FileName = FileName + "Minex000"; break;
-            case 131328: FileName = FileName + "SLife000"; break;
-            case 133454: FileName = FileName + "NodeA000"; break;
-            case 132270: FileName = FileName + "NodeD000"; break;
-            case 131482: FileName = FileName + "NodeC000"; break;
-            case 132302: FileName = FileName + "NodeE000"; break;
-            case 132062: FileName = FileName + "NodeF000"; break;
-            case 131953: FileName = FileName + "NodeL000"; break;
-            case 132275: FileName = FileName + "NodeW000"; break;
-            case 132670: FileName = FileName + "RPool000"; break;
-            case 133422: FileName = FileName + "BGuil000"; break;
-            case 132286: FileName = FileName + "SYard000"; break;
-            case 132158: FileName = FileName + "TFort000"; break;
-            case 131966: FileName = FileName + (RandomTerrain ? "CaveN000" : "CaveE000"); break;
+            case 131950: fileName = fileName + "Farmx000"; break;
+            case 131962: fileName = fileName + "Minex000"; break;
+            case 131328: fileName = fileName + "SLife000"; break;
+            case 133454: fileName = fileName + "NodeA000"; break;
+            case 132270: fileName = fileName + "NodeD000"; break;
+            case 131482: fileName = fileName + "NodeC000"; break;
+            case 132302: fileName = fileName + "NodeE000"; break;
+            case 132062: fileName = fileName + "NodeF000"; break;
+            case 131953: fileName = fileName + "NodeL000"; break;
+            case 132275: fileName = fileName + "NodeW000"; break;
+            case 132670: fileName = fileName + "RPool000"; break;
+            case 133422: fileName = fileName + "BGuil000"; break;
+            case 132286: fileName = fileName + "SYard000"; break;
+            case 132158: fileName = fileName + "TFort000"; break;
+            case 131966: fileName = fileName + (randomTerrain ? "CaveN000" : "CaveE000"); break;
             case 131332:
-                FileName = FileName + (FRandomTerrain ? "TeleN000" : "Telep000");
-                RandomTerrain = true;
+                fileName = fileName + (fRandomTerrain ? "TeleN000" : "Telep000");
+                randomTerrain = true;
                 break;
-            case 131886: FileName = FileName + Site("eMrLr00", 4, true, out TakesItems, ref FixedTags); break;
-            case 131982: FileName = FileName + Site("eZigg00", 2, true, out TakesItems, ref FixedTags); break;
-            case 131850: FileName = FileName + Site("eCrpt00", 2, true, out TakesItems, ref FixedTags); break;
-            case 131994: FileName = FileName + Site("eRuin00", 2, true, out TakesItems, ref FixedTags); break;
-            case 131882: FileName = FileName + Site("eDung00", 2, false, out TakesItems, ref FixedTags); break;
-            default: FileName = FileName + "Blank000"; break;
+            case 131886: fileName = fileName + Site("eMrLr00", 4, true, out takesItems, ref fixedTags); break;
+            case 131982: fileName = fileName + Site("eZigg00", 2, true, out takesItems, ref fixedTags); break;
+            case 131850: fileName = fileName + Site("eCrpt00", 2, true, out takesItems, ref fixedTags); break;
+            case 131994: fileName = fileName + Site("eRuin00", 2, true, out takesItems, ref fixedTags); break;
+            case 131882: fileName = fileName + Site("eDung00", 2, false, out takesItems, ref fixedTags); break;
+            default: fileName = fileName + "Blank000"; break;
         }
-        return FileName["TCMaps\\".Length..];
+        return fileName["TCMaps\\".Length..];
     }
 
     private sealed class Scene : IDisposable
     {
-        private readonly AoWHSMap previousMap = AoWHSMap.Current;
-        private readonly bool previousDebug = GameTables.AoWEngine.FDebug;
-        private readonly List<Structure> created = [];
+        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
+        private readonly bool _previousDebug = GameTables.GameEngine.Debug;
+        private readonly List<Structure> _created = [];
         internal readonly AoWHSMap Map;
 
         internal Scene()
         {
             Map = new AoWHSMap(null!);
-            Map.FSeatedPlayer = Viewer;
+            Map.SeatedPlayer = Viewer;
             AoWHSMap.Current = Map;
         }
 
         internal (Structure Structure, ArmyOwner Owner) Create(Type type)
         {
             var owner = new ArmyOwner();
-            var structure = (Structure)EngineClass.Of(type).Create(owner);
+            var structure = (Structure)EngineClass.Of(type).CreateInstance(owner);
             Assert.IsType(type, structure);
-            created.Add(structure);
+            _created.Add(structure);
             return (structure, owner);
         }
 
         public void Dispose()
         {
-            AoWHSMap.Current = previousMap;
-            GameTables.AoWEngine.FDebug = previousDebug;
+            AoWHSMap.Current = _previousMap;
+            GameTables.GameEngine.Debug = _previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
-            foreach (var structure in created) _ = Record.Exception(structure.Dispose);
+            foreach (var structure in _created) _ = Record.Exception(structure.Dispose);
         }
     }
 
@@ -292,17 +292,17 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             foreach (bool owned in new[] { true, false })
             {
                 var (structure, owner) = scene.Create(type);
-                if (structure is PlayerStructure player) player.FPlayer = owned ? Viewer : OtherPlayer;
+                if (structure is PlayerStructure player) player.Player = owned ? Viewer : OtherPlayer;
                 // Targeting under way from this structure, the state the altar arm tests first.
-                var selection = scene.Map.FTargetSelection;
-                selection.FStatus = Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
-                selection.FSource = structure;
+                var selection = scene.Map.TargetSelection;
+                selection.Status = Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
+                selection.Source = structure;
                 int queries = owner.ArmyQueries;
                 string expected = OldInfoButton(structure);
                 var view = structure.InfoButton(Viewer);
-                bool cancelled = !selection.FStatus.Contains(TargetSelectionStatusElement.Activated);
-                selection.FStatus = Set<TargetSelectionStatusElement>.Of();
-                selection.FSource = null;
+                bool cancelled = !selection.Status.Contains(TargetSelectionStatusElement.Activated);
+                selection.Status = Set<TargetSelectionStatusElement>.Of();
+                selection.Source = null;
                 if (view != StructureView.None)
                     Assert.True(InfoWindow.StructureButtons.TryGet(view, out _), $"{type.Name}: no button renderer for {view}");
                 string actual = Observed(view, type, nameof(Structure.InfoButton), owner, queries, cancelled);
@@ -323,7 +323,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             foreach (bool owned in new[] { true, false })
             {
                 var (structure, owner) = scene.Create(type);
-                if (structure is PlayerStructure player) player.FPlayer = owned ? Viewer : OtherPlayer;
+                if (structure is PlayerStructure player) player.Player = owned ? Viewer : OtherPlayer;
                 int queries = owner.ArmyQueries;
                 string expected = OldDoubleClick(structure, Viewer);
                 // The old cascade only names the arm, so the army count is unchanged here.
@@ -366,7 +366,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                             int actualSeed = Runtime.RandSeed;
                             Runtime.RandSeed = 0x5EED + pattern.Length;
                             bool expectedTerrain = randomTerrain;
-                            string expected = OldCombatMapName(EngineClass.Of(type).ClassID, siteCombat, ref expectedTerrain, randomTerrain,
+                            string expected = OldCombatMapName(EngineClass.Of(type).ClassId, siteCombat, ref expectedTerrain, randomTerrain,
                                 pattern.Contains, out bool expectedItems, out int expectedTags);
                             string state = $"{type.Name} site={siteCombat} random={randomTerrain} neighbors=[{string.Join(",", pattern)}]";
                             if (actual != expected) mismatches.Add($"{state}: {actual}, old switch {expected}");
@@ -376,7 +376,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                             if (actualSeed != Runtime.RandSeed) mismatches.Add($"{state}: random draws differ");
                             names.Add(actual.Length == 8 && actual[0] == 'e' ? actual[..7] + "?" : actual);
                         }
-                output.WriteLine($"{type.Name} ({(EngineClass.Of(type).ClassID)}): {string.Join(" ", names)}");
+                output.WriteLine($"{type.Name} ({(EngineClass.Of(type).ClassId)}): {string.Join(" ", names)}");
             }
         }
         finally { Runtime.RandSeed = previousSeed; }

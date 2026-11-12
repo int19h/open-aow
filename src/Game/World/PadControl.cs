@@ -14,106 +14,106 @@ namespace Aow.Game.World;
 // pad resources, terrain types
 public partial class PadControl : ControlStyleObject
 {
-    public List<MapObjectResource> FPadResources;
-    public BitList FTerrainTypes;
+    public List<MapObjectResource> PadResources;
+    public BitList TerrainTypes;
 
     // MoveT.PAS:3622
     public override void Dispose()
     {
-        FTerrainTypes?.Dispose();
-        FPadResources?.Clear();
+        TerrainTypes?.Dispose();
+        PadResources?.Clear();
         base.Dispose();
     }
 
     // MoveT.PAS:3614
     public PadControl(ECustomNode owner) : base(owner)
     {
-        FTerrainTypes = new BitList();
-        FPadResources = new List<MapObjectResource>();
+        TerrainTypes = new BitList();
+        PadResources = new List<MapObjectResource>();
         SetControlStyle(Set<ControlStyleElement>.Of(ControlStyleElement.FixedChild));
     }
 
     // MoveT.PAS:3629
-    public MapObjectResource GetPadResource(int Size)
+    public MapObjectResource GetPadResource(int size)
     {
-        MapObjectResource Result;
-        if (Size < FPadResources.Count)
+        MapObjectResource result;
+        if (size < PadResources.Count)
         {
-            Result = FPadResources[Size];
+            result = PadResources[size];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:3635
-    public void SetPadResource(int Size, MapObjectResource Resource)
+    public void SetPadResource(int size, MapObjectResource resource)
     {
-        while (FPadResources.Count <= Size)
+        while (PadResources.Count <= size)
         {
-            FPadResources.Add(null);
+            PadResources.Add(null);
         }
 
-        FPadResources[Size] = Resource;
+        PadResources[size] = resource;
     }
 
     // MoveT.PAS:3641
-    public void RegisterPadResource(MapObjectResource Resource, int Size)
+    public void RegisterPadResource(MapObjectResource resource, int size)
     {
-        if (GetPadResource(Size) == null)
+        if (GetPadResource(size) == null)
         {
-            SetPadResource(Size, Resource);
+            SetPadResource(size, resource);
         }
     }
 
     // MoveT.PAS:3646
-    public void UnregisterPadResource(MapObjectResource Resource, int Size)
+    public void UnregisterPadResource(MapObjectResource resource, int size)
     {
-        if (Resource == GetPadResource(Size))
+        if (resource == GetPadResource(size))
         {
-            SetPadResource(Size, null);
+            SetPadResource(size, null);
         }
     }
 
     // MoveT.PAS:3651
-    public bool CanPlacePad(sbyte X, sbyte Y, sbyte L, int Size)
+    public bool CanPlacePad(sbyte X, sbyte Y, sbyte L, int size)
     {
-        bool Result;
-        MapObjectResource Resource;
-        ImageLibraryTerrainMapObject Pad;
-        Resource = GetPadResource(Size);
-        if (Resource != null)
+        bool result;
+        MapObjectResource resource;
+        ImageLibraryTerrainMapObject pad;
+        resource = GetPadResource(size);
+        if (resource != null)
         {
-            Pad = (ImageLibraryTerrainMapObject)Resource.CreateResourceUser();
-            Result = Pad.CanPlace(AoWHSMap.Current.MapContainer, X, Y, L);
-            Pad?.Dispose();
+            pad = (ImageLibraryTerrainMapObject)resource.CreateResourceUser();
+            result = pad.CanPlace(AoWHSMap.Current.MapContainer, X, Y, L);
+            pad?.Dispose();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // MoveT.PAS:3666
-    public ImageLibraryTerrainMapObject PlacePad(sbyte X, sbyte Y, sbyte L, int Size)
+    public ImageLibraryTerrainMapObject PlacePad(sbyte X, sbyte Y, sbyte L, int size)
     {
-        ImageLibraryTerrainMapObject Result;
-        MapObjectResource Resource;
-        Resource = GetPadResource(Size);
-        if (Resource != null)
+        ImageLibraryTerrainMapObject result;
+        MapObjectResource resource;
+        resource = GetPadResource(size);
+        if (resource != null)
         {
-            Result = (ImageLibraryTerrainMapObject)Resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
+            result = (ImageLibraryTerrainMapObject)resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 }

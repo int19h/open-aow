@@ -17,41 +17,41 @@ public partial class Watcher : GlobalTargetSpell
     // GlobalTargetSpells.pas:1498
     public Watcher(ECustomNode owner) : base(owner)
     {
-        this.FSpellName = AbilityRules.TranslateRStr(WatcherRStr);
-        FSpellID = 57;
-        FAboveGroundOnly = false;
+        this.SpellName = AbilityRules.TranslateResourceString(s_watcherText);
+        SpellId = 57;
+        AboveGroundOnly = false;
     }
 
     // GlobalTargetSpells.pas:1523
-    public override void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
+    public override void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
-        base.SetupTargetSelection(Source, TargetSelection);
-        TargetSelection.FTargetMode = Set<TargetSelectionModeElement>.FromMask(TargetSelection.FTargetMode.Mask) - Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
-        TargetSelection.FHNs.Clear();
+        base.SetupTargetSelection(source, targetSelection);
+        targetSelection.TargetMode = Set<TargetSelectionModeElement>.FromMask(targetSelection.TargetMode.Mask) - Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.FixedLevel, TargetSelectionModeElement.ValidateDistance);
+        targetSelection.HexNumbers.Clear();
     }
 
     // GlobalTargetSpells.pas:1506
-    public override bool TargetSelected(Troop Source, int X, int Y, int L)
+    public override bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        bool Result;
-        WatcherTokenEvent Event;
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        bool result;
+        WatcherTokenEvent eventValue;
+        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            Event = new WatcherTokenEvent(null);
-            Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-            Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            eventValue = new WatcherTokenEvent(null);
+            eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+            eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             // Original queues through AddEvent
-            Event.Release();
-            Result = true;
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string WatcherRStr = "Watcher";
+    private static readonly string s_watcherText = "Watcher";
 }

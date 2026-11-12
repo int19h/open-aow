@@ -8,7 +8,7 @@ namespace Aow.Game.World.Map;
 // the base of roads and bridges
 public partial class AbstractRoad : MapObject
 {
-    public new const int ClassID = 65906;
+    public new const int ClassId = 65906;
 
     public AbstractRoad(ECustomNode owner) : base(owner)
     { }
@@ -19,36 +19,36 @@ public partial class AbstractRoad : MapObject
     // MAPOBJ.PAS:808
     public override int GetShowPriority()
     {
-        int Xhp;
-        int Yhp;
-        Xhp = ((MapField)Owner).FXhx * 32 + 8;
-        Yhp = (((MapField)Owner).FXhx & 1) * 16 + ((MapField)Owner).FYhx * 32;
-        return Xhp + ((Yhp << 13) + 671088640);
+        int pixelX;
+        int pixelY;
+        pixelX = ((MapField)Owner)._hexX * 32 + 8;
+        pixelY = (((MapField)Owner)._hexX & 1) * 16 + ((MapField)Owner)._hexY * 32;
+        return pixelX + ((pixelY << 13) + 671088640);
     }
 
     // MAPOBJ.PAS:848
-    public override void ChangeTerrain(in HexSpriteTerrainInfo Msg)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
         MapObjectResource R;
-        if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
+        if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            var classID = FResource.EClass.ClassID;
-            R = ((AbstractRoadResource)FResource).GetRoadControl().GetRndResource(Msg.TerrainType, classID);
+            var classId = _resource.EngineClass.ClassId;
+            R = ((AbstractRoadResource)_resource).GetRoadControl().GetRandomResource(message.TerrainType, classId);
             if (R != null)
             {
                 SetResource(R);
                 UpdateTransitions();
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                FResource.FEngine.FHSMap.FMapContainer.FMap.InvalidateStaticScene(xhx, yhx, lhx);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                _resource._engine._hexSpriteMap._mapContainer._map.InvalidateStaticScene(hexX, hexY, hexLevel);
             }
             else
             {
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                if (((AbstractRoadResource)FResource).GetRoadControl().Place((MapContainer)Owner.Owner.Owner, xhx, yhx, lhx, Msg.TerrainType) == null)
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                if (((AbstractRoadResource)_resource).GetRoadControl().Place((MapContainer)Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType) == null)
                 {
                     Dispose();
                 }
@@ -57,7 +57,7 @@ public partial class AbstractRoad : MapObject
     }
 
     // MAPOBJ.PAS:843
-    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Msg)
+    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo message)
     {
         UpdateTransitions();
     }
@@ -69,29 +69,29 @@ public partial class AbstractRoad : MapObject
     }
 
     // MAPOBJ.PAS:828
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool Result;
-        HexSprite HS;
-        bool condition = Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount;
+        bool result;
+        HexSprite hexSprite;
+        bool condition = hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer._width && hexY < mapContainer._height && hexLevel < mapContainer._levelCount;
         if (condition)
         {
-            var fieldValue = MapContainer.GetField(Xhx, Yhx, Lhx);
-            var terrain = FResource.FTerrainList.GetTerrain(0);
-            condition = fieldValue.FTerrainType == terrain;
+            var fieldValue = mapContainer.GetField(hexX, hexY, hexLevel);
+            var terrain = _resource._terrainList.GetTerrain(0);
+            condition = fieldValue._terrainType == terrain;
         }
 
         if (condition)
         {
-            HS = MapContainer.GetField(Xhx, Yhx, Lhx).GetMaxLevelNoneTransparentHS();
-            Result = HS == null || HS.GetLevel() < 10 || HS is AbstractRoad;
+            hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).GetMaxLevelNoneTransparentHexSprite();
+            result = hexSprite == null || hexSprite.GetLevel() < 10 || hexSprite is AbstractRoad;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // MAPOBJ.PAS:819

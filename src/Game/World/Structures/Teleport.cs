@@ -20,52 +20,52 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-// FDestinationX, FDestinationY, FDestinationL, FState (bit 0 razed)
+// DestinationX, DestinationY, DestinationL, State (bit 0 razed)
 public partial class Teleport : Structure
 {
     public Teleport(ECustomNode owner) : base(owner)
     {
-        FDestinationX = 0;
-        FDestinationY = 0;
-        FDestinationL = 0;
+        DestinationX = 0;
+        DestinationY = 0;
+        DestinationL = 0;
     }
 
     // Teleport.pas:105
-    public new const int ClassID = 131332;
+    public new const int ClassId = 131332;
 
-    public sbyte FDestinationX;
-    public sbyte FDestinationY;
-    public sbyte FDestinationL;
-    public Set<StateElement> FState;
+    public sbyte DestinationX;
+    public sbyte DestinationY;
+    public sbyte DestinationL;
+    public Set<StateElement> State;
 
     // Teleport.pas:122
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationX), 7);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationY), 8);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationL), 9);
-        RwSet(ref FState, 1, 10, Stream.rwData, 0);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationX), 7);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationY), 8);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref DestinationL), 9);
+        RwSet(ref State, 1, 10, stream.rwData, 0);
     }
 
     // Teleport.pas:97
 
     // Teleport.pas:157
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.HN == 0 && Msg.MsgID == 4416 && Msg.Param[1].As<MapField>().Xhx == FDestinationX && Msg.Param[1].As<MapField>().Yhx == FDestinationY && Msg.Param[1].As<MapField>().Lhx == FDestinationL)
+        base.MapFieldMessageProc(ref message);
+        if (message.HexNumber == 0 && message.MessageId == 4416 && message.Param[1].As<MapField>().HexX == DestinationX && message.Param[1].As<MapField>().HexY == DestinationY && message.Param[1].As<MapField>().HexLevel == DestinationL)
         {
-            bool notFogEnabled = !AoWHSMap.Current.FFogEnabled;
+            bool notFogEnabled = !AoWHSMap.Current.FogEnabled;
             if (!notFogEnabled)
             {
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                notFogEnabled = AoWHSMap.Current.VisibleForPlayer(xhx, yhx, lhx, AoWHSMap.Current.FSeatedPlayer);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                notFogEnabled = AoWHSMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, AoWHSMap.Current.SeatedPlayer);
             }
 
-            if (notFogEnabled || AoWHSMap.Current.VisibleForPlayer(FDestinationX, FDestinationY, FDestinationL, AoWHSMap.Current.FSeatedPlayer))
+            if (notFogEnabled || AoWHSMap.Current.VisibleForPlayer(DestinationX, DestinationY, DestinationL, AoWHSMap.Current.SeatedPlayer))
             {
                 AudioPlayback.PlaySample("SFX\\PLACES\\TELEPORT.WAV");
             }
@@ -75,12 +75,12 @@ public partial class Teleport : Structure
     }
 
     // Teleport.pas:138
-    public override void MoveExclusive(in HexSpriteSenderInfo Info)
+    public override void MoveExclusive(in HexSpriteSenderInfo info)
     {
-        if (Info.HN == 0 && !FState.Contains(StateElement.Razed))
+        if (info.HexNumber == 0 && !State.Contains(StateElement.Razed))
         {
-            var fieldValue = AoWHSMap.Current.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
-            ((MoveControl)Info.Sender).ExecuteExternalMove((AoWMapField)Info.MapField, (AoWMapField)fieldValue, 0);
+            var fieldValue = AoWHSMap.Current.MapContainer.GetField(DestinationX, DestinationY, DestinationL);
+            ((MoveControl)info.Sender).ExecuteExternalMove((AoWMapField)info.MapField, (AoWMapField)fieldValue, 0);
         }
     }
 
@@ -95,194 +95,194 @@ public partial class Teleport : Structure
     public override void Deactivate()
     {
         base.Deactivate();
-        FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
+        _status = _status - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
         ((MapField)Owner).UpdateMapField();
     }
 
     // Teleport.pas:131
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Info.HN == 0)
+        if (info.HexNumber == 0)
         {
-            ((AoWMapField)(object)Info.MapField).FFieldFlags = ((AoWMapField)(object)Info.MapField).FFieldFlags | 32768;
+            ((AoWMapField)(object)info.MapField).FieldFlags = ((AoWMapField)(object)info.MapField).FieldFlags | 32768;
         }
     }
 
     // Teleport.pas:115
-    public override void SetRazed(bool Value)
+    public override void SetRazed(bool value)
     {
-        if (Value)
+        if (value)
         {
-            FState = FState + Set<StateElement>.Of(StateElement.Razed);
+            State = State + Set<StateElement>.Of(StateElement.Razed);
         }
         else
         {
-            FState = FState - Set<StateElement>.Of(StateElement.Razed);
+            State = State - Set<StateElement>.Of(StateElement.Razed);
         }
 
-        this.FImageIndex = GetTerrainTypeImage(TerrainType);
+        this._imageIndex = GetTerrainTypeImage(TerrainType);
     }
 
     // Teleport.pas:279
-    public override bool ValidateMap(StringCollection Messages)
+    public override bool ValidateMap(StringCollection messages)
     {
-        bool Result;
-        if (FDestinationX == 0 || FDestinationY == 0)
+        bool result;
+        if (DestinationX == 0 || DestinationY == 0)
         {
-            Messages.Add(AbilityRules.TranslateRStr(GameText.WarningRStr) + ": " + AbilityRules.TranslateRStr(InvalidLocationSpecifiedRStr));
-            Result = false;
+            messages.Add(AbilityRules.TranslateResourceString(GameText.s_warningText) + ": " + AbilityRules.TranslateResourceString(s_invalidLocationSpecifiedText));
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Teleport.pas:145
     public void ShowTeleportAnimations()
     {
-        ImageSequenceAnimation Anim;
-        Anim = new ImageSequenceAnimation(null);
-        Anim.SetImageSequence(AoWHSSet.Current.FImageSequences.ImageSequences[13]);
-        var lhx = GetLhx();
-        var yhx = GetYhx();
-        var xhx = GetXhx();
-        AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
-        Anim = new ImageSequenceAnimation(null);
-        Anim.SetImageSequence(AoWHSSet.Current.FImageSequences.ImageSequences[12]);
-        AoWHSMap.Current.PlaceHX(Anim, FDestinationX, FDestinationY, FDestinationL);
+        ImageSequenceAnimation animation;
+        animation = new ImageSequenceAnimation(null);
+        animation.SetImageSequence(AoWHSSet.Current.ImageSequences.ImageSequences[13]);
+        var hexLevel = GetHexLevel();
+        var hexY = GetHexY();
+        var hexX = GetHexX();
+        AoWHSMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
+        animation = new ImageSequenceAnimation(null);
+        animation.SetImageSequence(AoWHSSet.Current.ImageSequences.ImageSequences[12]);
+        AoWHSMap.Current.PlaceHex(animation, DestinationX, DestinationY, DestinationL);
     }
 
     // Teleport.pas:185
-    public bool CanTeleportArmy(ArmyHexSprite ArmyHS)
+    public bool CanTeleportArmy(ArmyHexSprite armyHexSprite)
     {
-        AoWMapField Field;
-        ArmyHexSprite OtherArmy;
-        bool Result = false;
-        if (FDestinationL >= 0 && FDestinationL < AoWHSMap.Current.MapContainer.LevelCount && FDestinationX >= 0 && FDestinationX < AoWHSMap.Current.MapContainer.Width && FDestinationY >= 0 && FDestinationY < AoWHSMap.Current.MapContainer.Height)
+        AoWMapField field;
+        ArmyHexSprite otherArmy;
+        bool result = false;
+        if (DestinationL >= 0 && DestinationL < AoWHSMap.Current.MapContainer.LevelCount && DestinationX >= 0 && DestinationX < AoWHSMap.Current.MapContainer.Width && DestinationY >= 0 && DestinationY < AoWHSMap.Current.MapContainer.Height)
         {
-            Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
-            if (ArmyHS.FArmy.ValidTerrain(Field.TerrainType, Field.OverlayType))
+            field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(DestinationX, DestinationY, DestinationL);
+            if (armyHexSprite.Army.ValidTerrain(field.TerrainType, field.OverlayType))
             {
-                OtherArmy = Field.GetArmyHS();
+                otherArmy = field.GetArmyHexSprite();
                 // { Original rejects a same-player army when CanAddUnits succeeds. }
-                if (OtherArmy != null && (byte)ArmyHS.FArmy.FPlayer == (byte)OtherArmy.FArmy.FPlayer && OtherArmy.FArmy.CanAddUnits(ArmyHS.FArmy) != 0)
+                if (otherArmy != null && (byte)armyHexSprite.Army.Player == (byte)otherArmy.Army.Player && otherArmy.Army.CanAddUnits(armyHexSprite.Army) != 0)
                 {
-                    return Result;
+                    return result;
                 }
 
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Teleport.pas:208
-    public bool CanTeleport(sbyte Player)
+    public bool CanTeleport(sbyte player)
     {
-        ArmyHexSprite ArmyHS;
-        ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+        ArmyHexSprite armyHexSprite;
+        armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
         // { Original only checks destination X here; X=0 is rejected. }
-        return ArmyHS != null && Player == ArmyHS.FArmy.FPlayer && !FState.Contains(StateElement.Razed) && FDestinationX > 0;
+        return armyHexSprite != null && player == armyHexSprite.Army.Player && !State.Contains(StateElement.Razed) && DestinationX > 0;
     }
 
     // Teleport.pas:218
-    public bool TeleportPlayer(sbyte Player)
+    public bool TeleportPlayer(sbyte player)
     {
-        bool Result;
-        ArmyHexSprite ArmyHS;
-        MovePath Path;
-        AoWMapField Field;
-        TokenEvent Event;
-        string MessageText;
-        if (CanTeleport(Player))
+        bool result;
+        ArmyHexSprite armyHexSprite;
+        MovePath path;
+        AoWMapField field;
+        TokenEvent eventValue;
+        string messageText;
+        if (CanTeleport(player))
         {
-            ArmyHS = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-            if (CanTeleportArmy(ArmyHS))
+            armyHexSprite = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            if (CanTeleportArmy(armyHexSprite))
             {
-                ArmyHS.FArmy.ResetDestinationPos();
-                Path = new MovePath();
-                Path.AddXYL(FDestinationX, FDestinationY, FDestinationL);
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                Path.AddXYL(GetXhx(), yhx, lhx);
-                Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
-                bool condition = Field.GetMoveAction(ArmyHS.FArmy.FPlayer) != MoveAction.Attack || Field.GetPlayer() <= 0;
+                armyHexSprite.Army.ResetDestinationPosition();
+                path = new MovePath();
+                path.AddMapCoordinate(DestinationX, DestinationY, DestinationL);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                path.AddMapCoordinate(GetHexX(), hexY, hexLevel);
+                field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(DestinationX, DestinationY, DestinationL);
+                bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
                 if (!condition)
                 {
-                    var player = Field.GetPlayer();
-                    var diplomaticRelation = AoWHSMap.Current.FPlayers.GetDiplomaticRelation(ArmyHS.FArmy.FPlayer, player);
+                    var playerLocal = field.GetPlayer();
+                    var diplomaticRelation = AoWHSMap.Current.Players.GetDiplomaticRelation(armyHexSprite.Army.Player, playerLocal);
                     condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
                 }
 
                 if (condition)
                 {
-                    if (Field.GetPlayer() > -1 && Field.GetPlayer() != ArmyHS.FArmy.FPlayer)
+                    if (field.GetPlayer() > -1 && field.GetPlayer() != armyHexSprite.Army.Player)
                     {
-                        if (!AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).GetBusy())
+                        if (!AoWHSMap.Current.Players.GetPlayers(armyHexSprite.Army.Player).GetBusy())
                         {
                             // { Original passes action before mode. }
-                            Event = Draw.ArmyHexSprite.CreateArmyMoveTE(ArmyHS, 255, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
-                            if (Event != null)
+                            eventValue = Draw.ArmyHexSprite.CreateArmyMoveTokenEvent(armyHexSprite, 255, path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                            if (eventValue != null)
                             {
-                                AoWHSMap.Current.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer).AddEvent(Event);
-                                Event.Release();
-                                Result = true;
+                                AoWHSMap.Current.TokenManager.GetTokenControl(armyHexSprite.Army.Player).AddEvent(eventValue);
+                                eventValue.Release();
+                                result = true;
                             }
                             else
                             {
-                                Result = false;
+                                result = false;
                             }
                         }
                         else
                         {
-                            Result = false;
+                            result = false;
                         }
                     }
                     else
                     {
-                        Result = Draw.ArmyHexSprite.MoveArmyEx(ArmyHS, 255, Path, Set<ArmyMoveModeElement>.Of(), false);
+                        result = Draw.ArmyHexSprite.MoveArmy(armyHexSprite, 255, path, Set<ArmyMoveModeElement>.Of(), false);
                     }
 
-                    if (Result && (byte)AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer)
+                    if (result && (byte)AoWHSMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
                     {
-                        AoWHSMap.Current.CenterViewTo(FDestinationX, FDestinationY, FDestinationL);
-                        AoWHSMap.Current.FSelectedArmy.Select(ArmyHS);
+                        AoWHSMap.Current.CenterViewTo(DestinationX, DestinationY, DestinationL);
+                        AoWHSMap.Current.SelectedArmy.Select(armyHexSprite);
                     }
                 }
                 else
                 {
-                    var player = Field.GetPlayer();
-                    var playerPlayerRace = AoWHSMap.Current.FPlayers.GetPlayers(player);
-                    var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
-                    MessageText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.NoWarDeclaredtoXRStr), [raceNamesPlural]);
-                    AoWHSMap.Current.ShowMessage(MessageText);
-                    Result = false;
+                    var playerLocal = field.GetPlayer();
+                    var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(playerLocal);
+                    var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[playerPlayerRace.PlayerRace]);
+                    messageText = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_noWarDeclaredFormat), [raceNamesPlural]);
+                    AoWHSMap.Current.ShowMessage(messageText);
+                    result = false;
                 }
 
                 // { Original frees the path only on normal completion. }
-                Path?.Dispose();
+                path?.Dispose();
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Teleport.pas:26
-    public override bool GetRazed() => (FState.Image & 1) != 0;
+    public override bool GetRazed() => (State.Image & 1) != 0;
 
-    private static readonly string InvalidLocationSpecifiedRStr = "invalid location specified";
+    private static readonly string s_invalidLocationSpecifiedText = "invalid location specified";
 
     public enum StateElement : byte
     {
@@ -293,26 +293,26 @@ public partial class Teleport : Structure
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FRazeDefenderBudget = 200;
-            FRazeable = true;
-            FRebuildGold = 25;
-            FRebuildDays = 2;
+            RazeDefenderBudget = 200;
+            Razeable = true;
+            RebuildGold = 25;
+            RebuildDays = 2;
         }
 
         // Teleport.pas:299
-        public new const int ClassID = 131333;
+        public new const int ClassId = 131333;
 
         // Teleport.pas:290
 
         // Teleport.pas:305
-        public override int ResourceUserClassID() => 131332;
+        public override int ResourceUserClassId() => 131332;
 
         // Teleport.pas:45
 
         // Teleport.pas:302
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(TeleportRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_teleportText);
 
-        internal static readonly string TeleportRStr = "Teleport";
+        internal static readonly string s_teleportText = "Teleport";
 
     }
 }

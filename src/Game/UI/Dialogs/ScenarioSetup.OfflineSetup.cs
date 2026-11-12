@@ -6,13 +6,13 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class ScenarioSetup
 {
-    public void RacePnlDrawBack(Panel sender, LockedSurface surface, int Slot)
+    public void RacePnlDrawBack(Panel sender, LockedSurface surface, int slot)
     {
         var panel = sender;
-        DialogHosts.IntGfxMod.Shields[Slot].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
+        DialogHosts.UIGraphics.Shields[slot].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
     }
 
     public void ScenSetupPnlUpdate() { }
 
-    public void PingListDrawItem(in Rect drawRect, int drawItem, ref LockedSurface surface) { }
+    public void PingListDrawItem(in Rect drawRectangle, int drawItem, ref LockedSurface surface) { }
 }

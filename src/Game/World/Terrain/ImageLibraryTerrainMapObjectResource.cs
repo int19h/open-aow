@@ -11,15 +11,15 @@ public partial class ImageLibraryTerrainMapObjectResource : MultiHexMapObjectRes
     { }
 
     // ILTer.pas:269
-    public new const int ClassID = 131463;
+    public new const int ClassId = 131463;
 
     // ILTer.pas:279
-    public override void SetCellImage(LibraryImage Value)
+    public override void SetCellImage(LibraryImage value)
     {
     }
 
     // ILTer.pas:274
-    public override int ResourceUserClassID() => 131462;
+    public override int ResourceUserClassId() => 131462;
 
     // ILTer.pas:264
     public override string ResourceEditName() => "ImageLibrary Terrain";

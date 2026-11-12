@@ -12,86 +12,86 @@ namespace Aow.Game.Commands;
 
 internal static class CombatEvents
 {
-    internal static void MakeDEHSList(int X, int Y, Set<DamageType> DamageTypes, bool Resisted)
+    internal static void MakeDamageEffectHexSpriteList(int X, int Y, Set<DamageType> damageTypes, bool resisted)
     {
-        void MakeEffect(BattleEffectType EffectType)
+        void MakeEffect(BattleEffectType effectType)
         {
-            BattleEffectSprite Effect;
-            int Count;
+            BattleEffectSprite effect;
+            int count;
             float Z = default;
-            float Speed = default;
-            float VZ = default;
-            float Gravity = default;
-            Count = Random(5) + 8;
-            for (int I = 1; I <= Count - 1; I++)
+            float speed = default;
+            float vz = default;
+            float gravity = default;
+            count = Random(5) + 8;
+            for (int I = 1; I <= count - 1; I++)
             {
-                Effect = CombatMap.Current.AddEffect(EffectType);
-                Speed = (float)((double)(Random(10) + 10) * 0.1);
-                Gravity = (float)0.5;
-                if (Resisted || EffectType == BattleEffectType.DamMagic)
+                effect = CombatMap.Current.AddEffect(effectType);
+                speed = (float)((double)(Random(10) + 10) * 0.1);
+                gravity = (float)0.5;
+                if (resisted || effectType == BattleEffectType.DamMagic)
                 {
-                    VZ = (float)((double)(Random(50) + 50) * 0.1);
+                    vz = (float)((double)(Random(50) + 50) * 0.1);
                 }
                 else
                 {
-                    VZ = (float)((double)(Random(25) + 25) * 0.1);
+                    vz = (float)((double)(Random(25) + 25) * 0.1);
                 }
 
                 Z = 0;
-                EffectPaths.MakeArcPath(X, Y, I * 360 / Count, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                EffectPaths.MakeArcPath(X, Y, I * 360 / count, ref Z, ref speed, ref vz, ref gravity, ref effect.Path);
             }
         }
 
         X = X + 16;
-        if (DamageTypes.Contains(DamageType.Lightning))
+        if (damageTypes.Contains(DamageType.Lightning))
         {
             MakeEffect(BattleEffectType.DamLightning);
         }
 
-        if (DamageTypes.Contains(DamageType.Fire))
+        if (damageTypes.Contains(DamageType.Fire))
         {
             MakeEffect(BattleEffectType.DamFire);
         }
 
-        if (DamageTypes.Contains(DamageType.Poison))
+        if (damageTypes.Contains(DamageType.Poison))
         {
             MakeEffect(BattleEffectType.DamPoison);
         }
 
-        if (DamageTypes.Contains(DamageType.Magic))
+        if (damageTypes.Contains(DamageType.Magic))
         {
             MakeEffect(BattleEffectType.DamMagic);
         }
 
-        if (DamageTypes.Contains(DamageType.Holy))
+        if (damageTypes.Contains(DamageType.Holy))
         {
             MakeEffect(BattleEffectType.DamHoly);
         }
 
-        if (DamageTypes.Contains(DamageType.Death))
+        if (damageTypes.Contains(DamageType.Death))
         {
             MakeEffect(BattleEffectType.DamDeath);
         }
 
-        if (DamageTypes.Contains(DamageType.Cold))
+        if (damageTypes.Contains(DamageType.Cold))
         {
             MakeEffect(BattleEffectType.DamCold);
         }
     }
 
-    internal static TacticalBattleEndTurnTokenEvent CreateTCCancelEndTurnTE(sbyte Player)
+    internal static TacticalBattleEndTurnTokenEvent CreateTacticalBattleCancelEndTurnTokenEvent(sbyte player)
     {
-        TacticalBattleEndTurnTokenEvent Result;
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
+        TacticalBattleEndTurnTokenEvent result;
+        if (!AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            Result = new TacticalBattleEndTurnTokenEvent(null);
+            result = new TacticalBattleEndTurnTokenEvent(null);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
 }

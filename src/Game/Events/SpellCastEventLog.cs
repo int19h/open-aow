@@ -16,40 +16,40 @@ public partial class SpellCastEventLog : EventLog
     public SpellCastEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131823;
+    public new const int ClassId = 131823;
 
-    public int FUnitID;
-    public int FSpellID;
+    public int UnitId;
+    public int SpellId;
 
     // Spells.PAS:837
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FUnitID, 20);
-        Stream.rwInteger(ref FSpellID, 21);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref UnitId, 20);
+        stream.rwInteger(ref SpellId, 21);
     }
 
     // Spells.PAS:855
     public override string GetText()
     {
-        var spell = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-        return AbilityRules.Format(AbilityRules.TranslateRStr(P4XCastingReadyRStr), [spell.FSpellName]);
+        var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(s_castingReadyFormat), [spell.SpellName]);
     }
 
     // Spells.PAS:818
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Show;
-        string Reason = "";
-        Show = Trigger == ExecuteTrigger.User;
-        Show = Show || AoWHSMap.Current.FPlayMode == PlayMode.Turn && GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
-        Show = Show || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
-        if (Show)
+        bool show;
+        string reason = "";
+        show = trigger == ExecuteTrigger.User;
+        show = show || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
+        show = show || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
+        if (show)
         {
-            var hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FUnitID);
-            if (hero != null && hero.FCastingSpellID == FSpellID && hero.CastingReady())
+            var hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+            if (hero != null && hero.CastingSpellId == SpellId && hero.CastingReady())
             {
-                AoWHSSet.Current.FAbilityControl.GetAbility(52).Activate(hero, ref Reason);
+                AoWHSSet.Current.AbilityControl.GetAbility(52).Activate(hero, ref reason);
             }
         }
 
@@ -59,18 +59,18 @@ public partial class SpellCastEventLog : EventLog
     // Spells.PAS:843
     public override void ViewLocation()
     {
-        Troop AUnit;
+        Troop troop;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        AUnit = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-        if (AUnit != null)
+        troop = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        if (troop != null)
         {
-            AUnit.GetLocation(ref X, ref Y, ref L);
+            troop.GetLocation(ref X, ref Y, ref L);
             CenterViewTo(X, Y, L);
         }
     }
 
-    private static readonly string P4XCastingReadyRStr = "%s ready";
+    private static readonly string s_castingReadyFormat = "%s ready";
 
 }

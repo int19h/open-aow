@@ -12,25 +12,25 @@ public partial class BmpImageFile : ImageFile, IImageFileClass
     public static new string Description => "Bitmap files (*.bmp)";
 
     // GFXE.pas:9053
-    public static new int GetPixelFormatID(string FileName) => GetBMPPixelFormat(FileName);
+    public static new int GetPixelFormatId(string fileName) => GetBmpPixelFormat(fileName);
 
     // GFXE.pas:9058
-    public static new Surface CreateSurface(string FileName) => CreateSurfaceFromBMP(FileName);
+    public static new Surface CreateSurface(string fileName) => CreateSurfaceFromBmp(fileName);
 
     // GFXE.pas:9063
-    public static new int LoadToSurfaceDesc(string FileName, ref LockedSurface SD, int X, int Y) => LoadBMP(FileName, ref SD, X, Y);
+    public static new int LoadToSurfaceDescription(string fileName, ref LockedSurface lockedSurface, int X, int Y) => LoadBmp(fileName, ref lockedSurface, X, Y);
 
-    private static int LoadBMP(string FileName, ref LockedSurface SD, int X, int Y)
+    private static int LoadBmp(string fileName, ref LockedSurface lockedSurface, int X, int Y)
     {
         throw new NotImplementedException();
     }
 
-    private static Surface CreateSurfaceFromBMP(string FileName)
+    private static Surface CreateSurfaceFromBmp(string fileName)
     {
         throw new NotImplementedException();
     }
 
-    private static int GetBMPPixelFormat(string FileName)
+    private static int GetBmpPixelFormat(string fileName)
     {
         throw new NotImplementedException();
     }

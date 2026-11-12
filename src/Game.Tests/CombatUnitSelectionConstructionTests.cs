@@ -34,8 +34,8 @@ public sealed class CombatUnitSelectionConstructionTests
         for (int fail = 0; fail < 2; fail++)
         {
             using var fixture = new OrderingRecording.Fixture();
-            var entry = fixture.Manager.FDiskList.AddILFile("TargHex.ILB");
-            entry.FImageLibrary = new ImageLibrary(null!);
+            var entry = fixture.Manager._diskList.AddImageLibraryFile("TargHex.ILB");
+            entry._imageLibrary = new ImageLibrary(null!);
             var set = AoWHSSet.Current;
             if (fail == 1) AoWHSSet.Current = null!;
             int before = entry.RefCount;
@@ -44,8 +44,8 @@ public sealed class CombatUnitSelectionConstructionTests
             try
             {
                 value = Create();
-                Assert.IsType<CombatMoveControlSettings>(value.FMoveControlSettings);
-                Assert.Same(entry.ImageLibrary, value.FTargetImages);
+                Assert.IsType<CombatMoveControlSettings>(value.MoveControlSettings);
+                Assert.Same(entry.ImageLibrary, value.TargetImages);
                 state = OrderingRecording.Snapshot(value);
             }
             catch (Exception error) when (error is not XunitException) { state = error.GetType().FullName + ":" + error.Message; }

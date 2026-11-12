@@ -10,15 +10,15 @@ public partial class SummonWaterElemental : SummonSpell
     // SummonSpells.pas:405
     public SummonWaterElemental(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SummonWaterElementalRStr);
-        FSpellID = 30;
-        FBaseManaCost = 5;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Water;
-        FUnitIndices.Add(227);
-        FCastDuration = 40;
-        FAIBasePriority = 500;
+        SpellName = AbilityRules.TranslateResourceString(s_summonWaterElementalText);
+        SpellId = 30;
+        BaseManaCost = 5;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Water;
+        UnitIndices.Add(227);
+        CastDuration = 40;
+        AIBasePriority = 500;
     }
 
-    private static readonly string SummonWaterElementalRStr = "Summon Water Elemental";
+    private static readonly string s_summonWaterElementalText = "Summon Water Elemental";
 }

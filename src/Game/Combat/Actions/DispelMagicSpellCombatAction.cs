@@ -10,33 +10,33 @@ namespace Aow.Game.Combat.Actions;
 public partial class DispelMagicSpellCombatAction : DispelMagicCombatAction
 {
     // UnitSpells.pas:975
-    public new const int ClassID = 131793;
+    public new const int ClassId = 131793;
 
     public DispelMagicSpellCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public int FSpellID;
-    public int FManaCost;
+    public int SpellId;
+    public int ManaCost;
 
     // UnitSpells.pas:980
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FSpellID, 60);
-        Stream.rwInteger(ref FManaCost, 61);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref SpellId, 60);
+        stream.rwInteger(ref ManaCost, 61);
     }
 
     // UnitSpells.pas:987
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatUnit Source;
-        base.Execute(Combat);
-        if (FManaCost != 0 && Combat.FStatus.Contains(CombatStatusElement.Executing))
+        CombatUnit source;
+        base.Execute(combat);
+        if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
-            if (AoWHSSet.Current.FSpellControl.GetSpell(FSpellID) != null)
+            if (AoWHSSet.Current.SpellControl.GetSpell(SpellId) != null)
             {
-                Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
-                AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CastingDone(Source.FUnit, FManaCost);
+                source = (CombatUnit)combat.CombatData.FindId(SourceId);
+                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastingDone(source.Troop, ManaCost);
             }
         }
     }

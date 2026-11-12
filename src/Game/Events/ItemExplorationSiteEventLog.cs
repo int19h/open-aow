@@ -9,39 +9,39 @@ using Aow.Rtl;
 
 namespace Aow.Game.Events;
 
-// FItemIDs, FMessages, FTitle, FLocation
+// ItemIds, Messages, Title, Location
 public partial class ItemExplorationSiteEventLog : EventLog
 {
     // ItemExpS.pas:187
     public ItemExplorationSiteEventLog(ECustomNode owner) : base(owner)
     {
-        FItemIDs = new Int32List();
-        FMessages = new StringList();
+        ItemIds = new Int32List();
+        Messages = new StringList();
     }
 
     // ItemExpS.pas:201
-    public new const int ClassID = 132085;
+    public new const int ClassId = 132085;
 
-    public Int32List FItemIDs;
-    public StringList FMessages;
-    public string FTitle = "";
-    public MapCoordinate FLocation;
+    public Int32List ItemIds;
+    public StringList Messages;
+    public string Title = "";
+    public MapCoordinate Location;
 
     // ItemExpS.pas:194
     public override void Dispose()
     {
-        FItemIDs?.Dispose();
-        FMessages?.Dispose();
+        ItemIds?.Dispose();
+        Messages?.Dispose();
         base.Dispose();
     }
 
     // ItemExpS.pas:204
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(20, FItemIDs.LoadFromStream, FItemIDs.SaveToStream);
-        Stream.rwStrings(FMessages, 21);
-        Stream.rwString(ref FTitle, 22);
+        base.ReadWrite(stream);
+        stream.rwStreamProc(20, ItemIds.LoadFromStream, ItemIds.SaveToStream);
+        stream.rwStrings(Messages, 21);
+        stream.rwString(ref Title, 22);
     }
 
 }

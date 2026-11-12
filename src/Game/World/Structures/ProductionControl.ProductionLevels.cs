@@ -11,12 +11,12 @@ public partial class ProductionControl
     private int MaximumUnitLevel(bool researched)
     {
         int result = 0;
-        for (int i = FUnitProductions.Count - 1; i >= 0; i--)
+        for (int i = UnitProductions.Count - 1; i >= 0; i--)
         {
-            var production = FUnitProductions.GetItem(i);
-            if (production.FResearched != researched || production.FUnitIndex < 0) continue;
-            var resource = AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex);
-            if (resource != null && result < resource.FLevel) result = resource.FLevel;
+            var production = UnitProductions.GetItem(i);
+            if (production.Researched != researched || production.UnitIndex < 0) continue;
+            var resource = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex);
+            if (resource != null && result < resource.Level) result = resource.Level;
         }
         return result;
     }

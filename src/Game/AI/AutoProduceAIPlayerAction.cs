@@ -22,19 +22,19 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     // AI.pas:1202
     public AutoProduceAIPlayerAction(ECustomNode owner) : base(owner)
     {
-        FProductions = new QuadItemList<ProductionControl>();
+        Productions = new QuadItemList<ProductionControl>();
     }
 
-    public int FProductionIndex;
-    public int FState;
-    public int FGoldUpkeep;
-    public int FManaUpkeep;
-    public QuadItemList<ProductionControl> FProductions;
+    public int ProductionIndex;
+    public int State;
+    public int GoldUpkeep;
+    public int ManaUpkeep;
+    public QuadItemList<ProductionControl> Productions;
 
     // AI.pas:1208
     public override void Dispose()
     {
-        FProductions?.Dispose();
+        Productions?.Dispose();
         base.Dispose();
     }
 
@@ -42,140 +42,140 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     public override bool Process()
     {
         int I = default;
-        int Priority = default;
-        AIBudget Budget = default;
-        ProductionControlList Controls = default;
-        switch (FState)
+        int priority = default;
+        AIBudget budget = default;
+        ProductionControlList controls = default;
+        switch (State)
         {
             case 0:
                 {
-                    var player = FControl.FPlayer;
-                    if (player.FPlayerIndex != 0)
+                    var player = Control.Player;
+                    if (player.PlayerIndex != 0)
                     {
-                        if (FindAvailableTransporter() == null && !ProducingTransporter() && AoWHSMap.Current.FDay > 5)
+                        if (FindAvailableTransporter() == null && !ProducingTransporter() && AoWHSMap.Current.Day > 5)
                         {
-                            Budget = (AIBudget)player.FAIBudget.FBudgets.FindChild(131742);
-                            if (Budget == null)
+                            budget = (AIBudget)player.AIBudget.Budgets.FindChild(131742);
+                            if (budget == null)
                             {
-                                Budget = new AITransporterBudget(null);
-                                Budget.SetOwner(player.FAIBudget.FBudgets);
+                                budget = new AITransporterBudget(null);
+                                budget.SetOwner(player.AIBudget.Budgets);
                             }
 
-                            if (Budget.FRequiredGold < 100)
+                            if (budget.RequiredGold < 100)
                             {
-                                Budget.FRequiredGold += 15;
+                                budget.RequiredGold += 15;
                             }
 
-                            ProduceTransporter(Budget);
+                            ProduceTransporter(budget);
                             if (!TransporterProductionControlExists())
                             {
-                                player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
-                                Budget.FGold = 0;
-                                Budget.FMana = 0;
-                                Budget.FRequiredGold = 0;
+                                player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+                                budget.Gold = 0;
+                                budget.Mana = 0;
+                                budget.RequiredGold = 0;
                             }
                         }
 
-                        FGoldUpkeep = player.FAIBudget.FGoldUpkeep - Round((double)player.FIncome * 0.1);
-                        if (FGoldUpkeep < 0)
+                        GoldUpkeep = player.AIBudget.GoldUpkeep - Round((double)player.Income * 0.1);
+                        if (GoldUpkeep < 0)
                         {
-                            FGoldUpkeep = 0;
+                            GoldUpkeep = 0;
                         }
 
-                        var manaIncome = player.FMagicControl.GetManaIncome();
-                        FManaUpkeep = player.FAIBudget.FManaUpkeep - Round((double)manaIncome * 0.1);
-                        if (FManaUpkeep < 0)
+                        var manaIncome = player.MagicControl.GetManaIncome();
+                        ManaUpkeep = player.AIBudget.ManaUpkeep - Round((double)manaIncome * 0.1);
+                        if (ManaUpkeep < 0)
                         {
-                            FManaUpkeep = 0;
+                            ManaUpkeep = 0;
                         }
 
-                        if (player.FPlayerIndex != 0 && (player.FAIBudget.FGold > 25 || player.FAIBudget.FMana > 25) && (FGoldUpkeep > 0 || FManaUpkeep > 0))
+                        if (player.PlayerIndex != 0 && (player.AIBudget.Gold > 25 || player.AIBudget.Mana > 25) && (GoldUpkeep > 0 || ManaUpkeep > 0))
                         {
-                            FProductionIndex = -1;
-                            FState += 1;
+                            ProductionIndex = -1;
+                            State += 1;
                         }
                         else
                         {
-                            FState = -1;
+                            State = -1;
                         }
                     }
                     else
                     {
-                        FState = -1;
+                        State = -1;
                     }
                 }
 
                 break;
             case 1:
-                while (FState == 1)
+                while (State == 1)
                 {
-                    FProductionIndex += 1;
-                    Controls = FControl.FPlayer.FProductionControls;
-                    if (FProductionIndex < Controls.Count)
+                    ProductionIndex += 1;
+                    controls = Control.Player.ProductionControls;
+                    if (ProductionIndex < controls.Count)
                     {
-                        UpdateProductions(Controls.GetPC(FProductionIndex));
+                        UpdateProductions(controls.GetPC(ProductionIndex));
                     }
                     else
                     {
-                        FProductions.Sort(CompareAutoProductions);
-                        if (FProductions.Count != 0)
+                        Productions.Sort(CompareAutoProductions);
+                        if (Productions.Count != 0)
                         {
-                            FState += 1;
+                            State += 1;
                         }
                         else
                         {
-                            FState = -1;
+                            State = -1;
                         }
                     }
                 }
 
                 break;
             case 2:
-                while (FState == 2 && !FControl.FPlayer.GetBusy())
+                while (State == 2 && !Control.Player.GetBusy())
                 {
                     I = 0;
-                    Priority = Round((double)FProductions[0].D * 0.8);
-                    while (I + 1 < FProductions.Count && FProductions[I + 1].D >= Priority)
+                    priority = Round((double)Productions[0].Fourth * 0.8);
+                    while (I + 1 < Productions.Count && Productions[I + 1].Fourth >= priority)
                     {
                         I += 1;
                     }
 
                     I = AoWHSMap.Current.Random(I + 1);
-                    var item = FProductions[I];
-                    ExecuteProduce(FProductions[I].A, item.B);
-                    FProductions.Delete(I);
-                    if (!(FProductions.Count != 0 && (FGoldUpkeep > 2 || FManaUpkeep > 2) && (FControl.FPlayer.FAIBudget.FGold > 25 || FControl.FPlayer.FAIBudget.FMana > 25)))
+                    var item = Productions[I];
+                    ExecuteProduce(Productions[I].First, item.Second);
+                    Productions.Delete(I);
+                    if (!(Productions.Count != 0 && (GoldUpkeep > 2 || ManaUpkeep > 2) && (Control.Player.AIBudget.Gold > 25 || Control.Player.AIBudget.Mana > 25)))
                     {
-                        FState = -1;
+                        State = -1;
                     }
                 }
 
                 break;
         }
 
-        return FState != -1;
+        return State != -1;
     }
 
     // AI.pas:1222
-    public void UpdateProductions(ProductionControl Control)
+    public void UpdateProductions(ProductionControl control)
     {
-        int UnitIndex;
-        int Priority;
-        int Bonus;
-        if (Control.FStatus == ProductionControl.Status.Idle)
+        int unitIndex;
+        int priority;
+        int bonus;
+        if (control.Status == ProductionControlStatus.Idle)
         {
-            Bonus = 0;
-            for (int I = 0, last = Control.FUnitProductions.Count - 1; I <= last; I++)
+            bonus = 0;
+            for (int I = 0, last = control.UnitProductions.Count - 1; I <= last; I++)
             {
-                if (Control.FUnitProductions.GetItem(I).FResearched)
+                if (control.UnitProductions.GetItem(I).Researched)
                 {
-                    UnitIndex = Control.FUnitProductions.GetItem(I).FUnitIndex;
-                    if (UnitIndex != -1)
+                    unitIndex = control.UnitProductions.GetItem(I).UnitIndex;
+                    if (unitIndex != -1)
                     {
-                        Priority = FControl.UnitIndexToPriority(UnitIndex);
-                        if (Priority != -1)
+                        priority = Control.UnitIndexToPriority(unitIndex);
+                        if (priority != -1)
                         {
-                            FProductions.AddABCD(Control, I, 0, Priority + Bonus);
+                            Productions.AddABCD(control, I, 0, priority + bonus);
                         }
                     }
                 }
@@ -184,148 +184,148 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     }
 
     // AI.pas:1243
-    public bool ExecuteProduce(ProductionControl Control, int Index)
+    public bool ExecuteProduce(ProductionControl control, int index)
     {
-        int Gold;
-        int Mana;
-        int GoldUpkeep;
-        int ManaUpkeep;
-        bool Result = false;
-        if (FControl.FPlayer.FProductionControls.IndexOf(Control) != -1 && Control.FStatus == ProductionControl.Status.Idle)
+        int gold;
+        int mana;
+        int goldUpkeep;
+        int manaUpkeep;
+        bool result = false;
+        if (Control.Player.ProductionControls.IndexOf(control) != -1 && control.Status == ProductionControlStatus.Idle)
         {
-            Gold = Control.UnitProductionGold(Index);
-            Mana = Control.UnitProductionMana(Index);
-            GoldUpkeep = Control.UnitProductionGoldUpkeep(Index);
-            ManaUpkeep = Control.UnitProductionManaUpkeep(Index);
-            if (GoldUpkeep <= FGoldUpkeep && ManaUpkeep <= FManaUpkeep)
+            gold = control.UnitProductionGold(index);
+            mana = control.UnitProductionMana(index);
+            goldUpkeep = control.UnitProductionGoldUpkeep(index);
+            manaUpkeep = control.UnitProductionManaUpkeep(index);
+            if (goldUpkeep <= GoldUpkeep && manaUpkeep <= ManaUpkeep)
             {
-                if (FControl.FPlayer.FAIBudget.RequestProductionExpense(Gold, GoldUpkeep, Mana, ManaUpkeep))
+                if (Control.Player.AIBudget.RequestProductionExpense(gold, goldUpkeep, mana, manaUpkeep))
                 {
-                    if (Control.ProduceUnitEx(Index, 0, false))
+                    if (control.ProduceUnit(index, 0, false))
                     {
-                        var unitProductionManaUpkeep = Control.UnitProductionManaUpkeep(Index);
-                        var unitProductionMana = Control.UnitProductionMana(Index);
-                        var unitProductionGoldUpkeep = Control.UnitProductionGoldUpkeep(Index);
-                        var unitProductionGold = Control.UnitProductionGold(Index);
-                        FControl.FPlayer.FAIBudget.ProductionExpenseMade(unitProductionGold, unitProductionGoldUpkeep, unitProductionMana, unitProductionManaUpkeep);
-                        FGoldUpkeep -= GoldUpkeep;
-                        FManaUpkeep -= ManaUpkeep;
-                        Result = true;
+                        var unitProductionManaUpkeep = control.UnitProductionManaUpkeep(index);
+                        var unitProductionMana = control.UnitProductionMana(index);
+                        var unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(index);
+                        var unitProductionGold = control.UnitProductionGold(index);
+                        Control.Player.AIBudget.ProductionExpenseMade(unitProductionGold, unitProductionGoldUpkeep, unitProductionMana, unitProductionManaUpkeep);
+                        GoldUpkeep -= goldUpkeep;
+                        ManaUpkeep -= manaUpkeep;
+                        result = true;
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1269
-    public bool ExecuteResearch(ProductionControl Control, int Index)
+    public bool ExecuteResearch(ProductionControl control, int index)
     {
-        int Gold;
-        int Mana;
-        bool Result = false;
-        if (FControl.FPlayer.FProductionControls.IndexOf(Control) != -1 && Control.FStatus == ProductionControl.Status.Idle)
+        int gold;
+        int mana;
+        bool result = false;
+        if (Control.Player.ProductionControls.IndexOf(control) != -1 && control.Status == ProductionControlStatus.Idle)
         {
             // { Original behavior: affordability uses production prices for research. }
-            Gold = Control.UnitProductionGold(Index);
-            Mana = Control.UnitProductionMana(Index);
-            if (FControl.FPlayer.FAIBudget.RequestProductionExpense(Gold, 0, Mana, 0))
+            gold = control.UnitProductionGold(index);
+            mana = control.UnitProductionMana(index);
+            if (Control.Player.AIBudget.RequestProductionExpense(gold, 0, mana, 0))
             {
-                if (Control.ResearchUnit(Index, false))
+                if (control.ResearchUnit(index, false))
                 {
-                    var unitResearchMana = Control.UnitResearchMana(Index);
-                    var unitResearchGold = Control.UnitResearchGold(Index);
-                    FControl.FPlayer.FAIBudget.ExpenseMade(unitResearchGold, unitResearchMana);
-                    Result = true;
+                    var unitResearchMana = control.UnitResearchMana(index);
+                    var unitResearchGold = control.UnitResearchGold(index);
+                    Control.Player.AIBudget.ExpenseMade(unitResearchGold, unitResearchMana);
+                    result = true;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1290
-    public int TransporterPriority(int UnitIndex)
+    public int TransporterPriority(int unitIndex)
     {
-        int Result;
-        UnitResource Resource;
-        Unit AUnit;
-        Resource = AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex);
-        if (Resource != null && Resource.GetTransportCapacity() != 0)
+        int result;
+        UnitResource resource;
+        Unit unit;
+        resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex);
+        if (resource != null && resource.GetTransportCapacity() != 0)
         {
-            AUnit = new Unit(null);
-            AUnit.SetUnitResource(Resource);
-            AUnit.UpdateOffensiveStrength();
-            Result = AUnit.FMaxOffensiveStrength;
-            AUnit.Release();
-            if (Result <= 0)
+            unit = new Unit(null);
+            unit.SetUnitResource(resource);
+            unit.UpdateOffensiveStrength();
+            result = unit.MaxOffensiveStrength;
+            unit.Release();
+            if (result <= 0)
             {
-                Result = -1;
+                result = -1;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1308
-    public bool ResearchTransporter(AIBudget Budget)
+    public bool ResearchTransporter(AIBudget budget)
     {
-        QuadItemList<ProductionControl> Candidates = default;
-        PlayerStructure Structure = default;
+        QuadItemList<ProductionControl> candidates = default;
+        PlayerStructure structure = default;
         int I = default;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        Player Player = default;
-        ProductionControl Control = default;
-        UnitResource Resource = default;
-        int Priority = default;
-        Player = FControl.FPlayer;
-        if (Budget.FGold > 50)
+        Player player = default;
+        ProductionControl control = default;
+        UnitResource resource = default;
+        int priority = default;
+        player = Control.Player;
+        if (budget.Gold > 50)
         {
-            Candidates = new QuadItemList<ProductionControl>();
-            I = Player.FProductionControls.Count;
+            candidates = new QuadItemList<ProductionControl>();
+            I = player.ProductionControls.Count;
             while (I != 0)
             {
                 I -= 1;
-                Control = Player.FProductionControls.GetPC(I);
-                if (Control.FStatus == ProductionControl.Status.Idle)
+                control = player.ProductionControls.GetPC(I);
+                if (control.Status == ProductionControlStatus.Idle)
                 {
-                    for (int J = 0, last = Control.FUnitProductions.Count - 1; J <= last; J++)
+                    for (int J = 0, last = control.UnitProductions.Count - 1; J <= last; J++)
                     {
-                        if (Control.FUnitProductions.GetItem(J).FUnitIndex != -1 && !Control.FUnitProductions.GetItem(J).FResearched)
+                        if (control.UnitProductions.GetItem(J).UnitIndex != -1 && !control.UnitProductions.GetItem(J).Researched)
                         {
-                            var unitProduction = Control.FUnitProductions.GetItem(J);
-                            Resource = AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex);
-                            if (Resource.GetTransportCapacity() != 0)
+                            var unitProduction = control.UnitProductions.GetItem(J);
+                            resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                            if (resource.GetTransportCapacity() != 0)
                             {
-                                var unitResearchMana = Control.UnitResearchMana(J);
-                                var unitResearchGold = Control.UnitResearchGold(J);
-                                if (Player.FAIBudget.RequestBudgetExpense(unitResearchGold, unitResearchMana, Budget, false))
+                                var unitResearchMana = control.UnitResearchMana(J);
+                                var unitResearchGold = control.UnitResearchGold(J);
+                                if (player.AIBudget.RequestBudgetExpense(unitResearchGold, unitResearchMana, budget, false))
                                 {
-                                    Control.GetLocation(ref X, ref Y, ref L);
-                                    Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(PlayerStructure));
-                                    Priority = TransporterPriority(Control.FUnitProductions.GetItem(J).FUnitIndex);
-                                    if (Priority != -1)
+                                    control.GetLocation(ref X, ref Y, ref L);
+                                    structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                                    priority = TransporterPriority(control.UnitProductions.GetItem(J).UnitIndex);
+                                    if (priority != -1)
                                     {
-                                        if (Structure != null && Structure.FProductionPriority > 0)
+                                        if (structure != null && structure.ProductionPriority > 0)
                                         {
-                                            if (Structure.FProductionPriority > 10)
+                                            if (structure.ProductionPriority > 10)
                                             {
-                                                Priority = Priority * 5;
+                                                priority = priority * 5;
                                             }
                                             else
                                             {
-                                                Priority = Round((double)((double)Priority * 0.5) * Structure.FProductionPriority);
+                                                priority = Round((double)((double)priority * 0.5) * structure.ProductionPriority);
                                             }
                                         }
 
-                                        Candidates.AddABCD(Control, J, 0, Priority);
+                                        candidates.AddABCD(control, J, 0, priority);
                                     }
                                 }
                             }
@@ -334,25 +334,25 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                 }
             }
 
-            if (Candidates.Count != 0)
+            if (candidates.Count != 0)
             {
-                Candidates.Sort(CompareAutoProductions);
-                Player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
-                var item = Candidates[0];
-                if (ExecuteResearch(Candidates[0].A, item.B))
+                candidates.Sort(CompareAutoProductions);
+                player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+                var item = candidates[0];
+                if (ExecuteResearch(candidates[0].First, item.Second))
                 {
-                    Budget.FGold = 0;
-                    Budget.FMana = 0;
-                    Budget.FRequiredGold = 0;
-                    Budget.FRequiredMana = 0;
+                    budget.Gold = 0;
+                    budget.Mana = 0;
+                    budget.RequiredGold = 0;
+                    budget.RequiredMana = 0;
                 }
                 else
                 {
-                    Player.FAIBudget.ExpenseMade(Budget.FGold, Budget.FMana);
+                    player.AIBudget.ExpenseMade(budget.Gold, budget.Mana);
                 }
             }
 
-            Candidates?.Dispose();
+            candidates?.Dispose();
         }
 
         // { Original behavior: both transporter routines always return False. }
@@ -360,65 +360,65 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     }
 
     // AI.pas:1374
-    public bool ProduceTransporter(AIBudget Budget)
+    public bool ProduceTransporter(AIBudget budget)
     {
-        QuadItemList<ProductionControl> Candidates = default;
-        PlayerStructure Structure = default;
+        QuadItemList<ProductionControl> candidates = default;
+        PlayerStructure structure = default;
         int I = default;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        Player Player = default;
-        ProductionControl Control = default;
-        UnitResource Resource = default;
-        int Priority = default;
-        Player = FControl.FPlayer;
-        if (Budget.FGold > 50)
+        Player player = default;
+        ProductionControl control = default;
+        UnitResource resource = default;
+        int priority = default;
+        player = Control.Player;
+        if (budget.Gold > 50)
         {
-            Candidates = new QuadItemList<ProductionControl>();
-            I = Player.FProductionControls.Count;
+            candidates = new QuadItemList<ProductionControl>();
+            I = player.ProductionControls.Count;
             while (I != 0)
             {
                 I -= 1;
-                Control = Player.FProductionControls.GetPC(I);
-                if (Control.FStatus == ProductionControl.Status.Idle)
+                control = player.ProductionControls.GetPC(I);
+                if (control.Status == ProductionControlStatus.Idle)
                 {
-                    for (int J = 0, last = Control.FUnitProductions.Count - 1; J <= last; J++)
+                    for (int J = 0, last = control.UnitProductions.Count - 1; J <= last; J++)
                     {
-                        if (Control.FUnitProductions.GetItem(J).FUnitIndex != -1 && Control.FUnitProductions.GetItem(J).FResearched)
+                        if (control.UnitProductions.GetItem(J).UnitIndex != -1 && control.UnitProductions.GetItem(J).Researched)
                         {
-                            var unitProduction = Control.FUnitProductions.GetItem(J);
-                            Resource = AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex);
-                            if (Resource.GetTransportCapacity() != 0)
+                            var unitProduction = control.UnitProductions.GetItem(J);
+                            resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                            if (resource.GetTransportCapacity() != 0)
                             {
-                                var unitProductionMana = Control.UnitProductionMana(J);
-                                var unitProductionGold = Control.UnitProductionGold(J);
-                                if (Player.FAIBudget.RequestBudgetExpense(unitProductionGold, unitProductionMana, Budget, false))
+                                var unitProductionMana = control.UnitProductionMana(J);
+                                var unitProductionGold = control.UnitProductionGold(J);
+                                if (player.AIBudget.RequestBudgetExpense(unitProductionGold, unitProductionMana, budget, false))
                                 {
-                                    var unitProductionManaUpkeep = Control.UnitProductionManaUpkeep(J);
-                                    var controlUnitProductionMana = Control.UnitProductionMana(J);
-                                    var unitProductionGoldUpkeep = Control.UnitProductionGoldUpkeep(J);
-                                    var controlUnitProductionGold = Control.UnitProductionGold(J);
-                                    if (Player.FAIBudget.RequestProductionExpenseEx(controlUnitProductionGold, unitProductionGoldUpkeep, controlUnitProductionMana, unitProductionManaUpkeep, Budget))
+                                    var unitProductionManaUpkeep = control.UnitProductionManaUpkeep(J);
+                                    var controlUnitProductionMana = control.UnitProductionMana(J);
+                                    var unitProductionGoldUpkeep = control.UnitProductionGoldUpkeep(J);
+                                    var controlUnitProductionGold = control.UnitProductionGold(J);
+                                    if (player.AIBudget.RequestProductionExpense(controlUnitProductionGold, unitProductionGoldUpkeep, controlUnitProductionMana, unitProductionManaUpkeep, budget))
                                     {
-                                        Control.GetLocation(ref X, ref Y, ref L);
-                                        Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(PlayerStructure));
-                                        Priority = TransporterPriority(Control.FUnitProductions.GetItem(J).FUnitIndex);
-                                        if (Priority != -1)
+                                        control.GetLocation(ref X, ref Y, ref L);
+                                        structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+                                        priority = TransporterPriority(control.UnitProductions.GetItem(J).UnitIndex);
+                                        if (priority != -1)
                                         {
-                                            if (Structure != null && Structure.FProductionPriority > 0)
+                                            if (structure != null && structure.ProductionPriority > 0)
                                             {
-                                                if (Structure.FProductionPriority > 10)
+                                                if (structure.ProductionPriority > 10)
                                                 {
-                                                    Priority += Priority * 5;
+                                                    priority += priority * 5;
                                                 }
                                                 else
                                                 {
-                                                    Priority += Round((double)((double)Priority * 0.5) * Structure.FProductionPriority);
+                                                    priority += Round((double)((double)priority * 0.5) * structure.ProductionPriority);
                                                 }
                                             }
 
-                                            Candidates.AddABCD(Control, J, 0, Priority);
+                                            candidates.AddABCD(control, J, 0, priority);
                                         }
                                     }
                                 }
@@ -428,32 +428,32 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
                 }
             }
 
-            if (Candidates.Count != 0)
+            if (candidates.Count != 0)
             {
-                Candidates.Sort(CompareAutoProductions);
-                Player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
-                var item = Candidates[0];
-                if (ExecuteProduce(Candidates[0].A, item.B))
+                candidates.Sort(CompareAutoProductions);
+                player.AIBudget.ReturnExpense(budget.Gold, budget.Mana);
+                var item = candidates[0];
+                if (ExecuteProduce(candidates[0].First, item.Second))
                 {
-                    Budget.FGold = 0;
-                    Budget.FMana = 0;
-                    Budget.FRequiredGold = 0;
-                    Budget.FRequiredMana = 0;
+                    budget.Gold = 0;
+                    budget.Mana = 0;
+                    budget.RequiredGold = 0;
+                    budget.RequiredMana = 0;
                 }
                 else
                 {
-                    Player.FAIBudget.ExpenseMade(Budget.FGold, Budget.FMana);
+                    player.AIBudget.ExpenseMade(budget.Gold, budget.Mana);
                 }
             }
             else
             {
                 if (!ResearchingTransporter())
                 {
-                    ResearchTransporter(Budget);
+                    ResearchTransporter(budget);
                 }
             }
 
-            Candidates?.Dispose();
+            candidates?.Dispose();
         }
 
         // { Original behavior: both transporter routines always return False. }
@@ -464,102 +464,102 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     public Troop FindAvailableTransporter()
     {
         int I;
-        var player = FControl.FPlayer;
-        Troop Result = null;
-        I = player.FArmies.Count;
-        while (I != 0 && Result == null)
+        var player = Control.Player;
+        Troop result = null;
+        I = player.Armies.Count;
+        while (I != 0 && result == null)
         {
             I -= 1;
-            Result = player.FArmies.GetArmy(I).Transporter(255);
-            if (Result != null && Result.FGroupID != 0)
+            result = player.Armies.GetArmy(I).Transporter(255);
+            if (result != null && result.GroupId != 0)
             {
-                Result = null;
+                result = null;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1461
     public bool TransporterProductionControlExists()
     {
-        UnitResource Resource;
+        UnitResource resource;
         int I;
-        ProductionControl Control;
+        ProductionControl control;
         // { locals follow the original stack order }
-        var player = FControl.FPlayer;
-        bool Result = false;
-        I = player.FProductionControls.Count;
-        while (I != 0 && !Result)
+        var player = Control.Player;
+        bool result = false;
+        I = player.ProductionControls.Count;
+        while (I != 0 && !result)
         {
             I -= 1;
-            Control = player.FProductionControls.GetPC(I);
-            for (int J = 0, last = Control.FUnitProductions.Count - 1; J <= last; J++)
+            control = player.ProductionControls.GetPC(I);
+            for (int J = 0, last = control.UnitProductions.Count - 1; J <= last; J++)
             {
-                if (Control.FUnitProductions.GetItem(J).FUnitIndex != -1 && Control.FUnitProductions.GetItem(J).FResearched)
+                if (control.UnitProductions.GetItem(J).UnitIndex != -1 && control.UnitProductions.GetItem(J).Researched)
                 {
-                    var unitProduction = Control.FUnitProductions.GetItem(J);
-                    Resource = AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex);
-                    Result = Result || Resource.GetTransportCapacity() != 0;
+                    var unitProduction = control.UnitProductions.GetItem(J);
+                    resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                    result = result || resource.GetTransportCapacity() != 0;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1487
     public bool ProducingTransporter()
     {
         int I;
-        ProductionControl Control;
-        var player = FControl.FPlayer;
-        bool Result = false;
-        I = player.FProductionControls.Count;
-        while (I != 0 && !Result)
+        ProductionControl control;
+        var player = Control.Player;
+        bool result = false;
+        I = player.ProductionControls.Count;
+        while (I != 0 && !result)
         {
             I -= 1;
-            Control = player.FProductionControls.GetPC(I);
-            if (Control.FStatus == ProductionControl.Status.Producing)
+            control = player.ProductionControls.GetPC(I);
+            if (control.Status == ProductionControlStatus.Producing)
             {
-                if (Control.FQueue.GetItem(0).Order is ProduceUnit)
+                if (control.Queue.GetItem(0).Order is ProduceUnit)
                 {
-                    Result = Control.FSettings.FUnit.GetTransportCapacity() != 0;
+                    result = control.Settings.Unit.GetTransportCapacity() != 0;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1507
     public bool ResearchingTransporter()
     {
         int I;
-        ProductionControl Control;
-        UnitResource Resource;
-        var player = FControl.FPlayer;
-        bool Result = false;
-        I = player.FProductionControls.Count;
-        while (I != 0 && !Result)
+        ProductionControl control;
+        UnitResource resource;
+        var player = Control.Player;
+        bool result = false;
+        I = player.ProductionControls.Count;
+        while (I != 0 && !result)
         {
             I -= 1;
-            Control = player.FProductionControls.GetPC(I);
-            if (Control.FStatus == ProductionControl.Status.Producing)
+            control = player.ProductionControls.GetPC(I);
+            if (control.Status == ProductionControlStatus.Producing)
             {
-                if (Control.FQueue.GetItem(0).Order is ResearchSpell)
+                if (control.Queue.GetItem(0).Order is ResearchSpell)
                 {
-                    var unitProduction = Control.FUnitProductions.GetItem(Control.FSettings.FUnitProductionIndex);
-                    Resource = AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex);
-                    if (Resource != null)
+                    var unitProduction = control.UnitProductions.GetItem(control.Settings.UnitProductionIndex);
+                    resource = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex);
+                    if (resource != null)
                     {
-                        Result = Resource.GetTransportCapacity() != 0;
+                        result = resource.GetTransportCapacity() != 0;
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P5_06.inc:642
@@ -567,9 +567,9 @@ public partial class AutoProduceAIPlayerAction : AIPlayerAction, IAIPlayerAction
     // AI.pas:1214
     public static new int Priority => 12;
 
-    private static int CompareAutoProductions(in QuadItem<ProductionControl> Item1, in QuadItem<ProductionControl> Item2)
+    private static int CompareAutoProductions(in QuadItem<ProductionControl> item1, in QuadItem<ProductionControl> item2)
     {
-        return Item2.D - Item1.D;
+        return item2.Fourth - item1.Fourth;
     }
 
 }

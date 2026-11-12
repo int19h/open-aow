@@ -59,21 +59,21 @@ public sealed class SysUtilsProbeTests
     public void FormatFixture()
     {
         var p = new ProbeLines("format");
-        void F(string label, string format, params ReadOnlySpan<FormatArg> args) => p.Fact(label, Format(format, args));
-        void B(string label, string format, params ReadOnlySpan<FormatArg> args) => p.Fact(label, "[" + Format(format, args) + "]");
-        void Error(string label, string format, params ReadOnlySpan<FormatArg> args)
+        void RecordFormat(string label, string format, params ReadOnlySpan<FormatArg> arguments) => p.Fact(label, Format(format, arguments));
+        void RecordBracketedFormat(string label, string format, params ReadOnlySpan<FormatArg> arguments) => p.Fact(label, "[" + Format(format, arguments) + "]");
+        void Error(string label, string format, params ReadOnlySpan<FormatArg> arguments)
         {
-            object result; try { result = Format(format, args); } catch (System.Exception e) { result = p.DelphiName(e); }
+            object result; try { result = Format(format, arguments); } catch (System.Exception e) { result = p.DelphiName(e); }
             p.Fact(label, result);
         }
-        F("string", "%s", "abc"); F("decimal", "%d", -123); F("hex", "%x", 255); F("hex_negative", "%x", -1);
-        B("string_width", "%6s", "abc"); B("decimal_width", "%6d", -12); B("hex_width", "%6x", 255);
-        F("string_precision", "%.2s", "abcd"); F("decimal_precision", "%.5d", -12); F("hex_precision", "%.6x", 255);
-        B("left_string", "%-6s", "abc"); B("left_decimal", "%-6.4d", 12); B("star_width", "%*d", 6, 12);
-        F("star_precision", "%.*s", 2, "abcd"); B("star_both", "%*.*x", 8, 4, 255);
-        F("explicit_index", "%1:s/%0:d/%1:s", 7, "abc"); F("index_then_implicit", "%1:d/%d/%0:d", 10, 20, 30);
-        B("index_star", "%1:*.*s", 99, 6, 2, "abcd"); F("percent", "%% %d %%", 5);
-        B("empty_string", "%3s", ""); B("zero_precision_string", "%.0s", "abc"); F("zero_precision_decimal", "%.0d", 0); F("extra_argument", "%d", 1, 2);
+        RecordFormat("string", "%s", "abc"); RecordFormat("decimal", "%d", -123); RecordFormat("hex", "%x", 255); RecordFormat("hex_negative", "%x", -1);
+        RecordBracketedFormat("string_width", "%6s", "abc"); RecordBracketedFormat("decimal_width", "%6d", -12); RecordBracketedFormat("hex_width", "%6x", 255);
+        RecordFormat("string_precision", "%.2s", "abcd"); RecordFormat("decimal_precision", "%.5d", -12); RecordFormat("hex_precision", "%.6x", 255);
+        RecordBracketedFormat("left_string", "%-6s", "abc"); RecordBracketedFormat("left_decimal", "%-6.4d", 12); RecordBracketedFormat("star_width", "%*d", 6, 12);
+        RecordFormat("star_precision", "%.*s", 2, "abcd"); RecordBracketedFormat("star_both", "%*.*x", 8, 4, 255);
+        RecordFormat("explicit_index", "%1:s/%0:d/%1:s", 7, "abc"); RecordFormat("index_then_implicit", "%1:d/%d/%0:d", 10, 20, 30);
+        RecordBracketedFormat("index_star", "%1:*.*s", 99, 6, 2, "abcd"); RecordFormat("percent", "%% %d %%", 5);
+        RecordBracketedFormat("empty_string", "%3s", ""); RecordBracketedFormat("zero_precision_string", "%.0s", "abc"); RecordFormat("zero_precision_decimal", "%.0d", 0); RecordFormat("extra_argument", "%d", 1, 2);
         Error("bad_type", "%d", "abc"); Error("missing_argument", "%s %d", "abc"); Error("bad_specifier", "%q", 1); Error("bad_index", "%2:d", 1); Error("bad_star_type", "%*d", "bad", 1); p.End();
     }
 }

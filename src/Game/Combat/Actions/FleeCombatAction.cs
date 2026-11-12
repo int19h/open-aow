@@ -9,28 +9,28 @@ namespace Aow.Game.Combat.Actions;
 public partial class FleeCombatAction : CombatAction
 {
     // Combat2.pas:1099
-    public new const int ClassID = 131776;
+    public new const int ClassId = 131776;
 
     public FleeCombatAction(ECustomNode owner) : base(owner)
     { }
 
-    public byte FObjectID;
+    public byte ObjectId;
 
     // Combat2.pas:1102
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwData(Bytes.Of(ref FObjectID, 1), 1, 20);
+        base.ReadWrite(stream);
+        stream.rwData(Bytes.Of(ref ObjectId, 1), 1, 20);
     }
 
     // Combat2.pas:1108
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatObject Obj;
-        Obj = Combat.FCombatData.FindID(FObjectID);
-        Obj.FStatus = Obj.FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled);
+        CombatObject objectValue;
+        objectValue = combat.CombatData.FindId(ObjectId);
+        objectValue.Status = objectValue.Status + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled);
     }
 
     // intf_P3_02.inc:38
-    public override bool Play(CombatViewer viewer) { Execute(viewer.FCombat); return false; }
+    public override bool Play(CombatViewer viewer) { Execute(viewer.Combat); return false; }
 }

@@ -4,5 +4,5 @@ namespace Aow.Game.World.Structures;
 
 public partial class ReflectingPool
 {
-    public override string CombatMapName(CombatMapSite Site) => "RPool000";
+    public override string CombatMapName(CombatMapSite site) => "RPool000";
 }

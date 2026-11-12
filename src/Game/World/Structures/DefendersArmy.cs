@@ -14,10 +14,10 @@ public partial class DefendersArmy : Army
     { }
 
     // ExploreS.pas:71
-    public override bool CanAddUnit(Troop AUnit)
+    public override bool CanAddUnit(Troop troop)
     {
-        bool Result = base.CanAddUnit(AUnit);
-        return Result && !AUnit.GetTransporter() && AUnit.ValidTerrain(1, 4);
+        bool result = base.CanAddUnit(troop);
+        return result && !troop.GetTransporter() && troop.ValidTerrain(1, 4);
     }
 
     // intf_P2_07.inc:445

@@ -7,74 +7,74 @@ namespace Aow.Game.Combat;
 public partial class FastBattleCommandList : IDisposable
 {
     // AIGroup.pas:6716
-    public FastBattleCommandList(CombatObject Source, FastBattle Combat, CombatSide Side)
+    public FastBattleCommandList(CombatObject source, FastBattle combat, CombatSide side)
     {
-        FCommands = new DelphiList<FastBattleCommand>();
-        FSource = Source;
-        FCombat = Combat;
-        FSourceSide = Side;
-        if (FSourceSide.FSideIndex == 0)
+        Commands = new DelphiList<FastBattleCommand>();
+        Source = source;
+        Combat = combat;
+        SourceSide = side;
+        if (SourceSide.SideIndex == 0)
         {
-            FTargetSide = FCombat.FSides[(int)CombatSideIndex.Defender];
+            TargetSide = Combat.Sides[(int)CombatSideIndex.Defender];
         }
         else
         {
-            FTargetSide = FCombat.FSides[(int)CombatSideIndex.Attacker];
+            TargetSide = Combat.Sides[(int)CombatSideIndex.Attacker];
         }
     }
 
-    public CombatObject FSource;
-    public CombatSide FSourceSide;
-    public CombatSide FTargetSide;
-    public FastBattle FCombat;
-    public DelphiList<FastBattleCommand> FCommands;
+    public CombatObject Source;
+    public CombatSide SourceSide;
+    public CombatSide TargetSide;
+    public FastBattle Combat;
+    public DelphiList<FastBattleCommand> Commands;
 
     // AIGroup.pas:6727
     public virtual void Dispose()
     {
         Clear();
-        FCommands?.Dispose();
+        Commands?.Dispose();
     }
 
     // AIGroup.pas:6734
     public void Clear()
     {
-        for (int I = FCommands.Count - 1; I >= 0; I--)
+        for (int I = Commands.Count - 1; I >= 0; I--)
         {
-            (FCommands.List[I] as IDisposable)?.Dispose();
+            (Commands.List[I] as IDisposable)?.Dispose();
         }
 
-        FCommands.Clear();
+        Commands.Clear();
     }
 
     // AIGroup.pas:6742
-    public FastBattleCommand GetCommands(int Index) => FCommands.List[Index];
+    public FastBattleCommand GetCommands(int index) => Commands.List[index];
 
     // AIGroup.pas:6747
-    public int GetCount() => FCommands.Count;
+    public int GetCount() => Commands.Count;
 
     // AIGroup.pas:6752
-    public void Add(FastBattleCommand Command)
+    public void Add(FastBattleCommand command)
     {
-        FCommands.Add(Command);
+        Commands.Add(command);
     }
 
     // AIGroup.pas:6757
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        (FCommands.List[Index] as IDisposable)?.Dispose();
-        FCommands.Delete(Index);
+        (Commands.List[index] as IDisposable)?.Dispose();
+        Commands.Delete(index);
     }
 
     // AIGroup.pas:6768
     public void Sort()
     {
-        FCommands.Sort(CompareFastCombatCommands);
+        Commands.Sort(CompareFastBattleCommands);
     }
 
-    private static int CompareFastCombatCommands(FastBattleCommand Item1, FastBattleCommand Item2)
+    private static int CompareFastBattleCommands(FastBattleCommand item1, FastBattleCommand item2)
     {
-        return Item2.FExpectedDV - Item1.FExpectedDV;
+        return item2.ExpectedDamageValue - item1.ExpectedDamageValue;
     }
 
     // intf_P5_05.inc:23

@@ -7,158 +7,158 @@ namespace Aow.Game.Net;
 // sends through OnSendData and hands what arrives to DataReceived
 public partial class RemotePlayerCommunicationControl : PlayerCommunicationControl
 {
-    internal int FLocalSystemID;
-    internal PackageDataList FPackageDataList;
-    internal SendDataEvent FOnSendData;
+    internal int _localSystemId;
+    internal PackageDataList _packageDataList;
+    internal SendDataEvent _onSendData;
 
     // NetworkE.pas:819
-    public override int GetLocalSystemID() => FLocalSystemID;
+    public override int GetLocalSystemId() => _localSystemId;
 
     // NetworkE.pas:782
     // { The number of different system IDs among the players }
     public override int GetSystemCount()
     {
         int J;
-        int ID;
-        bool Unique;
-        int Result = 0;
-        for (int I = 0, last = FPCSList.Count - 1; I <= last; I++)
+        int id;
+        bool unique;
+        int result = 0;
+        for (int I = 0, last = _playerCommunicationSettingsList.Count - 1; I <= last; I++)
         {
-            ID = FPCSList.Players[I].FSystemID;
-            Unique = true;
+            id = _playerCommunicationSettingsList.Players[I]._systemId;
+            unique = true;
             J = 0;
-            while (J != I && Unique)
+            while (J != I && unique)
             {
-                Unique = ID != FPCSList.Players[J].FSystemID;
+                unique = id != _playerCommunicationSettingsList.Players[J]._systemId;
                 J += 1;
             }
 
-            if (Unique)
+            if (unique)
             {
-                Result += 1;
+                result += 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:776
     public override string Name() => "Remote";
 
     // NetworkE.pas:824
-    public override bool ReceivePackageData(MemoryStream Stream)
+    public override bool ReceivePackageData(MemoryStream stream)
     {
-        bool Result;
-        if (FPackageDataList.Count != 0)
+        bool result;
+        if (_packageDataList.Count != 0)
         {
-            Stream.SetLength(FPackageDataList.PackageData[0].Length);
-            var size = (int)Stream.Length;
-            Move(FPackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), Stream.GetBuffer().AsSpan(0, size), size);
-            FPackageDataList.Delete(0);
-            Result = true;
+            stream.SetLength(_packageDataList.PackageData[0].Length);
+            var size = (int)stream.Length;
+            Move(_packageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
+            _packageDataList.Delete(0);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:852
     // { A package for every player (AllPlayers) goes to system 0, the transport's broadcast; a package
     //   for every player or for a player on this system is also received here. }
-    public override bool SendPackageData(int APlayer, MemoryStream Stream)
+    public override bool SendPackageData(int player, MemoryStream stream)
     {
-        bool Result;
-        int SystemID;
-        if (APlayer == NetworkSession.AllPlayers)
+        bool result;
+        int systemId;
+        if (player == NetworkSession.AllPlayers)
         {
-            SystemID = 0;
+            systemId = 0;
         }
         else
         {
-            SystemID = FPCSList.Players[APlayer].FSystemID;
+            systemId = _playerCommunicationSettingsList.Players[player]._systemId;
         }
 
-        if (SystemID != FLocalSystemID)
+        if (systemId != _localSystemId)
         {
-            var size = (int)Stream.Length;
-            Result = SendData(Stream.GetBuffer(), size, SystemID);
+            var size = (int)stream.Length;
+            result = SendData(stream.GetBuffer(), size, systemId);
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        if (APlayer == NetworkSession.AllPlayers || SystemID == FLocalSystemID)
+        if (player == NetworkSession.AllPlayers || systemId == _localSystemId)
         {
-            FPackageDataList.Add(Stream);
+            _packageDataList.Add(stream);
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:759
     public RemotePlayerCommunicationControl() : base()
     {
-        FPackageDataList = new PackageDataList();
+        _packageDataList = new PackageDataList();
     }
 
     // NetworkE.pas:765
     public override void Dispose()
     {
-        FPackageDataList?.Dispose();
+        _packageDataList?.Dispose();
         base.Dispose();
     }
 
     // NetworkE.pas:771
     public void Clear()
     {
-        FPackageDataList.Clear();
+        _packageDataList.Clear();
     }
 
     // NetworkE.pas:803
-    public void SetConnectionMode(int Index, ConnectionMode Mode)
+    public void SetConnectionMode(int index, ConnectionMode mode)
     {
-        FPCSList.Players[Index].FConnectionMode = Mode;
+        _playerCommunicationSettingsList.Players[index]._connectionMode = mode;
     }
 
     // NetworkE.pas:808
-    public void SetSystemID(int Index, int ASystemID)
+    public void SetSystemId(int index, int systemId)
     {
-        FPCSList.Players[Index].FSystemID = ASystemID;
+        _playerCommunicationSettingsList.Players[index]._systemId = systemId;
     }
 
     // NetworkE.pas:813
-    public void Setup(int ACount, int ALocalSystemID)
+    public void Setup(int count, int localSystemId)
     {
-        base.Setup(ACount);
-        FLocalSystemID = ALocalSystemID;
+        base.Setup(count);
+        _localSystemId = localSystemId;
     }
 
     // NetworkE.pas:837
-    public void DataReceived(object Data, int Size, int SystemID)
+    public void DataReceived(object data, int size, int systemId)
     {
-        FPackageDataList.AddData(Data, Size);
+        _packageDataList.AddData(data, size);
     }
 
     // NetworkE.pas:842
-    public bool SendData(object Data, int Size, int SystemID)
+    public bool SendData(object data, int size, int systemId)
     {
-        bool Result = default;
-        if (FOnSendData != null)
+        bool result = default;
+        if (_onSendData != null)
         {
-            Result = FOnSendData(Data, Size, SystemID);
+            result = _onSendData(data, size, systemId);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    public SendDataEvent OnSendData { get => FOnSendData; set => FOnSendData = value; }
+    public SendDataEvent OnSendData { get => _onSendData; set => _onSendData = value; }
 
 }

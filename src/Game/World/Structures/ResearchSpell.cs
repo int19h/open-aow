@@ -18,80 +18,80 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
 
     public override int? UnitProductionIndex => Index;
 
-    public override string Name(ProductionControl Control)
+    public override string Name(ProductionControl control)
     {
-        var production = Control.FUnitProductions.GetItem(Index);
+        var production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
-            return AbilityRules.TranslateRStr(GameTables.UnknownRStr);
+            return AbilityRules.TranslateResourceString(GameTables.s_unknownText);
         }
 
-        var unitName = AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateRStr(GameText.InstallXRStr), [unitName]);
+        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_installFormat), [unitName]);
     }
 
-    public override string NameProgressive(ProductionControl Control)
+    public override string NameProgressive(ProductionControl control)
     {
-        var production = Control.FUnitProductions.GetItem(Index);
+        var production = control.UnitProductions.GetItem(Index);
         if (production == null)
         {
-            return AbilityRules.TranslateRStr(GameTables.UnknownRStr);
+            return AbilityRules.TranslateResourceString(GameTables.s_unknownText);
         }
 
-        var unitName = AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
-        return AbilityRules.Format(AbilityRules.TranslateRStr(InstallingXRStr), [unitName]);
+        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        return AbilityRules.Format(AbilityRules.TranslateResourceString(s_installingFormat), [unitName]);
     }
 
-    public override bool CanExecute(ProductionControl Control, ref string Reason)
+    public override bool CanExecute(ProductionControl control, ref string reason)
     {
-        Waiting(Control, ref Reason);
-        var players = AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
-        if (Control.UnitResearchGold(Index) <= players.FGems)
+        Waiting(control, ref reason);
+        var players = AoWHSMap.Current.Players.GetPlayers(control.GetPlayer());
+        if (control.UnitResearchGold(Index) <= players.Gems)
         {
             return true;
         }
 
-        Reason = AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
+        reason = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
         return false;
     }
 
-    public override void Execute(ProductionControl Control)
+    public override void Execute(ProductionControl control)
     {
-        var settings = Control.FSettings;
+        var settings = control.Settings;
         settings.Clear();
-        settings.FUnitProductionIndex = Index;
-        settings.FGold = Control.UnitResearchGold(Index);
-        settings.FMana = 0;
-        settings.FTurnsTotal = (sbyte)Control.UnitResearchTime(Index);
-        settings.FPlayer = Control.GetPlayer();
-        settings.FTurnsLeft = settings.FTurnsTotal;
-        Pay(Control);
-        Control.FStatus = ProductionControl.Status.Producing;
+        settings.UnitProductionIndex = Index;
+        settings.Gold = control.UnitResearchGold(Index);
+        settings.Mana = 0;
+        settings.TurnsTotal = (sbyte)control.UnitResearchTime(Index);
+        settings.Player = control.GetPlayer();
+        settings.TurnsLeft = settings.TurnsTotal;
+        Pay(control);
+        control.Status = ProductionControlStatus.Producing;
     }
 
-    public override void Complete(ProductionControl Control, sbyte Player)
+    public override void Complete(ProductionControl control, sbyte player)
     {
-        Control.UnitResearched();
-        Control.FSettings.Clear();
-        Control.ProductionDone();
+        control.UnitResearched();
+        control.Settings.Clear();
+        control.ProductionDone();
     }
 
-    public override bool Loopable(ProductionControl Control) => false;
+    public override bool Loopable(ProductionControl control) => false;
 
-    public override int ActivityImage(City City) => 5;
+    public override int ActivityImage(City city) => 5;
 
-    public override int? CitySequence(City City, int Row) => -1;
+    public override int? CitySequence(City city, int row) => -1;
 
-    public override string RealmActivity(City City) => "5";
+    public override string RealmActivity(City city) => "5";
 
-    public override void ActivityLines(ProductionControl Control, StringCollection Lines)
+    public override void ActivityLines(ProductionControl control, StringCollection lines)
     {
-        var unit = Control.CreateUnitProduction(Index);
-        Lines.Add(AbilityRules.TranslateRStr(InstallingRStr));
-        Lines.Add(unit.GetName());
+        var unit = control.CreateUnitProduction(Index);
+        lines.Add(AbilityRules.TranslateResourceString(s_installingText));
+        lines.Add(unit.GetName());
         unit.Release();
     }
 
-    private static readonly string InstallingRStr = "Installing";
-    private static readonly string InstallingXRStr = "Installing %s";
+    private static readonly string s_installingText = "Installing";
+    private static readonly string s_installingFormat = "Installing %s";
 }

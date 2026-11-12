@@ -53,7 +53,7 @@ translation is an empty string. The parser consumes every byte of every file.
 |---|---:|---|---|
 | `ResStr.mld` | 1,164 | `AoWEngine` at startup, through `TranslateRStr` (987 calls in AoWEPACK, 514 in AoW, 8 in AoWTCPCK) | the resource strings of the code; 358 of the 368 distinct `resourcestring` values of the recovered source, the rest belong to the editor |
 | `Release.mld` | 917 | `TAbilityControl` loading (`Ability.PAS:202`) | ability and release texts |
-| `CampMaps.mld`, `CustMaps.mld` | 1,166, 1,107 | `AoWHSMap.MainReadWrite` (Delphi `TAoWHSMap`) on a day-0 read, campaign or custom by `FGameType` | map texts: names, descriptions, messages |
+| `CampMaps.mld`, `CustMaps.mld` | 1,166, 1,107 | `AoWHSMap.MainReadWrite` (Delphi `TAoWHSMap`) on a day-0 read, campaign or custom by `GameType` | map texts: names, descriptions, messages |
 | `Campaign.mld` | 394 | `TAoWCampaign` loading (`Army.PAS:6072`) | campaign texts |
 | `AoW.mld` | 1,095 | the 62 `IvTranslator` components of `AoW.exe`'s forms (`DictionaryName = 'AoW'`) | form texts with form class and component context; all 1,027 context rows match the recovered form files |
 | `AoWSetup.mld`, `AoWEd.mld` | 75, 765 | the setup program and the editor | out of scope |
@@ -85,9 +85,9 @@ the column to keep; after `Open` the dictionary reloads.
 
 All three are transpiled code; the port only supplies the dictionary classes under them.
 
-1. Resource strings. `AoWEngine.TranslateRStr(S)` returns `FDictionary.Translate(S)` when the
+1. Resource strings. `AoWEngine.TranslateResourceString(S)` returns `Dictionary.Translate(S)` when the
    dictionary's language is above 0, otherwise `S`, except that `P2UndeadPluralRStr` becomes
-   `P2UndeadRStr`. `FDictionary` is opened on `ResStr.mld` in `UpdateStartupDirectory`. Every
+   `P2UndeadRStr`. `Dictionary` is opened on `ResStr.mld` in `UpdateStartupDirectory`. Every
    user-visible string of the rules and the executable passes through it (1,509 call sites).
 2. Object texts. `TranslateStorageStream` (Delphi `TTranslateStorageStream`) (Engine) walks an object tree as a read-mode storage
    stream whose `rwString` and `rwStrings` translate in place instead of reading;
@@ -113,7 +113,7 @@ running the same code over the same files.
 French, 4 Italian, 5 Spanish (`Language` (Delphi `TAoWLanguage`)). With the default (English, or automatic) the
 transpiled forcing code runs as shipped. With another value two overrides apply:
 `GameSettings.GetLanguage` returns the setting, and the language table in `AoWEngine.Create`
-maps each language to its own column. `TranslateEObjectFromFile` and the translators then follow,
+maps each language to its own column. `TranslateEngineObjectFromFile` and the translators then follow,
 because they already read the registry. Two consequences the port states in its settings
 description: the fonts of the English release have no glyphs for some accented characters of the
 other languages until that is checked (open point 1), and a save written in one language holds
@@ -130,7 +130,7 @@ maps it to English unless the system language is one of the four others.
   validation `mld_dump.py check` performs; `Open`, `Close`, `SetLanguage`, `Translate(S)`,
   `TranslateContext(S, Form, Component)` with the sort and search of section 3.
 - `IvDictionary`, `IvBinaryDictionary`: the component shells the transpiled `AoWDictionary`
-  derives from, with `FFileName`, `FLanguage`, `SetDictionaryName`, `Open`, `Close`, `SetLanguage`,
+  derives from, with `FileName`, `Language`, `SetDictionaryName`, `Open`, `Close`, `SetLanguage`,
   `Translate`, backed by one `MldDictionary`. `SetDictionaryName('ResourceStringDictionary')` is the
   name the engine gives its dictionary before `UpdateStartupDirectory` sets the file.
 - `IvCustomTranslator`, `IvTranslator`: the component the forms create, with `DictionaryName`,

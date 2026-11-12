@@ -14,67 +14,67 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Events;
 
-// FUnitID. FDay. FText. FMode. FLocationName
+// UnitId. _day. Text. Mode. LocationName
 public partial class HeroEmergeEventLog : EventLog
 {
     public HeroEmergeEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131832;
+    public new const int ClassId = 131832;
 
-    public int FUnitID;
-    public new int FDay;
-    public string FText = "";
-    public HeroJoinMode FMode;
-    public string FLocationName = "";
+    public int UnitId;
+    public new int _day;
+    public string Text = "";
+    public HeroJoinMode Mode;
+    public string LocationName = "";
 
     // Hero.PAS:188
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FUnitID, 39);
-        Stream.rwInteger(ref FDay, 40);
-        Stream.rwString(ref FText, 41);
-        Stream.rwString(ref FLocationName, 42);
-        Stream.rwData(Bytes.Of(ref FMode, 1), 1, 43);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref UnitId, 39);
+        stream.rwInteger(ref _day, 40);
+        stream.rwString(ref Text, 41);
+        stream.rwString(ref LocationName, 42);
+        stream.rwData(Bytes.Of(ref Mode, 1), 1, 43);
     }
 
     // Hero.PAS:198
-    public override string GetText() => FText;
+    public override string GetText() => Text;
 
     // Hero.PAS:254
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Result = default;
-        HeroJoinEventLog Log;
-        Hero Hero = default;
-        Log = CreateHeroJoinEventLog();
-        if (Log != null)
+        bool result = default;
+        HeroJoinEventLog log;
+        Hero hero = default;
+        log = CreateHeroJoinEventLog();
+        if (log != null)
         {
-            Result = Log.Execute(Mode, Trigger, Done);
-            Log.Release();
+            result = log.Execute(mode, trigger, done);
+            log.Release();
         }
         else
         {
-            Hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FUnitID);
-            if (Hero != null)
+            hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+            if (hero != null)
             {
-                if (Hero.FPlayer == FPlayer)
+                if (hero.Player == _player)
                 {
-                    var format = AbilityRules.Format(AbilityRules.TranslateRStr(XAlreadyJoinedRStr), [Hero.FHeroName]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_alreadyJoinedFormat), [hero.HeroName]);
                     AoWHSMap.Current.ShowWarning(format);
                 }
                 else
                 {
-                    var format = AbilityRules.Format(AbilityRules.TranslateRStr(XDoesntWantToJoinAnymoreRStr), [Hero.FHeroName]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_doesNotWantToJoinAnymoreFormat), [hero.HeroName]);
                     AoWHSMap.Current.ShowWarning(format);
                 }
             }
 
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:203
@@ -84,7 +84,7 @@ public partial class HeroEmergeEventLog : EventLog
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        U = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
+        U = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
         if (U != null)
         {
             U.GetLocation(ref X, ref Y, ref L);
@@ -96,81 +96,81 @@ public partial class HeroEmergeEventLog : EventLog
     }
 
     // Hero.PAS:175
-    public void Setup(Hero Hero, sbyte Player, HeroJoinMode Mode)
+    public void Setup(Hero hero, sbyte player, HeroJoinMode mode)
     {
-        string Name;
-        FPlayer = Player;
-        FUnitID = Hero.FUnitID;
-        FDay = AoWHSMap.Current.FDay;
-        FMode = Mode;
-        Name = Hero.FHeroName;
-        if (!IsEmpty(Hero.GetNickname()))
+        string name;
+        _player = player;
+        UnitId = hero.UnitId;
+        _day = AoWHSMap.Current.Day;
+        Mode = mode;
+        name = hero.HeroName;
+        if (!IsEmpty(hero.GetNickname()))
         {
-            _ = Name + " " + Hero.GetNickname();
+            _ = name + " " + hero.GetNickname();
         }
 
         // { Original builds Name but formats the message from FHeroName instead. }
-        FText = AbilityRules.Format(AbilityRules.TranslateRStr(XOffersToJoinRStr), [Hero.FHeroName]);
+        Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_offersToJoinFormat), [hero.HeroName]);
     }
 
     // Hero.PAS:214
     public HeroJoinEventLog CreateHeroJoinEventLog()
     {
-        HeroJoinEventLog Result;
-        Hero Hero;
-        Hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FUnitID);
-        if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer) && Hero.Owner is not HeroList)
+        HeroJoinEventLog result;
+        Hero hero;
+        hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        if (hero != null && hero.Player == 0 && hero.OfferToJoin(_player) && hero.Owner is not HeroList)
         {
-            Result = new HeroJoinEventLog(null);
-            Result.FJoinIndex = FID;
-            switch (FMode)
+            result = new HeroJoinEventLog(null);
+            result.JoinIndex = Id;
+            switch (Mode)
             {
                 case HeroJoinMode.Emerged:
-                    Result.SetupJoinArmy(Hero.ArmyOwner, FPlayer, Result.FJoinMode);
-                    Result.FFirstUnitID = Hero.FUnitID;
-                    var format = AbilityRules.Format(AbilityRules.TranslateRStr(XEmergedAtYAndOffersToJoinYouForZgpRStr), [Hero.FHeroName, FLocationName, Result.FGold]);
-                    Result.FJoinMessage.Text = format;
+                    result.SetupJoinArmy(hero.ArmyOwner, _player, result.JoinMode);
+                    result.FirstUnitId = hero.UnitId;
+                    var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_heroEmergedOfferFormat), [hero.HeroName, LocationName, result.Gold]);
+                    result.JoinMessage.Text = format;
                     break;
                 case HeroJoinMode.Resurrected:
-                    Result.SetupJoinArmy(Hero.ArmyOwner, FPlayer, Result.FJoinMode);
-                    Result.FFirstUnitID = Hero.FUnitID;
-                    var aoWEFormat = AbilityRules.Format(AbilityRules.TranslateRStr(XwasResurrectedAndOffersToJoinYouForZgpRStr), [Hero.FHeroName, Result.FGold]);
-                    Result.FJoinMessage.Text = aoWEFormat;
+                    result.SetupJoinArmy(hero.ArmyOwner, _player, result.JoinMode);
+                    result.FirstUnitId = hero.UnitId;
+                    var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(s_heroResurrectedOfferFormat), [hero.HeroName, result.Gold]);
+                    result.JoinMessage.Text = formattedText;
                     break;
             }
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:242
     public bool ExecuteAI()
     {
-        bool Result;
-        HeroJoinEventLog Log;
-        Log = CreateHeroJoinEventLog();
-        if (Log != null)
+        bool result;
+        HeroJoinEventLog log;
+        log = CreateHeroJoinEventLog();
+        if (log != null)
         {
-            Result = Log.ExecuteAI();
-            Log.Release();
+            result = log.ExecuteAI();
+            log.Release();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string XOffersToJoinRStr = "%s offers to join!";
-    private static readonly string XAlreadyJoinedRStr = "%s already joined";
-    private static readonly string XDoesntWantToJoinAnymoreRStr = "%s doesn't want to join anymore";
-    private static readonly string XEmergedAtYAndOffersToJoinYouForZgpRStr = "%0:s emerged at %1:s and offers to join you for %d gold";
-    private static readonly string XwasResurrectedAndOffersToJoinYouForZgpRStr = "%s was resurrected and offers to join you for %d gold";
+    private static readonly string s_offersToJoinFormat = "%s offers to join!";
+    private static readonly string s_alreadyJoinedFormat = "%s already joined";
+    private static readonly string s_doesNotWantToJoinAnymoreFormat = "%s doesn't want to join anymore";
+    private static readonly string s_heroEmergedOfferFormat = "%0:s emerged at %1:s and offers to join you for %d gold";
+    private static readonly string s_heroResurrectedOfferFormat = "%s was resurrected and offers to join you for %d gold";
 
     public enum HeroJoinMode : byte
     {

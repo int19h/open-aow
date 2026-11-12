@@ -25,159 +25,159 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
     { }
 
     // CombatTE.pas:917
-    public new const int ClassID = 2236419;
+    public new const int ClassId = 2236419;
 
-    public TacticalBattleUnit FUnit;
-    public int FAbilityID;
-    public int FSpellID;
-    public ushort FSourceX;
-    public ushort FSourceY;
-    public ushort FTargetX;
-    public ushort FTargetY;
-    public BattleEffectType FEffectType;
-    public int FStrikeCount;
-    public object FSound;
-    public int FDelay;
-    public int FStrikeIndex;
-    public int FState;
+    public TacticalBattleUnit Unit;
+    public int AbilityId;
+    public int SpellId;
+    public ushort SourceX;
+    public ushort SourceY;
+    public ushort TargetX;
+    public ushort TargetY;
+    public BattleEffectType EffectType;
+    public int StrikeCount;
+    public object Sound;
+    public int Delay;
+    public int StrikeIndex;
+    public int State;
 
     // CombatTE.pas:920
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FAbilityID, 30);
-        Stream.rwInteger(ref FSpellID, 31);
-        Stream.rwWord(ref FTargetX, 32);
-        Stream.rwWord(ref FTargetY, 33);
-        Stream.rwWord(ref FSourceX, 34);
-        Stream.rwWord(ref FSourceY, 35);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref AbilityId, 30);
+        stream.rwInteger(ref SpellId, 31);
+        stream.rwWord(ref TargetX, 32);
+        stream.rwWord(ref TargetY, 33);
+        stream.rwWord(ref SourceX, 34);
+        stream.rwWord(ref SourceY, 35);
     }
 
     // CombatTE.pas:931
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         int I = default;
         int X = default;
         int Y = default;
-        int EffectIndex = default;
-        BattleEffectSprite Effect = default;
-        BattleEffectSprite ExtraEffect = default;
-        int EndX = default;
-        int EndY = default;
-        SpellCombatInfo Info = default;
-        TacticalBattleUnitHexSprite HS;
-        TacticalBattleOozeHexSprite Ooze = default;
-        CombatAction Action = default;
-        MapFieldMessage Msg = default;
-        base.Execute(TE);
-        ExecuteResult Result = ExecuteResult.Retry;
+        int effectIndex = default;
+        BattleEffectSprite effect = default;
+        BattleEffectSprite extraEffect = default;
+        int endX = default;
+        int endY = default;
+        SpellCombatInfo info = default;
+        TacticalBattleUnitHexSprite hexSprite;
+        TacticalBattleOozeHexSprite ooze = default;
+        CombatAction action = default;
+        MapFieldMessage message = default;
+        base.Execute(tokenEvent);
+        ExecuteResult result = ExecuteResult.Retry;
         try
         {
-            switch (FState)
+            switch (State)
             {
                 case 0:
                     try
                     {
-                        HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(FSourceX, FSourceY).FindOwnedChild(2228484);
-                        if (HS == null)
+                        hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(SourceX, SourceY).FindOwnedChild(2228484);
+                        if (hexSprite == null)
                         {
-                            Result = ExecuteResult.Done;
+                            result = ExecuteResult.Done;
                         }
                         else
                         {
-                            FUnit = HS.FUnit;
-                            FUnit.FUnitHS.Unselect();
-                            FUnit.FUnitHS.FSelectedAbility = FAbilityID;
-                            FUnit.FUnitHS.FSelectedSpell = FSpellID;
-                            if (FAbilityID == 52)
+                            Unit = hexSprite.Unit;
+                            Unit.UnitHexSprite.Unselect();
+                            Unit.UnitHexSprite.SelectedAbility = AbilityId;
+                            Unit.UnitHexSprite.SelectedSpell = SpellId;
+                            if (AbilityId == 52)
                             {
-                                FEffectType = TacticalTables.SpellTypes[FSpellID];
+                                EffectType = TacticalTables.SpellTypes[SpellId];
                             }
                             else
                             {
-                                FEffectType = TacticalTables.AbilTypes[FAbilityID];
+                                EffectType = TacticalTables.s_abilityTypes[AbilityId];
                             }
 
-                            if (FAbilityID == 52)
+                            if (AbilityId == 52)
                             {
-                                AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CombatSpellCast(FUnit);
+                                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CombatSpellCast(Unit);
                             }
 
-                            bool notExplorationEnabled = !CombatMap.Current.FExplorationEnabled;
+                            bool notExplorationEnabled = !CombatMap.Current.ExplorationEnabled;
                             if (!notExplorationEnabled)
                             {
-                                var yhx = FUnit.FUnitHS.Yhx;
-                                var xhx = FUnit.FUnitHS.Xhx;
-                                notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(xhx, yhx, 0)).GetExplored(CombatMap.Current.FSeatedPlayer);
+                                var hexY = Unit.UnitHexSprite.HexY;
+                                var hexX = Unit.UnitHexSprite.HexX;
+                                notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(hexX, hexY, 0)).GetExplored(CombatMap.Current.SeatedPlayer);
                             }
 
                             if (notExplorationEnabled)
                             {
-                                var yhx = FUnit.FUnitHS.Yhx;
-                                var xhx = FUnit.FUnitHS.Xhx;
-                                CombatMap.Current.MakeVisible(xhx, yhx, 0, 2);
+                                var hexY = Unit.UnitHexSprite.HexY;
+                                var hexX = Unit.UnitHexSprite.HexX;
+                                CombatMap.Current.MakeVisible(hexX, hexY, 0, 2);
                             }
 
-                            switch (FEffectType)
+                            switch (EffectType)
                             {
                                 case BattleEffectType.Breath:
-                                    FStrikeCount = 20;
+                                    StrikeCount = 20;
                                     break;
                                 case BattleEffectType.ScreenNESW:
-                                    FStrikeCount = 10;
+                                    StrikeCount = 10;
                                     break;
                                 case BattleEffectType.ScreenNS:
-                                    switch (FSpellID)
+                                    switch (SpellId)
                                     {
                                         case 116:
-                                            FStrikeCount = 21;
+                                            StrikeCount = 21;
                                             break;
                                         case 124:
-                                            FStrikeCount = 19;
+                                            StrikeCount = 19;
                                             break;
                                         default:
-                                            FStrikeCount = 35;
+                                            StrikeCount = 35;
                                             break;
                                     }
 
                                     break;
                                 case BattleEffectType.ShockWave:
-                                    FTargetX = FSourceX;
-                                    FTargetY = FSourceY;
-                                    FStrikeCount = 1;
+                                    TargetX = SourceX;
+                                    TargetY = SourceY;
+                                    StrikeCount = 1;
                                     break;
                                 case BattleEffectType.Touch:
-                                    FStrikeCount = 1;
+                                    StrikeCount = 1;
                                     break;
                                 case BattleEffectType.Swarm:
                                 case BattleEffectType.ScreenSwarm:
-                                    FStrikeCount = 30;
+                                    StrikeCount = 30;
                                     break;
                                 default:
-                                    if (FAbilityID == 52)
+                                    if (AbilityId == 52)
                                     {
-                                        AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).GetCombatInfo(FUnit.FUnit, ref Info);
-                                        FStrikeCount = Info.RepeatCount;
+                                        AoWHSSet.Current.SpellControl.GetSpell(SpellId).GetCombatInfo(Unit.Troop, ref info);
+                                        StrikeCount = info.RepeatCount;
                                     }
                                     else
                                     {
-                                        FStrikeCount = ((RangedAttackAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).GetAttackRepeatRA(FUnit.FUnit);
+                                        StrikeCount = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).GetAttackRepeatRangedAttack(Unit.Troop);
                                     }
 
                                     break;
                             }
 
-                            switch (FEffectType)
+                            switch (EffectType)
                             {
                                 case BattleEffectType.Tremors:
-                                    FSound = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.PlayEx(0, 64, true, 0, SamplePanning.Center, null);
+                                    Sound = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0, 64, true, 0, SamplePanning.Center, null);
                                     NextStrike();
                                     break;
                                 case BattleEffectType.ScreenSwarm:
-                                    FSound = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.PlayEx(2, 64, true, 0, SamplePanning.Center, null);
+                                    Sound = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(2, 64, true, 0, SamplePanning.Center, null);
                                     {
                                         I = 0;
-                                        int last = FStrikeCount - 1;
+                                        int last = StrikeCount - 1;
                                         for (; I <= last; I += 1)
                                         {
                                             NextStrike();
@@ -190,55 +190,55 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                     break;
                             }
 
-                            FUnit.FMovePoints = 0;
-                            FState += 1;
+                            Unit.MovePoints = 0;
+                            State += 1;
                         }
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token Start", "Error - TCRangedToken " + IntToStr(FAbilityID) + "/" + IntToStr(FSpellID), 0);
+                        MessageBox(0, "Error during Token Start", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
                     }
 
                     break;
                 case 1:
                     try
                     {
-                        EffectIndex = 0;
-                        while (EffectIndex < CombatMap.Current.FEffects.Count)
+                        effectIndex = 0;
+                        while (effectIndex < CombatMap.Current.Effects.Count)
                         {
-                            EndX = -1;
-                            EndY = -1;
-                            Effect = CombatMap.Current.FEffects[EffectIndex];
-                            if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 117)
+                            endX = -1;
+                            endY = -1;
+                            effect = CombatMap.Current.Effects[effectIndex];
+                            if (effect.AbilityIndex == 52 && effect.SpellIndex == 117)
                             {
-                                if (Effect.FEffectType == BattleEffectType.Rock)
+                                if (effect.EffectType == BattleEffectType.Rock)
                                 {
-                                    if (Effect.FDone)
+                                    if (effect.Done)
                                     {
-                                        Effect.FEffectType = BattleEffectType.FBExplosion;
-                                        Effect.FDone = false;
-                                        while (Effect.FPath.Count > 1)
+                                        effect.EffectType = BattleEffectType.FBExplosion;
+                                        effect.Done = false;
+                                        while (effect.Path.Count > 1)
                                         {
-                                            Effect.FPath.Delete(0);
+                                            effect.Path.Delete(0);
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    switch (Effect.FFrame)
+                                    switch (effect.Frame)
                                     {
                                         case 5:
-                                            Msg.MsgID = 200707;
-                                            Msg.Param[0] = FUnit;
-                                            Msg.Result = -1;
-                                            var path = Effect.FPath[0];
-                                            HexGeometry.HPtoHX(Effect.FPath[0].X, path.Y, ref EndX, ref EndY);
+                                            message.MessageId = 200707;
+                                            message.Param[0] = Unit;
+                                            message.Result = -1;
+                                            var path = effect.Path[0];
+                                            HexGeometry.PixelToHex(effect.Path[0].X, path.Y, ref endX, ref endY);
                                             {
                                                 I = 0;
                                                 for (; I <= 6; I += 1)
                                                 {
-                                                    HexGeometry.CenterHNtoHX(EndX, EndY, I, ref X, ref Y);
-                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                    HexGeometry.CenterHexNumberToHex(endX, endY, I, ref X, ref Y);
+                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                     EffectPaths.CreateFire(false, 50, X, Y);
                                                 }
                                             }
@@ -249,46 +249,46 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             }
                             else
                             {
-                                if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 107)
+                                if (effect.AbilityIndex == 52 && effect.SpellIndex == 107)
                                 {
-                                    if (Effect.FFrame != -1 && Effect.FPath[Effect.FFrame].Z == 15)
+                                    if (effect.Frame != -1 && effect.Path[effect.Frame].Z == 15)
                                     {
-                                        var path = Effect.FPath[Effect.FFrame];
-                                        HexGeometry.HPtoHX(Effect.FPath[Effect.FFrame].X, path.Y, ref X, ref Y);
-                                        HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);
-                                        if (HS != null)
+                                        var path = effect.Path[effect.Frame];
+                                        HexGeometry.PixelToHex(effect.Path[effect.Frame].X, path.Y, ref X, ref Y);
+                                        hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);
+                                        if (hexSprite != null)
                                         {
                                             RandSeed = AoWHSMap.Current.Random(16777215);
-                                            Effect.FCombatAction = AoWHSSet.Current.FSpellControl.GetSpell(Effect.FSpellIndex).CreateCA(FUnit, HS.FUnit, false);
-                                            var yhx = HS.Yhx;
-                                            HexGeometry.HXtoHP(HS.Xhx, yhx, ref I, ref X);
-                                            if (((DamageCombatAction)Effect.FCombatAction).FDamageTypes.Value - ((DamageCombatAction)Effect.FCombatAction).FEffects.Value != Set<DamageType>.Of())
+                                            effect.CombatAction = AoWHSSet.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction(Unit, hexSprite.Unit, false);
+                                            var hexY = hexSprite.HexY;
+                                            HexGeometry.HexToPixel(hexSprite.HexX, hexY, ref I, ref X);
+                                            if (((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
                                             {
-                                                CombatEvents.MakeDEHSList(I, X, ((DamageCombatAction)Effect.FCombatAction).FDamageTypes.Value - ((DamageCombatAction)Effect.FCombatAction).FEffects.Value, false);
+                                                CombatEvents.MakeDamageEffectHexSpriteList(I, X, ((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value, false);
                                             }
 
-                                            if (((DamageCombatAction)Effect.FCombatAction).FEffects.Value != Set<DamageType>.Of())
+                                            if (((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
                                             {
-                                                CombatEvents.MakeDEHSList(I, X, ((DamageCombatAction)Effect.FCombatAction).FEffects.Value, true);
+                                                CombatEvents.MakeDamageEffectHexSpriteList(I, X, ((DamageCombatAction)effect.CombatAction).Effects.Value, true);
                                             }
 
-                                            CombatMap.Current.FCombat.ExecuteCombatAction(Effect.FCombatAction);
-                                            Effect.FCombatAction.Release();
-                                            Effect.FCombatAction = null;
+                                            CombatMap.Current.Combat.ExecuteCombatAction(effect.CombatAction);
+                                            effect.CombatAction.Release();
+                                            effect.CombatAction = null;
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 112)
+                                    if (effect.AbilityIndex == 52 && effect.SpellIndex == 112)
                                     {
-                                        switch (Effect.FFrame)
+                                        switch (effect.Frame)
                                         {
                                             case 89:
-                                                Msg.MsgID = 200708;
-                                                Msg.Param[0] = FUnit;
-                                                Msg.Param[1] = 0;
-                                                Msg.Result = -1;
+                                                message.MessageId = 200708;
+                                                message.Param[0] = Unit;
+                                                message.Param[1] = 0;
+                                                message.Result = -1;
                                                 {
                                                     I = 6;
                                                     for (; I <= 59; I += 1)
@@ -296,7 +296,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                         X = 6;
                                                         for (; X <= 52; X += 1)
                                                         {
-                                                            CombatMap.Current.MapContainer.MapLevels[0].GetField(I, X).SendMapFieldMsg(ref Msg);
+                                                            CombatMap.Current.MapContainer.MapLevels[0].GetField(I, X).SendMapFieldMessage(ref message);
                                                         }
                                                     }
                                                 }
@@ -306,36 +306,36 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                     }
                                     else
                                     {
-                                        if (Effect.FAbilityIndex == 52 && Effect.FEffectType == BattleEffectType.Resurrect && (Effect.FSpellIndex == 130 || Effect.FSpellIndex == 129))
+                                        if (effect.AbilityIndex == 52 && effect.EffectType == BattleEffectType.Resurrect && (effect.SpellIndex == 130 || effect.SpellIndex == 129))
                                         {
-                                            switch (Effect.FFrame)
+                                            switch (effect.Frame)
                                             {
                                                 case 0:
-                                                    Msg.MsgID = 200712;
-                                                    Msg.Param[0] = FUnit;
-                                                    Msg.Param[1] = FSpellID;
-                                                    Msg.Result = -1;
+                                                    message.MessageId = 200712;
+                                                    message.Param[0] = Unit;
+                                                    message.Param[1] = SpellId;
+                                                    message.Result = -1;
                                                     {
                                                         I = 0;
                                                         for (; I <= 6; I += 1)
                                                         {
-                                                            HexGeometry.CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                            CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                            HexGeometry.CenterHexNumberToHex(TargetX, TargetY, I, ref X, ref Y);
+                                                            CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                         }
                                                     }
 
                                                     break;
                                                 case 99:
-                                                    Msg.MsgID = 200713;
-                                                    Msg.Param[0] = FUnit;
-                                                    Msg.Param[1] = FSpellID;
-                                                    Msg.Result = -1;
+                                                    message.MessageId = 200713;
+                                                    message.Param[0] = Unit;
+                                                    message.Param[1] = SpellId;
+                                                    message.Result = -1;
                                                     {
                                                         I = 0;
                                                         for (; I <= 6; I += 1)
                                                         {
-                                                            HexGeometry.CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                            CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                            HexGeometry.CenterHexNumberToHex(TargetX, TargetY, I, ref X, ref Y);
+                                                            CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                         }
                                                     }
 
@@ -344,20 +344,20 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                         }
                                         else
                                         {
-                                            if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 104)
+                                            if (effect.AbilityIndex == 52 && effect.SpellIndex == 104)
                                             {
-                                                switch (Effect.FFrame)
+                                                switch (effect.Frame)
                                                 {
                                                     case 199:
-                                                        Msg.MsgID = 200709;
-                                                        Msg.Param[0] = FUnit;
-                                                        Msg.Result = -1;
+                                                        message.MessageId = 200709;
+                                                        message.Param[0] = Unit;
+                                                        message.Result = -1;
                                                         {
                                                             I = 0;
                                                             for (; I <= 6; I += 1)
                                                             {
-                                                                HexGeometry.CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, I, ref X, ref Y);
+                                                                CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                             }
                                                         }
 
@@ -366,48 +366,48 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                             }
                                             else
                                             {
-                                                if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 127)
+                                                if (effect.AbilityIndex == 52 && effect.SpellIndex == 127)
                                                 {
-                                                    switch (Effect.FFrame)
+                                                    switch (effect.Frame)
                                                     {
                                                         case 175:
-                                                            Msg.MsgID = 200717;
-                                                            Msg.Param[0] = FUnit;
-                                                            Msg.Result = -1;
+                                                            message.MessageId = 200717;
+                                                            message.Param[0] = Unit;
+                                                            message.Result = -1;
                                                             {
                                                                 I = 1;
                                                                 for (; I <= 6; I += 1)
                                                                 {
-                                                                    HexGeometry.CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, I, ref X, ref Y);
+                                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                                 }
                                                             }
 
                                                             break;
                                                         case 200:
-                                                            Msg.MsgID = 200717;
-                                                            Msg.Param[0] = FUnit;
-                                                            Msg.Result = -1;
+                                                            message.MessageId = 200717;
+                                                            message.Param[0] = Unit;
+                                                            message.Result = -1;
                                                             {
                                                                 I = 7;
                                                                 for (; I <= 18; I += 1)
                                                                 {
-                                                                    HexGeometry.CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, I, ref X, ref Y);
+                                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                                 }
                                                             }
 
                                                             break;
                                                         case 225:
-                                                            Msg.MsgID = 200717;
-                                                            Msg.Param[0] = FUnit;
-                                                            Msg.Result = -1;
+                                                            message.MessageId = 200717;
+                                                            message.Param[0] = Unit;
+                                                            message.Result = -1;
                                                             {
                                                                 I = 19;
                                                                 for (; I <= 36; I += 1)
                                                                 {
-                                                                    HexGeometry.CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, I, ref X, ref Y);
+                                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                                 }
                                                             }
 
@@ -416,30 +416,30 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                 }
                                                 else
                                                 {
-                                                    if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 128)
+                                                    if (effect.AbilityIndex == 52 && effect.SpellIndex == 128)
                                                     {
-                                                        switch (Effect.FFrame)
+                                                        switch (effect.Frame)
                                                         {
                                                             case 100:
-                                                                var yhx = FUnit.FUnitHS.Yhx;
-                                                                EffectPaths.CreateFire(false, 50, FUnit.FUnitHS.Xhx, yhx);
-                                                                Msg.MsgID = 200718;
-                                                                Msg.Param[0] = FUnit;
-                                                                Msg.Result = -1;
-                                                                var fUnitHSYhx = FUnit.FUnitHS.Yhx;
-                                                                var xhx = FUnit.FUnitHS.Xhx;
-                                                                CombatMap.Current.MapContainer.MapLevels[0].GetField(xhx, fUnitHSYhx).SendMapFieldMsg(ref Msg);
+                                                                var hexY = Unit.UnitHexSprite.HexY;
+                                                                EffectPaths.CreateFire(false, 50, Unit.UnitHexSprite.HexX, hexY);
+                                                                message.MessageId = 200718;
+                                                                message.Param[0] = Unit;
+                                                                message.Result = -1;
+                                                                var fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                                                                var hexX = Unit.UnitHexSprite.HexX;
+                                                                CombatMap.Current.MapContainer.MapLevels[0].GetField(hexX, fUnitHexSpriteHexY).SendMapFieldMessage(ref message);
                                                                 break;
                                                             case 175:
-                                                                Msg.MsgID = 200718;
-                                                                Msg.Param[0] = FUnit;
-                                                                Msg.Result = -1;
+                                                                message.MessageId = 200718;
+                                                                message.Param[0] = Unit;
+                                                                message.Result = -1;
                                                                 {
                                                                     I = 0;
                                                                     for (; I <= 18; I += 1)
                                                                     {
-                                                                        HexGeometry.CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                        HexGeometry.CenterHexNumberToHex(TargetX, TargetY, I, ref X, ref Y);
+                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                                         EffectPaths.CreateFire(false, 50, X, Y);
                                                                     }
                                                                 }
@@ -449,45 +449,45 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                     }
                                                     else
                                                     {
-                                                        if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 105 && Effect.FTarget != null)
+                                                        if (effect.AbilityIndex == 52 && effect.SpellIndex == 105 && effect.Target != null)
                                                         {
                                                             I = 0;
-                                                            int last = CombatMap.Current.FCombat.FCombatData.GetCount() - 1;
+                                                            int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
                                                             for (; I <= last; I += 1)
                                                             {
-                                                                if (CombatMap.Current.FCombat.FCombatData.GetObjects(I) != null && CombatMap.Current.FCombat.FCombatData.GetObjects(I) is CombatUnit && CombatMap.Current.FCombat.FCombatData.GetObjects(I).GetSide() != FUnit.GetSide() && CombatMap.Current.FCombat.FCombatData.GetObjects(I).GetEnabled() && ((TacticalBattleUnit)CombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS != null)
+                                                                if (CombatMap.Current.Combat.CombatData.GetObjects(I) != null && CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetSide() != Unit.GetSide() && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite != null)
                                                                 {
                                                                     RandSeed = AoWHSMap.Current.Random(16777215);
-                                                                    var combatObject = CombatMap.Current.FCombat.FCombatData.GetObjects(I);
-                                                                    Action = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CreateCA(FUnit, combatObject, false);
-                                                                    if (((ExclusiveCombatSpellCombatAction)Action).FSucceeded)
+                                                                    var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(I);
+                                                                    action = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(Unit, combatObject, false);
+                                                                    if (((ExclusiveCombatSpellCombatAction)action).Succeeded)
                                                                     {
-                                                                        ((TacticalBattleUnit)CombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                                                        ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                                     }
 
-                                                                    CombatMap.Current.FCombat.ExecuteCombatAction(Action);
-                                                                    Action.Release();
+                                                                    CombatMap.Current.Combat.ExecuteCombatAction(action);
+                                                                    action.Release();
                                                                 }
                                                             }
 
-                                                            Effect.FTarget = null;
+                                                            effect.Target = null;
                                                         }
                                                         else
                                                         {
-                                                            if (Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 120)
+                                                            if (effect.AbilityIndex == 52 && effect.SpellIndex == 120)
                                                             {
-                                                                switch (Effect.FFrame)
+                                                                switch (effect.Frame)
                                                                 {
                                                                     case 2999:
-                                                                        Msg.MsgID = 200716;
-                                                                        Msg.Param[0] = FUnit;
-                                                                        Msg.Result = -1;
+                                                                        message.MessageId = 200716;
+                                                                        message.Param[0] = Unit;
+                                                                        message.Result = -1;
                                                                         {
                                                                             I = 0;
                                                                             for (; I <= 6; I += 1)
                                                                             {
-                                                                                HexGeometry.CenterHNtoHX(FTargetX, FTargetY, I, ref X, ref Y);
-                                                                                CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMsg(ref Msg);
+                                                                                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, I, ref X, ref Y);
+                                                                                CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).SendMapFieldMessage(ref message);
                                                                             }
                                                                         }
 
@@ -496,25 +496,25 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                             }
                                                             else
                                                             {
-                                                                if (Effect.FEffectType == BattleEffectType.SacredWrath && Effect.FAbilityIndex == 52 && Effect.FSpellIndex == 125)
+                                                                if (effect.EffectType == BattleEffectType.SacredWrath && effect.AbilityIndex == 52 && effect.SpellIndex == 125)
                                                                 {
-                                                                    switch (Effect.FFrame)
+                                                                    switch (effect.Frame)
                                                                     {
                                                                         case 5:
                                                                             {
                                                                                 I = 0;
-                                                                                int last = CombatMap.Current.FCombat.FCombatData.GetCount() - 1;
+                                                                                int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
                                                                                 for (; I <= last; I += 1)
                                                                                 {
-                                                                                    if (CombatMap.Current.FCombat.FCombatData.GetObjects(I) is CombatUnit && CombatMap.Current.FCombat.FCombatData.GetObjects(I).GetEnabled())
+                                                                                    if (CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled())
                                                                                     {
-                                                                                        HS = ((TacticalBattleUnit)CombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS;
-                                                                                        if (HS != null)
+                                                                                        hexSprite = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite;
+                                                                                        if (hexSprite != null)
                                                                                         {
-                                                                                            ExtraEffect = CombatMap.Current.AddEffect(BattleEffectType.SWComet);
-                                                                                            ExtraEffect.FAbilityIndex = FAbilityID;
-                                                                                            ExtraEffect.FSpellIndex = FSpellID;
-                                                                                            ExtraEffect.FTarget = HS.FUnit;
+                                                                                            extraEffect = CombatMap.Current.AddEffect(BattleEffectType.SWComet);
+                                                                                            extraEffect.AbilityIndex = AbilityId;
+                                                                                            extraEffect.SpellIndex = SpellId;
+                                                                                            extraEffect.Target = hexSprite.Unit;
                                                                                         }
                                                                                     }
                                                                                 }
@@ -525,96 +525,96 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                 }
                                                                 else
                                                                 {
-                                                                    if (Effect.FDone && Effect.FTarget != null && Effect.FTarget.GetEnabled())
+                                                                    if (effect.Done && effect.Target != null && effect.Target.GetEnabled())
                                                                     {
                                                                         I = 0;
                                                                         RandSeed = AoWHSMap.Current.Random(16777215);
-                                                                        if (FAbilityID == 52)
+                                                                        if (AbilityId == 52)
                                                                         {
-                                                                            Effect.FCombatAction = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CreateCA(FUnit, Effect.FTarget, false);
+                                                                            effect.CombatAction = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(Unit, effect.Target, false);
                                                                         }
                                                                         else
                                                                         {
-                                                                            if (FAbilityID == 47)
+                                                                            if (AbilityId == 47)
                                                                             {
-                                                                                Effect.FCombatAction = ((HealingAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreateHealingCA(FUnit, Effect.FTarget);
+                                                                                effect.CombatAction = ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(Unit, effect.Target);
                                                                             }
                                                                             else
                                                                             {
-                                                                                if (FAbilityID == 60)
+                                                                                if (AbilityId == 60)
                                                                                 {
-                                                                                    Effect.FCombatAction = ((DispelMagicAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreateCA(FUnit, Effect.FTarget);
+                                                                                    effect.CombatAction = ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(Unit, effect.Target);
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    Effect.FCombatAction = ((RangedAttackAbility)AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID)).CreateRangedAttackCA(FUnit, Effect.FTarget, 0);
+                                                                                    effect.CombatAction = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateRangedAttackCombatAction(Unit, effect.Target, 0);
                                                                                 }
                                                                             }
                                                                         }
 
-                                                                        if (Effect.FCombatAction is DamageCombatAction)
+                                                                        if (effect.CombatAction is DamageCombatAction)
                                                                         {
-                                                                            I = ((DamageCombatAction)Effect.FCombatAction).FDamage;
-                                                                            var yhx = ((TacticalBattleUnit)Effect.FTarget).FUnitHS.Yhx;
-                                                                            HexGeometry.HXtoHP(((TacticalBattleUnit)Effect.FTarget).FUnitHS.Xhx, yhx, ref X, ref Y);
-                                                                            if (((DamageCombatAction)Effect.FCombatAction).FDamageTypes.Value - ((DamageCombatAction)Effect.FCombatAction).FEffects.Value != Set<DamageType>.Of())
+                                                                            I = ((DamageCombatAction)effect.CombatAction).Damage;
+                                                                            var hexY = ((TacticalBattleUnit)effect.Target).UnitHexSprite.HexY;
+                                                                            HexGeometry.HexToPixel(((TacticalBattleUnit)effect.Target).UnitHexSprite.HexX, hexY, ref X, ref Y);
+                                                                            if (((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
                                                                             {
-                                                                                CombatEvents.MakeDEHSList(X, Y, ((DamageCombatAction)Effect.FCombatAction).FDamageTypes.Value - ((DamageCombatAction)Effect.FCombatAction).FEffects.Value, false);
+                                                                                CombatEvents.MakeDamageEffectHexSpriteList(X, Y, ((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value, false);
                                                                             }
 
-                                                                            if (((DamageCombatAction)Effect.FCombatAction).FEffects.Value != Set<DamageType>.Of())
+                                                                            if (((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
                                                                             {
-                                                                                CombatEvents.MakeDEHSList(X, Y, ((DamageCombatAction)Effect.FCombatAction).FEffects.Value, true);
+                                                                                CombatEvents.MakeDamageEffectHexSpriteList(X, Y, ((DamageCombatAction)effect.CombatAction).Effects.Value, true);
                                                                             }
                                                                         }
                                                                         else
                                                                         {
-                                                                            if (Effect.FCombatAction is EntangleSpellCombatAction)
+                                                                            if (effect.CombatAction is EntangleSpellCombatAction)
                                                                             {
-                                                                                if (((ExclusiveCombatSpellCombatAction)Effect.FCombatAction).FSucceeded)
+                                                                                if (((ExclusiveCombatSpellCombatAction)effect.CombatAction).Succeeded)
                                                                                 {
-                                                                                    ((TacticalBattleUnit)Effect.FTarget).FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                                                                    ((TacticalBattleUnit)effect.Target).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                                                 }
                                                                             }
                                                                             else
                                                                             {
-                                                                                if (Effect.FCombatAction is MindDecayCombatAction && ((ExclusiveCombatSpellCombatAction)Effect.FCombatAction).FSucceeded)
+                                                                                if (effect.CombatAction is MindDecayCombatAction && ((ExclusiveCombatSpellCombatAction)effect.CombatAction).Succeeded)
                                                                                 {
-                                                                                    ((TacticalBattleUnit)Effect.FTarget).FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                                                                    ((TacticalBattleUnit)effect.Target).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
                                                                                 }
                                                                             }
                                                                         }
 
                                                                         if (I > 0)
                                                                         {
-                                                                            ((TacticalBattleUnit)Effect.FTarget).FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
-                                                                            TacticalBattleUnit.MakeHitBlood((TacticalBattleUnit)Effect.FTarget, I);
-                                                                            Effect.FCancelled = true;
+                                                                            ((TacticalBattleUnit)effect.Target).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
+                                                                            TacticalBattleUnit.MakeHitBlood((TacticalBattleUnit)effect.Target, I);
+                                                                            effect.Cancelled = true;
                                                                         }
                                                                     }
 
-                                                                    if (Effect.FDone)
+                                                                    if (effect.Done)
                                                                     {
-                                                                        var count = Effect.FPath.Count;
-                                                                        var path = Effect.FPath[count - 1];
-                                                                        var fPathCount = Effect.FPath.Count;
-                                                                        HexGeometry.HPtoHX(Effect.FPath[fPathCount - 1].X, path.Y, ref EndX, ref EndY);
-                                                                        if (Effect.FCombatAction != null && Effect.FTarget != null)
+                                                                        var count = effect.Path.Count;
+                                                                        var path = effect.Path[count - 1];
+                                                                        var fPathCount = effect.Path.Count;
+                                                                        HexGeometry.PixelToHex(effect.Path[fPathCount - 1].X, path.Y, ref endX, ref endY);
+                                                                        if (effect.CombatAction != null && effect.Target != null)
                                                                         {
-                                                                            CombatMap.Current.FCombat.ExecuteCombatAction(Effect.FCombatAction);
-                                                                            Effect.FCombatAction.Release();
-                                                                            Effect.FCombatAction = null;
-                                                                            if (!Effect.FTarget.GetEnabled())
+                                                                            CombatMap.Current.Combat.ExecuteCombatAction(effect.CombatAction);
+                                                                            effect.CombatAction.Release();
+                                                                            effect.CombatAction = null;
+                                                                            if (!effect.Target.GetEnabled())
                                                                             {
                                                                                 I = 0;
-                                                                                int last = CombatMap.Current.FEffects.Count - 1;
+                                                                                int last = CombatMap.Current.Effects.Count - 1;
                                                                                 for (; I <= last; I += 1)
                                                                                 {
-                                                                                    if (I != EffectIndex)
+                                                                                    if (I != effectIndex)
                                                                                     {
-                                                                                        if ((CombatMap.Current.FEffects[I]).FTarget == Effect.FTarget)
+                                                                                        if ((CombatMap.Current.Effects[I]).Target == effect.Target)
                                                                                         {
-                                                                                            (CombatMap.Current.FEffects[I]).FTarget = null;
+                                                                                            (CombatMap.Current.Effects[I]).Target = null;
                                                                                         }
                                                                                     }
                                                                                 }
@@ -622,69 +622,69 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                         }
                                                                         else
                                                                         {
-                                                                            if (EndX > -1)
+                                                                            if (endX > -1)
                                                                             {
-                                                                                switch (Effect.FAbilityIndex)
+                                                                                switch (effect.AbilityIndex)
                                                                                 {
                                                                                     case 30:
                                                                                     case >= 86 and <= 90:
-                                                                                        if (Effect.FTargetX > 0)
+                                                                                        if (effect.TargetX > 0)
                                                                                         {
-                                                                                            Msg.MsgID = 200722;
-                                                                                            Msg.Param[0] = FUnit;
-                                                                                            Msg.Param[1] = Effect.FAbilityIndex;
-                                                                                            Msg.Result = -1;
-                                                                                            CombatMap.Current.MapContainer.MapLevels[0].GetField(Effect.FTargetX, Effect.FTargetY).SendMapFieldMsg(ref Msg);
+                                                                                            message.MessageId = 200722;
+                                                                                            message.Param[0] = Unit;
+                                                                                            message.Param[1] = effect.AbilityIndex;
+                                                                                            message.Result = -1;
+                                                                                            CombatMap.Current.MapContainer.MapLevels[0].GetField(effect.TargetX, effect.TargetY).SendMapFieldMessage(ref message);
                                                                                         }
 
                                                                                         break;
                                                                                     case 24:
-                                                                                        Msg.MsgID = 200705;
-                                                                                        Msg.Param[0] = FUnit;
-                                                                                        Msg.Result = -1;
-                                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).SendMapFieldMsg(ref Msg);
+                                                                                        message.MessageId = 200705;
+                                                                                        message.Param[0] = Unit;
+                                                                                        message.Result = -1;
+                                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                         break;
                                                                                     case 44:
-                                                                                        Msg.MsgID = 200706;
-                                                                                        Msg.Param[0] = FUnit;
-                                                                                        Msg.Result = -1;
-                                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).SendMapFieldMsg(ref Msg);
+                                                                                        message.MessageId = 200706;
+                                                                                        message.Param[0] = Unit;
+                                                                                        message.Result = -1;
+                                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                         break;
                                                                                     case 31:
-                                                                                        Msg.MsgID = 200714;
-                                                                                        Msg.Param[0] = FUnit;
-                                                                                        Msg.Result = -1;
-                                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).SendMapFieldMsg(ref Msg);
-                                                                                        EffectPaths.CreateFire(false, 100, EndX, EndY);
+                                                                                        message.MessageId = 200714;
+                                                                                        message.Param[0] = Unit;
+                                                                                        message.Result = -1;
+                                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
+                                                                                        EffectPaths.CreateFire(false, 100, endX, endY);
                                                                                         break;
                                                                                     case 52:
-                                                                                        switch (Effect.FEffectType)
+                                                                                        switch (effect.EffectType)
                                                                                         {
                                                                                             case BattleEffectType.Breath:
-                                                                                                if (Effect.FTargetX > 0)
+                                                                                                if (effect.TargetX > 0)
                                                                                                 {
-                                                                                                    Msg.MsgID = 200723;
-                                                                                                    Msg.Param[0] = FUnit;
-                                                                                                    Msg.Param[1] = Effect.FSpellIndex;
-                                                                                                    Msg.Result = -1;
-                                                                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(Effect.FTargetX, Effect.FTargetY).SendMapFieldMsg(ref Msg);
+                                                                                                    message.MessageId = 200723;
+                                                                                                    message.Param[0] = Unit;
+                                                                                                    message.Param[1] = effect.SpellIndex;
+                                                                                                    message.Result = -1;
+                                                                                                    CombatMap.Current.MapContainer.MapLevels[0].GetField(effect.TargetX, effect.TargetY).SendMapFieldMessage(ref message);
                                                                                                 }
 
                                                                                                 break;
                                                                                             case BattleEffectType.ScreenNS:
-                                                                                                switch (Effect.FSpellIndex)
+                                                                                                switch (effect.SpellIndex)
                                                                                                 {
                                                                                                     case 116:
-                                                                                                        Msg.MsgID = 200710;
-                                                                                                        Msg.Param[0] = FUnit;
-                                                                                                        Msg.Result = -1;
-                                                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).SendMapFieldMsg(ref Msg);
+                                                                                                        message.MessageId = 200710;
+                                                                                                        message.Param[0] = Unit;
+                                                                                                        message.Result = -1;
+                                                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
                                                                                                         break;
                                                                                                     case 124:
-                                                                                                        if (CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).TerrainType != 0 && CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).TerrainType != 10 && CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).OverlayType != 2 && CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).OverlayType != 11 && CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).TerrainType != 9 && CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).TerrainType != 15 && CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).TerrainType != 7)
+                                                                                                        if (CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 0 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 10 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 2 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 11 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).OverlayType != 8 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 9 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 15 && CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).TerrainType != 7)
                                                                                                         {
-                                                                                                            Ooze = new TacticalBattleOozeHexSprite(null);
-                                                                                                            CombatMap.Current.PlaceHX(Ooze, EndX, EndY, 0);
+                                                                                                            ooze = new TacticalBattleOozeHexSprite(null);
+                                                                                                            CombatMap.Current.PlaceHex(ooze, endX, endY, 0);
                                                                                                         }
 
                                                                                                         break;
@@ -692,14 +692,14 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
                                                                                                 break;
                                                                                             case BattleEffectType.Effect:
-                                                                                                switch (Effect.FSpellIndex)
+                                                                                                switch (effect.SpellIndex)
                                                                                                 {
                                                                                                     case 113:
-                                                                                                        Msg.MsgID = 200715;
-                                                                                                        Msg.Param[0] = FUnit;
-                                                                                                        Msg.Result = -1;
-                                                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(EndX, EndY).SendMapFieldMsg(ref Msg);
-                                                                                                        EffectPaths.CreateFire(false, 100, EndX, EndY);
+                                                                                                        message.MessageId = 200715;
+                                                                                                        message.Param[0] = Unit;
+                                                                                                        message.Result = -1;
+                                                                                                        CombatMap.Current.MapContainer.MapLevels[0].GetField(endX, endY).SendMapFieldMessage(ref message);
+                                                                                                        EffectPaths.CreateFire(false, 100, endX, endY);
                                                                                                         break;
                                                                                                 }
 
@@ -722,34 +722,34 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                 }
                             }
 
-                            EffectIndex += 1;
+                            effectIndex += 1;
                         }
 
-                        if (CombatMap.Current.FEffects.Count == 0 && (FStrikeIndex >= FStrikeCount || !FUnit.GetEnabled()))
+                        if (CombatMap.Current.Effects.Count == 0 && (StrikeIndex >= StrikeCount || !Unit.GetEnabled()))
                         {
-                            if (FUnit.GetEnabled())
+                            if (Unit.GetEnabled())
                             {
-                                FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
+                                Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Move);
                             }
 
-                            Result = ExecuteResult.Done;
+                            result = ExecuteResult.Done;
                         }
 
-                        if (FUnit.GetEnabled())
+                        if (Unit.GetEnabled())
                         {
-                            if (FEffectType == BattleEffectType.Breath)
+                            if (EffectType == BattleEffectType.Breath)
                             {
                                 NextStrike();
                             }
                             else
                             {
-                                if (FUnit.FUnitHS.FActionDone || (FAbilityID == 52 && FDelay <= 0))
+                                if (Unit.UnitHexSprite.ActionDone || (AbilityId == 52 && Delay <= 0))
                                 {
-                                    FDelay = AoWHSMap.Current.Random(3) + 4;
+                                    Delay = AoWHSMap.Current.Random(3) + 4;
                                 }
 
-                                FDelay -= 1;
-                                if (FDelay == 0)
+                                Delay -= 1;
+                                if (Delay == 0)
                                 {
                                     NextStrike();
                                 }
@@ -758,236 +758,236 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     }
                     catch
                     {
-                        MessageBox(0, "Error during Token Execute", "Error - TCRangedToken " + IntToStr(FAbilityID) + "/" + IntToStr(FSpellID), 0);
+                        MessageBox(0, "Error during Token Execute", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
                     }
 
                     break;
             }
 
-            if (Result == ExecuteResult.Done)
+            if (result == ExecuteResult.Done)
             {
-                if (FSound != null)
+                if (Sound != null)
                 {
-                    (FSound as IDisposable)?.Dispose();
+                    (Sound as IDisposable)?.Dispose();
                 }
 
-                if (FUnit != null && FUnit.GetEnabled())
+                if (Unit != null && Unit.GetEnabled())
                 {
-                    FUnit.FUnitHS.FSelectedAbility = -1;
-                    FUnit.FUnitHS.FSelectedSpell = -1;
-                    FUnit.FUnitHS.Unselect();
-                    if (FUnit.FCombatPlayer == CombatMap.Current.FCurrentCombatPlayer)
+                    Unit.UnitHexSprite.SelectedAbility = -1;
+                    Unit.UnitHexSprite.SelectedSpell = -1;
+                    Unit.UnitHexSprite.Unselect();
+                    if (Unit.CombatPlayer == CombatMap.Current.CurrentCombatPlayer)
                     {
-                        var xhx = FUnit.FUnitHS.Xhx;
-                        CombatMap.Current.FPlayers.GetPlayers(CombatMap.Current.FCurrentCombatPlayer).FLastX = xhx;
-                        var yhx = FUnit.FUnitHS.Yhx;
-                        CombatMap.Current.FPlayers.GetPlayers(CombatMap.Current.FCurrentCombatPlayer).FLastY = yhx;
+                        var hexX = Unit.UnitHexSprite.HexX;
+                        CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastX = hexX;
+                        var hexY = Unit.UnitHexSprite.HexY;
+                        CombatMap.Current.Players.GetPlayers(CombatMap.Current.CurrentCombatPlayer).LastY = hexY;
                     }
                 }
             }
         }
         catch
         {
-            MessageBox(0, "Error during Token", "Error - TCRangedToken " + IntToStr(FAbilityID) + "/" + IntToStr(FSpellID), 0);
+            MessageBox(0, "Error during Token", "Error - TCRangedToken " + IntToStr(AbilityId) + "/" + IntToStr(SpellId), 0);
         }
 
-        return Result;
+        return result;
     }
 
     // CombatTE.pas:1373
     public void NextStrike()
     {
-        DelphiList Used;
-        TacticalBattleUnit Target;
-        BattleEffectSprite Effect;
-        BattleEffectSprite ExtraEffect;
-        TacticalBattleUnitHexSprite HS;
+        DelphiList used;
+        TacticalBattleUnit target;
+        BattleEffectSprite effect;
+        BattleEffectSprite extraEffect;
+        TacticalBattleUnitHexSprite hexSprite;
         float A;
-        float Sweep;
-        float Angle;
-        float Radius;
-        int X1 = default;
-        int Y1 = default;
-        int X2 = default;
-        int Y2 = default;
-        int DX = default;
-        int DY = default;
+        float sweep;
+        float angle;
+        float radius;
+        int x1 = default;
+        int y1 = default;
+        int x2 = default;
+        int y2 = default;
+        int deltaX = default;
+        int deltaY = default;
         int I;
         int J = default;
         int K = default;
-        Point3D Point;
-        HexSprite HitObject;
+        Point3D point;
+        HexSprite hitObject;
         Point3DList Path;
-        DelphiList Obstacles;
-        RangedObstacle Obstacle;
-        bool Found;
+        DelphiList obstacles;
+        RangedObstacle obstacle;
+        bool found;
         TacticalBattleUnit FindTarget(int X, int Y)
         {
-            int Distance;
-            int BestDistance;
-            bool Available;
-            TacticalBattleUnit Result = null;
-            BestDistance = 6;
-            for (int I = 0, last = CombatMap.Current.FCombat.FCombatData.GetCount() - 1; I <= last; I++)
+            int distance;
+            int bestDistance;
+            bool available;
+            TacticalBattleUnit result = null;
+            bestDistance = 6;
+            for (int I = 0, last = CombatMap.Current.Combat.CombatData.GetCount() - 1; I <= last; I++)
             {
-                if (CombatMap.Current.FCombat.FCombatData.GetObjects(I) is CombatUnit && CombatMap.Current.FCombat.FCombatData.GetObjects(I).GetEnabled() && CombatMap.Current.FCombat.FCombatData.GetObjects(I).GetSide() != FUnit.GetSide())
+                if (CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(I).GetSide() != Unit.GetSide())
                 {
-                    Available = true;
-                    for (int J = 0, lastJ = Used.Count - 1; J <= lastJ; J++)
+                    available = true;
+                    for (int J = 0, lastJ = used.Count - 1; J <= lastJ; J++)
                     {
-                        if (CombatMap.Current.FCombat.FCombatData.GetObjects(I) == Used[J])
+                        if (CombatMap.Current.Combat.CombatData.GetObjects(I) == used[J])
                         {
-                            Available = false;
+                            available = false;
                         }
                     }
 
-                    if (Available)
+                    if (available)
                     {
-                        var yhx = ((TacticalBattleUnit)CombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS.Yhx;
-                        Distance = HexGeometry.dHXtoRad(X, Y, ((TacticalBattleUnit)CombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS.Xhx, yhx);
-                        if (Distance < BestDistance)
+                        var hexY = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.HexY;
+                        distance = HexGeometry.DeltaHexToRadius(X, Y, ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.HexX, hexY);
+                        if (distance < bestDistance)
                         {
-                            Result = (TacticalBattleUnit)CombatMap.Current.FCombat.FCombatData.GetObjects(I);
-                            BestDistance = Distance;
+                            result = (TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I);
+                            bestDistance = distance;
                         }
                     }
                 }
             }
 
-            return Result;
+            return result;
         }
 
         void ChooseTarget()
         {
             int I;
-            int Index;
-            int Total;
-            int Distance;
-            DelphiList Weights;
-            Used = new DelphiList();
-            Weights = new DelphiList();
-            Total = 0;
+            int index;
+            int total;
+            int distance;
+            DelphiList weights;
+            used = new DelphiList();
+            weights = new DelphiList();
+            total = 0;
             I = 0;
-            int last = CombatMap.Current.FCombat.FCombatData.GetCount() - 1;
+            int last = CombatMap.Current.Combat.CombatData.GetCount() - 1;
             for (; I <= last; I += 1)
             {
-                if (CombatMap.Current.FCombat.FCombatData.GetObjects(I) is CombatUnit && CombatMap.Current.FCombat.FCombatData.GetObjects(I).GetEnabled() && CombatMap.Current.FCombat.FCombatData.GetObjects(I) != Target)
+                if (CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && CombatMap.Current.Combat.CombatData.GetObjects(I) != target)
                 {
-                    var yhx = ((TacticalBattleUnit)CombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS.Yhx;
-                    var xhx = ((TacticalBattleUnit)CombatMap.Current.FCombat.FCombatData.GetObjects(I)).FUnitHS.Xhx;
-                    Distance = HexGeometry.dHXtoRad(FTargetX, FTargetY, xhx, yhx);
-                    if (Distance < 13)
+                    var hexY = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.HexY;
+                    var hexX = ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.HexX;
+                    distance = HexGeometry.DeltaHexToRadius(TargetX, TargetY, hexX, hexY);
+                    if (distance < 13)
                     {
-                        Total = Total + (13 - Distance);
-                        var combatObject = CombatMap.Current.FCombat.FCombatData.GetObjects(I);
-                        Used.Add(combatObject);
-                        Weights.Add(IntToObject(13 - Distance));
+                        total = total + (13 - distance);
+                        var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(I);
+                        used.Add(combatObject);
+                        weights.Add(IntToObject(13 - distance));
                     }
                 }
             }
 
-            if (Target != null)
+            if (target != null)
             {
-                Used.Add(Target);
-                Weights.Add(IntToObject(Total));
-                Total = Total + Total;
+                used.Add(target);
+                weights.Add(IntToObject(total));
+                total = total + total;
             }
 
-            if (Used.Count > 0)
+            if (used.Count > 0)
             {
-                I = AoWHSMap.Current.Random(Total) - ObjectToInt((object)Weights[0]);
-                Index = 0;
-                while (Index < Used.Count - 1 && I > 0)
+                I = AoWHSMap.Current.Random(total) - ObjectToInt((object)weights[0]);
+                index = 0;
+                while (index < used.Count - 1 && I > 0)
                 {
-                    Index = Index + 1;
-                    I = I - ObjectToInt((object)Weights[Index]);
+                    index = index + 1;
+                    I = I - ObjectToInt((object)weights[index]);
                 }
 
-                Target = (TacticalBattleUnit)Used[Index];
+                target = (TacticalBattleUnit)used[index];
             }
 
-            Used?.Dispose();
-            Weights?.Dispose();
+            used?.Dispose();
+            weights?.Dispose();
         }
 
-        if (FStrikeIndex >= FStrikeCount)
+        if (StrikeIndex >= StrikeCount)
         {
             return;
         }
 
-        Effect = CombatMap.Current.AddEffect(BattleEffectType.None);
-        Obstacles = new DelphiList();
-        switch (FEffectType)
+        effect = CombatMap.Current.AddEffect(BattleEffectType.None);
+        obstacles = new DelphiList();
+        switch (EffectType)
         {
             case BattleEffectType.Breath:
-                var yhx = FUnit.FUnitHS.Yhx;
-                var dHXtoHN2 = HexGeometry.dHXtoHN(FUnit.FUnitHS.Xhx, yhx, FTargetX, FTargetY);
-                var fUnitHSYhx = FUnit.FUnitHS.Yhx;
-                HexGeometry.CenterHNtoHX(FUnit.FUnitHS.Xhx, fUnitHSYhx, TacticalTables.BreathHN[TacticalTables.BreathDirection[dHXtoHN2 - 1] * 12 - 3], ref J, ref K);
-                var yhx2 = FUnit.FUnitHS.Yhx;
-                HexGeometry.HXtoHP(FUnit.FUnitHS.Xhx, yhx2, ref X1, ref Y1);
-                HexGeometry.HXtoHP(J, K, ref X2, ref Y2);
-                Sweep = FStrikeIndex;
-                if ((double)Sweep > 9)
+                var hexY = Unit.UnitHexSprite.HexY;
+                var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(Unit.UnitHexSprite.HexX, hexY, TargetX, TargetY);
+                var fUnitHexSpriteHexY = Unit.UnitHexSprite.HexY;
+                HexGeometry.CenterHexNumberToHex(Unit.UnitHexSprite.HexX, fUnitHexSpriteHexY, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12 - 3], ref J, ref K);
+                var hexY2 = Unit.UnitHexSprite.HexY;
+                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY2, ref x1, ref y1);
+                HexGeometry.HexToPixel(J, K, ref x2, ref y2);
+                sweep = StrikeIndex;
+                if ((double)sweep > 9)
                 {
-                    Sweep = (float)((double)19 - Sweep);
+                    sweep = (float)((double)19 - sweep);
                 }
 
-                if (Y2 == Y1)
+                if (y2 == y1)
                 {
                     A = 0;
                 }
                 else
                 {
-                    if (X2 == X1)
+                    if (x2 == x1)
                     {
                         A = (float)((double)Math.PI / 2);
                     }
                     else
                     {
-                        A = (float)Math.Atan((double)Math.Abs(X2 - X1) / Math.Abs(Y2 - Y1));
+                        A = (float)Math.Atan((double)Math.Abs(x2 - x1) / Math.Abs(y2 - y1));
                     }
                 }
 
-                if (Y2 == Y1 || X2 == X1)
+                if (y2 == y1 || x2 == x1)
                 {
                     var pi = Math.PI;
                     var mathPI = Math.PI;
-                    Angle = (float)((double)((double)((double)pi / 2) - A) + (double)((double)((double)((double)Sweep * 6) - 30) * mathPI) / 180);
+                    angle = (float)((double)((double)((double)pi / 2) - A) + (double)((double)((double)((double)sweep * 6) - 30) * mathPI) / 180);
                 }
                 else
                 {
-                    Angle = (float)((double)A + (double)((double)((double)((double)Sweep * 6) - 30) * Math.PI) / 180);
+                    angle = (float)((double)A + (double)((double)((double)((double)sweep * 6) - 30) * Math.PI) / 180);
                 }
 
-                Radius = (float)Math.Sqrt((X2 - X1) * (X2 - X1) + (Y2 - Y1) * (Y2 - Y1));
-                if (X2 >= X1)
+                radius = (float)Math.Sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+                if (x2 >= x1)
                 {
-                    DX = Round((double)Math.Sin(Angle) * Radius) - X2 + X1;
+                    deltaX = Round((double)Math.Sin(angle) * radius) - x2 + x1;
                 }
                 else
                 {
-                    DX = X1 - X2 - Round((double)Math.Sin(Angle) * Radius);
+                    deltaX = x1 - x2 - Round((double)Math.Sin(angle) * radius);
                 }
 
-                if (Y2 >= Y1)
+                if (y2 >= y1)
                 {
-                    DY = Round((double)Math.Cos(Angle) * Radius) - Y2 + Y1;
+                    deltaY = Round((double)Math.Cos(angle) * radius) - y2 + y1;
                 }
                 else
                 {
-                    DY = Y1 - Y2 - Round((double)Math.Cos(Angle) * Radius);
+                    deltaY = y1 - y2 - Round((double)Math.Cos(angle) * radius);
                 }
 
-                var xhx = FUnit.FUnitHS.Xhx;
-                var yhx3 = FUnit.FUnitHS.Yhx;
-                TacticalTables.MakeRangedPath(FUnit.GetSide(), 50, 20, 50, xhx, yhx3, (short)J, (short)K, (short)DX, (short)DY, false, ref Effect.FPath, ref Obstacles);
-                if (FStrikeIndex < 12)
+                var hexX = Unit.UnitHexSprite.HexX;
+                var hexY3 = Unit.UnitHexSprite.HexY;
+                TacticalTables.MakeRangedPath(Unit.GetSide(), 50, 20, 50, hexX, hexY3, (short)J, (short)K, (short)deltaX, (short)deltaY, false, ref effect.Path, ref obstacles);
+                if (StrikeIndex < 12)
                 {
-                    var yhx4 = FUnit.FUnitHS.Yhx;
-                    var dHXtoHN3 = HexGeometry.dHXtoHN(FUnit.FUnitHS.Xhx, yhx4, FTargetX, FTargetY);
-                    var yhx5 = FUnit.FUnitHS.Yhx;
-                    HexGeometry.CenterHNtoHX(FUnit.FUnitHS.Xhx, yhx5, TacticalTables.BreathHN[TacticalTables.BreathDirection[dHXtoHN3 - 1] * 12 + BreathHit[FStrikeIndex] - 12], ref Effect.FTargetX, ref Effect.FTargetY);
+                    var hexY4 = Unit.UnitHexSprite.HexY;
+                    var deltaHexToHexNumber3 = HexGeometry.DeltaHexToHexNumber(Unit.UnitHexSprite.HexX, hexY4, TargetX, TargetY);
+                    var hexY5 = Unit.UnitHexSprite.HexY;
+                    HexGeometry.CenterHexNumberToHex(Unit.UnitHexSprite.HexX, hexY5, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber3 - 1] * 12 + s_breathHit[StrikeIndex] - 12], ref effect.TargetX, ref effect.TargetY);
                 }
 
                 break;
@@ -999,66 +999,66 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             case BattleEffectType.MindDecay:
             case BattleEffectType.ShockWave:
             case BattleEffectType.SacFlame:
-                if (FEffectType == BattleEffectType.SacredWrath)
+                if (EffectType == BattleEffectType.SacredWrath)
                 {
-                    FTargetX = 32;
-                    FTargetY = 29;
+                    TargetX = 32;
+                    TargetY = 29;
                 }
 
-                HexGeometry.HXtoHP(FTargetX, FTargetY, ref X2, ref Y2);
-                switch (FEffectType)
+                HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
+                switch (EffectType)
                 {
                     case BattleEffectType.Geyser:
-                        CombatMap.Current.CenterViewTo(FTargetX, FTargetY - 5, 0);
+                        CombatMap.Current.CenterViewTo(TargetX, TargetY - 5, 0);
                         break;
                     case BattleEffectType.MindDecay:
-                        Effect.FTargetX = FTargetX;
-                        Effect.FTargetY = FTargetY;
-                        CombatMap.Current.CenterViewTo(FTargetX + 1, FTargetY - 4, 0);
+                        effect.TargetX = TargetX;
+                        effect.TargetY = TargetY;
+                        CombatMap.Current.CenterViewTo(TargetX + 1, TargetY - 4, 0);
                         break;
                     case BattleEffectType.ShockWave:
-                        var yhx4 = FUnit.FUnitHS.Yhx;
-                        var fUnitHSXhx = FUnit.FUnitHS.Xhx;
-                        CombatMap.Current.CenterViewTo(fUnitHSXhx, yhx4, 0);
+                        var hexY4 = Unit.UnitHexSprite.HexY;
+                        var fUnitHexSpriteHexX = Unit.UnitHexSprite.HexX;
+                        CombatMap.Current.CenterViewTo(fUnitHexSpriteHexX, hexY4, 0);
                         break;
                     case BattleEffectType.SacFlame:
-                        var yhx5 = FUnit.FUnitHS.Yhx;
-                        var xhx2 = FUnit.FUnitHS.Xhx;
-                        CombatMap.Current.CenterViewTo(xhx2, yhx5 - 3, 0);
+                        var hexY5 = Unit.UnitHexSprite.HexY;
+                        var hexX2 = Unit.UnitHexSprite.HexX;
+                        CombatMap.Current.CenterViewTo(hexX2, hexY5 - 3, 0);
                         break;
                     default:
-                        CombatMap.Current.CenterViewTo(FTargetX, FTargetY, 0);
+                        CombatMap.Current.CenterViewTo(TargetX, TargetY, 0);
                         break;
                 }
 
-                Point = new Point3D();
-                Point.X = X2 + 16;
-                Point.Y = Y2 + 16;
-                Effect.FPath.Add(Point);
-                HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
-                if (HS != null)
+                point = new Point3D();
+                point.X = x2 + 16;
+                point.Y = y2 + 16;
+                effect.Path.Add(point);
+                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
+                if (hexSprite != null)
                 {
-                    Effect.FTarget = HS.FUnit;
+                    effect.Target = hexSprite.Unit;
                 }
 
                 break;
             case BattleEffectType.Winds:
-                HexGeometry.HXtoHP(FTargetX, FTargetY, ref X2, ref Y2);
-                Point = new Point3D();
-                Point.X = X2 + 16;
-                Point.Y = Y2 + 16;
-                Effect.FPath.Add(Point);
-                HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
-                if (HS != null)
+                HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
+                point = new Point3D();
+                point.X = x2 + 16;
+                point.Y = y2 + 16;
+                effect.Path.Add(point);
+                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
+                if (hexSprite != null)
                 {
-                    Effect.FTarget = HS.FUnit;
+                    effect.Target = hexSprite.Unit;
                 }
 
                 I = AoWHSMap.Current.Random(37) + 1;
-                Found = false;
-                while (!Found)
+                found = false;
+                while (!found)
                 {
-                    HexGeometry.CenterHNtoHX(FTargetX, FTargetY, I, ref J, ref K);
+                    HexGeometry.CenterHexNumberToHex(TargetX, TargetY, I, ref J, ref K);
                     bool condition = J > 5 && J < 60 && K > 5 && K < 53 && CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2228484) == null;
                     if (condition)
                     {
@@ -1066,7 +1066,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         if (!test)
                         {
                             var fieldValue = CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K);
-                            var fieldValue2 = CombatMap.Current.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY);
+                            var fieldValue2 = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY);
                             test = fieldValue.OverlayType == fieldValue2.OverlayType;
                         }
 
@@ -1080,7 +1080,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         if (!test)
                         {
                             var fieldValue = CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K);
-                            var fieldValue2 = CombatMap.Current.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY);
+                            var fieldValue2 = CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY);
                             test = fieldValue.TerrainType == fieldValue2.TerrainType;
                         }
 
@@ -1089,7 +1089,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
                     if (passed)
                     {
-                        Found = true;
+                        found = true;
                     }
                     else
                     {
@@ -1097,88 +1097,88 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     }
                 }
 
-                HexGeometry.HXtoHP(J, K, ref DX, ref DY);
-                CombatMap.Current.CenterViewTo(FTargetX, FTargetY, 0);
+                HexGeometry.HexToPixel(J, K, ref deltaX, ref deltaY);
+                CombatMap.Current.CenterViewTo(TargetX, TargetY, 0);
                 {
                     I = 0;
                     for (; I <= 29; I += 1)
                     {
                         var xyz = new Point3D();
-                        Effect.FPath.Add(xyz);
-                        var pathX = Effect.FPath[0];
+                        effect.Path.Add(xyz);
+                        var pathX = effect.Path[0];
                         var random = Random(30);
-                        var count = Effect.FPath.Count;
-                        Effect.FPath[count - 1].X = pathX.X + random - 15;
-                        var pathY = Effect.FPath[0];
+                        var count = effect.Path.Count;
+                        effect.Path[count - 1].X = pathX.X + random - 15;
+                        var pathY = effect.Path[0];
                         var random2 = Random(30);
-                        var fPathCount = Effect.FPath.Count;
-                        Effect.FPath[fPathCount - 1].Y = pathY.Y + random2 - 15;
+                        var fPathCount = effect.Path.Count;
+                        effect.Path[fPathCount - 1].Y = pathY.Y + random2 - 15;
                     }
                 }
 
                 J = Random(300);
                 K = Random(300);
-                var count2 = Effect.FPath.Count;
-                var path = Effect.FPath[count2 - 1];
-                var count3 = Effect.FPath.Count;
-                var pathZ = Effect.FPath[count3 - 1];
-                var count4 = Effect.FPath.Count;
-                var path2 = Effect.FPath[count4 - 1];
-                var count5 = Effect.FPath.Count;
-                var path3 = Effect.FPath[count5 - 1];
-                var count6 = Effect.FPath.Count;
-                var path4 = Effect.FPath[count6 - 1];
-                var count7 = Effect.FPath.Count;
-                EffectPaths.MakeArcPathXY((short)Effect.FPath[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + J - 150), (short)(path.Y - pathZ.Z + K - 150), (short)((Math.Abs(J - 150) + Math.Abs(K - 150)) / 50 + 2), 100, ref Effect.FPath);
-                Effect.FTargetX = Effect.FPath.Count;
+                var count2 = effect.Path.Count;
+                var path = effect.Path[count2 - 1];
+                var count3 = effect.Path.Count;
+                var pathZ = effect.Path[count3 - 1];
+                var count4 = effect.Path.Count;
+                var path2 = effect.Path[count4 - 1];
+                var count5 = effect.Path.Count;
+                var path3 = effect.Path[count5 - 1];
+                var count6 = effect.Path.Count;
+                var path4 = effect.Path[count6 - 1];
+                var count7 = effect.Path.Count;
+                EffectPaths.MakeArcPathXY((short)effect.Path[count7 - 1].X, (short)(path2.Y - path3.Z), (short)(path4.X + J - 150), (short)(path.Y - pathZ.Z + K - 150), (short)((Math.Abs(J - 150) + Math.Abs(K - 150)) / 50 + 2), 100, ref effect.Path);
+                effect.TargetX = effect.Path.Count;
                 J = Random(200);
                 K = Random(200);
-                var count8 = Effect.FPath.Count;
-                var path5 = Effect.FPath[count8 - 1];
-                var count9 = Effect.FPath.Count;
-                var path6 = Effect.FPath[count9 - 1];
-                var count10 = Effect.FPath.Count;
-                var path7 = Effect.FPath[count10 - 1];
-                var count11 = Effect.FPath.Count;
-                var path8 = Effect.FPath[count11 - 1];
-                var count12 = Effect.FPath.Count;
-                var path9 = Effect.FPath[count12 - 1];
-                var count13 = Effect.FPath.Count;
-                EffectPaths.MakeArcPathXY((short)Effect.FPath[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + J - 100), (short)(path5.Y - path6.Z + K - 100), (short)((Math.Abs(J - 100) + Math.Abs(K - 100)) / 50 + 3), 100, ref Effect.FPath);
-                Effect.FTargetY = Effect.FPath.Count;
-                var count14 = Effect.FPath.Count;
-                var item = Effect.FPath[count14 - 1];
-                var count15 = Effect.FPath.Count;
-                var fPathItem = Effect.FPath[count15 - 1];
-                var count16 = Effect.FPath.Count;
-                var path10 = Effect.FPath[count16 - 1];
-                var count17 = Effect.FPath.Count;
-                var path11 = Effect.FPath[count17 - 1];
-                var count18 = Effect.FPath.Count;
-                var path12 = Effect.FPath[count18 - 1];
-                var count19 = Effect.FPath.Count;
-                EffectPaths.MakeArcPathXY((short)Effect.FPath[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(DX + 16), (short)(DY + 16), (short)((Math.Abs(item.Y - fPathItem.Z - DY) + Math.Abs(path10.X - DX)) / 50 + 4), 100, ref Effect.FPath);
+                var count8 = effect.Path.Count;
+                var path5 = effect.Path[count8 - 1];
+                var count9 = effect.Path.Count;
+                var path6 = effect.Path[count9 - 1];
+                var count10 = effect.Path.Count;
+                var path7 = effect.Path[count10 - 1];
+                var count11 = effect.Path.Count;
+                var path8 = effect.Path[count11 - 1];
+                var count12 = effect.Path.Count;
+                var path9 = effect.Path[count12 - 1];
+                var count13 = effect.Path.Count;
+                EffectPaths.MakeArcPathXY((short)effect.Path[count13 - 1].X, (short)(path7.Y - path8.Z), (short)(path9.X + J - 100), (short)(path5.Y - path6.Z + K - 100), (short)((Math.Abs(J - 100) + Math.Abs(K - 100)) / 50 + 3), 100, ref effect.Path);
+                effect.TargetY = effect.Path.Count;
+                var count14 = effect.Path.Count;
+                var item = effect.Path[count14 - 1];
+                var count15 = effect.Path.Count;
+                var fPathItem = effect.Path[count15 - 1];
+                var count16 = effect.Path.Count;
+                var path10 = effect.Path[count16 - 1];
+                var count17 = effect.Path.Count;
+                var path11 = effect.Path[count17 - 1];
+                var count18 = effect.Path.Count;
+                var path12 = effect.Path[count18 - 1];
+                var count19 = effect.Path.Count;
+                EffectPaths.MakeArcPathXY((short)effect.Path[count19 - 1].X, (short)(path11.Y - path12.Z), (short)(deltaX + 16), (short)(deltaY + 16), (short)((Math.Abs(item.Y - fPathItem.Z - deltaY) + Math.Abs(path10.X - deltaX)) / 50 + 4), 100, ref effect.Path);
                 break;
             case BattleEffectType.ScreenNESW:
-                Point = new Point3D();
+                point = new Point3D();
                 if (Random(100) < 50)
                 {
-                    Point.X = 0;
+                    point.X = 0;
                 }
                 else
                 {
-                    Point.X = 1;
+                    point.X = 1;
                 }
 
-                Effect.FPath.Add(Point);
-                if (FStrikeIndex == 9)
+                effect.Path.Add(point);
+                if (StrikeIndex == 9)
                 {
-                    Effect.FTarget = FUnit;
+                    effect.Target = Unit;
                 }
 
                 break;
             case BattleEffectType.ScreenNS:
-                switch (FSpellID)
+                switch (SpellId)
                 {
                     case 124:
                         I = 19;
@@ -1188,23 +1188,23 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         break;
                 }
 
-                HexGeometry.CenterHNtoHX(FTargetX, FTargetY, rndHex[FStrikeIndex % I], ref DX, ref DY);
-                HexGeometry.HXtoHP(DX, DY, ref X2, ref Y2);
-                CombatMap.Current.MakeVisible(DX, DY, 0, 5);
-                X1 = Random(20) + 6;
-                Y1 = Random(20) + 6;
-                EffectPaths.MakeLinePath(X2 + X1 - 100, Y2 + Y1 - 300, X2 + X1, Y2 + Y1, 30, ref Effect.FPath);
-                switch (FSpellID)
+                HexGeometry.CenterHexNumberToHex(TargetX, TargetY, s_randomHex[StrikeIndex % I], ref deltaX, ref deltaY);
+                HexGeometry.HexToPixel(deltaX, deltaY, ref x2, ref y2);
+                CombatMap.Current.MakeVisible(deltaX, deltaY, 0, 5);
+                x1 = Random(20) + 6;
+                y1 = Random(20) + 6;
+                EffectPaths.MakeLinePath(x2 + x1 - 100, y2 + y1 - 300, x2 + x1, y2 + y1, 30, ref effect.Path);
+                switch (SpellId)
                 {
                     case 124:
-                        Effect.FTarget = null;
+                        effect.Target = null;
                         break;
                     default:
                         {
-                            HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(DX, DY).FindOwnedChild(2228484);
-                            if (HS != null)
+                            hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(deltaX, deltaY).FindOwnedChild(2228484);
+                            if (hexSprite != null)
                             {
-                                Effect.FTarget = HS.FUnit;
+                                effect.Target = hexSprite.Unit;
                             }
                         }
 
@@ -1213,48 +1213,48 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
                 break;
             case BattleEffectType.Chain:
-                var yhx6 = FUnit.FUnitHS.Yhx;
-                HexGeometry.HXtoHP(FUnit.FUnitHS.Xhx, yhx6, ref X1, ref Y1);
-                HexGeometry.HXtoHP(FTargetX, FTargetY, ref X2, ref Y2);
-                EffectPaths.MakeLightningPath(X1 + 16, Y1, X2 + 16, Y2, ref Effect.FPath);
-                var count20 = Effect.FPath.Count;
-                Effect.FPath[count20 - 1].Z = 16;
+                var hexY6 = Unit.UnitHexSprite.HexY;
+                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY6, ref x1, ref y1);
+                HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
+                EffectPaths.MakeLightningPath(x1 + 16, y1, x2 + 16, y2, ref effect.Path);
+                var count20 = effect.Path.Count;
+                effect.Path[count20 - 1].Z = 16;
                 I = 3;
-                Used = new DelphiList();
-                Used.Add(FUnit);
-                HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
-                if (HS != null)
+                used = new DelphiList();
+                used.Add(Unit);
+                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
+                if (hexSprite != null)
                 {
-                    Used.Add(HS.FUnit);
+                    used.Add(hexSprite.Unit);
                 }
 
-                Target = FindTarget(FTargetX, FTargetY);
-                while (Target != null && I > 0)
+                target = FindTarget(TargetX, TargetY);
+                while (target != null && I > 0)
                 {
-                    Used.Add(Target);
-                    X1 = X2 + 16;
-                    Y1 = Y2 + 16;
-                    var yhx4 = Target.FUnitHS.Yhx;
-                    HexGeometry.HXtoHP(Target.FUnitHS.Xhx, yhx4, ref X2, ref Y2);
-                    EffectPaths.MakeLightningPath(X1, Y1, X2 + 16, Y2, ref Effect.FPath);
+                    used.Add(target);
+                    x1 = x2 + 16;
+                    y1 = y2 + 16;
+                    var hexY4 = target.UnitHexSprite.HexY;
+                    HexGeometry.HexToPixel(target.UnitHexSprite.HexX, hexY4, ref x2, ref y2);
+                    EffectPaths.MakeLightningPath(x1, y1, x2 + 16, y2, ref effect.Path);
                     I -= 1;
-                    var yhx5 = Target.FUnitHS.Yhx;
-                    Target = FindTarget(Target.FUnitHS.Xhx, yhx5);
+                    var hexY5 = target.UnitHexSprite.HexY;
+                    target = FindTarget(target.UnitHexSprite.HexX, hexY5);
                 }
 
-                Used?.Dispose();
+                used?.Dispose();
                 break;
             case BattleEffectType.Swarm:
-                var yhx7 = FUnit.FUnitHS.Yhx;
-                HexGeometry.HXtoHP(FUnit.FUnitHS.Xhx, yhx7, ref X1, ref Y1);
+                var hexY7 = Unit.UnitHexSprite.HexY;
+                HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY7, ref x1, ref y1);
                 var random3 = Random(360);
                 var random4 = Random(20);
                 var random5 = Random(20);
                 var random6 = Random(2);
                 var random7 = Random(90);
                 var random8 = Random(5);
-                EffectPaths.MakeSwarmPath(Random(10) + 10, random8 + 20, random7, random3, random4 + X1 + 6, random5 + Y1 - 10, (SwarmDirection)random6, ref Effect.FPath);
-                K = Effect.FPath.Count - 1;
+                EffectPaths.MakeSwarmPath(Random(10) + 10, random8 + 20, random7, random3, random4 + x1 + 6, random5 + y1 - 10, (SwarmDirection)random6, ref effect.Path);
+                K = effect.Path.Count - 1;
                 {
                     I = 0;
                     for (; I <= 2; I += 1)
@@ -1263,36 +1263,36 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         int last = K;
                         for (; J <= last; J += 1)
                         {
-                            Point = new Point3D();
-                            Point.X = Effect.FPath[J].X;
-                            Point.Y = Effect.FPath[J].Y;
-                            Effect.FPath.Add(Point);
+                            point = new Point3D();
+                            point.X = effect.Path[J].X;
+                            point.Y = effect.Path[J].Y;
+                            effect.Path.Add(point);
                         }
                     }
                 }
 
-                HexGeometry.HXtoHP(FTargetX, FTargetY, ref X2, ref Y2);
-                var count21 = Effect.FPath.Count;
-                var path13 = Effect.FPath[count21 - 1];
-                var count22 = Effect.FPath.Count;
-                EffectPaths.MakeLinePath(Effect.FPath[count22 - 1].X, path13.Y, X2 + 16, Y2, 15, ref Effect.FPath);
+                HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
+                var count21 = effect.Path.Count;
+                var path13 = effect.Path[count21 - 1];
+                var count22 = effect.Path.Count;
+                EffectPaths.MakeLinePath(effect.Path[count22 - 1].X, path13.Y, x2 + 16, y2, 15, ref effect.Path);
                 Path = new Point3DList();
                 var random9 = Random(360);
-                var count23 = Effect.FPath.Count;
-                var path14 = Effect.FPath[count23 - 1];
-                var count24 = Effect.FPath.Count;
-                var path15 = Effect.FPath[count24 - 1];
+                var count23 = effect.Path.Count;
+                var path14 = effect.Path[count23 - 1];
+                var count24 = effect.Path.Count;
+                var path15 = effect.Path[count24 - 1];
                 var random10 = Random(2);
                 var random11 = Random(90);
                 var random12 = Random(5);
                 EffectPaths.MakeSwarmPath(Random(10) + 10, random12 + 20, random11, random9, path14.X, path15.Y, (SwarmDirection)random10, ref Path);
                 var pathItem = Path[0];
-                var count25 = Effect.FPath.Count;
-                var path16 = Effect.FPath[count25 - 1];
-                var count26 = Effect.FPath.Count;
-                var path17 = Effect.FPath[count26 - 1];
+                var count25 = effect.Path.Count;
+                var path16 = effect.Path[count25 - 1];
+                var count26 = effect.Path.Count;
+                var path17 = effect.Path[count26 - 1];
                 var pathX2 = Path[0];
-                EffectPaths.MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, 5, ref Effect.FPath);
+                EffectPaths.MakeLinePath(path17.X, path16.Y, pathX2.X, pathItem.Y, 5, ref effect.Path);
                 {
                     I = 0;
                     int last = Path.Count - 1;
@@ -1300,7 +1300,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     {
                         // { Original shares the points, then frees Path. }
                         var path18 = Path[I];
-                        Effect.FPath.Add(path18);
+                        effect.Path.Add(path18);
                     }
                 }
 
@@ -1313,10 +1313,10 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         int last = K;
                         for (; J <= last; J += 1)
                         {
-                            Point = new Point3D();
-                            Point.X = Path[J].X;
-                            Point.Y = Path[J].Y;
-                            Effect.FPath.Add(Point);
+                            point = new Point3D();
+                            point.X = Path[J].X;
+                            point.Y = Path[J].Y;
+                            effect.Path.Add(point);
                         }
                     }
                 }
@@ -1324,44 +1324,44 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 Path?.Dispose();
                 break;
             case BattleEffectType.ScreenSwarm:
-                HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
-                if (HS == null)
+                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
+                if (hexSprite == null)
                 {
-                    Target = null;
+                    target = null;
                 }
                 else
                 {
-                    Target = HS.FUnit;
+                    target = hexSprite.Unit;
                 }
 
-                DX = FTargetX;
-                DY = FTargetY;
+                deltaX = TargetX;
+                deltaY = TargetY;
                 ChooseTarget();
-                if (Target != null)
+                if (target != null)
                 {
-                    DX = Target.FUnitHS.Xhx;
-                    DY = Target.FUnitHS.Yhx;
+                    deltaX = target.UnitHexSprite.HexX;
+                    deltaY = target.UnitHexSprite.HexY;
                 }
 
-                Effect.FTarget = Target;
-                HexGeometry.HXtoHP(DX, DY, ref X2, ref Y2);
-                if (FStrikeIndex == 0)
+                effect.Target = target;
+                HexGeometry.HexToPixel(deltaX, deltaY, ref x2, ref y2);
+                if (StrikeIndex == 0)
                 {
-                    CombatMap.Current.CenterViewTo(FTargetX, FTargetY, 0);
+                    CombatMap.Current.CenterViewTo(TargetX, TargetY, 0);
                 }
 
-                Point = new Point3D();
-                Point.X = X2;
-                Point.Y = Y2;
-                Effect.FPath.Add(Point);
+                point = new Point3D();
+                point.X = x2;
+                point.Y = y2;
+                effect.Path.Add(point);
                 var random13 = Random(360);
                 var random14 = Random(20);
                 var random15 = Random(20);
                 var random16 = Random(2);
                 var random17 = Random(90);
                 var random18 = Random(10);
-                EffectPaths.MakeSwarmPath(Random(10) + 10, random18 + 25, random17, random13, random14, random15 - 10, (SwarmDirection)random16, ref Effect.FPath);
-                K = Effect.FPath.Count - 1;
+                EffectPaths.MakeSwarmPath(Random(10) + 10, random18 + 25, random17, random13, random14, random15 - 10, (SwarmDirection)random16, ref effect.Path);
+                K = effect.Path.Count - 1;
                 {
                     I = 0;
                     for (; I <= 4; I += 1)
@@ -1370,10 +1370,10 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         int last = K;
                         for (; J <= last; J += 1)
                         {
-                            Point = new Point3D();
-                            Point.X = Effect.FPath[J].X;
-                            Point.Y = Effect.FPath[J].Y;
-                            Effect.FPath.Add(Point);
+                            point = new Point3D();
+                            point.X = effect.Path[J].X;
+                            point.Y = effect.Path[J].Y;
+                            effect.Path.Add(point);
                         }
                     }
                 }
@@ -1382,35 +1382,35 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     I = 0;
                     for (; I <= 49; I += 1)
                     {
-                        Effect.FPath[I + 1].Z = 100 - I * 2;
+                        effect.Path[I + 1].Z = 100 - I * 2;
                     }
                 }
 
                 break;
             case BattleEffectType.FrostBeam:
-                HexGeometry.HXtoHP(FTargetX, FTargetY, ref X2, ref Y2);
-                Effect.FTargetX = FTargetX;
-                Effect.FTargetY = FTargetY;
-                CombatMap.Current.CenterViewTo(FTargetX - 3, FTargetY - 3, 0);
-                EffectPaths.MakeArcPathXY((short)(X2 - 200), (short)(Y2 - 200), (short)(X2 + 16), (short)(Y2 + 16), 5, 100, ref Effect.FPath);
+                HexGeometry.HexToPixel(TargetX, TargetY, ref x2, ref y2);
+                effect.TargetX = TargetX;
+                effect.TargetY = TargetY;
+                CombatMap.Current.CenterViewTo(TargetX - 3, TargetY - 3, 0);
+                EffectPaths.MakeArcPathXY((short)(x2 - 200), (short)(y2 - 200), (short)(x2 + 16), (short)(y2 + 16), 5, 100, ref effect.Path);
                 break;
             case BattleEffectType.Ray:
-                CombatMap.Current.MakeVisible(FTargetX - 3, FTargetY - 3, 0, 3);
-                var xhx3 = FUnit.FUnitHS.Xhx;
-                var yhx8 = FUnit.FUnitHS.Yhx;
-                TacticalTables.MakeRangedPath(FUnit.GetSide(), 10, 0, 50, xhx3, yhx8, (short)FTargetX, (short)FTargetY, 0, 0, true, ref Effect.FPath, ref Obstacles);
+                CombatMap.Current.MakeVisible(TargetX - 3, TargetY - 3, 0, 3);
+                var hexX3 = Unit.UnitHexSprite.HexX;
+                var hexY8 = Unit.UnitHexSprite.HexY;
+                TacticalTables.MakeRangedPath(Unit.GetSide(), 10, 0, 50, hexX3, hexY8, (short)TargetX, (short)TargetY, 0, 0, true, ref effect.Path, ref obstacles);
                 break;
             default:
-                var xhx4 = FUnit.FUnitHS.Xhx;
-                var yhx9 = FUnit.FUnitHS.Yhx;
-                TacticalTables.MakeAbilPath(FUnit.GetSide(), (short)FAbilityID, (short)FSpellID, xhx4, yhx9, (short)FTargetX, (short)FTargetY, ref Effect.FPath, ref Obstacles);
+                var hexX4 = Unit.UnitHexSprite.HexX;
+                var hexY9 = Unit.UnitHexSprite.HexY;
+                TacticalTables.MakeAbilityPath(Unit.GetSide(), (short)AbilityId, (short)SpellId, hexX4, hexY9, (short)TargetX, (short)TargetY, ref effect.Path, ref obstacles);
                 break;
         }
 
-        Effect.FAbilityIndex = FAbilityID;
-        Effect.FSpellIndex = FSpellID;
-        Effect.FEffectType = FEffectType;
-        switch (FEffectType)
+        effect.AbilityIndex = AbilityId;
+        effect.SpellIndex = SpellId;
+        effect.EffectType = EffectType;
+        switch (EffectType)
         {
             case BattleEffectType.Arrow:
             case BattleEffectType.Rock:
@@ -1420,68 +1420,68 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             case BattleEffectType.Ray:
             case BattleEffectType.Swarm:
             case BattleEffectType.AltArrow:
-                HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
-                if (HS != null)
+                hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(TargetX, TargetY).FindOwnedChild(2228484);
+                if (hexSprite != null)
                 {
-                    Effect.FTarget = HS.FUnit;
+                    effect.Target = hexSprite.Unit;
                 }
 
                 I = 0;
-                while (I < Obstacles.Count)
+                while (I < obstacles.Count)
                 {
-                    Obstacle = (RangedObstacle)Obstacles[I];
-                    if (AoWHSMap.Current.Random(100) < Obstacle.Chance)
+                    obstacle = (RangedObstacle)obstacles[I];
+                    if (AoWHSMap.Current.Random(100) < obstacle.Chance)
                     {
-                        var path = Effect.FPath[Obstacle.PathIndex];
-                        HexGeometry.HPtoHX(Effect.FPath[Obstacle.PathIndex].X, path.Y, ref J, ref K);
-                        if (Effect.FEffectType == BattleEffectType.Breath)
+                        var path = effect.Path[obstacle.PathIndex];
+                        HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, path.Y, ref J, ref K);
+                        if (effect.EffectType == BattleEffectType.Breath)
                         {
-                            HitObject = null;
+                            hitObject = null;
                         }
                         else
                         {
-                            HitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2228484);
+                            hitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2228484);
                         }
 
-                        if (HitObject == null)
+                        if (hitObject == null)
                         {
-                            HitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2228582);
+                            hitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2228582);
                         }
 
-                        if (HitObject == null)
+                        if (hitObject == null)
                         {
-                            HitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2229508);
+                            hitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2229508);
                         }
 
-                        if (HitObject == null)
+                        if (hitObject == null)
                         {
-                            HitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2229510);
+                            hitObject = (HexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).FindOwnedChild(2229510);
                         }
 
-                        if (HitObject != null || CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).TerrainType == 15 || CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).TerrainType == 7 || CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).OverlayType == 8)
+                        if (hitObject != null || CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).TerrainType == 15 || CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).TerrainType == 7 || CombatMap.Current.MapContainer.MapLevels[0].GetField(J, K).OverlayType == 8)
                         {
-                            J = Obstacle.PathIndex + 1;
-                            int last = Effect.FPath.Count - 1;
+                            J = obstacle.PathIndex + 1;
+                            int last = effect.Path.Count - 1;
                             for (; J <= last; J += 1)
                             {
-                                var count = Effect.FPath.Count;
-                                Effect.FPath.Delete(count - 1);
+                                var count = effect.Path.Count;
+                                effect.Path.Delete(count - 1);
                             }
 
-                            if (!(HitObject is TacticalBattleUnitHexSprite))
+                            if (!(hitObject is TacticalBattleUnitHexSprite))
                             {
-                                Effect.FTarget = null;
-                                if (Effect.FEffectType == BattleEffectType.Breath)
+                                effect.Target = null;
+                                if (effect.EffectType == BattleEffectType.Breath)
                                 {
-                                    Effect.FTargetX = 0;
+                                    effect.TargetX = 0;
                                 }
                             }
                             else
                             {
-                                Effect.FTarget = ((TacticalBattleUnitHexSprite)HitObject).FUnit;
+                                effect.Target = ((TacticalBattleUnitHexSprite)hitObject).Unit;
                             }
 
-                            I = Obstacles.Count;
+                            I = obstacles.Count;
                         }
                     }
 
@@ -1491,19 +1491,19 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 break;
         }
 
-        if (FEffectType == BattleEffectType.Breath)
+        if (EffectType == BattleEffectType.Breath)
         {
-            Effect.FTarget = null;
+            effect.Target = null;
         }
         else
         {
-            switch (FAbilityID)
+            switch (AbilityId)
             {
                 case 31:
-                    Effect.FTarget = null;
+                    effect.Target = null;
                     break;
                 case 52:
-                    switch (FSpellID)
+                    switch (SpellId)
                     {
                         case 104:
                         case 107:
@@ -1513,35 +1513,35 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                         case 127:
                         case 129:
                         case 130:
-                            Effect.FTarget = null;
+                            effect.Target = null;
                             break;
                         case 102:
                         case 106:
                         case 120:
                         case 128:
-                            Effect.FTarget = FUnit;
+                            effect.Target = Unit;
                             break;
                         case 115:
                             if (AoWHSMap.Current.Random(100) < 75)
                             {
-                                Effect.FTarget = null;
+                                effect.Target = null;
                             }
 
                             break;
                         case 100:
-                            ExtraEffect = CombatMap.Current.AddEffect(BattleEffectType.SFOverlay);
-                            var yhx = FUnit.FUnitHS.Yhx;
-                            HexGeometry.HXtoHP(FUnit.FUnitHS.Xhx, yhx, ref X1, ref Y1);
-                            while (ExtraEffect.FPath.Count < Effect.FPath.Count)
+                            extraEffect = CombatMap.Current.AddEffect(BattleEffectType.SFOverlay);
+                            var hexY = Unit.UnitHexSprite.HexY;
+                            HexGeometry.HexToPixel(Unit.UnitHexSprite.HexX, hexY, ref x1, ref y1);
+                            while (extraEffect.Path.Count < effect.Path.Count)
                             {
-                                Point = new Point3D();
-                                Point.X = X1 + 16;
-                                Point.Y = Y1;
-                                ExtraEffect.FPath.Add(Point);
+                                point = new Point3D();
+                                point.X = x1 + 16;
+                                point.Y = y1;
+                                extraEffect.Path.Add(point);
                             }
 
-                            ExtraEffect.FAbilityIndex = FAbilityID;
-                            ExtraEffect.FSpellIndex = FSpellID;
+                            extraEffect.AbilityIndex = AbilityId;
+                            extraEffect.SpellIndex = SpellId;
                             break;
                     }
 
@@ -1549,12 +1549,12 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             }
         }
 
-        var yhx10 = FUnit.FUnitHS.Yhx;
-        var xhx5 = FUnit.FUnitHS.Xhx;
-        Effect.FVariant = GetRangedDirIndex(FTargetX - xhx5, FTargetY - yhx10);
-        if (FStrikeIndex == 0)
+        var hexY10 = Unit.UnitHexSprite.HexY;
+        var hexX5 = Unit.UnitHexSprite.HexX;
+        effect.Variant = GetRangedDirectionIndex(TargetX - hexX5, TargetY - hexY10);
+        if (StrikeIndex == 0)
         {
-            switch (FEffectType)
+            switch (EffectType)
             {
                 case BattleEffectType.Arrow:
                 case BattleEffectType.Rock:
@@ -1571,27 +1571,27 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 case BattleEffectType.AltArrow:
                 case BattleEffectType.Geyser:
                 case BattleEffectType.FrostBeam:
-                    switch (Effect.FVariant)
+                    switch (effect.Variant)
                     {
                         case 0:
                         case 1:
                         case 23:
-                            FUnit.FUnitHS.SetDirection(1);
+                            Unit.UnitHexSprite.SetDirection(1);
                             break;
                         case >= 2 and <= 6:
-                            FUnit.FUnitHS.SetDirection(2);
+                            Unit.UnitHexSprite.SetDirection(2);
                             break;
                         case >= 7 and <= 10:
-                            FUnit.FUnitHS.SetDirection(3);
+                            Unit.UnitHexSprite.SetDirection(3);
                             break;
                         case >= 11 and <= 13:
-                            FUnit.FUnitHS.SetDirection(4);
+                            Unit.UnitHexSprite.SetDirection(4);
                             break;
                         case >= 14 and <= 17:
-                            FUnit.FUnitHS.SetDirection(5);
+                            Unit.UnitHexSprite.SetDirection(5);
                             break;
                         case >= 18 and <= 22:
-                            FUnit.FUnitHS.SetDirection(6);
+                            Unit.UnitHexSprite.SetDirection(6);
                             break;
                     }
 
@@ -1599,47 +1599,47 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             }
         }
 
-        if (Set<BattleEffectType>.Of(BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.ScreenNS).Contains(FEffectType))
+        if (Set<BattleEffectType>.Of(BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.ScreenNS).Contains(EffectType))
         {
-            Effect.FVariant = 0;
+            effect.Variant = 0;
         }
 
-        if (FEffectType == BattleEffectType.Breath && FStrikeIndex == 0)
+        if (EffectType == BattleEffectType.Breath && StrikeIndex == 0)
         {
-            FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.BreathAttack);
+            Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.BreathAttack);
         }
         else
         {
-            if ((FAbilityID != 52 && TacticalTables.AbilTypes[FAbilityID] != BattleEffectType.Breath) || FStrikeIndex == 0)
+            if ((AbilityId != 52 && TacticalTables.s_abilityTypes[AbilityId] != BattleEffectType.Breath) || StrikeIndex == 0)
             {
-                FUnit.FUnitHS.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Ability);
+                Unit.UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Ability);
             }
         }
 
         I = 0;
-        int limit = Obstacles.Count - 1;
+        int limit = obstacles.Count - 1;
         for (; I <= limit; I += 1)
         {
-            (Obstacles[I] as IDisposable)?.Dispose();
+            (obstacles[I] as IDisposable)?.Dispose();
         }
 
-        Obstacles?.Dispose();
-        FStrikeIndex += 1;
+        obstacles?.Dispose();
+        StrikeIndex += 1;
     }
 
-    private static Int32Array19 rndHex = Int32Array19.From([6, 0, 1, 3, 4, 5, 2, 18, 12, 7, 11, 10, 17, 15, 9, 16, 13, 8, 14]);
-    private static Int32Array12 BreathHit = Int32Array12.From([0, 1, 4, 7, 8, 2, 5, 9, 10, 3, 6, 11]);
+    private static Int32Array19 s_randomHex = Int32Array19.From([6, 0, 1, 3, 4, 5, 2, 18, 12, 7, 11, 10, 17, 15, 9, 16, 13, 8, 14]);
+    private static Int32Array12 s_breathHit = Int32Array12.From([0, 1, 4, 7, 8, 2, 5, 9, 10, 3, 6, 11]);
 
-    private static ushort GetRangedDirIndex(int DX, int DY)
+    private static ushort GetRangedDirectionIndex(int deltaX, int deltaY)
     {
         ushort result;
-        if (DX == 0)
+        if (deltaX == 0)
         {
             result = 0;
         }
         else
         {
-            int ratio = Math.Abs(DY * 100 / DX);
+            int ratio = Math.Abs(deltaY * 100 / deltaX);
             switch (ratio)
             {
                 case >= 0 and <= 12:
@@ -1666,12 +1666,12 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
             }
         }
 
-        if (DY > 0)
+        if (deltaY > 0)
         {
             result = (ushort)(12 - result);
         }
 
-        if (DX < 0 && result > 0)
+        if (deltaX < 0 && result > 0)
         {
             result = (ushort)(24 - result);
         }

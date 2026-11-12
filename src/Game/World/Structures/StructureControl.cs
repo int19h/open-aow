@@ -12,134 +12,134 @@ public partial class StructureControl : EngineObject
     // (structures, next ID, city count)
     public StructureControl(ECustomNode owner) : base(owner)
     {
-        FStructures = new ENode(null);
-        FNextID = 0;
+        Structures = new ENode(null);
+        NextId = 0;
     }
 
-    public ENode FStructures;
-    public int FNextID;
-    public int FCityCount;
+    public ENode Structures;
+    public int NextId;
+    public int CityCount;
 
     // Structur.PAS:3227
     public override void Dispose()
     {
-        FStructures?.Dispose();
+        Structures?.Dispose();
         base.Dispose();
     }
 
     // Structur.PAS:3245
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FNextID, 20);
-        Stream.rwInteger(ref FCityCount, 21);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref NextId, 20);
+        stream.rwInteger(ref CityCount, 21);
     }
 
     // Structur.PAS:3233
-    public Structure GetStructure(int Index)
+    public Structure GetStructure(int index)
     {
-        Structure Result;
-        if (Index >= 0 && Index < GetCount())
+        Structure result;
+        if (index >= 0 && index < GetCount())
         {
-            Result = (Structure)FStructures.FChildren.List[Index];
+            result = (Structure)Structures._children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3240
-    public int GetCount() => FStructures.GetCount();
+    public int GetCount() => Structures.GetCount();
 
     // Structur.PAS:3252
-    public int CreateUniqueID()
+    public int CreateUniqueId()
     {
         while (true)
         {
-            FNextID += 1;
-            if (FNextID > 268435455)
+            NextId += 1;
+            if (NextId > 268435455)
             {
-                FNextID = 0;
+                NextId = 0;
             }
 
-            if (IndexOfID(FNextID) == -1)
+            if (IndexOfId(NextId) == -1)
                 break;
         }
 
-        return FNextID;
+        return NextId;
     }
 
     // Structur.PAS:3261
-    public int IndexOfID(int ID)
+    public int IndexOfId(int id)
     {
-        int Result = GetCount();
-        if (Result != 0)
+        int result = GetCount();
+        if (result != 0)
         {
             do
             {
-                Result -= 1;
-                if (ID == ((Structure)FStructures.FChildren.List[Result]).FStructureID)
+                result -= 1;
+                if (id == ((Structure)Structures._children.List[result]).StructureId)
                 {
-                    return Result;
+                    return result;
                 }
             }
-            while (!(Result == 0));
+            while (!(result == 0));
         }
 
         return -1;
     }
 
     // Structur.PAS:3272
-    public Structure FindID(int ID)
+    public Structure FindId(int id)
     {
-        Structure Result;
-        int Index;
-        Index = IndexOfID(ID);
-        if (Index != -1)
+        Structure result;
+        int index;
+        index = IndexOfId(id);
+        if (index != -1)
         {
-            Result = (Structure)FStructures.FChildren.List[Index];
+            result = (Structure)Structures._children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Structur.PAS:3281
-    public void Register(Structure Structure)
+    public void Register(Structure structure)
     {
-        Assert(FStructures.FChildren.IndexOf(Structure) == -1, "", "Structur.PAS", 3299);
-        if (Structure.FStructureID == 0 || IndexOfID(Structure.FStructureID) != -1)
+        Assert(Structures._children.IndexOf(structure) == -1, "", "Structur.PAS", 3299);
+        if (structure.StructureId == 0 || IndexOfId(structure.StructureId) != -1)
         {
-            Structure.FStructureID = CreateUniqueID();
+            structure.StructureId = CreateUniqueId();
         }
 
-        FStructures.AddChild(Structure);
-        if (Structure.EClass.ClassID == 131336)
+        Structures.AddChild(structure);
+        if (structure.EngineClass.ClassId == 131336)
         {
-            FCityCount += 1;
+            CityCount += 1;
         }
     }
 
     // Structur.PAS:3306
-    public void Unregister(Structure Structure)
+    public void Unregister(Structure structure)
     {
-        FStructures.FChildren.Remove(Structure);
-        if (Structure.EClass.ClassID == 131336)
+        Structures._children.Remove(structure);
+        if (structure.EngineClass.ClassId == 131336)
         {
-            FCityCount -= 1;
+            CityCount -= 1;
         }
     }
 
     // Structur.PAS:3312
     public void Activate()
     {
-        FCityCount = 0;
+        CityCount = 0;
     }
 
     // intf_P1_09.inc:166

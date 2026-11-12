@@ -12,23 +12,23 @@ public partial class CrusaderAbility : DurationAbility
     // PassiveAb.pas:703
     public CrusaderAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(CrusaderRStr);
-        FAbilityID = 101;
-        FAbilityType = AbilityType.Handicap;
-        FDurationMode = DurationMode.Day;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(s_crusaderText);
+        AbilityId = 101;
+        AbilityType = AbilityType.Handicap;
+        DurationMode = DurationMode.Day;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:724
-    public override void NewTurn(AbilityOwner Owner, sbyte Player)
+    public override void NewTurn(AbilityOwner owner, sbyte player)
     {
-        DurationAbilityData Data;
-        if (FDurationMode == DurationMode.Day)
+        DurationAbilityData data;
+        if (DurationMode == DurationMode.Day)
         {
-            Data = (DurationAbilityData)Owner.GetAbilityData(FAbilityID);
-            if (Data != null && Data.FDuration != 0 && Data.FPlayerIndex == Player)
+            data = (DurationAbilityData)owner.GetAbilityData(AbilityId);
+            if (data != null && data.Duration != 0 && data.PlayerIndex == player)
             {
-                Data.FDuration = (byte)(Data.FDuration - 1);
+                data.Duration = (byte)(data.Duration - 1);
             }
         }
     }
@@ -36,17 +36,17 @@ public partial class CrusaderAbility : DurationAbility
     // PassiveAb.pas:713
     public override bool Remove(AbilityOwner owner)
     {
-        bool Result = base.Remove(owner);
-        if (owner is Troop unit)
+        bool result = base.Remove(owner);
+        if (owner is Troop troop)
         {
-            unit.Killed();
+            troop.Killed();
         }
 
-        return Result;
+        return result;
     }
 
     // PassiveAb.pas:719
     public override int GetTotalDuration() => 3;
 
-    private static readonly string CrusaderRStr = "Crusader";
+    private static readonly string s_crusaderText = "Crusader";
 }

@@ -32,33 +32,33 @@ public partial class FactionSelectionWindow : DataModule
     public Label DName;
     public Image DSphere;
     public IvTranslator Translator;
-    public int FFade;
-    public int FFadeImage;
-    public int FFadeDirection;
-    public ByteArray4 F_SelFactionWin_8C;
+    public int Fade;
+    public int FadeImage;
+    public int FadeDirection;
+    public ByteArray4 SelectionFlags;
 
     // AoWSelFactionWin.pas:63
     public void CloseSelection()
     {
-        DialogHosts.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
+        DialogHosts.UIGraphics.FactionWin.ReleaseDiscardableImageData();
         DialogHosts.TitleWindow.TitleWin.Visible = false;
         WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
         FactionPnl.Visible = false;
-        FFade = 0;
+        Fade = 0;
     }
 
     // AoWSelFactionWin.pas:72
-    public void LStartClick(int Side)
+    public void LStartClick(int side)
     {
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
+        DialogHosts.UIGraphics.FactionWin.ReleaseDiscardableImageData();
         FactionPnl.Visible = false;
-        FFade = 0;
-        StartCampaignJoin(DialogHosts.CampaignJoinDlg, Side);
+        Fade = 0;
+        StartCampaignJoin(DialogHosts.CampaignJoinDialog, side);
     }
 
     // AoWSelFactionWin.pas:82
-    public void LightPnlMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void LightPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         if (!DName.Visible && !LName.Visible)
         {
@@ -69,15 +69,15 @@ public partial class FactionSelectionWindow : DataModule
             DBack.CaptureInput = true;
             DStart.CaptureInput = true;
             TopLbl.Visible = false;
-            FFade = 100;
-            FactionPnl.ILIndexTexture = 2;
-            FFadeImage = 0;
-            FFadeDirection = 1;
+            Fade = 100;
+            FactionPnl.ImageLibraryIndexTexture = 2;
+            FadeImage = 0;
+            FadeDirection = 1;
         }
     }
 
     // AoWSelFactionWin.pas:100
-    public void DarkPnlMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void DarkPnlMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         if (!LName.Visible && !DName.Visible)
         {
@@ -88,10 +88,10 @@ public partial class FactionSelectionWindow : DataModule
             LBack.CaptureInput = true;
             LStart.CaptureInput = true;
             TopLbl.Visible = false;
-            FFade = 100;
-            FactionPnl.ILIndexTexture = 1;
-            FFadeImage = 0;
-            FFadeDirection = 1;
+            Fade = 100;
+            FactionPnl.ImageLibraryIndexTexture = 1;
+            FadeImage = 0;
+            FadeDirection = 1;
         }
     }
 
@@ -101,9 +101,9 @@ public partial class FactionSelectionWindow : DataModule
         DialogHosts.General.PlayButtonSound(0);
         LBack.CaptureInput = false;
         LStart.CaptureInput = false;
-        FFade = 100;
-        FFadeImage = 0;
-        FFadeDirection = 0;
+        Fade = 100;
+        FadeImage = 0;
+        FadeDirection = 0;
     }
 
     // AoWSelFactionWin.pas:128
@@ -112,49 +112,49 @@ public partial class FactionSelectionWindow : DataModule
         DialogHosts.General.PlayButtonSound(0);
         DBack.CaptureInput = false;
         DStart.CaptureInput = false;
-        FFade = 100;
-        FFadeImage = 0;
-        FFadeDirection = 0;
+        Fade = 100;
+        FadeImage = 0;
+        FadeDirection = 0;
     }
 
     // AoWSelFactionWin.pas:138
-    public void FactionPnlMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void FactionPnlMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        if (!LightPnl.FHandled && !DName.Visible && !DarkPnl.FHandled && !LName.Visible)
+        if (!LightPnl.Handled && !DName.Visible && !DarkPnl.Handled && !LName.Visible)
         {
             DSphere.Visible = false;
             LSphere.Visible = false;
-            var chooseFaction = AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
+            var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.s_chooseFactionText);
             TopLbl.Text = chooseFaction;
         }
     }
 
     // AoWSelFactionWin.pas:148
-    public void LightPnlMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void LightPnlMouseMove(Set<ShiftState> shift, int X, int Y)
     {
         if (!LName.Visible && !DSphere.Visible)
         {
             DSphere.Visible = true;
             LSphere.Visible = false;
-            var cultOfStorms = AbilityRules.TranslateRStr(LobbyText.CultOfStormsRStr);
+            var cultOfStorms = AbilityRules.TranslateResourceString(LobbyText.s_cultOfStormsText);
             TopLbl.Text = cultOfStorms;
         }
     }
 
     // AoWSelFactionWin.pas:158
-    public void DarkPnlMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public void DarkPnlMouseMove(Set<ShiftState> shift, int X, int Y)
     {
         if (!DName.Visible && !LSphere.Visible)
         {
             DSphere.Visible = false;
             LSphere.Visible = true;
-            var keepers = AbilityRules.TranslateRStr(LobbyText.KeepersRStr);
+            var keepers = AbilityRules.TranslateResourceString(LobbyText.s_keepersText);
             TopLbl.Text = keepers;
         }
     }
 
     // AoWSelFactionWin.pas:168
-    public void AbortBtnClick()
+    public void AbortButtonClick()
     {
         DialogHosts.General.PlayButtonSound(0);
         CloseSelection();
@@ -164,10 +164,10 @@ public partial class FactionSelectionWindow : DataModule
     public void FactionPnlUpdate()
     {
         Rect R;
-        if (DialogHosts.SelFactionWin.FFade >= 0)
+        if (DialogHosts.FactionSelectionWindow.Fade >= 0)
         {
-            DialogHosts.SelFactionWin.FFade -= 6;
-            if (FFade < 6)
+            DialogHosts.FactionSelectionWindow.Fade -= 6;
+            if (Fade < 6)
             {
                 if (LStart.Visible && !LStart.CaptureInput)
                 {
@@ -177,9 +177,9 @@ public partial class FactionSelectionWindow : DataModule
                     LStart.Visible = false;
                     LSphere.Visible = false;
                     TopLbl.Visible = true;
-                    var chooseFaction = AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
+                    var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.s_chooseFactionText);
                     TopLbl.Text = chooseFaction;
-                    FactionPnl.ILIndexTexture = 0;
+                    FactionPnl.ImageLibraryIndexTexture = 0;
                 }
                 else
                 {
@@ -191,23 +191,23 @@ public partial class FactionSelectionWindow : DataModule
                         DStart.Visible = false;
                         DSphere.Visible = false;
                         TopLbl.Visible = true;
-                        var chooseFaction = AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
+                        var chooseFaction = AbilityRules.TranslateResourceString(LobbyText.s_chooseFactionText);
                         TopLbl.Text = chooseFaction;
-                        FactionPnl.ILIndexTexture = 0;
+                        FactionPnl.ImageLibraryIndexTexture = 0;
                     }
                 }
             }
 
             R = new Rect(this.FactionPnl.WinLeft, this.FactionPnl.WinTop, this.FactionPnl.WinLeft + this.FactionPnl.WinWidth, FactionPnl.WinTop + this.FactionPnl.WinHeight);
 
-            DialogHosts.TitleWindow.TitleWin.AddBltRect(ref R, null);
+            DialogHosts.TitleWindow.TitleWin.AddBlitRectangle(ref R, null);
         }
     }
 
     // AoWSelFactionWin.pas:210
-    public void FactionPnlKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void FactionPnlKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        switch (Key)
+        switch (key)
         {
             case 27:
                 CloseSelection();
@@ -215,96 +215,96 @@ public partial class FactionSelectionWindow : DataModule
         }
     }
 
-    private static void StartCampaignJoin(CampaignJoinDialog Dialog, int Faction)
+    private static void StartCampaignJoin(CampaignJoinDialog dialog, int faction)
     {
-        Dialog.ResetCampaignJoin();
-        Dialog.FFaction = Faction;
-        Dialog.FStage = 0;
-        StringList val = new StringList();
-        switch (Dialog.FFaction)
+        dialog.ResetCampaignJoin();
+        dialog.Faction = faction;
+        dialog.Stage = 0;
+        StringList value = new StringList();
+        switch (dialog.Faction)
         {
             case 0:
                 LoadWorldCampaign(DialogHosts.WorldMap, "Keepers.cam");
-                Dialog.CharGenPnl.ILIndexTexture = 10;
-                AoWHSSet.Current.FTextControl.RetrieveText(10, (StringCollection)(object)val);
+                dialog.CharGenPnl.ImageLibraryIndexTexture = 10;
+                AoWHSSet.Current.TextControl.RetrieveText(10, (StringCollection)(object)value);
                 break;
             case 1:
                 LoadWorldCampaign(DialogHosts.WorldMap, "Storm.cam");
-                Dialog.CharGenPnl.ILIndexTexture = 11;
-                AoWHSSet.Current.FTextControl.RetrieveText(11, (StringCollection)(object)val);
+                dialog.CharGenPnl.ImageLibraryIndexTexture = 11;
+                AoWHSSet.Current.TextControl.RetrieveText(11, (StringCollection)(object)value);
                 break;
         }
-        ParseFontText(((StringCollection)val).Text, (StringCollection)(object)Dialog.FScrollText, DialogHosts.FontModule.AoW15WhiteGrey, 300);
+        ParseFontText(((StringCollection)value).Text, (StringCollection)(object)dialog.ScrollText, DialogHosts.UIFonts.Font15WhiteGrey, 300);
         WorldMapCampaign campaign = DialogHosts.WorldMap.GetCampaign();
-        int iD = WorldMapCampaign.GetCampaignScenario(campaign, 0).FPaths[0];
-        int index = campaign.FScenarios.IndexOfID(iD);
+        int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
+        int index = campaign.Scenarios.IndexOfId(id);
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(DialogHosts.WorldMap.GetCampaign(), index);
-        AoWHSMap tAoWHSMap = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName), GameProfile.WorldMap);
+        AoWHSMap hexSpriteMap = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FileName), GameProfile.WorldMap);
         int i;
-        for (i = 0; i < tAoWHSMap.Count && tAoWHSMap.FPlayers.GetPlayers(i).FPlayerType != PlayerType.Human; i++)
+        for (i = 0; i < hexSpriteMap.Count && hexSpriteMap.Players.GetPlayers(i).PlayerType != PlayerType.Human; i++)
         {
         }
-        Player players = tAoWHSMap.FPlayers.GetPlayers(i);
-        Dialog.FLeader.Assign(players.FLeaderSetup, GameTables.AoWEngine);
-        tAoWHSMap?.Dispose();
-        if (val != null)
+        Player players = hexSpriteMap.Players.GetPlayers(i);
+        dialog.Leader.Assign(players.LeaderSetup, GameTables.GameEngine);
+        hexSpriteMap?.Dispose();
+        if (value != null)
         {
-            ((Persistent)val).Dispose();
+            ((Persistent)value).Dispose();
         }
     }
 
-    private static void LoadWorldCampaign(WorldMap Dialog, string Name)
+    private static void LoadWorldCampaign(WorldMap dialog, string name)
     {
-        GameTables.AoWEngine.LoadCampaign(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + Name));
+        GameTables.GameEngine.LoadCampaign(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + name));
     }
 
-    private static void ParseFontText(string Text, StringCollection Strings, ImageLibraryFont Font, int MaxWidth)
+    private static void ParseFontText(string text, StringCollection strings, ImageLibraryFont font, int maxWidth)
     {
         int i = 1;
-        int num = 0;
-        string text = "";
+        int number = 0;
+        string textLocal = "";
         int j;
-        for (int length = Text.Length; i <= length; i += j)
+        for (int length = text.Length; i <= length; i += j)
         {
             if (Set<byte>.WithBounds(0, 255).With((byte)13).With((byte)32)
-                .Contains(Cp1252.Byte(Text[i - 1])))
+                .Contains(Cp1252.Byte(text[i - 1])))
             {
                 i++;
             }
             for (j = 0; i + j <= length && !Set<byte>.WithBounds(0, 255).With((byte)10).With((byte)13)
                 .With((byte)32)
-                .Contains(Cp1252.Byte(Text[i + j - 1])); j++)
+                .Contains(Cp1252.Byte(text[i + j - 1])); j++)
             {
             }
-            string text2 = RtlUnit.Copy(Text, i, j);
-            int textWidth = Font.GetTextWidth(text2);
-            if (num + textWidth > MaxWidth && !RtlUnit.IsEmpty(text))
+            string text2 = RtlUnit.Copy(text, i, j);
+            int textWidth = font.GetTextWidth(text2);
+            if (number + textWidth > maxWidth && !RtlUnit.IsEmpty(textLocal))
             {
-                Strings.Add(text);
-                text = "";
-                num = 0;
+                strings.Add(textLocal);
+                textLocal = "";
+                number = 0;
             }
-            if (!RtlUnit.IsEmpty(text))
+            if (!RtlUnit.IsEmpty(textLocal))
             {
-                text = text + " " + text2;
-                num = num + textWidth + Font.GetTextWidth(" ");
+                textLocal = textLocal + " " + text2;
+                number = number + textWidth + font.GetTextWidth(" ");
             }
             else
             {
-                text += text2;
-                num += textWidth;
+                textLocal += text2;
+                number += textWidth;
             }
-            if (i + j <= length && Text[i + j - 1] == '\n')
+            if (i + j <= length && text[i + j - 1] == '\n')
             {
-                Strings.Add(text);
-                text = "";
-                num = 0;
+                strings.Add(textLocal);
+                textLocal = "";
+                number = 0;
                 i++;
             }
         }
-        if (!RtlUnit.IsEmpty(text))
+        if (!RtlUnit.IsEmpty(textLocal))
         {
-            Strings.Add(text);
+            strings.Add(textLocal);
         }
     }
 }

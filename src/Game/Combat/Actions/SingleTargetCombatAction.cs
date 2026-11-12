@@ -14,7 +14,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat.Actions;
 
-// FMode. FSourceID. FTargetID
+// Mode. SourceId. TargetId
 public partial class SingleTargetCombatAction : CombatAction
 {
 
@@ -22,92 +22,92 @@ public partial class SingleTargetCombatAction : CombatAction
     {
     }
 
-    public Set<SingleTargetModeElement> FMode;
-    public byte FSourceID;
-    public byte FTargetID;
+    public Set<SingleTargetModeElement> Mode;
+    public byte SourceId;
+    public byte TargetId;
 
     // Combat2.pas:732
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FSourceID, 10);
-        Stream.rwByte(ref FTargetID, 11);
-        RwSet(ref FMode, 1, 12, Stream.rwData, 0);
+        base.ReadWrite(stream);
+        stream.rwByte(ref SourceId, 10);
+        stream.rwByte(ref TargetId, 11);
+        RwSet(ref Mode, 1, 12, stream.rwData, 0);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Byte("SourceID", ref FSourceID);
-        persister.Byte("TargetID", ref FTargetID);
-        persister.Set("Mode", ref FMode);
+        persister.Byte("SourceID", ref SourceId);
+        persister.Byte("TargetID", ref TargetId);
+        persister.Set("Mode", ref Mode);
     }
 
     // Combat2.pas:749
-    public override void ShowFieldObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void ShowFieldObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        if (!FMode.Contains(SingleTargetModeElement.Defensive))
+        if (!Mode.Contains(SingleTargetModeElement.Defensive))
         {
-            if (Obj.FID == FSourceID)
+            if (objectValue.Id == SourceId)
             {
-                AoWHSSet.Current.FCombatImages[2].Show(X + 15, Y + 18, Surface);
+                AoWHSSet.Current.CombatImages[2].Show(X + 15, Y + 18, surface);
             }
         }
         else
         {
-            if (Obj.FID == FTargetID)
+            if (objectValue.Id == TargetId)
             {
-                AoWHSSet.Current.FCombatImages[2].Show(X + 15, Y + 18, Surface);
+                AoWHSSet.Current.CombatImages[2].Show(X + 15, Y + 18, surface);
             }
         }
 
-        ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
-        if (!FMode.Contains(SingleTargetModeElement.Defensive))
+        ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
+        if (!Mode.Contains(SingleTargetModeElement.Defensive))
         {
-            if (Obj.FID == FTargetID)
+            if (objectValue.Id == TargetId)
             {
-                AoWHSSet.Current.FCombatImages[3].Show(X + 15, Y + 18, Surface);
+                AoWHSSet.Current.CombatImages[3].Show(X + 15, Y + 18, surface);
             }
         }
         else
         {
-            if (Obj.FID == FSourceID)
+            if (objectValue.Id == SourceId)
             {
-                AoWHSSet.Current.FCombatImages[3].Show(X + 15, Y + 18, Surface);
+                AoWHSSet.Current.CombatImages[3].Show(X + 15, Y + 18, surface);
             }
         }
     }
 
     // Combat2.pas:764
-    public override void ShowFightingObjects(CombatViewer Viewer, int Frame, int X, int Y, in LockedSurface Surface)
+    public override void ShowFightingObjects(CombatViewer viewer, int frame, int X, int Y, in LockedSurface surface)
     {
-        CombatObject Source;
-        CombatObject Target;
-        Source = Viewer.FCombat.FCombatData.FindID(FSourceID);
-        Target = Viewer.FCombat.FCombatData.FindID(FTargetID);
-        if (!FMode.Contains(SingleTargetModeElement.Defensive))
+        CombatObject source;
+        CombatObject target;
+        source = viewer.Combat.CombatData.FindId(SourceId);
+        target = viewer.Combat.CombatData.FindId(TargetId);
+        if (!Mode.Contains(SingleTargetModeElement.Defensive))
         {
-            Viewer.DefaultShowFightingObjects(Source, Target, Frame, X, Y, Surface);
+            viewer.DefaultShowFightingObjects(source, target, frame, X, Y, surface);
         }
         else
         {
-            Viewer.DefaultShowFightingObjects(Target, Source, Frame, X, Y, Surface);
+            viewer.DefaultShowFightingObjects(target, source, frame, X, Y, surface);
         }
     }
 
     // Combat2.pas:740
-    public bool GetDefensive() => FMode.Contains(SingleTargetModeElement.Defensive);
+    public bool GetDefensive() => Mode.Contains(SingleTargetModeElement.Defensive);
 
     // Combat2.pas:743
-    public void SetDefensive(bool Defensive)
+    public void SetDefensive(bool defensive)
     {
-        if (Defensive)
+        if (defensive)
         {
-            FMode = FMode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
+            Mode = Mode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
         }
         else
         {
-            FMode = FMode - Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
+            Mode = Mode - Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
         }
     }
 }

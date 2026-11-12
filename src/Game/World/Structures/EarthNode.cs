@@ -12,7 +12,7 @@ public partial class EarthNode : ProductionPlace
     { }
 
     // EarthNode.pas:36
-    public new const int ClassID = 132302;
+    public new const int ClassId = 132302;
 
     // EarthNode.pas:39
     public override MagicSphere GetMagicSphere() => MagicSphere.Earth;
@@ -21,25 +21,25 @@ public partial class EarthNode : ProductionPlace
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FRazeDefenderBudget = 200;
-            FRebuildGold = 35;
-            FRebuildDays = 2;
+            RazeDefenderBudget = 200;
+            RebuildGold = 35;
+            RebuildDays = 2;
         }
 
         // EarthNode.pas:53
-        public new const int ClassID = 132303;
+        public new const int ClassId = 132303;
 
         // EarthNode.pas:42
 
         // EarthNode.pas:56
-        public override int ResourceUserClassID() => 132302;
+        public override int ResourceUserClassId() => 132302;
 
         // EarthNode.pas:26
 
         // EarthNode.pas:50
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(EarthNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_earthNodeText);
 
-        private static readonly string EarthNodeRStr = "Earth Node";
+        private static readonly string s_earthNodeText = "Earth Node";
 
     }
 

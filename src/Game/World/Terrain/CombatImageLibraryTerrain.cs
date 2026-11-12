@@ -13,9 +13,9 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     { }
 
     // CombatILTer.pas:105
-    public new const int ClassID = 2228534;
+    public new const int ClassId = 2228534;
 
-    public CombatImageLibraryTerrainShadow FShadow;
+    public CombatImageLibraryTerrainShadow Shadow;
 
     // CombatILTer.pas:99
     public override void Dispose()
@@ -25,16 +25,16 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     }
 
     // CombatILTer.pas:166
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.MsgID == 135169)
+        base.MapFieldMessageProc(ref message);
+        if (message.MessageId == 135169)
         {
-            if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
+            if (_resource.TerrainList.GetTerrain(message.HexNumber) >= 0)
             {
-                if (Msg.Param[0].Int < ((CombatImageLibraryTerrainResource)FResource).FDefense)
+                if (message.Param[0].Int < ((CombatImageLibraryTerrainResource)_resource).Defense)
                 {
-                    Msg.Param[0] = ((CombatImageLibraryTerrainResource)FResource).FDefense;
+                    message.Param[0] = ((CombatImageLibraryTerrainResource)_resource).Defense;
                 }
             }
         }
@@ -55,71 +55,71 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     }
 
     // CombatILTer.pas:141
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!FStatus.Contains(MapObjectStatusElement.Visible))
+        if (!_status.Contains(MapObjectStatusElement.Visible))
         {
-            base.MakeVisible(VisibilityList);
-            if (FShadow != null)
+            base.MakeVisible(visibilityList);
+            if (Shadow != null)
             {
-                var showPriority = FShadow.GetShowPriority();
-                VisibilityList.AddSortChild(FShadow, showPriority);
+                var showPriority = Shadow.GetShowPriority();
+                visibilityList.AddSortChild(Shadow, showPriority);
             }
         }
     }
 
     // CombatILTer.pas:163
-    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
 
     // CombatILTer.pas:93
-    public override bool CanPlaceOnHS(HexSprite HS) => base.CanPlaceOnHS(HS) || HS is AbstractRoad;
+    public override bool CanPlaceOnHexSprite(HexSprite hexSprite) => base.CanPlaceOnHexSprite(hexSprite) || hexSprite is AbstractRoad;
 
     // CombatILTer.pas:108
-    public virtual void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public virtual void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Xhp = default;
-        int Yhp = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
-        XhpSurf = Xhp - XhpSurf;
-        YhpSurf = Yhp - YhpSurf;
-        FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(_hexX, _hexY, ref pixelX, ref pixelY);
+        pixelXSurface = pixelX - pixelXSurface;
+        pixelYSurface = pixelY - pixelYSurface;
+        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(((MapField)Owner).HexX + (((MapField)Owner).HexY << 4)));
     }
 
     // CombatILTer.pas:87
-    public sbyte GetDefense() => ((CombatImageLibraryTerrainResource)FResource).FDefense;
+    public sbyte GetDefense() => ((CombatImageLibraryTerrainResource)_resource).Defense;
 
     // CombatILTer.pas:90
-    public sbyte GetBurnValue() => ((CombatImageLibraryTerrainResource)FResource).FBurnValue;
+    public sbyte GetBurnValue() => ((CombatImageLibraryTerrainResource)_resource).BurnValue;
 
     // CombatILTer.pas:118
     public void DestroyShadow()
     {
-        if (FShadow != null)
+        if (Shadow != null)
         {
             if (GetVisible())
             {
-                FResource.Engine.HSMap.DynamicVisibleHS.RemoveChild(FShadow);
+                _resource.Engine.HexSpriteMap.DynamicVisibleHexSprite.RemoveChild(Shadow);
             }
 
-            FShadow?.Dispose();
-            FShadow = null;
+            Shadow?.Dispose();
+            Shadow = null;
         }
     }
 
     // CombatILTer.pas:128
     public void CreateShadow()
     {
-        if (FResource.ImageSequenceList.GetImageSequence(40) != null)
+        if (_resource.ImageSequenceList.GetImageSequence(40) != null)
         {
-            if (FShadow != null)
+            if (Shadow != null)
             {
                 DestroyShadow();
             }
 
-            if (AoWHSMap.Current == null || AoWHSMap.Current.FShowUnitShadows)
+            if (AoWHSMap.Current == null || AoWHSMap.Current.ShowUnitShadows)
             {
-                FShadow = new CombatImageLibraryTerrainShadow(null);
-                FShadow.FTerrain = this;
+                Shadow = new CombatImageLibraryTerrainShadow(null);
+                Shadow._terrain = this;
             }
         }
     }

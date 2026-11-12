@@ -8,298 +8,298 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Net;
 
-// FActiveTC, FPrefetchTC, FActiveTCIndex, FEvents, FTCList, FTokenCounter, FRound,
-// FExecuteCount, FState, FOnEventsExecuted, FOnActivateTC, FOnSyncError, FOnGetSyncValue,
-// FOnExecuteTokenEvent, FExecuting, FLockCount, FSystemEvents, FHoldTC, FTokenManager
+// _activeTacticalBattle, _prefetchTacticalBattle, _activeTacticalBattleIndex, _events, _tacticalBattleList, _tokenCounter, _round,
+// _executeCount, _state, FOnEventsExecuted, FOnActivateTacticalBattle, _onSyncError, _onGetSyncValue,
+// _onExecuteTokenEvent, _executing, _lockCount, _systemEvents, _holdTacticalBattle, _tokenManager
 public partial class TokenExecutor : IDisposable
 {
-    internal TokenControl FActiveTC;
-    internal TokenControl FPrefetchTC;
-    internal int FActiveTCIndex;
-    internal TokenEventList FEvents;
-    internal List<TokenControl> FTCList;
-    internal int FTokenCounter;
-    internal int FRound;
-    internal int FExecuteCount;
-    internal Set<TokenExecutorState> FState;
+    internal TokenControl _activeTacticalBattle;
+    internal TokenControl _prefetchTacticalBattle;
+    internal int _activeTacticalBattleIndex;
+    internal TokenEventList _events;
+    internal List<TokenControl> _tacticalBattleList;
+    internal int _tokenCounter;
+    internal int _round;
+    internal int _executeCount;
+    internal Set<TokenExecutorState> _state;
 
-    internal EventStore<TokenExecutor> FOnEventsExecutedStore;
+    internal EventStore<TokenExecutor> _onEventsExecutedStore;
 
     internal event NotifyEvent<TokenExecutor> FOnEventsExecuted
     {
-        add => FOnEventsExecutedStore.Add(value);
-        remove => FOnEventsExecutedStore.Remove(value);
+        add => _onEventsExecutedStore.Add(value);
+        remove => _onEventsExecutedStore.Remove(value);
     }
 
-    internal EventStore<TokenExecutor> FOnActivateTCStore;
+    internal EventStore<TokenExecutor> _onActivateTacticalBattleStore;
 
-    internal event NotifyEvent<TokenExecutor> FOnActivateTC
+    internal event NotifyEvent<TokenExecutor> FOnActivateTacticalBattle
     {
-        add => FOnActivateTCStore.Add(value);
-        remove => FOnActivateTCStore.Remove(value);
+        add => _onActivateTacticalBattleStore.Add(value);
+        remove => _onActivateTacticalBattleStore.Remove(value);
     }
 
-    internal NotifyEvent<object> FOnSyncError;
-    internal GetSyncValueEvent FOnGetSyncValue;
-    internal TokenEventEvent FOnExecuteTokenEvent;
-    internal bool FExecuting;
-    internal int FLockCount;
-    internal TokenEventList FSystemEvents;
-    internal bool FHoldTC;
-    internal TokenManager FTokenManager;
+    internal NotifyEvent<object> _onSyncError;
+    internal GetSyncValueEvent _onGetSyncValue;
+    internal TokenEventEvent _onExecuteTokenEvent;
+    internal bool _executing;
+    internal int _lockCount;
+    internal TokenEventList _systemEvents;
+    internal bool _holdTacticalBattle;
+    internal TokenManager _tokenManager;
 
     // NetworkE.pas:1429
-    public virtual ExecuteResult ExecuteTokenEvent(TokenEvent TE)
+    public virtual ExecuteResult ExecuteTokenEvent(TokenEvent tokenEvent)
     {
-        ExecuteResult Result = default;
-        FExecuting = true;
-        if (FOnExecuteTokenEvent != null)
+        ExecuteResult result = default;
+        _executing = true;
+        if (_onExecuteTokenEvent != null)
         {
-            FOnExecuteTokenEvent(TE);
+            _onExecuteTokenEvent(tokenEvent);
         }
 
         try
         {
-            Result = TE.Execute(this);
+            result = tokenEvent.Execute(this);
         }
         catch
         {
-            ShowMessage("Exception occured during " + TE.GetType().Name);
-            Result = ExecuteResult.Done;
+            ShowMessage("Exception occured during " + tokenEvent.GetType().Name);
+            result = ExecuteResult.Done;
         }
 
-        FExecuteCount += 1;
-        FExecuting = false;
-        return Result;
+        _executeCount += 1;
+        _executing = false;
+        return result;
     }
 
     // NetworkE.pas:1350
-    public TokenExecutor(TokenManager AManager)
+    public TokenExecutor(TokenManager manager)
     {
-        FTokenManager = AManager;
-        FEvents = new TokenEventList(null);
-        FTCList = new List<TokenControl>();
-        FOnEventsExecutedStore = new();
-        FOnActivateTCStore = new();
-        FSystemEvents = new TokenEventList(null);
+        _tokenManager = manager;
+        _events = new TokenEventList(null);
+        _tacticalBattleList = new List<TokenControl>();
+        _onEventsExecutedStore = new();
+        _onActivateTacticalBattleStore = new();
+        _systemEvents = new TokenEventList(null);
     }
 
     // NetworkE.pas:1361
     public virtual void Dispose()
     {
         Reset();
-        FEvents?.Dispose();
-        FTCList?.Clear();
-        FOnEventsExecutedStore.Clear();
-        FOnActivateTCStore.Clear();
-        FSystemEvents?.Dispose();
+        _events?.Dispose();
+        _tacticalBattleList?.Clear();
+        _onEventsExecutedStore.Clear();
+        _onActivateTacticalBattleStore.Clear();
+        _systemEvents?.Dispose();
     }
 
     // NetworkE.pas:1372
     public int GetSyncValue()
     {
-        int Result = default;
-        if (FOnGetSyncValue != null)
+        int result = default;
+        if (_onGetSyncValue != null)
         {
-            FOnGetSyncValue(ref Result);
+            _onGetSyncValue(ref result);
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:1380
-    public TokenControl GetTC(int Index) => FTCList[Index];
+    public TokenControl GetTacticalBattle(int index) => _tacticalBattleList[index];
 
     // NetworkE.pas:1385
-    public void AddTC(TokenControl TC)
+    public void AddTacticalBattle(TokenControl tacticalBattle)
     {
-        FTCList.Add(TC);
+        _tacticalBattleList.Add(tacticalBattle);
     }
 
     // NetworkE.pas:1390
-    public void DeleteTC(int Index)
+    public void DeleteTacticalBattle(int index)
     {
-        FTCList.RemoveAt(Index);
+        _tacticalBattleList.RemoveAt(index);
     }
 
     // NetworkE.pas:1395
-    public void RemoveTC(TokenControl TC)
+    public void RemoveTacticalBattle(TokenControl tacticalBattle)
     {
-        FTCList.Remove(TC);
+        _tacticalBattleList.Remove(tacticalBattle);
     }
 
     // NetworkE.pas:1400
-    public void InsertTC(int Index, TokenControl TC)
+    public void InsertTacticalBattle(int index, TokenControl tacticalBattle)
     {
-        FTCList.Insert(Index, TC);
+        _tacticalBattleList.Insert(index, tacticalBattle);
     }
 
     // NetworkE.pas:1405
     public void Reset()
     {
-        FTCList.Clear();
-        FActiveTC = null;
-        FActiveTCIndex = -1;
-        FState = Set<TokenExecutorState>.Of();
-        FRound = 0;
-        FTokenCounter = 0;
+        _tacticalBattleList.Clear();
+        _activeTacticalBattle = null;
+        _activeTacticalBattleIndex = -1;
+        _state = Set<TokenExecutorState>.Of();
+        _round = 0;
+        _tokenCounter = 0;
     }
 
     // NetworkE.pas:1416
     // { Numbers an event that has no token counter yet (or an old one) and queues it }
-    public void PrefetchTokenEvent(TokenEvent TE)
+    public void PrefetchTokenEvent(TokenEvent tokenEvent)
     {
-        if (FState.Contains(TokenExecutorState.Prefetching))
+        if (_state.Contains(TokenExecutorState.Prefetching))
         {
-            if (TE.FTokenCounter >= FTokenCounter || TE.FTokenCounter == -1)
+            if (tokenEvent._tokenCounter >= _tokenCounter || tokenEvent._tokenCounter == -1)
             {
-                TE.FTokenCounter = FEvents.Count + FTokenCounter;
-                FEvents.Add(TE);
+                tokenEvent._tokenCounter = _events.Count + _tokenCounter;
+                _events.Add(tokenEvent);
             }
 
-            FExecuteCount = 0;
+            _executeCount = 0;
         }
     }
 
     // NetworkE.pas:1444
     public TokenEvent GetExecutingTokenEvent()
     {
-        TokenEvent Result;
-        if (FState.Contains(TokenExecutorState.Executing) && FEvents.Count != 0)
+        TokenEvent result;
+        if (_state.Contains(TokenExecutorState.Executing) && _events.Count != 0)
         {
-            Result = FEvents[0];
+            result = _events[0];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:1452
-    public bool InsertExecuteEvent(TokenEvent TE)
+    public bool InsertExecuteEvent(TokenEvent tokenEvent)
     {
-        bool Result;
-        if (FState.Contains(TokenExecutorState.Executing))
+        bool result;
+        if (_state.Contains(TokenExecutorState.Executing))
         {
-            FEvents.Add(TE);
-            Result = true;
+            _events.Add(tokenEvent);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:1463
-    public void Initialize(int AIndex)
+    public void Initialize(int index)
     {
-        FState = Set<TokenExecutorState>.Of();
-        if (AIndex < FTCList.Count)
+        _state = Set<TokenExecutorState>.Of();
+        if (index < _tacticalBattleList.Count)
         {
-            FActiveTC = FTCList[AIndex];
-            FActiveTCIndex = AIndex;
-            FRound = 0;
+            _activeTacticalBattle = _tacticalBattleList[index];
+            _activeTacticalBattleIndex = index;
+            _round = 0;
         }
     }
 
     // NetworkE.pas:1474
-    public void ActivateTC(int Index)
+    public void ActivateTacticalBattle(int index)
     {
-        FActiveTC = FTCList[Index];
-        FActiveTC.FActive = true;
-        FActiveTCIndex = Index;
-        FOnActivateTCStore.Raise(this);
-        if (FState.Contains(TokenExecutorState.Executing))
+        _activeTacticalBattle = _tacticalBattleList[index];
+        _activeTacticalBattle._active = true;
+        _activeTacticalBattleIndex = index;
+        _onActivateTacticalBattleStore.Raise(this);
+        if (_state.Contains(TokenExecutorState.Executing))
         {
-            FState = FState + Set<TokenExecutorState>.Of(TokenExecutorState.TCActivated);
+            _state = _state + Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
         }
     }
 
     // NetworkE.pas:1485
     // { The next active token control after the current one; a wrap starts the next round }
-    public void ActivateNextTC()
+    public void ActivateNextTacticalBattle()
     {
         int N;
         N = 0;
         while (true)
         {
-            FActiveTCIndex += 1;
+            _activeTacticalBattleIndex += 1;
             N += 1;
-            if (FTCList.Count <= FActiveTCIndex)
+            if (_tacticalBattleList.Count <= _activeTacticalBattleIndex)
             {
-                FActiveTCIndex = 0;
-                FRound += 1;
+                _activeTacticalBattleIndex = 0;
+                _round += 1;
             }
 
-            if ((FTCList[FActiveTCIndex]).FActive || N > FTCList.Count)
+            if ((_tacticalBattleList[_activeTacticalBattleIndex])._active || N > _tacticalBattleList.Count)
                 break;
         }
 
-        if ((FTCList[FActiveTCIndex]).FActive)
+        if ((_tacticalBattleList[_activeTacticalBattleIndex])._active)
         {
-            ActivateTC(FActiveTCIndex);
+            ActivateTacticalBattle(_activeTacticalBattleIndex);
         }
     }
 
     // NetworkE.pas:1503
     public void Lock()
     {
-        FLockCount += 1;
+        _lockCount += 1;
     }
 
     // NetworkE.pas:1508
     public void Unlock()
     {
-        FLockCount -= 1;
+        _lockCount -= 1;
     }
 
     // NetworkE.pas:1513
-    public bool GetLocked() => FLockCount != 0;
+    public bool GetLocked() => _lockCount != 0;
 
     // NetworkE.pas:1519
     // { The system events run between the token controls' events; True while some remain }
     public bool ProcessSystemTokenEvents()
     {
-        bool Result;
+        bool result;
         ExecuteResult R;
-        if (!FState.Contains(TokenExecutorState.Executing) && FSystemEvents.Count > 0 && FLockCount == 0)
+        if (!_state.Contains(TokenExecutorState.Executing) && _systemEvents.Count > 0 && _lockCount == 0)
         {
-            if (FSystemEvents[0].FTokenCounter == -1)
+            if (_systemEvents[0]._tokenCounter == -1)
             {
-                FExecuteCount = 0;
-                FSystemEvents[0].FTokenCounter = FTokenCounter;
+                _executeCount = 0;
+                _systemEvents[0]._tokenCounter = _tokenCounter;
             }
 
-            R = ExecuteTokenEvent(FSystemEvents[0]);
+            R = ExecuteTokenEvent(_systemEvents[0]);
             if (R == ExecuteResult.Done || R == ExecuteResult.DoneHalt)
             {
-                FSystemEvents.Delete(0);
-                FTokenCounter += 1;
-                FExecuteCount = 0;
+                _systemEvents.Delete(0);
+                _tokenCounter += 1;
+                _executeCount = 0;
             }
 
-            Result = FSystemEvents.Count != 0;
+            result = _systemEvents.Count != 0;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:1543
-    public void AddSystemEvent(TokenEvent TE)
+    public void AddSystemEvent(TokenEvent tokenEvent)
     {
-        FSystemEvents.Add(TE);
+        _systemEvents.Add(tokenEvent);
     }
 
     // NetworkE.pas:1550
@@ -308,53 +308,53 @@ public partial class TokenExecutor : IDisposable
     public void Process()
     {
         int I;
-        bool Prefetched;
+        bool prefetched;
         ExecuteResult R;
-        if (FActiveTC != null && !ProcessSystemTokenEvents())
+        if (_activeTacticalBattle != null && !ProcessSystemTokenEvents())
         {
             I = 0;
-            Prefetched = true;
+            prefetched = true;
             R = ExecuteResult.Done;
-            while (FLockCount == 0 && Prefetched == true && R == ExecuteResult.Done && I < FTCList.Count)
+            while (_lockCount == 0 && prefetched == true && R == ExecuteResult.Done && I < _tacticalBattleList.Count)
             {
-                if (!FState.Contains(TokenExecutorState.Executing))
+                if (!_state.Contains(TokenExecutorState.Executing))
                 {
-                    FState = FState + Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
-                    FEvents.Clear();
-                    Prefetched = FActiveTC.PrefetchTokenEvents(this);
-                    FState = FState - Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
-                    if (Prefetched == true)
+                    _state = _state + Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
+                    _events.Clear();
+                    prefetched = _activeTacticalBattle.PrefetchTokenEvents(this);
+                    _state = _state - Set<TokenExecutorState>.Of(TokenExecutorState.Prefetching);
+                    if (prefetched == true)
                     {
-                        FState = FState + Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
-                        FPrefetchTC = FActiveTC;
-                        FActiveTC.TokenEventsPrefetched(this, FEvents);
+                        _state = _state + Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
+                        _prefetchTacticalBattle = _activeTacticalBattle;
+                        _activeTacticalBattle.TokenEventsPrefetched(this, _events);
                     }
                 }
 
-                if (FState.Contains(TokenExecutorState.Executing))
+                if (_state.Contains(TokenExecutorState.Executing))
                 {
-                    while (R == ExecuteResult.Done && FEvents.Count != 0)
+                    while (R == ExecuteResult.Done && _events.Count != 0)
                     {
-                        R = ExecuteTokenEvent(FEvents[0]);
+                        R = ExecuteTokenEvent(_events[0]);
                         if (R == ExecuteResult.Done || R == ExecuteResult.DoneHalt)
                         {
-                            FEvents.Delete(0);
-                            FTokenCounter += 1;
-                            FExecuteCount = 0;
+                            _events.Delete(0);
+                            _tokenCounter += 1;
+                            _executeCount = 0;
                         }
                     }
 
-                    if (FEvents.Count == 0)
+                    if (_events.Count == 0)
                     {
-                        FState = FState - Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
-                        FOnEventsExecutedStore.Raise(this);
-                        if (!FHoldTC && !FState.Contains(TokenExecutorState.TCActivated))
+                        _state = _state - Set<TokenExecutorState>.Of(TokenExecutorState.Executing);
+                        _onEventsExecutedStore.Raise(this);
+                        if (!_holdTacticalBattle && !_state.Contains(TokenExecutorState.TacticalBattleActivated))
                         {
-                            ActivateNextTC();
+                            ActivateNextTacticalBattle();
                         }
 
-                        FState = FState - Set<TokenExecutorState>.Of(TokenExecutorState.TCActivated);
-                        FPrefetchTC = null;
+                        _state = _state - Set<TokenExecutorState>.Of(TokenExecutorState.TacticalBattleActivated);
+                        _prefetchTacticalBattle = null;
                         I += 1;
                     }
                 }
@@ -362,32 +362,32 @@ public partial class TokenExecutor : IDisposable
         }
     }
 
-    public TokenControl ActiveTC { get => FActiveTC; }
-    public TokenControl PrefetchTC { get => FPrefetchTC; }
-    public int ActiveTCIndex { get => FActiveTCIndex; }
-    public int TokenCounter { get => FTokenCounter; }
-    public int Round { get => FRound; }
-    public int ExecuteCount { get => FExecuteCount; }
-    public Set<TokenExecutorState> State { get => FState; }
+    public TokenControl ActiveTacticalBattle { get => _activeTacticalBattle; }
+    public TokenControl PrefetchTacticalBattle { get => _prefetchTacticalBattle; }
+    public int ActiveTacticalBattleIndex { get => _activeTacticalBattleIndex; }
+    public int TokenCounter { get => _tokenCounter; }
+    public int Round { get => _round; }
+    public int ExecuteCount { get => _executeCount; }
+    public Set<TokenExecutorState> State { get => _state; }
     public bool Locked { get => GetLocked(); }
-    public bool HoldTC { get => FHoldTC; set => FHoldTC = value; }
-    public bool Executing { get => FExecuting; }
+    public bool HoldTacticalBattle { get => _holdTacticalBattle; set => _holdTacticalBattle = value; }
+    public bool Executing { get => _executing; }
 
     public event NotifyEvent<TokenExecutor> OnEventsExecuted
     {
-        add => FOnEventsExecutedStore.Add(value);
-        remove => FOnEventsExecutedStore.Remove(value);
+        add => _onEventsExecutedStore.Add(value);
+        remove => _onEventsExecutedStore.Remove(value);
     }
 
-    public event NotifyEvent<TokenExecutor> OnActivateTC
+    public event NotifyEvent<TokenExecutor> OnActivateTacticalBattle
     {
-        add => FOnActivateTCStore.Add(value);
-        remove => FOnActivateTCStore.Remove(value);
+        add => _onActivateTacticalBattleStore.Add(value);
+        remove => _onActivateTacticalBattleStore.Remove(value);
     }
 
-    public NotifyEvent<object> OnSyncError { get => FOnSyncError; set => FOnSyncError = value; }
-    public GetSyncValueEvent OnGetSyncValue { get => FOnGetSyncValue; set => FOnGetSyncValue = value; }
-    public TokenEventEvent OnExecuteTokenEvent { get => FOnExecuteTokenEvent; set => FOnExecuteTokenEvent = value; }
+    public NotifyEvent<object> OnSyncError { get => _onSyncError; set => _onSyncError = value; }
+    public GetSyncValueEvent OnGetSyncValue { get => _onGetSyncValue; set => _onGetSyncValue = value; }
+    public TokenEventEvent OnExecuteTokenEvent { get => _onExecuteTokenEvent; set => _onExecuteTokenEvent = value; }
 
     public delegate void GetSyncValueEvent(ref int Value);
     public delegate void TokenEventEvent(TokenEvent TE);

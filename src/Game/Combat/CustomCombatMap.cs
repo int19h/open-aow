@@ -15,35 +15,35 @@ namespace Aow.Game.Combat;
 public partial class CustomCombatMap : GameMap
 {
 
-    internal EventStore<CombatSpellCaster> FCombatStartedEventsStore;
+    internal EventStore<CombatSpellCaster> _combatStartedEventsStore;
 
     public event NotifyEvent<CombatSpellCaster> FCombatStartedEvents
     {
-        add => FCombatStartedEventsStore.Add(value);
-        remove => FCombatStartedEventsStore.Remove(value);
+        add => _combatStartedEventsStore.Add(value);
+        remove => _combatStartedEventsStore.Remove(value);
     }
 
-    internal EventStore<AbilityActivation> FAbilityActivatedEventsStore;
+    internal EventStore<AbilityActivation> _abilityActivatedEventsStore;
 
     public event NotifyEvent<AbilityActivation> FAbilityActivatedEvents
     {
-        add => FAbilityActivatedEventsStore.Add(value);
-        remove => FAbilityActivatedEventsStore.Remove(value);
+        add => _abilityActivatedEventsStore.Add(value);
+        remove => _abilityActivatedEventsStore.Remove(value);
     }
 
     // AoWHSMap.PAS:914
     public override void Dispose()
     {
         base.Dispose();
-        FCombatStartedEventsStore.Clear();
-        FAbilityActivatedEventsStore.Clear();
+        _combatStartedEventsStore.Clear();
+        _abilityActivatedEventsStore.Clear();
     }
 
     // AoWHSMap.PAS:907
     public CustomCombatMap(ECustomNode owner) : base(owner)
     {
-        FCombatStartedEventsStore = new();
-        FAbilityActivatedEventsStore = new();
+        _combatStartedEventsStore = new();
+        _abilityActivatedEventsStore = new();
     }
 
 }

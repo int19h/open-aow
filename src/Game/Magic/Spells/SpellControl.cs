@@ -18,171 +18,171 @@ public partial class SpellControl : EngineObject
     // Spells.PAS:577
     public SpellControl(ECustomNode owner) : base(owner)
     {
-        FRegisteredSpells = new List<Spell>();
+        RegisteredSpells = new List<Spell>();
     }
 
-    public List<Spell> FRegisteredSpells;
+    public List<Spell> RegisteredSpells;
 
     // Spells.PAS:582
     public override void Dispose()
     {
         UnregisterAll();
-        FRegisteredSpells?.Clear();
+        RegisteredSpells?.Clear();
         base.Dispose();
     }
 
     // Spells.PAS:588
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        for (int I = 0, last = FRegisteredSpells.Count - 1; I <= last; I++)
+        base.ReadWrite(stream);
+        for (int I = 0, last = RegisteredSpells.Count - 1; I <= last; I++)
         {
-            if (FRegisteredSpells[I] != null)
+            if (RegisteredSpells[I] != null)
             {
-                Stream.rwEObject(FRegisteredSpells[I], I + 10);
+                stream.rwEObject(RegisteredSpells[I], I + 10);
             }
         }
     }
 
     // Spells.PAS:597
-    public int GetCount() => FRegisteredSpells.Count;
+    public int GetCount() => RegisteredSpells.Count;
 
     // Spells.PAS:601
-    public Spell GetSpell(int Index)
+    public Spell GetSpell(int index)
     {
-        Spell Result;
+        Spell result;
         object P;
-        if (Index < 0)
+        if (index < 0)
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Invalid SpellID", "D:\\AoWDev\\AoWE\\inc\\Spells.PAS", 54989);
         }
 
-        if (Index < FRegisteredSpells.Count)
+        if (index < RegisteredSpells.Count)
         {
-            P = FRegisteredSpells[Index];
-            Result = (Spell)P;
+            P = RegisteredSpells[index];
+            result = (Spell)P;
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Spells.PAS:610
-    public void RegisterSpell(Spell Spell)
+    public void RegisterSpell(Spell spell)
     {
-        int ID;
-        ID = Spell.FSpellID;
-        if (ID != 0)
+        int id;
+        id = spell.SpellId;
+        if (id != 0)
         {
-            if (ID < FRegisteredSpells.Count && FRegisteredSpells[ID] != null)
+            if (id < RegisteredSpells.Count && RegisteredSpells[id] != null)
             {
-                throw new InvalidOperationException("Spell already registered (" + IntToStr(ID) + ")");
+                throw new InvalidOperationException("Spell already registered (" + IntToStr(id) + ")");
             }
 
-            while (FRegisteredSpells.Count <= ID)
+            while (RegisteredSpells.Count <= id)
             {
-                FRegisteredSpells.Add(null);
+                RegisteredSpells.Add(null);
             }
 
-            FRegisteredSpells[ID] = Spell;
-            Spell.FCastImages.LinkToIL();
+            RegisteredSpells[id] = spell;
+            spell.CastImages.LinkToImageLibrary();
         }
         else
         {
-            throw new ArgumentException("Invalid SpellID (" + Spell.GetType().Name + ")");
+            throw new ArgumentException("Invalid SpellID (" + spell.GetType().Name + ")");
         }
     }
 
     // Spells.PAS:627
-    public void UnregisterSpell(Spell Spell)
+    public void UnregisterSpell(Spell spell)
     {
-        int ID;
-        ID = Spell.FSpellID;
-        if (ID != 0)
+        int id;
+        id = spell.SpellId;
+        if (id != 0)
         {
-            if (ID < 0 || ID >= FRegisteredSpells.Count || FRegisteredSpells[ID] != Spell)
+            if (id < 0 || id >= RegisteredSpells.Count || RegisteredSpells[id] != spell)
             {
-                throw new InvalidOperationException("Cannot Unregister Spell (" + IntToStr(ID) + ")");
+                throw new InvalidOperationException("Cannot Unregister Spell (" + IntToStr(id) + ")");
             }
 
-            if (FRegisteredSpells[ID] != null)
+            if (RegisteredSpells[id] != null)
             {
-                Spell.FCastImages.ReleaseIL();
-                (FRegisteredSpells[ID])?.Dispose();
-                FRegisteredSpells[ID] = null;
+                spell.CastImages.ReleaseImageLibrary();
+                (RegisteredSpells[id])?.Dispose();
+                RegisteredSpells[id] = null;
             }
         }
         else
         {
-            throw new ArgumentException("Invalid SpellID (" + Spell.GetType().Name + ")");
+            throw new ArgumentException("Invalid SpellID (" + spell.GetType().Name + ")");
         }
     }
 
     // Spells.PAS:646
-    public void UnregisterSpellID(int SpellID)
+    public void UnregisterSpellId(int spellId)
     {
-        if (FRegisteredSpells[SpellID] != null)
+        if (RegisteredSpells[spellId] != null)
         {
-            UnregisterSpell(FRegisteredSpells[SpellID]);
+            UnregisterSpell(RegisteredSpells[spellId]);
         }
     }
 
     // Spells.PAS:651
     public void UnregisterAll()
     {
-        for (int I = FRegisteredSpells.Count - 1; I >= 0; I--)
+        for (int I = RegisteredSpells.Count - 1; I >= 0; I--)
         {
-            if (FRegisteredSpells[I] != null)
+            if (RegisteredSpells[I] != null)
             {
-                UnregisterSpell(FRegisteredSpells[I]);
+                UnregisterSpell(RegisteredSpells[I]);
             }
         }
     }
 
     // Spells.PAS:659
-    public void ListSpells(StringCollection SpellStrings, Set<MagicSphere> Spheres)
+    public void ListSpells(StringCollection spellStrings, Set<MagicSphere> spheres)
     {
-        SpellStrings.Clear();
-        for (int I = 0, last = this.FRegisteredSpells.Count - 1; I <= last; I++)
+        spellStrings.Clear();
+        for (int I = 0, last = this.RegisteredSpells.Count - 1; I <= last; I++)
         {
-            if (this.FRegisteredSpells[I] != null && Spheres.Contains((this.FRegisteredSpells[I]).FMagicSphere))
+            if (this.RegisteredSpells[I] != null && spheres.Contains((this.RegisteredSpells[I]).MagicSphere))
             {
-                SpellStrings.AddObject((this.FRegisteredSpells[I]).FSpellName, IntToObject(I));
+                spellStrings.AddObject((this.RegisteredSpells[I]).SpellName, IntToObject(I));
             }
         }
     }
 
     // Spells.PAS:674
-    public int GetRandomSpell(int MinLevel, int MaxLevel, Set<MagicSphere> Spheres)
+    public int GetRandomSpell(int minLevel, int maxLevel, Set<MagicSphere> spheres)
     {
-        int Result;
-        Int32List Candidates;
-        Spell Spell;
-        Candidates = new Int32List();
-        for (int I = this.FRegisteredSpells.Count - 1; I >= 0; I--)
+        int result;
+        Int32List candidates;
+        Spell spell;
+        candidates = new Int32List();
+        for (int I = this.RegisteredSpells.Count - 1; I >= 0; I--)
         {
-            Spell = this.FRegisteredSpells[I];
-            if (Spell != null && Spheres.Contains(Spell.FMagicSphere) && Spell.FSpellLevel >= MinLevel && Spell.FSpellLevel <= MaxLevel)
+            spell = this.RegisteredSpells[I];
+            if (spell != null && spheres.Contains(spell.MagicSphere) && spell.SpellLevel >= minLevel && spell.SpellLevel <= maxLevel)
             {
-                Candidates.Add(I);
+                candidates.Add(I);
             }
         }
 
-        if (Candidates.Count != 0)
+        if (candidates.Count != 0)
         {
-            Result = Candidates[AoWHSMap.Current.Random(Candidates.Count)];
+            result = candidates[AoWHSMap.Current.Random(candidates.Count)];
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        Candidates?.Dispose();
-        return Result;
+        candidates?.Dispose();
+        return result;
     }
 
     // intf_P4_02.inc:947

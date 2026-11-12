@@ -17,40 +17,40 @@ public partial class RejuvenateTokenEvent : GlobalTargetSpellTokenEvent
     { }
 
     // GlobalTargetSpells.pas:1036
-    public new const int ClassID = 135952;
+    public new const int ClassId = 135952;
 
     // GlobalTargetSpells.pas:1044
     public override bool Process(Troop source, int value)
     {
-        TwinkleAnimation Twinkle = default;
+        TwinkleAnimation twinkle = default;
         base.Process(source, value);
-        AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, (sbyte)(byte)FLocation.X, (sbyte)(byte)FLocation.Y, (sbyte)(byte)FLocation.L, 2);
-        if (AoWHSMap.Current.TerrainVisible((sbyte)(byte)FLocation.X, (sbyte)(byte)FLocation.Y, (sbyte)(byte)FLocation.L, 2))
+        AoWHSMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2);
+        if (AoWHSMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
-            Twinkle = new TwinkleAnimation(null);
-            Twinkle.Setup(AoWHSSet.Current.FSpellControl.GetSpell(41).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
-            AoWHSMap.Current.PlaceHX(Twinkle, FLocation.X, FLocation.Y, FLocation.L);
+            twinkle = new TwinkleAnimation(null);
+            twinkle.Setup(AoWHSSet.Current.SpellControl.GetSpell(41).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 100, 64, 50, 30);
+            AoWHSMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
         }
 
         // Use the map's seated player.
-        if (AoWHSMap.Current.FSeatedPlayer == source.FPlayer || AoWHSMap.Current.WatchingTerrain((sbyte)(byte)FLocation.X, (sbyte)(byte)FLocation.Y, (sbyte)(byte)FLocation.L, 2))
+        if (AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.WatchingTerrain((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
-            AoWHSSet.Current.FSpellControl.GetSpell(41).FCastSounds.Play(0);
+            AoWHSSet.Current.SpellControl.GetSpell(41).CastSounds.Play(0);
         }
 
-        AoWHSMap.Current.ChangeTerrainEx(null, FLocation.X, FLocation.Y, FLocation.L, 2, RejuvenateTerrain, null);
-        var spell = AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
+        AoWHSMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 2, RejuvenateTerrain, null);
+        var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         // The original event result is zero.
         return false;
     }
 
     // GlobalTargetSpells.pas:1039
-    public void RejuvenateTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+    public void RejuvenateTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        if (Set<byte>.WithBounds(0, 255).WithRange((int)World.Map.TerrainType.Desert, (int)World.Map.TerrainType.Wasteland).Contains((byte)TerrainType))
+        if (Set<byte>.WithBounds(0, 255).WithRange((int)World.Map.TerrainType.Desert, (int)World.Map.TerrainType.Wasteland).Contains((byte)terrainType))
         {
-            TerrainType = (int)World.Map.TerrainType.Grass;
+            terrainType = (int)World.Map.TerrainType.Grass;
         }
     }
 

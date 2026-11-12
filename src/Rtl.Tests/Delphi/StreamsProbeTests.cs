@@ -167,50 +167,50 @@ public sealed class StreamsProbeTests
         }
 
         p.Fact("file_deleted", Ord(DeleteFile("probe-stream.bin")));
-        using var src = new MemoryStream();
-        using var dst = new MemoryStream();
+        using var source = new MemoryStream();
+        using var destination = new MemoryStream();
         void Both(string tag)
         {
-            State(tag + "_source", src);
-            State(tag + "_destination", dst);
+            State(tag + "_source", source);
+            State(tag + "_destination", destination);
         }
 
         for (int i = 0; i < buffer.Length; i++) buffer[i] = (byte)(i % 251);
-        src.WriteBuffer(buffer.AsSpan(0, 8));
+        source.WriteBuffer(buffer.AsSpan(0, 8));
         Both("copy_initial_write");
-        src.Position = 3;
+        source.Position = 3;
         Both("copy_source_position3");
-        dst.WriteBuffer(buffer.AsSpan(20, 2));
+        destination.WriteBuffer(buffer.AsSpan(20, 2));
         Both("copy_dest_prefix");
-        p.Fact("copy_zero_count", dst.CopyFrom(src, 0));
+        p.Fact("copy_zero_count", destination.CopyFrom(source, 0));
         Both("copy_zero_after");
-        src.Position = 2;
+        source.Position = 2;
         Both("copy_explicit_start");
-        p.Fact("copy_explicit_count", dst.CopyFrom(src, 3));
+        p.Fact("copy_explicit_count", destination.CopyFrom(source, 3));
         Both("copy_explicit_after");
-        p.Fact("copy_too_many", p.Thrown(() => dst.CopyFrom(src, 9)));
+        p.Fact("copy_too_many", p.Thrown(() => destination.CopyFrom(source, 9)));
         Both("copy_too_many_after");
-        dst.Position = 0;
+        destination.Position = 0;
         Both("copy_before_readback");
         Array.Clear(buffer, 0, 32);
-        int count = dst.Read(buffer.AsSpan(0, 32));
+        int count = destination.Read(buffer.AsSpan(0, 32));
         Both("copy_readback");
         for (int i = 0; i < count; i++) p.Fact($"copy_byte_{i}", buffer[i]);
-        src.Clear();
-        dst.Clear();
+        source.Clear();
+        destination.Clear();
         Both("copy_cleared");
-        p.Fact("copy_empty_zero", dst.CopyFrom(src, 0));
+        p.Fact("copy_empty_zero", destination.CopyFrom(source, 0));
         Both("copy_empty_after");
         for (int i = 0; i < buffer.Length; i++) buffer[i] = (byte)(i % 251);
-        src.WriteBuffer(buffer);
+        source.WriteBuffer(buffer);
         Both("large_source_write");
-        src.Position = 123;
+        source.Position = 123;
         Both("large_source_seek");
-        p.Fact("large_copy_zero_count", dst.CopyFrom(src, 0));
+        p.Fact("large_copy_zero_count", destination.CopyFrom(source, 0));
         Both("large_copy_after");
-        dst.Position = 0;
+        destination.Position = 0;
         Both("large_dest_rewind");
-        count = dst.Read(buffer);
+        count = destination.Read(buffer);
         Both("large_readback");
         p.Fact("large_read_count", count);
         p.Fact("large_checksum", buffer.Take(count).Sum(b => (int)b));

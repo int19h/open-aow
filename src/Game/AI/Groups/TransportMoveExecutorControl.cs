@@ -18,56 +18,56 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
     public TransportMoveExecutorControl(ECustomNode owner) : base(owner)
     { }
 
-    public MapCoordinate FMeetingPoint;
+    public MapCoordinate MeetingPoint;
 
     // AIGroup.pas:5741
     public override void CalculateMoves()
     {
-        AIMoveExecutorArmyList Transporters = default;
+        AIMoveExecutorArmyList transporters = default;
         AIMoveExecutorArmyList Armies = default;
-        AIMoveControlSettings Settings = default;
+        AIMoveControlSettings settings = default;
         int I = default;
-        int TimeLeft = default;
-        int Index = default;
-        byte Selection = default;
-        ArmyHexSprite ArmyHS = default;
-        AIMoveExecutorArmy Army = default;
-        AIMoveExecutorMove Move = default;
-        switch (FState)
+        int timeLeft = default;
+        int index = default;
+        byte selection = default;
+        ArmyHexSprite armyHexSprite = default;
+        AIMoveExecutorArmy army = default;
+        AIMoveExecutorMove move = default;
+        switch (State)
         {
             case 0:
-                Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
+                Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                 I = 0;
-                TimeLeft = 5;
-                while (I < Armies.Count && FMoveControl.FStatus != AIMoveControlStatus.Processing && TimeLeft > 2)
+                timeLeft = 5;
+                while (I < Armies.Count && MoveControl.Status != AIMoveControlStatus.Processing && timeLeft > 2)
                 {
-                    if (Armies.GetArmies(I).FTransportStatus == AIMoveExecutorTransportStatus.Idle)
+                    if (Armies.GetArmies(I).TransportStatus == AIMoveExecutorTransportStatus.Idle)
                     {
-                        Settings = new AIMoveControlSettings(null);
-                        Armies.GetArmies(I).RetrieveArmy(255, ref ArmyHS, ref Selection);
-                        Settings.Setup(ArmyHS, Selection, FExecuter.FDestination.X, FExecuter.FDestination.Y, FExecuter.FDestination.L);
-                        Settings.FTransporter = FExecuter.FTransporter.FUnit;
-                        Settings.FOnDone = CalculateTransportPathCallBack;
-                        Settings.FMoveMode = Set<MoveModeElement>.Of(MoveModeElement.AI);
-                        FMoveControl.Reset();
-                        FMoveControl.CanMove(Settings);
-                        if (FMoveControl.FStatus != AIMoveControlStatus.Processing)
+                        settings = new AIMoveControlSettings(null);
+                        Armies.GetArmies(I).RetrieveArmy(255, ref armyHexSprite, ref selection);
+                        settings.Setup(armyHexSprite, selection, Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);
+                        settings.Transporter = Executor.Transporter.Troop;
+                        settings.OnDone = CalculateTransportPathCallback;
+                        settings.MoveMode = Set<MoveModeElement>.Of(MoveModeElement.AI);
+                        MoveControl.Reset();
+                        MoveControl.CanMove(settings);
+                        if (MoveControl.Status != AIMoveControlStatus.Processing)
                         {
-                            TimeLeft = AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft();
+                            timeLeft = AoWHSMap.Current.AIExecutor.GetProcessTimeLeft();
                         }
 
-                        Settings.Release();
+                        settings.Release();
                     }
 
                     I += 1;
                 }
 
-                Index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Idle);
-                if (Index == -1)
+                index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Idle);
+                if (index == -1)
                 {
                     if (!TransportDone())
                     {
-                        FState += 1;
+                        State += 1;
                         UpdateTransportMeetingPoint();
                     }
                     else
@@ -79,43 +79,43 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 Armies?.Dispose();
                 break;
             case 1:
-                Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
-                Index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Arriving);
-                if (Index != -1)
+                Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
+                index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Arriving);
+                if (index != -1)
                 {
-                    ref var location = ref Armies.GetArmies(Index).FArrivalPoint;
-                    Move = CreateMove(Armies.GetArmies(Index), 255, location.X, location.Y, location.L, Set<CreateMoveModeElement>.Of());
+                    ref var location = ref Armies.GetArmies(index).ArrivalPoint;
+                    move = CreateMove(Armies.GetArmies(index), 255, location.X, location.Y, location.MapLevel, Set<CreateMoveModeElement>.Of());
 
-                    Armies.GetArmies(Index).SetTransportStatus(255, AIMoveExecutorTransportStatus.Done);
+                    Armies.GetArmies(index).SetTransportStatus(255, AIMoveExecutorTransportStatus.Done);
                     // { The original executes queued moves only when creation returns nil. }
-                    if (Move == null)
+                    if (move == null)
                     {
-                        FExecuter.ExecuteMoves();
+                        Executor.ExecuteMoves();
                     }
                 }
                 else
                 {
-                    FState += 1;
+                    State += 1;
                 }
 
                 Armies?.Dispose();
                 break;
             case 2:
-                Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
-                Index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Boarding);
-                bool condition = Index != -1;
+                Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
+                index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Boarding);
+                bool condition = index != -1;
                 if (condition)
                 {
-                    var armies = Armies.GetArmies(Index);
-                    condition = Unsafe.As<MapCoordinate, int>(ref armies.FTransportSource) == Unsafe.As<MapCoordinate, int>(ref FExecuter.FTransporter.FLocation);
+                    var armies = Armies.GetArmies(index);
+                    condition = Unsafe.As<MapCoordinate, int>(ref armies.TransportSource) == Unsafe.As<MapCoordinate, int>(ref Executor.Transporter.Location);
                 }
 
                 if (condition)
                 {
                     I = 0;
-                    while (I < Armies.Count && FMoveControl.FStatus != AIMoveControlStatus.Processing)
+                    while (I < Armies.Count && MoveControl.Status != AIMoveControlStatus.Processing)
                     {
-                        if (Armies.GetArmies(I).FTransportStatus == AIMoveExecutorTransportStatus.Dumping)
+                        if (Armies.GetArmies(I).TransportStatus == AIMoveExecutorTransportStatus.Dumping)
                         {
                             DumpTransportUnits(Armies.GetArmies(I));
                         }
@@ -123,12 +123,12 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                         I += 1;
                     }
 
-                    Index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Dumping);
-                    if (Index == -1)
+                    index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Dumping);
+                    if (index == -1)
                     {
                         if (!TransportDone())
                         {
-                            FState += 1;
+                            State += 1;
                         }
                         else
                         {
@@ -138,35 +138,35 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 }
                 else
                 {
-                    FState += 1;
+                    State += 1;
                 }
 
                 Armies?.Dispose();
                 break;
             case 3:
-                Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
-                Index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Transporting);
-                bool test = Index != -1;
+                Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
+                index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Transporting);
+                bool test = index != -1;
                 if (test)
                 {
-                    var armies = Armies.GetArmies(Index);
-                    var armiesArmies = Armies.GetArmies(Index);
-                    test = Unsafe.As<MapCoordinate, int>(ref armies.FTransportDestination) == Unsafe.As<MapCoordinate, int>(ref armiesArmies.FLocation);
+                    var armies = Armies.GetArmies(index);
+                    var armiesArmies = Armies.GetArmies(index);
+                    test = Unsafe.As<MapCoordinate, int>(ref armies.TransportDestination) == Unsafe.As<MapCoordinate, int>(ref armiesArmies.Location);
                 }
 
                 if (test)
                 {
-                    Transporters = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
+                    transporters = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
                     I = 0;
-                    while (I != Transporters.Count)
+                    while (I != transporters.Count)
                     {
-                        bool passed = Transporters.GetArmies(I).FTransportStatus == AIMoveExecutorTransportStatus.Done;
+                        bool passed = transporters.GetArmies(I).TransportStatus == AIMoveExecutorTransportStatus.Done;
                         if (passed)
                         {
-                            var armies = Transporters.GetArmies(I);
-                            var transportersArmies = Transporters.GetArmies(I);
-                            var armies2 = Transporters.GetArmies(I);
-                            passed = CanMoveTo(Armies.GetArmies(Index), 255, armies2.FLocation.X, armies.FLocation.Y, transportersArmies.FLocation.L) == 255;
+                            var armies = transporters.GetArmies(I);
+                            var transportersArmies = transporters.GetArmies(I);
+                            var armies2 = transporters.GetArmies(I);
+                            passed = CanMoveTo(Armies.GetArmies(index), 255, armies2.Location.X, armies.Location.Y, transportersArmies.Location.MapLevel) == 255;
                         }
 
                         if (passed)
@@ -177,77 +177,77 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                         I += 1;
                     }
 
-                    if (I != Transporters.Count)
+                    if (I != transporters.Count)
                     {
-                        var aiMoveExecuterArmy = Transporters.GetArmies(I);
-                        var armies = Transporters.GetArmies(I);
-                        var transportersArmies = Transporters.GetArmies(I);
-                        var armies2 = Transporters.GetArmies(I);
-                        Move = CreateMove(Armies.GetArmies(Index), 255, armies2.FLocation.X, armies.FLocation.Y, transportersArmies.FLocation.L, Set<CreateMoveModeElement>.Of());
+                        var aiMoveExecutorArmy = transporters.GetArmies(I);
+                        var armies = transporters.GetArmies(I);
+                        var transportersArmies = transporters.GetArmies(I);
+                        var armies2 = transporters.GetArmies(I);
+                        move = CreateMove(Armies.GetArmies(index), 255, armies2.Location.X, armies.Location.Y, transportersArmies.Location.MapLevel, Set<CreateMoveModeElement>.Of());
                     }
                     else
                     {
-                        ref var location = ref Armies.GetArmies(Index).FArrivalPoint;
-                        Move = CreateMove(Armies.GetArmies(Index), 255, location.X, location.Y, location.L, Set<CreateMoveModeElement>.Of());
+                        ref var location = ref Armies.GetArmies(index).ArrivalPoint;
+                        move = CreateMove(Armies.GetArmies(index), 255, location.X, location.Y, location.MapLevel, Set<CreateMoveModeElement>.Of());
                     }
 
-                    if (Move == null)
+                    if (move == null)
                     {
-                        Armies.GetArmies(Index).SetStatus(255, AIMoveExecutorUnitStatus.Done);
-                        FExecuter.FTransporter.FStatus = AIMoveExecutorUnitStatus.Done;
+                        Armies.GetArmies(index).SetStatus(255, AIMoveExecutorUnitStatus.Done);
+                        Executor.Transporter.Status = AIMoveExecutorUnitStatus.Done;
                     }
                     else
                     {
-                        Armies.GetArmies(Index).SetTransportStatus(255, AIMoveExecutorTransportStatus.Done);
-                        FExecuter.ExecuteMoves();
+                        Armies.GetArmies(index).SetTransportStatus(255, AIMoveExecutorTransportStatus.Done);
+                        Executor.ExecuteMoves();
                     }
 
-                    Transporters?.Dispose();
+                    transporters?.Dispose();
                 }
 
                 Armies?.Dispose();
-                FState += 1;
+                State += 1;
                 break;
             case 4:
-                if (FExecuter.FTransporter.FStatus == AIMoveExecutorUnitStatus.Ready)
+                if (Executor.Transporter.Status == AIMoveExecutorUnitStatus.Ready)
                 {
-                    Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
-                    Index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Transporting);
-                    if (Index != -1)
+                    Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Done));
+                    index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Transporting);
+                    if (index != -1)
                     {
-                        ref var location = ref Armies.GetArmies(Index).FTransportDestination;
-                        Move = CreateTransporterMove(location.X, location.Y, location.L, true);
+                        ref var location = ref Armies.GetArmies(index).TransportDestination;
+                        move = CreateTransporterMove(location.X, location.Y, location.MapLevel, true);
 
-                        if (Move == null)
+                        if (move == null)
                         {
-                            Armies.GetArmies(Index).SetStatus(255, AIMoveExecutorUnitStatus.Done);
-                            FExecuter.FTransporter.FStatus = AIMoveExecutorUnitStatus.Done;
+                            Armies.GetArmies(index).SetStatus(255, AIMoveExecutorUnitStatus.Done);
+                            Executor.Transporter.Status = AIMoveExecutorUnitStatus.Done;
                         }
                     }
 
                     Armies?.Dispose();
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 5:
-                Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
+                Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
                 I = 0;
-                TimeLeft = 5;
-                while (TimeLeft > 2 && I != Armies.Count)
+                timeLeft = 5;
+                while (timeLeft > 2 && I != Armies.Count)
                 {
-                    if (Armies.GetArmies(I).FTransportStatus == AIMoveExecutorTransportStatus.Boarding)
+                    if (Armies.GetArmies(I).TransportStatus == AIMoveExecutorTransportStatus.Boarding)
                     {
-                        Army = Armies.GetArmies(I);
-                        if (Army.FBoardingPoint.X != -1 && Unsafe.As<MapCoordinate, int>(ref Army.FLocation) != Unsafe.As<MapCoordinate, int>(ref Army.FBoardingPoint))
+                        army = Armies.GetArmies(I);
+                        if (army.BoardingPoint.X != -1 && Unsafe.As<MapCoordinate, int>(ref army.Location) != Unsafe.As<MapCoordinate, int>(ref army.BoardingPoint))
                         {
-                            Move = CreateMove(Armies.GetArmies(I), 255, Army.FBoardingPoint.X, Army.FBoardingPoint.Y, Army.FBoardingPoint.L, Set<CreateMoveModeElement>.Of());
-                            if (Move == null)
+                            move = CreateMove(Armies.GetArmies(I), 255, army.BoardingPoint.X, army.BoardingPoint.Y, army.BoardingPoint.MapLevel, Set<CreateMoveModeElement>.Of());
+                            if (move == null)
                             {
-                                Army.SetStatus(255, AIMoveExecutorUnitStatus.Done);
+                                army.SetStatus(255, AIMoveExecutorUnitStatus.Done);
                             }
 
-                            TimeLeft = AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft();
+                            timeLeft = AoWHSMap.Current.AIExecutor.GetProcessTimeLeft();
                         }
                     }
 
@@ -256,25 +256,25 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
 
                 if (I == Armies.Count)
                 {
-                    FState += 1;
+                    State += 1;
                 }
 
                 Armies?.Dispose();
                 break;
             case 6:
-                if (FExecuter.FTransporter.FStatus == AIMoveExecutorUnitStatus.Ready)
+                if (Executor.Transporter.Status == AIMoveExecutorUnitStatus.Ready)
                 {
-                    Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Queued, AIMoveExecutorUnitStatus.Done));
-                    Index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Boarding);
-                    if (Index != -1)
+                    Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Queued, AIMoveExecutorUnitStatus.Done));
+                    index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Boarding);
+                    if (index != -1)
                     {
-                        var aiMoveExecuterArmy = Armies.GetArmies(Index);
-                        if (Unsafe.As<MapCoordinate, int>(ref FExecuter.FTransporter.FLocation) != Unsafe.As<MapCoordinate, int>(ref aiMoveExecuterArmy.FTransportSource))
+                        var aiMoveExecutorArmy = Armies.GetArmies(index);
+                        if (Unsafe.As<MapCoordinate, int>(ref Executor.Transporter.Location) != Unsafe.As<MapCoordinate, int>(ref aiMoveExecutorArmy.TransportSource))
                         {
-                            Move = CreateTransporterMove(aiMoveExecuterArmy.FTransportSource.X, aiMoveExecuterArmy.FTransportSource.Y, aiMoveExecuterArmy.FTransportSource.L, true);
-                            if (Move == null)
+                            move = CreateTransporterMove(aiMoveExecutorArmy.TransportSource.X, aiMoveExecutorArmy.TransportSource.Y, aiMoveExecutorArmy.TransportSource.MapLevel, true);
+                            if (move == null)
                             {
-                                FExecuter.FTransporter.FStatus = AIMoveExecutorUnitStatus.Done;
+                                Executor.Transporter.Status = AIMoveExecutorUnitStatus.Done;
                             }
                         }
                     }
@@ -282,34 +282,34 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     Armies?.Dispose();
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 7:
-                if (FExecuter.FTransporter.FStatus == AIMoveExecutorUnitStatus.Ready)
+                if (Executor.Transporter.Status == AIMoveExecutorUnitStatus.Ready)
                 {
-                    Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Queued, AIMoveExecutorUnitStatus.Done));
-                    Index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Boarding);
-                    if (Index != -1)
+                    Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready, AIMoveExecutorUnitStatus.Queued, AIMoveExecutorUnitStatus.Done));
+                    index = Armies.IndexOfTransportStatus(AIMoveExecutorTransportStatus.Boarding);
+                    if (index != -1)
                     {
-                        Army = Armies.GetArmies(Index);
-                        if (Army.WaitingForTransport() && Unsafe.As<MapCoordinate, int>(ref FExecuter.FTransporter.FLocation) == Unsafe.As<MapCoordinate, int>(ref Army.FTransportSource))
+                        army = Armies.GetArmies(index);
+                        if (army.WaitingForTransport() && Unsafe.As<MapCoordinate, int>(ref Executor.Transporter.Location) == Unsafe.As<MapCoordinate, int>(ref army.TransportSource))
                         {
-                            Selection = CanMoveTo(Armies.GetArmies(Index), 255, Army.FTransportSource.X, Army.FTransportSource.Y, Army.FTransportSource.L);
-                            if (Selection != 0)
+                            selection = CanMoveTo(Armies.GetArmies(index), 255, army.TransportSource.X, army.TransportSource.Y, army.TransportSource.MapLevel);
+                            if (selection != 0)
                             {
-                                Move = CreateMove(Armies.GetArmies(Index), Selection, Army.FTransportSource.X, Army.FTransportSource.Y, Army.FTransportSource.L, Set<CreateMoveModeElement>.Of());
-                                if (Move == null)
+                                move = CreateMove(Armies.GetArmies(index), selection, army.TransportSource.X, army.TransportSource.Y, army.TransportSource.MapLevel, Set<CreateMoveModeElement>.Of());
+                                if (move == null)
                                 {
-                                    FExecuter.FTransporter.FStatus = AIMoveExecutorUnitStatus.Done;
+                                    Executor.Transporter.Status = AIMoveExecutorUnitStatus.Done;
                                 }
                                 else
                                 {
-                                    Armies.GetArmies(Index).SetTransportStatus(Selection, AIMoveExecutorTransportStatus.Transporting);
+                                    Armies.GetArmies(index).SetTransportStatus(selection, AIMoveExecutorTransportStatus.Transporting);
                                 }
                             }
                             else
                             {
-                                FExecuter.FTransporter.FStatus = AIMoveExecutorUnitStatus.Done;
+                                Executor.Transporter.Status = AIMoveExecutorUnitStatus.Done;
                             }
                         }
                     }
@@ -317,17 +317,17 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                     Armies?.Dispose();
                 }
 
-                FState += 1;
+                State += 1;
                 break;
             case 8:
-                if (FExecuter.FMoves.Count == 0)
+                if (Executor.Moves.Count == 0)
                 {
                     Done();
                 }
                 else
                 {
-                    FState = 1;
-                    FExecuter.ExecuteMoves();
+                    State = 1;
+                    Executor.ExecuteMoves();
                 }
 
                 break;
@@ -339,246 +339,246 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
     {
         if (!TransportDone())
         {
-            FExecuter.FStatus = AIMoveExecutor.Status.OutOfMovePoints;
+            Executor.Status = AIMoveExecutorStatus.OutOfMovePoints;
         }
 
-        for (int I = FExecuter.FUnits.Count - 1; I >= 0; I--)
+        for (int I = Executor.Units.Count - 1; I >= 0; I--)
         {
-            var units = FExecuter.FUnits.GetUnits(I);
-            if (Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Guarding, AIMoveExecutorTransportStatus.Dumped).Contains(units.FTransportStatus))
+            var units = Executor.Units.GetUnits(I);
+            if (Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Guarding, AIMoveExecutorTransportStatus.Dumped).Contains(units.TransportStatus))
             {
-                FExecuter.FUnits.GetUnits(I)?.Dispose();
+                Executor.Units.GetUnits(I)?.Dispose();
             }
         }
 
-        FState = -1;
+        State = -1;
     }
 
     // AIGroup.pas:5465
-    public AIMoveExecutorMove CreateTransporterMove(sbyte X, sbyte Y, sbyte L, bool Queue)
+    public AIMoveExecutorMove CreateTransporterMove(sbyte X, sbyte Y, sbyte L, bool queue)
     {
-        AIMoveExecutorMove Move;
-        int MovePoints;
-        int Pos;
-        AIMoveExecutorArmy Army;
-        AIMoveExecutorUnit UnitEntry;
-        ArmyHexSprite ArmyHS;
-        MoveControlSettings Settings;
-        Move = null;
-        Army = new AIMoveExecutorArmy(null);
-        Army.Setup(FExecuter.FTransporter);
-        for (int I = 0, last = FExecuter.FUnits.Count - 1; I <= last; I++)
+        AIMoveExecutorMove move;
+        int movePoints;
+        int position;
+        AIMoveExecutorArmy army;
+        AIMoveExecutorUnit unitEntry;
+        ArmyHexSprite armyHexSprite;
+        MoveControlSettings settings;
+        move = null;
+        army = new AIMoveExecutorArmy(null);
+        army.Setup(Executor.Transporter);
+        for (int I = 0, last = Executor.Units.Count - 1; I <= last; I++)
         {
-            UnitEntry = FExecuter.FUnits.GetUnits(I);
-            if (Unsafe.As<MapCoordinate, int>(ref UnitEntry.FLocation) == Unsafe.As<MapCoordinate, int>(ref FExecuter.FTransporter.FLocation))
+            unitEntry = Executor.Units.GetUnits(I);
+            if (Unsafe.As<MapCoordinate, int>(ref unitEntry.Location) == Unsafe.As<MapCoordinate, int>(ref Executor.Transporter.Location))
             {
-                Army.AddChild(UnitEntry);
+                army.AddChild(unitEntry);
             }
         }
 
-        var aiMoveExecuterUnit = FExecuter.FTransporter;
-        ArmyHS = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(aiMoveExecuterUnit.FLocation.X, aiMoveExecuterUnit.FLocation.Y, aiMoveExecuterUnit.FLocation.L)).GetArmyHS();
+        var aiMoveExecutorUnit = Executor.Transporter;
+        armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(aiMoveExecutorUnit.Location.X, aiMoveExecutorUnit.Location.Y, aiMoveExecutorUnit.Location.MapLevel)).GetArmyHexSprite();
 
-        Settings = new MoveControlSettings(null);
-        Settings.SetupArmy(ArmyHS, 255);
-        Settings.SetDestinationPos(X, Y, L);
-        AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
-        if (Settings.FPath.Count != 0)
+        settings = new MoveControlSettings(null);
+        settings.SetupArmy(armyHexSprite, 255);
+        settings.SetDestinationPosition(X, Y, L);
+        AoWHSMap.Current.MoveControl.ProcessMove(settings);
+        if (settings.Path.Count != 0)
         {
-            MovePoints = ArmyHS.FArmy.MovePoints(255);
-            Pos = Settings.FPath.MovePointsToPos(MovePoints);
-            if (Pos < Settings.FPath.Count - 1)
+            movePoints = armyHexSprite.Army.MovePoints(255);
+            position = settings.Path.MovePointsToPosition(movePoints);
+            if (position < settings.Path.Count - 1)
             {
                 while (true)
                 {
-                    bool condition = Pos != Settings.FPath.Count - 1;
+                    bool condition = position != settings.Path.Count - 1;
                     if (condition)
                     {
-                        var item = Settings.FPath[Pos];
-                        var fPathItem = Settings.FPath[Pos];
-                        condition = CanMoveTo(Army, 255, Settings.FPath[Pos].X, item.Y, fPathItem.L) != 255;
+                        var item = settings.Path[position];
+                        var fPathItem = settings.Path[position];
+                        condition = CanMoveTo(army, 255, settings.Path[position].X, item.Y, fPathItem.MapLevel) != 255;
                     }
 
                     if (!condition)
                         break;
-                    Pos += 1;
+                    position += 1;
                 }
 
-                if (Pos < Settings.FPath.Count - 1)
+                if (position < settings.Path.Count - 1)
                 {
-                    Move = new AIMoveExecutorMove(null);
-                    Move.AddUnits(Army, 255);
-                    for (int I = Pos, last = Settings.FPath.Count - 1; I <= last; I++)
+                    move = new AIMoveExecutorMove(null);
+                    move.AddUnits(army, 255);
+                    for (int I = position, last = settings.Path.Count - 1; I <= last; I++)
                     {
-                        var item = Settings.FPath[I];
-                        Move.FPath.Add(item);
+                        var item = settings.Path[I];
+                        move.Path.Add(item);
                     }
 
-                    Move.FMovePoints = MovePoints;
-                    Move.FMoves = ArmyHS.FArmy.Moves(255);
-                    Move.FSourceX = ArmyHS.Xhx;
-                    Move.FSourceY = ArmyHS.Yhx;
-                    Move.FSourceL = ArmyHS.Lhx;
-                    Move.FDestinationX = X;
-                    Move.FDestinationY = Y;
-                    Move.FDestinationL = L;
-                    if (Queue)
+                    move.MovePoints = movePoints;
+                    move.Moves = armyHexSprite.Army.Moves(255);
+                    move.SourceX = armyHexSprite.HexX;
+                    move.SourceY = armyHexSprite.HexY;
+                    move.SourceL = armyHexSprite.HexLevel;
+                    move.DestinationX = X;
+                    move.DestinationY = Y;
+                    move.DestinationL = L;
+                    if (queue)
                     {
-                        Move.Owner = FExecuter.FMoves;
-                        Move.SetUnitStatus(AIMoveExecutorUnitStatus.Queued);
+                        move.Owner = Executor.Moves;
+                        move.SetUnitStatus(AIMoveExecutorUnitStatus.Queued);
                     }
                 }
             }
         }
 
-        Army?.Dispose();
-        Settings.Release();
-        return Move;
+        army?.Dispose();
+        settings.Release();
+        return move;
     }
 
     // AIGroup.pas:5525
     public bool TransportDone()
     {
-        AIMoveExecutor Executer;
+        AIMoveExecutor executor;
         int I;
-        bool Done;
-        Executer = FExecuter;
-        I = Executer.FUnits.Count;
-        Done = true;
-        while (I != 0 && Done)
+        bool done;
+        executor = Executor;
+        I = executor.Units.Count;
+        done = true;
+        while (I != 0 && done)
         {
             I -= 1;
-            var units = Executer.FUnits.GetUnits(I);
-            if (!Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Guarding, AIMoveExecutorTransportStatus.Dumping, AIMoveExecutorTransportStatus.Dumped, AIMoveExecutorTransportStatus.Done).Contains(units.FTransportStatus))
+            var units = executor.Units.GetUnits(I);
+            if (!Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Guarding, AIMoveExecutorTransportStatus.Dumping, AIMoveExecutorTransportStatus.Dumped, AIMoveExecutorTransportStatus.Done).Contains(units.TransportStatus))
             {
-                Done = false;
+                done = false;
             }
         }
 
-        return Done;
+        return done;
     }
 
     // AIGroup.pas:5553
-    public void DumpTransportUnits(AIMoveExecutorArmy Army)
+    public void DumpTransportUnits(AIMoveExecutorArmy army)
     {
-        byte Transporting;
-        byte Others;
-        MoveControlSettings Settings;
-        byte Selection = default;
-        ArmyHexSprite ArmyHS = default;
-        DelphiList Fields;
-        DelphiList OtherFields;
+        byte transporting;
+        byte others;
+        MoveControlSettings settings;
+        byte selection = default;
+        ArmyHexSprite armyHexSprite = default;
+        DelphiList fields;
+        DelphiList otherFields;
         int I;
-        AoWMapField Field;
-        bool Found;
-        Transporting = 0;
-        Others = 0;
+        AoWMapField field;
+        bool found;
+        transporting = 0;
+        others = 0;
         I = 0;
-        int last = Army.Count - 1;
+        int last = army.Count - 1;
         for (; I <= last; I += 1)
         {
-            if (Army.GetUnits(I).FUnit.GetTransporting())
+            if (army.GetUnits(I).Troop.GetTransporting())
             {
-                Transporting = (byte)(Transporting | (1 << I));
+                transporting = (byte)(transporting | (1 << I));
             }
             else
             {
-                Others = (byte)(Others | (1 << I));
+                others = (byte)(others | (1 << I));
             }
         }
 
-        if (Transporting != 0)
+        if (transporting != 0)
         {
-            Settings = new MoveControlSettings(null);
-            Army.RetrieveArmy(Transporting, ref ArmyHS, ref Selection);
-            Settings.SetupArmy(ArmyHS, Selection);
-            Settings.FMovePointsMax = ArmyHS.FArmy.Moves(Selection);
-            Settings.FMode = Settings.FMode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
-            AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
-            Fields = Settings.FProcessedMapFields;
-            Found = false;
+            settings = new MoveControlSettings(null);
+            army.RetrieveArmy(transporting, ref armyHexSprite, ref selection);
+            settings.SetupArmy(armyHexSprite, selection);
+            settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
+            settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
+            AoWHSMap.Current.MoveControl.ProcessMove(settings);
+            fields = settings.ProcessedMapFields;
+            found = false;
             I = 0;
-            Field = null;
-            while (!Found && I != Fields.Count)
+            field = null;
+            while (!found && I != fields.Count)
             {
-                Field = (AoWMapField)Fields.List[I];
-                if (Army.FLocation.X != Field.Xhx || Army.FLocation.Y != Field.Yhx || Army.FLocation.L != Field.Lhx)
+                field = (AoWMapField)fields.List[I];
+                if (army.Location.X != field.HexX || army.Location.Y != field.HexY || army.Location.MapLevel != field.HexLevel)
                 {
-                    Found = CanMoveTo(Army, Transporting, Field.Xhx, Field.Yhx, Field.Lhx) == Transporting;
+                    found = CanMoveTo(army, transporting, field.HexX, field.HexY, field.HexLevel) == transporting;
                 }
 
-                if (!Found)
+                if (!found)
                 {
                     I += 1;
                 }
             }
 
-            if (Found)
+            if (found)
             {
-                if (CreateMove(Army, Transporting, Field.Xhx, Field.Yhx, Field.Lhx, Set<CreateMoveModeElement>.Of()) != null)
+                if (CreateMove(army, transporting, field.HexX, field.HexY, field.HexLevel, Set<CreateMoveModeElement>.Of()) != null)
                 {
-                    FExecuter.ExecuteMoves();
-                    Army.SetStatus(Transporting, AIMoveExecutorUnitStatus.Done);
-                    Army.SetTransportStatus(Transporting, AIMoveExecutorTransportStatus.Dumped);
+                    Executor.ExecuteMoves();
+                    army.SetStatus(transporting, AIMoveExecutorUnitStatus.Done);
+                    army.SetTransportStatus(transporting, AIMoveExecutorTransportStatus.Dumped);
                 }
                 else
                 {
-                    FExecuter.FStatus = AIMoveExecutor.Status.OutOfMovePoints;
+                    Executor.Status = AIMoveExecutorStatus.OutOfMovePoints;
                 }
             }
             else
             {
-                Army.SetTransportStatus(Transporting, AIMoveExecutorTransportStatus.Guarding);
+                army.SetTransportStatus(transporting, AIMoveExecutorTransportStatus.Guarding);
             }
 
-            Settings.Release();
+            settings.Release();
         }
 
-        if (Transporting == 0 && Others != 0)
+        if (transporting == 0 && others != 0)
         {
-            Settings = new MoveControlSettings(null);
-            Army.RetrieveArmy(Others, ref ArmyHS, ref Selection);
-            Settings.SetupArmy(ArmyHS, Selection);
-            Settings.FMovePointsMax = ArmyHS.FArmy.Moves(Selection);
-            Settings.FMode = Settings.FMode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
-            AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
-            Field = null;
-            OtherFields = Settings.FProcessedMapFields;
-            Found = false;
+            settings = new MoveControlSettings(null);
+            army.RetrieveArmy(others, ref armyHexSprite, ref selection);
+            settings.SetupArmy(armyHexSprite, selection);
+            settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
+            settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
+            AoWHSMap.Current.MoveControl.ProcessMove(settings);
+            field = null;
+            otherFields = settings.ProcessedMapFields;
+            found = false;
             I = 0;
-            while (!Found && I != OtherFields.Count)
+            while (!found && I != otherFields.Count)
             {
-                Field = (AoWMapField)OtherFields.List[I];
-                if (Army.FLocation.X != Field.Xhx || Army.FLocation.Y != Field.Yhx || Army.FLocation.L != Field.Lhx)
+                field = (AoWMapField)otherFields.List[I];
+                if (army.Location.X != field.HexX || army.Location.Y != field.HexY || army.Location.MapLevel != field.HexLevel)
                 {
-                    Found = CanMoveTo(Army, Others, Field.Xhx, Field.Yhx, Field.Lhx) == Others;
+                    found = CanMoveTo(army, others, field.HexX, field.HexY, field.HexLevel) == others;
                 }
 
-                if (!Found)
+                if (!found)
                 {
                     I += 1;
                 }
             }
 
-            if (Found)
+            if (found)
             {
-                if (CreateMove(Army, Others, Field.Xhx, Field.Yhx, Field.Lhx, Set<CreateMoveModeElement>.Of()) != null)
+                if (CreateMove(army, others, field.HexX, field.HexY, field.HexLevel, Set<CreateMoveModeElement>.Of()) != null)
                 {
-                    FExecuter.ExecuteMoves();
-                    Army.SetStatus(Others, AIMoveExecutorUnitStatus.Done);
-                    Army.SetTransportStatus(Others, AIMoveExecutorTransportStatus.Dumped);
+                    Executor.ExecuteMoves();
+                    army.SetStatus(others, AIMoveExecutorUnitStatus.Done);
+                    army.SetTransportStatus(others, AIMoveExecutorTransportStatus.Dumped);
                 }
                 else
                 {
-                    FExecuter.FStatus = AIMoveExecutor.Status.OutOfMovePoints;
+                    Executor.Status = AIMoveExecutorStatus.OutOfMovePoints;
                 }
             }
             else
             {
-                Army.SetTransportStatus(Others, AIMoveExecutorTransportStatus.Guarding);
+                army.SetTransportStatus(others, AIMoveExecutorTransportStatus.Guarding);
             }
 
-            Settings.Release();
+            settings.Release();
         }
     }
 
@@ -586,55 +586,55 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
     public void UpdateTransportMeetingPoint()
     {
         AIMoveExecutorArmyList Armies;
-        MoveControlSettings Settings;
-        byte Selection = default;
+        MoveControlSettings settings;
+        byte selection = default;
         int I;
-        bool Found;
-        ArmyHexSprite ArmyHS = default;
+        bool found;
+        ArmyHexSprite armyHexSprite = default;
         // { Addressability survives elimination of this assignment. }
-        Found = false;
-        if ((FExecuter.FMode & Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent, AIMoveExecutorModeElement.Attack)) != Set<AIMoveExecutorModeElement>.Of())
+        found = false;
+        if ((Executor.Mode & Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent, AIMoveExecutorModeElement.Attack)) != Set<AIMoveExecutorModeElement>.Of())
         {
-            Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
+            Armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
             I = Armies.Count;
-            while (!Found && I != 0)
+            while (!found && I != 0)
             {
                 I -= 1;
                 var armies = Armies.GetArmies(I);
-                Found = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Boarding, AIMoveExecutorTransportStatus.Transporting).Contains(armies.FTransportStatus);
-                if (Found)
+                found = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Boarding, AIMoveExecutorTransportStatus.Transporting).Contains(armies.TransportStatus);
+                if (found)
                 {
-                    FMeetingPoint = Armies.GetArmies(I).FArrivalPoint;
+                    MeetingPoint = Armies.GetArmies(I).ArrivalPoint;
                 }
             }
 
-            if (!Found)
+            if (!found)
             {
                 I = Armies.Count;
             }
 
-            while (!Found && I != 0)
+            while (!found && I != 0)
             {
                 I -= 1;
                 var armies = Armies.GetArmies(I);
-                Found = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Done).Contains(armies.FTransportStatus);
-                if (Found)
+                found = Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Done).Contains(armies.TransportStatus);
+                if (found)
                 {
-                    FMeetingPoint = Armies.GetArmies(I).FLocation;
+                    MeetingPoint = Armies.GetArmies(I).Location;
                 }
             }
 
-            if (Found)
+            if (found)
             {
-                Settings = new MoveControlSettings(null);
-                Armies.GetArmies(I).RetrieveArmy(255, ref ArmyHS, ref Selection);
-                Settings.SetupArmy(ArmyHS, Selection);
-                Settings.SetSourcePos(FMeetingPoint.X, FMeetingPoint.Y, FMeetingPoint.L);
-                Settings.SetDestinationPos(FExecuter.FDestination.X, FExecuter.FDestination.Y, FExecuter.FDestination.L);
-                AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
-                if (Settings.FPath.Count > 4)
+                settings = new MoveControlSettings(null);
+                Armies.GetArmies(I).RetrieveArmy(255, ref armyHexSprite, ref selection);
+                settings.SetupArmy(armyHexSprite, selection);
+                settings.SetSourcePosition(MeetingPoint.X, MeetingPoint.Y, MeetingPoint.MapLevel);
+                settings.SetDestinationPosition(Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);
+                AoWHSMap.Current.MoveControl.ProcessMove(settings);
+                if (settings.Path.Count > 4)
                 {
-                    FMeetingPoint = Settings.FPath[Settings.FPath.Count - 2];
+                    MeetingPoint = settings.Path[settings.Path.Count - 2];
                 }
 
                 I = 0;
@@ -642,122 +642,122 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 for (; I <= limit; I += 1)
                 {
                     var armies = Armies.GetArmies(I);
-                    if (Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Boarding, AIMoveExecutorTransportStatus.Transporting, AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Done).Contains(armies.FTransportStatus))
+                    if (Set<AIMoveExecutorTransportStatus>.Of(AIMoveExecutorTransportStatus.Boarding, AIMoveExecutorTransportStatus.Transporting, AIMoveExecutorTransportStatus.Arriving, AIMoveExecutorTransportStatus.Done).Contains(armies.TransportStatus))
                     {
                         for (int J = 0, last = Armies.GetArmies(I).Count - 1; J <= last; J++)
                         {
-                            Armies.GetArmies(I).GetUnits(J).FArrivalPoint = FMeetingPoint;
+                            Armies.GetArmies(I).GetUnits(J).ArrivalPoint = MeetingPoint;
                         }
                     }
                 }
 
-                Settings.Release();
+                settings.Release();
             }
 
             Armies?.Dispose();
         }
 
-        if (!Found)
+        if (!found)
         {
-            FMeetingPoint.X = -1;
-            FMeetingPoint.Y = -1;
-            FMeetingPoint.L = -1;
+            MeetingPoint.X = -1;
+            MeetingPoint.Y = -1;
+            MeetingPoint.MapLevel = -1;
         }
     }
 
     // AIGroup.pas:5691
-    public void CalculateTransportPathCallBack(object Sender)
+    public void CalculateTransportPathCallback(object sender)
     {
-        AIMoveExecutorArmyList Armies;
-        int Index;
-        AIMoveExecutorArmy Army;
-        AIMoveExecutorUnit UnitEntry;
-        Armies = FExecuter.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
-        Index = Armies.IndexOf(FMoveControl.FSettings.FArmyHS, (byte)FMoveControl.FSettings.FSelection);
-        if (Index != -1)
+        AIMoveExecutorArmyList armies;
+        int index;
+        AIMoveExecutorArmy army;
+        AIMoveExecutorUnit unitEntry;
+        armies = Executor.CreateArmies(Set<AIMoveExecutorUnitStatus>.Of(AIMoveExecutorUnitStatus.Ready));
+        index = armies.IndexOf(MoveControl.Settings.ArmyHexSprite, (byte)MoveControl.Settings.Selection);
+        if (index != -1)
         {
-            Army = Armies.GetArmies(Index);
+            army = armies.GetArmies(index);
         }
         else
         {
-            Army = null;
+            army = null;
         }
 
-        if (Army != null && FMoveControl.FSettings.FMovePoints != -1)
+        if (army != null && MoveControl.Settings.MovePoints != -1)
         {
-            if (FMoveControl.FSettings.FBoardingPoint.X != -1)
+            if (MoveControl.Settings.BoardingPoint.X != -1)
             {
-                var aiMoveControlSettings = FMoveControl.FSettings;
-                Index = aiMoveControlSettings.FTransportPath.IndexOfXYL(aiMoveControlSettings.FBoardingPoint.X, aiMoveControlSettings.FBoardingPoint.Y, aiMoveControlSettings.FBoardingPoint.L);
+                var aiMoveControlSettings = MoveControl.Settings;
+                index = aiMoveControlSettings.TransportPath.IndexOfMapCoordinate(aiMoveControlSettings.BoardingPoint.X, aiMoveControlSettings.BoardingPoint.Y, aiMoveControlSettings.BoardingPoint.MapLevel);
                 while (true)
                 {
-                    bool condition = Index != aiMoveControlSettings.FTransportPath.Count - 1;
+                    bool condition = index != aiMoveControlSettings.TransportPath.Count - 1;
                     if (condition)
                     {
-                        var item = aiMoveControlSettings.FTransportPath[Index];
-                        var fTransportPathItem = aiMoveControlSettings.FTransportPath[Index];
-                        condition = CanMoveTo(Army, 255, aiMoveControlSettings.FTransportPath[Index].X, item.Y, fTransportPathItem.L) != 255;
+                        var item = aiMoveControlSettings.TransportPath[index];
+                        var fTransportPathItem = aiMoveControlSettings.TransportPath[index];
+                        condition = CanMoveTo(army, 255, aiMoveControlSettings.TransportPath[index].X, item.Y, fTransportPathItem.MapLevel) != 255;
                     }
 
                     if (!condition)
                         break;
-                    Index += 1;
+                    index += 1;
                 }
 
-                aiMoveControlSettings.FBoardingPoint = aiMoveControlSettings.FTransportPath[Index];
-                Index = aiMoveControlSettings.FTransportPath.IndexOfXYL(aiMoveControlSettings.FArrivalPoint.X, aiMoveControlSettings.FArrivalPoint.Y, aiMoveControlSettings.FArrivalPoint.L);
+                aiMoveControlSettings.BoardingPoint = aiMoveControlSettings.TransportPath[index];
+                index = aiMoveControlSettings.TransportPath.IndexOfMapCoordinate(aiMoveControlSettings.ArrivalPoint.X, aiMoveControlSettings.ArrivalPoint.Y, aiMoveControlSettings.ArrivalPoint.MapLevel);
                 while (true)
                 {
-                    bool condition = Index != 0;
+                    bool condition = index != 0;
                     if (condition)
                     {
-                        var item = aiMoveControlSettings.FTransportPath[Index];
-                        var fTransportPathItem = aiMoveControlSettings.FTransportPath[Index];
-                        condition = CanMoveTo(Army, 255, aiMoveControlSettings.FTransportPath[Index].X, item.Y, fTransportPathItem.L) != 255;
+                        var item = aiMoveControlSettings.TransportPath[index];
+                        var fTransportPathItem = aiMoveControlSettings.TransportPath[index];
+                        condition = CanMoveTo(army, 255, aiMoveControlSettings.TransportPath[index].X, item.Y, fTransportPathItem.MapLevel) != 255;
                     }
 
                     if (!condition)
                         break;
-                    Index -= 1;
+                    index -= 1;
                 }
 
-                aiMoveControlSettings.FArrivalPoint = aiMoveControlSettings.FTransportPath[Index];
-                for (int I = 0, last = Army.Count - 1; I <= last; I++)
+                aiMoveControlSettings.ArrivalPoint = aiMoveControlSettings.TransportPath[index];
+                for (int I = 0, last = army.Count - 1; I <= last; I++)
                 {
-                    UnitEntry = Army.GetUnits(I);
-                    var units = Army.GetUnits(I);
-                    if (Unsafe.As<MapCoordinate, int>(ref units.FLocation) == Unsafe.As<MapCoordinate, int>(ref FExecuter.FTransporter.FLocation))
+                    unitEntry = army.GetUnits(I);
+                    var units = army.GetUnits(I);
+                    if (Unsafe.As<MapCoordinate, int>(ref units.Location) == Unsafe.As<MapCoordinate, int>(ref Executor.Transporter.Location))
                     {
-                        UnitEntry.FTransportStatus = AIMoveExecutorTransportStatus.Transporting;
+                        unitEntry.TransportStatus = AIMoveExecutorTransportStatus.Transporting;
                     }
                     else
                     {
-                        UnitEntry.FTransportStatus = AIMoveExecutorTransportStatus.Boarding;
+                        unitEntry.TransportStatus = AIMoveExecutorTransportStatus.Boarding;
                     }
 
-                    UnitEntry.FBoardingPoint = FMoveControl.FSettings.FBoardingPoint;
-                    UnitEntry.FBoardingPoint.Flag = 0;
-                    UnitEntry.FArrivalPoint = FMoveControl.FSettings.FArrivalPoint;
-                    UnitEntry.FArrivalPoint.Flag = 0;
-                    UnitEntry.FTransportSource = FMoveControl.FSettings.FTransportSource;
-                    UnitEntry.FTransportSource.Flag = 0;
-                    UnitEntry.FTransportDestination = FMoveControl.FSettings.FTransportDestination;
-                    UnitEntry.FTransportDestination.Flag = 0;
+                    unitEntry.BoardingPoint = MoveControl.Settings.BoardingPoint;
+                    unitEntry.BoardingPoint.Tag = 0;
+                    unitEntry.ArrivalPoint = MoveControl.Settings.ArrivalPoint;
+                    unitEntry.ArrivalPoint.Tag = 0;
+                    unitEntry.TransportSource = MoveControl.Settings.TransportSource;
+                    unitEntry.TransportSource.Tag = 0;
+                    unitEntry.TransportDestination = MoveControl.Settings.TransportDestination;
+                    unitEntry.TransportDestination.Tag = 0;
                 }
             }
             else
             {
-                for (int I = 0, last = Army.Count - 1; I <= last; I++)
+                for (int I = 0, last = army.Count - 1; I <= last; I++)
                 {
-                    Army.GetUnits(I).FTransportStatus = AIMoveExecutorTransportStatus.Arriving;
+                    army.GetUnits(I).TransportStatus = AIMoveExecutorTransportStatus.Arriving;
                 }
             }
         }
         else
         {
-            FExecuter.FStatus = AIMoveExecutor.Status.Failed;
+            Executor.Status = AIMoveExecutorStatus.Failed;
         }
 
-        Armies?.Dispose();
+        armies?.Dispose();
     }
 }

@@ -15,7 +15,7 @@ public partial class HexSprite : EngineObject
     public HexSprite(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 65872;
+    public new const int ClassId = 65872;
 
     // HXSPRITE.PAS:6
     // { HXSPRITE.PAS: THexagonSprite, THPBasedHS, TSingleHS, TFixedVisibleHS, TCustomFixedVisibleHS
@@ -27,10 +27,10 @@ public partial class HexSprite : EngineObject
     }
 
     // HXSPRITE.PAS:116
-    public virtual sbyte GetTerrain(int HN) => -2;
+    public virtual sbyte GetTerrain(int hexNumber) => -2;
 
     // HXSPRITE.PAS:121
-    public virtual void SetTerrain(int HN, sbyte Value)
+    public virtual void SetTerrain(int hexNumber, sbyte value)
     {
     }
 
@@ -38,10 +38,10 @@ public partial class HexSprite : EngineObject
     public virtual int GetTerrainCount() => 0;
 
     // HXSPRITE.PAS:130
-    public virtual sbyte GetOverlay(int HN) => -2;
+    public virtual sbyte GetOverlay(int hexNumber) => -2;
 
     // HXSPRITE.PAS:135
-    public virtual void SetOverlay(int HN, sbyte Value)
+    public virtual void SetOverlay(int hexNumber, sbyte value)
     {
     }
 
@@ -55,7 +55,7 @@ public partial class HexSprite : EngineObject
     }
 
     // HXSPRITE.PAS:43
-    public virtual void SetVisible(bool Value)
+    public virtual void SetVisible(bool value)
     {
     }
 
@@ -66,22 +66,22 @@ public partial class HexSprite : EngineObject
     public virtual bool GetSelected() => false;
 
     // HXSPRITE.PAS:87
-    public virtual sbyte GetXhx() => ((MapField)Owner).FXhx;
+    public virtual sbyte GetHexX() => ((MapField)Owner)._hexX;
 
     // HXSPRITE.PAS:92
-    public virtual sbyte GetYhx() => ((MapField)Owner).FYhx;
+    public virtual sbyte GetHexY() => ((MapField)Owner)._hexY;
 
     // HXSPRITE.PAS:97
-    public virtual sbyte GetLhx() => (sbyte)((MapLevel)Owner.Owner).FLhx;
+    public virtual sbyte GetHexLevel() => (sbyte)((MapLevel)Owner.Owner)._hexLevel;
 
     // HXSPRITE.PAS:102
-    public virtual int GetXYL() => GetXhx() + (GetYhx() << 8) + (GetLhx() << 16);
+    public virtual int GetMapCoordinate() => GetHexX() + (GetHexY() << 8) + (GetHexLevel() << 16);
 
     // HXSPRITE.PAS:153
     public virtual bool GetEditMode() => false;
 
     // HXSPRITE.PAS:158
-    public virtual void SetEditMode(bool Value)
+    public virtual void SetEditMode(bool value)
     {
     }
 
@@ -99,25 +99,25 @@ public partial class HexSprite : EngineObject
     }
 
     // HXSPRITE.PAS:167
-    public virtual bool CanChangeTerrain(in HexSpriteSenderInfo Info) => true;
+    public virtual bool CanChangeTerrain(in HexSpriteSenderInfo info) => true;
 
     // HXSPRITE.PAS:172
-    public virtual void ChangeTerrain(in HexSpriteTerrainInfo Info)
+    public virtual void ChangeTerrain(in HexSpriteTerrainInfo info)
     {
     }
 
     // HXSPRITE.PAS:176
-    public virtual void TerrainChanged(in HexSpriteTerrainInfo Info)
+    public virtual void TerrainChanged(in HexSpriteTerrainInfo info)
     {
     }
 
     // HXSPRITE.PAS:180
-    public virtual void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Info)
+    public virtual void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
     {
     }
 
     // HSEngine.pas:881
-    public virtual void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public virtual void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -136,10 +136,10 @@ public partial class HexSprite : EngineObject
     }
 
     // HXSPRITE.PAS:573
-    public virtual bool MainPlace(MapContainer Map, int Xhp, int Yhp, int Lhx)
+    public virtual bool MainPlace(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
-        bool Result = Place(Map, Xhp, Yhp, Lhx);
-        if (Result)
+        bool result = Place(map, pixelX, pixelY, hexLevel);
+        if (result)
         {
             try
             {
@@ -147,12 +147,12 @@ public partial class HexSprite : EngineObject
             }
             catch
             {
-                Result = false;
+                result = false;
                 Deactivate();
             }
         }
 
-        return Result;
+        return result;
     }
 
     // HXSPRITE.PAS:585
@@ -167,7 +167,7 @@ public partial class HexSprite : EngineObject
     public virtual bool MainLoaded() => Loaded();
 
     // HXSPRITE.PAS:184
-    public virtual bool Place(MapContainer Map, int Xhp, int Yhp, int Lhx) => PlaceOnMap();
+    public virtual bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel) => PlaceOnMap();
 
     // HXSPRITE.PAS:208
     public virtual void Remove()
@@ -183,31 +183,31 @@ public partial class HexSprite : EngineObject
     }
 
     // HXSPRITE.PAS:26
-    public virtual void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public virtual void MapFieldMessageProc(ref MapFieldMessage message)
     {
     }
 
     // HXSPRITE.PAS:30
-    public virtual void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
+    public virtual void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
     }
 
     // HXSPRITE.PAS:34
-    public virtual int CanMoveOver(in HexSpriteSenderInfo Info) => 1;
+    public virtual int CanMoveOver(in HexSpriteSenderInfo info) => 1;
 
     // HXSPRITE.PAS:39
-    public virtual void MoveExclusive(in HexSpriteSenderInfo Info)
+    public virtual void MoveExclusive(in HexSpriteSenderInfo info)
     {
     }
 
     // HXSPRITE.PAS:63
     public virtual void Changed()
     {
-        MapField MapF;
-        MapF = (MapField)Owner;
-        if (MapF != null)
+        MapField mapField;
+        mapField = (MapField)Owner;
+        if (mapField != null)
         {
-            ((GameEngine)((MapLevel)MapF.Owner).FEngine).FHSMap.FHSChangedEventsStore.Raise(this);
+            ((GameEngine)((MapLevel)mapField.Owner).Engine)._hexSpriteMap._hexSpriteChangedEventsStore.Raise(this);
         }
     }
 
@@ -226,28 +226,28 @@ public partial class HexSprite : EngineObject
     }
 
     // HXSPRITE.PAS:22
-    public virtual void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public virtual void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
     }
 
     // HXSPRITE.PAS:144
-    public virtual void MakeVisible(VisibilityList VisibilityList)
+    public virtual void MakeVisible(VisibilityList visibilityList)
     {
         if (!GetVisible())
         {
             SetVisible(true);
-            VisibilityList.AddSortChild(this, GetShowPriority());
+            visibilityList.AddSortChild(this, GetShowPriority());
         }
     }
 
     // HXSPRITE.PAS:82
-    public virtual void GetBaseHX(ref int XYL)
+    public virtual void GetBaseHex(ref int mapCoordinate)
     {
-        XYL = ((MapField)Owner).FXhx + (((MapField)Owner).FYhx << 8) + (((MapLevel)Owner.Owner).FLhx << 16);
+        mapCoordinate = ((MapField)Owner)._hexX + (((MapField)Owner)._hexY << 8) + (((MapLevel)Owner.Owner)._hexLevel << 16);
     }
 
     // HXSPRITE.PAS:57
-    public virtual bool CanSelect(int Xhp, int Yhp) => Owner != null && ((GameEngine)((MapLevel)Owner.Owner).FEngine).FHSMap.FStatus.Contains(HexSpriteMapStatusElement.Editting);
+    public virtual bool CanSelect(int pixelX, int pixelY) => Owner != null && ((GameEngine)((MapLevel)Owner.Owner).Engine)._hexSpriteMap._status.Contains(HexSpriteMapStatusElement.Editting);
 
     // HXSPRITE.PAS:107
     public virtual void Select()
@@ -257,482 +257,482 @@ public partial class HexSprite : EngineObject
     // HXSPRITE.PAS:111
     public virtual void Unselect()
     {
-        ((MapLevel)Owner.Owner).FMap.FSelection.Unselect(this);
+        ((MapLevel)Owner.Owner)._map._selection.Unselect(this);
     }
 
     // HXSPRITE.PAS:17
     public virtual string EditName() => "Hexagon Sprite";
 
     // HXSPRITE.PAS:219
-    public bool PlaceOnMapEx(MapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+    public bool PlaceOnMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
-        bool Result;
+        bool result;
         int X = default;
         int Y = default;
-        int Xmin = default;
-        int YminOdd = default;
-        int YminEven;
-        int Xmax = default;
-        int YmaxOdd = default;
-        int YmaxEven;
-        MapLevel MapL;
-        HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-        HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
-        if (!((Xmin & 1) != 0))
+        int minX = default;
+        int minYOdd = default;
+        int minYEven;
+        int maxX = default;
+        int maxYOdd = default;
+        int maxYEven;
+        MapLevel mapL;
+        HexGeometry.PixelToHex(pixelX - 8, pixelY, ref minX, ref minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, ref X, ref Y);
+        if (!((minX & 1) != 0))
         {
-            YminEven = YminOdd;
-            YminOdd = Y;
+            minYEven = minYOdd;
+            minYOdd = Y;
         }
         else
         {
-            YminEven = Y;
+            minYEven = Y;
         }
 
-        Y = Yhp + Height - 1;
-        HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-        HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
-        if (!((Xmax & 1) != 0))
+        Y = pixelY + height - 1;
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, Y, ref maxX, ref maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, Y, ref X, ref Y);
+        if (!((maxX & 1) != 0))
         {
-            YmaxEven = YmaxOdd;
-            YmaxOdd = Y;
+            maxYEven = maxYOdd;
+            maxYOdd = Y;
         }
         else
         {
-            YmaxEven = Y;
+            maxYEven = Y;
         }
 
-        if (Xmax >= 0 && Map.Width > Xmin && (YmaxEven >= 0 || YmaxOdd >= 0) && (Map.Height > YminEven || Map.Height > YminOdd))
+        if (maxX >= 0 && map.Width > minX && (maxYEven >= 0 || maxYOdd >= 0) && (map.Height > minYEven || map.Height > minYOdd))
         {
-            if (Xmin < 0)
+            if (minX < 0)
             {
-                Xmin = 0;
+                minX = 0;
             }
 
-            if (Xmax >= Map.Width)
+            if (maxX >= map.Width)
             {
-                Xmax = Map.Width - 1;
+                maxX = map.Width - 1;
             }
 
-            if (YminEven < 0)
+            if (minYEven < 0)
             {
-                YminEven = 0;
-                if (YmaxEven < 0)
+                minYEven = 0;
+                if (maxYEven < 0)
                 {
-                    YmaxEven = 0;
+                    maxYEven = 0;
                 }
             }
 
-            if (YmaxEven >= Map.Height)
+            if (maxYEven >= map.Height)
             {
-                YmaxEven = Map.Height - 1;
-                if (YminEven >= Map.Height)
+                maxYEven = map.Height - 1;
+                if (minYEven >= map.Height)
                 {
-                    YminEven = Map.Height - 1;
+                    minYEven = map.Height - 1;
                 }
             }
 
-            if (YminOdd < 0)
+            if (minYOdd < 0)
             {
-                YminOdd = 0;
-                if (YmaxOdd < 0)
+                minYOdd = 0;
+                if (maxYOdd < 0)
                 {
-                    YmaxOdd = 0;
+                    maxYOdd = 0;
                 }
             }
 
-            if (YmaxOdd >= Map.Height)
+            if (maxYOdd >= map.Height)
             {
-                YmaxOdd = Map.Height - 1;
-                if (YminOdd >= Map.Height)
+                maxYOdd = map.Height - 1;
+                if (minYOdd >= map.Height)
                 {
-                    YminOdd = Map.Height - 1;
+                    minYOdd = map.Height - 1;
                 }
             }
 
-            MapL = Map.GetMapLevel(Lhx);
-            X = (int)(((uint)(Xmin + Xmax)) >> 1);
+            mapL = map.GetMapLevel(hexLevel);
+            X = (int)(((uint)(minX + maxX)) >> 1);
             if (!((X & 1) != 0))
             {
-                Y = (int)(((uint)(YminEven + YmaxEven)) >> 1);
+                Y = (int)(((uint)(minYEven + maxYEven)) >> 1);
             }
             else
             {
-                Y = (int)(((uint)(YminOdd + YmaxOdd)) >> 1);
+                Y = (int)(((uint)(minYOdd + maxYOdd)) >> 1);
             }
 
-            FOwner = MapL.GetField(X, Y);
-            X = Xmin;
-            int last = Xmax;
+            _owner = mapL.GetField(X, Y);
+            X = minX;
+            int last = maxX;
             for (; X <= last; X += 1)
             {
                 if (!((X & 1) != 0))
                 {
-                    Y = YminEven;
-                    for (; Y <= YmaxEven; Y += 1)
+                    Y = minYEven;
+                    for (; Y <= maxYEven; Y += 1)
                     {
-                        MapL.GetField(X, Y).AddHS(this, 1);
+                        mapL.GetField(X, Y).AddHexSprite(this, 1);
                     }
                 }
                 else
                 {
-                    Y = YminOdd;
-                    int limit = YmaxOdd;
+                    Y = minYOdd;
+                    int limit = maxYOdd;
                     for (; Y <= limit; Y += 1)
                     {
-                        MapL.GetField(X, Y).AddHS(this, 1);
+                        mapL.GetField(X, Y).AddHexSprite(this, 1);
                     }
                 }
             }
 
-            ((MapField)FOwner).SetHNofHS(this, 0);
-            Result = true;
+            ((MapField)_owner).SetHexNumberOfHexSprite(this, 0);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // HXSPRITE.PAS:295
-    public void RemoveFromMapEx(int Xhp, int Yhp, int Width, int Height)
+    public void RemoveFromMap(int pixelX, int pixelY, int width, int height)
     {
         int X = default;
         int Y = default;
-        int Xmin = default;
-        int YminOdd = default;
-        int YminEven;
-        int Xmax = default;
-        int YmaxOdd = default;
-        int YmaxEven;
-        MapLevel MapL;
-        MapL = (MapLevel)FOwner.Owner;
-        HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-        HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
-        if (!((Xmin & 1) != 0))
+        int minX = default;
+        int minYOdd = default;
+        int minYEven;
+        int maxX = default;
+        int maxYOdd = default;
+        int maxYEven;
+        MapLevel mapL;
+        mapL = (MapLevel)_owner.Owner;
+        HexGeometry.PixelToHex(pixelX - 8, pixelY, ref minX, ref minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, ref X, ref Y);
+        if (!((minX & 1) != 0))
         {
-            YminEven = YminOdd;
-            YminOdd = Y;
+            minYEven = minYOdd;
+            minYOdd = Y;
         }
         else
         {
-            YminEven = Y;
+            minYEven = Y;
         }
 
-        Y = Yhp + Height - 1;
-        HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-        HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
-        if (!((Xmax & 1) != 0))
+        Y = pixelY + height - 1;
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, Y, ref maxX, ref maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, Y, ref X, ref Y);
+        if (!((maxX & 1) != 0))
         {
-            YmaxEven = YmaxOdd;
-            YmaxOdd = Y;
+            maxYEven = maxYOdd;
+            maxYOdd = Y;
         }
         else
         {
-            YmaxEven = Y;
+            maxYEven = Y;
         }
 
-        if (Xmax >= 0 && Xmin < MapL.Width && (YmaxEven >= 0 || YmaxOdd >= 0) && (MapL.Height > YminEven || MapL.Height > YminOdd))
+        if (maxX >= 0 && minX < mapL.Width && (maxYEven >= 0 || maxYOdd >= 0) && (mapL.Height > minYEven || mapL.Height > minYOdd))
         {
-            if (Xmin < 0)
+            if (minX < 0)
             {
-                Xmin = 0;
+                minX = 0;
             }
 
-            if (Xmax >= MapL.Width)
+            if (maxX >= mapL.Width)
             {
-                Xmax = MapL.Width - 1;
+                maxX = mapL.Width - 1;
             }
 
-            if (YminEven < 0)
+            if (minYEven < 0)
             {
-                YminEven = 0;
-                if (YmaxEven < 0)
+                minYEven = 0;
+                if (maxYEven < 0)
                 {
-                    YmaxEven = 0;
+                    maxYEven = 0;
                 }
             }
 
-            if (YmaxEven >= MapL.Height)
+            if (maxYEven >= mapL.Height)
             {
-                YmaxEven = MapL.Height - 1;
-                if (YminEven >= MapL.Height)
+                maxYEven = mapL.Height - 1;
+                if (minYEven >= mapL.Height)
                 {
-                    YminEven = MapL.Height - 1;
+                    minYEven = mapL.Height - 1;
                 }
             }
 
-            if (YminOdd < 0)
+            if (minYOdd < 0)
             {
-                YminOdd = 0;
-                if (YmaxOdd < 0)
+                minYOdd = 0;
+                if (maxYOdd < 0)
                 {
-                    YmaxOdd = 0;
+                    maxYOdd = 0;
                 }
             }
 
-            if (YmaxOdd >= MapL.Height)
+            if (maxYOdd >= mapL.Height)
             {
-                YmaxOdd = MapL.Height - 1;
-                if (YminOdd >= MapL.Height)
+                maxYOdd = mapL.Height - 1;
+                if (minYOdd >= mapL.Height)
                 {
-                    YminOdd = MapL.Height - 1;
+                    minYOdd = mapL.Height - 1;
                 }
             }
 
-            X = Xmin;
-            int last = Xmax;
+            X = minX;
+            int last = maxX;
             for (; X <= last; X += 1)
             {
                 if (!((X & 1) != 0))
                 {
-                    Y = YminEven;
-                    for (; Y <= YmaxEven; Y += 1)
+                    Y = minYEven;
+                    for (; Y <= maxYEven; Y += 1)
                     {
-                        MapL.GetField(X, Y).RemoveHS(this);
+                        mapL.GetField(X, Y).RemoveHexSprite(this);
                     }
                 }
                 else
                 {
-                    Y = YminOdd;
-                    int limit = YmaxOdd;
+                    Y = minYOdd;
+                    int limit = maxYOdd;
                     for (; Y <= limit; Y += 1)
                     {
-                        MapL.GetField(X, Y).RemoveHS(this);
+                        mapL.GetField(X, Y).RemoveHexSprite(this);
                     }
                 }
             }
         }
 
-        FOwner = null;
+        _owner = null;
     }
 
     // HXSPRITE.PAS:362
-    public bool PlaceUserOnMapEx(MapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+    public bool PlaceUserOnMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
-        bool Result;
+        bool result;
         int X = default;
         int Y = default;
-        int Xmin = default;
-        int YminOdd = default;
-        int YminEven;
-        int Xmax = default;
-        int YmaxOdd = default;
-        int YmaxEven;
-        MapLevel MapL;
-        HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-        HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
-        if (!((Xmin & 1) != 0))
+        int minX = default;
+        int minYOdd = default;
+        int minYEven;
+        int maxX = default;
+        int maxYOdd = default;
+        int maxYEven;
+        MapLevel mapL;
+        HexGeometry.PixelToHex(pixelX - 8, pixelY, ref minX, ref minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, ref X, ref Y);
+        if (!((minX & 1) != 0))
         {
-            YminEven = YminOdd;
-            YminOdd = Y;
+            minYEven = minYOdd;
+            minYOdd = Y;
         }
         else
         {
-            YminEven = Y;
+            minYEven = Y;
         }
 
-        Y = Yhp + Height - 1;
-        HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-        HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
-        if (!((Xmax & 1) != 0))
+        Y = pixelY + height - 1;
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, Y, ref maxX, ref maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, Y, ref X, ref Y);
+        if (!((maxX & 1) != 0))
         {
-            YmaxEven = YmaxOdd;
-            YmaxOdd = Y;
+            maxYEven = maxYOdd;
+            maxYOdd = Y;
         }
         else
         {
-            YmaxEven = Y;
+            maxYEven = Y;
         }
 
-        if (Xmax >= 0 && Map.Width > Xmin && (YmaxEven >= 0 || YmaxOdd >= 0) && (Map.Height > YminEven || Map.Height > YminOdd))
+        if (maxX >= 0 && map.Width > minX && (maxYEven >= 0 || maxYOdd >= 0) && (map.Height > minYEven || map.Height > minYOdd))
         {
-            if (Xmin < 0)
+            if (minX < 0)
             {
-                Xmin = 0;
+                minX = 0;
             }
 
-            if (Xmax >= Map.Width)
+            if (maxX >= map.Width)
             {
-                Xmax = Map.Width - 1;
+                maxX = map.Width - 1;
             }
 
-            if (YminEven < 0)
+            if (minYEven < 0)
             {
-                YminEven = 0;
-                if (YmaxEven < 0)
+                minYEven = 0;
+                if (maxYEven < 0)
                 {
-                    YmaxEven = 0;
+                    maxYEven = 0;
                 }
             }
 
-            if (YmaxEven >= Map.Height)
+            if (maxYEven >= map.Height)
             {
-                YmaxEven = Map.Height - 1;
-                if (YminEven >= Map.Height)
+                maxYEven = map.Height - 1;
+                if (minYEven >= map.Height)
                 {
-                    YminEven = Map.Height - 1;
+                    minYEven = map.Height - 1;
                 }
             }
 
-            if (YminOdd < 0)
+            if (minYOdd < 0)
             {
-                YminOdd = 0;
-                if (YmaxOdd < 0)
+                minYOdd = 0;
+                if (maxYOdd < 0)
                 {
-                    YmaxOdd = 0;
+                    maxYOdd = 0;
                 }
             }
 
-            if (YmaxOdd >= Map.Height)
+            if (maxYOdd >= map.Height)
             {
-                YmaxOdd = Map.Height - 1;
-                if (YminOdd >= Map.Height)
+                maxYOdd = map.Height - 1;
+                if (minYOdd >= map.Height)
                 {
-                    YminOdd = Map.Height - 1;
+                    minYOdd = map.Height - 1;
                 }
             }
 
-            MapL = Map.GetMapLevel(Lhx);
-            X = Xmin;
-            int last = Xmax;
+            mapL = map.GetMapLevel(hexLevel);
+            X = minX;
+            int last = maxX;
             for (; X <= last; X += 1)
             {
                 if (!((X & 1) != 0))
                 {
-                    Y = YminEven;
-                    for (; Y <= YmaxEven; Y += 1)
+                    Y = minYEven;
+                    for (; Y <= maxYEven; Y += 1)
                     {
-                        MapL.GetField(X, Y).AddHS(this, 1);
+                        mapL.GetField(X, Y).AddHexSprite(this, 1);
                     }
                 }
                 else
                 {
-                    Y = YminOdd;
-                    int limit = YmaxOdd;
+                    Y = minYOdd;
+                    int limit = maxYOdd;
                     for (; Y <= limit; Y += 1)
                     {
-                        MapL.GetField(X, Y).AddHS(this, 1);
+                        mapL.GetField(X, Y).AddHexSprite(this, 1);
                     }
                 }
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // HXSPRITE.PAS:431
-    public void RemoveUserFromMapEx(MapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+    public void RemoveUserFromMap(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
         int X = default;
         int Y = default;
-        int Xmin = default;
-        int YminOdd = default;
-        int YminEven;
-        int Xmax = default;
-        int YmaxOdd = default;
-        int YmaxEven;
-        MapLevel MapL;
-        MapL = Map.GetMapLevel(Lhx);
-        HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-        HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
-        if (!((Xmin & 1) != 0))
+        int minX = default;
+        int minYOdd = default;
+        int minYEven;
+        int maxX = default;
+        int maxYOdd = default;
+        int maxYEven;
+        MapLevel mapL;
+        mapL = map.GetMapLevel(hexLevel);
+        HexGeometry.PixelToHex(pixelX - 8, pixelY, ref minX, ref minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, ref X, ref Y);
+        if (!((minX & 1) != 0))
         {
-            YminEven = YminOdd;
-            YminOdd = Y;
+            minYEven = minYOdd;
+            minYOdd = Y;
         }
         else
         {
-            YminEven = Y;
+            minYEven = Y;
         }
 
-        Y = Yhp + Height - 1;
-        HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-        HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
-        if (!((Xmax & 1) != 0))
+        Y = pixelY + height - 1;
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, Y, ref maxX, ref maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, Y, ref X, ref Y);
+        if (!((maxX & 1) != 0))
         {
-            YmaxEven = YmaxOdd;
-            YmaxOdd = Y;
+            maxYEven = maxYOdd;
+            maxYOdd = Y;
         }
         else
         {
-            YmaxEven = Y;
+            maxYEven = Y;
         }
 
-        if (Xmax >= 0 && Xmin < MapL.Width && (YmaxEven >= 0 || YmaxOdd >= 0) && (MapL.Height > YminEven || MapL.Height > YminOdd))
+        if (maxX >= 0 && minX < mapL.Width && (maxYEven >= 0 || maxYOdd >= 0) && (mapL.Height > minYEven || mapL.Height > minYOdd))
         {
-            if (Xmin < 0)
+            if (minX < 0)
             {
-                Xmin = 0;
+                minX = 0;
             }
 
-            if (Xmax >= MapL.Width)
+            if (maxX >= mapL.Width)
             {
-                Xmax = MapL.Width - 1;
+                maxX = mapL.Width - 1;
             }
 
-            if (YminEven < 0)
+            if (minYEven < 0)
             {
-                YminEven = 0;
-                if (YmaxEven < 0)
+                minYEven = 0;
+                if (maxYEven < 0)
                 {
-                    YmaxEven = 0;
+                    maxYEven = 0;
                 }
             }
 
-            if (YmaxEven >= MapL.Height)
+            if (maxYEven >= mapL.Height)
             {
-                YmaxEven = MapL.Height - 1;
-                if (YminEven >= MapL.Height)
+                maxYEven = mapL.Height - 1;
+                if (minYEven >= mapL.Height)
                 {
-                    YminEven = MapL.Height - 1;
+                    minYEven = mapL.Height - 1;
                 }
             }
 
-            if (YminOdd < 0)
+            if (minYOdd < 0)
             {
-                YminOdd = 0;
-                if (YmaxOdd < 0)
+                minYOdd = 0;
+                if (maxYOdd < 0)
                 {
-                    YmaxOdd = 0;
+                    maxYOdd = 0;
                 }
             }
 
-            if (YmaxOdd >= MapL.Height)
+            if (maxYOdd >= mapL.Height)
             {
-                YmaxOdd = MapL.Height - 1;
-                if (YminOdd >= MapL.Height)
+                maxYOdd = mapL.Height - 1;
+                if (minYOdd >= mapL.Height)
                 {
-                    YminOdd = MapL.Height - 1;
+                    minYOdd = mapL.Height - 1;
                 }
             }
 
-            X = Xmin;
-            int last = Xmax;
+            X = minX;
+            int last = maxX;
             for (; X <= last; X += 1)
             {
                 if (!((X & 1) != 0))
                 {
-                    Y = YminEven;
-                    for (; Y <= YmaxEven; Y += 1)
+                    Y = minYEven;
+                    for (; Y <= maxYEven; Y += 1)
                     {
-                        MapL.GetField(X, Y).RemoveHS(this);
+                        mapL.GetField(X, Y).RemoveHexSprite(this);
                     }
                 }
                 else
                 {
-                    Y = YminOdd;
-                    int limit = YmaxOdd;
+                    Y = minYOdd;
+                    int limit = maxYOdd;
                     for (; Y <= limit; Y += 1)
                     {
-                        MapL.GetField(X, Y).RemoveHS(this);
+                        mapL.GetField(X, Y).RemoveHexSprite(this);
                     }
                 }
             }
@@ -740,110 +740,110 @@ public partial class HexSprite : EngineObject
     }
 
     // HXSPRITE.PAS:497
-    public void SortMapFieldEx(MapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+    public void SortMapField(MapContainer map, int pixelX, int pixelY, int hexLevel, int width, int height)
     {
         int X = default;
         int Y = default;
-        int Xmin = default;
-        int YminOdd = default;
-        int YminEven;
-        int Xmax = default;
-        int YmaxOdd = default;
-        int YmaxEven;
-        MapLevel MapL;
-        MapL = Map.GetMapLevel(Lhx);
-        HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
-        HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
-        if (!((Xmin & 1) != 0))
+        int minX = default;
+        int minYOdd = default;
+        int minYEven;
+        int maxX = default;
+        int maxYOdd = default;
+        int maxYEven;
+        MapLevel mapL;
+        mapL = map.GetMapLevel(hexLevel);
+        HexGeometry.PixelToHex(pixelX - 8, pixelY, ref minX, ref minYOdd);
+        HexGeometry.PixelToHex(pixelX - 8 + 32, pixelY, ref X, ref Y);
+        if (!((minX & 1) != 0))
         {
-            YminEven = YminOdd;
-            YminOdd = Y;
+            minYEven = minYOdd;
+            minYOdd = Y;
         }
         else
         {
-            YminEven = Y;
+            minYEven = Y;
         }
 
-        Y = Yhp + Height - 1;
-        HexGeometry.HPtoHX(Width + Xhp + 8 - 1, Y, ref Xmax, ref YmaxOdd);
-        HexGeometry.HPtoHX(Width + Xhp + 8 - 1 + 32, Y, ref X, ref Y);
-        if (!((Xmax & 1) != 0))
+        Y = pixelY + height - 1;
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1, Y, ref maxX, ref maxYOdd);
+        HexGeometry.PixelToHex(width + pixelX + 8 - 1 + 32, Y, ref X, ref Y);
+        if (!((maxX & 1) != 0))
         {
-            YmaxEven = YmaxOdd;
-            YmaxOdd = Y;
+            maxYEven = maxYOdd;
+            maxYOdd = Y;
         }
         else
         {
-            YmaxEven = Y;
+            maxYEven = Y;
         }
 
-        if (Xmax >= 0 && Xmin < MapL.Width && (YmaxEven >= 0 || YmaxOdd >= 0) && (MapL.Height > YminEven || MapL.Height > YminOdd))
+        if (maxX >= 0 && minX < mapL.Width && (maxYEven >= 0 || maxYOdd >= 0) && (mapL.Height > minYEven || mapL.Height > minYOdd))
         {
-            if (Xmin < 0)
+            if (minX < 0)
             {
-                Xmin = 0;
+                minX = 0;
             }
 
-            if (Xmax >= MapL.Width)
+            if (maxX >= mapL.Width)
             {
-                Xmax = MapL.Width - 1;
+                maxX = mapL.Width - 1;
             }
 
-            if (YminEven < 0)
+            if (minYEven < 0)
             {
-                YminEven = 0;
-                if (YmaxEven < 0)
+                minYEven = 0;
+                if (maxYEven < 0)
                 {
-                    YmaxEven = 0;
+                    maxYEven = 0;
                 }
             }
 
-            if (YmaxEven >= MapL.Height)
+            if (maxYEven >= mapL.Height)
             {
-                YmaxEven = MapL.Height - 1;
-                if (YminEven >= MapL.Height)
+                maxYEven = mapL.Height - 1;
+                if (minYEven >= mapL.Height)
                 {
-                    YminEven = MapL.Height - 1;
+                    minYEven = mapL.Height - 1;
                 }
             }
 
-            if (YminOdd < 0)
+            if (minYOdd < 0)
             {
-                YminOdd = 0;
-                if (YmaxOdd < 0)
+                minYOdd = 0;
+                if (maxYOdd < 0)
                 {
-                    YmaxOdd = 0;
+                    maxYOdd = 0;
                 }
             }
 
-            if (YmaxOdd >= MapL.Height)
+            if (maxYOdd >= mapL.Height)
             {
-                YmaxOdd = MapL.Height - 1;
-                if (YminOdd >= MapL.Height)
+                maxYOdd = mapL.Height - 1;
+                if (minYOdd >= mapL.Height)
                 {
-                    YminOdd = MapL.Height - 1;
+                    minYOdd = mapL.Height - 1;
                 }
             }
 
-            X = Xmin;
-            int last = Xmax;
+            X = minX;
+            int last = maxX;
             for (; X <= last; X += 1)
             {
                 if (!((X & 1) != 0))
                 {
-                    Y = YminEven;
-                    for (; Y <= YmaxEven; Y += 1)
+                    Y = minYEven;
+                    for (; Y <= maxYEven; Y += 1)
                     {
-                        MapL.GetField(X, Y).Sort();
+                        mapL.GetField(X, Y).Sort();
                     }
                 }
                 else
                 {
-                    Y = YminOdd;
-                    int limit = YmaxOdd;
+                    Y = minYOdd;
+                    int limit = maxYOdd;
                     for (; Y <= limit; Y += 1)
                     {
-                        MapL.GetField(X, Y).Sort();
+                        mapL.GetField(X, Y).Sort();
                     }
                 }
             }
@@ -852,7 +852,7 @@ public partial class HexSprite : EngineObject
 
     public sealed class TerrainAccessor(HexSprite target)
     {
-        public sbyte this[int HN] { get => target.GetTerrain(HN); set => target.SetTerrain(HN, value); }
+        public sbyte this[int hexNumber] { get => target.GetTerrain(hexNumber); set => target.SetTerrain(hexNumber, value); }
     }
 
     public TerrainAccessor Terrain => new TerrainAccessor(this);
@@ -860,7 +860,7 @@ public partial class HexSprite : EngineObject
 
     public sealed class OverlayAccessor(HexSprite target)
     {
-        public sbyte this[int HN] { get => target.GetOverlay(HN); set => target.SetOverlay(HN, value); }
+        public sbyte this[int hexNumber] { get => target.GetOverlay(hexNumber); set => target.SetOverlay(hexNumber, value); }
     }
 
     public OverlayAccessor Overlay => new OverlayAccessor(this);
@@ -868,10 +868,10 @@ public partial class HexSprite : EngineObject
     public byte Level { get => GetLevel(); }
     public bool Visible { get => GetVisible(); set => SetVisible(value); }
     public bool Selected { get => GetSelected(); }
-    public sbyte Xhx { get => GetXhx(); }
-    public sbyte Yhx { get => GetYhx(); }
-    public sbyte Lhx { get => GetLhx(); }
-    public int XYL { get => GetXYL(); }
+    public sbyte HexX { get => GetHexX(); }
+    public sbyte HexY { get => GetHexY(); }
+    public sbyte HexLevel { get => GetHexLevel(); }
+    public int MapCoordinate { get => GetMapCoordinate(); }
     public bool EditMode { get => GetEditMode(); set => SetEditMode(value); }
     public int ShowPriority { get => GetShowPriority(); }
 

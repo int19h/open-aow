@@ -14,59 +14,59 @@ namespace Aow.Game.UI.Windows;
 // (the size of the back surface)
 public partial class HtmlMemo : BaseWindow
 {
-    public DelphiList F1EC;
-    public List<ChangeInfo> FChanges;
-    public StringList FLines;
-    public StringList FItems;
-    public VerticalScrollBar FVScrollBar;
-    public string FFilename = "";
-    public int FScrollWidth;
-    public bool FBackDrawn;
-    public InterfaceImageLibrary FImages;
-    public int FTopItem;
-    public List<ImageLibraryFont> FFonts;
-    public BaseWindow FAOWWindow;
-    public int FTextWidth;
-    public int FTextHeight;
+    public DelphiList UnusedList;
+    public List<ChangeInfo> Changes;
+    public StringList Lines;
+    public StringList _items;
+    public VerticalScrollBar _verticalScrollBar;
+    public string _fileName = "";
+    public int ScrollWidth;
+    public bool BackDrawn;
+    public InterfaceImageLibrary Images;
+    public int TopItem;
+    public List<ImageLibraryFont> Fonts;
+    public BaseWindow _window;
+    public int TextWidth;
+    public int TextHeight;
 
     // AoWHTMLMemo.pas:93
     public HtmlMemo(Component owner) : base(owner)
     {
-        FLines = new StringList();
-        FItems = new StringList();
-        FItems.OnChange = OnChangeText;
-        FChanges = new List<ChangeInfo>();
-        F1EC = new DelphiList();
-        FFonts = new List<ImageLibraryFont>();
-        FImages = new InterfaceImageLibrary(this);
+        Lines = new StringList();
+        _items = new StringList();
+        _items.OnChange = OnChangeText;
+        Changes = new List<ChangeInfo>();
+        UnusedList = new DelphiList();
+        Fonts = new List<ImageLibraryFont>();
+        Images = new InterfaceImageLibrary(this);
     }
 
     // AoWHTMLMemo.pas:105
     public override void Dispose()
     {
-        FLines.Dispose();
-        FItems.Dispose();
-        F1EC?.Dispose();
-        for (int I = 0, last = FChanges.Count - 1; I <= last; I++)
+        Lines.Dispose();
+        _items.Dispose();
+        UnusedList?.Dispose();
+        for (int I = 0, last = Changes.Count - 1; I <= last; I++)
         {
         }
 
-        for (int I = 0, last = FFonts.Count - 1; I <= last; I++)
+        for (int I = 0, last = Fonts.Count - 1; I <= last; I++)
         {
-            (FFonts[I])?.Dispose();
+            (Fonts[I])?.Dispose();
         }
 
-        FFonts?.Clear();
-        FChanges?.Clear();
-        FImages?.Dispose();
+        Fonts?.Clear();
+        Changes?.Clear();
+        Images?.Dispose();
         base.Dispose();
     }
 
     // AoWHTMLMemo.pas:174
-    public override void OnChangeText(object Sender)
+    public override void OnChangeText(object sender)
     {
         SetListOff(0);
-        FSized = false;
+        Sized = false;
     }
 
     // AoWHTMLMemo.pas:210
@@ -74,66 +74,66 @@ public partial class HtmlMemo : BaseWindow
     //   window, and sets up the scroll bar }
     public override void SetSize()
     {
-        ChangeInfo CI;
+        ChangeInfo ci;
         int H;
-        int LineIdx;
-        IntegerParseMode State;
+        int lineIndex;
+        IntegerParseMode state;
         int Last;
-        int TextStart;
-        int TextEnd;
-        int TagStart;
+        int textStart;
+        int textEnd;
+        int tagStart;
         byte C;
         ReadOnlySpan<byte> text;
         string S;
         int V;
         void NewLine()
         {
-            FLines.Add("");
-            H = H + CI.FHeight;
-            LineIdx += 1;
+            Lines.Add("");
+            H = H + ci.Height;
+            lineIndex += 1;
         }
 
         void AddText(string S)
         {
-            int TW;
+            int tw;
             int W;
-            int Start;
-            string Word;
+            int start;
+            string word;
             int I;
-            int Len;
-            if (FAOWFont != null)
+            int length;
+            if (_font != null)
             {
                 I = 0;
-                Start = 0;
-                Len = S.Length;
-                var line = FLines[LineIdx];
-                W = FAOWFont.GetTextWidth(line) + FBorderWidth * 2 + FScrollWidth;
-                while (I < Len)
+                start = 0;
+                length = S.Length;
+                var line = Lines[lineIndex];
+                W = _font.GetTextWidth(line) + _borderWidth * 2 + ScrollWidth;
+                while (I < length)
                 {
-                    if (S[I - 1] == 32 || I == Len - 1)
+                    if (S[I - 1] == 32 || I == length - 1)
                     {
-                        if (I == Len - 1)
+                        if (I == length - 1)
                         {
                             I += 1;
                         }
 
-                        Word = Copy(S, Start + 1, I - Start);
-                        TW = FAOWFont.GetTextWidth(Word);
-                        if (W + TW > FWinWidth)
+                        word = Copy(S, start + 1, I - start);
+                        tw = _font.GetTextWidth(word);
+                        if (W + tw > _winWidth)
                         {
                             NewLine();
-                            var line2 = FLines[LineIdx];
-                            FLines[LineIdx] = line2 + Word;
-                            W = FBorderWidth * 2 + FScrollWidth + TW;
+                            var line2 = Lines[lineIndex];
+                            Lines[lineIndex] = line2 + word;
+                            W = _borderWidth * 2 + ScrollWidth + tw;
                         }
                         else
                         {
-                            var line2 = FLines[LineIdx];
-                            FLines[LineIdx] = line2 + Word;
-                            W = W + TW;
+                            var line2 = Lines[lineIndex];
+                            Lines[lineIndex] = line2 + word;
+                            W = W + tw;
                         }
 
-                        Start = I;
+                        start = I;
                     }
 
                     I += 1;
@@ -145,76 +145,76 @@ public partial class HtmlMemo : BaseWindow
         {
             ChangeInfo N;
             N = new ChangeInfo();
-            N.FHeight = CI.FHeight;
-            N.FColor = CI.FColor;
-            N.FFont = CI.FFont;
-            N.FAlign = CI.FAlign;
-            N.FSpacing = CI.FSpacing;
-            N.FPos = CI.FPos;
-            N.FLine = CI.FLine;
-            FChanges.Add(N);
-            CI = N;
+            N.Height = ci.Height;
+            N.Color = ci.Color;
+            N.Font = ci.Font;
+            N.Align = ci.Align;
+            N.Spacing = ci.Spacing;
+            N.Position = ci.Position;
+            N.Line = ci.Line;
+            Changes.Add(N);
+            ci = N;
         }
 
-        void ParseTag(string Tag)
+        void ParseTag(string tag)
         {
-            Tag = UpperCase(Tag);
-            switch (State)
+            tag = UpperCase(tag);
+            switch (state)
             {
-                case IntegerParseMode.InBG:
-                    if (Tag == "INDEX")
+                case IntegerParseMode.InBackground:
+                    if (tag == "INDEX")
                     {
-                        State = IntegerParseMode.BGIndex;
+                        state = IntegerParseMode.BackgroundIndex;
                     }
 
                     break;
                 default:
-                    if (Tag == "P")
+                    if (tag == "P")
                     {
                         NewLine();
                         NewLine();
                     }
                     else
                     {
-                        if (Tag == "BR")
+                        if (tag == "BR")
                         {
                             NewLine();
                         }
                         else
                         {
-                            if (Tag == "FONT")
+                            if (tag == "FONT")
                             {
-                                State = IntegerParseMode.Font;
+                                state = IntegerParseMode.Font;
                             }
                             else
                             {
-                                if (Tag == "ITEMHEIGHT")
+                                if (tag == "ITEMHEIGHT")
                                 {
-                                    State = IntegerParseMode.ItemHeight;
+                                    state = IntegerParseMode.ItemHeight;
                                 }
                                 else
                                 {
-                                    if (Tag == "COLOR")
+                                    if (tag == "COLOR")
                                     {
-                                        State = IntegerParseMode.Color;
+                                        state = IntegerParseMode.Color;
                                     }
                                     else
                                     {
-                                        if (Tag == "SPACING")
+                                        if (tag == "SPACING")
                                         {
-                                            State = IntegerParseMode.Space;
+                                            state = IntegerParseMode.Space;
                                         }
                                         else
                                         {
-                                            if (Tag == "ALIGN")
+                                            if (tag == "ALIGN")
                                             {
-                                                State = IntegerParseMode.Align;
+                                                state = IntegerParseMode.Align;
                                             }
                                             else
                                             {
-                                                if (Tag == "BACKGROUND")
+                                                if (tag == "BACKGROUND")
                                                 {
-                                                    State = IntegerParseMode.BG;
+                                                    state = IntegerParseMode.Background;
                                                 }
                                             }
                                         }
@@ -228,73 +228,73 @@ public partial class HtmlMemo : BaseWindow
             }
         }
 
-        FScrollWidth = 0;
-        if (FVScrollBar != null)
+        ScrollWidth = 0;
+        if (_verticalScrollBar != null)
         {
-            FScrollWidth = FVScrollBar.WinWidth;
-            FVScrollBar.Position = FTopItem;
+            ScrollWidth = _verticalScrollBar.WinWidth;
+            _verticalScrollBar.Position = TopItem;
         }
 
-        H = FTextHeight;
-        FLines.Clear();
-        State = IntegerParseMode.None;
-        if (FItems.Count > 0 && UpperCase(Copy(FItems[0], 1, 5)) == "<INT>")
+        H = TextHeight;
+        Lines.Clear();
+        state = IntegerParseMode.None;
+        if (_items.Count > 0 && UpperCase(Copy(_items[0], 1, 5)) == "<INT>")
         {
-            FLines.Add("");
-            H = FBorderHeight * 2;
-            FImages.Clear();
-            for (int I = 0, last = FChanges.Count - 1; I <= last; I++)
+            Lines.Add("");
+            H = _borderHeight * 2;
+            Images.Clear();
+            for (int I = 0, last = Changes.Count - 1; I <= last; I++)
             {
             }
 
-            FChanges.Clear();
-            CI = new ChangeInfo();
-            CI.FHeight = 10;
-            CI.FColor = 16777215;
-            CI.FFont = "";
-            CI.FAlign = TextAlignment.Left;
-            CI.FPos = 0;
-            CI.FLine = 0;
-            CI.FSpacing = 0;
-            FChanges.Add(CI);
-            LineIdx = 0;
-            for (int I = 0, last = FItems.Count - 1; I <= last; I++)
+            Changes.Clear();
+            ci = new ChangeInfo();
+            ci.Height = 10;
+            ci.Color = 16777215;
+            ci.Font = "";
+            ci.Align = TextAlignment.Left;
+            ci.Position = 0;
+            ci.Line = 0;
+            ci.Spacing = 0;
+            Changes.Add(ci);
+            lineIndex = 0;
+            for (int I = 0, last = _items.Count - 1; I <= last; I++)
             {
-                string item = NullTerminatedText(FItems[I]);
+                string item = NullTerminatedText(_items[I]);
                 text = Cp1252.Encode(item);
                 Last = text.Length - 1;
-                TextStart = 0;
-                TextEnd = -1;
-                TagStart = 0;
+                textStart = 0;
+                textEnd = -1;
+                tagStart = 0;
                 for (int J = 0; J <= Last; J++)
                 {
                     C = text[J];
-                    switch (State)
+                    switch (state)
                     {
                         case IntegerParseMode.None:
                             switch (C)
                             {
                                 case 60:
-                                    State = IntegerParseMode.Start;
-                                    TextEnd = J - 1;
-                                    TagStart = J + 1;
+                                    state = IntegerParseMode.Start;
+                                    textEnd = J - 1;
+                                    tagStart = J + 1;
                                     break;
                             }
 
                             break;
                         case IntegerParseMode.Start:
-                        case IntegerParseMode.InBG:
+                        case IntegerParseMode.InBackground:
                             switch (C)
                             {
                                 case 62:
-                                    ParseTag(Copy(item, TagStart + 1, J - TagStart));
-                                    State = IntegerParseMode.None;
-                                    TextStart = J + 1;
+                                    ParseTag(Copy(item, tagStart + 1, J - tagStart));
+                                    state = IntegerParseMode.None;
+                                    textStart = J + 1;
                                     break;
                                 case 32:
                                 case 61:
-                                    ParseTag(Copy(item, TagStart + 1, J - TagStart));
-                                    TagStart = J + 1;
+                                    ParseTag(Copy(item, tagStart + 1, J - tagStart));
+                                    tagStart = J + 1;
                                     break;
                             }
 
@@ -302,28 +302,28 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Font:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
-                                var line = FLines[LineIdx];
-                                CI.FPos = line.Length;
-                                CI.FLine = LineIdx;
-                                CI.FFont = Copy(item, TagStart + 1, J - TagStart);
-                                if (!IsEmpty(CI.FFont))
+                                var line = Lines[lineIndex];
+                                ci.Position = line.Length;
+                                ci.Line = lineIndex;
+                                ci.Font = Copy(item, tagStart + 1, J - tagStart);
+                                if (!IsEmpty(ci.Font))
                                 {
-                                    if (!LoadFont(CI.FFont))
+                                    if (!LoadFont(ci.Font))
                                     {
-                                        CI.FFont = "";
+                                        ci.Font = "";
                                     }
                                 }
 
                                 NewChange();
                                 if (C == 62)
                                 {
-                                    State = IntegerParseMode.None;
-                                    TextStart = J + 1;
+                                    state = IntegerParseMode.None;
+                                    textStart = J + 1;
                                 }
                                 else
                                 {
-                                    State = IntegerParseMode.Start;
-                                    TagStart = J + 1;
+                                    state = IntegerParseMode.Start;
+                                    tagStart = J + 1;
                                 }
                             }
 
@@ -331,12 +331,12 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.ItemHeight:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
-                                var line = FLines[LineIdx];
-                                CI.FPos = line.Length;
-                                CI.FLine = LineIdx;
+                                var line = Lines[lineIndex];
+                                ci.Position = line.Length;
+                                ci.Line = lineIndex;
                                 try
                                 {
-                                    CI.FHeight = StrToInt(Copy(item, TagStart + 1, J - TagStart));
+                                    ci.Height = StrToInt(Copy(item, tagStart + 1, J - tagStart));
                                 }
                                 catch
                                 {
@@ -345,13 +345,13 @@ public partial class HtmlMemo : BaseWindow
                                 NewChange();
                                 if (C == 62)
                                 {
-                                    State = IntegerParseMode.None;
-                                    TextStart = J + 1;
+                                    state = IntegerParseMode.None;
+                                    textStart = J + 1;
                                 }
                                 else
                                 {
-                                    State = IntegerParseMode.Start;
-                                    TagStart = J + 1;
+                                    state = IntegerParseMode.Start;
+                                    tagStart = J + 1;
                                 }
                             }
 
@@ -359,15 +359,15 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Color:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
-                                var line = FLines[LineIdx];
-                                CI.FPos = line.Length;
-                                CI.FLine = LineIdx;
-                                if (J - TagStart == 6)
+                                var line = Lines[lineIndex];
+                                ci.Position = line.Length;
+                                ci.Line = lineIndex;
+                                if (J - tagStart == 6)
                                 {
-                                    CI.FColor = 0;
+                                    ci.Color = 0;
                                     for (int K = 0; K <= 5; K++)
                                     {
-                                        V = text[TagStart + K];
+                                        V = text[tagStart + K];
                                         if (V < 58)
                                         {
                                             V = V - 48;
@@ -377,7 +377,7 @@ public partial class HtmlMemo : BaseWindow
                                             V = V - 55;
                                         }
 
-                                        CI.FColor = (CI.FColor << 4) + V;
+                                        ci.Color = (ci.Color << 4) + V;
                                     }
 
                                     NewChange();
@@ -385,13 +385,13 @@ public partial class HtmlMemo : BaseWindow
 
                                 if (C == 62)
                                 {
-                                    State = IntegerParseMode.None;
-                                    TextStart = J + 1;
+                                    state = IntegerParseMode.None;
+                                    textStart = J + 1;
                                 }
                                 else
                                 {
-                                    State = IntegerParseMode.Start;
-                                    TagStart = J + 1;
+                                    state = IntegerParseMode.Start;
+                                    tagStart = J + 1;
                                 }
                             }
 
@@ -399,15 +399,15 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Space:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
-                                var line = FLines[LineIdx];
-                                CI.FPos = line.Length;
-                                CI.FLine = LineIdx;
+                                var line = Lines[lineIndex];
+                                ci.Position = line.Length;
+                                ci.Line = lineIndex;
                                 try
                                 {
-                                    CI.FSpacing = StrToInt(Copy(item, TagStart + 1, J - TagStart));
-                                    if (FAOWFont != null)
+                                    ci.Spacing = StrToInt(Copy(item, tagStart + 1, J - tagStart));
+                                    if (_font != null)
                                     {
-                                        FAOWFont.CharacterDistance = CI.FSpacing;
+                                        _font.CharacterDistance = ci.Spacing;
                                     }
                                 }
                                 catch
@@ -417,13 +417,13 @@ public partial class HtmlMemo : BaseWindow
                                 NewChange();
                                 if (C == 62)
                                 {
-                                    State = IntegerParseMode.None;
-                                    TextStart = J + 1;
+                                    state = IntegerParseMode.None;
+                                    textStart = J + 1;
                                 }
                                 else
                                 {
-                                    State = IntegerParseMode.Start;
-                                    TagStart = J + 1;
+                                    state = IntegerParseMode.Start;
+                                    tagStart = J + 1;
                                 }
                             }
 
@@ -431,69 +431,69 @@ public partial class HtmlMemo : BaseWindow
                         case IntegerParseMode.Align:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
-                                S = UpperCase(Copy(item, TagStart + 1, J - TagStart));
-                                var line = FLines[LineIdx];
-                                CI.FPos = line.Length;
-                                CI.FLine = LineIdx;
+                                S = UpperCase(Copy(item, tagStart + 1, J - tagStart));
+                                var line = Lines[lineIndex];
+                                ci.Position = line.Length;
+                                ci.Line = lineIndex;
                                 if (S == "RIGHT")
                                 {
-                                    CI.FAlign = TextAlignment.Right;
+                                    ci.Align = TextAlignment.Right;
                                 }
                                 else
                                 {
                                     if (S == "CENTER")
                                     {
-                                        CI.FAlign = TextAlignment.Center;
+                                        ci.Align = TextAlignment.Center;
                                     }
                                     else
                                     {
-                                        CI.FAlign = TextAlignment.Left;
+                                        ci.Align = TextAlignment.Left;
                                     }
                                 }
 
                                 NewChange();
                                 if (C == 62)
                                 {
-                                    State = IntegerParseMode.None;
-                                    TextStart = J + 1;
+                                    state = IntegerParseMode.None;
+                                    textStart = J + 1;
                                 }
                                 else
                                 {
-                                    State = IntegerParseMode.Start;
-                                    TagStart = J + 1;
+                                    state = IntegerParseMode.Start;
+                                    tagStart = J + 1;
                                 }
                             }
 
                             break;
-                        case IntegerParseMode.BG:
+                        case IntegerParseMode.Background:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
-                                if (FileExists(ExtractFilePath(RtlUnit.Application.ExeName) + Copy(item, TagStart + 1, J - TagStart)))
+                                if (FileExists(ExtractFilePath(RtlUnit.Application.ExeName) + Copy(item, tagStart + 1, J - tagStart)))
                                 {
                                     var filePath = ExtractFilePath(RtlUnit.Application.ExeName);
-                                    FImages.LoadFromFile(filePath + Copy(item, TagStart + 1, J - TagStart));
+                                    Images.LoadFromFile(filePath + Copy(item, tagStart + 1, J - tagStart));
                                 }
 
-                                FILIndexTexture = 0;
+                                _imageLibraryIndexTexture = 0;
                                 if (C == 62)
                                 {
-                                    State = IntegerParseMode.None;
-                                    TextStart = J + 1;
+                                    state = IntegerParseMode.None;
+                                    textStart = J + 1;
                                 }
                                 else
                                 {
-                                    State = IntegerParseMode.InBG;
-                                    TagStart = J + 1;
+                                    state = IntegerParseMode.InBackground;
+                                    tagStart = J + 1;
                                 }
                             }
 
                             break;
-                        case IntegerParseMode.BGIndex:
+                        case IntegerParseMode.BackgroundIndex:
                             if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                             {
                                 try
                                 {
-                                    FILIndexTexture = StrToInt(Copy(item, TagStart + 1, J - TagStart));
+                                    _imageLibraryIndexTexture = StrToInt(Copy(item, tagStart + 1, J - tagStart));
                                 }
                                 catch
                                 {
@@ -501,84 +501,84 @@ public partial class HtmlMemo : BaseWindow
 
                                 if (C == 62)
                                 {
-                                    State = IntegerParseMode.None;
-                                    TextStart = J + 1;
+                                    state = IntegerParseMode.None;
+                                    textStart = J + 1;
                                 }
                                 else
                                 {
-                                    State = IntegerParseMode.InBG;
-                                    TagStart = J + 1;
+                                    state = IntegerParseMode.InBackground;
+                                    tagStart = J + 1;
                                 }
                             }
 
                             break;
                     }
 
-                    if (TextEnd >= TextStart)
+                    if (textEnd >= textStart)
                     {
-                        AddText(Copy(item, TextStart + 1, TextEnd - TextStart + 1));
-                        TextStart = TextEnd;
+                        AddText(Copy(item, textStart + 1, textEnd - textStart + 1));
+                        textStart = textEnd;
                     }
                 }
 
-                switch (State)
+                switch (state)
                 {
                     case IntegerParseMode.None:
-                        if (TextStart <= Last)
+                        if (textStart <= Last)
                         {
-                            AddText(Copy(item, TextStart + 1, Last - TextStart + 1));
+                            AddText(Copy(item, textStart + 1, Last - textStart + 1));
                         }
 
                         break;
                     case IntegerParseMode.Start:
-                        if (TagStart <= Last)
+                        if (tagStart <= Last)
                         {
-                            ParseTag(Copy(item, TagStart + 1, Last - TagStart));
+                            ParseTag(Copy(item, tagStart + 1, Last - tagStart));
                         }
 
                         break;
                 }
             }
 
-            H = H + CI.FHeight;
+            H = H + ci.Height;
         }
 
-        if (FWinWidth - FScrollWidth != FTextWidth || FTextHeight != H)
+        if (_winWidth - ScrollWidth != TextWidth || TextHeight != H)
         {
-            FTextWidth = FWinWidth - FScrollWidth;
-            FTextHeight = H;
-            if (FTextHeight < FWinHeight)
+            TextWidth = _winWidth - ScrollWidth;
+            TextHeight = H;
+            if (TextHeight < _winHeight)
             {
-                FTextHeight = FWinHeight;
+                TextHeight = _winHeight;
             }
 
-            if (FBackSurface != null)
+            if (BackSurface != null)
             {
-                FBackSurface.Resize(FTextWidth, FTextHeight);
+                BackSurface.Resize(TextWidth, TextHeight);
             }
         }
 
-        FSurfaceValid = false;
-        FBackDrawn = false;
-        if (FVScrollBar != null)
+        SurfaceValid = false;
+        BackDrawn = false;
+        if (_verticalScrollBar != null)
         {
-            if (FAOWWindow != FVScrollBar.AOWWindow)
+            if (_window != _verticalScrollBar.Window)
             {
-                FVScrollBar.AOWWindow = FAOWWindow;
+                _verticalScrollBar.Window = _window;
             }
 
-            FVScrollBar.Min = 0;
-            FVScrollBar.Max = FTextHeight;
-            FVScrollBar.Priority = FPriority + 1;
-            FVScrollBar.Position = FTopItem;
-            FVScrollBar.NumberVisible = FWinHeight;
-            FVScrollBar.WinHeight = FWinHeight;
-            FVScrollBar.LargeChange = FWinHeight;
-            FVScrollBar.SmallChange = 20;
-            FVScrollBar.Visible = FVisible;
-            FVScrollBar.FSized = false;
-            FVScrollBar.WinLeft = FWinLeft + FWinWidth - FVScrollBar.WinWidth;
-            FVScrollBar.WinTop = FWinTop;
+            _verticalScrollBar.Min = 0;
+            _verticalScrollBar.Max = TextHeight;
+            _verticalScrollBar.Priority = _priority + 1;
+            _verticalScrollBar.Position = TopItem;
+            _verticalScrollBar.NumberVisible = _winHeight;
+            _verticalScrollBar.WinHeight = _winHeight;
+            _verticalScrollBar.LargeChange = _winHeight;
+            _verticalScrollBar.SmallChange = 20;
+            _verticalScrollBar.Visible = _visible;
+            _verticalScrollBar.Sized = false;
+            _verticalScrollBar.WinLeft = _winLeft + _winWidth - _verticalScrollBar.WinWidth;
+            _verticalScrollBar.WinTop = _winTop;
         }
 
         base.SetSize();
@@ -589,306 +589,306 @@ public partial class HtmlMemo : BaseWindow
     public override void Update()
     {
         Rect R;
-        if (FVisible)
+        if (_visible)
         {
-            if (FVScrollBar != null && FLines.Count > 0)
+            if (_verticalScrollBar != null && Lines.Count > 0)
             {
-                if (FVScrollBar.Position != FTopItem)
+                if (_verticalScrollBar.Position != TopItem)
                 {
-                    SetListOff(FVScrollBar.Position);
+                    SetListOff(_verticalScrollBar.Position);
                 }
             }
 
-            if (!FDrawn)
+            if (!Drawn)
             {
-                FSurfaceValid = false;
+                SurfaceValid = false;
             }
 
-            FDrawn = false;
+            Drawn = false;
         }
 
         base.Update();
-        if (FVisible && FMasked && !FSurfaceValid)
+        if (_visible && _masked && !SurfaceValid)
         {
-            if (FAOWOwner.FAOWOwner.FAOWOwner == null)
+            if (_ownerComponent._ownerComponent._ownerComponent == null)
             {
-                R = new Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                R = new Rect(_winLeft, _winTop, _winLeft + _winWidth - 1, _winTop + _winHeight - 1);
             }
             else
             {
-                R = new Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                R = new Rect(_ownerComponent._winLeft + _winLeft, _ownerComponent._winTop + _winTop, _ownerComponent._winLeft + _winLeft + _winWidth - 1, _ownerComponent._winTop + _winTop + _winHeight - 1);
             }
 
-            FAOWOwner.AddDrawRect(ref R, this);
+            _ownerComponent.AddDrawRectangle(ref R, this);
         }
     }
 
     // AoWHTMLMemo.pas:122
-    public override void InvalidateRect(int Index, ref Rect ARect, UIComponent Sender)
+    public override void InvalidateRectangle(int index, ref Rect rectangle, UIComponent sender)
     {
-        if (FValid && FVisible)
+        if (Valid && _visible)
         {
-            AddDrawRect(ref ARect, Sender);
+            AddDrawRectangle(ref rectangle, sender);
         }
     }
 
     // AoWHTMLMemo.pas:128
-    public override void SetOwner(UIComponent Value)
+    public override void SetOwner(UIComponent value)
     {
-        base.SetOwner(Value);
-        FAOWWindow = (BaseWindow)FAOWOwner;
+        base.SetOwner(value);
+        _window = (BaseWindow)_ownerComponent;
     }
 
     // AoWHTMLMemo.pas:584
     // { Draw renders the text into the back surface when it changed, then blits the dirty rectangles
     //   of the window (or the whole visible part) from it }
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
-        int OldLeft;
-        int OldTop;
-        int Pos = default;
-        int LH = default;
+        int oldLeft;
+        int oldTop;
+        int position = default;
+        int lh = default;
         int X = default;
         int Y = default;
-        TextAlignment Align = default;
-        string FontName = "";
-        LockedSurface BackSD = default;
-        Rect SrcR = default;
+        TextAlignment align = default;
+        string fontName = "";
+        LockedSurface backSurfaceDescription = default;
+        Rect sourceR = default;
         int Line = default;
-        ChangeInfo CI = default;
+        ChangeInfo ci = default;
         DirtyRectangle R = default;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                OldLeft = FWinLeft;
-                OldTop = FWinTop;
-                FWinLeft = 0;
-                FWinTop = 0;
-                if (FBackSurface != null)
+                oldLeft = _winLeft;
+                oldTop = _winTop;
+                _winLeft = 0;
+                _winTop = 0;
+                if (BackSurface != null)
                 {
-                    if (FBackSurface.PixelFormatID != SurfDesc.PixelFormatID)
+                    if (BackSurface.PixelFormatId != lockedSurface.PixelFormatId)
                     {
-                        FBackSurface?.Dispose();
-                        FBackSurface = null;
+                        BackSurface?.Dispose();
+                        BackSurface = null;
                     }
                 }
 
-                if (FBackSurface == null)
+                if (BackSurface == null)
                 {
-                    FBackSurface = new DataSurface(FTextWidth, FTextHeight, SurfDesc.PixelFormatID, null);
-                    FBackDrawn = false;
+                    BackSurface = new DataSurface(TextWidth, TextHeight, lockedSurface.PixelFormatId, null);
+                    BackDrawn = false;
                 }
 
-                if (!FBackDrawn)
+                if (!BackDrawn)
                 {
-                    if (FImages.Count <= FILIndexTexture)
+                    if (Images.Count <= _imageLibraryIndexTexture)
                     {
-                        if (FMasked)
+                        if (_masked)
                         {
-                            FBackSurface.Cls(FMaskColor);
+                            BackSurface.Clear(_maskColor);
                         }
                         else
                         {
-                            FBackSurface.Cls(0);
+                            BackSurface.Clear(0);
                         }
 
-                        FBackSurface.Lock(ref BackSD);
+                        BackSurface.Lock(ref backSurfaceDescription);
                     }
                     else
                     {
-                        FBackSurface.Lock(ref BackSD);
-                        var rect = new Rect(0, 0, FTextWidth, FTextHeight);
-                        FImages.DrawILT(FILIndexTexture, rect, ref BackSD);
+                        BackSurface.Lock(ref backSurfaceDescription);
+                        var rectangle = new Rect(0, 0, TextWidth, TextHeight);
+                        Images.DrawTiled(_imageLibraryIndexTexture, rectangle, ref backSurfaceDescription);
                     }
 
                     Line = 1;
-                    CI = FChanges[0];
-                    Align = TextAlignment.Left;
-                    FontName = "";
-                    X = FBorderWidth;
-                    Y = FBorderHeight;
-                    LH = 10;
-                    for (int I = 0, last = FLines.Count - 1; I <= last; I++)
+                    ci = Changes[0];
+                    align = TextAlignment.Left;
+                    fontName = "";
+                    X = _borderWidth;
+                    Y = _borderHeight;
+                    lh = 10;
+                    for (int I = 0, last = Lines.Count - 1; I <= last; I++)
                     {
-                        Pos = 0;
-                        switch (Align)
+                        position = 0;
+                        switch (align)
                         {
                             case TextAlignment.Left:
-                                X = FBorderWidth;
+                                X = _borderWidth;
                                 break;
                             case TextAlignment.Center:
                                 X = 0;
                                 break;
                             case TextAlignment.Right:
-                                X = FTextWidth - FBorderWidth;
+                                X = TextWidth - _borderWidth;
                                 break;
                         }
 
-                        while (CI.FLine == I && Line <= FChanges.Count)
+                        while (ci.Line == I && Line <= Changes.Count)
                         {
-                            if (!IsEmpty(FontName) && CI.FPos > Pos)
+                            if (!IsEmpty(fontName) && ci.Position > position)
                             {
-                                switch (Align)
+                                switch (align)
                                 {
                                     case TextAlignment.Left:
-                                        var line = FLines[I];
-                                        FAOWFont.SetText(X, Y, Copy(line, Pos + 1, CI.FPos - Pos), BackSD);
-                                        var line2 = FLines[I];
-                                        X = X + FAOWFont.GetTextWidth(Copy(line2, Pos + 1, CI.FPos - Pos));
+                                        var line = Lines[I];
+                                        _font.SetText(X, Y, Copy(line, position + 1, ci.Position - position), backSurfaceDescription);
+                                        var line2 = Lines[I];
+                                        X = X + _font.GetTextWidth(Copy(line2, position + 1, ci.Position - position));
                                         break;
                                     case TextAlignment.Center:
-                                        var line3 = FLines[I];
-                                        var textWidth = FAOWFont.GetTextWidth(Copy(line3, Pos + 1, CI.FPos - Pos));
-                                        var line4 = FLines[I];
-                                        FAOWFont.SetText(FTextWidth / 2 - textWidth / 2, Y, Copy(line4, Pos + 1, CI.FPos - Pos), BackSD);
+                                        var line3 = Lines[I];
+                                        var textWidth = _font.GetTextWidth(Copy(line3, position + 1, ci.Position - position));
+                                        var line4 = Lines[I];
+                                        _font.SetText(TextWidth / 2 - textWidth / 2, Y, Copy(line4, position + 1, ci.Position - position), backSurfaceDescription);
                                         break;
                                     case TextAlignment.Right:
-                                        var line5 = FLines[I];
-                                        var faowFontTextWidth = FAOWFont.GetTextWidth(Copy(line5, Pos + 1, CI.FPos - Pos));
-                                        var line6 = FLines[I];
-                                        FAOWFont.SetText(X - faowFontTextWidth, Y, Copy(line6, Pos + 1, CI.FPos - Pos), BackSD);
-                                        var line7 = FLines[I];
-                                        X = X - FAOWFont.GetTextWidth(Copy(line7, Pos + 1, CI.FPos - Pos));
+                                        var line5 = Lines[I];
+                                        var fontTextWidth = _font.GetTextWidth(Copy(line5, position + 1, ci.Position - position));
+                                        var line6 = Lines[I];
+                                        _font.SetText(X - fontTextWidth, Y, Copy(line6, position + 1, ci.Position - position), backSurfaceDescription);
+                                        var line7 = Lines[I];
+                                        X = X - _font.GetTextWidth(Copy(line7, position + 1, ci.Position - position));
                                         break;
                                 }
                             }
 
-                            Pos = CI.FPos;
-                            if (!IsEmpty(CI.FFont))
+                            position = ci.Position;
+                            if (!IsEmpty(ci.Font))
                             {
-                                LoadFont(CI.FFont);
+                                LoadFont(ci.Font);
                             }
 
-                            FAOWFont.FontColorPaletteIndex = 1;
-                            FAOWFont.Color = CI.FColor;
-                            FAOWFont.CharacterDistance = CI.FSpacing;
-                            FontName = CI.FFont;
-                            LH = CI.FHeight;
-                            if (CI.FAlign != Align)
+                            _font.FontColorPaletteIndex = 1;
+                            _font.Color = ci.Color;
+                            _font.CharacterDistance = ci.Spacing;
+                            fontName = ci.Font;
+                            lh = ci.Height;
+                            if (ci.Align != align)
                             {
-                                switch (Align)
+                                switch (align)
                                 {
                                     case TextAlignment.Left:
-                                        X = FBorderWidth;
+                                        X = _borderWidth;
                                         break;
                                     case TextAlignment.Center:
                                         X = 0;
                                         break;
                                     case TextAlignment.Right:
-                                        X = FTextWidth - FBorderWidth;
+                                        X = TextWidth - _borderWidth;
                                         break;
                                 }
                             }
 
-                            Align = CI.FAlign;
-                            if (Line < FChanges.Count)
+                            align = ci.Align;
+                            if (Line < Changes.Count)
                             {
-                                CI = FChanges[Line];
+                                ci = Changes[Line];
                             }
 
                             Line += 1;
                         }
 
-                        if (!IsEmpty(FontName))
+                        if (!IsEmpty(fontName))
                         {
-                            switch (Align)
+                            switch (align)
                             {
                                 case TextAlignment.Left:
-                                    var lineLength = FLines[I];
-                                    var line = FLines[I];
-                                    FAOWFont.SetText(X, Y, Copy(line, Pos + 1, lineLength.Length - Pos), BackSD);
+                                    var lineLength = Lines[I];
+                                    var line = Lines[I];
+                                    _font.SetText(X, Y, Copy(line, position + 1, lineLength.Length - position), backSurfaceDescription);
                                     break;
                                 case TextAlignment.Center:
-                                    var line2 = FLines[I];
-                                    var line3 = FLines[I];
-                                    var textWidth = FAOWFont.GetTextWidth(Copy(line3, Pos + 1, line2.Length - Pos));
-                                    var line4 = FLines[I];
-                                    var line5 = FLines[I];
-                                    FAOWFont.SetText(FTextWidth / 2 - textWidth / 2, Y, Copy(line5, Pos + 1, line4.Length - Pos), BackSD);
+                                    var line2 = Lines[I];
+                                    var line3 = Lines[I];
+                                    var textWidth = _font.GetTextWidth(Copy(line3, position + 1, line2.Length - position));
+                                    var line4 = Lines[I];
+                                    var line5 = Lines[I];
+                                    _font.SetText(TextWidth / 2 - textWidth / 2, Y, Copy(line5, position + 1, line4.Length - position), backSurfaceDescription);
                                     break;
                                 case TextAlignment.Right:
-                                    var line6 = FLines[I];
-                                    var line7 = FLines[I];
-                                    var faowFontTextWidth = FAOWFont.GetTextWidth(Copy(line7, Pos + 1, line6.Length - Pos));
-                                    var line8 = FLines[I];
-                                    var line9 = FLines[I];
-                                    FAOWFont.SetText(X - faowFontTextWidth, Y, Copy(line9, Pos + 1, line8.Length - Pos), BackSD);
+                                    var line6 = Lines[I];
+                                    var line7 = Lines[I];
+                                    var fontTextWidth = _font.GetTextWidth(Copy(line7, position + 1, line6.Length - position));
+                                    var line8 = Lines[I];
+                                    var line9 = Lines[I];
+                                    _font.SetText(X - fontTextWidth, Y, Copy(line9, position + 1, line8.Length - position), backSurfaceDescription);
                                     break;
                             }
                         }
 
-                        Y = Y + LH;
+                        Y = Y + lh;
                     }
 
-                    FBackSurface.Unlock();
-                    FBackDrawn = true;
+                    BackSurface.Unlock();
+                    BackDrawn = true;
                 }
 
-                FWinLeft = OldLeft;
-                FWinTop = OldTop;
-                if (FOnPreDraw != null)
+                _winLeft = oldLeft;
+                _winTop = oldTop;
+                if (_onPreDraw != null)
                 {
-                    FOnPreDraw(this, SurfDesc);
+                    _onPreDraw(this, lockedSurface);
                 }
 
-                FBackSurface.Lock(ref BackSD);
-                if (FSurfaceValid)
+                BackSurface.Lock(ref backSurfaceDescription);
+                if (SurfaceValid)
                 {
-                    for (int I = 0, last = FDrawCount - 1; I <= last; I++)
+                    for (int I = 0, last = DrawCount - 1; I <= last; I++)
                     {
-                        R = FDrawList[I];
-                        if (FAOWOwner.FWinLeft + FWinLeft > R.R.Left)
+                        R = DrawList[I];
+                        if (_ownerComponent._winLeft + _winLeft > R.Rectangle.Left)
                         {
-                            R.R.Left = FAOWOwner.FWinLeft + FWinLeft;
+                            R.Rectangle.Left = _ownerComponent._winLeft + _winLeft;
                         }
 
-                        if (FAOWOwner.FWinTop + FWinTop > R.R.Top)
+                        if (_ownerComponent._winTop + _winTop > R.Rectangle.Top)
                         {
-                            R.R.Top = FAOWOwner.FWinTop + FWinTop;
+                            R.Rectangle.Top = _ownerComponent._winTop + _winTop;
                         }
 
-                        if (FAOWOwner.FWinLeft + FWinLeft + FWinWidth < R.R.Right)
+                        if (_ownerComponent._winLeft + _winLeft + _winWidth < R.Rectangle.Right)
                         {
-                            R.R.Right = FAOWOwner.FWinLeft + FWinLeft + FWinWidth;
+                            R.Rectangle.Right = _ownerComponent._winLeft + _winLeft + _winWidth;
                         }
 
-                        if (FAOWOwner.FWinTop + FWinTop + FWinHeight < R.R.Bottom)
+                        if (_ownerComponent._winTop + _winTop + _winHeight < R.Rectangle.Bottom)
                         {
-                            R.R.Bottom = FAOWOwner.FWinTop + FWinTop + FWinHeight;
+                            R.Rectangle.Bottom = _ownerComponent._winTop + _winTop + _winHeight;
                         }
 
-                        SrcR = new Rect(R.R.Left - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Top - FAOWOwner.FWinTop - FWinTop, R.R.Right - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Bottom - FAOWOwner.FWinTop - FWinTop);
-                        if (FMasked)
+                        sourceR = new Rect(R.Rectangle.Left - _ownerComponent._winLeft - _winLeft, TopItem + R.Rectangle.Top - _ownerComponent._winTop - _winTop, R.Rectangle.Right - _ownerComponent._winLeft - _winLeft, TopItem + R.Rectangle.Bottom - _ownerComponent._winTop - _winTop);
+                        if (_masked)
                         {
-                            LockedSurface.BltSpriteClipped16(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top, FMaskColor);
+                            LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, R.Rectangle.Left, R.Rectangle.Top, _maskColor);
                         }
                         else
                         {
-                            LockedSurface.BltSDRectClipped(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top);
+                            LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, R.Rectangle.Left, R.Rectangle.Top);
                         }
                     }
                 }
                 else
                 {
-                    SrcR = new Rect(0, FTopItem, FWinWidth, FTopItem + FWinHeight);
-                    if (FMasked)
+                    sourceR = new Rect(0, TopItem, _winWidth, TopItem + _winHeight);
+                    if (_masked)
                     {
-                        LockedSurface.BltSpriteClipped16(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FMaskColor);
+                        LockedSurface.BlitSpriteClipped16(backSurfaceDescription, sourceR, lockedSurface, _window._winLeft + _winLeft, _window._winTop + _winTop, _maskColor);
                     }
                     else
                     {
-                        LockedSurface.BltSDRectClipped(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
+                        LockedSurface.BlitSurfaceDescriptionRectangleClipped(backSurfaceDescription, sourceR, lockedSurface, _window._winLeft + _winLeft, _window._winTop + _winTop);
                     }
                 }
 
-                FBackSurface.Unlock();
-                if (FOnDraw != null)
+                BackSurface.Unlock();
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
 
-                FSurfaceValid = true;
+                SurfaceValid = true;
             }
         }
         catch
@@ -898,207 +898,207 @@ public partial class HtmlMemo : BaseWindow
     }
 
     // AoWHTMLMemo.pas:134
-    public void SetAOWWindow(BaseWindow Value)
+    public void SetWindow(BaseWindow value)
     {
-        SetOwner(Value);
+        SetOwner(value);
     }
 
     // AoWHTMLMemo.pas:139
-    public void SetFStrings(StringList Value)
+    public void SetFStrings(StringList value)
     {
-        FItems.Clear();
-        FItems.AddStrings(Value);
+        _items.Clear();
+        _items.AddStrings(value);
     }
 
     // AoWHTMLMemo.pas:145
-    public void SetVScroll(VerticalScrollBar Value)
+    public void SetVScroll(VerticalScrollBar value)
     {
-        if (Value != FVScrollBar)
+        if (value != _verticalScrollBar)
         {
-            FVScrollBar = Value;
-            if (FVScrollBar != null)
+            _verticalScrollBar = value;
+            if (_verticalScrollBar != null)
             {
-                FVScrollBar.Priority = FPriority;
+                _verticalScrollBar.Priority = _priority;
             }
 
-            FSized = false;
+            Sized = false;
         }
     }
 
     // AoWHTMLMemo.pas:156
-    public void SetListOff(int Value)
+    public void SetListOff(int value)
     {
-        if (Value != FTopItem)
+        if (value != TopItem)
         {
-            FTopItem = Value;
-            FSurfaceValid = false;
+            TopItem = value;
+            SurfaceValid = false;
         }
     }
 
     // AoWHTMLMemo.pas:165
-    public void SetFileName(string Value)
+    public void SetFileName(string value)
     {
-        if (Value != FFilename && FileExists(Value))
+        if (value != _fileName && FileExists(value))
         {
-            FFilename = Value;
-            FItems.LoadFromFile(FFilename);
+            _fileName = value;
+            _items.LoadFromFile(_fileName);
         }
     }
 
     // AoWHTMLMemo.pas:182
     // { LoadFont makes the font in FileName (relative to the program) the current font, loading it
     //   the first time }
-    public bool LoadFont(string FileName)
+    public bool LoadFont(string fileName)
     {
-        ImageLibraryFont Font;
+        ImageLibraryFont font;
         int I;
-        FileName = ExtractFilePath(RtlUnit.Application.ExeName) + FileName;
-        Font = null;
+        fileName = ExtractFilePath(RtlUnit.Application.ExeName) + fileName;
+        font = null;
         I = 0;
-        while (I < FFonts.Count && Font == null)
+        while (I < Fonts.Count && font == null)
         {
-            if ((FFonts[I]).FileName == FileName)
+            if ((Fonts[I]).FileName == fileName)
             {
-                Font = FFonts[I];
+                font = Fonts[I];
             }
 
             I += 1;
         }
 
-        if (Font == null && FileExists(FileName))
+        if (font == null && FileExists(fileName))
         {
-            Font = new ImageLibraryFont(this);
-            Font.FontColorPaletteIndex = 1;
-            Font.LoadFromFile(FileName);
-            FFonts.Add(Font);
+            font = new ImageLibraryFont(this);
+            font.FontColorPaletteIndex = 1;
+            font.LoadFromFile(fileName);
+            Fonts.Add(font);
         }
 
-        if (Font != null)
+        if (font != null)
         {
-            FAOWFont = Font;
+            _font = font;
         }
 
-        return Font != null;
+        return font != null;
     }
 
-    public StringList Items { get => FItems; set => SetFStrings(value); }
-    public int ListOffset { get => FTopItem; set => SetListOff(value); }
+    public StringList Items { get => _items; set => SetFStrings(value); }
+    public int ListOffset { get => TopItem; set => SetListOff(value); }
 
     [Published]
-    public BaseWindow AOWWindow { get => FAOWWindow; set => SetAOWWindow(value); }
+    public BaseWindow Window { get => _window; set => SetWindow(value); }
 
     [Published]
-    public VerticalScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
+    public VerticalScrollBar VerticalScrollBar { get => _verticalScrollBar; set => SetVScroll(value); }
 
     [Published]
-    public string Filename { get => FFilename; set => SetFileName(value); }
+    public string FileName { get => _fileName; set => SetFileName(value); }
 
     [Published]
-    public bool FreeSurfaceOnHide { get => FFreeSurfaceOnHide; set => FFreeSurfaceOnHide = value; }
+    public bool FreeSurfaceOnHide { get => _freeSurfaceOnHide; set => _freeSurfaceOnHide = value; }
 
     [Published]
-    public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
+    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
 
     [Published]
-    public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
+    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
-    public int MaskColor { get => FMaskColor; set => FMaskColor = value; }
+    public int MaskColor { get => _maskColor; set => _maskColor = value; }
 
     public new NotifyEvent<HtmlMemo> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<HtmlMemo> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<HtmlMemo> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<HtmlMemo> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<HtmlMemo> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<HtmlMemo> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<HtmlMemo> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<HtmlMemo> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<HtmlMemo> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 
     public new AoWOnDrawBackEvent<HtmlMemo> OnDrawBack
     {
-        get => EventSlot.Get(this, FOnDrawBack);
-        set => EventSlot.Set(this, ref FOnDrawBack, value);
+        get => EventSlot.Get(this, _onDrawBack);
+        set => EventSlot.Set(this, ref _onDrawBack, value);
     }
 
     public new NotifyEvent<HtmlMemo> OnEnter
     {
-        get => EventSlot.Get(this, FOnEnter);
-        set => EventSlot.Set(this, ref FOnEnter, value);
+        get => EventSlot.Get(this, _onEnter);
+        set => EventSlot.Set(this, ref _onEnter, value);
     }
 
     public new NotifyEvent<HtmlMemo> OnExit
     {
-        get => EventSlot.Get(this, FOnExit);
-        set => EventSlot.Set(this, ref FOnExit, value);
+        get => EventSlot.Get(this, _onExit);
+        set => EventSlot.Set(this, ref _onExit, value);
     }
 
     public new NotifyEvent<HtmlMemo> OnHide
     {
-        get => EventSlot.Get(this, FOnHide);
-        set => EventSlot.Set(this, ref FOnHide, value);
+        get => EventSlot.Get(this, _onHide);
+        set => EventSlot.Set(this, ref _onHide, value);
     }
 
     public new NotifyEvent<HtmlMemo> OnShow
     {
-        get => EventSlot.Get(this, FOnShow);
-        set => EventSlot.Set(this, ref FOnShow, value);
+        get => EventSlot.Get(this, _onShow);
+        set => EventSlot.Set(this, ref _onShow, value);
     }
 
     // a style change in the text. FHeight (the line height), FColor, FFont (the font file, '' for
     // the current font), FAlign, FPos (the character of the line where it starts), FLine, FSpacing
     public partial class ChangeInfo
     {
-        public int FHeight;
-        public int FColor;
-        public string FFont = "";
-        public TextAlignment FAlign;
-        public int FPos;
-        public int FLine;
-        public int FSpacing;
+        public int Height;
+        public int Color;
+        public string Font = "";
+        public TextAlignment Align;
+        public int Position;
+        public int Line;
+        public int Spacing;
     }
 }

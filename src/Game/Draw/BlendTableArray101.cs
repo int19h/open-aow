@@ -6,5 +6,5 @@ namespace Aow.Game.Draw;
 [InlineArray(101)]
 public struct BlendTableArray101
 {
-    private BlendTable element0;
+    private BlendTable _element0;
 }

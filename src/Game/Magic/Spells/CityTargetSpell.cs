@@ -19,57 +19,57 @@ namespace Aow.Game.Magic.Spells;
 // source unit ID. city target modes
 public partial class CityTargetSpell : Spell
 {
-    public int FSourceID;
-    public Set<CityTargetModeElement> FCityTargetMode;
+    public int SourceId;
+    public Set<CityTargetModeElement> CityTargetMode;
 
     // CitySpells.pas:209
     public CityTargetSpell(ECustomNode owner) : base(owner)
     {
-        FSpellType = SpellType.Global;
+        SpellType = SpellType.Global;
     }
 
     // CitySpells.pas:377
-    public override bool Activate(Troop Source)
+    public override bool Activate(Troop source)
     {
-        bool Result;
-        string Reason = "";
-        if (CanActivate(Source, ref Reason))
+        bool result;
+        string reason = "";
+        if (CanActivate(source, ref reason))
         {
-            FSourceID = Source.FUnitID;
-            SetupTargetSelection(Source, AoWHSMap.Current.FTargetSelection);
-            AoWHSMap.Current.FTargetSelection.Activate();
-            Result = true;
+            SourceId = source.UnitId;
+            SetupTargetSelection(source, AoWHSMap.Current.TargetSelection);
+            AoWHSMap.Current.TargetSelection.Activate();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:288
-    public virtual void OnTargetSelectionChange(TargetSelectionControl TargetSelection)
+    public virtual void OnTargetSelectionChange(TargetSelectionControl targetSelection)
     {
-        Troop Source = default;
-        bool Valid = default;
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FSourceID);
-        if (Source != null)
+        Troop source = default;
+        bool valid = default;
+        source = AoWHSMap.Current.UnitControl.FindUnit(SourceId);
+        if (source != null)
         {
-            switch (TargetSelection.FChange)
+            switch (targetSelection.Change)
             {
                 case TargetSelectionChange.Deactivated:
-                    TargetSelection.FOnChange -= OnTargetSelectionChange;
-                    TargetSelection.Deactivate();
+                    targetSelection.FOnChange -= OnTargetSelectionChange;
+                    targetSelection.Deactivate();
                     break;
                 case TargetSelectionChange.Selected:
-                    ValidateTarget(TargetSelection, TargetSelection.FTargetX, TargetSelection.FTargetY, TargetSelection.FTargetL, ref Valid);
-                    if (Valid)
+                    ValidateTarget(targetSelection, targetSelection.TargetX, targetSelection.TargetY, targetSelection.TargetL, ref valid);
+                    if (valid)
                     {
-                        if (TargetSelected(Source, TargetSelection.FTargetX, TargetSelection.FTargetY, TargetSelection.FTargetL))
+                        if (TargetSelected(source, targetSelection.TargetX, targetSelection.TargetY, targetSelection.TargetL))
                         {
-                            TargetSelection.FOnChange -= OnTargetSelectionChange;
-                            TargetSelection.Deactivate();
+                            targetSelection.FOnChange -= OnTargetSelectionChange;
+                            targetSelection.Deactivate();
                         }
                     }
 
@@ -78,187 +78,187 @@ public partial class CityTargetSpell : Spell
         }
         else
         {
-            TargetSelection.FOnChange -= OnTargetSelectionChange;
-            TargetSelection.Deactivate();
+            targetSelection.FOnChange -= OnTargetSelectionChange;
+            targetSelection.Deactivate();
         }
     }
 
     // CitySpells.pas:215
-    public virtual void PlayDefaultCityEffects(Troop Source, City TargetCity)
+    public virtual void PlayDefaultCityEffects(Troop source, City targetCity)
     {
-        MapLevel Level;
+        MapLevel level;
         ImageSequenceAnimation A;
-        HexNumberWalkData Walk = default;
-        bool PlaySound;
-        PlaySound = false;
-        var lhx = TargetCity.GetLhx();
-        Level = AoWHSMap.Current.MapContainer.GetMapLevel(lhx);
-        var yhx = TargetCity.GetYhx();
-        var xhx = TargetCity.GetXhx();
-        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
-        while (Walk.HN < TargetCity.Resource.TerrainList.Count)
+        HexNumberWalkData walk = default;
+        bool playSound;
+        playSound = false;
+        var hexLevel = targetCity.GetHexLevel();
+        level = AoWHSMap.Current.MapContainer.GetMapLevel(hexLevel);
+        var hexY = targetCity.GetHexY();
+        var hexX = targetCity.GetHexX();
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        while (walk.HexNumber < targetCity.Resource.TerrainList.Count)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height && TargetCity.Resource.TerrainList.Used[Walk.HN])
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height && targetCity.Resource.TerrainList.Used[walk.HexNumber])
             {
-                bool condition = Source.FPlayer == AoWHSMap.Current.FSeatedPlayer;
+                bool condition = source.Player == AoWHSMap.Current.SeatedPlayer;
                 if (!condition)
                 {
-                    var targetCityLhx = TargetCity.GetLhx();
-                    condition = AoWHSMap.Current.TerrainVisible((sbyte)Walk.X, (sbyte)Walk.Y, targetCityLhx, 0);
+                    var targetCityHexLevel = targetCity.GetHexLevel();
+                    condition = AoWHSMap.Current.TerrainVisible((sbyte)walk.X, (sbyte)walk.Y, targetCityHexLevel, 0);
                 }
 
                 if (condition)
                 {
                     // { Original passes the city layer before the radius. }
                     A = new ImageSequenceAnimation(null);
-                    A.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0]);
-                    A.FFrameCounter = Random(5);
-                    A.FAnimationLevel = 27;
-                    var targetCityLhx = TargetCity.GetLhx();
-                    AoWHSMap.Current.PlaceHX(A, Walk.X, Walk.Y, targetCityLhx);
-                    bool test = Source.FPlayer == AoWHSMap.Current.FSeatedPlayer;
+                    A.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                    A.FrameCounter = Random(5);
+                    A.AnimationLevel = 27;
+                    var targetCityHexLevel = targetCity.GetHexLevel();
+                    AoWHSMap.Current.PlaceHex(A, walk.X, walk.Y, targetCityHexLevel);
+                    bool test = source.Player == AoWHSMap.Current.SeatedPlayer;
                     if (!test)
                     {
-                        var lhx2 = TargetCity.GetLhx();
-                        test = AoWHSMap.Current.WatchingTerrain((sbyte)Walk.X, (sbyte)Walk.Y, lhx2, 0);
+                        var hexLevel2 = targetCity.GetHexLevel();
+                        test = AoWHSMap.Current.WatchingTerrain((sbyte)walk.X, (sbyte)walk.Y, hexLevel2, 0);
                     }
 
                     if (test)
                     {
-                        PlaySound = true;
+                        playSound = true;
                     }
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        if (PlaySound)
+        if (playSound)
         {
-            AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
+            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
     }
 
     // CitySpells.pas:323
-    public virtual void SetupTargetSelection(Troop Source, TargetSelectionControl TargetSelection)
+    public virtual void SetupTargetSelection(Troop source, TargetSelectionControl targetSelection)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        TargetSelection.Initialize(Source);
-        TargetSelection.FTargetMode = TargetSelection.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-        var format = RtlUnit.Format(AbilityRules.TranslateRStr(SelectTargetCityForXOnMapRStr), [FSpellName]);
-        TargetSelection.FText.Text = format;
-        TargetSelection.FTitle = FSpellName;
-        TargetSelection.FCancelText = AbilityRules.TranslateRStr(GameText.CancelRStr);
-        TargetSelection.FSourceImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
-        TargetSelection.FValidTargetImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
-        TargetSelection.FInvalidTargetImage = AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
-        Source.GetLocation(ref X, ref Y, ref L);
-        TargetSelection.FSourceX = X;
-        TargetSelection.FSourceY = Y;
-        TargetSelection.FSourceL = L;
-        TargetSelection.FRange = 12;
-        if (TargetSelection.FOnChangeStore.Count > 1)
+        targetSelection.Initialize(source);
+        targetSelection.TargetMode = targetSelection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
+        var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_selectTargetCityForOnMapFormat), [SpellName]);
+        targetSelection.Text.Text = format;
+        targetSelection.Title = SpellName;
+        targetSelection.CancelText = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+        targetSelection.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
+        targetSelection.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
+        targetSelection.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
+        source.GetLocation(ref X, ref Y, ref L);
+        targetSelection.SourceX = X;
+        targetSelection.SourceY = Y;
+        targetSelection.SourceL = L;
+        targetSelection.Range = 12;
+        if (targetSelection._onChangeStore.Count > 1)
         {
             // { Original rejects two existing listeners. }
             throw new InvalidOperationException("oohps");
         }
 
-        TargetSelection.FOnChange += OnTargetSelectionChange;
-        TargetSelection.FOnValidateTarget = ValidateTarget;
+        targetSelection.FOnChange += OnTargetSelectionChange;
+        targetSelection.OnValidateTarget = ValidateTarget;
     }
 
     // CitySpells.pas:359
-    public virtual bool TargetSelected(Troop Source, int X, int Y, int L)
+    public virtual bool TargetSelected(Troop source, int X, int Y, int L)
     {
-        bool Result;
-        CityTargetSpellTokenEvent Event;
-        if (!AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+        bool result;
+        CityTargetSpellTokenEvent eventValue;
+        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
-            Event = CreateTE();
-            if (SetupTE(Event, Source, X, Y, L))
+            eventValue = CreateTokenEvent();
+            if (SetupTokenEvent(eventValue, source, X, Y, L))
             {
-                AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
-                Result = true;
+                AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                result = true;
             }
             else
             {
-                Result = false;
+                result = false;
             }
 
-            Event.Release();
+            eventValue.Release();
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:248
-    public virtual bool ValidTargetCity(Troop Source, City TargetCity)
+    public virtual bool ValidTargetCity(Troop source, City targetCity)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        City Found;
-        bool Result = (FCityTargetMode.Contains(CityTargetModeElement.Own) && TargetCity.FPlayer == Source.FPlayer) || (FCityTargetMode.Contains(CityTargetModeElement.Enemy) && TargetCity.FPlayer != Source.FPlayer);
-        Result = Result && (!TargetCity.GetRazed() || FCityTargetMode.Contains(CityTargetModeElement.Razed));
-        if (Result && FCityTargetMode.Contains(CityTargetModeElement.SkipSource))
+        City found;
+        bool result = (CityTargetMode.Contains(CityTargetModeElement.Own) && targetCity.Player == source.Player) || (CityTargetMode.Contains(CityTargetModeElement.Enemy) && targetCity.Player != source.Player);
+        result = result && (!targetCity.GetRazed() || CityTargetMode.Contains(CityTargetModeElement.Razed));
+        if (result && CityTargetMode.Contains(CityTargetModeElement.SkipSource))
         {
-            Source.GetLocation(ref X, ref Y, ref L);
-            Found = (City)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(City));
-            Result = TargetCity != Found;
+            source.GetLocation(ref X, ref Y, ref L);
+            found = (City)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(City));
+            result = targetCity != found;
         }
 
-        return Result;
+        return result;
     }
 
     // CitySpells.pas:346
-    public virtual CityTargetSpellTokenEvent CreateTE() => new CityTargetSpellTokenEvent(null);
+    public virtual CityTargetSpellTokenEvent CreateTokenEvent() => new CityTargetSpellTokenEvent(null);
 
     // CitySpells.pas:351
-    public virtual bool SetupTE(CityTargetSpellTokenEvent Event, Troop Source, int X, int Y, int L)
+    public virtual bool SetupTokenEvent(CityTargetSpellTokenEvent eventValue, Troop source, int X, int Y, int L)
     {
-        Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-        Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        Event.FTargetPlayer = Event.GetSelectedCity().FPlayer;
+        eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
+        eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
+        eventValue.TargetPlayer = eventValue.GetSelectedCity().Player;
         return true;
     }
 
     // CitySpells.pas:262
-    public void ValidateTarget(TargetSelectionControl TargetSelection, sbyte X, sbyte Y, sbyte L, ref bool Valid)
+    public void ValidateTarget(TargetSelectionControl targetSelection, sbyte X, sbyte Y, sbyte L, ref bool valid)
     {
-        Troop Source;
-        MapLevel Level;
-        AoWMapField Field;
-        City TargetCity;
-        Level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FSourceID);
-        if (Source != null && X >= 0 && Y >= 0 && X < Level.Width && Y < Level.Height)
+        Troop source;
+        MapLevel level;
+        AoWMapField field;
+        City targetCity;
+        level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+        source = AoWHSMap.Current.UnitControl.FindUnit(SourceId);
+        if (source != null && X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
-            Field = (AoWMapField)Level.GetField(X, Y);
-            Valid = !AoWHSMap.Current.FExplorationEnabled || Field.GetExplored(Source.FPlayer);
-            if (Valid)
+            field = (AoWMapField)level.GetField(X, Y);
+            valid = !AoWHSMap.Current.ExplorationEnabled || field.GetExplored(source.Player);
+            if (valid)
             {
-                TargetCity = (City)Field.FindNoneTransparentHS(typeof(City));
-                if (TargetCity != null)
+                targetCity = (City)field.FindNoneTransparentHexSprite(typeof(City));
+                if (targetCity != null)
                 {
-                    Valid = ValidTargetCity(Source, TargetCity);
+                    valid = ValidTargetCity(source, targetCity);
                 }
                 else
                 {
-                    Valid = false;
+                    valid = false;
                 }
             }
         }
         else
         {
-            Valid = false;
+            valid = false;
         }
     }
 
-    private static readonly string SelectTargetCityForXOnMapRStr = "Select target city for %s on map.";
+    private static readonly string s_selectTargetCityForOnMapFormat = "Select target city for %s on map.";
 }

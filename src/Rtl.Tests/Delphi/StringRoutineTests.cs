@@ -44,7 +44,7 @@ public sealed class StringRoutineTests
     }
 
     [Fact]
-    public void PosAndAnsiPosMatchProbeInputs()
+    public void PositionAndAnsiPositionMatchProbeInputs()
     {
         foreach (var (needle, text) in new[] {
             ("ab", "abcd"), ("cd", "abcd"), ("x", "abcd"), ("", "abcd"),

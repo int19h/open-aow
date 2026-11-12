@@ -12,33 +12,33 @@ public partial class PlayerStructurePowerSource : PowerSource
     public PlayerStructurePowerSource(ECustomNode owner) : base(owner)
     { }
 
-    public PlayerStructure FStructure;
+    public PlayerStructure Structure;
 
     // Structur.PAS:2509
-    public override string Name() => FStructure.GetName();
+    public override string Name() => Structure.GetName();
 
     // Structur.PAS:2514
-    public override int Power() => FStructure.GetPower();
+    public override int Power() => Structure.GetPower();
 
     // Structur.PAS:2519
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
-        X = FStructure.Xhx;
-        Y = FStructure.Yhx;
-        L = FStructure.Lhx;
+        X = Structure.HexX;
+        Y = Structure.HexY;
+        L = Structure.HexLevel;
     }
 
     // Structur.PAS:2526
     public override void Select()
     {
-        AoWHSMap.Current.Select(FStructure, true);
+        AoWHSMap.Current.Select(Structure, true);
     }
 
     // Structur.PAS:2504
-    // (FStructure)
-    public void Setup(PlayerStructure Structure)
+    // (Structure)
+    public void Setup(PlayerStructure structure)
     {
-        FStructure = Structure;
+        Structure = structure;
     }
 
     // Engine.pas:524

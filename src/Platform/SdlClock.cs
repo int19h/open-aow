@@ -31,13 +31,13 @@ public sealed class SdlClock : IClock
 /// <summary>The deadline starts at the last completed frame. Slow frames never accumulate debt.</summary>
 public sealed class FramePacer(IClock clock, int frameRate = 30)
 {
-    private readonly int frameTime = frameRate > 0 ? 1000 / frameRate : throw new ArgumentOutOfRangeException(nameof(frameRate));
-    private double last = clock.ElapsedMilliseconds;
+    private readonly int _frameTime = frameRate > 0 ? 1000 / frameRate : throw new ArgumentOutOfRangeException(nameof(frameRate));
+    private double _last = clock.ElapsedMilliseconds;
 
     public void Wait()
     {
-        double target = last + frameTime;
+        double target = _last + _frameTime;
         clock.WaitUntil(target);
-        last = clock.ElapsedMilliseconds;
+        _last = clock.ElapsedMilliseconds;
     }
 }

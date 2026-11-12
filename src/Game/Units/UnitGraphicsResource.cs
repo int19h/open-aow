@@ -19,213 +19,213 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Units;
 
 // { Interface declaration run owned by P2. }
-// FName. FFaceIndex. FFaceImageLibrary. FFaceImageLibraryName. FSequences. FRefCount. flags.
-// FSFXLibraries
+// Name. FaceIndex. FaceImageLibrary. FaceImageLibraryName. Sequences. RefCount. flags.
+// SfxLibraries
 public partial class UnitGraphicsResource : EngineResource
 {
-    public new const int ClassID = 131600;
+    public new const int ClassId = 131600;
 
     // UnitHS.PAS:1
     public UnitGraphicsResource(ECustomNode owner) : base(owner)
     {
-        FSequences = new ImageSequenceList(null, null);
-        FRefCount = 0;
+        Sequences = new ImageSequenceList(null, null);
+        RefCount = 0;
         var sfxLibrary = new SfxLibrary(null);
-        FSFXLibraries[0] = sfxLibrary;
+        SfxLibraries[0] = sfxLibrary;
         var sfxLibrary2 = new SfxLibrary(null);
-        FSFXLibraries[1] = sfxLibrary2;
+        SfxLibraries[1] = sfxLibrary2;
         var sfxLibrary3 = new SfxLibrary(null);
-        FSFXLibraries[2] = sfxLibrary3;
+        SfxLibraries[2] = sfxLibrary3;
         var sfxLibrary4 = new SfxLibrary(null);
-        FSFXLibraries[3] = sfxLibrary4;
+        SfxLibraries[3] = sfxLibrary4;
         var sfxLibrary5 = new SfxLibrary(null);
-        FSFXLibraries[4] = sfxLibrary5;
+        SfxLibraries[4] = sfxLibrary5;
     }
 
-    public string FName = "";
-    public int FFaceIndex;
-    public CustomImageLibrary FFaceImageLibrary;
-    public string FFaceImageLibraryName = "";
-    public ImageSequenceList FSequences;
-    public int FRefCount;
-    public byte F_UnitGFXResource_30;
-    public SfxLibraryArray5 FSFXLibraries;
+    public string Name = "";
+    public int FaceIndex;
+    public CustomImageLibrary FaceImageLibrary;
+    public string FaceImageLibraryName = "";
+    public ImageSequenceList Sequences;
+    public int RefCount;
+    public byte MoveAnimationSpeed;
+    public SfxLibraryArray5 SfxLibraries;
 
     // UnitHS.PAS:12
     public override void Dispose()
     {
-        if (FRefCount != 0)
+        if (RefCount != 0)
         {
-            ReleaseIL();
+            ReleaseImageLibrary();
         }
 
-        FSequences?.Dispose();
-        FSFXLibraries[0]?.Dispose();
-        FSFXLibraries[1]?.Dispose();
-        FSFXLibraries[2]?.Dispose();
-        FSFXLibraries[3]?.Dispose();
-        FSFXLibraries[4]?.Dispose();
+        Sequences?.Dispose();
+        SfxLibraries[0]?.Dispose();
+        SfxLibraries[1]?.Dispose();
+        SfxLibraries[2]?.Dispose();
+        SfxLibraries[3]?.Dispose();
+        SfxLibraries[4]?.Dispose();
         base.Dispose();
     }
 
     // UnitHS.PAS:27
-    public override GameEngine GetEngine() => GameTables.AoWEngine;
+    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // UnitHS.PAS:116
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(5, FSequences.LoadFromStream, FSequences.SaveToStream);
-        if (!Stream.StorageMode().Contains(EngineServices.smText))
+        base.ReadWrite(stream);
+        stream.rwStreamProc(5, Sequences.LoadFromStream, Sequences.SaveToStream);
+        if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            Stream.rwString(ref FFaceImageLibraryName, 6);
-            Stream.rwString(ref FName, 7);
+            stream.rwString(ref FaceImageLibraryName, 6);
+            stream.rwString(ref Name, 7);
         }
 
-        Stream.rwInteger(ref FFaceIndex, 8);
-        Stream.rwData(Bytes.Of(ref F_UnitGFXResource_30, 1), 1, 10);
-        Stream.rwEObject(FSFXLibraries[0], 15);
-        Stream.rwEObject(FSFXLibraries[1], 16);
-        Stream.rwEObject(FSFXLibraries[2], 17);
-        Stream.rwEObject(FSFXLibraries[3], 18);
-        Stream.rwEObject(FSFXLibraries[4], 19);
+        stream.rwInteger(ref FaceIndex, 8);
+        stream.rwData(Bytes.Of(ref MoveAnimationSpeed, 1), 1, 10);
+        stream.rwEObject(SfxLibraries[0], 15);
+        stream.rwEObject(SfxLibraries[1], 16);
+        stream.rwEObject(SfxLibraries[2], 17);
+        stream.rwEObject(SfxLibraries[3], 18);
+        stream.rwEObject(SfxLibraries[4], 19);
     }
 
     // UnitHS.PAS:66
     public override int AddRef()
     {
-        if (FRefCount == 0)
+        if (RefCount == 0)
         {
-            LinkToIL();
+            LinkToImageLibrary();
         }
 
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // UnitHS.PAS:72
     public override int Release()
     {
-        FRefCount -= 1;
-        if (FRefCount == 0 && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (AoWHSMap.Current == null || !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
+        RefCount -= 1;
+        if (RefCount == 0 && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (AoWHSMap.Current == null || !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
         {
-            ReleaseIL();
+            ReleaseImageLibrary();
         }
 
-        return FRefCount;
+        return RefCount;
     }
 
     // UnitHS.PAS:31
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
-            FSequences.FILManager = Msg.Payload.As<GameEngine>().HSSet.ImageLibraryManager;
+            Sequences._imageLibraryManager = message.Payload.As<GameEngine>().HexSpriteSet.ImageLibraryManager;
         }
     }
 
     // UnitHS.PAS:88
     public override LibraryImage GetCellImage()
     {
-        LibraryImage Result;
+        LibraryImage result;
         AddRef();
-        if (FSequences.GetImageSequence(2) != null)
+        if (Sequences.GetImageSequence(2) != null)
         {
-            Result = FSequences.GetImageSequence(2).GetPreviewImage();
+            result = Sequences.GetImageSequence(2).GetPreviewImage();
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        if (Result == null)
+        if (result == null)
         {
-            Result = FSequences.GetPreviewImage();
+            result = Sequences.GetPreviewImage();
         }
 
         Release();
-        return Result;
+        return result;
     }
 
     // UnitHS.PAS:37
-    public void LinkToIL()
+    public void LinkToImageLibrary()
     {
-        FSequences.LinkToIL();
-        if (!IsEmpty(FFaceImageLibraryName))
+        Sequences.LinkToImageLibrary();
+        if (!IsEmpty(FaceImageLibraryName))
         {
-            FFaceImageLibrary = FSequences.ILManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FFaceImageLibraryName);
+            FaceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FaceImageLibraryName);
             return;
         }
 
-        FFaceImageLibrary = null;
+        FaceImageLibrary = null;
     }
 
     // UnitHS.PAS:47
-    public void ReleaseIL()
+    public void ReleaseImageLibrary()
     {
-        FSequences.ReleaseIL();
-        if (FFaceImageLibrary != null)
+        Sequences.ReleaseImageLibrary();
+        if (FaceImageLibrary != null)
         {
-            if (!IsEmpty(FFaceImageLibraryName))
+            if (!IsEmpty(FaceImageLibraryName))
             {
-                FSequences.ILManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FFaceImageLibraryName);
+                Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FaceImageLibraryName);
             }
 
-            FFaceImageLibrary = null;
+            FaceImageLibrary = null;
         }
     }
 
     // UnitHS.PAS:57
-    public void SetFaceImageLibraryName(string Value)
+    public void SetFaceImageLibraryName(string value)
     {
-        if (!IsEmpty(FFaceImageLibraryName))
+        if (!IsEmpty(FaceImageLibraryName))
         {
-            FSequences.ILManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FFaceImageLibraryName);
+            Sequences.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FaceImageLibraryName);
         }
 
-        FFaceImageLibraryName = Value;
+        FaceImageLibraryName = value;
         // { Original releases the old library even when no reference is held. }
-        if (!IsEmpty(FFaceImageLibraryName) && FRefCount != 0)
+        if (!IsEmpty(FaceImageLibraryName) && RefCount != 0)
         {
-            FFaceImageLibrary = FSequences.ILManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FFaceImageLibraryName);
+            FaceImageLibrary = Sequences.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FaceImageLibraryName);
         }
     }
 
     // UnitHS.PAS:80
     public LibraryImage GetFaceImage()
     {
-        LibraryImage Result;
+        LibraryImage result;
         AddRef();
-        if (FFaceImageLibrary != null)
+        if (FaceImageLibrary != null)
         {
-            Result = FFaceImageLibrary.GetSafe(FFaceIndex);
+            result = FaceImageLibrary.GetSafe(FaceIndex);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
         Release();
-        return Result;
+        return result;
     }
 
     // UnitHS.PAS:97
-    public void Show(int Direction, int X, int Y, in LockedSurface SD)
+    public void Show(int direction, int X, int Y, in LockedSurface lockedSurface)
     {
-        ImageSequence Sequence;
-        int Index;
+        ImageSequence sequence;
+        int index;
         AddRef();
-        Sequence = (ImageSequence)FSequences.List[Direction - 1];
-        while (Sequence != null)
+        sequence = (ImageSequence)Sequences.List[direction - 1];
+        while (sequence != null)
         {
-            Index = Sequence.GetFrameIndex(1, 0);
-            if (Index != -1)
+            index = sequence.GetFrameIndex(1, 0);
+            if (index != -1)
             {
-                Sequence.ImageLibrary[Index].Show(X, Y, SD);
+                sequence.ImageLibrary[index].Show(X, Y, lockedSurface);
             }
 
-            Sequence = Sequence.Next;
+            sequence = sequence.Next;
         }
 
         Release();

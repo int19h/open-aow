@@ -11,10 +11,10 @@ public partial class WaterCombatHex : WaterHex
     { }
 
     // CombatHex.pas:219
-    public new const int ClassID = 2229655;
+    public new const int ClassId = 2229655;
 
     // CombatHex.pas:216
-    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
 
     public new partial class Resource : WaterHex.Resource
     {
@@ -22,13 +22,13 @@ public partial class WaterCombatHex : WaterHex
         { }
 
         // CombatHex.pas:222
-        public new const int ClassID = 2229656;
+        public new const int ClassId = 2229656;
 
         // CombatHex.pas:228
-        public override int ResourceUserClassID() => 2229655;
+        public override int ResourceUserClassId() => 2229655;
 
         // CombatHex.pas:231
-        public override HexControl GetHexagonControl() => ((AoWHSSet)Engine.HSSet).FCombatHexagons;
+        public override HexControl GetHexControl() => ((AoWHSSet)Engine.HexSpriteSet).CombatHexes;
 
         // CombatHex.pas:225
         public override string ResourceEditName() => "Combat Water/Ice hex";

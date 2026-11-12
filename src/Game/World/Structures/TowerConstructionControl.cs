@@ -14,42 +14,42 @@ public partial class TowerConstructionControl : StructureConstructionControl
     { }
 
     // Tower.pas:139
-    public override void GetInfo(Troop AUnit, ref string Text, ref int Gold, ref int Days)
+    public override void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
     {
-        var tower = AbilityRules.TranslateRStr(GameText.TowerRStr);
-        Text = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.BuildXRStr), [tower]);
-        Gold = 50;
-        Days = 2;
+        var tower = AbilityRules.TranslateResourceString(GameText.s_towerText);
+        text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_buildFormat), [tower]);
+        gold = 50;
+        days = 2;
     }
 
     // Tower.pas:146
-    public override bool CanConstruct(Troop AUnit, ref string Reason)
+    public override bool CanConstruct(Troop troop, ref string reason)
     {
-        bool Result;
-        sbyte Xhx = default;
-        sbyte Yhx = default;
-        sbyte Lhx = default;
-        AUnit.GetLocation(ref Xhx, ref Yhx, ref Lhx);
-        if (Lhx == 0)
+        bool result;
+        sbyte hexX = default;
+        sbyte hexY = default;
+        sbyte hexLevel = default;
+        troop.GetLocation(ref hexX, ref hexY, ref hexLevel);
+        if (hexLevel == 0)
         {
-            Result = base.CanConstruct(AUnit, ref Reason);
+            result = base.CanConstruct(troop, ref reason);
         }
         else
         {
-            Result = false;
-            var tower = AbilityRules.TranslateRStr(GameText.TowerRStr);
-            Reason = RtlUnit.Format(AbilityRules.TranslateRStr(CannotBuildXInUndergroundRStr), [tower]);
+            result = false;
+            var tower = AbilityRules.TranslateResourceString(GameText.s_towerText);
+            reason = RtlUnit.Format(AbilityRules.TranslateResourceString(s_cannotBuildInUndergroundFormat), [tower]);
         }
 
-        return Result;
+        return result;
     }
 
     // Tower.pas:133
-    public override StructureResource StructureResource(Troop AUnit) => (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindChild(132159);
+    public override StructureResource StructureResource(Troop troop) => (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindChild(132159);
 
     // Tower.pas:130
-    public override int ID() => 3;
+    public override int Id() => 3;
 
-    private static readonly string CannotBuildXInUndergroundRStr = "Cannot build %s underground";
+    private static readonly string s_cannotBuildInUndergroundFormat = "Cannot build %s underground";
 
 }

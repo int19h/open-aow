@@ -22,12 +22,12 @@ namespace Aow.Game.Tests;
 public sealed class OfflineStubTests
 {
     // The game windows the bodies reach, saved and restored around each test.
-    private static readonly FieldInfo[] Globals =
+    private static readonly FieldInfo[] s_globals =
     [
         Field(typeof(DialogHosts), nameof(DialogHosts.SetupEvents)),
         Field(typeof(DialogHosts), nameof(DialogHosts.General)),
         Field(typeof(DialogHosts), nameof(DialogHosts.MultiWindow)),
-        Field(typeof(DialogHosts), nameof(DialogHosts.ScenSetup)),
+        Field(typeof(DialogHosts), nameof(DialogHosts.ScenarioSetup)),
         Field(typeof(DialogHosts), nameof(DialogHosts.TitleWindow)),
         Field(typeof(DialogHosts), nameof(DialogHosts.TitleScene)),
         Field(typeof(DialogHosts), nameof(DialogHosts.VideoDialog)),
@@ -39,17 +39,17 @@ public sealed class OfflineStubTests
 
     private sealed class SavedGlobals : IDisposable
     {
-        private readonly object?[] values = Globals.Select(field => field.GetValue(null)).ToArray();
-        private readonly AoWHSMap map = AoWHSMap.Current;
-        private readonly TextControl text = AoWHSSet.Current.FTextControl;
-        private readonly HeroResourceList heroes = AoWHSSet.Current.FHeroResources;
+        private readonly object?[] _values = s_globals.Select(field => field.GetValue(null)).ToArray();
+        private readonly AoWHSMap _map = AoWHSMap.Current;
+        private readonly TextControl _text = AoWHSSet.Current.TextControl;
+        private readonly HeroResourceList _heroes = AoWHSSet.Current.HeroResources;
 
         public void Dispose()
         {
-            for (int i = 0; i < Globals.Length; i++) Globals[i].SetValue(null, values[i]);
-            AoWHSMap.Current = map;
-            AoWHSSet.Current.FTextControl = text;
-            AoWHSSet.Current.FHeroResources = heroes;
+            for (int i = 0; i < s_globals.Length; i++) s_globals[i].SetValue(null, _values[i]);
+            AoWHSMap.Current = _map;
+            AoWHSSet.Current.TextControl = _text;
+            AoWHSSet.Current.HeroResources = _heroes;
         }
     }
 
@@ -114,27 +114,27 @@ public sealed class OfflineStubTests
         var events = OfflineSetupEvents();
         var heroes = new HeroResourceList(null!);
         new HeroResource(heroes);
-        AoWHSSet.Current.FHeroResources = heroes;
+        AoWHSSet.Current.HeroResources = heroes;
         var window = Populate(new LeaderSetupWindow(null!));
-        var control = new LeaderSetupControl(null!) { FOriginalLeader = new Leader(null!) };
+        var control = new LeaderSetupControl(null!) { OriginalLeader = new Leader(null!) };
         bool done = false;
-        control.FOnDone = sender => done = ReferenceEquals(sender, control);
+        control.OnDone = sender => done = ReferenceEquals(sender, control);
         control.AddRef();
-        window.FSetup = control;
-        window.FLeader = new Leader(null!) { FHeroName = "Gorbag" };
-        window.FLeader.SetHeroResourceIndex(0);
+        window.Setup = control;
+        window.Leader = new Leader(null!) { HeroName = "Gorbag" };
+        window.Leader.SetHeroResourceIndex(0);
         window.LeaderPnl.Visible = true;
 
         window.Finish();
 
         Assert.True(done);
-        Assert.Equal(LeaderSetupControl.LeaderSetupStatus.Done, control.FStatus);
-        Assert.Equal("Gorbag", control.FOriginalLeader.FHeroName);
-        Assert.Null(window.FSetup);
+        Assert.Equal(LeaderSetupControl.LeaderSetupStatus.Done, control.Status);
+        Assert.Equal("Gorbag", control.OriginalLeader.HeroName);
+        Assert.Null(window.Setup);
         Assert.False(window.LeaderPnl.Visible);
         Assert.Equal("No Name", events.DPlay.PlayerName);
 
-        events.SetupControl.FStatus = Set<SetupStatusElement>.Of(SetupStatusElement.Remote);
+        events.SetupControl.Status = Set<SetupStatusElement>.Of(SetupStatusElement.Remote);
         events.UpdatePlayerName("Remote");
         Assert.Equal("No Name", events.DPlay.PlayerName);
     }
@@ -169,7 +169,7 @@ public sealed class OfflineStubTests
         var events = OfflineSetupEvents();
         var window = NewGameWindow();
         var setup = Populate(new ScenarioSetup(null!));
-        DialogHosts.ScenSetup = setup;
+        DialogHosts.ScenarioSetup = setup;
         setup.ScenSetupPnl.Visible = false;
         var messages = new List<string>();
         Runtime.MessageHandler = messages.Add;
@@ -198,8 +198,8 @@ public sealed class OfflineStubTests
         OfflineSetupEvents();
         var window = NewGameWindow();
         var setup = Populate(new ScenarioSetup(null!));
-        DialogHosts.ScenSetup = setup;
-        setup.FSetupControl = new SetupControl(setup);
+        DialogHosts.ScenarioSetup = setup;
+        setup.SetupControl = new SetupControl(setup);
         setup.ScenSetupPnl.Visible = true;
         window.MultiPnl.Visible = false;
         window.TCPBtn.Visible = false;
@@ -207,7 +207,7 @@ public sealed class OfflineStubTests
         setup.ExitGameClick();
 
         Assert.False(setup.ScenSetupPnl.Visible);
-        Assert.Null(setup.FSetupControl);
+        Assert.Null(setup.SetupControl);
         Assert.True(window.MultiPnl.Visible);
         Assert.True(window.TCPBtn.Visible);
     }
@@ -242,29 +242,29 @@ public sealed class OfflineStubTests
         foreach (var (id, header) in new[] { (507, "Topic 507"), (500, "Topic 500") })
         {
             var item = text.New();
-            item.FID = id;
-            item.FText.Text = header + "\r\nBody " + id;
+            item.Id = id;
+            item.Text.Text = header + "\r\nBody " + id;
         }
-        AoWHSSet.Current.FTextControl = text;
+        AoWHSSet.Current.TextControl = text;
         var help = Populate(new HelpWindow(null!));
         DialogHosts.HelpWindow = help;
         var popups = new PopupWindows(null!);
         var menu = new Menu(null!);
 
-        menu.FSelectedItem = 0;
+        menu.SelectedItem = 0;
         popups.HelpMenuSelect(menu);
         Assert.True(help.HelpWin.Visible);
         Assert.Equal("Topic 507", help.HeaderMemo.Items[0]);
         Assert.Equal("Body 507", help.HelpMemo.Items[0]);
 
-        menu.FSelectedItem = 1;
+        menu.SelectedItem = 1;
         popups.HelpMenuSelect(menu);
         Assert.Equal("Topic 500", help.HeaderMemo.Items[0]);
         Assert.Equal("Body 500", help.HelpMemo.Items[0]);
 
         var shell = new RecordingShell();
         Runtime.Shell = shell;
-        menu.FSelectedItem = 2;
+        menu.SelectedItem = 2;
         popups.HelpMenuSelect(menu);
         Assert.Equal(["http://www.ageofwonders.com"], shell.Urls);
         text?.Dispose();
@@ -280,38 +280,38 @@ public sealed class OfflineStubTests
         var library = new CustomImageLibrary(null!);
         var images = new CustomImageLibrary.ImageItem[128];
         for (int i = 0; i < 128; i++) images[i] = new() { Image = recorder, Reference = -1 };
-        SetField(library, "FImages", images);
-        SetField(library, "FCount", 128);
+        SetField(library, "_images", images);
+        SetField(library, "_count", 128);
         var level = new MapLevel(null!);
-        SetField(level, "FWidth", 2);
+        SetField(level, "_width", 2);
         int[] overlaid = [0, 4, 3];
         MapField[] fields = Enumerable.Range(0, 6).Select(i => (MapField)new AoWMapField(null!)
-        { Xhx = (sbyte)(i % 2), Yhx = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
-        SetField(level, "fields", fields);
+        { HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
+        SetField(level, "_fields", fields);
         var container = new MapContainer(null!);
         var levels = new EngineObjectList();
         levels.Add(level);
-        SetField(container, "FChildren", levels);
+        SetField(container, "_children", levels);
         var map = new AoWHSMap(null!);
-        SetField(map, "FMapContainer", container);
-        SetField(map, "FViewWidthHX", 2);
-        SetField(map, "FViewHeightHX", 3);
+        SetField(map, "_mapContainer", container);
+        SetField(map, "_viewWidthHex", 2);
+        SetField(map, "_viewHeightHex", 3);
         AoWHSMap.Current = map;
         var sequence = new ImageSequence(null!);
-        SetField(sequence, "FImageLibrary", library);
+        SetField(sequence, "_imageLibrary", library);
         sequence.SequenceMode = SequenceMode.Up;
         var cast = new ImageSequenceList(null!, null!);
         ((DelphiList)cast).Add(sequence);
         var spell = new EarthMastery(null!);
-        spell.FCastImages?.Dispose();
-        spell.FCastImages = cast;
-        var animation = new FinishedAnimation { FFrameCounter = 100 };
+        spell.CastImages?.Dispose();
+        spell.CastImages = cast;
+        var animation = new FinishedAnimation { FrameCounter = 100 };
 
         spell.ShowAnimation(animation, 0, 0, default);
         Assert.Equal([(24, 16), (24, 80), (56, 64)], recorder.Calls);
         Assert.False(animation.Finished);
 
-        animation.FFrameCounter = 50;
+        animation.FrameCounter = 50;
         spell.ShowAnimation(animation, 0, 0, default);
         Assert.True(animation.Finished);
     }

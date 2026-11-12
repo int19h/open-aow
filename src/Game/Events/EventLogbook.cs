@@ -12,133 +12,133 @@ namespace Aow.Game.Events;
 public partial class EventLogbook : EngineObject
 {
     // EventLog.pas:532
-    public new const int ClassID = 131808;
+    public new const int ClassId = 131808;
 
-    public EventLogList FEvents;
-    public sbyte FPlayer;
-    public int FNextID;
+    public EventLogList Events;
+    public sbyte Player;
+    public int NextId;
 
     // EventLog.pas:529
     public override void Dispose()
     {
-        FEvents?.Dispose();
+        Events?.Dispose();
         base.Dispose();
     }
 
     // EventLog.pas:547
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FEvents, 10);
-        Stream.rwInteger(ref FNextID, 11);
+        base.ReadWrite(stream);
+        stream.rwEObject(Events, 10);
+        stream.rwInteger(ref NextId, 11);
     }
 
     // EventLog.pas:526
     public EventLogbook(ECustomNode owner) : base(owner)
     {
-        FEvents = new EventLogList(null);
+        Events = new EventLogList(null);
     }
 
     // EventLog.pas:535
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        FEvents.MsgProc(ref Msg, Sender);
+        base.MessageProc(ref message, sender);
+        Events.MessageProc(ref message, sender);
     }
 
     // EventLog.pas:538
-    public int GetCount() => FEvents.GetCount();
+    public int GetCount() => Events.GetCount();
 
     // EventLog.pas:541
-    public NotifyEvent<object> GetOnChanged() => FEvents.FOnChanged;
+    public NotifyEvent<object> GetOnChanged() => Events.OnChanged;
 
     // EventLog.pas:544
-    public void SetOnChanged(NotifyEvent<object> Value)
+    public void SetOnChanged(NotifyEvent<object> value)
     {
-        FEvents.FOnChanged = Value;
+        Events.OnChanged = value;
     }
 
     // EventLog.pas:550
-    public void ListEvents(StringCollection Strings)
+    public void ListEvents(StringCollection strings)
     {
-        for (int I = 0, last = FEvents.FChildren.Count - 1; I <= last; I++)
+        for (int I = 0, last = Events._children.Count - 1; I <= last; I++)
         {
-            if (((EventLog)FEvents.FChildren.List[I]).GetVisible())
+            if (((EventLog)Events._children.List[I]).GetVisible())
             {
-                Strings.AddObject(((EventLog)FEvents.FChildren.List[I]).GetText(), IntToObject(I));
+                strings.AddObject(((EventLog)Events._children.List[I]).GetText(), IntToObject(I));
             }
         }
     }
 
     // EventLog.pas:558
-    public EventLog GetLogs(int Index) => (EventLog)FEvents.FChildren.List[Index];
+    public EventLog GetLogs(int index) => (EventLog)Events._children.List[index];
 
     // EventLog.pas:561
-    public int CreateUniqueID()
+    public int CreateUniqueId()
     {
-        FNextID += 1;
-        while (FindID(FNextID) != null)
+        NextId += 1;
+        while (FindId(NextId) != null)
         {
-            FNextID += 1;
-            if (FNextID > 16777215)
+            NextId += 1;
+            if (NextId > 16777215)
             {
-                FNextID = 1;
+                NextId = 1;
             }
         }
 
-        return FNextID;
+        return NextId;
     }
 
     // EventLog.pas:572
-    public EventLog FindID(int ID) => FEvents.FindID(ID);
+    public EventLog FindId(int id) => Events.FindId(id);
 
     // EventLog.pas:575
-    public int FindFirstLog(int Player, int Day)
+    public int FindFirstLog(int player, int day)
     {
-        int Result = 0;
-        while (Result != this.FEvents.FChildren.Count && (((EventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((EventLog)this.FEvents.FChildren.List[Result]).FDay != Day))
+        int result = 0;
+        while (result != this.Events._children.Count && (((EventLog)this.Events._children.List[result])._player != player || ((EventLog)this.Events._children.List[result])._day != day))
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == this.FEvents.FChildren.Count)
+        if (result == this.Events._children.Count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // EventLog.pas:587
-    public int FindFirstLogEx(int AClassID, int Player, int Day)
+    public int FindFirstLog(int classId, int player, int day)
     {
-        int Result = 0;
-        while (Result != this.FEvents.FChildren.Count && (((EventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((EventLog)this.FEvents.FChildren.List[Result]).FDay != Day || ((EngineObject)this.FEvents.FChildren.List[Result]).EClass.ClassID != AClassID))
+        int result = 0;
+        while (result != this.Events._children.Count && (((EventLog)this.Events._children.List[result])._player != player || ((EventLog)this.Events._children.List[result])._day != day || ((EngineObject)this.Events._children.List[result]).EngineClass.ClassId != classId))
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == this.FEvents.FChildren.Count)
+        if (result == this.Events._children.Count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // EventLog.pas:600
-    public void AddEvent(EventLog Event)
+    public void AddEvent(EventLog eventValue)
     {
-        Assert(AoWHSMap.Current.GetSynchronised(), "", "EventLog.pas", 704);
-        Event.SetOwner(FEvents);
-        Event.FID = CreateUniqueID();
-        Event.NotifyLogged(this);
+        Assert(AoWHSMap.Current.GetSynchronized(), "", "EventLog.pas", 704);
+        eventValue.SetOwner(Events);
+        eventValue.Id = CreateUniqueId();
+        eventValue.NotifyLogged(this);
     }
 
     // EventLog.pas:710
-    public void RemoveEvent(EventLog Event)
+    public void RemoveEvent(EventLog eventValue)
     {
-        FEvents.RemoveChild(Event);
+        Events.RemoveChild(eventValue);
     }
 
 }

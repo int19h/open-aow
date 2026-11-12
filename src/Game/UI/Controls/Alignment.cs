@@ -3,59 +3,59 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
-// how a component sizes and places itself inside its owner (ReAlign). FWidthPercent,
-// FHeightPercent, FLeftOffPercent, FRightOffPercent, FTopOffPercent, FBottomOffPercent,
-// FLeftOffset, FRightOffset, FTopOffset, FBottomOffset, FAlignWidth, FAlignHeight. It does not
+// how a component sizes and places itself inside its owner (ReAlign). _widthPercent,
+// _heightPercent, _leftOffsetPercent, _rightOffsetPercent, _topOffsetPercent, _bottomOffsetPercent,
+// _leftOffset, _rightOffset, _topOffset, _bottomOffset, _alignWidth, _alignHeight. It does not
 // override Assign, so TAoWComponent.SetAlign raises FormatException (original bug)
 public partial class Alignment : Persistent
 {
-    internal byte FWidthPercent;
-    internal byte FHeightPercent;
-    internal int FLeftOffPercent;
-    internal int FRightOffPercent;
-    internal int FTopOffPercent;
-    internal int FBottomOffPercent;
-    internal int FLeftOffset;
-    internal int FRightOffset;
-    internal int FTopOffset;
-    internal int FBottomOffset;
-    internal AlignWidth FAlignWidth;
-    internal AlignHeight FAlignHeight;
+    internal byte _widthPercent;
+    internal byte _heightPercent;
+    internal int _leftOffsetPercent;
+    internal int _rightOffsetPercent;
+    internal int _topOffsetPercent;
+    internal int _bottomOffsetPercent;
+    internal int _leftOffset;
+    internal int _rightOffset;
+    internal int _topOffset;
+    internal int _bottomOffset;
+    internal AlignWidth _alignWidth;
+    internal AlignHeight _alignHeight;
 
     [Published]
-    public AlignWidth AlignWidth { get => FAlignWidth; set => FAlignWidth = value; }
+    public AlignWidth AlignWidth { get => _alignWidth; set => _alignWidth = value; }
 
     [Published]
-    public AlignHeight AlignHeight { get => FAlignHeight; set => FAlignHeight = value; }
+    public AlignHeight AlignHeight { get => _alignHeight; set => _alignHeight = value; }
 
     [Published]
-    public byte HeightPercent { get => FHeightPercent; set => FHeightPercent = value; }
+    public byte HeightPercent { get => _heightPercent; set => _heightPercent = value; }
 
     [Published]
-    public byte WidthPercent { get => FWidthPercent; set => FWidthPercent = value; }
+    public byte WidthPercent { get => _widthPercent; set => _widthPercent = value; }
 
     [Published]
-    public int LeftOffPercent { get => FLeftOffPercent; set => FLeftOffPercent = value; }
+    public int LeftOffsetPercent { get => _leftOffsetPercent; set => _leftOffsetPercent = value; }
 
     [Published]
-    public int RightOffPercent { get => FRightOffPercent; set => FRightOffPercent = value; }
+    public int RightOffsetPercent { get => _rightOffsetPercent; set => _rightOffsetPercent = value; }
 
     [Published]
-    public int TopOffPercent { get => FTopOffPercent; set => FTopOffPercent = value; }
+    public int TopOffsetPercent { get => _topOffsetPercent; set => _topOffsetPercent = value; }
 
     [Published]
-    public int BottomOffPercent { get => FBottomOffPercent; set => FBottomOffPercent = value; }
+    public int BottomOffsetPercent { get => _bottomOffsetPercent; set => _bottomOffsetPercent = value; }
 
     [Published]
-    public int LeftOffset { get => FLeftOffset; set => FLeftOffset = value; }
+    public int LeftOffset { get => _leftOffset; set => _leftOffset = value; }
 
     [Published]
-    public int RightOffset { get => FRightOffset; set => FRightOffset = value; }
+    public int RightOffset { get => _rightOffset; set => _rightOffset = value; }
 
     [Published]
-    public int TopOffset { get => FTopOffset; set => FTopOffset = value; }
+    public int TopOffset { get => _topOffset; set => _topOffset = value; }
 
     [Published]
-    public int BottomOffset { get => FBottomOffset; set => FBottomOffset = value; }
+    public int BottomOffset { get => _bottomOffset; set => _bottomOffset = value; }
 
 }

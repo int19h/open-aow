@@ -14,14 +14,14 @@ public partial class DivineStorm : BlastStorm
     { }
 
     // Storms.pas:608
-    public new const int ClassID = 135740;
+    public new const int ClassId = 135740;
 
     // Storms.pas:618
-    public override void ChangeStormTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+    public override void ChangeStormTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        if (TerrainType != 6 && TerrainType != 0)
+        if (terrainType != 6 && terrainType != 0)
         {
-            TerrainType = 1;
+            terrainType = 1;
         }
     }
 
@@ -34,6 +34,6 @@ public partial class DivineStorm : BlastStorm
     // Animation.pas:43
 
     // Storms.pas:613
-    public override string Name() => AbilityRules.TranslateRStr(GameTables.DivineStormRStr);
+    public override string Name() => AbilityRules.TranslateResourceString(GameTables.s_divineStormText);
 
 }

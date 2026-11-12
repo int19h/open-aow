@@ -7,7 +7,7 @@ namespace Aow.Game.World;
 public partial class MapObjectResourceMissingException : Exception
 {
     // SysUtils.pas:174
-    public MapObjectResourceMissingException(string Msg) : base(Msg)
+    public MapObjectResourceMissingException(string message) : base(message)
     {
     }
 }

@@ -11,7 +11,7 @@ public partial class AoWMapLevel : MapLevel
     public AoWMapLevel(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131091;
+    public new const int ClassId = 131091;
 
     // AoWHSMap.PAS:231
     public override EngineClass MapFieldClass() => EngineClass.Of<AoWMapField>();

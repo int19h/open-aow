@@ -12,60 +12,60 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-// FText, FXhx, FYhx, FLhx
+// Text, HexX, HexY, HexLevel
 public partial class UpdateSignTokenEvent : TokenEvent
 {
     public UpdateSignTokenEvent(ECustomNode owner) : base(owner)
     {
-        FText = new StringList();
+        Text = new StringList();
     }
 
     // Sign.pas:202
-    public new const int ClassID = 131343;
+    public new const int ClassId = 131343;
 
-    public StringList FText;
-    public sbyte FXhx;
-    public sbyte FYhx;
-    public sbyte FLhx;
+    public StringList Text;
+    public sbyte HexX;
+    public sbyte HexY;
+    public sbyte HexLevel;
 
     // Sign.pas:199
     public override void Dispose()
     {
-        FText?.Dispose();
+        Text?.Dispose();
         base.Dispose();
     }
 
     // Sign.pas:205
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStrings(FText, 15);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 16);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FYhx), 17);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FLhx), 18);
+        base.ReadWrite(stream);
+        stream.rwStrings(Text, 15);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexX), 16);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexY), 17);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref HexLevel), 18);
     }
 
     // Sign.pas:196
 
     // Sign.pas:214
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        Sign Sign;
-        Sign = (Sign)AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, FLhx).FindOwnedChild(131330);
-        if (Sign != null)
+        ExecuteResult result;
+        Sign sign;
+        sign = (Sign)AoWHSMap.Current.MapContainer.GetField(HexX, HexY, HexLevel).FindOwnedChild(131330);
+        if (sign != null)
         {
-            Sign.SetText(FText);
-            Sign.FTextSeen.Clear();
-            Sign.FTextSeen[AoWHSMap.Current.FCurrentPlayer] = true;
-            Result = ExecuteResult.Done;
+            sign.SetText(Text);
+            sign.TextSeen.Clear();
+            sign.TextSeen[AoWHSMap.Current.CurrentPlayer] = true;
+            result = ExecuteResult.Done;
         }
         else
         {
-            Result = ExecuteResult.DoneHalt;
+            result = ExecuteResult.DoneHalt;
         }
 
-        return Result;
+        return result;
     }
 
     // Sign.pas:54

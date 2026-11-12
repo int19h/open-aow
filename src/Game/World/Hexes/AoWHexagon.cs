@@ -17,57 +17,57 @@ public partial class AoWHexagon : Hexagon
     { }
 
     // AoWHex.pas:119
-    public override void ChangeTerrain(in HexSpriteTerrainInfo Msg)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
         MapObjectResource R;
-        if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
+        if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            var classID = FResource.EClass.ClassID;
-            R = AoWHSSet.Current.HexagonControl.GetRndResource(Msg.TerrainType, classID);
+            var classId = _resource.EngineClass.ClassId;
+            R = AoWHSSet.Current.HexControl.GetRandomResource(message.TerrainType, classId);
             if (R != null)
             {
                 SetResource(R);
                 UpdateTransitions();
-                AoWHSMap.Current.InvalidateStaticScene(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ((MapField)Owner).Lhx);
+                AoWHSMap.Current.InvalidateStaticScene(((MapField)Owner).HexX, ((MapField)Owner).HexY, ((MapField)Owner).HexLevel);
             }
             else
             {
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.Current.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                _resource.Engine.HexSpriteSet.HexControl.Place(AoWHSMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
         }
     }
 
     // AoWHex.pas:139
-    public override void TerrainChanged(in HexSpriteTerrainInfo Msg)
+    public override void TerrainChanged(in HexSpriteTerrainInfo message)
     {
-        if (Set<byte>.WithBounds(0, 255).With(0).With(6).With(14).Contains((byte)Msg.TerrainType))
+        if (Set<byte>.WithBounds(0, 255).With(0).With(6).With(14).Contains((byte)message.TerrainType))
         {
-            if (Msg.TerrainType != 14)
+            if (message.TerrainType != 14)
             {
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.Current.MapContainer, xhx, yhx, lhx, Msg.TerrainType);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                _resource.Engine.HexSpriteSet.HexControl.Place(AoWHSMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
             else
             {
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                var xhx = GetXhx();
-                FResource.Engine.HSSet.HexagonControl.Place(AoWHSMap.Current.MapContainer, xhx, yhx, lhx, 0);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                var hexX = GetHexX();
+                _resource.Engine.HexSpriteSet.HexControl.Place(AoWHSMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
             }
         }
     }
 
     // AoWHex.pas:109
-    public override void NeighbourTerrainChanged(int HN, in HexSpriteTerrainInfo Info)
+    public override void NeighbourTerrainChanged(int hexNumber, in HexSpriteTerrainInfo info)
     {
-        if (HN == 0)
+        if (hexNumber == 0)
         {
-            switch (Info.HN)
+            switch (info.HexNumber)
             {
                 case 6:
                     UpdateTransition(0);
@@ -83,130 +83,130 @@ public partial class AoWHexagon : Hexagon
     }
 
     // AoWHex.pas:150
-    public override void UpdateTransition(byte Side)
+    public override void UpdateTransition(byte side)
     {
-        bool Shifted;
-        int NXhx = default;
-        int NYhx = default;
-        MapLevel MapLevel;
-        int NeighbourTerrain;
-        int OwnTerrain;
-        CustomImageLibrary IL;
-        int Image;
-        Shifted = false;
-        FTransitions[Side] = 255;
-        FTransitionSides = (byte)(FTransitionSides & SideClear[Side]);
-        MapLevel = (MapLevel)Owner.Owner;
-        HexGeometry.HNtoHX(SideHN[Side], ref NXhx, ref NYhx);
-        HexGeometry.TranslateHX(0, 0, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, NXhx, NYhx, ref NXhx, ref NYhx);
-        if (NXhx >= 0 && NYhx >= 0 && MapLevel.Width > NXhx && MapLevel.Height > NYhx)
+        bool shifted;
+        int nHexX = default;
+        int nHexY = default;
+        MapLevel mapLevel;
+        int neighbourTerrain;
+        int ownTerrain;
+        CustomImageLibrary imageLibrary;
+        int image;
+        shifted = false;
+        Transitions[side] = 255;
+        TransitionSides = (byte)(TransitionSides & s_sideClear[side]);
+        mapLevel = (MapLevel)Owner.Owner;
+        HexGeometry.HexNumberToHex(s_sideHexNumber[side], ref nHexX, ref nHexY);
+        HexGeometry.TranslateHex(0, 0, ((MapField)Owner).HexX, ((MapField)Owner).HexY, nHexX, nHexY, ref nHexX, ref nHexY);
+        if (nHexX >= 0 && nHexY >= 0 && mapLevel.Width > nHexX && mapLevel.Height > nHexY)
         {
-            NeighbourTerrain = MapLevel.GetField(NXhx, NYhx).TerrainType;
-            OwnTerrain = GetTerrain(0);
-            if (OwnTerrain != NeighbourTerrain && OwnTerrain >= 0 && NeighbourTerrain >= 0 && NeighbourTerrain != 8 && NeighbourTerrain != 7 && NeighbourTerrain != 15 && OwnTerrain != 15)
+            neighbourTerrain = mapLevel.GetField(nHexX, nHexY).TerrainType;
+            ownTerrain = GetTerrain(0);
+            if (ownTerrain != neighbourTerrain && ownTerrain >= 0 && neighbourTerrain >= 0 && neighbourTerrain != 8 && neighbourTerrain != 7 && neighbourTerrain != 15 && ownTerrain != 15)
             {
-                if (OwnTerrain == 9)
+                if (ownTerrain == 9)
                 {
-                    if (NeighbourTerrain == 10 || NeighbourTerrain == 13)
+                    if (neighbourTerrain == 10 || neighbourTerrain == 13)
                     {
                         var random = Random(3);
-                        FTransitions[Side] = (byte)(random * 3 + (Side + 182));
+                        Transitions[side] = (byte)(random * 3 + (side + 182));
                     }
                     else
                     {
-                        if (NeighbourTerrain != 8 && NeighbourTerrain != 7)
+                        if (neighbourTerrain != 8 && neighbourTerrain != 7)
                         {
-                            FTransitions[Side] = (byte)(Side + 147);
-                            Shifted = true;
+                            Transitions[side] = (byte)(side + 147);
+                            shifted = true;
                         }
                     }
                 }
                 else
                 {
-                    if (NeighbourTerrain == 9)
+                    if (neighbourTerrain == 9)
                     {
-                        if (OwnTerrain == 10 || OwnTerrain == 13)
+                        if (ownTerrain == 10 || ownTerrain == 13)
                         {
                             var random = Random(3);
-                            FTransitions[Side] = (byte)(random * 3 + (Side + 182));
+                            Transitions[side] = (byte)(random * 3 + (side + 182));
                         }
                         else
                         {
-                            if (OwnTerrain != 8 && OwnTerrain != 7)
+                            if (ownTerrain != 8 && ownTerrain != 7)
                             {
-                                FTransitions[Side] = (byte)(Side + 144);
+                                Transitions[side] = (byte)(side + 144);
                             }
                         }
                     }
                     else
                     {
-                        if (OwnTerrain == 13)
+                        if (ownTerrain == 13)
                         {
-                            if (NeighbourTerrain == 10)
+                            if (neighbourTerrain == 10)
                             {
-                                FTransitions[Side] = (byte)(Side + 208);
+                                Transitions[side] = (byte)(side + 208);
                             }
                             else
                             {
-                                FTransitions[Side] = (byte)(Side + 217);
-                                Shifted = true;
+                                Transitions[side] = (byte)(side + 217);
+                                shifted = true;
                             }
                         }
                         else
                         {
-                            if (NeighbourTerrain == 13)
+                            if (neighbourTerrain == 13)
                             {
-                                if (OwnTerrain == 10)
+                                if (ownTerrain == 10)
                                 {
-                                    FTransitions[Side] = (byte)(Side + 211);
-                                    Shifted = true;
+                                    Transitions[side] = (byte)(side + 211);
+                                    shifted = true;
                                 }
                                 else
                                 {
-                                    FTransitions[Side] = (byte)(Side + 214);
+                                    Transitions[side] = (byte)(side + 214);
                                 }
                             }
                             else
                             {
-                                if (OwnTerrain == 10)
+                                if (ownTerrain == 10)
                                 {
-                                    FTransitions[Side] = (byte)(Side + 163);
-                                    Shifted = true;
+                                    Transitions[side] = (byte)(side + 163);
+                                    shifted = true;
                                 }
                                 else
                                 {
-                                    if (NeighbourTerrain == 10)
+                                    if (neighbourTerrain == 10)
                                     {
-                                        FTransitions[Side] = (byte)(Side + 160);
+                                        Transitions[side] = (byte)(side + 160);
                                     }
                                     else
                                     {
-                                        if (NeighbourTerrain != 0 && NeighbourTerrain != 6)
+                                        if (neighbourTerrain != 0 && neighbourTerrain != 6)
                                         {
-                                            if (OwnTerrain == 6)
+                                            if (ownTerrain == 6)
                                             {
                                                 // { Original unreachable branch retained: the outer condition excludes terrain 0. }
-                                                if (NeighbourTerrain == 0)
+                                                if (neighbourTerrain == 0)
                                                 {
-                                                    FTransitions[Side] = (byte)(Side + 96);
+                                                    Transitions[side] = (byte)(side + 96);
                                                 }
                                                 else
                                                 {
-                                                    FTransitions[Side] = (byte)((byte)(NeighbourTerrain << 4) + 3 + Side);
-                                                    Shifted = true;
+                                                    Transitions[side] = (byte)((byte)(neighbourTerrain << 4) + 3 + side);
+                                                    shifted = true;
                                                 }
                                             }
                                             else
                                             {
-                                                if (OwnTerrain == 0)
+                                                if (ownTerrain == 0)
                                                 {
-                                                    FTransitions[Side] = (byte)(Side + 3);
-                                                    Shifted = true;
+                                                    Transitions[side] = (byte)(side + 3);
+                                                    shifted = true;
                                                 }
                                                 else
                                                 {
                                                     var random = Random(3);
-                                                    FTransitions[Side] = (byte)(random * 3 + ((byte)(OwnTerrain << 4) + Side + 6));
+                                                    Transitions[side] = (byte)(random * 3 + ((byte)(ownTerrain << 4) + side + 6));
                                                 }
                                             }
                                         }
@@ -219,26 +219,26 @@ public partial class AoWHexagon : Hexagon
             }
         }
 
-        if (FTransitions[Side] != 255)
+        if (Transitions[side] != 255)
         {
-            IL = ((HexagonResource)FResource).FTransitionLibrary;
-            Image = FTransitions[Side];
-            if (Image < IL.Count)
+            imageLibrary = ((HexagonResource)_resource).TransitionLibrary;
+            image = Transitions[side];
+            if (image < imageLibrary.Count)
             {
-                if (IL[Image] != null)
+                if (imageLibrary[image] != null)
                 {
-                    FTransitionSides = (byte)(FTransitionSides + (1 << Side));
-                    if (Shifted)
+                    TransitionSides = (byte)(TransitionSides + (1 << side));
+                    if (shifted)
                     {
-                        FTransitionSides = (byte)(FTransitionSides + (1 << (Side + 3)));
+                        TransitionSides = (byte)(TransitionSides + (1 << (side + 3)));
                     }
                 }
             }
         }
     }
 
-    private static ByteArray3 SideHN = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
-    private static ByteArray3 SideClear = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 246, 237, 219 });
+    private static ByteArray3 s_sideHexNumber = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 6, 1, 2 });
+    private static ByteArray3 s_sideClear = ByteArray3.From((ReadOnlySpan<byte>)new byte[3] { 246, 237, 219 });
 
     public new partial class Resource : HexagonResource
     {
@@ -246,18 +246,18 @@ public partial class AoWHexagon : Hexagon
         { }
 
         // AoWHex.pas:254
-        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+        public override void MessageProc(ref EngineMessage message, EngineObject sender)
         {
-            if (Msg.MsgID == 65556)
+            if (message.MessageId == 65556)
             {
-                var terrain = FTerrainList.Terrain[0];
+                var terrain = _terrainList.Terrain[0];
                 if (Set<byte>.WithBounds(0, 255).With(0).With(6).Contains((byte)terrain))
                 {
                     return;
                 }
             }
 
-            base.MsgProc(ref Msg, Sender);
+            base.MessageProc(ref message, sender);
         }
     }
 }

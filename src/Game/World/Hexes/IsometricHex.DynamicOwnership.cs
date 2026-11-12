@@ -10,40 +10,40 @@ public partial class IsometricHex
 {
     protected void UpdateTransitionCore(Type peer, bool water, Action<int, int> shore = null)
     {
-        FOpenSides = 0;
-        FSides &= 0xC0;
+        OpenSides = 0;
+        Sides &= 0xC0;
         var field = (MapField)Owner;
         var level = (MapLevel)field.Owner;
         HexNumberWalkData walk = default;
-        HexNumberWalkData.InitHNWalk(ref walk, field.Xhx, field.Yhx, 1);
-        while (walk.HN <= 6)
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, field.HexX, field.HexY, 1);
+        while (walk.HexNumber <= 6)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 var neighbour = level.GetField(walk.X, walk.Y);
-                var sprite = neighbour.FindOwnedHS(peer);
+                var sprite = neighbour.FindOwnedHexSprite(peer);
                 bool peerFound = sprite != null;
-                sprite ??= neighbour.FindOwnedHS(typeof(BorderHexagon));
+                sprite ??= neighbour.FindOwnedHexSprite(typeof(BorderHexagon));
                 if (sprite == null)
                 {
-                    FOpenSides |= (byte)(1 << (walk.HN - 1));
-                    if (water) shore(walk.HN, neighbour.TerrainType switch { 3 => 40, 5 => 80, _ => 0 });
+                    OpenSides |= (byte)(1 << (walk.HexNumber - 1));
+                    if (water) shore(walk.HexNumber, neighbour.TerrainType switch { 3 => 40, 5 => 80, _ => 0 });
                 }
                 else if ((!water || peerFound) && neighbour.TerrainType != GetTerrain(0))
-                    FSides |= (byte)(1 << (walk.HN - 1));
+                    Sides |= (byte)(1 << (walk.HexNumber - 1));
             }
-            HexNumberWalkData.WalkToNextHN(ref walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
-        if (water || FOpenSides != 0)
+        if (water || OpenSides != 0)
         {
-            if (FDynamic == null) FDynamic = new DynamicIsometricHex(this);
+            if (Dynamic == null) Dynamic = new DynamicIsometricHex(this);
         }
-        else if (FDynamic != null)
+        else if (Dynamic != null)
         {
-            FDynamic?.Dispose();
-            FDynamic = null;
-            FSides = (byte)(RtlUnit.Random(4) << 6);
-            FResource.Engine.HSMap.InvalidateStaticScene(field.Xhx, field.Yhx, field.Lhx);
+            Dynamic?.Dispose();
+            Dynamic = null;
+            Sides = (byte)(RtlUnit.Random(4) << 6);
+            _resource.Engine.HexSpriteMap.InvalidateStaticScene(field.HexX, field.HexY, field.HexLevel);
         }
     }
 }

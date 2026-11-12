@@ -9,9 +9,9 @@ public partial class BehaviorAIGroup : AIGroup
     { }
 
     // BehaviorAG.pas:137
-    public override bool CooperateWithGroup(AIGroup Group, AIGroupControlTarget Target)
+    public override bool CooperateWithGroup(AIGroup group, AIGroupControlTarget target)
     {
-        bool Result = base.CooperateWithGroup(Group, Target);
-        return Result || Group.GroupClass.Behavior == GroupBehavior.Fortify;
+        bool result = base.CooperateWithGroup(group, target);
+        return result || group.GroupClass.Behavior == GroupBehavior.Fortify;
     }
 }

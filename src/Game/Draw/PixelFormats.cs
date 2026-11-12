@@ -9,13 +9,13 @@ namespace Aow.Game.Draw;
 
 public static class PixelFormats
 {
-    internal static void RegisterBltRect(SurfaceView Src, SurfaceView Dst, int Width, int Height) => Blit.RegisterBltRect(Src, Dst, Width, Height);
+    internal static void RegisterBlitRectangle(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RegisterBlitRectangle(source, destination, width, height);
 
-    internal static void RepMovsdBltRect(SurfaceView Src, SurfaceView Dst, int Width, int Height) => Blit.RepMovsdBltRect(Src, Dst, Width, Height);
+    internal static void RepMovsdBlitRectangle(SurfaceView source, SurfaceView destination, int width, int height) => Blit.RepMovsdBlitRectangle(source, destination, width, height);
 
-    internal static int GetElapsedMilliSeconds() => (int)RtlUnit.Clock.TickCount;
+    internal static int GetElapsedMilliseconds() => (int)RtlUnit.Clock.TickCount;
 
-    internal static int GetElapsedMicroSeconds() => (int)RtlUnit.Clock.TickCount * 1000;
+    internal static int GetElapsedMicroseconds() => (int)RtlUnit.Clock.TickCount * 1000;
 
     internal const byte GFXE_OK = 0;
 
@@ -45,130 +45,130 @@ public static class PixelFormats
 
     internal const byte DD_OK = 0;
 
-    internal static bool ValidImageFile(string FileName)
+    internal static bool ValidImageFile(string fileName)
     {
-        var extractFileExt = ExtractFileExt(FileName);
+        var extractFileExt = ExtractFileExt(fileName);
         return GraphicsState.ImageFileClassList.FindClass(extractFileExt) != null;
     }
 
-    internal static Surface CreateSurfaceFromImageFile(string FileName)
+    internal static Surface CreateSurfaceFromImageFile(string fileName)
     {
-        Surface Result;
+        Surface result;
         ImageFileClass C;
-        var extractFileExt = ExtractFileExt(FileName);
+        var extractFileExt = ExtractFileExt(fileName);
         C = GraphicsState.ImageFileClassList.FindClass(extractFileExt);
         if (C != null)
         {
-            Result = C.CreateSurface(FileName);
+            result = C.CreateSurface(fileName);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int MASKtoPFID(int BitCount, int RMask, int GMask, int BMask, int AMask)
+    internal static int MaskToPixelFormatId(int bitCount, int rMask, int gMask, int bMask, int mask)
     {
-        ByteArray4 Order = default;
-        bool Swapped;
-        Int32Array4 Masks = default;
-        int Bits;
+        ByteArray4 order = default;
+        bool swapped;
+        Int32Array4 masks = default;
+        int bits;
         int T;
-        int Result = BitCount;
-        Masks[0] = AMask;
-        Order[3] = 3;
-        Masks[1] = BMask;
-        Order[0] = 0;
-        Masks[2] = GMask;
-        Order[1] = 1;
-        Masks[3] = RMask;
-        Order[2] = 2;
+        int result = bitCount;
+        masks[0] = mask;
+        order[3] = 3;
+        masks[1] = bMask;
+        order[0] = 0;
+        masks[2] = gMask;
+        order[1] = 1;
+        masks[3] = rMask;
+        order[2] = 2;
         do
         {
-            Swapped = false;
+            swapped = false;
             for (int I = 0; I <= 2; I++)
             {
-                if (((Masks[Order[I]] < 0 || Masks[Order[I + 1]] < Masks[Order[I]]) && Masks[Order[I + 1]] > 0) || (Masks[Order[I]] == 0 && Masks[Order[I + 1]] != 0))
+                if (((masks[order[I]] < 0 || masks[order[I + 1]] < masks[order[I]]) && masks[order[I + 1]] > 0) || (masks[order[I]] == 0 && masks[order[I + 1]] != 0))
                 {
-                    T = Order[I];
-                    Order[I] = Order[I + 1];
-                    Order[I + 1] = (byte)T;
-                    Swapped = true;
+                    T = order[I];
+                    order[I] = order[I + 1];
+                    order[I + 1] = (byte)T;
+                    swapped = true;
                 }
             }
         }
-        while (!!Swapped);
+        while (!!swapped);
         for (int I = 0; I <= 3; I++)
         {
-            Result = Result + (I << (Order[I] * 2 + 8));
+            result = result + (I << (order[I] * 2 + 8));
         }
 
         for (int I = 0; I <= 3; I++)
         {
-            Bits = 0;
-            while (Masks[I] != 0)
+            bits = 0;
+            while (masks[I] != 0)
             {
-                if ((Masks[I] & 1) != 0)
+                if ((masks[I] & 1) != 0)
                 {
-                    Bits += 1;
+                    bits += 1;
                 }
 
-                Masks[I] = (int)(((uint)Masks[I]) >> 1);
+                masks[I] = (int)(((uint)masks[I]) >> 1);
             }
 
-            Result = Result + (Bits << (I * 4 + 16));
+            result = result + (bits << (I * 4 + 16));
         }
 
-        return Result;
+        return result;
     }
 
     internal static Span<ushort> Words(Span<byte> row) => MemoryMarshal.Cast<byte, ushort>(row);
 
-    internal static int PixelInfo2Color(int PixelInfo, int PixelFormatID, Palette Palette) => PixelRemap.RemapPixelInfo(PixelInfo, PixelFormatID, Palette, pfBGR24, null);
+    internal static int PixelInfo2Color(int pixelInfo, int pixelFormatId, Palette palette) => PixelRemap.RemapPixelInfo(pixelInfo, pixelFormatId, palette, pfBGR24, null);
 
-    internal static string GetErrorMsg(int ErrorCode)
+    internal static string GetErrorMessage(int errorCode)
     {
-        string Result;
-        switch (ErrorCode)
+        string result;
+        switch (errorCode)
         {
             case GFXE_OK:
-                Result = "No ERROR occurred!";
+                result = "No ERROR occurred!";
                 break;
             case GFXE_ERROR:
-                Result = "Undefine ERROR occurred";
+                result = "Undefine ERROR occurred";
                 break;
             case GFXE_NOTSUPPORTED:
-                Result = "Function is not supported";
+                result = "Function is not supported";
                 break;
             case GFXE_PIXELFORMATNOTSUPPORTED:
-                Result = "PixelFormat is not supported";
+                result = "PixelFormat is not supported";
                 break;
             case GFXE_BITMAPFORMATNOTSUPPORTED:
-                Result = "Bitmap format is not supported";
+                result = "Bitmap format is not supported";
                 break;
             default:
-                Result = "Undocumented Error (Error Code:" + IntToStr(ErrorCode) + ")";
+                result = "Undocumented Error (Error Code:" + IntToStr(errorCode) + ")";
                 break;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static void ForceOptimal16BitPixelFormatID(int PixelFormatID)
+    internal static void ForceOptimal16BitPixelFormatId(int pixelFormatId)
     {
-        if (PixelFormatID == pfRGB565 || PixelFormatID == pfRGB555)
+        if (pixelFormatId == pfRGB565 || pixelFormatId == pfRGB555)
         {
-            GraphicsState.ForcedPixelFormatID = PixelFormatID;
+            GraphicsState.s_forcedPixelFormatId = pixelFormatId;
         }
         else
         {
-            GraphicsState.ForcedPixelFormatID = 0;
+            GraphicsState.s_forcedPixelFormatId = 0;
         }
     }
 
-    internal static int GetOptimalPixelFormatID(int BitCount)
+    internal static int GetOptimalPixelFormatId(int bitCount)
     {
         /* TODO: Implement Forms.Width in the platform or editor service. */
         throw new NotImplementedException();
@@ -187,36 +187,36 @@ public static class PixelFormats
 
     internal static void FillWord(Span<byte> destination, int count, int value) => Blit.FillWord(destination, count, value);
 
-    internal static void FillTrippleByte(Span<byte> destination, int count, int value) => Blit.FillTrippleByte(destination, count, value);
+    internal static void FillTripleByte(Span<byte> destination, int count, int value) => Blit.FillTripleByte(destination, count, value);
 
-    public static int RDTSC() => 0;
+    public static int ReadTimeStampCounter() => 0;
 
-    public static bool CPUIDSupported() => false;
+    public static bool CpuIdSupported() => false;
 
-    public static bool MMXsupport() => false;
+    public static bool MmxSupport() => false;
 
-    internal static int Color2PixelInfo(int Color, int PixelFormatID, Palette Palette)
+    internal static int Color2PixelInfo(int color, int pixelFormatId, Palette palette)
     {
-        int r = Color & 255, g = (Color >> 8) & 255, b = (Color >> 16) & 255;
-        return PixelFormatID switch
+        int r = color & 255, g = (color >> 8) & 255, b = (color >> 16) & 255;
+        return pixelFormatId switch
         {
-            pfPAL8 => Palette is null ? throw new InvalidOperationException("Palette required") : Palette.GetNearestColor(Color),
+            pfPAL8 => palette is null ? throw new InvalidOperationException("Palette required") : palette.GetNearestColor(color),
             pfRGB555 or pfARGB1555 => ((r & 248) << 7) + ((g & 248) << 2) + (b >> 3),
             pfRGB565 => ((r & 248) << 8) + ((g & 252) << 3) + (b >> 3),
             pfRGB24 or pfRGB32 or pfXRGB32 => (r << 16) + (g << 8) + b,
-            pfBGR24 => Color & 0xFFFFFF,
+            pfBGR24 => color & 0xFFFFFF,
             _ => throw new NotSupportedException("Pixel format")
         };
     }
 
-    public static int ColorFillSD(Rect R, int Color, in LockedSurface SD)
+    public static int ColorFillSurfaceDescription(Rect R, int color, in LockedSurface lockedSurface)
     {
-        if (SD.PixelFormatID != pfRGB555 && SD.PixelFormatID != pfARGB1555 && SD.PixelFormatID != pfRGB565) return GFXE_NOTSUPPORTED;
-        int left = Math.Max(R.Left, SD.ClipRect.Left), right = Math.Min(R.Right, SD.ClipRect.Right);
-        int top = Math.Max(R.Top, SD.ClipRect.Top), bottom = Math.Min(R.Bottom, SD.ClipRect.Bottom);
+        if (lockedSurface.PixelFormatId != pfRGB555 && lockedSurface.PixelFormatId != pfARGB1555 && lockedSurface.PixelFormatId != pfRGB565) return GFXE_NOTSUPPORTED;
+        int left = Math.Max(R.Left, lockedSurface.ClipRectangle.Left), right = Math.Min(R.Right, lockedSurface.ClipRectangle.Right);
+        int top = Math.Max(R.Top, lockedSurface.ClipRectangle.Top), bottom = Math.Min(R.Bottom, lockedSurface.ClipRectangle.Bottom);
         if (left >= right || top >= bottom) return GFXE_OK;
-        int pixel = Color2PixelInfo(Color, SD.PixelFormatID, null);
-        for (int y = top; y < bottom; y++) Blit.FillWord(SD.Data.AsSpan(SD.DataIndex + y * SD.Pitch + left * 2), right - left, pixel);
+        int pixel = Color2PixelInfo(color, lockedSurface.PixelFormatId, null);
+        for (int y = top; y < bottom; y++) Blit.FillWord(lockedSurface.Data.AsSpan(lockedSurface.DataIndex + y * lockedSurface.Pitch + left * 2), right - left, pixel);
         return GFXE_OK;
     }
 

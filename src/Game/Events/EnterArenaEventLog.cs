@@ -11,121 +11,121 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Events;
 
-// FArena, FSelection, FTrainable, FUnitIDs
+// Arena, Selection, Trainable, UnitIds
 public partial class EnterArenaEventLog : EventLog
 {
     // Arena.pas:259
     public EnterArenaEventLog(ECustomNode owner) : base(owner)
     {
-        FUnitIDs = new Int32List();
+        UnitIds = new Int32List();
     }
 
-    public Arena FArena;
-    public byte FSelection;
-    public byte FTrainable;
-    public Int32List FUnitIDs;
+    public Arena Arena;
+    public byte Selection;
+    public byte Trainable;
+    public Int32List UnitIds;
 
     // Arena.pas:265
     public override void Dispose()
     {
-        FUnitIDs?.Dispose();
+        UnitIds?.Dispose();
         base.Dispose();
     }
 
     // Arena.pas:271
-    public int GetCount() => FUnitIDs.Count;
+    public int GetCount() => UnitIds.Count;
 
     // Arena.pas:274
-    public Troop GetUnit(int Index)
+    public Troop GetUnit(int index)
     {
-        Troop Result;
-        if (Index >= 0 && Index < FUnitIDs.Count)
+        Troop result;
+        if (index >= 0 && index < UnitIds.Count)
         {
-            var unitID = FUnitIDs[Index];
-            Result = AoWHSMap.Current.FUnitControl.FindUnit(unitID);
+            var unitId = UnitIds[index];
+            result = AoWHSMap.Current.UnitControl.FindUnit(unitId);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Arena.pas:281
-    public void SetSelection(byte Value)
+    public void SetSelection(byte value)
     {
-        FSelection = (byte)(Value & FTrainable);
+        Selection = (byte)(value & Trainable);
     }
 
     // Arena.pas:284
-    public bool Train(ref string ErrorText)
+    public bool Train(ref string errorText)
     {
-        Int32List Units;
-        Units = new Int32List();
-        for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
+        Int32List units;
+        units = new Int32List();
+        for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)
         {
-            if (((1 << I) & FSelection) != 0)
+            if (((1 << I) & Selection) != 0)
             {
-                Units.Add(FUnitIDs[I]);
+                units.Add(UnitIds[I]);
             }
         }
 
-        bool Result = FArena.TrainUnits(AoWHSMap.Current.FSeatedPlayer, Units, ref ErrorText);
-        Units?.Dispose();
-        return Result;
+        bool result = Arena.TrainUnits(AoWHSMap.Current.SeatedPlayer, units, ref errorText);
+        units?.Dispose();
+        return result;
     }
 
     // Arena.pas:294
-    public bool CanTrain(ref string ErrorText)
+    public bool CanTrain(ref string errorText)
     {
-        Int32List Units;
-        Units = new Int32List();
-        for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
+        Int32List units;
+        units = new Int32List();
+        for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)
         {
-            if (((1 << I) & FSelection) != 0)
+            if (((1 << I) & Selection) != 0)
             {
-                Units.Add(FUnitIDs[I]);
+                units.Add(UnitIds[I]);
             }
         }
 
-        bool Result = FArena.CanTrainUnits(AoWHSMap.Current.FSeatedPlayer, Units, ref ErrorText);
-        Units?.Dispose();
-        return Result;
+        bool result = Arena.CanTrainUnits(AoWHSMap.Current.SeatedPlayer, units, ref errorText);
+        units?.Dispose();
+        return result;
     }
 
     // Arena.pas:304
     public string GetSelectionInfo()
     {
-        string Result;
-        int Total;
-        Troop AUnit;
-        Total = 0;
-        for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
+        string result;
+        int total;
+        Troop troop;
+        total = 0;
+        for (int I = 0, last = UnitIds.Count - 1; I <= last; I++)
         {
-            if (((1 << I) & FSelection) != 0)
+            if (((1 << I) & Selection) != 0)
             {
-                var unitID = FUnitIDs[I];
-                AUnit = AoWHSMap.Current.FUnitControl.FindUnit(unitID);
-                if (AUnit != null)
+                var unitId = UnitIds[I];
+                troop = AoWHSMap.Current.UnitControl.FindUnit(unitId);
+                if (troop != null)
                 {
-                    Total += FArena.UnitTrainCost(AUnit);
+                    total += Arena.UnitTrainCost(troop);
                 }
             }
         }
 
-        if (Total != 0)
+        if (total != 0)
         {
-            Result = RtlUnit.Format(AbilityRules.TranslateRStr(TotalCostXRStr), [IntToStr(Total)]);
+            result = RtlUnit.Format(AbilityRules.TranslateResourceString(s_totalCostFormat), [IntToStr(total)]);
         }
         else
         {
-            Result = "";
+            result = "";
         }
 
-        return Result;
+        return result;
     }
 
-    private static readonly string TotalCostXRStr = "Total Cost: %s";
+    private static readonly string s_totalCostFormat = "Total Cost: %s";
 
 }

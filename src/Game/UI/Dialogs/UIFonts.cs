@@ -15,8 +15,8 @@ public partial class UIFonts : DataModule
     public ImageLibraryFont Age10s;
     public ImageLibraryFont Age8s;
     public ImageLibraryFont Sessis14G;
-    public ImageLibraryFont AoW15WhiteGrey;
-    public ImageLibraryFont AoW15BlackBrown;
+    public ImageLibraryFont Font15WhiteGrey;
+    public ImageLibraryFont Font15BlackBrown;
     public ImageLibraryFont Age10LB;
     public ImageLibraryFont Age10b;
     public ImageLibraryFont Age10bs;

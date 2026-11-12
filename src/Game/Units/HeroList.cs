@@ -11,38 +11,38 @@ public partial class HeroList : EReferenceNode
     { }
 
     // Hero.PAS:2395
-    public Hero FindHero(int ID)
+    public Hero FindHero(int id)
     {
         int I;
         I = 0;
-        Hero Result = null;
-        while (I != FChildren.Count && Result == null)
+        Hero result = null;
+        while (I != _children.Count && result == null)
         {
-            if (ID == ((Troop)FChildren.List[I]).FUnitID)
+            if (id == ((Troop)_children.List[I]).UnitId)
             {
-                Result = (Hero)FChildren.List[I];
+                result = (Hero)_children.List[I];
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2407
-    public Hero GetHero(int Index)
+    public Hero GetHero(int index)
     {
-        Hero Result;
-        if (Index >= 0 && Index < FChildren.Count)
+        Hero result;
+        if (index >= 0 && index < _children.Count)
         {
-            Result = (Hero)FChildren.List[Index];
+            result = (Hero)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:631

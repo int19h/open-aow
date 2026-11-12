@@ -38,61 +38,61 @@ public partial class UnitSelectionDialog : DataModule
     public Image DecoL;
     public Image DecoR;
     public Image SourceFace;
-    public Frame AoWFrame1;
+    public Frame Frame1;
     public Panel SelectionInfoPnl;
     public Label SelectionInfoLbl;
     public Label SelectionLbl;
     public IvTranslator Translator;
-    public UnitSelector FEvent;
-    public UnitSelectionActivation FEventLog;
+    public UnitSelector Event;
+    public UnitSelectionActivation EventLog;
 
     // AoWUnitSelDlg.pas:66
-    public void DrawUnit(int Index, int X, int Y, ref LockedSurface SD)
+    public void DrawUnit(int index, int X, int Y, ref LockedSurface lockedSurface)
     {
-        Rect SaveRect;
-        UnitShowInfo Info;
-        LibraryImage Img;
-        Units.Alignment Alignment;
-        if (Index < FEvent.FUnits.GetCount())
+        Rect saveRectangle;
+        UnitShowInfo info;
+        LibraryImage image;
+        Units.Alignment alignment;
+        if (index < Event.Units.GetCount())
         {
-            SaveRect = SD.ClipRect;
-            var rect = new Rect(X + 5, Y + 4, X + 46, Y + 56);
-            SD.ClipRect = rect;
-            Alignment = FEvent.FUnits.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
+            saveRectangle = lockedSurface.ClipRectangle;
+            var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
+            lockedSurface.ClipRectangle = rectangle;
+            alignment = Event.Units.GetUnit(index).GetAlignment();
+            if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                Img = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
-                Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
+                image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
-            Info = default;
-            Info.Direction = 3;
-            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            FEvent.FUnits.GetUnit(Index).ShowEx(X - 8, Y - 5, SD, Info);
-            if ((((int)(((uint)FEvent.FSelectable) >> Index)) & 1) == 0)
+            info = default;
+            info.Direction = 3;
+            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            Event.Units.GetUnit(index).Show(X - 8, Y - 5, lockedSurface, info);
+            if ((((int)(((uint)Event.Selectable) >> index)) & 1) == 0)
             {
-                Img = DialogHosts.IntGfxMod.UnitBGs[7];
-                Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
+                image = DialogHosts.UIGraphics.UnitBGs[7];
+                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
-            SD.ClipRect = SaveRect;
+            lockedSurface.ClipRectangle = saveRectangle;
         }
     }
 
     // AoWUnitSelDlg.pas:177
     public void ResetSelection()
     {
-        if (FEvent != null)
+        if (Event != null)
         {
-            FEvent.Release();
-            FEvent = null;
+            Event.Release();
+            Event = null;
         }
 
-        if (FEventLog != null)
+        if (EventLog != null)
         {
-            FEventLog.Release();
-            FEventLog = null;
+            EventLog.Release();
+            EventLog = null;
         }
 
         U1.Checked = false;
@@ -107,15 +107,15 @@ public partial class UnitSelectionDialog : DataModule
     }
 
     // AoWUnitSelDlg.pas:186
-    public void Execute(UnitSelectionActivation Request)
+    public void Execute(UnitSelectionActivation request)
     {
         Troop U;
         ResetSelection();
-        FEventLog = Request;
-        FEventLog.AddRef();
-        FEvent = Request.FUnitSelector;
-        FEvent.AddRef();
-        U = AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+        EventLog = request;
+        EventLog.AddRef();
+        Event = request.UnitSelector;
+        Event.AddRef();
+        U = AoWHSMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
         if (U != null)
         {
             SourcePnl.Visible = true;
@@ -127,23 +127,23 @@ public partial class UnitSelectionDialog : DataModule
             SourcePnl.Visible = false;
         }
 
-        SelectionLbl.Text = FEvent.FCaption;
+        SelectionLbl.Text = Event.Caption;
         Dlg.Visible = true;
     }
 
     // AoWUnitSelDlg.pas:95
     public void ClearEvent()
     {
-        if (FEvent != null)
+        if (Event != null)
         {
-            FEvent.Release();
-            FEvent = null;
+            Event.Release();
+            Event = null;
         }
 
-        if (FEventLog != null)
+        if (EventLog != null)
         {
-            FEventLog.Release();
-            FEventLog = null;
+            EventLog.Release();
+            EventLog = null;
         }
     }
 
@@ -157,50 +157,50 @@ public partial class UnitSelectionDialog : DataModule
     // AoWUnitSelDlg.pas:107
     public void SelectBtnClick()
     {
-        string Reason = "";
+        string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (FEvent.CanSelect(ref Reason))
+        if (Event.CanSelect(ref reason))
         {
-            FEvent.Select();
+            Event.Select();
             Dlg.Visible = false;
         }
         else
         {
-            AoWHSMap.Current.ShowWarning(Reason);
+            AoWHSMap.Current.ShowWarning(reason);
         }
     }
 
     // AoWUnitSelDlg.pas:120
-    public void U1Change(CheckBox Sender, int Slot)
+    public void U1Change(CheckBox sender, int slot)
     {
-        string Reason = "";
-        if (Sender.Checked)
+        string reason = "";
+        if (sender.Checked)
         {
-            if (!FEvent.FCanceled)
+            if (!Event.Canceled)
             {
-                FEvent.SetSelection((byte)(1 << Slot));
+                Event.SetSelection((byte)(1 << slot));
             }
             else
             {
-                FEvent.SetSelection((byte)(FEvent.FSelection | (1 << Slot)));
+                Event.SetSelection((byte)(Event.Selection | (1 << slot)));
             }
         }
         else
         {
-            FEvent.SetSelection((byte)(FEvent.FSelection & ~(1 << Slot)));
+            Event.SetSelection((byte)(Event.Selection & ~(1 << slot)));
         }
 
-        U1.Checked = (FEvent.FSelection & 1) != 0;
-        U2.Checked = (FEvent.FSelection & 2) != 0;
-        U3.Checked = (FEvent.FSelection & 4) != 0;
-        U4.Checked = (FEvent.FSelection & 8) != 0;
-        U5.Checked = (FEvent.FSelection & 16) != 0;
-        U6.Checked = (FEvent.FSelection & 32) != 0;
-        U7.Checked = (FEvent.FSelection & 64) != 0;
-        U8.Checked = (FEvent.FSelection & 128) != 0;
-        if ((FEvent.FSelectable & (1 << Slot)) != 0)
+        U1.Checked = (Event.Selection & 1) != 0;
+        U2.Checked = (Event.Selection & 2) != 0;
+        U3.Checked = (Event.Selection & 4) != 0;
+        U4.Checked = (Event.Selection & 8) != 0;
+        U5.Checked = (Event.Selection & 16) != 0;
+        U6.Checked = (Event.Selection & 32) != 0;
+        U7.Checked = (Event.Selection & 64) != 0;
+        U8.Checked = (Event.Selection & 128) != 0;
+        if ((Event.Selectable & (1 << slot)) != 0)
         {
-            if (Sender.Checked)
+            if (sender.Checked)
             {
                 DialogHosts.General.PlayButtonSound(1);
             }
@@ -210,9 +210,9 @@ public partial class UnitSelectionDialog : DataModule
             }
         }
 
-        if (FEvent.FSelection != 0)
+        if (Event.Selection != 0)
         {
-            if (FEvent.CanSelect(ref Reason))
+            if (Event.CanSelect(ref reason))
             {
                 SelectionInfoLbl.TextColor = 0;
             }
@@ -228,19 +228,19 @@ public partial class UnitSelectionDialog : DataModule
     }
 
     // AoWUnitSelDlg.pas:146
-    public void U1PreDraw(CheckBox Sender, LockedSurface SD, int Slot)
+    public void U1PreDraw(CheckBox sender, LockedSurface lockedSurface, int slot)
     {
-        DrawUnit(Slot, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
+        DrawUnit(slot, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref lockedSurface);
     }
 
     // AoWUnitSelDlg.pas:151
-    public void SourceFacePreDraw(LockedSurface SD)
+    public void SourceFacePreDraw(LockedSurface lockedSurface)
     {
         Rect R = default;
         Troop U;
-        if (FEvent != null)
+        if (Event != null)
         {
-            U = AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+            U = AoWHSMap.Current.UnitControl.FindUnit(Event.SourceUnitId);
             if (U != null)
             {
                 R.Left = this.SourceFace.WinLeft + SourcePnl.WinLeft;
@@ -250,7 +250,7 @@ public partial class UnitSelectionDialog : DataModule
 
                 if (U.GetFace() != null)
                 {
-                    U.GetFace().ShowStretched(R, SD);
+                    U.GetFace().ShowStretched(R, lockedSurface);
                 }
             }
         }

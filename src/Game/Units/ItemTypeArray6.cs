@@ -6,7 +6,7 @@ namespace Aow.Game.Units;
 [InlineArray(6)]
 public struct ItemTypeArray6
 {
-    private ItemType element0;
+    private ItemType _element0;
 
     public static ItemTypeArray6 From(ReadOnlySpan<ItemType> values)
     {

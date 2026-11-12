@@ -16,10 +16,10 @@ public partial class CombatObstacle : MultiHexMapObject
     { }
 
     // CombatObstacle.pas:94
-    public new const int ClassID = 2229546;
+    public new const int ClassId = 2229546;
 
-    public CombatObstacleShadow FShadow;
-    public CombatObstacleOverlay FOverlay;
+    public CombatObstacleShadow Shadow;
+    public CombatObstacleOverlay _overlay;
 
     // CombatObstacle.pas:97
     public override void Dispose()
@@ -32,35 +32,35 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:110
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
-        if (Result)
+        bool result = base.PlaceOnMap();
+        if (result)
         {
-            var yhx = Yhx;
-            var xhx = Xhx;
-            UpdateMapFields((MapLevel)Owner.Owner, xhx, yhx);
+            var hexY = HexY;
+            var hexX = HexX;
+            UpdateMapFields((MapLevel)Owner.Owner, hexX, hexY);
         }
 
-        return Result;
+        return result;
     }
 
     // CombatObstacle.pas:116
     public override void RemoveFromMap()
     {
-        MapLevel MapLevel;
-        MapLevel = (MapLevel)Owner.Owner;
+        MapLevel mapLevel;
+        mapLevel = (MapLevel)Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(MapLevel, FXhx, FYhx);
+        UpdateMapFields(mapLevel, _hexX, _hexY);
     }
 
     // CombatObstacle.pas:229
-    public override void CanMoveOn(in HexSpriteMoveOnInfo Info, ref HexSpriteMoveOnResult MoveResult)
+    public override void CanMoveOn(in HexSpriteMoveOnInfo info, ref HexSpriteMoveOnResult moveResult)
     {
-        if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
+        if (((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetAbilityEnabled(59))
         {
-            if (FResource.TerrainList.GetOverlay(Info.HN) == 8)
+            if (_resource.TerrainList.GetOverlay(info.HexNumber) == 8)
             {
-                MoveResult.Code = -1;
-                MoveResult.Done = true;
+                moveResult.Code = -1;
+                moveResult.Done = true;
             }
         }
     }
@@ -82,58 +82,58 @@ public partial class CombatObstacle : MultiHexMapObject
     }
 
     // CombatObstacle.pas:222
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        base.UpdateMapField(Info);
-        if (Info.HN < FResource.TerrainList.Count)
+        base.UpdateMapField(info);
+        if (info.HexNumber < _resource.TerrainList.Count)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 16384;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16384;
         }
     }
 
     // CombatObstacle.pas:193
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!FStatus.Contains(MapObjectStatusElement.Visible))
+        if (!_status.Contains(MapObjectStatusElement.Visible))
         {
-            base.MakeVisible(VisibilityList);
-            if (FShadow != null)
+            base.MakeVisible(visibilityList);
+            if (Shadow != null)
             {
-                var showPriority = FShadow.GetShowPriority();
-                VisibilityList.AddSortChild(FShadow, showPriority);
+                var showPriority = Shadow.GetShowPriority();
+                visibilityList.AddSortChild(Shadow, showPriority);
             }
 
-            if (FOverlay != null)
+            if (_overlay != null)
             {
-                var showPriority = FOverlay.GetShowPriority();
-                VisibilityList.AddSortChild(FOverlay, showPriority);
+                var showPriority = _overlay.GetShowPriority();
+                visibilityList.AddSortChild(_overlay, showPriority);
             }
         }
     }
 
     // CombatObstacle.pas:107
-    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
 
     // CombatObstacle.pas:104
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
 
     // CombatObstacle.pas:203
-    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
+    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
 
     // CombatObstacle.pas:125
     public void CreateShadow()
     {
-        if (FResource.ImageSequenceList.GetImageSequence(40) != null)
+        if (_resource.ImageSequenceList.GetImageSequence(40) != null)
         {
-            if (FShadow != null)
+            if (Shadow != null)
             {
                 DestroyShadow();
             }
 
-            if (AoWHSMap.Current == null || AoWHSMap.Current.FShowUnitShadows)
+            if (AoWHSMap.Current == null || AoWHSMap.Current.ShowUnitShadows)
             {
-                FShadow = new CombatObstacleShadow(null);
-                FShadow.FObstacle = this;
+                Shadow = new CombatObstacleShadow(null);
+                Shadow.Obstacle = this;
             }
         }
     }
@@ -141,32 +141,32 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:138
     public void DestroyShadow()
     {
-        if (FShadow != null)
+        if (Shadow != null)
         {
             if (GetVisible())
             {
-                CombatMap.Current.DynamicVisibleHS.RemoveChild(FShadow);
+                CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(Shadow);
             }
 
-            FShadow?.Dispose();
-            FShadow = null;
+            Shadow?.Dispose();
+            Shadow = null;
         }
     }
 
     // CombatObstacle.pas:148
     public void CreateOverlay()
     {
-        if (FResource.ImageSequenceList.GetImageSequence(41) != null)
+        if (_resource.ImageSequenceList.GetImageSequence(41) != null)
         {
-            if (FOverlay != null)
+            if (_overlay != null)
             {
                 DestroyOverlay();
             }
 
-            if (AoWHSMap.Current == null || AoWHSMap.Current.FShowUnitShadows)
+            if (AoWHSMap.Current == null || AoWHSMap.Current.ShowUnitShadows)
             {
-                FOverlay = new CombatObstacleOverlay(null);
-                FOverlay.FObstacle = this;
+                _overlay = new CombatObstacleOverlay(null);
+                _overlay.Obstacle = this;
             }
         }
     }
@@ -174,38 +174,38 @@ public partial class CombatObstacle : MultiHexMapObject
     // CombatObstacle.pas:161
     public void DestroyOverlay()
     {
-        if (FOverlay != null)
+        if (_overlay != null)
         {
             if (GetVisible())
             {
-                CombatMap.Current.DynamicVisibleHS.RemoveChild(FOverlay);
+                CombatMap.Current.DynamicVisibleHexSprite.RemoveChild(_overlay);
             }
 
-            FOverlay?.Dispose();
-            FOverlay = null;
+            _overlay?.Dispose();
+            _overlay = null;
         }
     }
 
     // CombatObstacle.pas:171
-    public void ShowShadow(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowShadow(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
-        XhpSurf = X - XhpSurf;
-        YhpSurf = Y - YhpSurf;
-        FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
+        HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+        pixelXSurface = X - pixelXSurface;
+        pixelYSurface = Y - pixelYSurface;
+        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 40, (uint)(((MapField)Owner).HexX + (((MapField)Owner).HexY << 4)));
     }
 
     // CombatObstacle.pas:182
-    public void ShowOverlay(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowOverlay(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
-        XhpSurf = X - XhpSurf;
-        YhpSurf = Y - YhpSurf;
-        FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 41, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
+        HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+        pixelXSurface = X - pixelXSurface;
+        pixelYSurface = Y - pixelYSurface;
+        _resource.ShowComplexImage(pixelXSurface, pixelYSurface, lockedSurface, 41, (uint)(((MapField)Owner).HexX + (((MapField)Owner).HexY << 4)));
     }
 
     public new partial class Resource : MultiHexMapObjectResource
@@ -214,13 +214,13 @@ public partial class CombatObstacle : MultiHexMapObject
         { }
 
         // CombatObstacle.pas:239
-        public new const int ClassID = 2229547;
+        public new const int ClassId = 2229547;
 
         // CombatObstacle.pas:245
-        public override int ResourceUserClassID() => 2229546;
+        public override int ResourceUserClassId() => 2229546;
 
         // CombatObstacle.pas:242
-        public override string ResourceEditName() => "Combat " + AbilityRules.TranslateRStr(GameText.ObstacleRStr);
+        public override string ResourceEditName() => "Combat " + AbilityRules.TranslateResourceString(GameText.s_obstacleText);
 
     }
 

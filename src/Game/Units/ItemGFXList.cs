@@ -15,38 +15,38 @@ public partial class ItemGFXList : EResourceList
     }
 
     // Army.PAS:5182
-    public ItemGraphics GetItemGFX(int Index)
+    public ItemGraphics GetItemGraphics(int index)
     {
-        ItemGraphics Result;
-        if (Index >= 0 && Index < FChildren.Count)
+        ItemGraphics result;
+        if (index >= 0 && index < _children.Count)
         {
-            Result = (ItemGraphics)FChildren.List[Index];
+            result = (ItemGraphics)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Army.PAS:5189
-    public int FindItemTypeGFX(ItemType ItemType)
+    public int FindItemTypeGraphics(ItemType itemType)
     {
         int I;
-        int Result = -1;
+        int result = -1;
         I = 0;
-        while (Result == -1 && I != FChildren.Count)
+        while (result == -1 && I != _children.Count)
         {
-            if (FChildren.List[I] != null && ((ItemGraphics)FChildren.List[I]).FItemType == ItemType)
+            if (_children.List[I] != null && ((ItemGraphics)_children.List[I]).ItemType == itemType)
             {
-                Result = I;
+                result = I;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P2_04.inc:37

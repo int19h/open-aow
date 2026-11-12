@@ -12,13 +12,13 @@ public readonly struct BlendValue : IUnion
 {
     private enum Case : byte { None, Percentage, Table }
 
-    private readonly int percentage;
-    private readonly BlendTable? table;
-    private readonly Case kind;
+    private readonly int _percentage;
+    private readonly BlendTable? _table;
+    private readonly Case _kind;
 
-    public BlendValue(int value) { percentage = value; kind = Case.Percentage; }
+    public BlendValue(int value) { _percentage = value; _kind = Case.Percentage; }
 
-    public BlendValue(BlendTable? value) { table = value; kind = value is null ? Case.None : Case.Table; }
+    public BlendValue(BlendTable? value) { _table = value; _kind = value is null ? Case.None : Case.Table; }
 
     // The compiler prefers a user-defined conversion to a union conversion. One operator per case
     // keeps the case chosen by the source type: a byte widens to Percentage, a table converts to
@@ -27,32 +27,32 @@ public readonly struct BlendValue : IUnion
     public static implicit operator BlendValue(BlendTable? value) => new(value);
 
     // Patterns read the cases through TryGetValue. Value boxes and serves only reflection.
-    public object? Value => kind switch
+    public object? Value => _kind switch
     {
-        Case.Percentage => percentage,
-        Case.Table => table,
+        Case.Percentage => _percentage,
+        Case.Table => _table,
         _ => null,
     };
 
-    public bool HasValue => kind != Case.None;
+    public bool HasValue => _kind != Case.None;
 
     public bool TryGetValue(out int value)
     {
-        value = kind == Case.Percentage ? percentage : 0;
-        return kind == Case.Percentage;
+        value = _kind == Case.Percentage ? _percentage : 0;
+        return _kind == Case.Percentage;
     }
 
     public bool TryGetValue([MaybeNullWhen(false)] out BlendTable value)
     {
-        value = kind == Case.Table ? table : null;
-        return kind == Case.Table;
+        value = _kind == Case.Table ? _table : null;
+        return _kind == Case.Table;
     }
 
     // The percentage case. An empty slot reads 0, as the original word does. A table has no
     // percentage view: the original read its address, which no blend mode but bmUser uses.
-    public int Percentage => kind switch
+    public int Percentage => _kind switch
     {
-        Case.Percentage => percentage,
+        Case.Percentage => _percentage,
         Case.None => 0,
         _ => throw new InvalidCastException("Blend value holds a table, not a percentage"),
     };

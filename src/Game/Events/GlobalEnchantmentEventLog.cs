@@ -14,33 +14,33 @@ public partial class GlobalEnchantmentEventLog : LocationTextEventLog
     public GlobalEnchantmentEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131819;
+    public new const int ClassId = 131819;
 
-    public sbyte FEnchantmentPlayer;
+    public sbyte EnchantmentPlayer;
 
     // Spells.PAS:2660
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FEnchantmentPlayer), 30);
+        base.ReadWrite(stream);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref EnchantmentPlayer), 30);
     }
 
     // Spells.PAS:2665
     public override int GetLeftIcon()
     {
-        int Result;
-        sbyte Player;
-        Player = FEnchantmentPlayer;
-        if (Player > 0 && AoWHSMap.Current.FPlayers.GetCount() > Player)
+        int result;
+        sbyte player;
+        player = EnchantmentPlayer;
+        if (player > 0 && AoWHSMap.Current.Players.GetCount() > player)
         {
-            Result = AoWHSMap.Current.FPlayers.GetPlayers(FEnchantmentPlayer).FPlayerRace;
+            result = AoWHSMap.Current.Players.GetPlayers(EnchantmentPlayer).PlayerRace;
         }
         else
         {
-            Result = 12;
+            result = 12;
         }
 
-        return Result;
+        return result;
     }
 
 }

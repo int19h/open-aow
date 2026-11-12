@@ -56,7 +56,7 @@ order of `DocumentKind.All`, and `GameFiles.KindForExtension` asks the kinds for
 | Campaign maps | `.csm`, `campaign-map` | `.ocsm` | `world-hsm` | game, `AoWHSMap`, HSM header, CFS or raw | Convert |
 | Campaign definitions | `.cam`, `campaign` | `.ocam` | `campaign` | campaign, `Campaign` (Delphi `TAoWCampaign`), stored object with class identity | Convert |
 | Campaign saves | `.acg`, `campaign-save` | `.oacg` | `campaign` | campaign, `Campaign`, with an optional embedded compressed HSM image | Convert. The game writes JSON |
-| Scenario sets | `.hss`, `scenario-set` | `.ohss` | `scenario-set` | game, `AoWHSSet` (Delphi `TAoWHSSet`), 52-byte HSS header, object body and trailing CRC-32 | Convert this file, not its external resources. `SaveHSS` takes the profile and has no caller in the product |
+| Scenario sets | `.hss`, `scenario-set` | `.ohss` | `scenario-set` | game, `AoWHSSet` (Delphi `TAoWHSSet`), 52-byte HSS header, object body and trailing CRC-32 | Convert this file, not its external resources. `SaveHss` takes the profile and has no caller in the product |
 | Hero lists | `.ahl`, `hero-list` | `.oahl` | `hero-list` | game, `HeroLibrary` (Delphi `THeroLibrary`), written object without class id | Convert. The game writes JSON |
 | Item lists | `.ail`, `item-list` | `.oail` | `item-list` | game, `ItemLibrary` (Delphi `TItemLibrary`), written object without class id | Convert. The game writes JSON |
 | Game-set resources | 12 shipped `.pfs` files | none | none | written objects, CRC-wrapped objects and separate `GENERAL.PFS` flag/string layout | Inventory only, original paths retained until milestone 10 |
@@ -66,7 +66,7 @@ The census fixes exact root types, headers, checksums, read entries and write
 entries from code. Unclassified entries block the switch. Redirecting generic
 `ReadFromFile`, `WriteToFile` or CRC methods never implicitly converts excluded
 PFS files. Their callers retain original byte behavior and rules CRC calculations.
-In the code the game set loads through `ReadFromFileCRC` and `WriteToFileCRC`
+In the code the game set loads through `ReadFromFileCrc` and `WriteToFileCrc`
 (`AoWE.cs`), which take no profile and never reach the file boundary of 4.1.
 
 ILB images, dictionaries, settings, network packets, localization exports and
@@ -83,7 +83,7 @@ fixed byte counts for `rwData`. Some payload readers swallow exceptions, and
 `rwChildren` places `csKeepIndex` children at stored slots. Validation precedes them.
 
 `AoWE.cs:94472-94490` stores campaign map bytes and a size. `SaveCampaign` fills
-them through `SaveHSMtoStream`. Nested compressed bytes belong to the outer
+them through `SaveHsmToStream`. Nested compressed bytes belong to the outer
 campaign's exact payload. `Engine.cs:14629-14651` and recovered
 `Engine.pas:2185-2206` store `rwStrings` as byte length plus text block. The
 count-of-prefixed-strings description in product persistence section 1.4 was stale until 9.7-4
@@ -206,7 +206,9 @@ its name, class id, parent, the engine tables that enlist it (game, tactical, ca
 for three classes whose corpus order differs from inherited `ReadWrite` order (`AoWHSMap`,
 `Hero` (Delphi `THero`), `Leader` (Delphi `TLeader`)), an explicit order. A property records its name, id, codec and, where they
 apply, its size, its object class or family, its callback payload, its dynamic id range and its
-slot base. Absence needs no schema default: an absent member is an absent property in the engine
+slot base. A property renamed after documents were written lists its earlier names in
+`oldNames`. Loading renames a member stored under such a name to the current name, and a layout
+fingerprint that held before the rename is recomputed, so an older document still loads. Absence needs no schema default: an absent member is an absent property in the engine
 image, and the engine's reader applies its own default, constructor-backed `rwData` defaults
 included. Version 1 annotates no reference domain in the schema. The unit validators of 2.7 name
 the one domain the game checks (`player-slot`), and the census marks the other reference
@@ -482,7 +484,7 @@ file intact. Preflight finishes before existing routines clear the map or set.
 Later rule-execution errors are distinct and never fall back to the original bytes.
 This contract does not claim rollback of arbitrary game execution.
 
-`LoadHSM`, `LoadHSMEx`, the previews, `LoadHSS`, `AoWEngine.LoadCampaign` (Delphi `TAoWEngine`) and
+`LoadHsm`, `LoadHsmMap`, the previews, `LoadHss`, `AoWEngine.LoadCampaign` (Delphi `TAoWEngine`) and
 `AoWWinMan.LoadCampaign` keep the current state on a refusal. The file dialog's
 `LoadSelectedGame` closes the current campaign and map only after the preview of the chosen
 save passed its preflight, and for a campaign save it leaves closing to the campaign loaders
@@ -713,14 +715,14 @@ the current game and source file.
 
 Saves convert the engine-written image to a document, validate and finish
 serialization before replacement. `ReadWrite`, binary streams and in-memory
-images remain the engine protocol for 9.7. `LoadHSMfromStream` and
-`SaveHSMtoStream` remain internal image operations for campaigns. Internal port
+images remain the engine protocol for 9.7. `LoadHsmFromStream` and
+`SaveHsmToStream` remain internal image operations for campaigns. Internal port
 images do not pass for original exports, which undergo strict representability
 checks separately.
 
-In-scope callers of `LoadHSM`, `LoadHSMEx`, `CreatePreviewHSM`, `SaveHSM`, `LoadHSS`,
+In-scope callers of `LoadHsm`, `LoadHsmMap`, `CreatePreviewHsm`, `SaveHsm`, `LoadHss`,
 `RetrieveFromFile`, `StoreInFile`, `ReadFromFile`, `WriteToFile` and CRC forms take
-profiles. Census coverage includes direct header listing such as `GetHSSetFiles`,
+profiles. Census coverage includes direct header listing such as `GetHexSpriteSetFiles`,
 previews and nested campaigns. Excluded PFS callers retain their original paths.
 New direct opens of in-scope files must enter this inventory and boundary.
 
@@ -733,17 +735,17 @@ bytes. `FileBoundary` in `src/Game/Saves/FileBoundary.cs` reads and writes throu
 (`GameProfile`) names the original profile, the kinds it accepts and the kind it writes:
 `world-map` (`world-hsm`, kinds `save`, `map` and `campaign-map`, writes `save`),
 `tactical-map`, `campaign` (writes `campaign-save`), `scenario-set`, `hero-list` and
-`item-list`. `LoadHSM`, `LoadHSMEx`, `CreatePreviewHSM`, `LoadPreviewHSM`, `SaveHSM`, `LoadHSS`,
-`SaveHSS`, `RetrieveFromFile`, `StoreInFile`, `ReadFromFile` and `WriteToFile` take a
+`item-list`. `LoadHsm`, `LoadHsmMap`, `CreatePreviewHsm`, `LoadPreviewHsm`, `SaveHsm`, `LoadHss`,
+`SaveHss`, `RetrieveFromFile`, `StoreInFile`, `ReadFromFile` and `WriteToFile` take a
 `GameProfile` parameter, and every product caller passes one. `FileBoundary.Load` returns null
 on a refusal and `LoadOrRaise` raises `GameFileErrorException` for the routines whose original raised on
-a failed open. `GetHSSetFiles` reads its 52 header bytes through `FileBoundary.ListingHeader`.
+a failed open. `GetHexSpriteSetFiles` reads its 52 header bytes through `FileBoundary.ListingHeader`.
 
 The CRC forms run over the engine image, so an original and its own document give one CRC.
 `FileBoundary.ImageCrc32` serves the map CRCs of the multiplayer setup (`AoWSetup.cs`
-`ValidateMap` and `hPickMap`), and the host sends the engine image of its map, so the client's
+`ValidateMap` and `PickMap`), and the host sends the engine image of its map, so the client's
 CRC of the received stream agrees. `FileBoundary.ImageTailInt32` reads the stored CRC of
-`RELEASE.HSS` for `AoWHSSet.RetrieveHSSCRC`. The PFS CRCs keep their original routines.
+`RELEASE.HSS` for `AoWHSSet.RetrieveHssCrc`. The PFS CRCs keep their original routines.
 
 ### 4.2 User data and atomic replacement
 
@@ -1271,7 +1273,7 @@ through `MapObjectResource.ReadWrite` (Delphi `TMapObjectResource`) and never re
 map of the shipped Valley campaign unloadable through the converter, so 9.7-1 accepted it under one
 named rule, `LEGACY_VALLEY01_SPRITE` in `schema.json` `legacyShapes`: only for a
 `Resource` stored as a `MapField` (Delphi `TMapField`) sprite, the class decodes with the fixed legacy
-shape `ResourceID` (id 1, i32), `LegacyXhx` (id 3, u8), `LegacyYhx` (id 4, u8), `LegacyProperty10`
+shape `ResourceId` (id 1, i32), `LegacyXhx` (id 3, u8), `LegacyYhx` (id 4, u8), `LegacyProperty10`
 (id 10, u8) and `LegacyProperty12` (id 12, u8). Any other id in that context is an unknown
 property, and the class keeps its 1.36 shape elsewhere. Export writes the legacy shape back byte
 for byte, so G1 holds and the engine reads the image the original reads. The check expectation
@@ -1280,7 +1282,7 @@ pins the rule to exactly one occurrence in that file.
 ### 9.5 What 9.7 leaves
 
 - PFS. The 12 shipped `.pfs` game set files and `EmailIn/egames.pfs` keep the original format and
-  their original paths through `ReadFromFileCRC` and `WriteToFileCRC`. They are inventoried by
+  their original paths through `ReadFromFileCrc` and `WriteToFileCrc`. They are inventoried by
   the census and excluded from conversion and from every count above. Their conversion, CRC
   semantics included, is milestone 10 work (step 10.1, 6.2).
 - The transition cost (6.1). Every own load and save passes through the Delphi image:

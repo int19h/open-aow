@@ -21,288 +21,288 @@ public partial class DiplomaticActionEventLog : EventLog
     { }
 
     // Diplomacy.pas:1199
-    public new const int ClassID = 131347;
+    public new const int ClassId = 131347;
 
-    public DiplomaticAction FAction;
+    public DiplomaticAction Action;
 
     // Diplomacy.pas:1170
     public override void Dispose()
     {
-        DiplomaticAction Action;
-        Action = FAction;
-        if (Action != null)
+        DiplomaticAction action;
+        action = Action;
+        if (action != null)
         {
-            Action.Release();
-            FAction = null;
+            action.Release();
+            Action = null;
         }
 
         base.Dispose();
     }
 
     // Diplomacy.pas:1202
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwCreateEObject(ref FAction, null, 20);
+        base.ReadWrite(stream);
+        stream.rwCreateEObject(ref Action, null, 20);
     }
 
     // Diplomacy.pas:1182
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        FAction.MsgProc(ref Msg, Sender);
+        base.MessageProc(ref message, sender);
+        Action.MessageProc(ref message, sender);
     }
 
     // Diplomacy.pas:1265
-    public override string GetText() => FAction.Proposal.LogText(FAction);
+    public override string GetText() => Action.Proposal.LogText(Action);
 
     // Diplomacy.pas:1228
     public override int GetTextColor()
     {
-        int Result;
-        int Race;
-        if (FAction.Proposal.SignedAsOtherPlayer)
+        int result;
+        int race;
+        if (Action.Proposal.SignedAsOtherPlayer)
         {
-            bool condition = FAction.FOtherPlayer > 0;
+            bool condition = Action.OtherPlayer > 0;
             if (condition)
             {
-                var count = AoWHSMap.Current.FPlayers.Count;
-                condition = FAction.FOtherPlayer < count;
+                var count = AoWHSMap.Current.Players.Count;
+                condition = Action.OtherPlayer < count;
             }
 
             if (condition)
             {
-                Race = AoWHSMap.Current.FPlayers.GetPlayers(FAction.FOtherPlayer).FPlayerRace;
+                race = AoWHSMap.Current.Players.GetPlayers(Action.OtherPlayer).PlayerRace;
             }
             else
             {
-                Race = 12;
+                race = 12;
             }
 
-            Result = P5RaceColors[Race];
+            result = s_raceColors[race];
         }
         else
         {
-            if (FAction.FReaction == DiplomaticActionReaction.Accept)
+            if (Action.Reaction == DiplomaticActionReaction.Accept)
             {
-                bool condition = FAction.FTarget > 0;
+                bool condition = Action.Target > 0;
                 if (condition)
                 {
-                    var count = AoWHSMap.Current.FPlayers.Count;
-                    condition = FAction.FTarget < count;
+                    var count = AoWHSMap.Current.Players.Count;
+                    condition = Action.Target < count;
                 }
 
                 if (condition)
                 {
-                    Race = AoWHSMap.Current.FPlayers.GetPlayers(FAction.FTarget).FPlayerRace;
+                    race = AoWHSMap.Current.Players.GetPlayers(Action.Target).PlayerRace;
                 }
                 else
                 {
-                    Race = 12;
+                    race = 12;
                 }
 
-                Result = P5RaceColors[Race];
+                result = s_raceColors[race];
             }
             else
             {
-                if (AoWHSMap.Current.FSeatedPlayer != FAction.FSource)
+                if (AoWHSMap.Current.SeatedPlayer != Action.Source)
                 {
-                    bool condition = FAction.FSource > 0;
+                    bool condition = Action.Source > 0;
                     if (condition)
                     {
-                        var count = AoWHSMap.Current.FPlayers.Count;
-                        condition = FAction.FSource < count;
+                        var count = AoWHSMap.Current.Players.Count;
+                        condition = Action.Source < count;
                     }
 
                     if (condition)
                     {
-                        Race = AoWHSMap.Current.FPlayers.GetPlayers(FAction.FSource).FPlayerRace;
+                        race = AoWHSMap.Current.Players.GetPlayers(Action.Source).PlayerRace;
                     }
                     else
                     {
-                        Race = 12;
+                        race = 12;
                     }
 
-                    Result = P5RaceColors[Race];
+                    result = s_raceColors[race];
                 }
                 else
                 {
-                    bool condition = FAction.FTarget > 0;
+                    bool condition = Action.Target > 0;
                     if (condition)
                     {
-                        var count = AoWHSMap.Current.FPlayers.Count;
-                        condition = FAction.FTarget < count;
+                        var count = AoWHSMap.Current.Players.Count;
+                        condition = Action.Target < count;
                     }
 
                     if (condition)
                     {
-                        Race = AoWHSMap.Current.FPlayers.GetPlayers(FAction.FTarget).FPlayerRace;
+                        race = AoWHSMap.Current.Players.GetPlayers(Action.Target).PlayerRace;
                     }
                     else
                     {
-                        Race = 12;
+                        race = 12;
                     }
 
-                    Result = P5RaceColors[Race];
+                    result = s_raceColors[race];
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:1333
     public override int GetLeftIcon()
     {
-        int Result;
-        DiplomaticAction Action;
-        Action = FAction;
-        if (!Action.Proposal.SignedAsOtherPlayer)
+        int result;
+        DiplomaticAction action;
+        action = Action;
+        if (!action.Proposal.SignedAsOtherPlayer)
         {
-            bool condition = Action.FSource > 0;
+            bool condition = action.Source > 0;
             if (condition)
             {
-                var count = AoWHSMap.Current.FPlayers.Count;
-                condition = Action.FSource < count;
+                var count = AoWHSMap.Current.Players.Count;
+                condition = action.Source < count;
             }
 
             if (condition)
             {
-                Result = AoWHSMap.Current.FPlayers.GetPlayers(Action.FSource).FPlayerRace;
+                result = AoWHSMap.Current.Players.GetPlayers(action.Source).PlayerRace;
             }
             else
             {
-                Result = -1;
+                result = -1;
             }
         }
         else
         {
-            bool condition = Action.FOtherPlayer > 0;
+            bool condition = action.OtherPlayer > 0;
             if (condition)
             {
-                var count = AoWHSMap.Current.FPlayers.Count;
-                condition = Action.FOtherPlayer < count;
+                var count = AoWHSMap.Current.Players.Count;
+                condition = action.OtherPlayer < count;
             }
 
             if (condition)
             {
-                Result = AoWHSMap.Current.FPlayers.GetPlayers(Action.FOtherPlayer).FPlayerRace;
+                result = AoWHSMap.Current.Players.GetPlayers(action.OtherPlayer).PlayerRace;
             }
             else
             {
-                Result = -1;
+                result = -1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:1379
     // { DCC32 folds JMP-to-RET; keep the original branch over the 11-byte arms. }
     public override int GetRightIcon()
     {
-        int Result;
-        DiplomaticAction Action;
-        Action = FAction;
-        bool condition = Action.FTarget > 0;
+        int result;
+        DiplomaticAction action;
+        action = Action;
+        bool condition = action.Target > 0;
         if (condition)
         {
-            var count = AoWHSMap.Current.FPlayers.Count;
-            condition = Action.FTarget < count;
+            var count = AoWHSMap.Current.Players.Count;
+            condition = action.Target < count;
         }
 
         if (condition)
         {
-            Result = AoWHSMap.Current.FPlayers.GetPlayers(Action.FTarget).FPlayerRace;
+            result = AoWHSMap.Current.Players.GetPlayers(action.Target).PlayerRace;
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:1225
     public override bool GetVisible() => true;
 
     // Diplomacy.pas:1208
-    public override void PlayLoggedSFX(EventLogbook Logbook) => AudioPlayback.PlaySample(FAction.Proposal.LoggedSample);
+    public override void PlayLoggedSfx(EventLogbook logbook) => AudioPlayback.PlaySample(Action.Proposal.LoggedSample);
 
     // Diplomacy.pas:1217
-    public override void NotifyLogged(EventLogbook Logbook)
+    public override void NotifyLogged(EventLogbook logbook)
     {
-        DiplomaticAction Action;
-        base.NotifyLogged(Logbook);
-        Action = FAction;
-        if (Action != null)
+        DiplomaticAction action;
+        base.NotifyLogged(logbook);
+        action = Action;
+        if (action != null)
         {
-            Action.FEventLogID = FID;
+            action.EventLogId = Id;
         }
     }
 
     // Diplomacy.pas:1414
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Result = default;
-        bool Show;
-        Show = Trigger == ExecuteTrigger.User;
-        if (AoWHSMap.Current.FSeatedPlayer == FAction.FTarget || AoWHSMap.Current.FSeatedPlayer == FAction.FSource)
+        bool result = default;
+        bool show;
+        show = trigger == ExecuteTrigger.User;
+        if (AoWHSMap.Current.SeatedPlayer == Action.Target || AoWHSMap.Current.SeatedPlayer == Action.Source)
         {
-            Show = Show || AoWHSMap.Current.FPlayMode == PlayMode.Turn && GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && Trigger == ExecuteTrigger.NewTurn;
-            Show = Show || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
+            show = show || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
+            show = show || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
         }
 
-        Show = Show && (Trigger == ExecuteTrigger.User || FAction.FReaction != DiplomaticActionReaction.Ignore);
-        if (Show)
+        show = show && (trigger == ExecuteTrigger.User || Action.Reaction != DiplomaticActionReaction.Ignore);
+        if (show)
         {
-            AoWHSMap.Current.TriggerExecuteEventLog(this, Mode, Done);
-            Result = true;
+            AoWHSMap.Current.TriggerExecuteEventLog(this, mode, done);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:1188
-    public void SetDiplomaticAction(DiplomaticAction Action)
+    public void SetDiplomaticAction(DiplomaticAction action)
     {
-        DiplomaticAction Old;
-        Old = FAction;
-        if (Old != Action)
+        DiplomaticAction old;
+        old = Action;
+        if (old != action)
         {
-            if (Old != null)
+            if (old != null)
             {
-                Old.Release();
+                old.Release();
             }
 
-            if (Action != null)
+            if (action != null)
             {
-                FAction = (DiplomaticAction)Action.Copy(GameTables.AoWEngine);
+                Action = (DiplomaticAction)action.Copy(GameTables.GameEngine);
             }
             else
             {
-                FAction = null;
+                Action = null;
             }
         }
     }
 
-    public override int GetMiddleIcon() => FAction.Proposal.MiddleIcon(FAction);
+    public override int GetMiddleIcon() => Action.Proposal.MiddleIcon(Action);
 
-    private static Int32Array13 P5RaceColors = Int32Array13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
+    private static Int32Array13 s_raceColors = Int32Array13.From([14693424, 6726911, 11520812, 16702087, 6352705, 1441277, 10863076, 16252925, 11759804, 5263593, 4351675, 7960728, 11053224]);
 
-    internal static bool P5DiplomaticExecute(DiplomaticActionEventLog log, bool immediate, ExecuteTrigger trigger, object data, ExecuteDoneEvent done)
+    internal static bool DiplomaticExecute(DiplomaticActionEventLog log, bool immediate, ExecuteTrigger trigger, object data, ExecuteDoneEvent done)
     {
         bool result = trigger == ExecuteTrigger.User;
-        if (log.FAction.FTarget == AoWHSMap.Current.FSeatedPlayer || log.FAction.FSource == AoWHSMap.Current.FSeatedPlayer)
+        if (log.Action.Target == AoWHSMap.Current.SeatedPlayer || log.Action.Source == AoWHSMap.Current.SeatedPlayer)
         {
-            result = result || AoWHSMap.Current.FPlayMode == PlayMode.Turn && GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
-            result = result || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
+            result = result || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
+            result = result || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
         }
-        result = result && (trigger == ExecuteTrigger.User || log.FAction.FReaction != DiplomaticActionReaction.Ignore);
+        result = result && (trigger == ExecuteTrigger.User || log.Action.Reaction != DiplomaticActionReaction.Ignore);
         if (!result) return false;
         AoWHSMap.Current.TriggerExecuteEventLog(log, immediate, done);
         return true;

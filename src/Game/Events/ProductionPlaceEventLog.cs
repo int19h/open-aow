@@ -12,19 +12,19 @@ public partial class ProductionPlaceEventLog : ProductionEventLog
     { }
 
     // PrdPlace.pas:736
-    public new const int ClassID = 131835;
+    public new const int ClassId = 131835;
 
     // PrdPlace.pas:744
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        ProductionPlace Place;
-        if (Trigger == ExecuteTrigger.User)
+        ProductionPlace place;
+        if (trigger == ExecuteTrigger.User)
         {
-            Place = GetProductionPlace();
-            if (Place != null && AoWHSMap.Current.FSeatedPlayer == Place.FPlayer)
+            place = GetProductionPlace();
+            if (place != null && AoWHSMap.Current.SeatedPlayer == place.Player)
             {
-                AoWHSMap.Current.CenterViewTo(FXhx, FYhx, FLhx);
-                AoWHSMap.Current.TriggerExecuteEventLog(this, true, Done);
+                AoWHSMap.Current.CenterViewTo(HexX, HexY, HexLevel);
+                AoWHSMap.Current.TriggerExecuteEventLog(this, true, done);
             }
         }
 
@@ -32,6 +32,6 @@ public partial class ProductionPlaceEventLog : ProductionEventLog
     }
 
     // PrdPlace.pas:739
-    public ProductionPlace GetProductionPlace() => (ProductionPlace)AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, FLhx).FindNoneTransparentHS(typeof(ProductionPlace));
+    public ProductionPlace GetProductionPlace() => (ProductionPlace)AoWHSMap.Current.MapContainer.GetField(HexX, HexY, HexLevel).FindNoneTransparentHexSprite(typeof(ProductionPlace));
 
 }

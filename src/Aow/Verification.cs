@@ -14,12 +14,12 @@ namespace Aow;
 /// <summary>Package-free unit and install conformance tests for brief 5.1.</summary>
 internal static class Verification
 {
-    private static int assertions;
-    private static string scratch = "";
+    private static int s_assertions;
+    private static string s_scratch = "";
 
     private static void Check(bool condition, string label)
     {
-        assertions++;
+        s_assertions++;
         if (!condition) throw new InvalidOperationException("FAIL: " + label);
     }
 
@@ -28,21 +28,21 @@ internal static class Verification
     private static void Throws<T>(Action action, string label) where T : Exception
     {
         try { action(); }
-        catch (T) { assertions++; return; }
+        catch (T) { s_assertions++; return; }
         throw new InvalidOperationException("FAIL: " + label);
     }
 
     public static int Run(string gameRoot, string? sourceRoot)
     {
-        scratch = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "obj", "verification", Guid.NewGuid().ToString("N")));
-        Directory.CreateDirectory(scratch);
+        s_scratch = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "obj", "verification", Guid.NewGuid().ToString("N")));
+        Directory.CreateDirectory(s_scratch);
         InputTests();
         SettingsTests();
         FileTests();
         ClockTests();
-        FrameVerification.Run(Path.Combine(scratch, "frames"));
+        FrameVerification.Run(Path.Combine(s_scratch, "frames"));
         InstallTests(gameRoot, sourceRoot);
-        Console.WriteLine($"PASS: {assertions} assertions");
+        Console.WriteLine($"PASS: {s_assertions} assertions");
         return 0;
     }
 
@@ -104,12 +104,12 @@ internal static class Verification
         Equal(2, sink.Moves.Count, "one leave notification");
         Equal((-1, -1), sink.Moves[^1], "leave coordinates");
         var one = DisplayViewport.Fit(640, 480, 640, 480);
-        mapper.Reset(); sink.Trace.Clear();
+        mapper.Reset(); sink.ConstructionTrace.Clear();
         mapper.SetModifiers(3 | 192 | 768);
         mapper.Button(1, true, 100, 10, 10, one, sink);
         mapper.Button(1, false, 150, 10, 10, one, sink);
         mapper.Button(1, true, 600, 14, 14, one, sink);
-        Check(sink.Trace.SequenceEqual(new[] { "down", "up", "double", "down" }), "VCL double before second down at threshold");
+        Check(sink.ConstructionTrace.SequenceEqual(new[] { "down", "up", "double", "down" }), "VCL double before second down at threshold");
         Check(sink.Shift.Contains(ShiftState.Double) && sink.Shift.Contains(ShiftState.Left), "double and button shift flags");
         mapper.Button(1, false, 601, 14, 14, one, sink);
         mapper.Button(1, true, 602, 14, 14, one, sink);
@@ -121,9 +121,9 @@ internal static class Verification
         mapper.Button(3, true, 603, 15, 10, one, sink);
         mapper.Button(2, true, 604, 15, 10, one, sink);
         Equal(1, sink.Doubles, "time distance and different button rejection");
-        int count = sink.Trace.Count;
+        int count = sink.ConstructionTrace.Count;
         mapper.Button(2, false, 605, 15, 10, one, sink);
-        Equal(count, sink.Trace.Count, "middle ignored");
+        Equal(count, sink.ConstructionTrace.Count, "middle ignored");
         mapper.Reset();
         mapper.Button(3, true, 10, 10, 10, one, sink);
         mapper.Button(3, false, 20, 10, 10, one, sink);
@@ -135,7 +135,7 @@ internal static class Verification
 
     private static void SettingsTests()
     {
-        string directory = Path.Combine(scratch, "settings");
+        string directory = Path.Combine(s_scratch, "settings");
         var oldSettings = RtlUnit.Settings;
         try
         {
@@ -150,7 +150,7 @@ internal static class Verification
             Equal(0x81UL, registry.GetClassicWindowPopupEvents().Mask, "classic popup persisted byte");
             Equal(0x42UL, registry.GetSimultaneousWindowPopupEvents().Mask, "simultaneous popup persisted byte");
             // Use a fresh store for the complete missing-value battery.
-            directory = Path.Combine(scratch, "settings-defaults");
+            directory = Path.Combine(s_scratch, "settings-defaults");
             RtlUnit.Settings = new JsonSettingsStore(directory);
             registry = new GameSettings();
             Equal(640, registry.GetDisplayWidth(), "missing width default");
@@ -182,7 +182,7 @@ internal static class Verification
                         case "integer": int number = 37; registry.rwInteger(section, name, ref number, GameSettings.ReadWriteMode.Read); Equal(37, number, "missing integer keeps getter default"); break;
                         case "boolean": bool flag = true; registry.rwBool(section, name, ref flag, GameSettings.ReadWriteMode.Read); Equal(true, flag, "missing bool keeps getter default"); break;
                         case "string": string text = "default"; registry.rwString(section, name, ref text, GameSettings.ReadWriteMode.Read); Equal("default", text, "missing string keeps getter default"); break;
-                        case "rectangle": Rect rect = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.rwRect(section, name, ref rect, GameSettings.ReadWriteMode.Read); Equal(7, rect.Left, "missing rectangle keeps getter default"); break;
+                        case "rectangle": Rect rectangle = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.rwRect(section, name, ref rectangle, GameSettings.ReadWriteMode.Read); Equal(7, rectangle.Left, "missing rectangle keeps getter default"); break;
                         case "bytes": byte[] bytes = [0x5A]; registry.rwBinaryData(section, name, bytes, 1, GameSettings.ReadWriteMode.Read); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
                     }
                 }
@@ -252,7 +252,7 @@ internal static class Verification
 
     private static void FileTests()
     {
-        string root = Path.Combine(scratch, "install"), user = Path.Combine(scratch, "user");
+        string root = Path.Combine(s_scratch, "install"), user = Path.Combine(s_scratch, "user");
         Directory.CreateDirectory(Path.Combine(root, "Images", "Scenes"));
         Directory.CreateDirectory(Path.Combine(root, "Scenario", "Custom"));
         Directory.CreateDirectory(Path.Combine(root, "Scenario", "Campaign"));
@@ -362,7 +362,7 @@ internal static class Verification
 
     private static void InstallTests(string gameRoot, string? sourceRoot)
     {
-        var files = new LayeredFileSystem(gameRoot, Path.Combine(scratch, "gog-user"));
+        var files = new LayeredFileSystem(gameRoot, Path.Combine(s_scratch, "gog-user"));
         string[] all = Directory.GetFileSystemEntries(gameRoot, "*", SearchOption.AllDirectories);
         foreach (string path in all)
         {
@@ -424,7 +424,7 @@ internal static class Verification
         public List<ushort> Keys { get; } = [];
         public List<byte> Characters { get; } = [];
         public List<(int, int)> Moves { get; } = [];
-        public List<string> Trace { get; } = [];
+        public List<string> ConstructionTrace { get; } = [];
 
         public Set<ShiftState> Shift;
         public ushort ReleasedKey;
@@ -437,10 +437,10 @@ internal static class Verification
 
         public void MouseMove(Set<ShiftState> shift, int x, int y) { Moves.Add((x, y)); Shift = shift; }
 
-        public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y) { Trace.Add("down"); Shift = shift; }
+        public void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y) { ConstructionTrace.Add("down"); Shift = shift; }
 
-        public void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y) { Trace.Add("up"); Shift = shift; }
+        public void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y) { ConstructionTrace.Add("up"); Shift = shift; }
 
-        public void DoubleClick() { Trace.Add("double"); Doubles++; }
+        public void DoubleClick() { ConstructionTrace.Add("double"); Doubles++; }
     }
 }

@@ -9,15 +9,15 @@ public static class TranslatorProperties
     internal sealed record Binding(Type Type, string Name, Func<Component, string[]> Read,
         Action<Component, string[]> Write, bool IsList);
 
-    private static readonly Dictionary<(Type, string), Binding> bindings = [];
+    private static readonly Dictionary<(Type, string), Binding> s_bindings = [];
 
     public static void Register<T>(string name, Func<T, string> read, Action<T, string> write) where T : Component
-        => bindings[(typeof(T), name)] = new(typeof(T), name, component => [read((T)component)],
+        => s_bindings[(typeof(T), name)] = new(typeof(T), name, component => [read((T)component)],
             (component, values) => write((T)component, values[0]), false);
 
     public static void RegisterStrings<T>(string name, Func<T, StringCollection?> read) where T : Component
     {
-        bindings[(typeof(T), name)] = new(typeof(T), name, component =>
+        s_bindings[(typeof(T), name)] = new(typeof(T), name, component =>
         {
             var strings = read((T)component);
             return strings is null ? [] : Enumerable.Range(0, strings.Count).Select(i => strings[i]).ToArray();
@@ -38,7 +38,7 @@ public static class TranslatorProperties
     internal static Binding? Find(Type type, string name)
     {
         for (Type? current = type; current is not null; current = current.BaseType)
-            if (bindings.TryGetValue((current, name), out var binding)) return binding;
+            if (s_bindings.TryGetValue((current, name), out var binding)) return binding;
         return null;
     }
 }
@@ -47,7 +47,7 @@ public class IvCustomTranslator : Component
 {
     public IvCustomTranslator(Component? owner = null) : base(owner) { }
 
-    private ConditionalWeakTable<Component, Dictionary<string, string[]>> nativeValues = new();
+    private ConditionalWeakTable<Component, Dictionary<string, string[]>> _nativeValues = new();
 
     public string DictionaryName { get; set; } = "AoW";
     public IList<TranslationTarget> TargetsData { get; } = new List<TranslationTarget>();
@@ -59,7 +59,7 @@ public class IvCustomTranslator : Component
         if (Owner is not null) Translate(Owner);
     }
 
-    public void ClearNativeValues() => nativeValues = new();
+    public void ClearNativeValues() => _nativeValues = new();
 
     public void Translate(Component module)
     {
@@ -76,7 +76,7 @@ public class IvCustomTranslator : Component
                 string name = target.PropertyName;
                 var binding = TranslatorProperties.Find(component.GetType(), name);
                 if (binding is null) continue;
-                var values = nativeValues.GetOrCreateValue(component);
+                var values = _nativeValues.GetOrCreateValue(component);
                 if (!values.TryGetValue(name, out var native))
                 {
                     native = binding.Read(component);

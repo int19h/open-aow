@@ -5,7 +5,7 @@ namespace Aow.Rtl.Localize;
 public static class LocalizationRuntime
 {
     public const string LanguageKey = "\\Software\\Triumph Studios\\Age of Wonders\\General\\Language";
-    private static readonly Dictionary<string, MldDictionary> dictionaries = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly Dictionary<string, MldDictionary> s_dictionaries = new(StringComparer.OrdinalIgnoreCase);
 
     public static string StartupDirectory { get; set; } = "";
 
@@ -16,12 +16,12 @@ public static class LocalizationRuntime
         string root = StartupDirectory.Length == 0 ? RtlUnit.Files.CurrentDirectory : StartupDirectory;
         string path = Path.Combine(root, "Dict", name + ".mld");
         string key = RtlUnit.Files.ExpandPath(path);
-        if (!dictionaries.TryGetValue(key, out var dictionary))
+        if (!s_dictionaries.TryGetValue(key, out var dictionary))
         {
             dictionary = new();
             dictionary.SetLanguage(language ?? ReadLanguage(RtlUnit.Settings));
             dictionary.Open(path);
-            dictionaries.Add(key, dictionary);
+            s_dictionaries.Add(key, dictionary);
         }
         else if (dictionary.Language != (language ?? ReadLanguage(RtlUnit.Settings)))
             dictionary.SetLanguage(language ?? ReadLanguage(RtlUnit.Settings));
@@ -30,7 +30,7 @@ public static class LocalizationRuntime
 
     public static void ClearDictionaries()
     {
-        foreach (var dictionary in dictionaries.Values) dictionary.Close();
-        dictionaries.Clear();
+        foreach (var dictionary in s_dictionaries.Values) dictionary.Close();
+        s_dictionaries.Clear();
     }
 }

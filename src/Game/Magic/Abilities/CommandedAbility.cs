@@ -16,42 +16,42 @@ public partial class CommandedAbility : AdjustableAbility
     // AoWAb.PAS:5013
     public CommandedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityType = AbilityType.Handicap;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityType = AbilityType.Handicap;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // AoWAb.PAS:5023
     public override bool Remove(AbilityOwner owner)
     {
-        bool Result = base.Remove(owner);
-        if (Result)
+        bool result = base.Remove(owner);
+        if (result)
         {
-            owner.RemoveAbilityDataID(FAbilityID);
+            owner.RemoveAbilityDataId(AbilityId);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5032
-    public override void CombatObjectDestroyed(CombatObject CombatObject)
+    public override void CombatObjectDestroyed(CombatObject combatObject)
     {
-        CommandedAbilityData Data;
-        Data = (CommandedAbilityData)CombatObject.GetAbilityOwner().GetAbilityData(FAbilityID);
-        if (Data != null)
+        CommandedAbilityData data;
+        data = (CommandedAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
+        if (data != null)
         {
-            ((CommandAbility)AoWHSSet.Current.FAbilityControl.GetAbility(Data.FCommandAbilityID)).Uncommand((CombatUnit)CombatObject);
+            ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(data.CommandAbilityId)).Uncommand((CombatUnit)combatObject);
         }
     }
 
     // AoWAb.PAS:5028
-    public override void CombatDone(CombatObject CombatObject)
+    public override void CombatDone(CombatObject combatObject)
     {
-        Remove(CombatObject.GetAbilityOwner());
+        Remove(combatObject.GetAbilityOwner());
     }
 
     // AoWAb.PAS:5019
-    public override EngineClass AbilityDataClass() => P4CommandedDataClass;
+    public override EngineClass AbilityDataClass() => s_commandedDataClass;
 
-    private static EngineClass P4CommandedDataClass = EngineClass.Of<CommandedAbilityData>();
+    private static EngineClass s_commandedDataClass = EngineClass.Of<CommandedAbilityData>();
 
 }

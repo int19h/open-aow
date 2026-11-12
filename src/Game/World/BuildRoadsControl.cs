@@ -17,60 +17,60 @@ public partial class BuildRoadsControl : ConstructionControl
     }
 
     // AoWAb.PAS:5458
-    public override void GetInfo(Troop AUnit, ref string Text, ref int Gold, ref int Days)
+    public override void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
     {
-        Text = AbilityRules.TranslateRStr(P4BuildRoadRStr);
-        Gold = 0;
-        Days = 0;
+        text = AbilityRules.TranslateResourceString(s_buildRoadText);
+        gold = 0;
+        days = 0;
     }
 
     // AoWAb.PAS:5464
-    public override bool CanConstruct(Troop AUnit, ref string Reason)
+    public override bool CanConstruct(Troop troop, ref string reason)
     {
-        bool Result;
+        bool result;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        AUnit.GetLocation(ref X, ref Y, ref L);
+        troop.GetLocation(ref X, ref Y, ref L);
         if (L == 0)
         {
-            Result = base.CanConstruct(AUnit, ref Reason);
+            result = base.CanConstruct(troop, ref reason);
         }
         else
         {
-            Result = false;
-            var p4Roads = AbilityRules.TranslateRStr(P4RoadsRStr);
-            Reason = AbilityRules.Format(AbilityRules.TranslateRStr(P4CannotBuildUndergroundRStr), [p4Roads]);
+            result = false;
+            var roads = AbilityRules.TranslateResourceString(s_roadsText);
+            reason = AbilityRules.Format(AbilityRules.TranslateResourceString(s_cannotBuildUndergroundFormat), [roads]);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5476
-    public override bool Construct(Troop AUnit)
+    public override bool Construct(Troop troop)
     {
-        bool Result;
-        string Reason = "";
-        if (CanConstruct(AUnit, ref Reason))
+        bool result;
+        string reason = "";
+        if (CanConstruct(troop, ref reason))
         {
-            AoWHSMap.Current.FSelectedArmy.SelectBuildRoad(AUnit);
-            Result = true;
+            AoWHSMap.Current.SelectedArmy.SelectBuildRoad(troop);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P4_03.inc:16
 
     // AoWAb.PAS:5454
-    public override int ID() => 2;
+    public override int Id() => 2;
 
-    private static readonly string P4BuildRoadRStr = "Build Roads";
-    private static readonly string P4CannotBuildUndergroundRStr = "Cannot build %s underground";
-    private static readonly string P4RoadsRStr = "Roads";
+    private static readonly string s_buildRoadText = "Build Roads";
+    private static readonly string s_cannotBuildUndergroundFormat = "Cannot build %s underground";
+    private static readonly string s_roadsText = "Roads";
 
 }

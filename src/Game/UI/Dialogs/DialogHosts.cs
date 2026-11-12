@@ -3,99 +3,99 @@ namespace Aow.Game.UI.Dialogs;
 
 public static class DialogHosts
 {
-    public static SoundDialog SoundDlg;
+    public static SoundDialog SoundDialog;
 
     public static MultiWindow MultiWindow;
 
-    public static MagicWindow MagicWin;
+    public static MagicWindow MagicWindow;
 
-    public static TaskBar TBWindow;
+    public static TaskBar TaskBar;
 
     public static ChatWindow ChatWindow;
 
-    public static ConstructDialog ConstructDlg;
+    public static ConstructDialog ConstructDialog;
 
-    public static DisjunctionDialog DisjunctionDlg;
+    public static DisjunctionDialog DisjunctionDialog;
 
     public static GamePlayDialog GamePlayDialog;
 
     public static TitleScene TitleScene;
 
-    public static CampaignJoinDialog CampaignJoinDlg;
+    public static CampaignJoinDialog CampaignJoinDialog;
 
     public static TitleWindow TitleWindow;
 
-    public static CampaignTransferDialog CampaignTransferDlg;
+    public static CampaignTransferDialog CampaignTransferDialog;
 
-    public static PowerDialog PowerDlg;
+    public static PowerDialog PowerDialog;
 
-    public static SynchronizeDialog SynchronizeDlg;
+    public static SynchronizeDialog SynchronizeDialog;
 
-    public static ConfirmationDialog DialogWin;
+    public static ConfirmationDialog ConfirmationDialog;
 
-    public static CampaignSettingsDialog CampaignSettingsDlg;
+    public static CampaignSettingsDialog CampaignSettingsDialog;
 
     public static ProgressDialog ProgressDialog;
 
-    public static UnitSelectionDialog UnitSelectionDlg;
+    public static UnitSelectionDialog UnitSelectionDialog;
 
-    public static EmailSettingsDialog EmailSettingsDlg;
+    public static EmailSettingsDialog EmailSettingsDialog;
 
-    public static EmailGameSettingsDialog EmailGameSettingsDlg;
+    public static EmailGameSettingsDialog EmailGameSettingsDialog;
 
-    public static Pop3Dialog POP3Dlg;
+    public static Pop3Dialog Pop3Dialog;
 
-    public static CastUnitSpellDialog CastUnitSpellDlg;
+    public static CastUnitSpellDialog CastUnitSpellDialog;
 
-    public static DeformFaceDialog DeformFaceDlg;
+    public static DeformFaceDialog DeformFaceDialog;
 
-    public static SmtpDialog SMTPDlg;
+    public static SmtpDialog SmtpDialog;
 
-    public static TargetSelectionDialog TargetSelectionDlg;
+    public static TargetSelectionDialog TargetSelectionDialog;
 
     public static WorldMap WorldMap;
 
-    public static ControlWindow ControlWin;
+    public static ControlWindow ControlWindow;
 
-    public static MapWindow MWindow;
+    public static MapWindow MapWindow;
 
     public static PyreScreen PyreScreen;
 
     public static CityScreen CityScreen;
 
-    public static ScenarioSetup ScenSetup;
+    public static ScenarioSetup ScenarioSetup;
 
     public static SpellBook SpellBook;
 
-    public static UIFonts FontModule;
+    public static UIFonts UIFonts;
 
-    public static CombatScanner TCScanner;
+    public static CombatScanner CombatScanner;
 
-    public static FileDialogWindow FileDlgWindow;
+    public static FileDialogWindow FileDialogWindow;
 
     public static InfoBanner InfoBanner;
 
-    public static InfoWindow IWindow;
+    public static InfoWindow InfoWindow;
 
     public static ItemBanner ItemBanner;
 
-    public static LeaderSetupWindow LeaderSetupWin;
+    public static LeaderSetupWindow LeaderSetupWindow;
 
-    public static MessageDialog MessageDlg;
+    public static MessageDialog MessageDialog;
 
-    public static PlayerInfoWindow PInfoW;
+    public static PlayerInfoWindow PlayerInfoWindow;
 
     public static ProductionScreen ProductionScreen;
 
-    public static RealmWindow RealmWin;
+    public static RealmWindow RealmWindow;
 
-    public static ResultsWindow ResultsWin;
+    public static ResultsWindow ResultsWindow;
 
-    public static ScannerWindow SWindow;
+    public static ScannerWindow ScannerWindow;
 
-    public static FactionSelectionWindow SelFactionWin;
+    public static FactionSelectionWindow FactionSelectionWindow;
 
-    public static CombatUnitInfo TCUnit;
+    public static CombatUnitInfo CombatUnitInfo;
 
     public static UnitBanner UnitBanner;
 
@@ -105,7 +105,7 @@ public static class DialogHosts
 
     public static General General;
 
-    public static RelationWindow RelWindow;
+    public static RelationWindow RelationWindow;
 
     public static PopupWindows PopupWindows;
 
@@ -113,7 +113,7 @@ public static class DialogHosts
 
     public static HelpWindow HelpWindow;
 
-    public static UIGraphics IntGfxMod;
+    public static UIGraphics UIGraphics;
 
     public static MapEvents MapEvents;
 

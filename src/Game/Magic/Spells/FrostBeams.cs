@@ -15,9 +15,9 @@ public partial class FrostBeams : CombatSpell
     // CombatSpells.pas:1553
     public FrostBeams(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(FrostBeamsRStr);
-        FSpellID = 120;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_frostBeamsText);
+        SpellId = 120;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 9;
         spellCombatInfo.Damage = 3;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Cold);
@@ -26,5 +26,5 @@ public partial class FrostBeams : CombatSpell
         spellCombatInfo.Radius = 3;
     }
 
-    private static readonly string FrostBeamsRStr = "Frost Beam";
+    private static readonly string s_frostBeamsText = "Frost Beam";
 }

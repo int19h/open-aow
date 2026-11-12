@@ -7,7 +7,7 @@ namespace Aow.Game.Draw;
 public partial class RectangleList : DelphiList
 {
     // GFXE.pas:2458
-    internal Rectangle GetRectangle(int Index) => (Rectangle)List[Index];
+    internal Rectangle GetRectangle(int index) => (Rectangle)List[index];
 
     // GFXE.pas:2447
     public override void Dispose()
@@ -21,7 +21,7 @@ public partial class RectangleList : DelphiList
 
     public sealed class RectanglesAccessor(RectangleList target)
     {
-        public Rectangle this[int Index] { get => target.GetRectangle(Index); }
+        public Rectangle this[int index] { get => target.GetRectangle(index); }
     }
 
     public RectanglesAccessor Rectangles => new RectanglesAccessor(this);

@@ -8,13 +8,13 @@ namespace Aow.Game.AI.Groups;
 public partial class GuardAIGroup : AIGroup, IAIGroupClass
 {
     // IndependentAG.pas:144
-    public new const int ClassID = 136275;
+    public new const int ClassId = 136275;
 
     // IndependentAG.pas:137
     public GuardAIGroup(ECustomNode owner) : base(owner)
     {
-        FProcessPriority = 1;
-        FRecruitmentPriority = 2;
+        ProcessPriority = 1;
+        RecruitmentPriority = 2;
     }
 
     // IndependentAG.pas:150

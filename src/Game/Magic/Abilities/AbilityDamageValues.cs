@@ -20,7 +20,7 @@ public struct AbilityDamageValues
     [FieldOffset(12)]
     public int TargetCost;
     [FieldOffset(16)]
-    public ushort DamageTypes__image;
+    public ushort DamageTypesImage;
 
-    public Set<DamageType> DamageTypes { get => Set<DamageType>.FromMask(DamageTypes__image); set => DamageTypes__image = (ushort)value.Image; }
+    public Set<DamageType> DamageTypes { get => Set<DamageType>.FromMask(DamageTypesImage); set => DamageTypesImage = (ushort)value.Image; }
 }

@@ -7,13 +7,13 @@ namespace Aow.Game.AI.Groups;
 public partial class AggressorAIGroup : BehaviorAIGroup, IAIGroupClass
 {
     // BehaviorAG.pas:390
-    public new const int ClassID = 136279;
+    public new const int ClassId = 136279;
 
     // BehaviorAG.pas:383
     public AggressorAIGroup(ECustomNode owner) : base(owner)
     {
-        FProcessPriority = 10;
-        FRecruitmentPriority = 10;
+        ProcessPriority = 10;
+        RecruitmentPriority = 10;
     }
 
     // BehaviorAG.pas:396

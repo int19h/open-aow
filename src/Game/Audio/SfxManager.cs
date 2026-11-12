@@ -4,91 +4,91 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Audio;
 
-// FSearchPath, FSFX. ExecutePathSearch lists every wave file under a directory (with its
+// _searchPath, _sfx. ExecutePathSearch lists every wave file under a directory (with its
 // subdirectories) relative to the search path
 public partial class SfxManager : Component
 {
-    internal string FSearchPath = "";
-    internal SfxList FSFX;
+    internal string _searchPath = "";
+    internal SfxList _sfx;
 
     // Sound.pas:407
     public SfxManager(Component owner) : base(owner)
     {
-        FSFX = new SfxList();
+        _sfx = new SfxList();
     }
 
     // Sound.pas:413
     public override void Dispose()
     {
         Clear();
-        FSFX?.Dispose();
+        _sfx?.Dispose();
         base.Dispose();
     }
 
     // Sound.pas:420
     public void Clear()
     {
-        FSFX.Clear();
+        _sfx.Clear();
     }
 
     // Sound.pas:425
-    public void ExecutePathSearch(string Path)
+    public void ExecutePathSearch(string path)
     {
-        string OldDir;
-        void Search(string Dir)
+        string oldDirectory;
+        void Search(string directory)
         {
-            SearchRec SR = default;
-            StringList Dirs;
-            bool Found;
-            Found = FindFirst(FSearchPath + Dir + "*." + SFXExtension, 63 & ~16, ref SR) == 0;
-            while (Found)
+            SearchRec sr = default;
+            StringList directories;
+            bool found;
+            found = FindFirst(_searchPath + directory + "*." + s_sfxExtension, 63 & ~16, ref sr) == 0;
+            while (found)
             {
-                FSFX.Add(UpperCase(Dir + SR.Name));
-                Found = FindNext(ref SR) == 0;
+                _sfx.Add(UpperCase(directory + sr.Name));
+                found = FindNext(ref sr) == 0;
             }
 
-            FindClose(ref SR);
-            Dirs = new StringList();
-            Found = FindFirst(Dir + "*.*", 16, ref SR) == 0;
-            while (Found)
+            FindClose(ref sr);
+            directories = new StringList();
+            found = FindFirst(directory + "*.*", 16, ref sr) == 0;
+            while (found)
             {
-                if ((SR.Attr & 16) != 0 && SR.Name != "." && SR.Name != "..")
+                if ((sr.Attr & 16) != 0 && sr.Name != "." && sr.Name != "..")
                 {
-                    Dirs.Add(Dir + UpperCase(SR.Name) + "\\");
+                    directories.Add(directory + UpperCase(sr.Name) + "\\");
                 }
 
-                Found = FindNext(ref SR) == 0;
+                found = FindNext(ref sr) == 0;
             }
 
-            FindClose(ref SR);
-            for (int I = 0, last = Dirs.Count - 1; I <= last; I++)
+            FindClose(ref sr);
+            for (int I = 0, last = directories.Count - 1; I <= last; I++)
             {
-                Search(Dirs[I]);
+                Search(directories[I]);
             }
 
-            Dirs?.Dispose();
+            directories?.Dispose();
         }
 
-        FSFX.Clear();
-        FSearchPath = UpperCase(Path);
-        if (FSearchPath[FSearchPath.Length - 1] != 92)
+        _sfx.Clear();
+        _searchPath = UpperCase(path);
+        if (_searchPath[_searchPath.Length - 1] != 92)
         {
-            FSearchPath = FSearchPath + "\\";
+            _searchPath = _searchPath + "\\";
         }
 
-        OldDir = GetCurrentDir();
-        SetCurrentDir(Path);
+        oldDirectory = GetCurrentDir();
+        SetCurrentDir(path);
         Search("");
-        SetCurrentDir(OldDir);
-        FSearchPath = UpperCase(ExtractRelativePath(AudioHost.BaseSoundEnginePath, FSearchPath));
+        SetCurrentDir(oldDirectory);
+        _searchPath = UpperCase(ExtractRelativePath(AudioHost.BaseSoundEnginePath, _searchPath));
     }
 
     [Published]
-    public string SearchPath { get => FSearchPath; set => FSearchPath = value; }
+    public string SearchPath { get => _searchPath; set => _searchPath = value; }
 
     [Published]
-    public SfxList SFX { get => FSFX; }
+    public SfxList Sfx { get => _sfx; }
 
-    private static readonly string SFXExtension = "WAV";
+    private static readonly string s_sfxExtension = "WAV";
 
 }

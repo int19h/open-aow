@@ -12,23 +12,23 @@ namespace Aow.Game.AI.Groups;
 public partial class GuardAreaAIGroup : AIGroup, IAIGroupClass
 {
     // IndependentAG.pas:161
-    public new const int ClassID = 136273;
+    public new const int ClassId = 136273;
 
-    public MapCoordinate FGuardLocation;
+    public MapCoordinate GuardLocation;
 
     // IndependentAG.pas:170
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FGuardLocation.Packed, 50);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref GuardLocation.Packed, 50);
     }
 
     // IndependentAG.pas:153
     public GuardAreaAIGroup(ECustomNode owner) : base(owner)
     {
-        FGuardLocation.Packed = 16777215;
-        FProcessPriority = 1;
-        FRecruitmentPriority = 2;
+        GuardLocation.Packed = 16777215;
+        ProcessPriority = 1;
+        RecruitmentPriority = 2;
     }
 
     // IndependentAG.pas:167

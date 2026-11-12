@@ -12,62 +12,62 @@ namespace Aow.Engine;
 // the list changes
 public partial class PluginControl : EngineObject
 {
-    internal GameEngine FEngine;
-    internal StringList FUsedPlugIns;
+    internal GameEngine _engine;
+    internal StringList _usedPlugins;
 
     // Engine.pas:9279
-    internal void SetUsedPlugIns(StringCollection Value)
+    internal void SetUsedPlugins(StringCollection value)
     {
-        FUsedPlugIns.Assign(Value);
+        _usedPlugins.Assign(value);
     }
 
     // Engine.pas:9284
-    internal StringCollection GetUsedPlugIns() => FUsedPlugIns;
+    internal StringCollection GetUsedPlugins() => _usedPlugins;
 
     // Engine.pas:9289
-    internal void OnChange(object Sender)
+    internal void OnChange(object sender)
     {
-        InitializePlugIns();
+        InitializePlugins();
     }
 
     // Engine.pas:9294
-    internal void OnChanging(object Sender)
+    internal void OnChanging(object sender)
     {
-        FinalizePlugIns();
+        FinalizePlugins();
     }
 
     // Engine.pas:9299
-    internal void InitializePlugIns()
+    internal void InitializePlugins()
     {
-        int[] I__cell = new int[1];
-        ref int I = ref I__cell[0];
+        int[] iCell = new int[1];
+        ref int I = ref iCell[0];
         Plugin P;
         I = 0;
-        int last = FUsedPlugIns.Count - 1;
+        int last = _usedPlugins.Count - 1;
         for (; I <= last; I += 1)
         {
-            P = FindPlugIn(FUsedPlugIns[I]);
+            P = FindPlugin(_usedPlugins[I]);
             if (P != null)
             {
-                P.Initialize(FEngine);
+                P.Initialize(_engine);
             }
             else
             {
-                throw new PluginMissingException("PlugIn Missing (" + FUsedPlugIns[I] + ")");
+                throw new PluginMissingException("PlugIn Missing (" + _usedPlugins[I] + ")");
             }
         }
     }
 
     // Engine.pas:9319
-    internal void FinalizePlugIns()
+    internal void FinalizePlugins()
     {
         Plugin P;
-        for (int I = 0, last = FUsedPlugIns.Count - 1; I <= last; I++)
+        for (int I = 0, last = _usedPlugins.Count - 1; I <= last; I++)
         {
-            P = FindPlugIn(FUsedPlugIns[I]);
+            P = FindPlugin(_usedPlugins[I]);
             if (P != null)
             {
-                P.Finalize(FEngine);
+                P.Finalize(_engine);
             }
         }
     }
@@ -75,57 +75,57 @@ public partial class PluginControl : EngineObject
     // Engine.pas:9252
     public PluginControl(ECustomNode owner) : base(owner)
     {
-        FUsedPlugIns = new StringList();
-        FUsedPlugIns.Sorted = true;
-        FUsedPlugIns.OnChange = OnChange;
-        FUsedPlugIns.OnChanging = OnChanging;
-        FEngine = null;
+        _usedPlugins = new StringList();
+        _usedPlugins.Sorted = true;
+        _usedPlugins.OnChange = OnChange;
+        _usedPlugins.OnChanging = OnChanging;
+        _engine = null;
     }
 
     // Engine.pas:9262
     public override void Dispose()
     {
-        FUsedPlugIns.Clear();
-        FUsedPlugIns?.Dispose();
+        _usedPlugins.Clear();
+        _usedPlugins?.Dispose();
         base.Dispose();
     }
 
     // Engine.pas:9269
-    public override GameEngine GetEngine() => FEngine;
+    public override GameEngine GetEngine() => _engine;
 
     // Engine.pas:9274
-    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared);
+    public override Set<ControlStyleElement> GetControlStyle() => Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared);
 
     // Engine.pas:9331
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(StorageModeElement.Translate))
+        base.ReadWrite(stream);
+        if (!stream.StorageMode().Contains(StorageModeElement.Translate))
         {
-            Stream.rwStrings(FUsedPlugIns, 1);
+            stream.rwStrings(_usedPlugins, 1);
         }
     }
 
-    public GameEngine Engine { get => FEngine; set => FEngine = value; }
-    public StringCollection UsedPlugIns { get => GetUsedPlugIns(); set => SetUsedPlugIns(value); }
+    public GameEngine Engine { get => _engine; set => _engine = value; }
+    public StringCollection UsedPlugins { get => GetUsedPlugins(); set => SetUsedPlugins(value); }
 
-    private static Plugin FindPlugIn(string Name)
+    private static Plugin FindPlugin(string name)
     {
-        Plugin tPlugIn = null;
-        if (EngineHost.PlugIns != null)
+        Plugin plugin = null;
+        if (EngineHost.Plugins != null)
         {
-            for (int i = 0; i != EngineHost.PlugIns.Count; i++)
+            for (int i = 0; i != EngineHost.Plugins.Count; i++)
             {
-                if (tPlugIn != null)
+                if (plugin != null)
                 {
                     break;
                 }
-                if ((EngineHost.PlugIns[i]).Name() == Name)
+                if ((EngineHost.Plugins[i]).Name() == name)
                 {
-                    tPlugIn = EngineHost.PlugIns[i];
+                    plugin = EngineHost.Plugins[i];
                 }
             }
         }
-        return tPlugIn;
+        return plugin;
     }
 }

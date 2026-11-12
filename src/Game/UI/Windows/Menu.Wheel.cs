@@ -5,13 +5,13 @@ namespace Aow.Game.UI.Windows;
 
 public partial class Menu
 {
-    public override bool ContainsPoint(int X, int Y) => PointInside(X, Y, FWinLeft, FWinTop, FWinWidth, FWinHeight);
+    public override bool ContainsPoint(int X, int Y) => PointInside(X, Y, _winLeft, _winTop, _winWidth, _winHeight);
 
-    public override bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y)
+    public override bool CheckMouseWheel(int steps, Set<ShiftState> shift, int X, int Y)
     {
-        if (Steps == 0 || !FVisible || !ContainsPoint(X, Y)) return false;
+        if (steps == 0 || !_visible || !ContainsPoint(X, Y)) return false;
         var child = TopWheelChild(X, Y);
-        if (child != null && child.CheckMouseWheel(Steps, Shift, X, Y)) return true;
-        return ScrollOwnedBar(Steps);
+        if (child != null && child.CheckMouseWheel(steps, shift, X, Y)) return true;
+        return ScrollOwnedBar(steps);
     }
 }

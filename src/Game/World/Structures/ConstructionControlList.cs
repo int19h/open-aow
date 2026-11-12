@@ -9,25 +9,25 @@ public partial class ConstructionControlList : ENode
     { }
 
     // AoWAb.PAS:5519
-    public ConstructionControl GetConstructionControl(int Index) => (ConstructionControl)FChildren.List[Index];
+    public ConstructionControl GetConstructionControl(int index) => (ConstructionControl)_children.List[index];
 
     // AoWAb.PAS:5523
-    public ConstructionControl FindID(int ID)
+    public ConstructionControl FindId(int id)
     {
         int I;
-        ConstructionControl Result = null;
+        ConstructionControl result = null;
         I = GetCount();
-        while (Result == null && I != 0)
+        while (result == null && I != 0)
         {
             I -= 1;
             // { Read the list again after the virtual ID call. }
-            if (((ConstructionControl)FChildren.List[I]).ID() == ID)
+            if (((ConstructionControl)_children.List[I]).Id() == id)
             {
-                Result = (ConstructionControl)FChildren.List[I];
+                result = (ConstructionControl)_children.List[I];
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:631

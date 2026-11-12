@@ -11,52 +11,52 @@ public partial class AIPlayerActionManager : EngineObject
     // AI.pas:36
     public AIPlayerActionManager(ECustomNode owner) : base(owner)
     {
-        FRegisteredClasses = new DelphiList<AIPlayerActionClass>();
+        RegisteredClasses = new DelphiList<AIPlayerActionClass>();
     }
 
-    public DelphiList<AIPlayerActionClass> FRegisteredClasses;
+    public DelphiList<AIPlayerActionClass> RegisteredClasses;
 
     // AI.pas:42
     public override void Dispose()
     {
-        FRegisteredClasses?.Dispose();
+        RegisteredClasses?.Dispose();
         base.Dispose();
     }
 
     // AI.pas:48
-    public int GetCount() => FRegisteredClasses.Count;
+    public int GetCount() => RegisteredClasses.Count;
 
     // AI.pas:53
-    public AIPlayerActionClass GetRegisteredClasses(int Index) => FRegisteredClasses.List[Index];
+    public AIPlayerActionClass GetRegisteredClasses(int index) => RegisteredClasses.List[index];
 
     // AI.pas:63
-    public void RegisterClasses(ReadOnlySpan<AIPlayerActionClass> Classes)
+    public void RegisterClasses(ReadOnlySpan<AIPlayerActionClass> classes)
     {
-        for (int I = 0, last = Classes.Length - 1; I <= last; I++)
+        for (int I = 0, last = classes.Length - 1; I <= last; I++)
         {
-            if (FRegisteredClasses.IndexOf(Classes[I]) != -1)
+            if (RegisteredClasses.IndexOf(classes[I]) != -1)
             {
                 throw new InvalidOperationException("AIPlayerAction already Registered");
             }
 
-            FRegisteredClasses.Add(Classes[I]);
+            RegisteredClasses.Add(classes[I]);
         }
 
-        FRegisteredClasses.Sort(CompareAIPlayerActionClasses);
+        RegisteredClasses.Sort(CompareAIPlayerActionClasses);
     }
 
     // AI.pas:76
-    public void UnRegisterClasses(ReadOnlySpan<AIPlayerActionClass> Classes)
+    public void UnregisterClasses(ReadOnlySpan<AIPlayerActionClass> classes)
     {
-        for (int I = 0, last = Classes.Length - 1; I <= last; I++)
+        for (int I = 0, last = classes.Length - 1; I <= last; I++)
         {
-            FRegisteredClasses.Remove(Classes[I]);
+            RegisteredClasses.Remove(classes[I]);
         }
     }
 
-    private static int CompareAIPlayerActionClasses(AIPlayerActionClass Item1, AIPlayerActionClass Item2)
+    private static int CompareAIPlayerActionClasses(AIPlayerActionClass item1, AIPlayerActionClass item2)
     {
-        return Item2.Priority - Item1.Priority;
+        return item2.Priority - item1.Priority;
     }
 
     // intf_P5_06.inc:32

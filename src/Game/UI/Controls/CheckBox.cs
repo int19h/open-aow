@@ -7,147 +7,147 @@ namespace Aow.Game.UI.Controls;
 //   (Checked) on a left click; with a RadioIndex above 0 it is a radio button, which only turns
 //   on, and its window turns off the other radio buttons of the group (RadioChange). A right
 //   click opens its PopupMenu at the mouse, kept inside the window manager. }
-// Fields: FOnDoubleClick
+// Fields: _onDoubleClick
 public partial class CheckBox : BaseButton
 {
     public CheckBox(Component owner) : base(owner)
     { }
 
-    public NotifyEvent<CheckBox> FOnDoubleClick;
+    public NotifyEvent<CheckBox> _onDoubleClick;
 
     // AoWCheckBox.pas:51
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseDown(Button, Shift, X, Y);
-        FHandled = false;
-        FLit = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight && FValid == true && FVisible == true)
+        base.CheckMouseDown(button, shift, X, Y);
+        Handled = false;
+        Lit = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight && Valid == true && _visible == true)
         {
-            FHandled = true;
-            if (FOnMouseDown != null)
+            Handled = true;
+            if (_onMouseDown != null)
             {
-                FOnMouseDown(this, Button, Shift, X, Y);
+                _onMouseDown(this, button, shift, X, Y);
             }
 
-            if (Button == MouseButton.Left)
+            if (button == MouseButton.Left)
             {
-                if (FRadioIndex > 0)
+                if (_radioIndex > 0)
                 {
-                    if (!FChecked)
+                    if (!_checked)
                     {
-                        FChecked = true;
-                        if (FOnChange != null)
+                        _checked = true;
+                        if (_onChange != null)
                         {
-                            FOnChange(this);
+                            _onChange(this);
                         }
 
-                        FChecked = !FChecked;
-                        Checked = !FChecked;
+                        _checked = !_checked;
+                        Checked = !_checked;
                     }
                 }
                 else
                 {
-                    FChecked = !FChecked;
-                    if (FOnChange != null)
+                    _checked = !_checked;
+                    if (_onChange != null)
                     {
-                        FOnChange(this);
+                        _onChange(this);
                     }
 
-                    FChecked = !FChecked;
-                    Checked = !FChecked;
+                    _checked = !_checked;
+                    Checked = !_checked;
                 }
 
-                if ((Shift & Set<ShiftState>.Of(ShiftState.Double)) == Set<ShiftState>.Of(ShiftState.Double))
+                if ((shift & Set<ShiftState>.Of(ShiftState.Double)) == Set<ShiftState>.Of(ShiftState.Double))
                 {
-                    if (FOnDoubleClick != null)
+                    if (_onDoubleClick != null)
                     {
-                        FOnDoubleClick(this);
+                        _onDoubleClick(this);
                     }
                 }
             }
             else
             {
-                if (Button == MouseButton.Right && FPopupMenu != null)
+                if (button == MouseButton.Right && _popupMenu != null)
                 {
-                    FPopupMenu.WinLeft = X;
-                    FPopupMenu.WinTop = Y;
-                    FPopupMenu.SetPopupOwner(this);
-                    if (FPopupMenu.FWinManager != null)
+                    _popupMenu.WinLeft = X;
+                    _popupMenu.WinTop = Y;
+                    _popupMenu.SetPopupOwner(this);
+                    if (_popupMenu._windowManager != null)
                     {
-                        if (FPopupMenu.FWinLeft + FPopupMenu.FWinWidth > FPopupMenu.FWinManager.FWinWidth)
+                        if (_popupMenu._winLeft + _popupMenu._winWidth > _popupMenu._windowManager._winWidth)
                         {
-                            FPopupMenu.FWinLeft = X - FPopupMenu.FWinWidth;
+                            _popupMenu._winLeft = X - _popupMenu._winWidth;
                         }
 
-                        if (FPopupMenu.FWinTop + FPopupMenu.FWinHeight > FPopupMenu.FWinManager.FWinHeight)
+                        if (_popupMenu._winTop + _popupMenu._winHeight > _popupMenu._windowManager._winHeight)
                         {
-                            FPopupMenu.FWinTop = Y - FPopupMenu.FWinHeight;
+                            _popupMenu._winTop = Y - _popupMenu._winHeight;
                         }
                     }
 
-                    FPopupMenu.Visible = true;
+                    _popupMenu.Visible = true;
                 }
             }
         }
     }
 
     // AoWCheckBox.pas:105
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = false;
-        FLit = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight && FValid == true && FVisible == true)
+        Handled = false;
+        Lit = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight && Valid == true && _visible == true)
         {
-            FHandled = true;
-            if (FOnMouseUp != null)
+            Handled = true;
+            if (_onMouseUp != null)
             {
-                FOnMouseUp(this, Button, Shift, X, Y);
+                _onMouseUp(this, button, shift, X, Y);
             }
         }
     }
 
     // AoWCheckBox.pas:119
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        bool OldLit;
-        base.CheckMouseMove(Shift, X, Y);
-        FHandled = false;
-        OldLit = FLit;
-        if (X < FAOWWindow.FWinLeft + FWinLeft || X > FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 || Y < FAOWWindow.FWinTop + FWinTop || Y > FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
+        bool oldLit;
+        base.CheckMouseMove(shift, X, Y);
+        Handled = false;
+        oldLit = Lit;
+        if (X < _window._winLeft + _winLeft || X > _window._winLeft + _winLeft + _winWidth - 1 || Y < _window._winTop + _winTop || Y > _window._winTop + _winTop + _winHeight - 1)
         {
-            FLit = false;
+            Lit = false;
         }
         else
         {
-            FHandled = true;
-            FLit = !FChecked && !FAOWOwner.FHandled;
-            if (FOnMouseMove != null)
+            Handled = true;
+            Lit = !_checked && !_ownerComponent.Handled;
+            if (_onMouseMove != null)
             {
-                FOnMouseMove(this, Shift, X, Y);
+                _onMouseMove(this, shift, X, Y);
             }
         }
 
-        FRedraw = FLit;
-        if (OldLit != FLit)
+        Redraw = Lit;
+        if (oldLit != Lit)
         {
-            FDrawn = false;
+            Drawn = false;
         }
     }
 
     // AoWCheckBox.pas:38
-    public virtual void SetChecked(bool Value)
+    public virtual void SetChecked(bool value)
     {
-        if (Value != FChecked)
+        if (value != _checked)
         {
-            FChecked = Value;
-            FDrawn = false;
-            if (FRadioIndex > 0)
+            _checked = value;
+            Drawn = false;
+            if (_radioIndex > 0)
             {
-                if (FAOWWindow != null)
+                if (_window != null)
                 {
-                    if (FChecked)
+                    if (_checked)
                     {
-                        FAOWWindow.RadioChange(this);
+                        _window.RadioChange(this);
                     }
                 }
             }
@@ -155,65 +155,65 @@ public partial class CheckBox : BaseButton
     }
 
     [Published]
-    public bool Checked { get => FChecked; set => SetChecked(value); }
+    public bool Checked { get => _checked; set => SetChecked(value); }
 
     [Published]
-    public int RadioIndex { get => FRadioIndex; set => FRadioIndex = value; }
+    public int RadioIndex { get => _radioIndex; set => _radioIndex = value; }
 
     [Published]
-    public NotifyEvent<CheckBox> OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
+    public NotifyEvent<CheckBox> OnDoubleClick { get => _onDoubleClick; set => _onDoubleClick = value; }
 
     public new NotifyEvent<CheckBox> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<CheckBox> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<CheckBox> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<CheckBox> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<CheckBox> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<CheckBox> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<CheckBox> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<CheckBox> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<CheckBox> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

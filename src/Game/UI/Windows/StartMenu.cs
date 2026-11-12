@@ -13,143 +13,143 @@ public partial class StartMenu : Menu
     public StartMenu(Component owner) : base(owner)
     { }
 
-    public ImageLibrary FILWholeMenu;
+    public ImageLibrary _imageLibraryWholeMenu;
 
     // StartMenu.pas:30
     public override void SetSize()
     {
         WindowManager M;
         base.SetSize();
-        FWinHeight = 377;
-        M = FWinManager;
-        if (M != null && FOwnerMenuBar != null)
+        _winHeight = 377;
+        M = _windowManager;
+        if (M != null && _ownerMenuBar != null)
         {
-            FWinTop = M.FWinHeight - 393;
+            _winTop = M._winHeight - 393;
         }
 
-        FWinLeft = 0;
+        _winLeft = 0;
     }
 
     // StartMenu.pas:41
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
         WindowManager M = default;
         MenuBar B = default;
-        if (Value != FVisible)
+        if (value != _visible)
         {
-            FVisible = Value;
-            if (FVisible == true)
+            _visible = value;
+            if (_visible == true)
             {
-                FHighlighted = -1;
-                FWinHeight = 377;
-                M = FWinManager;
-                if (M != null && FOwnerMenuBar != null)
+                Highlighted = -1;
+                _winHeight = 377;
+                M = _windowManager;
+                if (M != null && _ownerMenuBar != null)
                 {
-                    FWinTop = M.FWinHeight - 393;
+                    _winTop = M._winHeight - 393;
                 }
 
-                FWinLeft = 0;
-                FDrawn = false;
-                if (!FHidden)
+                _winLeft = 0;
+                Drawn = false;
+                if (!Hidden)
                 {
-                    FBackRect.Right = FWinWidth;
-                    FBackRect.Bottom = FWinHeight;
-                    FBackRect.Top = FWinTop;
-                    FBackRect.Left = FWinLeft;
+                    BackRectangle.Right = _winWidth;
+                    BackRectangle.Bottom = _winHeight;
+                    BackRectangle.Top = _winTop;
+                    BackRectangle.Left = _winLeft;
                 }
 
-                if (FOnShow != null)
+                if (_onShow != null)
                 {
-                    FOnShow(this);
+                    _onShow(this);
                 }
             }
             else
             {
-                B = FOwnerMenuBar;
+                B = _ownerMenuBar;
                 if (B != null)
                 {
-                    B.FSelected = -1;
-                    B.FDrawn = false;
+                    B._selected = -1;
+                    B.Drawn = false;
                 }
 
-                FHidden = true;
-                if (FOnHide != null)
+                Hidden = true;
+                if (_onHide != null)
                 {
-                    FOnHide(this);
+                    _onHide(this);
                 }
             }
         }
 
-        if (FVisible)
+        if (_visible)
         {
-            if (!FValid || !FAligned || !FSized)
+            if (!Valid || !Aligned || !Sized)
             {
                 Setup();
             }
 
-            ClearBltList();
+            ClearBlitList();
             ClearDrawList();
-            FDrawn = false;
-            SetPriority(FPriority);
+            Drawn = false;
+            SetPriority(_priority);
         }
     }
 
     // StartMenu.pas:87
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
-        Rect OldClip = default;
+        Rect oldClip = default;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                if (!FDrawn)
+                if (!Drawn)
                 {
-                    OldClip = SurfDesc.ClipRect;
-                    FAOWFont.Color = FColor;
-                    FILWholeMenu[FHighlighted + 1].ShowClipped(0, 0, SurfDesc);
-                    for (int I = 0, last = FItems.Count - 1; I <= last; I++)
+                    oldClip = lockedSurface.ClipRectangle;
+                    _font.Color = Color;
+                    _imageLibraryWholeMenu[Highlighted + 1].ShowClipped(0, 0, lockedSurface);
+                    for (int I = 0, last = _items.Count - 1; I <= last; I++)
                     {
-                        if (FItems.Count > 0)
+                        if (_items.Count > 0)
                         {
-                            var ilFrameWidth = FILFrame[FILIndexFrame + 2];
-                            if (FWinLeft + FWinWidth - ilFrameWidth.Width < OldClip.Right)
+                            var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                            if (_winLeft + _winWidth - imageLibraryFrameWidth.Width < oldClip.Right)
                             {
-                                var ilFrame = FILFrame[FILIndexFrame + 2];
-                                SurfDesc.ClipRect.Right = FWinLeft + FWinWidth - ilFrame.Width;
+                                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 2];
+                                lockedSurface.ClipRectangle.Right = _winLeft + _winWidth - imageLibraryFrame.Width;
                             }
 
-                            if (I == FHighlighted)
+                            if (I == Highlighted)
                             {
-                                FAOWFont.Color = FSelColor;
+                                _font.Color = SelectedColor;
                             }
 
-                            var item = FItems[I];
-                            var ilFrameHeight = FILFrame[FILIndexFrame];
-                            var ilFrame2 = FILFrame[FILIndexFrame + 3];
-                            FAOWFont.SetText(FWinLeft + FBorderWidth + ilFrame2.Width, FWinTop + FBorderHeight + ilFrameHeight.Height + FItemHeight * I, item, SurfDesc);
-                            if (I == FHighlighted)
+                            var item = _items[I];
+                            var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame];
+                            var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                            _font.SetText(_winLeft + _borderWidth + imageLibraryFrame2.Width, _winTop + _borderHeight + imageLibraryFrameHeight.Height + _itemHeight * I, item, lockedSurface);
+                            if (I == Highlighted)
                             {
-                                FAOWFont.Color = FColor;
+                                _font.Color = Color;
                             }
 
-                            FDrawItem = I;
-                            var ilFrame3 = FILFrame[FILIndexFrame + 1];
-                            var ilFrame4 = FILFrame[FILIndexFrame + 1];
-                            var ilFrame5 = FILFrame[FILIndexFrame + 3];
-                            FDrawItemRect = new Rect(FWinLeft + ilFrame5.Width, FWinTop + ilFrame4.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame3.Height + (I + 1) * FItemHeight);
-                            if (FOnDrawItem != null)
+                            DrawItem = I;
+                            var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                            var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                            var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                            DrawItemRectangle = new Rect(_winLeft + imageLibraryFrame5.Width, _winTop + imageLibraryFrame4.Height + _itemHeight * I, _winLeft + _winWidth, _winTop + imageLibraryFrame3.Height + (I + 1) * _itemHeight);
+                            if (_onDrawItem != null)
                             {
-                                FOnDrawItem(this);
+                                _onDrawItem(this);
                             }
 
-                            SurfDesc.ClipRect = OldClip;
+                            lockedSurface.ClipRectangle = oldClip;
                         }
                     }
                 }
 
-                if (FOnDraw != null)
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
             }
         }
@@ -160,132 +160,132 @@ public partial class StartMenu : Menu
     }
 
     // StartMenu.pas:123
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        if (FValid)
+        if (Valid)
         {
-            var ilFrameHeight = FILFrame[FILIndexFrame + 6];
-            FWinHeight -= ilFrameHeight.Height;
-            base.CheckMouseDown(Button, Shift, X, Y);
-            var ilFrame = FILFrame[FILIndexFrame + 6];
-            FWinHeight += ilFrame.Height;
+            var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+            _winHeight -= imageLibraryFrameHeight.Height;
+            base.CheckMouseDown(button, shift, X, Y);
+            var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+            _winHeight += imageLibraryFrame.Height;
         }
     }
 
     [Published]
-    public ImageLibrary ILWholeMenu { get => FILWholeMenu; set => FILWholeMenu = value; }
+    public ImageLibrary ImageLibraryWholeMenu { get => _imageLibraryWholeMenu; set => _imageLibraryWholeMenu = value; }
 
     public new NotifyEvent<StartMenu> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<StartMenu> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<StartMenu> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<StartMenu> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<StartMenu> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<StartMenu> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<StartMenu> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<StartMenu> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<StartMenu> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 
     public new AoWOnDrawBackEvent<StartMenu> OnDrawBack
     {
-        get => EventSlot.Get(this, FOnDrawBack);
-        set => EventSlot.Set(this, ref FOnDrawBack, value);
+        get => EventSlot.Get(this, _onDrawBack);
+        set => EventSlot.Set(this, ref _onDrawBack, value);
     }
 
     public new NotifyEvent<StartMenu> OnEnter
     {
-        get => EventSlot.Get(this, FOnEnter);
-        set => EventSlot.Set(this, ref FOnEnter, value);
+        get => EventSlot.Get(this, _onEnter);
+        set => EventSlot.Set(this, ref _onEnter, value);
     }
 
     public new NotifyEvent<StartMenu> OnExit
     {
-        get => EventSlot.Get(this, FOnExit);
-        set => EventSlot.Set(this, ref FOnExit, value);
+        get => EventSlot.Get(this, _onExit);
+        set => EventSlot.Set(this, ref _onExit, value);
     }
 
     public new NotifyEvent<StartMenu> OnChangeCursor
     {
-        get => EventSlot.Get(this, FOnChangeCursor);
-        set => EventSlot.Set(this, ref FOnChangeCursor, value);
+        get => EventSlot.Get(this, _onChangeCursor);
+        set => EventSlot.Set(this, ref _onChangeCursor, value);
     }
 
     public new AoWOnDrawSurface<StartMenu> OnDrawSurface
     {
-        get => EventSlot.Get(this, FOnDrawSurface);
-        set => EventSlot.Set(this, ref FOnDrawSurface, value);
+        get => EventSlot.Get(this, _onDrawSurface);
+        set => EventSlot.Set(this, ref _onDrawSurface, value);
     }
 
     public new AoWOnDrawSurface<StartMenu> OnPreDrawSurface
     {
-        get => EventSlot.Get(this, FOnPreDrawSurface);
-        set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
+        get => EventSlot.Get(this, _onPreDrawSurface);
+        set => EventSlot.Set(this, ref _onPreDrawSurface, value);
     }
 
     public new NotifyEvent<StartMenu> OnHide
     {
-        get => EventSlot.Get(this, FOnHide);
-        set => EventSlot.Set(this, ref FOnHide, value);
+        get => EventSlot.Get(this, _onHide);
+        set => EventSlot.Set(this, ref _onHide, value);
     }
 
     public new NotifyEvent<StartMenu> OnShow
     {
-        get => EventSlot.Get(this, FOnShow);
-        set => EventSlot.Set(this, ref FOnShow, value);
+        get => EventSlot.Get(this, _onShow);
+        set => EventSlot.Set(this, ref _onShow, value);
     }
 
     public new NotifyEvent<StartMenu> OnDrawItem
     {
-        get => EventSlot.Get(this, FOnDrawItem);
-        set => EventSlot.Set(this, ref FOnDrawItem, value);
+        get => EventSlot.Get(this, _onDrawItem);
+        set => EventSlot.Set(this, ref _onDrawItem, value);
     }
 
     public new NotifyEvent<StartMenu> OnSelect
     {
-        get => EventSlot.Get(this, FOnSelect);
-        set => EventSlot.Set(this, ref FOnSelect, value);
+        get => EventSlot.Get(this, _onSelect);
+        set => EventSlot.Set(this, ref _onSelect, value);
     }
 }

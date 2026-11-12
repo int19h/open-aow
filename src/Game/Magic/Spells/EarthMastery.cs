@@ -18,29 +18,29 @@ public partial class EarthMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1877
     public EarthMastery(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.EarthMasteryRStr);
-        FSpellID = 64;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 1;
-        FSpellLevel = 3;
-        FMagicSphere = MagicSphere.Earth;
-        FCastDuration = 40;
-        FAIBasePriority = 1000;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_earthMasteryText);
+        SpellId = 64;
+        SpellType = SpellType.Global;
+        BaseManaCost = 1;
+        SpellLevel = 3;
+        MagicSphere = MagicSphere.Earth;
+        CastDuration = 40;
+        AIBasePriority = 1000;
     }
 
     // GlobalEnchantmentSpells.pas:1918
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Earth);
-        Source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Earth);
+        source.GetLocation(ref X, ref Y, ref L);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         AoWHSMap.Current.AddEffect(WorldEffectType.EarthMastery);
-        FCastSounds.Play(0);
-        CastingDone(Source, Event.FEventMana);
+        CastSounds.Play(0);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 
@@ -48,45 +48,45 @@ public partial class EarthMastery : GlobalEnchantmentSpell
     public override GlobalEnchantment CreateEnchantment() => new EarthMasteryEnchantment(null);
 
     // GlobalEnchantmentSpells.pas:1890
-    public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int MaxX;
-        int MaxY;
-        int Xhp = default;
-        int Yhp = default;
-        MapLevel MapLevel;
-        AoWMapField MapF;
-        MapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(AoWHSMap.Current.ViewL);
-        MaxX = AoWHSMap.Current.ViewXhx + AoWHSMap.Current.ViewWidthHX - 1;
-        MaxY = AoWHSMap.Current.ViewYhx + AoWHSMap.Current.ViewHeightHX - 1;
-        for (int X = AoWHSMap.Current.ViewXhx; X <= MaxX; X++)
+        int maxX;
+        int maxY;
+        int pixelX = default;
+        int pixelY = default;
+        MapLevel mapLevel;
+        AoWMapField mapField;
+        mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(AoWHSMap.Current.ViewL);
+        maxX = AoWHSMap.Current.ViewHexX + AoWHSMap.Current.ViewWidthHex - 1;
+        maxY = AoWHSMap.Current.ViewHexY + AoWHSMap.Current.ViewHeightHex - 1;
+        for (int X = AoWHSMap.Current.ViewHexX; X <= maxX; X++)
         {
-            HexGeometry.HXtoHP(X, AoWHSMap.Current.ViewYhx, ref Xhp, ref Yhp);
-            Xhp = Xhp - XhpSurf + 16;
-            Yhp = Yhp - YhpSurf + 16;
-            MapF = (AoWMapField)MapLevel.GetField(X, AoWHSMap.Current.ViewYhx);
-            for (int Y = AoWHSMap.Current.ViewYhx; Y <= MaxY; Y++)
+            HexGeometry.HexToPixel(X, AoWHSMap.Current.ViewHexY, ref pixelX, ref pixelY);
+            pixelX = pixelX - pixelXSurface + 16;
+            pixelY = pixelY - pixelYSurface + 16;
+            mapField = (AoWMapField)mapLevel.GetField(X, AoWHSMap.Current.ViewHexY);
+            for (int Y = AoWHSMap.Current.ViewHexY; Y <= maxY; Y++)
             {
                 // The original frame offset uses the field address.
-                if (MapF.OverlayType == 4)
+                if (mapField.OverlayType == 4)
                 {
-                    FCastImages.Show(0, Xhp, Yhp, Anim.FFrameCounter - FrameFixtureInputs.FieldFrameOffset(MapF), SurfaceDesc);
+                    CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - FrameFixtureInputs.FieldFrameOffset(mapField), lockedSurface);
                 }
 
                 // The original steps the field pointer by FHNOffsets[0, 4], one row down. The step
                 // after the last row is never read there, and the guard keeps it from reading here.
-                if (Y < MaxY)
+                if (Y < maxY)
                 {
-                    MapF = (AoWMapField)MapLevel.GetField(X, Y + 1);
+                    mapField = (AoWMapField)mapLevel.GetField(X, Y + 1);
                 }
 
-                Yhp += 32;
+                pixelY += 32;
             }
         }
 
-        if (Anim.FFrameCounter == 50)
+        if (animation.FrameCounter == 50)
         {
-            Anim.Dispose();
+            animation.Dispose();
         }
     }
 }

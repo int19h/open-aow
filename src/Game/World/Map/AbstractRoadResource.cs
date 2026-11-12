@@ -9,38 +9,38 @@ public partial class AbstractRoadResource : MapObjectResource
     { }
 
     // MAPOBJ.PAS:874
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 65556)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 65556)
         {
             GetRoadControl().RegisterResource(this);
         }
 
-        if (Msg.MsgID == 65621)
+        if (message.MessageId == 65621)
         {
-            Msg.Result = 6;
+            message.Result = 6;
         }
     }
 
     // MAPOBJ.PAS:883
-    public override MapObject PlaceResourceUser(HSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override MapObject PlaceResourceUser(HSMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        int Xhp = default;
-        int Yhp = default;
-        MapObject Result = (MapObject)CreateResourceUser();
-        HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
-        Xhp += 16;
-        Yhp += 16;
-        if (!HSMap.Place(Result, Xhp, Yhp, Lhx))
+        int pixelX = default;
+        int pixelY = default;
+        MapObject result = (MapObject)CreateResourceUser();
+        HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+        pixelX += 16;
+        pixelY += 16;
+        if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
         {
-            Result?.Dispose();
-            Result = null;
+            result?.Dispose();
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // MAPOBJ.PAS:869
-    public virtual RoadControl GetRoadControl() => FEngine.FHSSet.FRoadControl;
+    public virtual RoadControl GetRoadControl() => _engine._hexSpriteSet._roadControl;
 }

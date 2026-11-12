@@ -21,88 +21,88 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
     { }
 
     // GlobalSpells.pas:745
-    public new const int ClassID = 135961;
+    public new const int ClassId = 135961;
 
-    public int FDispelChance;
-    public int FEnchantmentID;
+    public int DispelChance;
+    public int EnchantmentId;
 
     // GlobalSpells.pas:750
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FEnchantmentID, 20);
-        Stream.rwInteger(ref FDispelChance, 21);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref EnchantmentId, 20);
+        stream.rwInteger(ref DispelChance, 21);
     }
 
     // GlobalSpells.pas:757
     public override bool Validate(Hero source)
     {
-        int Index;
-        int Mana;
-        int RequiredMana;
-        bool Result = base.Validate(source);
-        Index = AoWHSMap.Current.FGlobalMagicControl.IndexOfID(FEnchantmentID);
-        Result = Result && Index != -1;
-        if (Result)
+        int index;
+        int mana;
+        int requiredMana;
+        bool result = base.Validate(source);
+        index = AoWHSMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
+        result = result && index != -1;
+        if (result)
         {
-            var globalEnchantment = AoWHSMap.Current.FGlobalMagicControl.FEnchantments.GetEnchantments(Index);
-            Mana = AoWHSMap.Current.FPlayers.GetPlayers(source.FPlayer).FMagicControl.FMana + source.FCastingProgress;
-            RequiredMana = Round((double)((double)globalEnchantment.FDispelMana * 0.02) * FDispelChance) + FEventMana;
-            Result = RequiredMana <= Mana;
+            var globalEnchantment = AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
+            mana = AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + source.CastingProgress;
+            requiredMana = Round((double)((double)globalEnchantment.DispelMana * 0.02) * DispelChance) + EventMana;
+            result = requiredMana <= mana;
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalSpells.pas:772
     public override bool Process(Troop source, int value)
     {
-        GlobalEnchantment Enchantment;
-        int Index;
+        GlobalEnchantment enchantment;
+        int index;
         sbyte X = default;
         sbyte Y = default;
-        sbyte Layer = default;
-        TwinkleAnimation Twinkle;
-        int Mana;
+        sbyte layer = default;
+        TwinkleAnimation twinkle;
+        int mana;
         base.Process(source, value);
-        Index = AoWHSMap.Current.FGlobalMagicControl.IndexOfID(FEnchantmentID);
-        Enchantment = AoWHSMap.Current.FGlobalMagicControl.FEnchantments.GetEnchantments(Index);
-        source.GetLocation(ref X, ref Y, ref Layer);
-        AoWHSMap.Current.ValidateObservation(source.FPlayer, X, Y, Layer, 0);
-        Twinkle = new TwinkleAnimation(null);
-        Twinkle.Setup(AoWHSSet.Current.FSpellControl.GetSpell(51).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), FEventMana + 50, 192, 50, 30);
-        AoWHSMap.Current.PlaceHX(Twinkle, X, Y, Layer);
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
-        Mana = Round((double)((double)Enchantment.FDispelMana * 0.02) * FDispelChance);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(source.FPlayer);
-        AoWHSMap.Current.FPlayers.GetPlayers(source.FPlayer).FMagicControl.SetMana(player.FMagicControl.FMana - Mana);
-        if (AoWHSMap.Current.Random(100) < FDispelChance)
+        index = AoWHSMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
+        enchantment = AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
+        source.GetLocation(ref X, ref Y, ref layer);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
+        twinkle = new TwinkleAnimation(null);
+        twinkle.Setup(AoWHSSet.Current.SpellControl.GetSpell(51).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), EventMana + 50, 192, 50, 30);
+        AoWHSMap.Current.PlaceHex(twinkle, X, Y, layer);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+        mana = Round((double)((double)enchantment.DispelMana * 0.02) * DispelChance);
+        var player = AoWHSMap.Current.Players.GetPlayers(source.Player);
+        AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
+        if (AoWHSMap.Current.Random(100) < DispelChance)
         {
-            if (AoWHSMap.Current.FSeatedPlayer == source.FPlayer)
+            if (AoWHSMap.Current.SeatedPlayer == source.Player)
             {
-                var name = Enchantment.GetName();
-                var format = RtlUnit.Format(AbilityRules.TranslateRStr(XSuccessfullyDispelledRStr), [name]);
+                var name = enchantment.GetName();
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_successfullyDispelledFormat), [name]);
                 AoWHSMap.Current.ShowMessage(format);
             }
 
-            AoWHSMap.Current.FGlobalMagicControl.ExecuteDispelEnchantment(source.FPlayer, FEnchantmentID);
+            AoWHSMap.Current.GlobalMagicControl.ExecuteDispelEnchantment(source.Player, EnchantmentId);
         }
         else
         {
-            if (AoWHSMap.Current.FSeatedPlayer == source.FPlayer)
+            if (AoWHSMap.Current.SeatedPlayer == source.Player)
             {
                 // { Original formats this message with an unused enchantment-name argument. }
-                var name = Enchantment.GetName();
-                var format = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.DispelMagicFailedRStr), [name]);
+                var name = enchantment.GetName();
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_dispelMagicFailedText), [name]);
                 AoWHSMap.Current.ShowMessage(format);
             }
         }
 
-        AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         return false;
     }
 
-    private static readonly string XSuccessfullyDispelledRStr = "%s successfully dispelled";
+    private static readonly string s_successfullyDispelledFormat = "%s successfully dispelled";
 
     // NetworkE.pas:230
 

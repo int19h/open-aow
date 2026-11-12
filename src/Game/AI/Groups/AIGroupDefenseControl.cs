@@ -15,87 +15,87 @@ public partial class AIGroupDefenseControl : AIGroupTask
     // AIGroup.pas:1807
     public AIGroupDefenseControl(ECustomNode owner) : base(owner)
     {
-        FSelector = new GroupDefenseSelector();
-        FMode = Set<ModeElement>.Of();
-        FDefendMode = GroupDefendMode.Wait;
-        FState = 0;
+        Selector = new GroupDefenseSelector();
+        Mode = Set<ModeElement>.Of();
+        DefendMode = GroupDefendMode.Wait;
+        State = 0;
     }
 
-    public GroupDefenseSelector FSelector;
-    public int FCustomState;
-    public Set<ModeElement> FMode;
-    public GroupDefendMode FDefendMode;
+    public GroupDefenseSelector Selector;
+    public int CustomState;
+    public Set<ModeElement> Mode;
+    public GroupDefendMode DefendMode;
 
     // AIGroup.pas:1816
     public override void Dispose()
     {
-        FSelector?.Dispose();
+        Selector?.Dispose();
         base.Dispose();
     }
 
     // AIGroup.pas:1822
-    public override bool GetBusy() => FState != -1 && FStatus.Contains(AIGroupTaskStatusElement.Activated);
+    public override bool GetBusy() => State != -1 && Status.Contains(AIGroupTaskStatusElement.Activated);
 
     // AIGroup.pas:1827
-    public override bool Activate(AIGroupControl Control)
+    public override bool Activate(AIGroupControl control)
     {
-        FGroupControl = Control;
-        FState = 0;
+        GroupControl = control;
+        State = 0;
         return true;
     }
 
     // AIGroup.pas:1834
     public override bool Process()
     {
-        UnitUserList Units;
-        int Index;
-        AIGroup Group;
-        switch (FState)
+        UnitUserList units;
+        int index;
+        AIGroup group;
+        switch (State)
         {
             case 0:
                 {
-                    var aiGroupControl = FGroupControl;
-                    FSelector.Execute(aiGroupControl.FGroup, aiGroupControl.FLocation.X, aiGroupControl.FLocation.Y, aiGroupControl.FLocation.L, null);
+                    var aiGroupControl = GroupControl;
+                    Selector.Execute(aiGroupControl.Group, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, null);
                 }
 
-                if (FSelector.FDefenders.Count != 0)
+                if (Selector.Defenders.Count != 0)
                 {
-                    switch (FDefendMode)
+                    switch (DefendMode)
                     {
                         case GroupDefendMode.Split:
-                            Units = new UnitUserList(null);
+                            units = new UnitUserList(null);
                             {
-                                var aiGroupControl = FGroupControl;
-                                FSelector.GetDefenders(aiGroupControl.FGroup.FPlayer, aiGroupControl.FLocation.X, aiGroupControl.FLocation.Y, aiGroupControl.FLocation.L, Units);
+                                var aiGroupControl = GroupControl;
+                                Selector.GetDefenders(aiGroupControl.Group.Player, aiGroupControl.Location.X, aiGroupControl.Location.Y, aiGroupControl.Location.MapLevel, units);
                             }
 
-                            Index = Units.IndexOfBehavior(GroupBehavior.Passive);
-                            if (Index == -1)
+                            index = units.IndexOfBehavior(GroupBehavior.Passive);
+                            if (index == -1)
                             {
-                                Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroupControl.FGroup.FPlayer, FGroupControl.FGroup.FIndependentRelation, GroupBehavior.Passive);
-                                Group.AddUnits(FSelector.FDefenders);
-                                Group.SetupTargetEx(FGroupControl.FLocation, 0, AIGroupTargetStatus.None, 2, -1, 0, 0);
-                                Group.Release();
+                                group = AoWHSMap.Current.AIGroupManager.CreateGroup(GroupControl.Group.Player, GroupControl.Group.IndependentRelation, GroupBehavior.Passive);
+                                group.AddUnits(Selector.Defenders);
+                                group.SetupTarget(GroupControl.Location, 0, AIGroupTargetStatus.None, 2, -1, 0, 0);
+                                group.Release();
                             }
                             else
                             {
-                                Group = Units.GetUnit(Index).FGroup;
-                                Group.AddUnits(FSelector.FDefenders);
+                                group = units.GetUnit(index).Group;
+                                group.AddUnits(Selector.Defenders);
                             }
 
-                            Units?.Dispose();
+                            units?.Dispose();
                             Done();
                             break;
                         case GroupDefendMode.Wait:
-                            FGroupControl.Done();
-                            if (FMode.Contains(ModeElement.Produce))
+                            GroupControl.Done();
+                            if (Mode.Contains(ModeElement.Produce))
                             {
-                                FState = 1;
+                                State = 1;
                             }
 
                             break;
                         case GroupDefendMode.Custom:
-                            FGroupControl.FState = FCustomState;
+                            GroupControl.State = CustomState;
                             Done();
                             break;
                     }

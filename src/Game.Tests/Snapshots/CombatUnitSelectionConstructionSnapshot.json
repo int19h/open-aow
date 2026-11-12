@@ -4,15 +4,15 @@
       "State": {
         "$jsonText": {
           "$type": "Aow.Game.Combat.CombatUnitSelectionControl",
-          "CombatUnitSelectionControl.FCursorFrame": 0,
-          "CombatUnitSelectionControl.FCursorImage": 0,
-          "CombatUnitSelectionControl.FMouseOverTarget": null,
-          "CombatUnitSelectionControl.FObstacles": {
+          "CombatUnitSelectionControl.CursorFrame": 0,
+          "CombatUnitSelectionControl.CursorImage": 0,
+          "CombatUnitSelectionControl.MouseOverTarget": null,
+          "CombatUnitSelectionControl.Obstacles": {
             "$type": "Aow.Rtl.DelphiList",
             "DelphiList.count": 0,
             "DelphiList.items": []
           },
-          "CombatUnitSelectionControl.FPathInvalid": {
+          "CombatUnitSelectionControl.PathInvalid": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set`1.a": 0,
             "Set`1.b": 0,
@@ -22,20 +22,20 @@
             "Set`1.high": 0,
             "Set`1.low": 0
           },
-          "CombatUnitSelectionControl.FRangedPath": {
+          "CombatUnitSelectionControl.RangedPath": {
             "$type": "Aow.Game.Draw.Point3DList",
-            "Point3DList.FList": []
+            "Point3DList._list": []
           },
-          "CombatUnitSelectionControl.FRangedPathHS": {
+          "CombatUnitSelectionControl.RangedPathHexSprite": {
             "$type": "Aow.Game.Draw.RangedPathHexSprite",
-            "EngineObject.FOwner": null,
-            "FixedVisibleHexSprite.FStatus": 0,
-            "RangedPathHexSprite.FFrame": 0,
-            "RangedPathHexSprite.FFrameCount": 0,
-            "RangedPathHexSprite.FMiscImages": null,
-            "RangedPathHexSprite.FRange": 0,
-            "RangedPathHexSprite.FSelection": null,
-            "RangedPathHexSprite.FTargetImages": {
+            "EngineObject._owner": null,
+            "FixedVisibleHexSprite._status": 0,
+            "RangedPathHexSprite.Frame": 0,
+            "RangedPathHexSprite.FrameCount": 0,
+            "RangedPathHexSprite.MiscellaneousImages": null,
+            "RangedPathHexSprite.Range": 0,
+            "RangedPathHexSprite.Selection": null,
+            "RangedPathHexSprite.TargetImages": {
               "$type": "Aow.Game.Draw.Images.ImageLibrary",
               "Component.<ComponentState>k__BackingField": {
                 "$type": "Aow.Rtl.Set`1[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -52,21 +52,21 @@
               "Component.children": [],
               "Component.freeNotifies": null,
               "Component.name": "",
-              "CustomImageLibrary.FCapacity": 0,
-              "CustomImageLibrary.FChangeLock": 0,
-              "CustomImageLibrary.FCount": 0,
-              "CustomImageLibrary.FDataOffset": 0,
-              "CustomImageLibrary.FFileName": "",
-              "CustomImageLibrary.FImages": null,
-              "CustomImageLibrary.FLoadOnDemand": true,
-              "CustomImageLibrary.FLoadedFileName": "",
-              "CustomImageLibrary.FOnChange": null,
-              "CustomImageLibrary.FPaletteManager": {
+              "CustomImageLibrary._capacity": 0,
+              "CustomImageLibrary._changeLock": 0,
+              "CustomImageLibrary._count": 0,
+              "CustomImageLibrary._dataOffset": 0,
+              "CustomImageLibrary._fileName": "",
+              "CustomImageLibrary._images": null,
+              "CustomImageLibrary._loadOnDemand": true,
+              "CustomImageLibrary._loadedFileName": "",
+              "CustomImageLibrary._onChange": null,
+              "CustomImageLibrary._paletteManager": {
                 "$type": "Aow.Game.Draw.Images.PaletteManager",
-                "PaletteManager.FPalettes": []
+                "PaletteManager._palettes": []
               },
-              "CustomImageLibrary.FReloading": false,
-              "CustomImageLibrary.FStatus": {
+              "CustomImageLibrary._reloading": false,
+              "CustomImageLibrary._status": {
                 "$type": "Aow.Rtl.Set`1[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
                 "Set`1.a": 0,
                 "Set`1.b": 0,
@@ -78,14 +78,14 @@
               }
             }
           },
-          "CombatUnitSelectionControl.FTargetImages": "$ref:$.CombatUnitSelectionControl.FRangedPathHS.RangedPathHexSprite.FTargetImages",
-          "CombatUnitSelectionControl.FTargetX": 0,
-          "CombatUnitSelectionControl.FTargetY": 0,
-          "MoveSelector.FCurrentMove": -1,
-          "MoveSelector.FMap": null,
-          "MoveSelector.FMoveControlSettings": {
+          "CombatUnitSelectionControl.TargetImages": "$ref:$.CombatUnitSelectionControl.RangedPathHexSprite.RangedPathHexSprite.TargetImages",
+          "CombatUnitSelectionControl.TargetX": 0,
+          "CombatUnitSelectionControl.TargetY": 0,
+          "MoveSelector.CurrentMove": -1,
+          "MoveSelector.Map": null,
+          "MoveSelector.MoveControlSettings": {
             "$type": "Aow.Game.Combat.CombatMoveControlSettings",
-            "CombatMoveControlSettings.FMoveFlags": {
+            "CombatMoveControlSettings.MoveFlags": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatMoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
               "Set`1.b": 0,
@@ -95,19 +95,19 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "EngineObject.FOwner": null,
-            "MoveControlSettings.FArmyHS": null,
-            "MoveControlSettings.FDestinationL": -1,
-            "MoveControlSettings.FDestinationX": -1,
-            "MoveControlSettings.FDestinationY": -1,
-            "MoveControlSettings.FEvenOffsets": {
+            "EngineObject._owner": null,
+            "MoveControlSettings.ArmyHexSprite": null,
+            "MoveControlSettings.DestinationL": -1,
+            "MoveControlSettings.DestinationX": -1,
+            "MoveControlSettings.DestinationY": -1,
+            "MoveControlSettings.EvenOffsets": {
               "$type": "Aow.Engine.Buffers.Int32Array8",
-              "Int32Array8.element0": 0
+              "Int32Array8._element0": 0
             },
-            "MoveControlSettings.FHeight": 0,
-            "MoveControlSettings.FLevelCount": 0,
-            "MoveControlSettings.FLevelData": [],
-            "MoveControlSettings.FMode": {
+            "MoveControlSettings.Height": 0,
+            "MoveControlSettings.LevelCount": 0,
+            "MoveControlSettings.LevelData": [],
+            "MoveControlSettings.Mode": {
               "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Movement.MoveModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "Set`1.a": 0,
               "Set`1.b": 0,
@@ -117,81 +117,81 @@
               "Set`1.high": 0,
               "Set`1.low": 0
             },
-            "MoveControlSettings.FMovePointTable": {
+            "MoveControlSettings.MovePointTable": {
               "$type": "Aow.Engine.Buffers.SByteArray16By16",
-              "SByteArray16By16.element0": {
+              "SByteArray16By16._element0": {
                 "$type": "Aow.Engine.Buffers.SByteArray16",
-                "SByteArray16.element0": -1
+                "SByteArray16._element0": -1
               }
             },
-            "MoveControlSettings.FMovePointsClear": false,
-            "MoveControlSettings.FMovePointsLimit": 0,
-            "MoveControlSettings.FMovePointsMax": 4095,
-            "MoveControlSettings.FOddOffsets": {
+            "MoveControlSettings.MovePointsClear": false,
+            "MoveControlSettings.MovePointsLimit": 0,
+            "MoveControlSettings.MovePointsMax": 4095,
+            "MoveControlSettings.OddOffsets": {
               "$type": "Aow.Engine.Buffers.Int32Array8",
-              "Int32Array8.element0": 0
+              "Int32Array8._element0": 0
             },
-            "MoveControlSettings.FPath": {
+            "MoveControlSettings.Path": {
               "$type": "Aow.Game.World.Movement.MovePath",
-              "MapCoordinateList.FCapacity": 0,
-              "MapCoordinateList.FCount": 0,
-              "MapCoordinateList.FDefault": {
+              "MapCoordinateList._capacity": 0,
+              "MapCoordinateList._count": 0,
+              "MapCoordinateList._default": {
                 "$type": "Aow.Game.World.Map.MapCoordinate",
-                "MapCoordinate.Flag": 0,
-                "MapCoordinate.L": -1,
+                "MapCoordinate.Tag": 0,
+                "MapCoordinate.MapLevel": -1,
                 "MapCoordinate.Packed": 16777215,
                 "MapCoordinate.X": -1,
                 "MapCoordinate.XY": 65535,
                 "MapCoordinate.Y": -1
               },
-              "MapCoordinateList.FList": []
+              "MapCoordinateList._list": []
             },
-            "MoveControlSettings.FPlayer": -1,
-            "MoveControlSettings.FProcessedMapFields": {
+            "MoveControlSettings.Player": -1,
+            "MoveControlSettings.ProcessedMapFields": {
               "$type": "Aow.Rtl.DelphiList",
               "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
+              "DelphiList.items": "$ref:$.CombatUnitSelectionControl.Obstacles.DelphiList.items"
             },
-            "MoveControlSettings.FRefCount": 1,
-            "MoveControlSettings.FRowOffsets": [],
-            "MoveControlSettings.FSelection": 0,
-            "MoveControlSettings.FSourceL": -1,
-            "MoveControlSettings.FSourceX": -1,
-            "MoveControlSettings.FSourceY": -1,
-            "MoveControlSettings.FStatus": 0,
-            "MoveControlSettings.FSubMoveIndex": 0,
-            "MoveControlSettings.FSubMoves": {
+            "MoveControlSettings.RefCount": 1,
+            "MoveControlSettings.RowOffsets": [],
+            "MoveControlSettings.Selection": 0,
+            "MoveControlSettings.SourceL": -1,
+            "MoveControlSettings.SourceX": -1,
+            "MoveControlSettings.SourceY": -1,
+            "MoveControlSettings.Status": 0,
+            "MoveControlSettings.SubMoveIndex": 0,
+            "MoveControlSettings.SubMoves": {
               "$type": "Aow.Game.World.Movement.SubMoveList",
-              "ENode.FChildren": {
+              "ENode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
+                "DelphiList.items": "$ref:$.CombatUnitSelectionControl.Obstacles.DelphiList.items"
               },
-              "EngineObject.FOwner": null
+              "EngineObject._owner": null
             },
-            "MoveControlSettings.FTransporterArmy": null,
-            "MoveControlSettings.FUnits": {
+            "MoveControlSettings.TransporterArmy": null,
+            "MoveControlSettings.Units": {
               "$type": "Aow.Game.Units.UnitUserList",
-              "EChangeNotifyNode.FChildren": {
+              "EChangeNotifyNode._children": {
                 "$type": "Aow.Engine.Nodes.EngineObjectList",
                 "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
+                "DelphiList.items": "$ref:$.CombatUnitSelectionControl.Obstacles.DelphiList.items"
               },
-              "EChangeNotifyNode.FUpdateCount": 0,
-              "EngineObject.FOwner": null
+              "EChangeNotifyNode._updateCount": 0,
+              "EngineObject._owner": null
             },
-            "MoveControlSettings.FWidth": 0
+            "MoveControlSettings.Width": 0
           },
-          "MoveSelector.FMoveSettingsList": {
+          "MoveSelector.MoveSettingsList": {
             "$type": "Aow.Game.World.Movement.MoveSettingsList",
-            "ENode.FChildren": {
+            "ENode._children": {
               "$type": "Aow.Engine.Nodes.EngineObjectList",
               "DelphiList.count": 0,
-              "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
+              "DelphiList.items": "$ref:$.CombatUnitSelectionControl.Obstacles.DelphiList.items"
             },
-            "EngineObject.FOwner": null
+            "EngineObject._owner": null
           },
-          "MoveSelector.FStatus": {
+          "MoveSelector.Status": {
             "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set`1.a": 0,
             "Set`1.b": 0,

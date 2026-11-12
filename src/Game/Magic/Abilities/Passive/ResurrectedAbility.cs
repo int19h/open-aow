@@ -11,9 +11,9 @@ public partial class ResurrectedAbility : AdjustableAbility
     // PassiveAb.pas:892
     public ResurrectedAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(GameText.ResurrectedRStr);
-        FAbilityID = 128;
-        FAbilityType = AbilityType.Handicap;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(GameText.s_resurrectedText);
+        AbilityId = 128;
+        AbilityType = AbilityType.Handicap;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 }

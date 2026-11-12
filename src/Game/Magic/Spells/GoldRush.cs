@@ -13,17 +13,17 @@ public partial class GoldRush : CityEnchantmentSpell
     // CitySpells.pas:710
     public GoldRush(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.GoldRushRStr);
-        FSpellID = 53;
-        FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
-        FBaseManaCost = 1;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Water;
-        FEnchantmentID = CityEnchantmentId.GoldRush;
-        FCastDuration = 20;
-        FAIPriority = 500;
-        FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.Hex4City);
-        FAIBudget = 600;
-        FEnchantmentSpellID = 25;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_goldRushText);
+        SpellId = 53;
+        CityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
+        BaseManaCost = 1;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Water;
+        EnchantmentId = CityEnchantmentId.GoldRush;
+        CastDuration = 20;
+        AIPriority = 500;
+        AICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.Hex4City);
+        AIBudget = 600;
+        EnchantmentSpellId = 25;
     }
 }

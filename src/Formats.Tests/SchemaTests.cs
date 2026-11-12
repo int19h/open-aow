@@ -31,7 +31,7 @@ public sealed class SchemaTests : FormatsTest
         {
             var table = Schema.EngineTable(engine);
             Assert.NotEmpty(table);
-            foreach (var (id, cls) in table) Assert.Equal(id, cls.Id);
+            foreach (var (id, classValue) in table) Assert.Equal(id, classValue.Id);
         }
         Assert.Equal(NameTable.ResolveStored("TAoWHSMap"), Schema.Resolve("game", 131089)!.Name);
         Assert.Equal(NameTable.ResolveStored("TCity"), Schema.Resolve("game", 131336)!.Name);
@@ -61,14 +61,14 @@ public sealed class SchemaTests : FormatsTest
     [Fact]
     public void EveryClassHasUniqueMemberNamesAndIds()
     {
-        foreach (var cls in Schema.Classes)
+        foreach (var classValue in Schema.Classes)
         {
-            var names = cls.Properties.Select(p => p.Name).ToList();
+            var names = classValue.Properties.Select(p => p.Name).ToList();
             Assert.Equal(names.Count, names.Distinct(StringComparer.Ordinal).Count());
-            foreach (var p in cls.Properties)
+            foreach (var p in classValue.Properties)
             {
-                Assert.False(p.Name.StartsWith('$'), cls.Name + "." + p.Name);
-                if (p.Id is int id) Assert.Same(p, cls.PropertyById(id));
+                Assert.False(p.Name.StartsWith('$'), classValue.Name + "." + p.Name);
+                if (p.Id is int id) Assert.Same(p, classValue.PropertyById(id));
             }
         }
     }
@@ -77,7 +77,7 @@ public sealed class SchemaTests : FormatsTest
     public void ChildrenComeLastAndBaseFieldsFirst()
     {
         var level = Schema.Get("TAoWMapLevel");
-        Assert.Equal(["Width", "Height", "Lhx", "Fields", "Children"], level.Properties.Select(p => p.Name));
+        Assert.Equal(["Width", "Height", "HexLevel", "Fields", "Children"], level.Properties.Select(p => p.Name));
         Assert.Equal(NameTable.ResolveStored("TAoWMapField"), level.FieldClass);
         var map = Schema.Get("TAoWHSMap");
         Assert.Equal("ConnectionType", map.Properties[0].Name);
@@ -100,7 +100,7 @@ public sealed class SchemaTests : FormatsTest
         var shape = Schema.LegacyShape("TMapField.Sprites", "TFlagMessageEventResource");
         Assert.NotNull(shape);
         Assert.Equal("LEGACY_VALLEY01_SPRITE", shape.Value.Rule);
-        Assert.Equal(["ResourceID", "LegacyXhx", "LegacyYhx", "LegacyProperty10", "LegacyProperty12"], shape.Value.Shape.Properties.Select(p => p.Name));
+        Assert.Equal(["ResourceId", "LegacyXhx", "LegacyYhx", "LegacyProperty10", "LegacyProperty12"], shape.Value.Shape.Properties.Select(p => p.Name));
         Assert.Null(Schema.LegacyShape("TECustomNode.Children", "TFlagMessageEventResource"));
     }
 

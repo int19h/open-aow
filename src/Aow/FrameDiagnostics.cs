@@ -13,17 +13,17 @@ namespace Aow;
 
 internal sealed class FrameDiagnostics : IDisposable
 {
-    private readonly string output;
-    private readonly StreamWriter writer;
-    private readonly Action<RandomTraceEvent>? previousRandom;
-    private readonly Action<int, int>? previousCost;
+    private readonly string _output;
+    private readonly StreamWriter _writer;
+    private readonly Action<RandomTraceEvent>? _previousRandom;
+    private readonly Action<int, int>? _previousCost;
 
     private FrameDiagnostics(string output)
     {
-        this.output = output;
-        writer = new(Path.Combine(output, "diagnostic-trace.jsonl")) { NewLine = "\n", AutoFlush = true };
-        previousRandom = RtlUnit.RandomTrace;
-        previousCost = HeadlessHooks.ProcessCost;
+        this._output = output;
+        _writer = new(Path.Combine(output, "diagnostic-trace.jsonl")) { NewLine = "\n", AutoFlush = true };
+        _previousRandom = RtlUnit.RandomTrace;
+        _previousCost = HeadlessHooks.ProcessCost;
         RtlUnit.RandomTrace = Random;
         HeadlessHooks.ProcessCost = Cost;
     }
@@ -33,8 +33,8 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Random(RandomTraceEvent entry)
     {
-        if (entry.Kind == "random" && (AoWHSMap.Current is null || AoWHSMap.Current is { FDay: 1, Frame: <= 1 }))
-            writer.WriteLine(JsonSerializer.Serialize(new
+        if (entry.Kind == "random" && (AoWHSMap.Current is null || AoWHSMap.Current is { Day: 1, Frame: <= 1 }))
+            _writer.WriteLine(JsonSerializer.Serialize(new
             {
                 kind = "startup-random",
                 argument = entry.Argument,
@@ -45,17 +45,17 @@ internal sealed class FrameDiagnostics : IDisposable
                     .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")
                     .Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
             }));
-        if (AoWHSMap.Current is not { FDay: 2 } map || entry.Kind != "random") return;
+        if (AoWHSMap.Current is not { Day: 2 } map || entry.Kind != "random") return;
         var stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
             .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Game").ToArray();
         if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: "AoWHSMap" })) return;
-        writer.WriteLine(JsonSerializer.Serialize(new
+        _writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "random",
-            day = map.FDay,
+            day = map.Day,
             frame = map.Frame,
-            current_player = map.FCurrentPlayer,
-            ai_player = map.FAIExecuter.FPlayer,
+            current_player = map.CurrentPlayer,
+            ai_player = map.AIExecutor.Player,
             argument = entry.Argument,
             before = unchecked((uint)entry.Before),
             after = unchecked((uint)entry.After),
@@ -66,13 +66,13 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Cost(int cost, int used)
     {
-        if (AoWHSMap.Current is not { FDay: 2 } map) return;
-        writer.WriteLine(JsonSerializer.Serialize(new
+        if (AoWHSMap.Current is not { Day: 2 } map) return;
+        _writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "cost",
-            day = map.FDay,
+            day = map.Day,
             frame = map.Frame,
-            ai_player = map.FAIExecuter.FPlayer,
+            ai_player = map.AIExecutor.Player,
             cost,
             used,
             stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
@@ -84,8 +84,8 @@ internal sealed class FrameDiagnostics : IDisposable
     public void Snapshot(string name)
     {
         if (AoWHSMap.Current is not { } map) return;
-        var viewer = DialogHosts.MWindow.MapViewer;
-        var window = DialogHosts.MWindow.MainWindow;
+        var viewer = DialogHosts.MapWindow.MapViewer;
+        var window = DialogHosts.MapWindow.MainWindow;
         var level = map.MapContainer.GetMapLevel(viewer.SceneL);
         var objects = new List<object>();
         for (int y = 0; y < level.Height; y++)
@@ -110,8 +110,8 @@ internal sealed class FrameDiagnostics : IDisposable
                                     mode = sequence.SequenceMode.ToString(),
                                     sequence.SpeedCount,
                                     sequence.ImageIndex,
-                                    lastFrame = typeof(ImageSequence).GetField("FLastFrame", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence),
-                                    counter = typeof(ImageSequence).GetField("FFrameCounter", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence)
+                                    lastFrame = typeof(ImageSequence).GetField("_lastFrame", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence),
+                                    counter = typeof(ImageSequence).GetField("_frameCounter", BindingFlags.NonPublic | BindingFlags.Instance)!.GetValue(sequence)
                                 });
                     objects.Add(new
                     {
@@ -126,9 +126,9 @@ internal sealed class FrameDiagnostics : IDisposable
                     });
                 }
             }
-        File.WriteAllText(Path.Combine(output, "diagnostic-" + name + ".json"), JsonSerializer.Serialize(new
+        File.WriteAllText(Path.Combine(_output, "diagnostic-" + name + ".json"), JsonSerializer.Serialize(new
         {
-            map.FDay,
+            map.Day,
             map.Frame,
             viewer.SceneX,
             viewer.SceneY,
@@ -139,8 +139,8 @@ internal sealed class FrameDiagnostics : IDisposable
 
     public void Dispose()
     {
-        RtlUnit.RandomTrace = previousRandom;
-        HeadlessHooks.ProcessCost = previousCost;
-        writer.Dispose();
+        RtlUnit.RandomTrace = _previousRandom;
+        HeadlessHooks.ProcessCost = _previousCost;
+        _writer.Dispose();
     }
 }

@@ -13,9 +13,9 @@ public partial class TurnedUndeadAbility : UnitEnchantmentAbility
     // PassiveAb.pas:679
     public TurnedUndeadAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(TurnedUndeadRStr);
-        FAbilityID = 34;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(s_turnedUndeadText);
+        AbilityId = 34;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:693
@@ -27,10 +27,10 @@ public partial class TurnedUndeadAbility : UnitEnchantmentAbility
     // PassiveAb.pas:687
     public override UnitEnchantment CreateEnchantment()
     {
-        UnitEnchantment Result = base.CreateEnchantment();
-        Result.FDispelResistance = 4;
-        return Result;
+        UnitEnchantment result = base.CreateEnchantment();
+        result.DispelResistance = 4;
+        return result;
     }
 
-    private static readonly string TurnedUndeadRStr = "Turned Undead";
+    private static readonly string s_turnedUndeadText = "Turned Undead";
 }

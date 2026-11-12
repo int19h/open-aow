@@ -13,50 +13,50 @@ public partial class PlayerDiplomaticRelations : EngineObject
     // Player.PAS:78
     public PlayerDiplomaticRelations(ECustomNode owner) : base(owner)
     {
-        FRelations = new ByteList();
-        FHistory = new ENode(null);
+        Relations = new ByteList();
+        History = new ENode(null);
     }
 
-    public Player FPlayer;
-    public ByteList FRelations;
-    public ENode FHistory;
+    public Player Player;
+    public ByteList Relations;
+    public ENode History;
 
     // Player.PAS:85
     public override void Dispose()
     {
-        FRelations?.Dispose();
-        FHistory?.Dispose();
+        Relations?.Dispose();
+        History?.Dispose();
         base.Dispose();
     }
 
     // Player.PAS:92
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStreamProc(20, FRelations.LoadFromStream, FRelations.SaveToStream);
-        Stream.rwEObject(FHistory, 21);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        base.ReadWrite(stream);
+        stream.rwStreamProc(20, Relations.LoadFromStream, Relations.SaveToStream);
+        stream.rwEObject(History, 21);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            FRelations.Default = (int)DiplomaticRelation.Unknown;
+            Relations.Default = (int)DiplomaticRelation.Unknown;
         }
     }
 
     // Player.PAS:127
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
             ValidateHistory();
-            if (FPlayer.FLegacyNewRelations.Count != 0)
+            if (Player.LegacyNewRelations.Count != 0)
             {
-                FRelations.Assign(FPlayer.FLegacyNewRelations);
-                FPlayer.FLegacyNewRelations.Clear();
+                Relations.Assign(Player.LegacyNewRelations);
+                Player.LegacyNewRelations.Clear();
             }
 
-            if (AoWHSMap.Current.FDay == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (AoWHSMap.Current.Day == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
-                for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                 {
                     // { The loop index supplies the player. }
                     var diplomaticRelation = GetDiplomaticRelation((sbyte)I);
@@ -65,61 +65,61 @@ public partial class PlayerDiplomaticRelations : EngineObject
             }
             else
             {
-                if (FPlayer.FLegacyRelations.Count != 0)
+                if (Player.LegacyRelations.Count != 0)
                 {
-                    for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        var diplomaticRelation = FPlayer.FLegacyRelations.GetDiplomaticRelation(I);
+                        var diplomaticRelation = Player.LegacyRelations.GetDiplomaticRelation(I);
                         GetHistory((sbyte)I).Add(diplomaticRelation, 0);
                     }
 
-                    FPlayer.FLegacyRelations.Clear();
+                    Player.LegacyRelations.Clear();
                 }
             }
         }
     }
 
     // Player.PAS:100
-    public DiplomaticRelation GetDiplomaticRelation(sbyte Player)
+    public DiplomaticRelation GetDiplomaticRelation(sbyte player)
     {
-        DiplomaticRelation Result;
-        if (Player < FRelations.Count)
+        DiplomaticRelation result;
+        if (player < Relations.Count)
         {
-            Result = (DiplomaticRelation)FRelations.List[Player];
+            result = (DiplomaticRelation)Relations.List[player];
         }
         else
         {
-            Result = DiplomaticRelation.Unknown;
+            result = DiplomaticRelation.Unknown;
         }
 
-        return Result;
+        return result;
     }
 
     // Player.PAS:107
-    public void SetDiplomaticRelation(sbyte Player, DiplomaticRelation Value)
+    public void SetDiplomaticRelation(sbyte player, DiplomaticRelation value)
     {
-        FRelations[Player] = (byte)Value;
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && AoWHSMap.Current.FDay > 0)
+        Relations[player] = (byte)value;
+        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && AoWHSMap.Current.Day > 0)
         {
-            GetHistory(Player).Add(Value, AoWHSMap.Current.FDay);
+            GetHistory(player).Add(value, AoWHSMap.Current.Day);
         }
     }
 
     // Player.PAS:114
-    public DiplomaticRelationHistoryList GetHistory(sbyte Player) => (DiplomaticRelationHistoryList)FHistory.FChildren.List[Player - 1];
+    public DiplomaticRelationHistoryList GetHistory(sbyte player) => (DiplomaticRelationHistoryList)History._children.List[player - 1];
 
     // Player.PAS:119
     public void ValidateHistory()
     {
-        while (FHistory.Count + 1 < AoWHSMap.Current.FPlayers.Count)
+        while (History.Count + 1 < AoWHSMap.Current.Players.Count)
         {
-            new DiplomaticRelationHistoryList(null).Owner = FHistory;
+            new DiplomaticRelationHistoryList(null).Owner = History;
         }
 
-        while (FHistory.Count + 1 > AoWHSMap.Current.FPlayers.Count)
+        while (History.Count + 1 > AoWHSMap.Current.Players.Count)
         {
-            var count = FHistory.Count;
-            FHistory.Children[count - 1]?.Dispose();
+            var count = History.Count;
+            History.Children[count - 1]?.Dispose();
         }
     }
 

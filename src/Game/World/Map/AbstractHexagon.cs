@@ -8,7 +8,7 @@ namespace Aow.Game.World.Map;
 // the base of the terrain hexagons
 public partial class AbstractHexagon : MapObject
 {
-    public new const int ClassID = 65904;
+    public new const int ClassId = 65904;
 
     public AbstractHexagon(ECustomNode owner) : base(owner)
     { }
@@ -19,57 +19,57 @@ public partial class AbstractHexagon : MapObject
     // MAPOBJ.PAS:671
     public override int GetShowPriority()
     {
-        int Xhp;
-        int Yhp;
-        Xhp = ((MapField)Owner).FXhx * 32 + 8;
-        Yhp = (((MapField)Owner).FXhx & 1) * 16 + ((MapField)Owner).FYhx * 32;
-        return Xhp + (Yhp << 13);
+        int pixelX;
+        int pixelY;
+        pixelX = ((MapField)Owner)._hexX * 32 + 8;
+        pixelY = (((MapField)Owner)._hexX & 1) * 16 + ((MapField)Owner)._hexY * 32;
+        return pixelX + (pixelY << 13);
     }
 
     // MAPOBJ.PAS:704
-    public override void ChangeTerrain(in HexSpriteTerrainInfo Msg)
+    public override void ChangeTerrain(in HexSpriteTerrainInfo message)
     {
-        HexControl Control;
+        HexControl control;
         MapObjectResource R;
-        if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
+        if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
-            Control = ((AbstractHexagonResource)FResource).GetHexagonControl();
-            if (Control != null)
+            control = ((AbstractHexagonResource)_resource).GetHexControl();
+            if (control != null)
             {
-                var classID = FResource.EClass.ClassID;
-                R = Control.GetRndResource(Msg.TerrainType, classID);
+                var classId = _resource.EngineClass.ClassId;
+                R = control.GetRandomResource(message.TerrainType, classId);
                 if (R != null)
                 {
                     SetResource(R);
                     UpdateTransitions();
-                    var lhx = GetLhx();
-                    var yhx = GetYhx();
-                    var xhx = GetXhx();
-                    FResource.FEngine.FHSMap.FMapContainer.FMap.InvalidateStaticScene(xhx, yhx, lhx);
+                    var hexLevel = GetHexLevel();
+                    var hexY = GetHexY();
+                    var hexX = GetHexX();
+                    _resource._engine._hexSpriteMap._mapContainer._map.InvalidateStaticScene(hexX, hexY, hexLevel);
                 }
                 else
                 {
-                    var lhx = GetLhx();
-                    var yhx = GetYhx();
-                    var xhx = GetXhx();
-                    ((AbstractHexagonResource)FResource).GetHexagonControl().Place((MapContainer)Owner.Owner.Owner, xhx, yhx, lhx, Msg.TerrainType);
+                    var hexLevel = GetHexLevel();
+                    var hexY = GetHexY();
+                    var hexX = GetHexX();
+                    ((AbstractHexagonResource)_resource).GetHexControl().Place((MapContainer)Owner.Owner.Owner, hexX, hexY, hexLevel, message.TerrainType);
                 }
             }
         }
     }
 
     // MAPOBJ.PAS:728
-    public override void TerrainChanged(in HexSpriteTerrainInfo Msg)
+    public override void TerrainChanged(in HexSpriteTerrainInfo message)
     {
-        ChangeTerrain(Msg);
+        ChangeTerrain(message);
     }
 
     // MAPOBJ.PAS:762
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (Msg.MsgID != 16)
+        if (message.MessageId != 16)
         {
-            base.MapFieldMsgProc(ref Msg);
+            base.MapFieldMessageProc(ref message);
         }
     }
 
@@ -81,65 +81,65 @@ public partial class AbstractHexagon : MapObject
     }
 
     // MAPOBJ.PAS:691
-    public override void SetResource(MapObjectResource Value)
+    public override void SetResource(MapObjectResource value)
     {
-        base.SetResource(Value);
-        if (FStatus.Contains(MapObjectStatusElement.Activated))
+        base.SetResource(value);
+        if (_status.Contains(MapObjectStatusElement.Activated))
         {
             UpdateTransitions();
         }
     }
 
     // MAPOBJ.PAS:733
-    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        bool Result;
-        MapField MapField;
-        HexSprite HS;
-        if (Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount)
+        bool result;
+        MapField mapField;
+        HexSprite hexSprite;
+        if (hexX >= 0 && hexY >= 0 && hexLevel >= 0 && hexX < mapContainer._width && hexY < mapContainer._height && hexLevel < mapContainer._levelCount)
         {
-            MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-            HS = MapField.GetMaxLevelNoneTransparentHS();
-            bool condition = HS == null;
+            mapField = mapContainer.GetField(hexX, hexY, hexLevel);
+            hexSprite = mapField.GetMaxLevelNoneTransparentHexSprite();
+            bool condition = hexSprite == null;
             if (!condition)
             {
-                bool test = HS.GetLevel() < 10;
+                bool test = hexSprite.GetLevel() < 10;
                 if (!test)
                 {
                     var overlay = GetOverlay(0);
-                    test = MapField.CanChangeTerrain(this, GetTerrain(0), overlay);
+                    test = mapField.CanChangeTerrain(this, GetTerrain(0), overlay);
                 }
 
-                condition = test && !(HS is AbstractBorderHexagon);
+                condition = test && !(hexSprite is AbstractBorderHexagon);
             }
 
-            Result = condition;
+            result = condition;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // MAPOBJ.PAS:750
-    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHex(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        HexSprite HS;
-        HS = MapContainer.GetField(Xhx, Yhx, Lhx).FindOwnedHS(typeof(AbstractHexagon));
-        if (HS != null)
+        HexSprite hexSprite;
+        hexSprite = mapContainer.GetField(hexX, hexY, hexLevel).FindOwnedHexSprite(typeof(AbstractHexagon));
+        if (hexSprite != null)
         {
-            HS.Dispose();
+            hexSprite.Dispose();
         }
 
-        bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
-        if (Result)
+        bool result = base.PlaceHex(mapContainer, hexX, hexY, hexLevel);
+        if (result)
         {
             UpdateTransitions();
         }
 
-        return Result;
+        return result;
     }
 
     // MAPOBJ.PAS:687

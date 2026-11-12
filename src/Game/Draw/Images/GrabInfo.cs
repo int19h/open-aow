@@ -14,23 +14,23 @@ public partial class GrabInfo
     public int FileIndex;
 
     // ImageLib.pas:9634
-    public virtual void LoadFromStream(Stream Stream)
+    public virtual void LoadFromStream(Stream stream)
     {
-        Stream.ReadExactly(Bytes.Of(ref TransparentColor, 4));
-        Stream.ReadExactly(Bytes.Of(ref FindRectangles, 1));
-        Stream.ReadExactly(Bytes.Of(ref TransparentPixel, 4));
-        LibraryDrawing.ReadStringFromStream(ref FileName, Stream);
-        Stream.ReadExactly(Bytes.Of(ref FileIndex, 4));
+        stream.ReadExactly(Bytes.Of(ref TransparentColor, 4));
+        stream.ReadExactly(Bytes.Of(ref FindRectangles, 1));
+        stream.ReadExactly(Bytes.Of(ref TransparentPixel, 4));
+        LibraryDrawing.ReadStringFromStream(ref FileName, stream);
+        stream.ReadExactly(Bytes.Of(ref FileIndex, 4));
     }
 
     // ImageLib.pas:9643
-    public virtual void SaveToStream(Stream Stream)
+    public virtual void SaveToStream(Stream stream)
     {
-        Stream.Write(Bytes.Of(ref TransparentColor, 4));
-        Stream.Write(Bytes.Of(ref FindRectangles, 1));
-        Stream.Write(Bytes.Of(ref TransparentPixel, 4));
-        LibraryDrawing.WriteStringToStream(FileName, Stream);
-        Stream.Write(Bytes.Of(ref FileIndex, 4));
+        stream.Write(Bytes.Of(ref TransparentColor, 4));
+        stream.Write(Bytes.Of(ref FindRectangles, 1));
+        stream.Write(Bytes.Of(ref TransparentPixel, 4));
+        LibraryDrawing.WriteStringToStream(FileName, stream);
+        stream.Write(Bytes.Of(ref FileIndex, 4));
     }
 
     // ImageLib.pas:9629
@@ -39,22 +39,22 @@ public partial class GrabInfo
     // ImageLib.pas:9652
     public virtual GrabInfo Copy()
     {
-        GrabInfo Result = default;
-        MemoryStream Stream;
-        Stream = new MemoryStream();
+        GrabInfo result = default;
+        MemoryStream stream;
+        stream = new MemoryStream();
         try
         {
-            SaveToStream(Stream);
-            Stream.Position = 0;
-            Result = GrabInfoClass().Create();
-            Result.LoadFromStream(Stream);
+            SaveToStream(stream);
+            stream.Position = 0;
+            result = GrabInfoClass().CreateInstance();
+            result.LoadFromStream(stream);
         }
         finally
         {
-            Stream?.Dispose();
+            stream?.Dispose();
         }
 
-        return Result;
+        return result;
     }
 
 }

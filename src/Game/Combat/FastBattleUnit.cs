@@ -20,251 +20,251 @@ namespace Aow.Game.Combat;
 public partial class FastBattleUnit : CombatUnit
 {
     // AIGroup.pas:6778
-    public new const int ClassID = 131791;
+    public new const int ClassId = 131791;
 
     // AIGroup.pas:6773
     public FastBattleUnit(ECustomNode owner) : base(owner)
     {
     }
 
-    public int FRoundDistance;
-    public Set<FastBattleUnitStateElement> FState;
+    public int RoundDistance;
+    public Set<FastBattleUnitStateElement> State;
 
     // AIGroup.pas:6797
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        RwSet(ref FState, 1, 40, Stream.rwData, 0);
+        base.ReadWrite(stream);
+        RwSet(ref State, 1, 40, stream.rwData, 0);
     }
 
     // AIGroup.pas:6862
-    public override void GetTargetCVDV(CombatObject Target, ref int CV, ref int DV)
+    public override void GetTargetCombatValueDamageValue(CombatObject target, ref int combatValue, ref int damageValue)
     {
-        Troop AUnit;
-        AbilityTypeList Abilities;
-        AbilityDamageValues Values = default;
-        int Value;
-        Ability Ability;
-        if (!FStatus.Contains(CombatObjectStatusElement.Destroyed))
+        Troop troop;
+        AbilityTypeList abilities;
+        AbilityDamageValues values = default;
+        int value;
+        Ability ability;
+        if (!Status.Contains(CombatObjectStatusElement.Destroyed))
         {
-            AUnit = FUnit;
-            CV = 0;
-            DV = 0;
-            Abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
-            for (int I = Abilities.Count - 1; I >= 0; I--)
+            troop = Troop;
+            combatValue = 0;
+            damageValue = 0;
+            abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+            for (int I = abilities.Count - 1; I >= 0; I--)
             {
-                Ability = Abilities.GetAbility(I);
-                if (AUnit.GetAbilityEnabled(Ability.FAbilityID))
+                ability = abilities.GetAbility(I);
+                if (troop.GetAbilityEnabled(ability.AbilityId))
                 {
-                    Ability.fcGetDamageValueEx(this, Target, WallSituation.None, ref Values);
-                    if (Values.SourceDamage > 0)
+                    ability.FastBattleGetDamageValues(this, target, WallSituation.None, ref values);
+                    if (values.SourceDamage > 0)
                     {
-                        Value = Values.SourceDamage * Values.SourceDamage / (Values.TargetDamage + Values.SourceDamage);
-                        if (Value <= 0)
+                        value = values.SourceDamage * values.SourceDamage / (values.TargetDamage + values.SourceDamage);
+                        if (value <= 0)
                         {
-                            Value = 1;
+                            value = 1;
                         }
 
-                        if (Value > CV)
+                        if (value > combatValue)
                         {
-                            CV = Value;
+                            combatValue = value;
                         }
 
-                        if (Values.SourceDamage > DV)
+                        if (values.SourceDamage > damageValue)
                         {
-                            DV = Values.SourceDamage;
+                            damageValue = values.SourceDamage;
                         }
                     }
                 }
             }
 
-            if (AUnit.GetAbilityEnabled(52))
+            if (troop.GetAbilityEnabled(52))
             {
-                Ability = AoWHSSet.Current.FAbilityControl.GetAbility(52);
-                Ability.tcGetDamageValueEx(this, Target, ref Values);
-                if (Values.SourceDamage > 0)
+                ability = AoWHSSet.Current.AbilityControl.GetAbility(52);
+                ability.TacticalBattleGetDamageValues(this, target, ref values);
+                if (values.SourceDamage > 0)
                 {
-                    Value = Values.SourceDamage * Values.SourceDamage / (Values.TargetDamage + Values.SourceDamage);
-                    if (Value <= 0)
+                    value = values.SourceDamage * values.SourceDamage / (values.TargetDamage + values.SourceDamage);
+                    if (value <= 0)
                     {
-                        Value = 1;
+                        value = 1;
                     }
 
-                    if (Value > CV)
+                    if (value > combatValue)
                     {
-                        CV = Value;
+                        combatValue = value;
                     }
 
-                    if (Values.SourceDamage > DV)
+                    if (values.SourceDamage > damageValue)
                     {
-                        DV = Values.SourceDamage;
+                        damageValue = values.SourceDamage;
                     }
                 }
             }
         }
         else
         {
-            CV = 0;
-            DV = 0;
+            combatValue = 0;
+            damageValue = 0;
         }
     }
 
     // AIGroup.pas:6913
-    public override int GetTargetWallCV(CombatObject Target)
+    public override int GetTargetWallCombatValue(CombatObject target)
     {
-        int Best;
-        WallSituation Wall;
-        Troop AUnit;
-        AbilityTypeList Abilities;
-        int Value;
-        Ability Ability;
-        AbilityDamageValues Values = default;
-        AUnit = FUnit;
-        Best = 0;
-        if (FCombat.FCombatData.FPlayers.GetPlayers(FCombatPlayer).FSideIndex == 1)
+        int best;
+        WallSituation wall;
+        Troop troop;
+        AbilityTypeList abilities;
+        int value;
+        Ability ability;
+        AbilityDamageValues values = default;
+        troop = Troop;
+        best = 0;
+        if (Combat.CombatData.Players.GetPlayers(CombatPlayer).SideIndex == 1)
         {
-            Wall = WallSituation.Source;
+            wall = WallSituation.Source;
         }
         else
         {
-            Wall = WallSituation.Target;
+            wall = WallSituation.Target;
         }
 
-        Abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
-        for (int I = Abilities.Count - 1; I >= 0; I--)
+        abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+        for (int I = abilities.Count - 1; I >= 0; I--)
         {
-            Ability = Abilities.GetAbility(I);
-            if (AUnit.GetAbilityEnabled(Ability.FAbilityID))
+            ability = abilities.GetAbility(I);
+            if (troop.GetAbilityEnabled(ability.AbilityId))
             {
-                Ability.fcGetDamageValueEx(this, Target, Wall, ref Values);
-                if (Values.SourceDamage > 0)
+                ability.FastBattleGetDamageValues(this, target, wall, ref values);
+                if (values.SourceDamage > 0)
                 {
-                    Value = Values.SourceDamage * Values.SourceDamage / (Values.TargetDamage + Values.SourceDamage);
-                    if (Value <= 0)
+                    value = values.SourceDamage * values.SourceDamage / (values.TargetDamage + values.SourceDamage);
+                    if (value <= 0)
                     {
-                        Value = 1;
+                        value = 1;
                     }
 
-                    if (Value > Best)
+                    if (value > best)
                     {
-                        Best = Value;
+                        best = value;
                     }
                 }
             }
         }
 
-        return Best;
+        return best;
     }
 
     // AIGroup.pas:6946
     public override int GetTargetPriority()
     {
         int I;
-        int CV;
-        CombatObject Target;
-        int Count;
-        if (FTargetPriorityInvalid)
+        int combatValue;
+        CombatObject target;
+        int count;
+        if (TargetPriorityInvalid)
         {
             try
             {
-                if (FCombat.FCombatData.FWallType == 0 || FCombat.FCombatData.FWallBreached)
+                if (Combat.CombatData.WallType == 0 || Combat.CombatData.WallBreached)
                 {
-                    FTargetPriority = 0;
-                    Count = 0;
-                    I = FTargetedBy.Count - 1;
+                    TargetPriority = 0;
+                    count = 0;
+                    I = TargetedBy.Count - 1;
                     for (; I >= 0; I -= 1)
                     {
-                        if (FTargetedBy.List[I].B == 0)
+                        if (TargetedBy.List[I].Second == 0)
                         {
-                            Count += 1;
+                            count += 1;
                         }
                     }
 
-                    I = FTargets.Count - 1;
+                    I = Targets.Count - 1;
                     for (; I >= 0; I -= 1)
                     {
-                        CV = FTargets.List[I].B;
-                        if (CV != 0)
+                        combatValue = Targets.List[I].Second;
+                        if (combatValue != 0)
                         {
-                            Target = FTargets.List[I].A;
-                            CV = Round((double)(CV * CV) / Target.FIncomingCombatValue);
-                            FTargetPriority += CV;
+                            target = Targets.List[I].First;
+                            combatValue = Round((double)(combatValue * combatValue) / target.IncomingCombatValue);
+                            TargetPriority += combatValue;
                         }
                     }
 
-                    FTargetPriority = FTargetPriority * (Count + 2);
-                    I = FTargetedBy.Count;
+                    TargetPriority = TargetPriority * (count + 2);
+                    I = TargetedBy.Count;
                     // { The original stores normalized priority in the target-strength field. }
                     if (I != 0)
                     {
-                        FTargetStrength = FTargetPriority / I;
+                        TargetStrength = TargetPriority / I;
                     }
                     else
                     {
-                        FTargetStrength = 0;
+                        TargetStrength = 0;
                     }
                 }
                 else
                 {
-                    FTargetPriority = 0;
-                    Count = 0;
-                    I = FTargetedBy.Count - 1;
+                    TargetPriority = 0;
+                    count = 0;
+                    I = TargetedBy.Count - 1;
                     for (; I >= 0; I -= 1)
                     {
-                        if (FTargetedBy.List[I].C == 0)
+                        if (TargetedBy.List[I].Third == 0)
                         {
-                            Count += 1;
+                            count += 1;
                         }
                     }
 
-                    I = FTargets.Count - 1;
+                    I = Targets.Count - 1;
                     for (; I >= 0; I -= 1)
                     {
-                        CV = FTargets.List[I].C;
-                        if (CV != 0)
+                        combatValue = Targets.List[I].Third;
+                        if (combatValue != 0)
                         {
-                            Target = FTargets.List[I].A;
-                            CV = Round((double)(CV * CV) / Target.FIncomingCombatValue);
-                            FTargetPriority += CV;
+                            target = Targets.List[I].First;
+                            combatValue = Round((double)(combatValue * combatValue) / target.IncomingCombatValue);
+                            TargetPriority += combatValue;
                         }
                     }
 
-                    FTargetPriority = FTargetPriority * (Count + 2);
-                    I = FTargetedBy.Count;
+                    TargetPriority = TargetPriority * (count + 2);
+                    I = TargetedBy.Count;
                     if (I != 0)
                     {
-                        FTargetStrength = FTargetPriority / I;
+                        TargetStrength = TargetPriority / I;
                     }
                     else
                     {
-                        FTargetStrength = 0;
+                        TargetStrength = 0;
                     }
                 }
 
-                FTargetPriorityInvalid = false;
+                TargetPriorityInvalid = false;
                 var commandingTargetPriority = CommandingTargetPriority();
-                FTargetPriority += commandingTargetPriority * 2;
+                TargetPriority += commandingTargetPriority * 2;
             }
             catch
             {
             }
         }
 
-        return FTargetPriority;
+        return TargetPriority;
     }
 
     // AIGroup.pas:6850
-    public override void SetCombatPlayer(byte Player)
+    public override void SetCombatPlayer(byte player)
     {
-        base.SetCombatPlayer(Player);
+        base.SetCombatPlayer(player);
         UpdateWallSiegeObjectRegistration();
     }
 
     // AIGroup.pas:7011
-    public override void Activate(Battle ACombat)
+    public override void Activate(Battle combat)
     {
-        base.Activate(ACombat);
-        if (ACombat is FastBattle)
+        base.Activate(combat);
+        if (combat is FastBattle)
         {
             UpdateWallSiegeObjectRegistration();
         }
@@ -274,93 +274,93 @@ public partial class FastBattleUnit : CombatUnit
     public override void Deactivate()
     {
         base.Deactivate();
-        if (FCombat is FastBattle)
+        if (Combat is FastBattle)
         {
             UpdateWallSiegeObjectRegistration();
         }
     }
 
     // AIGroup.pas:7002
-    public override void Initialize(Battle ACombat)
+    public override void Initialize(Battle combat)
     {
-        Troop AUnit;
-        base.Initialize(ACombat);
-        AUnit = FUnit;
-        if (AUnit is Leader || AUnit is Hero)
+        Troop troop;
+        base.Initialize(combat);
+        troop = Troop;
+        if (troop is Leader || troop is Hero)
         {
-            FRoundDistance = 8;
+            RoundDistance = 8;
         }
         else
         {
-            FRoundDistance = 4;
+            RoundDistance = 4;
         }
     }
 
     // AIGroup.pas:6856
-    public override int fcRoundDistance()
+    public override int FastBattleRoundDistance()
     {
-        int Result = FRoundDistance;
-        if (FState.Contains(FastBattleUnitStateElement.Vulnerable))
+        int result = RoundDistance;
+        if (State.Contains(FastBattleUnitStateElement.Vulnerable))
         {
-            Result -= 1;
+            result -= 1;
         }
 
-        return Result;
+        return result;
     }
 
     // AIGroup.pas:7048
-    public override bool fcExecute(int MoveCost)
+    public override bool FastBattleExecute(int moveCost)
     {
-        FastBattle Combat;
+        FastBattle combat;
         FastBattleCommandList Commands;
-        Troop AUnit;
+        Troop troop;
         AbilityArray1 Ability = default;
-        FleeCombatAction Action;
-        bool Executed;
-        Combat = (FastBattle)FCombat;
+        FleeCombatAction action;
+        bool executed;
+        combat = (FastBattle)Combat;
         var side = GetSide();
-        Commands = new FastBattleCommandList(this, Combat, Combat.FSides[(int)side]);
-        AUnit = FUnit;
-        for (int I = AUnit.GetAbilityCount() - 1; I >= 0; I--)
+        Commands = new FastBattleCommandList(this, combat, combat.Sides[(int)side]);
+        troop = Troop;
+        for (int I = troop.GetAbilityCount() - 1; I >= 0; I--)
         {
-            if (AUnit.GetAbilityEnabled(I))
+            if (troop.GetAbilityEnabled(I))
             {
-                var ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
+                var ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
                 Ability[0] = ability;
-                Ability[0].fcPrefetchCombatCommands(Commands);
+                Ability[0].FastBattlePrefetchCombatCommands(Commands);
             }
         }
 
         if (Commands.GetCount() == 0)
         {
-            if (fcBehindWall())
+            if (FastBattleBehindWall())
             {
-                if (((FastBattle)FCombat).AttackerCanCrushWall() || (double)((FastBattle)FCombat).GetAttackerBalisticCV() > (double)((FastBattle)FCombat).GetDefenderBalisticCV() * 1.5)
+                if (((FastBattle)Combat).AttackerCanCrushWall() || (double)((FastBattle)Combat).GetAttackerBallisticCombatValue() > (double)((FastBattle)Combat).GetDefenderBallisticCombatValue() * 1.5)
                 {
-                    FState = FState + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
-                    AUnit = FUnit;
-                    for (int I = AUnit.GetAbilityCount() - 1; I >= 0; I--)
+                    State = State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+                    troop = Troop;
+                    for (int I = troop.GetAbilityCount() - 1; I >= 0; I--)
                     {
-                        if (AUnit.GetAbilityEnabled(I))
+                        if (troop.GetAbilityEnabled(I))
                         {
-                            var ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
+                            var ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
                             Ability[0] = ability;
-                            Ability[0].fcPrefetchCombatCommands(Commands);
+                            Ability[0].FastBattlePrefetchCombatCommands(Commands);
                         }
                     }
 
-                    FState = FState - Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
+                    State = State - Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.OutsideWall);
                 }
             }
         }
 
-        if (GetSide() == CombatSideIndex.Defender && FAttackerCount == 0 && !FCombat.FCombatData.GetSideLeaderInvolved(1))
+        if (GetSide() == CombatSideIndex.Defender && AttackerCount == 0 && !Combat.CombatData.GetSideLeaderInvolved(1))
         {
             for (int I = Commands.GetCount() - 1; I >= 0; I--)
             {
                 var commands = Commands.GetCommands(I);
-                var hitPoints = GetHitPoints();
-                if (commands.FTargetDV >= hitPoints * 75)
+                var hitPoints = base.GetHitPoints();
+                if (commands.TargetDamageValue >= hitPoints * 75)
                 {
                     Commands.Delete(I);
                 }
@@ -370,12 +370,12 @@ public partial class FastBattleUnit : CombatUnit
         if (Commands.GetCount() != 0)
         {
             Commands.Sort();
-            if (Commands.GetCommands(0).FMoveCost <= MoveCost)
+            if (Commands.GetCommands(0).MoveCost <= moveCost)
             {
                 var commands = Commands.GetCommands(0);
                 var commandsCommands = Commands.GetCommands(0);
-                Executed = AoWHSSet.Current.FAbilityControl.GetAbility(commandsCommands.FAbilityID).fcExecuteCombatCommand(this, commands);
-                if (Commands.GetCommands(0).FAbilityID == 52)
+                executed = AoWHSSet.Current.AbilityControl.GetAbility(commandsCommands.AbilityId).FastBattleExecuteCombatCommand(this, commands);
+                if (Commands.GetCommands(0).AbilityId == 52)
                 {
                     UpdateWallSiegeObjectRegistration();
                 }
@@ -384,149 +384,149 @@ public partial class FastBattleUnit : CombatUnit
             }
             else
             {
-                Executed = false;
+                executed = false;
             }
         }
         else
         {
-            if (MoveCost == 2)
+            if (moveCost == 2)
             {
-                if (FCombatValue == 0 && FIncomingCombatValue != 0 && GetSide() == CombatSideIndex.Attacker && !GetLocked())
+                if (CombatValue == 0 && IncomingCombatValue != 0 && GetSide() == CombatSideIndex.Attacker && !GetLocked())
                 {
-                    Action = new FleeCombatAction(null);
-                    Action.FObjectID = FID;
-                    FCombat.ExecuteCombatAction(Action);
-                    Action.Release();
-                    Executed = true;
+                    action = new FleeCombatAction(null);
+                    action.ObjectId = Id;
+                    Combat.ExecuteCombatAction(action);
+                    action.Release();
+                    executed = true;
                 }
                 else
                 {
-                    Executed = false;
+                    executed = false;
                 }
             }
             else
             {
-                Executed = false;
+                executed = false;
             }
         }
 
         Commands?.Dispose();
-        return Executed;
+        return executed;
     }
 
     // AIGroup.pas:7035
-    public override bool fcBehindWall()
+    public override bool FastBattleBehindWall()
     {
-        bool Result;
-        byte Position;
+        bool result;
+        byte position;
         // { Inner failure shares the validated-position return. }
-        if (GetSide() == CombatSideIndex.Defender && !FState.Contains(FastBattleUnitStateElement.OutsideWall))
+        if (GetSide() == CombatSideIndex.Defender && !State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
-            Position = FPosition;
-            if ((Position & 15) > 7 || (int)(((uint)Position) >> 4) > 7 || FCombat.FCombatData.FParties.GetParty((byte)(int)(((uint)Position) >> 4)).FWall == 0 || FCombat.FCombatData.FWall.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+            position = Position;
+            if ((position & 15) > 7 || (int)(((uint)position) >> 4) > 7 || Combat.CombatData.Parties.GetParty((byte)(int)(((uint)position) >> 4)).Wall == 0 || Combat.CombatData.Wall.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                Result = false;
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
 
-            return Result;
+            return result;
         }
 
         return false;
     }
 
     // AIGroup.pas:7029
-    public override bool fcWallInBetween(byte Target) => !FState.Contains(FastBattleUnitStateElement.OutsideWall) && FCombat.GetWallInBetween(FPosition, Target);
+    public override bool FastBattleWallInBetween(byte target) => !State.Contains(FastBattleUnitStateElement.OutsideWall) && Combat.GetWallInBetween(Position, target);
 
     // AIGroup.pas:6830
-    public override void Show(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void Show(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        if (FState.Contains(FastBattleUnitStateElement.OutsideWall))
+        if (State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
-            AoWHSSet.Current.FCombatImages[21].Show(X + 10, Y, Surface);
+            AoWHSSet.Current.CombatImages[21].Show(X + 10, Y, surface);
         }
 
-        base.Show(Frame, Direction, X, Y, Surface);
+        base.Show(frame, direction, X, Y, surface);
     }
 
     // AIGroup.pas:6836
-    public override int ShowAttackAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override int ShowAttackAnimation(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        if (Direction != 6 && FState.Contains(FastBattleUnitStateElement.OutsideWall))
+        if (direction != 6 && State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
-            AoWHSSet.Current.FCombatImages[21].Show(X + 10, Y, Surface);
+            AoWHSSet.Current.CombatImages[21].Show(X + 10, Y, surface);
         }
 
-        return base.ShowAttackAnimation(Frame, Direction, X, Y, Surface);
+        return base.ShowAttackAnimation(frame, direction, X, Y, surface);
     }
 
     // AIGroup.pas:6843
-    public override int ShowHitAnimation(int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override int ShowHitAnimation(int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        if (FState.Contains(FastBattleUnitStateElement.OutsideWall))
+        if (State.Contains(FastBattleUnitStateElement.OutsideWall))
         {
-            AoWHSSet.Current.FCombatImages[21].Show(X + 10, Y, Surface);
+            AoWHSSet.Current.CombatImages[21].Show(X + 10, Y, surface);
         }
 
         // { The original uses the attack animation for this hit-animation override. }
-        return base.ShowAttackAnimation(Frame, Direction, X, Y, Surface);
+        return base.ShowAttackAnimation(frame, direction, X, Y, surface);
     }
 
     // AIGroup.pas:7023
     public override void DestroyObject()
     {
         base.DestroyObject();
-        if (FCombat is FastBattle)
+        if (Combat is FastBattle)
         {
             UpdateWallSiegeObjectRegistration();
         }
     }
 
     // AIGroup.pas:6792
-    public override void SetUnit(Troop AUnit)
+    public override void SetUnit(Troop troop)
     {
-        base.SetUnit(AUnit);
+        base.SetUnit(troop);
     }
 
     // AIGroup.pas:6783
     public override void KillUnit()
     {
-        Troop AUnit;
-        AUnit = FUnit;
-        if (AUnit is Hero && FCombat.FStatus.Contains(CombatStatusElement.Executing))
+        Troop troop;
+        troop = Troop;
+        if (troop is Hero && Combat.Status.Contains(CombatStatusElement.Executing))
         {
-            var combatData = FCombat.FCombatData;
-            ((Hero)AUnit).DropItemsOnMap(AoWHSMap.Current, (sbyte)combatData.FX, (sbyte)combatData.FY, (sbyte)combatData.FL);
+            var combatData = Combat.CombatData;
+            ((Hero)troop).DropItemsOnMap(AoWHSMap.Current, (sbyte)combatData.X, (sbyte)combatData.Y, (sbyte)combatData.MapLevel);
         }
 
         base.KillUnit();
     }
 
     // AIGroup.pas:6803
-    public bool CanCastWallSiegeSpell() => FUnit.GetAbilityEnabled(52) && ((SpellCastingAbility)AoWHSSet.Current.FAbilityControl.GetAbility(52)).CanCastBreachWallSpell(FUnit);
+    public bool CanCastWallSiegeSpell() => Troop.GetAbilityEnabled(52) && ((SpellCastingAbility)AoWHSSet.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(Troop);
 
     // AIGroup.pas:6809
     public void UpdateWallSiegeObjectRegistration()
     {
-        bool Registered;
-        Registered = FStatus.Contains(CombatObjectStatusElement.Activated) && GetSide() == CombatSideIndex.Attacker && !FStatus.Contains(CombatObjectStatusElement.Destroyed) && ((FWallCombatFeatures & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of() || CanCastWallSiegeSpell());
-        if (Registered)
+        bool registered;
+        registered = Status.Contains(CombatObjectStatusElement.Activated) && GetSide() == CombatSideIndex.Attacker && !Status.Contains(CombatObjectStatusElement.Destroyed) && ((WallCombatFeaturesValue & Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.WallPassing)) != Set<WallCombatFeaturesElement>.Of() || CanCastWallSiegeSpell());
+        if (registered)
         {
-            if (!FState.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))
+            if (!State.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))
             {
-                ((FastBattle)FCombat).FWallSiegeObjectCount += 1;
-                FState = FState + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
+                ((FastBattle)Combat).WallSiegeObjectCount += 1;
+                State = State + Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
             }
         }
         else
         {
-            if (FState.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))
+            if (State.Contains(FastBattleUnitStateElement.WallSiegeObjectRegistered))
             {
-                ((FastBattle)FCombat).FWallSiegeObjectCount -= 1;
-                FState = FState - Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
+                ((FastBattle)Combat).WallSiegeObjectCount -= 1;
+                State = State - Set<FastBattleUnitStateElement>.Of(FastBattleUnitStateElement.WallSiegeObjectRegistered);
             }
         }
     }

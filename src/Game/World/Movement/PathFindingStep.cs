@@ -13,26 +13,26 @@ public partial class PathFindingStep : EngineObject
     // MoveT.PAS:20
     public PathFindingStep(ECustomNode owner) : base(owner)
     {
-        FMovePointLines = new DoubleItemList();
-        FOrigin.Packed = 16777215;
-        FLocation.Packed = 16777215;
+        MovePointLines = new DoubleItemList();
+        Origin.Packed = 16777215;
+        Location.Packed = 16777215;
     }
 
-    public MapCoordinate FLocation;
-    public MapCoordinate FOrigin;
-    public DoubleItemList FMovePointLines;
+    public MapCoordinate Location;
+    public MapCoordinate Origin;
+    public DoubleItemList MovePointLines;
 
     // MoveT.PAS:28
     public override void Dispose()
     {
-        FMovePointLines?.Dispose();
+        MovePointLines?.Dispose();
         base.Dispose();
     }
 
     // MoveT.PAS:34
-    public void AddMovePointLine(int Direction, int Count)
+    public void AddMovePointLine(int direction, int count)
     {
-        FMovePointLines.AddAB(Direction, Count);
+        MovePointLines.AddAbility(direction, count);
     }
 
     // intf_P5_01.inc:9

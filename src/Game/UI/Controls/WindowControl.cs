@@ -6,171 +6,171 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Controls;
 
-// Fields: FModal, FOnDrawSurface, FOnPreDrawSurface, FDragging, FDragX, FDragY, FDraggable,
-// FResizable, FResizingX, FResizingY, FOnResize, FOnInternalResize, FDragHeight,
-// FOverlapTopCorners, FOldCursor, FWindowCursor, FOnChangeCursor, FMinWidth, FMinHeight,
-// FMaxWidth, FMaxHeight, FInResizeArea, FWindowType, FILFrame, FILTexture, FUseManagerBorders,
-// FFrameLeft, FFrameTop, FFrameRight, FFrameBottom, FMaskColor, FUseVMem, FBackSurface,
-// (unused), FBackRect, (unused), FOnDrawBack, FOnEnter, FOnExit, FMouseInside, FILIndexFrame,
-// FILIndexTexture, FDockable
+// Fields: _modal, _onDrawSurface, _onPreDrawSurface, Dragging, DragX, DragY, _draggable,
+// _resizable, ResizingX, ResizingY, _onResize, _onInternalResize, _dragHeight,
+// _overlapTopCorners, OldCursor, WindowCursor, _onChangeCursor, _minWidth, _minHeight,
+// _maxWidth, _maxHeight, InResizeArea, WindowStyle, _imageLibraryFrame, _imageLibraryTexture, _useManagerBorders,
+// FrameLeft, FrameTop, FrameRight, FrameBottom, _maskColor, _useVideoMemory, BackSurface,
+// (unused), BackRectangle, (unused), _onDrawBack, _onEnter, _onExit, MouseInside, _imageLibraryIndexFrame,
+// _imageLibraryIndexTexture, _dockable
 public partial class WindowControl : UIComponent
 {
-    public bool FModal;
-    public AoWOnDrawSurface<WindowControl> FOnDrawSurface;
-    public AoWOnDrawSurface<WindowControl> FOnPreDrawSurface;
-    public byte FDragging;
-    public int FDragX;
-    public int FDragY;
-    public bool FDraggable;
-    public bool FResizable;
-    public byte FResizingX;
-    public byte FResizingY;
-    public NotifyEvent<WindowControl> FOnResize;
-    public NotifyEvent<WindowControl> FOnInternalResize;
-    public int FDragHeight;
-    public bool FOverlapTopCorners;
-    public int FOldCursor;
-    public int FWindowCursor;
-    public NotifyEvent<WindowControl> FOnChangeCursor;
-    public int FMinWidth;
-    public int FMinHeight;
-    public int FMaxWidth;
-    public int FMaxHeight;
-    public bool FInResizeArea;
-    public Style FWindowType;
-    public InterfaceImageLibrary FILFrame;
-    public InterfaceImageLibrary FILTexture;
-    public bool FUseManagerBorders;
-    public int FFrameLeft;
-    public int FFrameTop;
-    public int FFrameRight;
-    public int FFrameBottom;
-    public int FMaskColor;
-    public bool FUseVMem;
-    public Surface FBackSurface;
-    public int F190;
-    public Rect FBackRect;
-    public int F1A4;
-    public AoWOnDrawBackEvent<WindowControl> FOnDrawBack;
-    public NotifyEvent<WindowControl> FOnEnter;
-    public NotifyEvent<WindowControl> FOnExit;
-    public bool FMouseInside;
-    public int FILIndexFrame;
-    public int FILIndexTexture;
-    public bool FDockable;
+    public bool _modal;
+    public AoWOnDrawSurface<WindowControl> _onDrawSurface;
+    public AoWOnDrawSurface<WindowControl> _onPreDrawSurface;
+    public byte Dragging;
+    public int DragX;
+    public int DragY;
+    public bool _draggable;
+    public bool _resizable;
+    public byte ResizingX;
+    public byte ResizingY;
+    public NotifyEvent<WindowControl> _onResize;
+    public NotifyEvent<WindowControl> _onInternalResize;
+    public int _dragHeight;
+    public bool _overlapTopCorners;
+    public int OldCursor;
+    public int WindowCursor;
+    public NotifyEvent<WindowControl> _onChangeCursor;
+    public int _minWidth;
+    public int _minHeight;
+    public int _maxWidth;
+    public int _maxHeight;
+    public bool InResizeArea;
+    public Style WindowStyle;
+    public InterfaceImageLibrary _imageLibraryFrame;
+    public InterfaceImageLibrary _imageLibraryTexture;
+    public bool _useManagerBorders;
+    public int FrameLeft;
+    public int FrameTop;
+    public int FrameRight;
+    public int FrameBottom;
+    public int _maskColor;
+    public bool _useVideoMemory;
+    public Surface BackSurface;
+    public int UnusedBackValue;
+    public Rect BackRectangle;
+    public int UnusedBackValue2;
+    public AoWOnDrawBackEvent<WindowControl> _onDrawBack;
+    public NotifyEvent<WindowControl> _onEnter;
+    public NotifyEvent<WindowControl> _onExit;
+    public bool MouseInside;
+    public int _imageLibraryIndexFrame;
+    public int _imageLibraryIndexTexture;
+    public bool _dockable;
 
     // AoWWinControl.pas:103
     public WindowControl(Component owner) : base(owner)
     {
-        FOldCursor = -2;
-        FWindowCursor = -2;
+        OldCursor = -2;
+        WindowCursor = -2;
     }
 
     // AoWWinControl.pas:110
     public override void Dispose()
     {
-        FBackSurface?.Dispose();
+        BackSurface?.Dispose();
         base.Dispose();
     }
 
     // AoWWinControl.pas:120
     public override void Validate()
     {
-        if (FAOWOwner != null)
+        if (_ownerComponent != null)
         {
-            if (FILFrame != null)
+            if (_imageLibraryFrame != null)
             {
-                FILFrame = FILFrame.CheckIL(FILIndexFrame, 8, this);
+                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
             }
 
-            if (FILTexture != null)
+            if (_imageLibraryTexture != null)
             {
-                FILTexture = FILTexture.CheckIL(FILIndexTexture, 1, this);
+                _imageLibraryTexture = _imageLibraryTexture.CheckImageLibrary(_imageLibraryIndexTexture, 1, this);
             }
 
-            if (FILFrame != null)
+            if (_imageLibraryFrame != null)
             {
-                if (FILTexture != null)
+                if (_imageLibraryTexture != null)
                 {
-                    FWindowType = Style.Normal;
+                    WindowStyle = Style.Normal;
                 }
                 else
                 {
-                    FWindowType = Style.Hollow;
+                    WindowStyle = Style.Hollow;
                 }
             }
             else
             {
-                if (FILTexture != null)
+                if (_imageLibraryTexture != null)
                 {
-                    FWindowType = Style.Borderless;
+                    WindowStyle = Style.Borderless;
                 }
                 else
                 {
-                    FWindowType = Style.Blank;
+                    WindowStyle = Style.Blank;
                 }
             }
 
-            FValid = true;
+            Valid = true;
         }
 
         base.Validate();
     }
 
     // AoWWinControl.pas:224
-    public override void CheckKeyPress(ref byte Key)
+    public override void CheckKeyPress(ref byte key)
     {
         UIComponent C = default;
-        FHandled = false;
-        if (FVisible)
+        Handled = false;
+        if (_visible)
         {
-            for (int I = FChildren.Count - 1; I >= 0; I--)
+            for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)FChildren[I];
-                C.CheckKeyPress(ref Key);
-                if (C.FHandled == true)
+                C = (UIComponent)Children[I];
+                C.CheckKeyPress(ref key);
+                if (C.Handled == true)
                 {
-                    FHandled = true;
+                    Handled = true;
                 }
             }
 
-            if ((FHandled || FModal) && FOnKeyPress != null)
+            if ((Handled || _modal) && _onKeyPress != null)
             {
-                FOnKeyPress(this, ref Key);
+                _onKeyPress(this, ref key);
             }
 
-            if (FModal)
+            if (_modal)
             {
-                FHandled = true;
+                Handled = true;
             }
         }
     }
 
     // AoWWinControl.pas:246
-    public override void CheckKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
         UIComponent C = default;
-        FHandled = false;
-        if (FVisible)
+        Handled = false;
+        if (_visible)
         {
-            for (int I = FChildren.Count - 1; I >= 0; I--)
+            for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)FChildren[I];
-                C.CheckKeyDown(ref Key, Shift);
-                if (C.FHandled == true)
+                C = (UIComponent)Children[I];
+                C.CheckKeyDown(ref key, shift);
+                if (C.Handled == true)
                 {
-                    FHandled = true;
+                    Handled = true;
                 }
             }
 
-            if (FOnKeyDown != null)
+            if (_onKeyDown != null)
             {
-                FOnKeyDown(this, ref Key, Shift);
+                _onKeyDown(this, ref key, shift);
             }
 
-            if (FModal)
+            if (_modal)
             {
-                FHandled = true;
+                Handled = true;
             }
         }
     }
@@ -181,54 +181,54 @@ public partial class WindowControl : UIComponent
     }
 
     // AoWWinControl.pas:208
-    public virtual void Blt(Surface Surface)
+    public virtual void Blit(Surface surface)
     {
         Rect R = default;
-        if (FOnPreDrawSurface != null)
+        if (_onPreDrawSurface != null)
         {
-            FOnPreDrawSurface(this, Surface, FWinLeft, FWinTop);
+            _onPreDrawSurface(this, surface, _winLeft, _winTop);
         }
 
-        R = new Rect(0, 0, FWinWidth, FWinHeight);
-        if (!FMasked)
+        R = new Rect(0, 0, _winWidth, _winHeight);
+        if (!_masked)
         {
-            FBackSurface.BltAreaClipped(Surface, R, FWinLeft, FWinTop);
+            BackSurface.BlitAreaClipped(surface, R, _winLeft, _winTop);
         }
         else
         {
-            var pixelFormatID = FBackSurface.GetPixelFormatID();
-            var color2PixelInfo = PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
-            FBackSurface.BltAreaColorKeyClipped(Surface, R, FWinLeft, FWinTop, color2PixelInfo);
+            var pixelFormatId = BackSurface.GetPixelFormatId();
+            var color2PixelInfo = PixelFormats.Color2PixelInfo(_maskColor, pixelFormatId, null);
+            BackSurface.BlitAreaColorKeyClipped(surface, R, _winLeft, _winTop, color2PixelInfo);
         }
 
-        if (FOnDrawSurface != null)
+        if (_onDrawSurface != null)
         {
-            FOnDrawSurface(this, Surface, FWinLeft, FWinTop);
+            _onDrawSurface(this, surface, _winLeft, _winTop);
         }
     }
 
     // AoWWinControl.pas:142
-    public void SetOverlap(bool Value)
+    public void SetOverlap(bool value)
     {
-        FOverlapTopCorners = Value;
-        FDrawn = false;
+        _overlapTopCorners = value;
+        Drawn = false;
     }
 
     // AoWWinControl.pas:149
     // { RadioChange unchecks the other children of the radio group of Sender }
-    public void RadioChange(UIComponent Sender)
+    public void RadioChange(UIComponent sender)
     {
         UIComponent C;
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        for (int I = 0, last = Children.Count - 1; I <= last; I++)
         {
-            C = (UIComponent)FChildren[I];
-            if (Sender.FRadioIndex == C.FRadioIndex && C != Sender && C.FChecked == true)
+            C = (UIComponent)Children[I];
+            if (sender._radioIndex == C._radioIndex && C != sender && C._checked == true)
             {
-                C.FChecked = false;
-                C.FDrawn = false;
-                if (C.FOnChange != null)
+                C._checked = false;
+                C.Drawn = false;
+                if (C._onChange != null)
                 {
-                    C.FOnChange(C);
+                    C._onChange(C);
                 }
             }
         }
@@ -238,126 +238,126 @@ public partial class WindowControl : UIComponent
     // { VerifyBackSurface makes the back surface match Surface (a DirectDraw surface in video memory
     //   when Surface is one and UseVMem is set, else a surface in system memory or a data surface);
     //   True when the back surface was created or restored and has to be drawn again }
-    public bool VerifyBackSurface(Surface Surface)
+    public bool VerifyBackSurface(Surface surface)
     {
-        Set<DirectDrawSurfaceCreationFlagsElement> Flags;
-        DirectDrawSurface DDS;
-        bool Result = false;
-        if (FDoubleBuffered)
+        Set<DirectDrawSurfaceCreationFlagsElement> flags;
+        DirectDrawSurface dDS;
+        bool result = false;
+        if (_doubleBuffered)
         {
-            if (FBackSurface != null)
+            if (BackSurface != null)
             {
-                if (FBackSurface.GetPixelFormatID() != Surface.GetPixelFormatID() || (FBackSurface is DirectDrawSurface) ^ (Surface is DirectDrawSurface))
+                if (BackSurface.GetPixelFormatId() != surface.GetPixelFormatId() || (BackSurface is DirectDrawSurface) ^ (surface is DirectDrawSurface))
                 {
-                    FBackSurface?.Dispose();
-                    FBackSurface = null;
+                    BackSurface?.Dispose();
+                    BackSurface = null;
                 }
             }
 
-            if (FBackSurface == null)
+            if (BackSurface == null)
             {
-                if (Surface is DirectDrawSurface)
+                if (surface is DirectDrawSurface)
                 {
-                    if (((DirectDrawSurface)Surface).Status.Contains(DirectDrawSurfaceStatusElement.VideoMemory) && FUseVMem)
+                    if (((DirectDrawSurface)surface).Status.Contains(DirectDrawSurfaceStatusElement.VideoMemory) && _useVideoMemory)
                     {
-                        Flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.VideoMemory, DirectDrawSurfaceCreationFlagsElement.SystemMemory);
+                        flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.VideoMemory, DirectDrawSurfaceCreationFlagsElement.SystemMemory);
                     }
                     else
                     {
-                        Flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.SystemMemory);
+                        flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.SystemMemory);
                     }
 
-                    DDS = new DirectDrawSurface();
-                    FBackSurface = DDS;
-                    var pixelFormatID = Surface.GetPixelFormatID();
-                    DDS.CreateSurface(FWinWidth, FWinHeight, pixelFormatID, Flags);
+                    dDS = new DirectDrawSurface();
+                    BackSurface = dDS;
+                    var pixelFormatId = surface.GetPixelFormatId();
+                    dDS.CreateSurface(_winWidth, _winHeight, pixelFormatId, flags);
                 }
                 else
                 {
-                    var pixelFormatID = Surface.GetPixelFormatID();
-                    FBackSurface = new DataSurface(FWinWidth, FWinHeight, pixelFormatID, null);
+                    var pixelFormatId = surface.GetPixelFormatId();
+                    BackSurface = new DataSurface(_winWidth, _winHeight, pixelFormatId, null);
                 }
 
-                if (FMasked)
+                if (_masked)
                 {
-                    FBackSurface.Cls(FMaskColor);
+                    BackSurface.Clear(_maskColor);
                 }
 
-                Result = true;
+                result = true;
             }
             else
             {
-                if (FBackSurface is DirectDrawSurface && ((DirectDrawSurface)FBackSurface).Lost())
+                if (BackSurface is DirectDrawSurface && ((DirectDrawSurface)BackSurface).Lost())
                 {
-                    Result = ((DirectDrawSurface)FBackSurface).Restore() == PixelFormats.DD_OK;
+                    result = ((DirectDrawSurface)BackSurface).Restore() == PixelFormats.DD_OK;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     [Published]
-    public AoWOnDrawBackEvent<WindowControl> OnDrawBack { get => FOnDrawBack; set => FOnDrawBack = value; }
+    public AoWOnDrawBackEvent<WindowControl> OnDrawBack { get => _onDrawBack; set => _onDrawBack = value; }
 
     [Published]
-    public NotifyEvent<WindowControl> OnEnter { get => FOnEnter; set => FOnEnter = value; }
+    public NotifyEvent<WindowControl> OnEnter { get => _onEnter; set => _onEnter = value; }
 
     [Published]
-    public NotifyEvent<WindowControl> OnExit { get => FOnExit; set => FOnExit = value; }
+    public NotifyEvent<WindowControl> OnExit { get => _onExit; set => _onExit = value; }
 
     public new NotifyEvent<WindowControl> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<WindowControl> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<WindowControl> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<WindowControl> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<WindowControl> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<WindowControl> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<WindowControl> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<WindowControl> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<WindowControl> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 
     public enum Style : byte

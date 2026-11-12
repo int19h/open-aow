@@ -42,7 +42,7 @@ public sealed class EventView(string name)
     public static readonly EventView Help = new("Help");
     public static readonly EventView SaveGame = new("SaveGame");
     public static readonly EventView SendEmailGame = new("SendEmailGame");
-    public static readonly EventView SMTP = new("SMTP");
+    public static readonly EventView Smtp = new("SMTP");
     public static readonly EventView Password = new("Password");
     public static readonly EventView ItemsFound = new("ItemsFound");
     public static readonly EventView CityProduction = new("CityProduction");

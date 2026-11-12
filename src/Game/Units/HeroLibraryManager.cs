@@ -13,77 +13,77 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-// FSystemLibrary. FLibraries
+// SystemLibrary. Libraries
 public partial class HeroLibraryManager : EngineObject
 {
     // Hero.PAS:2646
     public HeroLibraryManager(ECustomNode owner) : base(owner)
     {
-        FSystemLibrary = new HeroLibrary(null);
-        FLibraries = new ENode(null);
+        SystemLibrary = new HeroLibrary(null);
+        Libraries = new ENode(null);
     }
 
-    public HeroLibrary FSystemLibrary;
-    public ENode FLibraries;
+    public HeroLibrary SystemLibrary;
+    public ENode Libraries;
 
     // Hero.PAS:2653
     public override void Dispose()
     {
-        FLibraries?.Dispose();
-        FSystemLibrary?.Dispose();
+        Libraries?.Dispose();
+        SystemLibrary?.Dispose();
         base.Dispose();
     }
 
     // Hero.PAS:2656
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        string Directory;
-        base.ReadWrite(Stream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
+        string directory;
+        base.ReadWrite(stream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
         {
-            Directory = ExtractFilePath(GameTables.AoWEngine.HSSFileName);
-            if (Stream.StorageMode().Contains(StorageModeElement.Read))
+            directory = ExtractFilePath(GameTables.GameEngine.HssFileName);
+            if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
                 ReadUserLibraries();
-                GameTables.AoWEngine.ReadFromFile(Directory + "Heroes.PFS", FSystemLibrary, null);
+                GameTables.GameEngine.ReadFromFile(directory + "Heroes.PFS", SystemLibrary, null);
             }
             else
             {
-                GameTables.AoWEngine.WriteToFile(Directory + "Heroes.PFS", FSystemLibrary, null);
+                GameTables.GameEngine.WriteToFile(directory + "Heroes.PFS", SystemLibrary, null);
                 WriteUserLibraries();
             }
         }
         else
         {
-            Stream.rwEObject(FSystemLibrary, 20);
+            stream.rwEObject(SystemLibrary, 20);
         }
     }
 
     // Hero.PAS:2677
-    public HeroLibrary GetLibrary(int Index) => (HeroLibrary)FLibraries.FChildren.EObjects[Index];
+    public HeroLibrary GetLibrary(int index) => (HeroLibrary)Libraries._children.EObjects[index];
 
     // Hero.PAS:2680
-    public int GetCount() => FLibraries.GetCount();
+    public int GetCount() => Libraries.GetCount();
 
     // Hero.PAS:2683
     public void ReadUserLibraries()
     {
-        HeroLibrary Lib;
-        FLibraries.Clear();
-        FLibraries.AddChild(FSystemLibrary);
+        HeroLibrary library;
+        Libraries.Clear();
+        Libraries.AddChild(SystemLibrary);
         // Both extensions list, and a list present in both forms loads its own document once
         // (own-formats.md 4.2).
-        foreach (var Listed in FileBoundary.FindDocuments(GameTables.AoWEngine.StartupDirectory + "User\\", DocumentKind.HeroList))
+        foreach (var listed in FileBoundary.FindDocuments(GameTables.GameEngine.StartupDirectory + "User\\", DocumentKind.HeroList))
         {
-            Lib = new HeroLibrary(null);
+            library = new HeroLibrary(null);
             try
             {
-                Lib.LoadFromFile(GameTables.AoWEngine.StartupDirectory + "User\\" + Listed);
-                Lib.SetOwner(FLibraries);
+                library.LoadFromFile(GameTables.GameEngine.StartupDirectory + "User\\" + listed);
+                library.SetOwner(Libraries);
             }
             catch
             {
-                Lib?.Dispose();
+                library?.Dispose();
             }
         }
     }
@@ -91,25 +91,25 @@ public partial class HeroLibraryManager : EngineObject
     // Hero.PAS:2703
     public void WriteUserLibraries()
     {
-        HeroLibrary Lib;
-        for (int I = 1, last = FLibraries.GetCount() - 1; I <= last; I++)
+        HeroLibrary library;
+        for (int I = 1, last = Libraries.GetCount() - 1; I <= last; I++)
         {
-            Lib = GetLibrary(I);
-            var name = Lib.GetName();
-            Lib.SaveToFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.HeroList));
+            library = GetLibrary(I);
+            var name = library.GetName();
+            library.SaveToFile(GameTables.GameEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(DocumentKind.HeroList));
         }
     }
 
     // Hero.PAS:2713
-    public int IndexOfLibraryName(string Name)
+    public int IndexOfLibraryName(string name)
     {
-        int Result = FLibraries.GetCount();
-        while (Result != 0)
+        int result = Libraries.GetCount();
+        while (result != 0)
         {
-            Result -= 1;
-            if (CompareText(Name, ((HeroLibrary)FLibraries.FChildren.List[Result]).FLibraryName) == 0)
+            result -= 1;
+            if (CompareText(name, ((HeroLibrary)Libraries._children.List[result]).LibraryName) == 0)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -117,62 +117,62 @@ public partial class HeroLibraryManager : EngineObject
     }
 
     // Hero.PAS:2724
-    public int IndexOfLibrary(HeroLibrary Lib) => FLibraries.FChildren.IndexOf(Lib);
+    public int IndexOfLibrary(HeroLibrary library) => Libraries._children.IndexOf(library);
 
     // Hero.PAS:2727
-    public Hero FindHero(string LibraryName, int LibraryID)
+    public Hero FindHero(string libraryName, int libraryId)
     {
-        Hero Result;
-        int Index;
-        Index = IndexOfLibraryName(LibraryName);
-        if (Index != -1)
+        Hero result;
+        int index;
+        index = IndexOfLibraryName(libraryName);
+        if (index != -1)
         {
-            Result = ((HeroLibrary)FLibraries.FChildren.List[Index]).FindLibraryID(LibraryID);
+            result = ((HeroLibrary)Libraries._children.List[index]).FindLibraryId(libraryId);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2735
-    public HeroLibrary CreateLibrary(string Name)
+    public HeroLibrary CreateLibrary(string name)
     {
-        HeroLibrary Result;
-        string LibraryName;
-        LibraryName = Name;
+        HeroLibrary result;
+        string libraryName;
+        libraryName = name;
         // { Original retains the period when stripping the extension. }
-        if (Pos(".", LibraryName) != 0)
+        if (Pos(".", libraryName) != 0)
         {
-            LibraryName = RtlUnit.Copy(LibraryName, 1, Pos(".", LibraryName));
+            libraryName = RtlUnit.Copy(libraryName, 1, Pos(".", libraryName));
         }
 
-        if (!IsEmpty(LibraryName) && IndexOfLibraryName(LibraryName) == -1)
+        if (!IsEmpty(libraryName) && IndexOfLibraryName(libraryName) == -1)
         {
-            Result = new HeroLibrary(FLibraries);
-            Result.FLibraryName = LibraryName;
-            Result.SaveToFile(GameTables.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(DocumentKind.HeroList));
+            result = new HeroLibrary(Libraries);
+            result.LibraryName = libraryName;
+            result.SaveToFile(GameTables.GameEngine.StartupDirectory + "Release\\" + libraryName + FileBoundary.WriteExtension(DocumentKind.HeroList));
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Hero.PAS:2750
-    public void DeleteLibrary(int Index)
+    public void DeleteLibrary(int index)
     {
-        if (Index < FLibraries.GetCount() && Index > 0)
+        if (index < Libraries.GetCount() && index > 0)
         {
-            var name = GetLibrary(Index).GetName();
+            var name = GetLibrary(index).GetName();
             // The list goes in both forms, so an original of the same name does not return.
-            DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + DocumentKind.HeroList.OriginalExtension);
-            DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + DocumentKind.HeroList.OwnExtension);
-            GetLibrary(Index)?.Dispose();
+            DeleteFile(GameTables.GameEngine.StartupDirectory + "User\\" + name + DocumentKind.HeroList.OriginalExtension);
+            DeleteFile(GameTables.GameEngine.StartupDirectory + "User\\" + name + DocumentKind.HeroList.OwnExtension);
+            GetLibrary(index)?.Dispose();
         }
     }
 

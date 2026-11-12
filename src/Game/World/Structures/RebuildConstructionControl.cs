@@ -14,85 +14,85 @@ public partial class RebuildConstructionControl : ConstructionControl
     { }
 
     // AoWAb.PAS:5404
-    public Structure GetStructure(Troop AUnit)
+    public Structure GetStructure(Troop troop)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        AUnit.GetLocation(ref X, ref Y, ref L);
-        Structure Result = (Structure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(Structure));
-        if (Result != null)
+        troop.GetLocation(ref X, ref Y, ref L);
+        Structure result = (Structure)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(Structure));
+        if (result != null)
         {
-            if (!Result.GetRazed() || Result.GetBuilding())
+            if (!result.GetRazed() || result.GetBuilding())
             {
-                Result = null;
+                result = null;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5413
-    public override void GetInfo(Troop AUnit, ref string Text, ref int Gold, ref int Days)
+    public override void GetInfo(Troop troop, ref string text, ref int gold, ref int days)
     {
-        Structure Structure;
-        Structure = GetStructure(AUnit);
-        if (Structure != null)
+        Structure structure;
+        structure = GetStructure(troop);
+        if (structure != null)
         {
-            var editName = Structure.EditName();
-            Text = AbilityRules.Format(AbilityRules.TranslateRStr(P4RebuildXRStr), [editName]);
-            Structure.GetRebuildInfo(ref Gold, ref Days);
+            var editName = structure.EditName();
+            text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_rebuildFormat), [editName]);
+            structure.GetRebuildInfo(ref gold, ref days);
         }
         else
         {
-            var p4Structure = AbilityRules.TranslateRStr(P4StructureRStr);
-            Text = AbilityRules.Format(AbilityRules.TranslateRStr(P4RebuildXRStr), [p4Structure]);
-            Gold = 0;
-            Days = 0;
+            var structureLocal = AbilityRules.TranslateResourceString(s_structureText);
+            text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_rebuildFormat), [structureLocal]);
+            gold = 0;
+            days = 0;
         }
     }
 
     // AoWAb.PAS:5430
-    public override bool CanConstruct(Troop AUnit, ref string Reason)
+    public override bool CanConstruct(Troop troop, ref string reason)
     {
-        bool Result;
-        if (GetStructure(AUnit) != null)
+        bool result;
+        if (GetStructure(troop) != null)
         {
-            Result = base.CanConstruct(AUnit, ref Reason);
+            result = base.CanConstruct(troop, ref reason);
         }
         else
         {
-            Reason = AbilityRules.TranslateRStr(P4NoRazedStructuresRStr);
-            Result = false;
+            reason = AbilityRules.TranslateResourceString(s_noRazedStructuresText);
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWAb.PAS:5439
-    public override bool Construct(Troop AUnit)
+    public override bool Construct(Troop troop)
     {
-        bool Result;
-        string Reason = "";
-        if (CanConstruct(AUnit, ref Reason))
+        bool result;
+        string reason = "";
+        if (CanConstruct(troop, ref reason))
         {
-            Result = GetStructure(AUnit).Rebuild(AUnit);
+            result = GetStructure(troop).Rebuild(troop);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:524
 
     // AoWAb.PAS:5400
-    public override int ID() => 1;
+    public override int Id() => 1;
 
-    private static readonly string P4RebuildXRStr = "Rebuild %s";
-    private static readonly string P4StructureRStr = "Structure";
-    private static readonly string P4NoRazedStructuresRStr = "No razed structure found";
+    private static readonly string s_rebuildFormat = "Rebuild %s";
+    private static readonly string s_structureText = "Structure";
+    private static readonly string s_noRazedStructuresText = "No razed structure found";
 
 }

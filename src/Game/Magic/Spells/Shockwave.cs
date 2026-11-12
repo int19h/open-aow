@@ -15,9 +15,9 @@ public partial class Shockwave : CombatSpell
     // CombatSpells.pas:1919
     public Shockwave(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(ShockwaveRStr);
-        FSpellID = 127;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_shockwaveText);
+        SpellId = 127;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 8;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical, DamageType.Wall);
@@ -25,5 +25,5 @@ public partial class Shockwave : CombatSpell
         spellCombatInfo.Range = 12;
     }
 
-    private static readonly string ShockwaveRStr = "Shock Wave";
+    private static readonly string s_shockwaveText = "Shock Wave";
 }

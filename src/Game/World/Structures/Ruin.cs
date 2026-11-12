@@ -11,7 +11,7 @@ public partial class Ruin : ItemExplorationSite
     { }
 
     // Ruin.pas:34
-    public new const int ClassID = 131994;
+    public new const int ClassId = 131994;
 
     public new partial class Resource : ItemExplorationSiteResource
     {
@@ -19,15 +19,15 @@ public partial class Ruin : ItemExplorationSite
         { }
 
         // Ruin.pas:40
-        public new const int ClassID = 131995;
+        public new const int ClassId = 131995;
 
         // Ruin.pas:43
-        public override int ResourceUserClassID() => 131994;
+        public override int ResourceUserClassId() => 131994;
 
         // Ruin.pas:37
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(CastleRuinRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_castleRuinText);
 
-        private static readonly string CastleRuinRStr = "Castle Ruin";
+        private static readonly string s_castleRuinText = "Castle Ruin";
 
     }
 

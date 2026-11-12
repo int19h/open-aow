@@ -10,7 +10,7 @@ public partial class ProductionControlList : IDisposable
     public int Count => FItems.Count;
 
     // Structur.PAS:929
-    public ProductionControl GetPC(int Index) => FItems[Index];
+    public ProductionControl GetPC(int index) => FItems[index];
 
     public int Add(ProductionControl Item)
     {

@@ -13,67 +13,67 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-// FStatus. FShowPriority. FUnitGFXResource. FDirection. FMoveStep. FFlagID. FShadow
+// Status. _showPriority. UnitGraphicsResource. Direction. MoveStep. FlagId. Shadow
 public partial class UnitHexSprite : HexSprite
 {
     public UnitHexSprite(ECustomNode owner) : base(owner)
     {
-        FMoveStep = -1;
-        FDirection = 3;
-        FShowPriority = 1744830464;
+        MoveStep = -1;
+        Direction = 3;
+        _showPriority = 1744830464;
     }
 
-    public new const int ClassID = 131604;
+    public new const int ClassId = 131604;
 
-    public byte FStatus;
+    public byte Status;
     // visible, edit, selected, paused, instant move
-    public int FShowPriority;
-    public UnitGraphicsResource FUnitGFXResource;
-    public byte FDirection;
-    public sbyte FMoveStep;
+    public int _showPriority;
+    public UnitGraphicsResource UnitGraphicsResource;
+    public byte Direction;
+    public sbyte MoveStep;
     // -1 when idle
-    public byte FFlagID;
-    public UnitShadowHexSprite FShadow;
+    public byte FlagId;
+    public UnitShadowHexSprite Shadow;
 
     // UnitHS.PAS:168
     public override void Dispose()
     {
         DestroyShadow();
-        SetUnitGFXResourceIndex(-1);
+        SetUnitGraphicsResourceIndex(-1);
         base.Dispose();
     }
 
     // UnitHS.PAS:219
-    public override void SetOwner(ECustomNode AOwner)
+    public override void SetOwner(ECustomNode owner)
     {
-        if (AOwner != FOwner)
+        if (owner != _owner)
         {
-            if (FOwner != null)
+            if (_owner != null)
             {
-                FOwner.RemoveChild(this);
+                _owner.RemoveChild(this);
             }
 
-            FOwner = AOwner;
-            if (FOwner != null)
+            _owner = owner;
+            if (_owner != null)
             {
-                FOwner.AddChild(this);
+                _owner.AddChild(this);
             }
         }
     }
 
     // UnitHS.PAS:208
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwByte(ref FDirection, 9);
-        if (!Stream.StorageMode().Contains(StorageModeElement.SetupCompare) && FDirection == 0)
+        base.ReadWrite(stream);
+        stream.rwByte(ref Direction, 9);
+        if (!stream.StorageMode().Contains(StorageModeElement.SetupCompare) && Direction == 0)
         {
-            FDirection = 3;
+            Direction = 3;
         }
     }
 
     // UnitHS.PAS:610
-    public override void TimerEvent(int Tick, EngineObject Sender)
+    public override void TimerEvent(int tick, EngineObject sender)
     {
     }
 
@@ -81,99 +81,99 @@ public partial class UnitHexSprite : HexSprite
     public override byte GetLevel() => 26;
 
     // UnitHS.PAS:569
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        if (Value)
+        if (value)
         {
-            FStatus = (byte)(FStatus | 1);
+            Status = (byte)(Status | 1);
         }
         else
         {
-            FStatus = (byte)(FStatus & 254);
+            Status = (byte)(Status & 254);
         }
     }
 
     // UnitHS.PAS:574
-    public override bool GetVisible() => (FStatus & 1) != 0;
+    public override bool GetVisible() => (Status & 1) != 0;
 
     // UnitHS.PAS:567
-    public override bool GetSelected() => (FStatus & 4) != 0;
+    public override bool GetSelected() => (Status & 4) != 0;
 
     // UnitHS.PAS:228
-    public override sbyte GetXhx() => ((MapField)Owner).Xhx;
+    public override sbyte GetHexX() => ((MapField)Owner).HexX;
 
     // UnitHS.PAS:230
-    public override sbyte GetYhx() => ((MapField)Owner).Yhx;
+    public override sbyte GetHexY() => ((MapField)Owner).HexY;
 
     // UnitHS.PAS:232
-    public override sbyte GetLhx()
+    public override sbyte GetHexLevel()
     {
         Assert(Owner != null, "Onwer isn't defined", "UnitHS.PAS", 557);
-        return ((MapField)Owner).Lhx;
+        return ((MapField)Owner).HexLevel;
     }
 
     // UnitHS.PAS:576
-    public override bool GetEditMode() => (FStatus & 2) != 0;
+    public override bool GetEditMode() => (Status & 2) != 0;
 
     // UnitHS.PAS:578
-    public override void SetEditMode(bool Value)
+    public override void SetEditMode(bool value)
     {
-        if (Value)
+        if (value)
         {
-            FStatus = (byte)(FStatus | 2);
+            Status = (byte)(Status | 2);
         }
         else
         {
-            FStatus = (byte)(FStatus & 253);
+            Status = (byte)(Status & 253);
         }
     }
 
     // UnitHS.PAS:651
-    public override int GetShowPriority() => FShowPriority;
+    public override int GetShowPriority() => _showPriority;
 
     // UnitHS.PAS:692
     public override void Connect()
     {
-        MapField Field;
-        MapLevel Level;
-        HexNumberWalkData Walk = default;
-        CalcShowPriority();
-        Field = (MapField)Owner;
-        Field.RemoveChild(this);
-        Level = (MapLevel)Field.Owner;
-        HexNumberWalkData.InitHNWalk(ref Walk, Field.Xhx, Field.Yhx, 0);
-        while (Walk.Radius <= 1)
+        MapField field;
+        MapLevel level;
+        HexNumberWalkData walk = default;
+        CalculateShowPriority();
+        field = (MapField)Owner;
+        field.RemoveChild(this);
+        level = (MapLevel)field.Owner;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, field.HexX, field.HexY, 0);
+        while (walk.Radius <= 1)
         {
-            if (Walk.X >= 0 && Walk.X < Level.Width && Walk.Y >= 0 && Walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
             {
-                Level.GetField(Walk.X, Walk.Y).AddHS(this, Walk.HN);
-                Level.GetField(Walk.X, Walk.Y).UpdateMapField();
+                level.GetField(walk.X, walk.Y).AddHexSprite(this, walk.HexNumber);
+                level.GetField(walk.X, walk.Y).UpdateMapField();
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 
     // UnitHS.PAS:716
     public override void Disconnect()
     {
-        MapField Field;
-        MapLevel Level;
-        HexNumberWalkData Walk = default;
+        MapField field;
+        MapLevel level;
+        HexNumberWalkData walk = default;
         if (Owner != null)
         {
-            Field = (MapField)Owner;
-            Level = (MapLevel)Field.Owner;
-            HexNumberWalkData.InitHNWalk(ref Walk, Field.Xhx, Field.Yhx, 0);
-            while (Walk.Radius <= 1)
+            field = (MapField)Owner;
+            level = (MapLevel)field.Owner;
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, field.HexX, field.HexY, 0);
+            while (walk.Radius <= 1)
             {
-                if (Walk.X >= 0 && Walk.X < Level.Width && Walk.Y >= 0 && Walk.Y < Level.Height)
+                if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
                 {
-                    Level.GetField(Walk.X, Walk.Y).RemoveHS(this);
-                    Level.GetField(Walk.X, Walk.Y).UpdateMapField();
+                    level.GetField(walk.X, walk.Y).RemoveHexSprite(this);
+                    level.GetField(walk.X, walk.Y).UpdateMapField();
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
 
             SetOwner(null);
@@ -181,74 +181,74 @@ public partial class UnitHexSprite : HexSprite
     }
 
     // UnitHS.PAS:214
-    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        base.TerrainChanged(Info);
-        CalcShowPriority();
+        base.TerrainChanged(info);
+        CalculateShowPriority();
     }
 
     // UnitHS.PAS:742
     public override bool PlaceOnMap()
     {
         Connect();
-        ((GameMap)((MapLevel)Owner.Owner).Map).ScannerIconsChangedRad(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ((MapField)Owner).Lhx, 0);
+        ((GameMap)((MapLevel)Owner.Owner).Map).ScannerIconsChangedRadius(((MapField)Owner).HexX, ((MapField)Owner).HexY, ((MapField)Owner).HexLevel, 0);
         return true;
     }
 
     // UnitHS.PAS:751
     public override void RemoveFromMap()
     {
-        MapField Field;
+        MapField field;
         if (Owner != null)
         {
-            Field = (MapField)Owner;
+            field = (MapField)Owner;
             if (Moving())
             {
                 CancelMove();
             }
 
             Disconnect();
-            Field.UpdateMapField();
-            ((GameMap)((MapLevel)Field.Owner).Map).ScannerIconsChangedRad(Field.Xhx, Field.Yhx, Field.Lhx, 0);
+            field.UpdateMapField();
+            ((GameMap)((MapLevel)field.Owner).Map).ScannerIconsChangedRadius(field.HexX, field.HexY, field.HexLevel, 0);
         }
     }
 
     // UnitHS.PAS:809
-    public override bool Place(MapContainer Map, int Xhp, int Yhp, int Lhx)
+    public override bool Place(MapContainer map, int pixelX, int pixelY, int hexLevel)
     {
         int X = default;
         int Y = default;
-        HexGeometry.HPtoHX(Xhp, Yhp, ref X, ref Y);
-        return PlaceHX(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
+        HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
+        return PlaceHex(map, (sbyte)X, (sbyte)Y, (sbyte)hexLevel);
     }
 
     // UnitHS.PAS:779
     public override void Remove()
     {
-        MapField Field;
-        Field = (MapField)Owner;
+        MapField field;
+        field = (MapField)Owner;
         RemoveFromMap();
         if (GetVisible())
         {
-            ((MapLevel)Field.Owner).Map.DynamicVisibleHS.RemoveChild(this);
+            ((MapLevel)field.Owner).Map.DynamicVisibleHexSprite.RemoveChild(this);
             SetVisible(false);
         }
     }
 
     // UnitHS.PAS:986
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        base.MapFieldMsgProc(ref Msg);
-        if (Msg.MsgID == 16 && Msg.HN == 0 && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        base.MapFieldMessageProc(ref message);
+        if (message.MessageId == 16 && message.HexNumber == 0 && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             Dispose();
         }
     }
 
     // UnitHS.PAS:678
-    public override int CanMoveOver(in HexSpriteSenderInfo Info)
+    public override int CanMoveOver(in HexSpriteSenderInfo info)
     {
-        if (Info.HN == 0)
+        if (info.HexNumber == 0)
         {
             return 0;
         }
@@ -261,7 +261,7 @@ public partial class UnitHexSprite : HexSprite
     {
         base.Activate();
         CreateShadow();
-        UpdateFlagID();
+        UpdateFlagId();
     }
 
     // UnitHS.PAS:671
@@ -272,162 +272,162 @@ public partial class UnitHexSprite : HexSprite
     }
 
     // UnitHS.PAS:685
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        if (Info.HN <= 7)
+        if (info.HexNumber <= 7)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 8192;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 8192;
         }
     }
 
     // UnitHS.PAS:195
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        if ((FStatus & 1) == 0)
+        if ((Status & 1) == 0)
         {
-            FStatus = (byte)(FStatus | 1);
-            VisibilityList.AddSortChild(this, FShowPriority);
+            Status = (byte)(Status | 1);
+            visibilityList.AddSortChild(this, _showPriority);
             // { Read Shadow directly. }
-            if (FShadow != null)
+            if (Shadow != null)
             {
-                var showPriority = FShadow.GetShowPriority();
-                VisibilityList.AddSortChild(FShadow, showPriority);
+                var showPriority = Shadow.GetShowPriority();
+                visibilityList.AddSortChild(Shadow, showPriority);
             }
         }
     }
 
     // UnitHS.PAS:613
-    public override bool CanSelect(int Xhp, int Yhp)
+    public override bool CanSelect(int pixelX, int pixelY)
     {
-        bool Result;
+        bool result;
         int X = default;
         int Y = default;
         if (!Moving())
         {
-            HexGeometry.HPtoHX(Xhp, Yhp, ref X, ref Y);
-            if (((MapField)Owner).Xhx != X || ((MapField)Owner).Yhx != Y)
+            HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
+            if (((MapField)Owner).HexX != X || ((MapField)Owner).HexY != Y)
             {
-                Result = false;
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // UnitHS.PAS:560
     public override void Select()
     {
-        FStatus = (byte)(FStatus | 4);
+        Status = (byte)(Status | 4);
     }
 
     // UnitHS.PAS:562
     public override void Unselect()
     {
-        FStatus = (byte)(FStatus & 251);
+        Status = (byte)(Status & 251);
         base.Unselect();
     }
 
     // UnitHS.PAS:627
-    public virtual void CalcShowPriority()
+    public virtual void CalculateShowPriority()
     {
-        MapField Field;
-        HexSprite HS;
+        MapField field;
+        HexSprite hexSprite;
         int X = default;
         int Y = default;
-        Field = (MapField)Owner;
-        if (Moving() && Set<byte>.WithBounds(0, 255).WithRange(3, 5).Contains(FDirection))
+        field = (MapField)Owner;
+        if (Moving() && Set<byte>.WithBounds(0, 255).WithRange(3, 5).Contains(Direction))
         {
-            HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, FDirection, ref X, ref Y);
-            Field = ((MapLevel)Owner.Owner).GetField(X, Y);
-            HexGeometry.HXtoHP(X, Y, ref X, ref Y);
+            HexGeometry.CenterHexNumberToHex(((MapField)Owner).HexX, ((MapField)Owner).HexY, Direction, ref X, ref Y);
+            field = ((MapLevel)Owner.Owner).GetField(X, Y);
+            HexGeometry.HexToPixel(X, Y, ref X, ref Y);
         }
         else
         {
-            HexGeometry.HXtoHP(Field.Xhx, Field.Yhx, ref X, ref Y);
+            HexGeometry.HexToPixel(field.HexX, field.HexY, ref X, ref Y);
         }
 
-        HS = Field.GetMaxLevelNoneTransparentHS();
-        FShowPriority = 1744830464 + ((Y + 34 + 6) << 13) + (X + 16);
-        if (HS != this && HS != null && HS.GetShowPriority() >= FShowPriority)
+        hexSprite = field.GetMaxLevelNoneTransparentHexSprite();
+        _showPriority = 1744830464 + ((Y + 34 + 6) << 13) + (X + 16);
+        if (hexSprite != this && hexSprite != null && hexSprite.GetShowPriority() >= _showPriority)
         {
-            FShowPriority = HS.GetShowPriority() + 2;
+            _showPriority = hexSprite.GetShowPriority() + 2;
         }
 
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-        SortMapFieldEx(((MapLevel)Owner.Owner).Map.MapContainer, X - 18, Y - 32, ((MapField)Owner).Lhx, 64, 64);
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+        SortMapField(((MapLevel)Owner.Owner).Map.MapContainer, X - 18, Y - 32, ((MapField)Owner).HexLevel, 64, 64);
     }
 
     // UnitHS.PAS:766
-    public virtual bool MoveTo(MapField Field, int MoveCost)
+    public virtual bool MoveTo(MapField field, int moveCost)
     {
         if (Owner != null)
         {
             RemoveFromMap();
         }
 
-        FOwner = Field;
-        CalcShowPriority();
+        _owner = field;
+        CalculateShowPriority();
         PlaceOnMap();
-        Field.RemoveChild(this);
-        FOwner = null;
-        SetOwner(Field);
+        field.RemoveChild(this);
+        _owner = null;
+        SetOwner(field);
         return true;
     }
 
     // UnitHS.PAS:793
-    public virtual bool PlaceHX(MapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public virtual bool PlaceHex(MapContainer map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        MapField Field;
-        bool Success;
-        Field = Map.GetField(Xhx, Yhx, Lhx);
-        FOwner = Field;
-        CalcShowPriority();
-        Success = PlaceOnMap();
-        Field.RemoveChild(this);
-        FOwner = null;
-        SetOwner(Field);
-        return Success;
+        MapField field;
+        bool success;
+        field = map.GetField(hexX, hexY, hexLevel);
+        _owner = field;
+        CalculateShowPriority();
+        success = PlaceOnMap();
+        field.RemoveChild(this);
+        _owner = null;
+        SetOwner(field);
+        return success;
     }
 
     // UnitHS.PAS:659
-    public virtual void UpdateFlagID()
+    public virtual void UpdateFlagId()
     {
-        FFlagID = 32;
+        FlagId = 32;
     }
 
     // UnitHS.PAS:910
-    public virtual sbyte MoveFirst(int Direction, bool Instant)
+    public virtual sbyte MoveFirst(int direction, bool instant)
     {
-        if (FMoveStep != -1)
+        if (MoveStep != -1)
         {
             CancelMove();
         }
 
-        FStatus = (byte)(FStatus & 231);
-        if (Instant)
+        Status = (byte)(Status & 231);
+        if (instant)
         {
-            FStatus = (byte)(FStatus | 16);
+            Status = (byte)(Status | 16);
         }
 
-        FDirection = (byte)Direction;
-        FMoveStep = 0;
-        CalcShowPriority();
+        Direction = (byte)direction;
+        MoveStep = 0;
+        CalculateShowPriority();
         return 0;
     }
 
     // UnitHS.PAS:974
     public virtual int GetMoveSteps()
     {
-        int Result;
-        switch (FUnitGFXResource.F_UnitGFXResource_30)
+        int result;
+        switch (UnitGraphicsResource.MoveAnimationSpeed)
         {
             case 0:
                 return 12;
@@ -438,179 +438,179 @@ public partial class UnitHexSprite : HexSprite
             case 3:
                 return 6;
             default:
-                Result = 8;
+                result = 8;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // UnitHS.PAS:176
     public void CreateShadow()
     {
-        if (FShadow != null)
+        if (Shadow != null)
         {
             DestroyShadow();
         }
 
-        if (AoWHSMap.Current.FShowUnitShadows)
+        if (AoWHSMap.Current.ShowUnitShadows)
         {
-            FShadow = new UnitShadowHexSprite(null);
-            FShadow.FUnitHS = this;
+            Shadow = new UnitShadowHexSprite(null);
+            Shadow.UnitHexSprite = this;
         }
     }
 
     // UnitHS.PAS:185
     public void DestroyShadow()
     {
-        if (FShadow != null)
+        if (Shadow != null)
         {
             if (GetVisible())
             {
-                ((MapLevel)Owner.Owner).Map.DynamicVisibleHS.RemoveChild(FShadow);
+                ((MapLevel)Owner.Owner).Map.DynamicVisibleHexSprite.RemoveChild(Shadow);
             }
 
-            FShadow?.Dispose();
-            FShadow = null;
+            Shadow?.Dispose();
+            Shadow = null;
         }
     }
 
     // UnitHS.PAS:584
-    public int GetUnitGFXResourceIndex()
+    public int GetUnitGraphicsResourceIndex()
     {
-        if (FUnitGFXResource != null)
+        if (UnitGraphicsResource != null)
         {
-            return FUnitGFXResource.GetIndex();
+            return UnitGraphicsResource.GetIndex();
         }
 
         return -1;
     }
 
     // UnitHS.PAS:594
-    public void SetUnitGFXResourceIndex(int Value)
+    public void SetUnitGraphicsResourceIndex(int value)
     {
-        UnitGraphicsResource Resource;
-        UnitGraphicsResource Old;
+        UnitGraphicsResource resource;
+        UnitGraphicsResource old;
         // { This eliminated copy preserves the original saved registers. }
-        Resource = FUnitGFXResource;
-        if (Resource == null || Value != Resource.GetIndex())
+        resource = UnitGraphicsResource;
+        if (resource == null || value != resource.GetIndex())
         {
-            Old = FUnitGFXResource;
-            if (Old != null)
+            old = UnitGraphicsResource;
+            if (old != null)
             {
-                Old.Release();
+                old.Release();
             }
 
-            Resource = AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Value);
-            FUnitGFXResource = Resource;
-            if (Resource != null)
+            resource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(value);
+            UnitGraphicsResource = resource;
+            if (resource != null)
             {
-                Resource.AddRef();
+                resource.AddRef();
             }
         }
     }
 
     // UnitHS.PAS:902
-    public void SetDirection(byte Value)
+    public void SetDirection(byte value)
     {
-        if (Value != FDirection)
+        if (value != Direction)
         {
             if (Moving())
             {
                 CancelMove();
             }
 
-            FDirection = Value;
+            Direction = value;
         }
     }
 
     // UnitHS.PAS:920
     public sbyte GetMoveStatus()
     {
-        sbyte Result;
-        if (FMoveStep >= 0)
+        sbyte result;
+        if (MoveStep >= 0)
         {
             var moveSteps = GetMoveSteps();
-            if (FMoveStep < moveSteps)
+            if (MoveStep < moveSteps)
             {
                 var moveSteps2 = GetMoveSteps();
-                Result = (sbyte)Round((double)(FMoveStep * 100) / moveSteps2);
+                result = (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
             }
             else
             {
-                Result = 100;
+                result = 100;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // UnitHS.PAS:929
-    public void SetMoveStatus(sbyte Value)
+    public void SetMoveStatus(sbyte value)
     {
-        if (Value >= 0)
+        if (value >= 0)
         {
-            FMoveStep = (sbyte)((GetMoveSteps() * Value + 50) / 100);
+            MoveStep = (sbyte)((GetMoveSteps() * value + 50) / 100);
             var moveSteps = GetMoveSteps();
-            if (FMoveStep > moveSteps)
+            if (MoveStep > moveSteps)
             {
-                FMoveStep = (sbyte)GetMoveSteps();
+                MoveStep = (sbyte)GetMoveSteps();
                 return;
             }
         }
         else
         {
-            FMoveStep = -1;
+            MoveStep = -1;
         }
     }
 
     // UnitHS.PAS:940
     public sbyte MoveNext()
     {
-        sbyte Result;
-        if (FMoveStep >= 0)
+        sbyte result;
+        if (MoveStep >= 0)
         {
-            FStatus = (byte)(FStatus & 247);
+            Status = (byte)(Status & 247);
             var moveSteps = GetMoveSteps();
-            if (FMoveStep < moveSteps)
+            if (MoveStep < moveSteps)
             {
-                FMoveStep = (sbyte)(FMoveStep + 1);
+                MoveStep = (sbyte)(MoveStep + 1);
                 var moveSteps2 = GetMoveSteps();
-                Result = (sbyte)Round((double)(FMoveStep * 100) / moveSteps2);
+                result = (sbyte)Round((double)(MoveStep * 100) / moveSteps2);
             }
             else
             {
-                Result = 100;
+                result = 100;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // UnitHS.PAS:956
-    public bool Moving() => FMoveStep != -1;
+    public bool Moving() => MoveStep != -1;
 
     // UnitHS.PAS:960
     public void PauseMove()
     {
-        FStatus = (byte)(FStatus | 8);
+        Status = (byte)(Status | 8);
     }
 
     // UnitHS.PAS:964
     public void CancelMove()
     {
-        if (FMoveStep != -1)
+        if (MoveStep != -1)
         {
-            FMoveStep = -1;
-            FStatus = (byte)(FStatus & 231);
+            MoveStep = -1;
+            Status = (byte)(Status & 231);
         }
     }
 

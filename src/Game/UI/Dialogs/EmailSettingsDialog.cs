@@ -17,8 +17,8 @@ public partial class EmailSettingsDialog : DataModule
     public Frame BCeltL;
     public Frame TCeltL;
     public Image TCeltLineL;
-    public Image AOWImage1;
-    public Image AOWImage2;
+    public Image Image1;
+    public Image Image2;
     public Panel OKCancelPnl;
     public Button OKBtn;
     public Button CancelBtn;
@@ -35,9 +35,9 @@ public partial class EmailSettingsDialog : DataModule
     // AoWEmailSettingsDlg.pas:49
     public void OKBtnClick()
     {
-        GameTables.AoWEngine.FRegistry.SetLocalEmailAddress(LocalEmailAddressEdit.Text);
-        GameTables.AoWEngine.FRegistry.SetSMTPServer(SMTPServerEdit.Text);
-        GameTables.AoWEngine.FRegistry.SetAttachmentDirectory(AttachmentDirectoryEdit.Text);
+        GameTables.GameEngine.Registry.SetLocalEmailAddress(LocalEmailAddressEdit.Text);
+        GameTables.GameEngine.Registry.SetSmtpServer(SMTPServerEdit.Text);
+        GameTables.GameEngine.Registry.SetAttachmentDirectory(AttachmentDirectoryEdit.Text);
         Dlg.Visible = false;
     }
 
@@ -48,23 +48,23 @@ public partial class EmailSettingsDialog : DataModule
     }
 
     // AoWEmailSettingsDlg.pas:60
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        if (Key == 27)
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
     }
 
-    internal static void ShowEmailSettings(EmailSettingsDialog Dialog)
+    internal static void ShowEmailSettings(EmailSettingsDialog dialog)
     {
-        var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
-        Dialog.LocalEmailAddressEdit.Text = localEmailAddress;
-        var smtpServer = GameTables.AoWEngine.FRegistry.GetSMTPServer();
-        Dialog.SMTPServerEdit.Text = smtpServer;
-        var attachmentDirectory = GameTables.AoWEngine.FRegistry.GetAttachmentDirectory();
-        Dialog.AttachmentDirectoryEdit.Text = attachmentDirectory;
-        Dialog.Dlg.Visible = true;
+        var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+        dialog.LocalEmailAddressEdit.Text = localEmailAddress;
+        var smtpServer = GameTables.GameEngine.Registry.GetSmtpServer();
+        dialog.SMTPServerEdit.Text = smtpServer;
+        var attachmentDirectory = GameTables.GameEngine.Registry.GetAttachmentDirectory();
+        dialog.AttachmentDirectoryEdit.Text = attachmentDirectory;
+        dialog.Dlg.Visible = true;
     }
 
 }

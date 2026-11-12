@@ -18,36 +18,36 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1577
     public DeathMastery(ECustomNode owner) : base(owner)
     {
-        FSpellType = SpellType.Global;
-        FSpellName = AbilityRules.TranslateRStr(GameText.DeathMasteryRStr);
-        FSpellID = 62;
-        FBaseManaCost = 1;
-        FSpellLevel = 4;
+        SpellType = SpellType.Global;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_deathMasteryText);
+        SpellId = 62;
+        BaseManaCost = 1;
+        SpellLevel = 4;
         // { Original assigns Cosmos to Death Mastery. }
-        FMagicSphere = MagicSphere.Cosmos;
-        FCastDuration = 40;
-        FAIBasePriority = 1000;
+        MagicSphere = MagicSphere.Cosmos;
+        CastDuration = 40;
+        AIBasePriority = 1000;
     }
 
     // GlobalEnchantmentSpells.pas:1618
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        SpellTargets.NotifySpellSphere(Source.FPlayer, MagicSphere.Death);
-        Source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Death);
+        source.GetLocation(ref X, ref Y, ref L);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         var animation = new Animation(null);
-        animation.FAnimationLevel = 28;
-        animation.FOnShow = ShowAnimation;
-        animation.FAnimationMap = AoWHSMap.Current;
-        animation.FTag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
+        animation.AnimationLevel = 28;
+        animation.OnShow = ShowAnimation;
+        animation.AnimationMap = AoWHSMap.Current;
+        animation.Tag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
         animation.Activate();
 
-        FCastSounds.Play(0);
-        CastingDone(Source, Event.FEventMana);
+        CastSounds.Play(0);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 
@@ -55,44 +55,44 @@ public partial class DeathMastery : GlobalEnchantmentSpell
     public override GlobalEnchantment CreateEnchantment() => new DeathMasteryEnchantment(null);
 
     // GlobalEnchantmentSpells.pas:1593
-    public void ShowAnimation(Animation Anim, int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Count;
+        int count;
         int X;
         int Y;
-        int Speed;
+        int speed;
         int D;
-        int Image;
-        RandSeed = AoWHSMap.Current.Frame - Anim.FFrameCounter;
-        switch (GameTables.AoWEngine.FAnimationDetail)
+        int image;
+        RandSeed = AoWHSMap.Current.Frame - animation.FrameCounter;
+        switch (GameTables.GameEngine.AnimationDetail)
         {
             case 0:
-                Count = 5;
+                count = 5;
                 break;
             case 2:
-                Count = 20;
+                count = 20;
                 break;
             default:
-                Count = 10;
+                count = 10;
                 break;
         }
 
-        for (int I = 0; I <= Count - 1; I++)
+        for (int I = 0; I <= count - 1; I++)
         {
-            X = Random(Anim.FTag & 65535);
-            Y = Random((int)(((uint)(int)(uint)Anim.FTag) >> 16));
-            Speed = Random(15) + 5;
-            Image = Random(3);
+            X = Random(animation.Tag & 65535);
+            Y = Random((int)(((uint)(int)(uint)animation.Tag) >> 16));
+            speed = Random(15) + 5;
+            image = Random(3);
             // { Preserve the original image/displacement register lifetimes. }
-            D = (Anim.FFrameCounter - 45) * Speed;
+            D = (animation.FrameCounter - 45) * speed;
             X -= D * 2;
             Y += D;
-            FCastImages.Show(Image, SurfaceDesc.ClipRect.Left + X, SurfaceDesc.ClipRect.Top + Y, 0, SurfaceDesc);
+            CastImages.Show(image, lockedSurface.ClipRectangle.Left + X, lockedSurface.ClipRectangle.Top + Y, 0, lockedSurface);
         }
 
-        if (Anim.FFrameCounter == 90)
+        if (animation.FrameCounter == 90)
         {
-            Anim.Dispose();
+            animation.Dispose();
         }
     }
 }

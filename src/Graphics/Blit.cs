@@ -5,11 +5,11 @@ namespace Aow.Graphics;
 
 public static partial class Blit
 {
-    internal static ushort Word(ReadOnlySpan<byte> s, int offset) => BinaryPrimitives.ReadUInt16LittleEndian(s.Slice(offset, 2));
+    internal static ushort UInt16(ReadOnlySpan<byte> s, int offset) => BinaryPrimitives.ReadUInt16LittleEndian(s.Slice(offset, 2));
 
     internal static uint Dword(ReadOnlySpan<byte> s, int offset) => BinaryPrimitives.ReadUInt32LittleEndian(s.Slice(offset, 4));
 
-    internal static void Word(Span<byte> d, int offset, int value) => BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, 2), unchecked((ushort)value));
+    internal static void UInt16(Span<byte> d, int offset, int value) => BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, 2), unchecked((ushort)value));
 
     internal static void Dword(Span<byte> d, int offset, uint value) => BinaryPrimitives.WriteUInt32LittleEndian(d.Slice(offset, 4), value);
 
@@ -17,7 +17,7 @@ public static partial class Blit
 
     private static Span<uint> Dwords(Span<byte> row) => MemoryMarshal.Cast<byte, uint>(row);
 
-    public static void BltRect(SurfaceView s, SurfaceView d, int w, int h) => RegisterBltRect(s, d, w, h);
+    public static void BlitRectangle(SurfaceView s, SurfaceView d, int w, int h) => RegisterBlitRectangle(s, d, w, h);
 
     // Whether a row copy of `count` bytes writes what the original's forward loop writes: both
     // rows lie inside their blocks and the destination does not start inside the source row after
@@ -35,7 +35,7 @@ public static partial class Blit
     // the remaining bytes. When the head and the tail exceed the width the dword count wraps around
     // and the loop runs off the block, so the original's order is kept for that case, for a row
     // that leaves its block and for a destination that starts inside the source row ahead of it.
-    public static void RegisterBltRect(SurfaceView s, SurfaceView d, int w, int h)
+    public static void RegisterBlitRectangle(SurfaceView s, SurfaceView d, int w, int h)
     {
         if (w == 0 || h == 0) return;
         int head = (-s.Start) & 3, tail = (s.Start + w) & 3;
@@ -50,17 +50,17 @@ public static partial class Blit
         }
     }
 
-    private static void RegisterRow(Span<byte> src, int si, Span<byte> dst, int di, int head, uint words, int tail)
+    private static void RegisterRow(Span<byte> source, int si, Span<byte> destination, int di, int head, uint words, int tail)
     {
         int offset = 0;
-        for (int i = 0; i < head; i++) { byte value = src[si + offset]; dst[di + offset++] = value; }
+        for (int i = 0; i < head; i++) { byte value = source[si + offset]; destination[di + offset++] = value; }
         for (uint i = 0; i < (words >> 1); i++)
         {
-            uint first = Dword(src, si + offset), second = Dword(src, si + offset + 4);
-            Dword(dst, di + offset, first); Dword(dst, di + offset + 4, second); offset += 8;
+            uint first = Dword(source, si + offset), second = Dword(source, si + offset + 4);
+            Dword(destination, di + offset, first); Dword(destination, di + offset + 4, second); offset += 8;
         }
-        if ((words & 1) != 0) { uint value = Dword(src, si + offset); Dword(dst, di + offset, value); offset += 4; }
-        for (int i = 0; i < tail; i++) { byte value = src[si + offset]; dst[di + offset++] = value; }
+        if ((words & 1) != 0) { uint value = Dword(source, si + offset); Dword(destination, di + offset, value); offset += 4; }
+        for (int i = 0; i < tail; i++) { byte value = source[si + offset]; destination[di + offset++] = value; }
     }
 
     // The MMX and floating point copies align the source to 8 when the row is 31 bytes or more,
@@ -92,16 +92,16 @@ public static partial class Blit
         for (int i = 0; i < blocks; i++)
         {
             int at = si + offset, to = di + offset;
-            ulong a = Qword(src, at), b = Qword(src, at + 8), c = Qword(src, at + 16), e = Qword(src, at + 24);
+            ulong a = UInt64(src, at), b = UInt64(src, at + 8), c = UInt64(src, at + 16), e = UInt64(src, at + 24);
             if (floating)
             {
-                Qword(dst, to + 24, e); Qword(dst, to + 16, c);
-                Qword(dst, to + 8, b); Qword(dst, to, a);
+                UInt64(dst, to + 24, e); UInt64(dst, to + 16, c);
+                UInt64(dst, to + 8, b); UInt64(dst, to, a);
             }
             else
             {
-                Qword(dst, to, a); Qword(dst, to + 8, b);
-                Qword(dst, to + 16, c); Qword(dst, to + 24, e);
+                UInt64(dst, to, a); UInt64(dst, to + 8, b);
+                UInt64(dst, to + 16, c); UInt64(dst, to + 24, e);
             }
             offset += 32;
         }
@@ -109,9 +109,9 @@ public static partial class Blit
         for (int i = 0; i < tail; i++) { byte value = src[si + offset]; dst[di + offset++] = value; }
     }
 
-    private static ulong Qword(Span<byte> s, int offset) => BinaryPrimitives.ReadUInt64LittleEndian(s.Slice(offset, 8));
+    private static ulong UInt64(Span<byte> s, int offset) => BinaryPrimitives.ReadUInt64LittleEndian(s.Slice(offset, 8));
 
-    private static void Qword(Span<byte> d, int offset, ulong value) => BinaryPrimitives.WriteUInt64LittleEndian(d.Slice(offset, 8), value);
+    private static void UInt64(Span<byte> d, int offset, ulong value) => BinaryPrimitives.WriteUInt64LittleEndian(d.Slice(offset, 8), value);
 
     public static void FPBltRect(SurfaceView s, SurfaceView d, int w, int h) => CopyRows(s, d, w, h, true);
 
@@ -120,7 +120,7 @@ public static partial class Blit
     // `rep movsd` with the bytes before and after: a row shorter than 4 bytes is copied byte by
     // byte, a longer one as the bytes that align its end, the dwords and the tail bytes. A
     // negative width copies nothing.
-    public static void RepMovsdBltRect(SurfaceView s, SurfaceView d, int w, int h)
+    public static void RepMovsdBlitRectangle(SurfaceView s, SurfaceView d, int w, int h)
     {
         if (w <= 0 || h <= 0) return;
         int tail = w < 4 ? w : (s.Start + w) & 3;
@@ -141,16 +141,16 @@ public static partial class Blit
         }
     }
 
-    public static void BltColorKey16(SurfaceView s, SurfaceView d, int w, int h, int key)
+    public static void BlitColorKey16(SurfaceView s, SurfaceView d, int w, int h, int key)
     {
         for (int y = 0; y < h; y++)
         {
-            var src = Words(s.Row(y, w * 2));
-            var dst = Words(d.Row(y, w * 2));
+            var source = Words(s.Row(y, w * 2));
+            var destination = Words(d.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
-                int pixel = src[x];
-                if (pixel != key) dst[x] = (ushort)pixel;
+                int pixel = source[x];
+                if (pixel != key) destination[x] = (ushort)pixel;
             }
         }
     }
@@ -167,17 +167,17 @@ public static partial class Blit
         int paired = ((s.Start | d.Start) & 3) == 0 ? w & ~3 : 0;
         for (int y = 0; y < h; y++)
         {
-            var src = Words(s.Row(y, w * 2));
-            var dst = Words(d.Row(y, w * 2));
-            for (int x = 0; x < w; x++) dst[x] = (ushort)Half(src[x], dst[x], rgb565, x < paired && (x & 1) != 0);
+            var source = Words(s.Row(y, w * 2));
+            var destination = Words(d.Row(y, w * 2));
+            for (int x = 0; x < w; x++) destination[x] = (ushort)Half(source[x], destination[x], rgb565, x < paired && (x & 1) != 0);
         }
     }
 
-    public static void BltTransparent555(SurfaceView s, SurfaceView d, int w, int h) => Transparent(s, d, w, h, false);
+    public static void BlitTransparent555(SurfaceView s, SurfaceView d, int w, int h) => Transparent(s, d, w, h, false);
 
-    public static void BltTransparent565(SurfaceView s, SurfaceView d, int w, int h) => Transparent(s, d, w, h, true);
+    public static void BlitTransparent565(SurfaceView s, SurfaceView d, int w, int h) => Transparent(s, d, w, h, true);
 
-    public static void FillInt(Span<byte> d, int count, int value)
+    public static void FillInteger(Span<byte> d, int count, int value)
     {
         for (uint i = 0; i < unchecked((uint)count); i++)
         {
@@ -202,7 +202,7 @@ public static partial class Blit
         }
     }
 
-    public static void FillTrippleByte(Span<byte> d, int count, int value)
+    public static void FillTripleByte(Span<byte> d, int count, int value)
     {
         int offset = 0;
         do
@@ -222,38 +222,38 @@ public static partial class Blit
             throw new AccessViolationException("Original aligned remapper overruns short rows");
     }
 
-    public static void RemapSurface16to16(SurfaceView s, SurfaceView d, ReadOnlySpan<byte> table, int w, int h)
+    public static void RemapSurface16To16(SurfaceView s, SurfaceView d, ReadOnlySpan<byte> table, int w, int h)
     {
         CheckShortRows(s, d, w, h);
         var map = MemoryMarshal.Cast<byte, ushort>(table);
         for (int y = 0; y < h; y++)
         {
-            var src = Words(s.Row(y, w * 2));
-            var dst = Words(d.Row(y, w * 2));
-            for (int x = 0; x < w; x++) dst[x] = map[src[x]];
+            var source = Words(s.Row(y, w * 2));
+            var destination = Words(d.Row(y, w * 2));
+            for (int x = 0; x < w; x++) destination[x] = map[source[x]];
         }
     }
 
-    public static void RemapSurface16to08(SurfaceView s, SurfaceView d, ReadOnlySpan<byte> table, int w, int h)
+    public static void RemapSurface16To08(SurfaceView s, SurfaceView d, ReadOnlySpan<byte> table, int w, int h)
     {
         CheckShortRows(s, d, w, h);
         for (int y = 0; y < h; y++)
         {
-            var src = Words(s.Row(y, w * 2));
-            var dst = d.Row(y, w);
-            for (int x = 0; x < w; x++) dst[x] = table[src[x]];
+            var source = Words(s.Row(y, w * 2));
+            var destination = d.Row(y, w);
+            for (int x = 0; x < w; x++) destination[x] = table[source[x]];
         }
     }
 
-    public static void RemapSurface16to32(SurfaceView s, SurfaceView d, ReadOnlySpan<byte> table, int w, int h)
+    public static void RemapSurface16To32(SurfaceView s, SurfaceView d, ReadOnlySpan<byte> table, int w, int h)
     {
         CheckShortRows(s, d, w, h);
         var map = MemoryMarshal.Cast<byte, uint>(table);
         for (int y = 0; y < h; y++)
         {
-            var src = Words(s.Row(y, w * 2));
-            var dst = Dwords(d.Row(y, w * 4));
-            for (int x = 0; x < w; x++) dst[x] = map[src[x]];
+            var source = Words(s.Row(y, w * 2));
+            var destination = Dwords(d.Row(y, w * 4));
+            for (int x = 0; x < w; x++) destination[x] = map[source[x]];
         }
     }
 
@@ -263,54 +263,54 @@ public static partial class Blit
 
     // In place (TImage16.RemapToPixelFormat passes one buffer as both) each pixel is read before
     // it is written, as in the original.
-    public static void RemapSurface555to565(SurfaceView s, SurfaceView d, int w, int h)
+    public static void RemapSurface555To565(SurfaceView s, SurfaceView d, int w, int h)
     {
         for (int y = 0; y < h; y++)
         {
-            var src = Words(s.Row(y, w * 2));
-            var dst = Words(d.Row(y, w * 2));
-            for (int x = 0; x < w; x++) dst[x] = (ushort)To565(src[x]);
+            var source = Words(s.Row(y, w * 2));
+            var destination = Words(d.Row(y, w * 2));
+            for (int x = 0; x < w; x++) destination[x] = (ushort)To565(source[x]);
         }
     }
 
-    public static void RemapSurface565to555(SurfaceView s, SurfaceView d, int w, int h)
+    public static void RemapSurface565To555(SurfaceView s, SurfaceView d, int w, int h)
     {
         for (int y = 0; y < h; y++)
         {
-            var src = Words(s.Row(y, w * 2));
-            var dst = Words(d.Row(y, w * 2));
-            for (int x = 0; x < w; x++) dst[x] = (ushort)To555(src[x]);
+            var source = Words(s.Row(y, w * 2));
+            var destination = Words(d.Row(y, w * 2));
+            for (int x = 0; x < w; x++) destination[x] = (ushort)To555(source[x]);
         }
     }
 
-    public static void RemapSurface555to32(SurfaceView s, SurfaceView d, int w, int h)
+    public static void RemapSurface555To32(SurfaceView s, SurfaceView d, int w, int h)
     {
         CheckShortRows(s, d, w, h);
         int paired = ((s.Start | d.Start) & 3) == 0 ? w & ~3 : 0;
         for (int y = 0; y < h; y++)
         {
-            var src = Words(s.Row(y, w * 2));
-            var dst = Dwords(d.Row(y, w * 4));
+            var source = Words(s.Row(y, w * 2));
+            var destination = Dwords(d.Row(y, w * 4));
             for (int x = 0; x < w; x++)
             {
-                int p = src[x];
-                dst[x] = (uint)((x < paired ? (p & 0x7C00) << 9 : 0) + ((p & 0x3E0) << 6) + ((p & 31) << 3));
+                int p = source[x];
+                destination[x] = (uint)((x < paired ? (p & 0x7C00) << 9 : 0) + ((p & 0x3E0) << 6) + ((p & 31) << 3));
             }
         }
     }
 
-    public static void RemapSurface565to32(SurfaceView s, SurfaceView d, int w, int h)
+    public static void RemapSurface565To32(SurfaceView s, SurfaceView d, int w, int h)
     {
         CheckShortRows(s, d, w, h);
         bool paired = ((s.Start | d.Start) & 3) == 0;
         for (int y = 0; y < h; y++)
         {
-            var src = Words(s.Row(y, w * 2));
-            var dst = Dwords(d.Row(y, w * 4));
+            var source = Words(s.Row(y, w * 2));
+            var destination = Dwords(d.Row(y, w * 4));
             for (int x = 0; x < w; x++)
             {
-                int p = src[x];
-                dst[x] = (uint)(((p & 0xF800) << 8) + ((p & (paired && x < (w & ~3) && (x & 3) == 3 ? 0x7C0 : 0x7E0)) << 5) + ((p & 31) << 3));
+                int p = source[x];
+                destination[x] = (uint)(((p & 0xF800) << 8) + ((p & (paired && x < (w & ~3) && (x & 3) == 3 ? 0x7C0 : 0x7E0)) << 5) + ((p & 31) << 3));
             }
         }
     }
@@ -325,12 +325,12 @@ public static partial class Blit
     {
         for (int y = 0; y < h; y++)
         {
-            var src = Words(s.Row(y, w * 2));
-            var dst = Words(d.Row(y, w * 2));
+            var source = Words(s.Row(y, w * 2));
+            var destination = Words(d.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
-                int p = src[x];
-                if (p != key) dst[x] = (ushort)BlendPixel(p, dst[x], table, rgb565);
+                int p = source[x];
+                if (p != key) destination[x] = (ushort)BlendPixel(p, destination[x], table, rgb565);
             }
         }
     }
@@ -353,28 +353,28 @@ public static partial class Blit
 
     // `rows[y]` is the byte offset of source row y from the source's first pixel (an address in
     // the original) and `cols[x]` the source column of destination pixel x.
-    private static void Stretch(SurfaceView src, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView dst, int w, int h, ReadOnlySpan<byte> table, bool rgb565, bool blend)
+    private static void Stretch(SurfaceView source, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView destination, int w, int h, ReadOnlySpan<byte> table, bool rgb565, bool blend)
     {
         for (int y = 0; y < h; y++)
         {
-            var row = Words(dst.Row(y, w * 2));
+            var row = Words(destination.Row(y, w * 2));
             for (int x = 0; x < w; x++)
             {
-                int p = src.Word(rows[y] + cols[x] * 2);
+                int p = source.UInt16(rows[y] + cols[x] * 2);
                 row[x] = (ushort)(!blend ? p : BlendPixel(p, row[x], table, rgb565));
             }
         }
     }
 
-    public static void BltStretched16(SurfaceView src, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView dst, int w, int h) => Stretch(src, rows, cols, dst, w, h, default, false, false);
+    public static void BlitStretched16(SurfaceView source, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView destination, int w, int h) => Stretch(source, rows, cols, destination, w, h, default, false, false);
 
-    public static void BlendStretched555(SurfaceView src, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView dst, int w, int h, ReadOnlySpan<byte> table) => Stretch(src, rows, cols, dst, w, h, table, false, true);
+    public static void BlendStretched555(SurfaceView source, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView destination, int w, int h, ReadOnlySpan<byte> table) => Stretch(source, rows, cols, destination, w, h, table, false, true);
 
-    public static void BlendStretched565(SurfaceView src, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView dst, int w, int h, ReadOnlySpan<byte> table) => Stretch(src, rows, cols, dst, w, h, table, true, true);
+    public static void BlendStretched565(SurfaceView source, ReadOnlySpan<int> rows, ReadOnlySpan<int> cols, SurfaceView destination, int w, int h, ReadOnlySpan<byte> table) => Stretch(source, rows, cols, destination, w, h, table, true, true);
 
-    public static int RDTSC() => 0;
+    public static int ReadTimeStampCounter() => 0;
 
-    public static bool CPUIDSupported() => false;
+    public static bool CpuIdSupported() => false;
 
-    public static bool MMXsupport() => false;
+    public static bool MmxSupport() => false;
 }

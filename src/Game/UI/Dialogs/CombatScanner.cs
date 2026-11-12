@@ -23,21 +23,21 @@ public partial class CombatScanner : DataModule
     // AoWTCScanner.pas:38
     public void ScannerChangeTileBox()
     {
-        DialogHosts.MWindow.MapViewer.SceneX = (Scanner.FTLeft + 6) * 33;
-        DialogHosts.MWindow.MapViewer.SceneY = (Scanner.FTTop + 6) * 33;
-        if (AoWHSMap.Current.FSeatedPlayer != -1)
+        DialogHosts.MapWindow.MapViewer.SceneX = (Scanner.TLeft + 6) * 33;
+        DialogHosts.MapWindow.MapViewer.SceneY = (Scanner.TTop + 6) * 33;
+        if (AoWHSMap.Current.SeatedPlayer != -1)
         {
-            Scanner.SetTWidth(DialogHosts.MWindow.MapViewer.SceneWidth / 32);
-            Scanner.SetTHeight(DialogHosts.MWindow.MapViewer.SceneHeight / 32);
-            Scanner.SetTLeft(DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
-            Scanner.SetTTop(DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
+            Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
+            Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);
+            Scanner.SetTLeft(DialogHosts.MapWindow.MapViewer.SceneX / 32 - 6);
+            Scanner.SetTTop(DialogHosts.MapWindow.MapViewer.SceneY / 32 - 6);
         }
     }
 
     // AoWTCScanner.pas:51
     public void TCScannerWinDrag()
     {
-        this.TCScannerWin.Alignment.RightOffset = this.TCScannerWin.WinManager.WinWidth - this.TCScannerWin.WinLeft - this.TCScannerWin.WinWidth;
+        this.TCScannerWin.Alignment.RightOffset = this.TCScannerWin.WindowManager.WinWidth - this.TCScannerWin.WinLeft - this.TCScannerWin.WinWidth;
         this.TCScannerWin.Alignment.TopOffset = this.TCScannerWin.WinTop;
     }
 

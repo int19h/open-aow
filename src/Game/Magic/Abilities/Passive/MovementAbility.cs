@@ -7,35 +7,35 @@ using Aow.Rtl;
 
 namespace Aow.Game.Magic.Abilities.Passive;
 
-// (FMoveTypes.)
+// (MoveTypes.)
 public partial class MovementAbility : AdjustableAbility
 {
-    public Set<MoveType> FMoveTypes;
+    public Set<MoveType> MoveTypes;
 
     // PassiveAb.pas:1409
     public MovementAbility(ECustomNode owner) : base(owner)
     {
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
-        FAbilityType = AbilityType.Movement;
-        FSkillPointCost = 0;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
+        AbilityType = AbilityType.Movement;
+        SkillPointCost = 0;
     }
 
     // PassiveAb.pas:1417
-    public override Set<MoveType> GetMoveTypes(AbilityOwner Owner) => FMoveTypes;
+    public override Set<MoveType> GetMoveTypes(AbilityOwner owner) => MoveTypes;
 
     // PassiveAb.pas:1422
-    public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner Owner)
+    public override Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner owner)
     {
-        Set<WallCombatFeaturesElement> Result;
-        if (FAbilityID == 1)
+        Set<WallCombatFeaturesElement> result;
+        if (AbilityId == 1)
         {
-            Result = Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallPassing, WallCombatFeaturesElement.Participate);
+            result = Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallPassing, WallCombatFeaturesElement.Participate);
         }
         else
         {
-            Result = Set<WallCombatFeaturesElement>.Of();
+            result = Set<WallCombatFeaturesElement>.Of();
         }
 
-        return Result;
+        return result;
     }
 }

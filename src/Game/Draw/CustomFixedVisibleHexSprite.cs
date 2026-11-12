@@ -10,23 +10,23 @@ public partial class CustomFixedVisibleHexSprite : FixedVisibleHexSprite
     public CustomFixedVisibleHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    internal int FShowPriority;
-    internal OnShowHSEvent FOnShow;
+    internal int _showPriority;
+    internal OnShowHSEvent _onShow;
 
     // HXSPRITE.PAS:800
-    public override int GetShowPriority() => FShowPriority;
+    public override int GetShowPriority() => _showPriority;
 
     // HXSPRITE.PAS:805
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (FOnShow != null)
+        if (_onShow != null)
         {
-            FOnShow(XhpSurf, YhpSurf, SurfaceDesc);
+            _onShow(pixelXSurface, pixelYSurface, lockedSurface);
         }
     }
 
-    public new int ShowPriority { get => GetShowPriority(); set => FShowPriority = value; }
-    public OnShowHSEvent OnShow { get => FOnShow; set => FOnShow = value; }
+    public new int ShowPriority { get => GetShowPriority(); set => _showPriority = value; }
+    public OnShowHSEvent OnShow { get => _onShow; set => _onShow = value; }
 
     public delegate void OnShowHSEvent(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc);
 

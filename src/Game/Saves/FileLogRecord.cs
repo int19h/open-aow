@@ -35,7 +35,7 @@ public sealed class FileLogRecord(string path, string layer, GameFileReport repo
             WriteOptional(json, "format", Report.Format);
             if (Report.Version is int version) json.WriteNumber("version", version);
             else json.WriteNull("version");
-            json.WriteString("g1", Report.G1);
+            json.WriteString("g1", Report.OriginalRoundTrip);
             json.WriteString("validation", Report.Validation);
             WriteOptional(json, "error", Report.Error?.Code);
             WriteOptional(json, "diagnostic", Report.Error?.ToString());

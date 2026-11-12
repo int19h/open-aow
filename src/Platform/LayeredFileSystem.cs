@@ -6,31 +6,31 @@ namespace Aow.Platform;
 /// <summary>The install is a snapshot. All mutations target the user layer.</summary>
 public sealed class LayeredFileSystem : IFileSystem
 {
-    private readonly string root, user;
-    private readonly Dictionary<string, string> rootTree = new(StringComparer.OrdinalIgnoreCase);
-    private readonly Dictionary<string, string[]> userListings = new(StringComparer.OrdinalIgnoreCase);
-    private string current = "";
-    private readonly string[] userOnly;
+    private readonly string _root, _user;
+    private readonly Dictionary<string, string> _rootTree = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, string[]> _userListings = new(StringComparer.OrdinalIgnoreCase);
+    private string _current = "";
+    private readonly string[] _userOnly;
 
     public LayeredFileSystem(string gameRoot, string userDirectory, IEnumerable<string>? userOnlyDirectories = null)
     {
-        userOnly = userOnlyDirectories?.Select(p => p.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar)).ToArray() ?? [];
-        root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(gameRoot));
-        user = Path.TrimEndingDirectorySeparator(Path.GetFullPath(userDirectory));
-        if (!Directory.Exists(root)) throw new DirectoryNotFoundException(root);
-        RejectLink(root);
-        if (!Same(root, user) && (Within(root, user) || Within(user, root)))
+        _userOnly = userOnlyDirectories?.Select(p => p.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar)).ToArray() ?? [];
+        _root = Path.TrimEndingDirectorySeparator(Path.GetFullPath(gameRoot));
+        _user = Path.TrimEndingDirectorySeparator(Path.GetFullPath(userDirectory));
+        if (!Directory.Exists(_root)) throw new DirectoryNotFoundException(_root);
+        RejectLink(_root);
+        if (!Same(_root, _user) && (Within(_root, _user) || Within(_user, _root)))
             throw new ArgumentException("The two layers must be separate directories or the same directory.");
-        Snapshot(root, "");
-        EnsureDirectory(user);
+        Snapshot(_root, "");
+        EnsureDirectory(_user);
     }
 
-    public string GameRoot => root;
-    public string UserDirectory => user;
-    public string VirtualDrive => OperatingSystem.IsWindows() ? Path.GetPathRoot(root)![..2] : "C:";
-    public string CurrentDirectory => PublicPath(current);
+    public string GameRoot => _root;
+    public string UserDirectory => _user;
+    public string VirtualDrive => OperatingSystem.IsWindows() ? Path.GetPathRoot(_root)![..2] : "C:";
+    public string CurrentDirectory => PublicPath(_current);
 
-    private string PublicPath(string relative) => OperatingSystem.IsWindows() ? Path.Combine(root, relative) : VirtualDrive + "\\" + relative.Replace(Path.DirectorySeparatorChar, '\\');
+    private string PublicPath(string relative) => OperatingSystem.IsWindows() ? Path.Combine(_root, relative) : VirtualDrive + "\\" + relative.Replace(Path.DirectorySeparatorChar, '\\');
     private static bool Same(string a, string b) => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
     private static bool Within(string parent, string child) => child.StartsWith(Path.TrimEndingDirectorySeparator(parent) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
 
@@ -50,13 +50,13 @@ public sealed class LayeredFileSystem : IFileSystem
 
     private void Snapshot(string directory, string relative)
     {
-        rootTree[relative] = directory;
+        _rootTree[relative] = directory;
         foreach (string entry in Directory.EnumerateFileSystemEntries(directory).Order(StringComparer.Ordinal))
         {
             if ((File.GetAttributes(entry) & FileAttributes.ReparsePoint) != 0) continue;
             string key = Path.Combine(relative, Path.GetFileName(entry));
-            if (userOnly.Any(p => Same(p, key))) continue;
-            if (!rootTree.TryAdd(key, entry)) throw new IOException("Ambiguous install name: " + key);
+            if (_userOnly.Any(p => Same(p, key))) continue;
+            if (!_rootTree.TryAdd(key, entry)) throw new IOException("Ambiguous install name: " + key);
             if (Directory.Exists(entry)) Snapshot(entry, key);
         }
     }
@@ -64,10 +64,10 @@ public sealed class LayeredFileSystem : IFileSystem
     private string Relative(string path)
     {
         path = path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar);
-        if (Same(path, root)) return "";
-        if (Within(root, path)) path = path[(root.Length + 1)..];
-        else if (Same(path, user)) return "";
-        else if (Within(user, path)) path = path[(user.Length + 1)..];
+        if (Same(path, _root)) return "";
+        if (Within(_root, path)) path = path[(_root.Length + 1)..];
+        else if (Same(path, _user)) return "";
+        else if (Within(_user, path)) path = path[(_user.Length + 1)..];
         else if (path.Length >= 2 && path[1] == ':')
         {
             if (!Same(path[..2], VirtualDrive)) throw new UnauthorizedAccessException("Unknown virtual drive.");
@@ -77,7 +77,7 @@ public sealed class LayeredFileSystem : IFileSystem
         {
             path = path.TrimStart(Path.DirectorySeparatorChar);
         }
-        else path = Path.Combine(current, path);
+        else path = Path.Combine(_current, path);
         var parts = new List<string>();
         foreach (string part in path.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
@@ -113,18 +113,18 @@ public sealed class LayeredFileSystem : IFileSystem
         string relative = Relative(path);
         string? found = ReadLocation(relative);
         if (found is null || !Directory.Exists(found)) return false;
-        current = relative;
+        _current = relative;
         return true;
     }
 
     private string? UserLocation(string relative)
     {
-        string location = user;
+        string location = _user;
         foreach (string part in relative.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
             if (!Directory.Exists(location)) return null;
-            if (!userListings.TryGetValue(location, out var entries))
-                userListings[location] = entries = Directory.GetFileSystemEntries(location).Order(StringComparer.Ordinal).ToArray();
+            if (!_userListings.TryGetValue(location, out var entries))
+                _userListings[location] = entries = Directory.GetFileSystemEntries(location).Order(StringComparer.Ordinal).ToArray();
             string? match = entries.FirstOrDefault(e => Same(Path.GetFileName(e), part));
             if (match is null) return null;
             RejectLink(match);
@@ -142,12 +142,12 @@ public sealed class LayeredFileSystem : IFileSystem
             string? overlay = UserLocation(ancestor);
             if (overlay is not null && !Directory.Exists(overlay)) return null;
         }
-        return UserLocation(relative) ?? (Same(root, user) ? null : rootTree.GetValueOrDefault(relative));
+        return UserLocation(relative) ?? (Same(_root, _user) ? null : _rootTree.GetValueOrDefault(relative));
     }
 
     private string WriteLocation(string relative)
     {
-        string location = user;
+        string location = _user;
         foreach (string part in relative.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries))
         {
             string? match = Directory.Exists(location) ? Directory.EnumerateFileSystemEntries(location).Order(StringComparer.Ordinal).FirstOrDefault(e => Same(Path.GetFileName(e), part)) : null;
@@ -174,7 +174,7 @@ public sealed class LayeredFileSystem : IFileSystem
                 File.Copy(source, target);
                 File.SetAttributes(target, File.GetAttributes(target) & ~FileAttributes.ReadOnly);
             }
-            userListings.Clear();
+            _userListings.Clear();
         }
         return new FileStream(target, create ? FileMode.Create : FileMode.Open, access,
             (mode & 0xF0) == RtlUnit.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
@@ -187,7 +187,7 @@ public sealed class LayeredFileSystem : IFileSystem
     {
         try { action(); return true; }
         catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return false; }
-        finally { userListings.Clear(); }
+        finally { _userListings.Clear(); }
     }
 
     public bool DeleteFile(string path) => Mutate(() =>
@@ -205,7 +205,7 @@ public sealed class LayeredFileSystem : IFileSystem
     });
 
     // Both paths resolve in the user layer, so the move stays on one volume and replaces the
-    // user copy in one step. A shipped file is shadowed, never written.
+    // _user copy in one step. A shipped file is shadowed, never written.
     public bool ReplaceFile(string source, string target) => Mutate(() =>
     {
         string from = WriteLocation(Relative(source));
@@ -220,7 +220,7 @@ public sealed class LayeredFileSystem : IFileSystem
         string relative = Relative(path);
         string? found = ReadLocation(relative);
         if (found is null) return "none";
-        return Same(root, user) ? "single" : Within(user, found) || Same(user, found) ? "user" : "root";
+        return Same(_root, _user) ? "single" : Within(_user, found) || Same(_user, found) ? "user" : "root";
     }
 
     public bool CreateDirectory(string path) => !DirectoryExists(path) && Mutate(() => EnsureDirectory(WriteLocation(Relative(path))));
@@ -241,7 +241,7 @@ public sealed class LayeredFileSystem : IFileSystem
         string relative = Relative(directory);
         if (!DirectoryExists(directory)) return [];
         var merged = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var pair in Same(root, user) ? [] : rootTree)
+        foreach (var pair in Same(_root, _user) ? [] : _rootTree)
             if (pair.Key.Length > 0 && Same(Path.GetDirectoryName(pair.Key) ?? "", relative)) merged[Path.GetFileName(pair.Key)] = pair.Value;
         if (UserLocation(relative) is { } overlay && Directory.Exists(overlay))
             foreach (string entry in Directory.EnumerateFileSystemEntries(overlay).Order(StringComparer.Ordinal))

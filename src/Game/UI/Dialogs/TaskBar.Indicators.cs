@@ -8,21 +8,21 @@ public partial class TaskBar
     public void UpdatePlayerIndicator()
     {
         int count = 0;
-        for (int i = 0; i < World.Map.AoWHSMap.Current.FPlayers.GetCount(); i++)
-            if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(i).FStatus == Player.Status.Playing) count++;
+        for (int i = 0; i < World.Map.AoWHSMap.Current.Players.GetCount(); i++)
+            if (World.Map.AoWHSMap.Current.Players.GetPlayers(i).Status == PlayerStatus.Playing) count++;
         PInd.WinWidth = count * 5 + 4;
-        PInd.FAligned = false;
+        PInd.Aligned = false;
         TBMessEdit.Alignment.RightOffset = PInd.WinWidth + 278;
-        TBMessEdit.FAligned = false;
+        TBMessEdit.Aligned = false;
     }
 
     // The companion routine at sizes the tactical indicator and message field
     public void UpdateCombatPlayerIndicator()
     {
-        int count = Combat.CombatMap.Current.FCombat.FCombatData.FTurnOrder.Count;
+        int count = Combat.CombatMap.Current.Combat.CombatData.TurnOrder.Count;
         TCPInd.WinWidth = count * 5 + 4;
-        TCPInd.FAligned = false;
+        TCPInd.Aligned = false;
         TCMsg.Alignment.RightOffset = TCPInd.WinWidth + 278;
-        TCMsg.FAligned = false;
+        TCMsg.Aligned = false;
     }
 }

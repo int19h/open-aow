@@ -18,31 +18,31 @@ public partial class PowerLeak : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:1036
     public PowerLeak(ECustomNode owner) : base(owner)
     {
-        FSpellType = SpellType.Global;
-        FSpellName = AbilityRules.TranslateRStr(GameText.PowerLeakRStr);
-        FSpellID = 48;
-        FBaseManaCost = 1;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Cosmos;
-        FCastDuration = 20;
-        FAIBasePriority = 750;
+        SpellType = SpellType.Global;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_powerLeakText);
+        SpellId = 48;
+        BaseManaCost = 1;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Cosmos;
+        CastDuration = 20;
+        AIBasePriority = 750;
     }
 
     // GlobalEnchantmentSpells.pas:1049
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        TwinkleAnimation Anim;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        Source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-        Anim = new TwinkleAnimation(null);
-        Anim.Setup(AoWHSSet.Current.FSpellControl.GetSpell(48).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), 100, 64, 50, 30);
-        AoWHSMap.Current.PlaceHX(Anim, X, Y, L);
-        FCastSounds.Play(0);
-        CastingDone(Source, Event.FEventMana);
+        TwinkleAnimation animation;
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        source.GetLocation(ref X, ref Y, ref L);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        animation = new TwinkleAnimation(null);
+        animation.Setup(AoWHSSet.Current.SpellControl.GetSpell(48).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Implode), 100, 64, 50, 30);
+        AoWHSMap.Current.PlaceHex(animation, X, Y, L);
+        CastSounds.Play(0);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 

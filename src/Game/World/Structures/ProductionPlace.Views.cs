@@ -7,7 +7,7 @@ public partial class ProductionPlace
 {
     protected override StructureView OwnerPanel() => GetMagicSphere() == MagicSphere.None ? StructureView.Production : StructureView.ProductionIncome;
 
-    public override StructureView InfoButton(sbyte Viewer) => StructureView.ProductionScreen;
+    public override StructureView InfoButton(sbyte viewer) => StructureView.ProductionScreen;
 
-    public override StructureView DoubleClick(sbyte Viewer) => CanDblClick() && FPlayer == Viewer ? StructureView.ProductionScreen : StructureView.None;
+    public override StructureView DoubleClick(sbyte viewer) => CanDoubleClick() && Player == viewer ? StructureView.ProductionScreen : StructureView.None;
 }

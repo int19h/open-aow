@@ -13,18 +13,18 @@ public partial class SuicidalAIGroupControl : AIGroupControl
     { }
 
     // MainAG.pas:750
-    public override void MoveExecuterDone(object Sender)
+    public override void MoveExecutorDone(object sender)
     {
-        switch (FState)
+        switch (State)
         {
             case 1:
-                if (FMoveExecuter.FStatus == AIMoveExecutor.Status.OutOfMovePoints)
+                if (MoveExecutor.Status == AIMoveExecutorStatus.OutOfMovePoints)
                 {
                     Done();
                 }
                 else
                 {
-                    if (FMoveExecuter.FStatus == AIMoveExecutor.Status.Invalidated)
+                    if (MoveExecutor.Status == AIMoveExecutorStatus.Invalidated)
                     {
                         Done();
                     }
@@ -35,17 +35,17 @@ public partial class SuicidalAIGroupControl : AIGroupControl
     }
 
     // MainAG.pas:738
-    public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        SetupCP(Target);
-        var execute = FCombatPredictor.Execute();
+        SetupCP(target);
+        var execute = CombatPredictor.Execute();
         if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
         {
-            if (FCombatPredictor.GetEfficiency() > 0)
+            if (CombatPredictor.GetEfficiency() > 0)
             {
-                var efficiency = FCombatPredictor.GetEfficiency();
-                Target.FData.Priority = efficiency + (Target.FData.Priority * 100 - Target.FMovePoints * 5);
-                base.TargetFoundEvent(Sender, Target, ref SearchDone);
+                var efficiency = CombatPredictor.GetEfficiency();
+                target.Data.Priority = efficiency + (target.Data.Priority * 100 - target.MovePoints * 5);
+                base.TargetFoundEvent(sender, target, ref searchDone);
             }
         }
     }
@@ -53,27 +53,27 @@ public partial class SuicidalAIGroupControl : AIGroupControl
     // MainAG.pas:759
     public override void ProcessStates()
     {
-        AIGroupTargetFinder Finder;
-        switch (FState)
+        AIGroupTargetFinder finder;
+        switch (State)
         {
             case 0:
-                Finder = new AIGroupTargetFinder(null);
-                Finder.Setup(this);
-                Finder.FSelector.FMovePointsMax = 100;
-                ActivatePlugin(Finder);
-                Finder.Release();
-                FState += 1;
+                finder = new AIGroupTargetFinder(null);
+                finder.Setup(this);
+                finder.Selector.MovePointsMax = 100;
+                ActivatePlugin(finder);
+                finder.Release();
+                State += 1;
                 break;
             case 1:
-                FTargets.Validate();
-                if (FTargets.Count != 0)
+                Targets.Validate();
+                if (Targets.Count != 0)
                 {
-                    FTargets.SortOnPriority();
+                    Targets.SortOnPriority();
                     SetupME();
-                    var targetLocation = FTargets.GetTargets(0);
-                    var target = FTargets.GetTargets(0);
-                    ExecuteME(FTargets.GetTargets(0).FLocation.X, target.FLocation.Y, targetLocation.FLocation.L);
-                    FTargets.Delete(0);
+                    var targetLocation = Targets.GetTargets(0);
+                    var target = Targets.GetTargets(0);
+                    ExecuteME(Targets.GetTargets(0).Location.X, target.Location.Y, targetLocation.Location.MapLevel);
+                    Targets.Delete(0);
                 }
                 else
                 {

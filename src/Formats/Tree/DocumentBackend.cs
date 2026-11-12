@@ -11,15 +11,15 @@ namespace Aow.Formats.Tree;
 /// </summary>
 public static class DocumentBackend
 {
-    public static JsonObject Write(ObjectNode node, SchemaClass cls, FormatSchema schema, string engine, DocumentNodePath? path = null) =>
-        WriteObject(node, cls, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
+    public static JsonObject Write(ObjectNode node, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null) =>
+        WriteObject(node, classValue, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
 
-    public static ObjectNode Read(JsonObject document, SchemaClass cls, FormatSchema schema, string engine, DocumentNodePath? path = null) =>
-        ReadObject(document, cls, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
+    public static ObjectNode Read(JsonObject document, SchemaClass classValue, FormatSchema schema, string engine, DocumentNodePath? path = null) =>
+        ReadObject(document, classValue, Site(schema, engine, path ?? DocumentNodePath.Root), created: false, slotted: false);
 
-    internal static JsonObject WriteObject(ObjectNode node, SchemaClass cls, DocumentSite site, bool created, bool slotted)
+    internal static JsonObject WriteObject(ObjectNode node, SchemaClass classValue, DocumentSite site, bool created, bool slotted)
     {
-        RefuseMapping(cls, site);
+        RefuseMapping(classValue, site);
         node.RejectVersion(site.Schema.Version, site.Path);
         var json = new JsonObject();
         if (created)
@@ -40,7 +40,7 @@ public static class DocumentBackend
             throw site.Fail(Codes.ReservedMember, "Reserved member \"$slot\" is not allowed here.", value: "$slot");
 
         var seen = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var prop in cls.Properties)
+        foreach (var prop in classValue.Properties)
         {
             var value = node.Find(prop.Name);
             if (value is null) continue;
@@ -55,14 +55,14 @@ public static class DocumentBackend
         }
         foreach (var (name, _) in node.Members)
             if (!seen.Contains(name))
-                throw site.ForName(name).Fail(Codes.UnknownMember, $"Class {cls.Name} has no member \"{name}\".", value: name);
+                throw site.ForName(name).Fail(Codes.UnknownMember, $"Class {classValue.Name} has no member \"{name}\".", value: name);
         return json;
     }
 
-    internal static ObjectNode ReadObject(JsonObject document, SchemaClass cls, DocumentSite site, bool created, bool slotted)
+    internal static ObjectNode ReadObject(JsonObject document, SchemaClass classValue, DocumentSite site, bool created, bool slotted)
     {
         site = site.WithOwner(document);
-        RefuseMapping(cls, site);
+        RefuseMapping(classValue, site);
         var seen = new HashSet<string>(StringComparer.Ordinal);
         foreach (var member in document.Members)
             if (!seen.Add(member.Name))
@@ -70,15 +70,15 @@ public static class DocumentBackend
         var reserved = new List<string>(2);
         if (created) reserved.Add("$class");
         if (slotted) reserved.Add("$slot");
-        ObjectImage.CheckMembers(site.Context, document, cls, site.Path, [.. reserved]);
+        ObjectImage.CheckMembers(site.Context, document, classValue, site.Path, [.. reserved]);
 
         string? className = null;
         int? slot = null;
         if (created)
         {
-            if (document["$class"] is not JsonValue classValue)
+            if (document["$class"] is not JsonValue classValueLocal)
                 throw site.Fail(Codes.MissingMember, "A created object needs $class.");
-            className = ClassName(classValue, site);
+            className = ClassName(classValueLocal, site);
         }
         if (slotted)
         {
@@ -88,7 +88,7 @@ public static class DocumentBackend
         }
 
         var node = new ObjectNode(className, slot);
-        foreach (var prop in cls.Properties)
+        foreach (var prop in classValue.Properties)
         {
             var member = document.Find(prop.Name);
             if (member is null) continue;
@@ -103,10 +103,10 @@ public static class DocumentBackend
         return node;
     }
 
-    private static void RefuseMapping(SchemaClass cls, DocumentSite site)
+    private static void RefuseMapping(SchemaClass classValue, DocumentSite site)
     {
-        if (cls.Mapping is null) return;
-        throw site.Fail(Codes.Mapping, "Class " + cls.Name + " uses a case mapping. The document backend does not reproduce it.", value: cls.Name);
+        if (classValue.Mapping is null) return;
+        throw site.Fail(Codes.Mapping, "Class " + classValue.Name + " uses a case mapping. The document backend does not reproduce it.", value: classValue.Name);
     }
 
     private static string ListOnly(int version) =>
@@ -114,12 +114,12 @@ public static class DocumentBackend
 
     internal static SchemaClass RequireClass(DocumentSite site, string name, string? family, JsonValue? at)
     {
-        var cls = site.Schema.Find(name) ?? throw site.Fail(Codes.UnknownClass, $"Unknown class {name}.", at, name);
-        if (site.Schema.Version == 1 && (cls.Id is not int id || site.Schema.Resolve(site.Engine, id) != cls))
-            throw site.Fail(Codes.UnknownClass, $"Class {cls.Name} is not in the {site.Engine} engine table.", at, cls.Name);
-        if (family is not null && !cls.InheritsFrom(family))
-            throw site.Fail(Codes.ClassFamily, $"Class {cls.Name} is not a {family}.", at, cls.Name, family);
-        return cls;
+        var classValue = site.Schema.Find(name) ?? throw site.Fail(Codes.UnknownClass, $"Unknown class {name}.", at, name);
+        if (site.Schema.Version == 1 && (classValue.Id is not int id || site.Schema.Resolve(site.Engine, id) != classValue))
+            throw site.Fail(Codes.UnknownClass, $"Class {classValue.Name} is not in the {site.Engine} engine table.", at, classValue.Name);
+        if (family is not null && !classValue.InheritsFrom(family))
+            throw site.Fail(Codes.ClassFamily, $"Class {classValue.Name} is not a {family}.", at, classValue.Name, family);
+        return classValue;
     }
 
     private static string ClassName(JsonValue value, DocumentSite site)

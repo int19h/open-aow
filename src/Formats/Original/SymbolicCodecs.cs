@@ -50,18 +50,18 @@ internal sealed partial class EnumCodec : PropertyCodec
     public int Width { get; }
     public bool Signed { get; }
 
-    private EnumTypeInfo? known;
+    private EnumTypeInfo? _known;
 
-    internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
+    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         if (end - start != Width)
-            throw Mismatch(ctx, start, site, "An enum of " + Width + " bytes is stored in " + (end - start) + " bytes.");
-        return MemberText(Read(ctx.Data.AsSpan(start, Width)), ctx.File, site.Path.ToString());
+            throw Mismatch(context, start, site, "An enum of " + Width + " bytes is stored in " + (end - start) + " bytes.");
+        return MemberText(Read(context.Data.AsSpan(start, Width)), context.File, site.Path.ToString());
     }
 
-    internal override void Encode(EncodeContext ctx, JsonValue value, ByteBuffer data, ValueSite site)
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        long number = Parse(ctx, value, site.Path, site.Property.Name);
+        long number = Parse(context, value, site.Path, site.Property.Name);
         IntegerBytes.Write(data, number, Width);
     }
 
@@ -80,22 +80,22 @@ internal sealed partial class EnumCodec : PropertyCodec
         return new EnumNode(TypeName, Width, Signed, number);
     }
 
-    internal long Parse(EncodeContext ctx, JsonValue value, DocumentNodePath path, string name)
+    internal long Parse(EncodeContext context, JsonValue value, DocumentNodePath path, string name)
     {
-        var type = Catalog(ctx.File, path.ToString());
+        var type = Catalog(context.File, path.ToString());
         long number;
         if (value is JsonString text)
         {
             if (!type.TryNumber(text.Value, out number))
-                throw ctx.Fail(Codes.Type, name + " is not a value of " + TypeName + ".", value, path, text.Value);
+                throw context.Fail(Codes.Type, name + " is not a value of " + TypeName + ".", value, path, text.Value);
         }
         else if (value is JsonInteger integer)
         {
             number = integer.Value;
         }
-        else throw ctx.Fail(Codes.Type, name + " is a " + TypeName + " name or an integer.", value, path, value.KindName);
+        else throw context.Fail(Codes.Type, name + " is a " + TypeName + " name or an integer.", value, path, value.KindName);
         if (number < IntegerBytes.Min(Width, Signed) || number > IntegerBytes.Max(Width, Signed))
-            throw ctx.Fail(Codes.Range, name + " is outside its storage range.", value, path, TextNumber(number), Range());
+            throw context.Fail(Codes.Range, name + " is outside its storage range.", value, path, TextNumber(number), Range());
         return number;
     }
 
@@ -111,11 +111,11 @@ internal sealed partial class EnumCodec : PropertyCodec
 
     private EnumTypeInfo Catalog(string? file, string path)
     {
-        if (known is not null) return known;
+        if (_known is not null) return _known;
         var type = EnumCatalog.Require(TypeName, file, path);
         if (type.Width != Width || type.Signed != Signed)
             throw new InvalidOperationException("Enum " + TypeName + " is " + type.Width + " bytes in the catalog and " + Width + " bytes in the schema.");
-        known = type;
+        _known = type;
         return type;
     }
 
@@ -138,20 +138,20 @@ internal sealed partial class SetCodec : PropertyCodec
     public string TypeName { get; }
     public int Width { get; }
 
-    private EnumTypeInfo? known;
+    private EnumTypeInfo? _known;
 
     internal override bool AcceptsDocumentArray(int version) => true;
 
-    internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
+    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         if (end - start != Width)
-            throw Mismatch(ctx, start, site, "A set of " + Width + " bytes is stored in " + (end - start) + " bytes.");
-        return Members(Mask(ctx.Data.AsSpan(start, Width)), ctx.File, site.Path.ToString());
+            throw Mismatch(context, start, site, "A set of " + Width + " bytes is stored in " + (end - start) + " bytes.");
+        return Members(Mask(context.Data.AsSpan(start, Width)), context.File, site.Path.ToString());
     }
 
-    internal override void Encode(EncodeContext ctx, JsonValue value, ByteBuffer data, ValueSite site)
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        IntegerBytes.Write(data, (long)Parse(ctx, value, site.Path, site.Property.Name), Width);
+        IntegerBytes.Write(data, (long)Parse(context, value, site.Path, site.Property.Name), Width);
     }
 
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
@@ -177,11 +177,11 @@ internal sealed partial class SetCodec : PropertyCodec
         return array;
     }
 
-    internal ulong Parse(EncodeContext ctx, JsonValue value, DocumentNodePath path, string name)
+    internal ulong Parse(EncodeContext context, JsonValue value, DocumentNodePath path, string name)
     {
         if (value is not JsonArray array)
-            throw ctx.Fail(Codes.Type, name + " is an array of " + TypeName + " names.", value, path, value.KindName);
-        var type = Catalog(ctx.File, path.ToString());
+            throw context.Fail(Codes.Type, name + " is an array of " + TypeName + " names.", value, path, value.KindName);
+        var type = Catalog(context.File, path.ToString());
         ulong mask = 0;
         int bits = Width * 8;
         var seen = new HashSet<int>();
@@ -193,17 +193,17 @@ internal sealed partial class SetCodec : PropertyCodec
             if (item is JsonString text)
             {
                 if (!type.TryNumber(text.Value, out ordinal))
-                    throw ctx.Fail(Codes.Type, name + " is not a value of " + TypeName + ".", item, at, text.Value);
+                    throw context.Fail(Codes.Type, name + " is not a value of " + TypeName + ".", item, at, text.Value);
             }
             else if (item is JsonInteger integer)
             {
                 ordinal = integer.Value;
             }
-            else throw ctx.Fail(Codes.Type, name + " is a " + TypeName + " name or an integer.", item, at, item.KindName);
+            else throw context.Fail(Codes.Type, name + " is a " + TypeName + " name or an integer.", item, at, item.KindName);
             if (ordinal < 0 || ordinal >= bits)
-                throw ctx.Fail(Codes.Range, name + " is outside its storage range.", item, at, ordinal.ToString(System.Globalization.CultureInfo.InvariantCulture), "0 to " + (bits - 1));
+                throw context.Fail(Codes.Range, name + " is outside its storage range.", item, at, ordinal.ToString(System.Globalization.CultureInfo.InvariantCulture), "0 to " + (bits - 1));
             if (!seen.Add((int)ordinal))
-                throw ctx.Fail(Codes.Duplicate, name + " lists bit " + ordinal + " twice.", item, at);
+                throw context.Fail(Codes.Duplicate, name + " lists bit " + ordinal + " twice.", item, at);
             mask |= 1UL << (int)ordinal;
         }
         return mask;
@@ -211,9 +211,9 @@ internal sealed partial class SetCodec : PropertyCodec
 
     private EnumTypeInfo Catalog(string? file, string path)
     {
-        if (known is not null) return known;
-        known = EnumCatalog.Require(TypeName, file, path);
-        return known;
+        if (_known is not null) return _known;
+        _known = EnumCatalog.Require(TypeName, file, path);
+        return _known;
     }
 
     internal static ulong Mask(ReadOnlySpan<byte> bytes)
@@ -243,20 +243,20 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
 
     internal override bool AcceptsList(int version) => version >= 2;
 
-    internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
+    internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {
         int bytes = Count * Width;
         if (end - start != bytes)
-            throw Mismatch(ctx, start, site, "An array of " + Count + " integers is stored in " + (end - start) + " bytes.");
+            throw Mismatch(context, start, site, "An array of " + Count + " integers is stored in " + (end - start) + " bytes.");
         var array = new JsonArray();
         for (int i = 0; i < Count; i++)
-            array.Add(new JsonInteger(IntegerBytes.Read(ctx.Data.AsSpan(start + i * Width, Width), Width, Signed)));
+            array.Add(new JsonInteger(IntegerBytes.Read(context.Data.AsSpan(start + i * Width, Width), Width, Signed)));
         return array;
     }
 
-    internal override void Encode(EncodeContext ctx, JsonValue value, ByteBuffer data, ValueSite site)
+    internal override void Encode(EncodeContext context, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        var numbers = Values(ctx, value, site.Path, site.Property.Name, refuseLong: true);
+        var numbers = Values(context, value, site.Path, site.Property.Name, refuseLong: true);
         for (int i = 0; i < Count; i++)
             IntegerBytes.Write(data, i < numbers.Count ? numbers[i] : 0, Width);
     }
@@ -290,30 +290,30 @@ internal sealed partial class FixedArrayCodec : PropertyCodec
         return node;
     }
 
-    private List<long> Values(EncodeContext ctx, JsonValue value, DocumentNodePath path, string name, bool refuseLong)
+    private List<long> Values(EncodeContext context, JsonValue value, DocumentNodePath path, string name, bool refuseLong)
     {
         if (value is not JsonArray array)
-            throw ctx.Fail(Codes.Type, name + " is an array of integers.", value, path, value.KindName);
-        if (array.Items.Count > ctx.Limits.CollectionItems)
-            throw ctx.Fail(Codes.Limit, "A collection has too many items.", array, path, null, "at most " + ctx.Limits.CollectionItems + " items");
+            throw context.Fail(Codes.Type, name + " is an array of integers.", value, path, value.KindName);
+        if (array.Items.Count > context.Limits.CollectionItems)
+            throw context.Fail(Codes.Limit, "A collection has too many items.", array, path, null, "at most " + context.Limits.CollectionItems + " items");
         if (refuseLong && array.Items.Count > Count)
-            throw ctx.Fail(Codes.Range, name + " holds at most " + Count + " values. Export does not truncate.", array, path,
+            throw context.Fail(Codes.Range, name + " holds at most " + Count + " values. Export does not truncate.", array, path,
                 array.Items.Count.ToString(System.Globalization.CultureInfo.InvariantCulture), Count + " values");
         var numbers = new List<long>(array.Items.Count);
         for (int i = 0; i < array.Items.Count; i++)
         {
             if (array.Items[i] is not JsonInteger integer)
-                throw ctx.Fail(Codes.Type, name + " is an integer.", array.Items[i], path.Item(i), array.Items[i].KindName);
-            Check(ctx, integer.Value, path.Item(i), name);
+                throw context.Fail(Codes.Type, name + " is an integer.", array.Items[i], path.Item(i), array.Items[i].KindName);
+            Check(context, integer.Value, path.Item(i), name);
             numbers.Add(integer.Value);
         }
         return numbers;
     }
 
-    private void Check(EncodeContext ctx, long number, DocumentNodePath path, string name)
+    private void Check(EncodeContext context, long number, DocumentNodePath path, string name)
     {
         if (number < IntegerBytes.Min(Width, Signed) || number > IntegerBytes.Max(Width, Signed))
-            throw ctx.Fail(Codes.Range, name + " is outside its storage range.", null, path, number.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            throw context.Fail(Codes.Range, name + " is outside its storage range.", null, path, number.ToString(System.Globalization.CultureInfo.InvariantCulture),
                 IntegerBytes.Min(Width, Signed) + " to " + IntegerBytes.Max(Width, Signed));
     }
 }

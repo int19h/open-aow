@@ -36,31 +36,31 @@ public sealed class LeftoverConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly int previousSeed = Runtime.RandSeed;
-        private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly GameEngine previousEngine = GameTables.AoWEngine;
-        private readonly AoWHSMap previousMap = AoWHSMap.Current;
+        private readonly int _previousSeed = Runtime.RandSeed;
+        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GameEngine _previousEngine = GameTables.GameEngine;
+        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly MapObjectResourceList CombatResources = new MapObjectResourceList(null!);
 
         internal Fixture()
         {
             Runtime.RandSeed = 123456789;
-            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
+            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.CombatResources = CombatResources; });
             AoWHSSet.Current = set;
-            GameTables.AoWEngine = EngineFixture.Engine;
+            GameTables.GameEngine = EngineFixture.Engine;
             AoWHSMap.Current = null!;
-            AoWHSSet.Current.FUnitGFXResources = null!;
+            AoWHSSet.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
         public void Dispose()
         {
-            Runtime.RandSeed = previousSeed;
+            Runtime.RandSeed = _previousSeed;
 
-            AoWHSSet.Current = previousSet;
-            GameTables.AoWEngine = previousEngine;
-            AoWHSMap.Current = previousMap;
+            AoWHSSet.Current = _previousSet;
+            GameTables.GameEngine = _previousEngine;
+            AoWHSMap.Current = _previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
         }
@@ -90,16 +90,16 @@ public sealed class LeftoverConstructionTests
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
-                    if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
+                    if (field.Name == "_engineClass") continue; // the descriptor cache is not constructor state
                     // CF-2 stores priority as a delegate. Keep its value in the base recording's key.
-                    if (item is AIPlayerActionClass actionClass && field.Name == "priority")
+                    if (item is AIPlayerActionClass actionClass && field.Name == "_priority")
                     {
                         fields[current.Name + ".<Priority>k__BackingField"] = actionClass.Priority;
                         continue;
                     }
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
-                    if (field.Name == "FOwner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
             return fields;
@@ -107,7 +107,7 @@ public sealed class LeftoverConstructionTests
         return JsonSerializer.Serialize(State(value, "$"));
     }
 
-    private static readonly string[] Names =
+    private static readonly string[] s_names =
     [
         "Aow.Game.AI.Groups.AIGroup",
         "Aow.Game.AI.Groups.AIGroupControl",
@@ -213,7 +213,7 @@ public sealed class LeftoverConstructionTests
         "Aow.Game.Commands.SummonSpellTokenEvent",
     ];
 
-    public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
+    public static IEnumerable<object[]> Classes => s_names.Select(name => new object[] { name });
 
     private static object? Invoke(Func<object?> action)
     {
@@ -231,7 +231,7 @@ public sealed class LeftoverConstructionTests
         if (constructor is not null) return (EngineObject)Invoke(() => constructor.Invoke([owner]))!;
         var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(ECustomNode)]);
         if (factory is not null) return (EngineObject)Invoke(() => factory.Invoke(null, [owner]))!;
-        return EngineClass.Of(type).Create(owner);
+        return EngineClass.Of(type).CreateInstance(owner);
     }
 
     [Theory]
@@ -249,9 +249,9 @@ public sealed class LeftoverConstructionTests
                 var states = new List<string>();
                 try
                 {
-                    value = route == 1 ? EngineClass.Of(type).Create(owner!)
+                    value = route == 1 ? EngineClass.Of(type).CreateInstance(owner!)
                         : route == 0 ? Direct(type, owner!)
-                        : route == 2 ? EngineClass.Of(type).Create(owner!)
+                        : route == 2 ? EngineClass.Of(type).CreateInstance(owner!)
                         : Saved(type, owner!);
                     Assert.IsType(type, value);
                     Assert.Same(owner, value.Owner);
@@ -276,11 +276,11 @@ public sealed class LeftoverConstructionTests
         if (EngineHost.Engines is null) EngineHost.Initialize();
         using GameEngine engine = new GameEngine(null!);
         var descriptor = EngineClass.Of(type);
-        engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
-        try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
+        engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+        try { engine.UnregisterEngineClasses([engine.GetEngineClass(descriptor.ClassId)]); }
         catch (Exception error) when (PortedExceptions.Is(error)) { }
-        engine.RegisterEClasses([descriptor]);
-        return engine.CreateEObject(descriptor.ClassID, owner);
+        engine.RegisterEngineClasses([descriptor]);
+        return engine.CreateEngineObject(descriptor.ClassId, owner);
     }
 
     private sealed class RejectingOwner : EngineFixture.Owner
@@ -292,7 +292,7 @@ public sealed class LeftoverConstructionTests
         public override int AddChild(EngineObject child)
         {
             Captured = Assert.IsType<AoWHSMap>(child);
-            Assert.Equal(0, Captured.FMapChangedLockCount);
+            Assert.Equal(0, Captured.MapChangedLockCount);
             throw new InvalidOperationException("reject after insertion");
         }
     }
@@ -308,13 +308,13 @@ public sealed class LeftoverConstructionTests
         var value = Assert.IsType<AoWHSMap>(route switch
         {
             0 => new AoWHSMap(null!),
-            1 => EngineClass.Of<AoWHSMap>().Create(null!),
-            2 => EngineClass.Of(typeof(AoWHSMap)).Create(null!),
+            1 => EngineClass.Of<AoWHSMap>().CreateInstance(null!),
+            2 => EngineClass.Of(typeof(AoWHSMap)).CreateInstance(null!),
             _ => Saved(typeof(AoWHSMap), null!)
         });
-        Assert.Equal(0, value.FMapChangedLockCount);
-        Assert.NotNull(value.FItemControl);
-        Assert.NotNull(value.FEffects);
+        Assert.Equal(0, value.MapChangedLockCount);
+        Assert.NotNull(value.ItemControl);
+        Assert.NotNull(value.Effects);
         value.Dispose();
     }
 
@@ -322,8 +322,8 @@ public sealed class LeftoverConstructionTests
     public void MapMouseKeepsItsInheritedInitialization()
     {
         using var mouse = new AowHexSpriteMapMouse();
-        Assert.Equal((-1, -1, -1, -1), (mouse.FSelectionRectangle.Left, mouse.FSelectionRectangle.Top,
-            mouse.FSelectionRectangle.Right, mouse.FSelectionRectangle.Bottom));
-        Assert.Equal(0, mouse.FRectangleSelectEventsStore.Count);
+        Assert.Equal((-1, -1, -1, -1), (mouse.SelectionRectangle.Left, mouse.SelectionRectangle.Top,
+            mouse.SelectionRectangle.Right, mouse.SelectionRectangle.Bottom));
+        Assert.Equal(0, mouse._rectangleSelectEventsStore.Count);
     }
 }

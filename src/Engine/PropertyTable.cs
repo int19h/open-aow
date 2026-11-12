@@ -7,31 +7,31 @@ namespace Aow.Engine;
 
 public partial class PropertyTable : IDisposable
 {
-    internal Item[] FItems = [];
-    internal int FCapacity;
-    internal int FCount;
-    internal int FNextIndex;
-    internal int FMaxID;
-    internal Settings[] FStack = [];
-    internal int FStackCount;
-    internal int FStackCapacity;
-    internal int FFirst;
+    internal Item[] _items = [];
+    internal int _capacity;
+    internal int _count;
+    internal int _nextIndex;
+    internal int _maxId;
+    internal Settings[] _stack = [];
+    internal int _stackCount;
+    internal int _stackCapacity;
+    internal int _first;
 
     // Engine.pas:2260
-    internal void SetCapacity(int NewCapacity)
+    internal void SetCapacity(int newCapacity)
     {
-        if (NewCapacity > 0)
+        if (newCapacity > 0)
         {
-            NewCapacity = (NewCapacity + 31) & ~31;
+            newCapacity = (newCapacity + 31) & ~31;
         }
 
-        if (NewCapacity != FCapacity)
+        if (newCapacity != _capacity)
         {
-            Array.Resize(ref FItems, NewCapacity);
-            FCapacity = NewCapacity;
-            if (FCapacity < FCount)
+            Array.Resize(ref _items, newCapacity);
+            _capacity = newCapacity;
+            if (_capacity < _count)
             {
-                FCount = FCapacity;
+                _count = _capacity;
             }
         }
     }
@@ -40,223 +40,223 @@ public partial class PropertyTable : IDisposable
     public virtual void Dispose()
     {
         SetCapacity(0);
-        Array.Resize(ref FStack, 0);
+        Array.Resize(ref _stack, 0);
     }
 
     // Engine.pas:2273
-    public void Add(int ID, int Offset)
+    public void Add(int id, int offset)
     {
-        if (FCapacity == FCount)
+        if (_capacity == _count)
         {
-            SetCapacity(FCapacity + 1);
+            SetCapacity(_capacity + 1);
         }
 
-        FItems[FCount].ID = ID;
-        FItems[FCount].Offset = Offset;
-        FCount += 1;
-        if (ID > FMaxID)
+        _items[_count].Id = id;
+        _items[_count].Offset = offset;
+        _count += 1;
+        if (id > _maxId)
         {
-            FMaxID = ID;
+            _maxId = id;
         }
     }
 
     // Engine.pas:2284
     public void Clear()
     {
-        FNextIndex = 0;
-        FMaxID = 0;
+        _nextIndex = 0;
+        _maxId = 0;
         SetCapacity(0);
     }
 
     // Engine.pas:2291
-    public int FindOffset(int ID)
+    public int FindOffset(int id)
     {
-        int Result;
+        int result;
         int I;
-        I = FNextIndex;
-        if (I >= FCount || FItems[I].ID != ID)
+        I = _nextIndex;
+        if (I >= _count || _items[I].Id != id)
         {
-            I = FFirst;
-            Result = -1;
-            while (I < FCount && FItems[I].ID != ID)
+            I = _first;
+            result = -1;
+            while (I < _count && _items[I].Id != id)
             {
                 I += 1;
             }
 
-            if (I != FCount)
+            if (I != _count)
             {
-                Result = FItems[I].Offset;
-                FNextIndex = I + 1;
+                result = _items[I].Offset;
+                _nextIndex = I + 1;
             }
         }
         else
         {
-            Result = FItems[I].Offset;
-            FNextIndex += 1;
+            result = _items[I].Offset;
+            _nextIndex += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:2315
-    public bool PropertyExist(int ID)
+    public bool PropertyExist(int id)
     {
-        bool Result;
+        bool result;
         int I;
-        if (ID <= FMaxID)
+        if (id <= _maxId)
         {
-            I = FFirst;
-            while (I < FCount && FItems[I].ID != ID)
+            I = _first;
+            while (I < _count && _items[I].Id != id)
             {
                 I += 1;
             }
 
-            Result = I != FCount;
+            result = I != _count;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:2330
     public void BackupSettings()
     {
-        if (FStackCount == FStackCapacity)
+        if (_stackCount == _stackCapacity)
         {
-            FStackCapacity += 16;
-            Array.Resize(ref FStack, FStackCapacity);
+            _stackCapacity += 16;
+            Array.Resize(ref _stack, _stackCapacity);
         }
 
-        ref Settings propertySettings = ref FStack[FStackCount];
-        propertySettings.First = FFirst;
-        propertySettings.NextIndex = FNextIndex;
-        propertySettings.MaxID = FMaxID;
+        ref Settings propertySettings = ref _stack[_stackCount];
+        propertySettings.First = _first;
+        propertySettings.NextIndex = _nextIndex;
+        propertySettings.MaxId = _maxId;
 
-        FStackCount += 1;
-        FNextIndex = FCount;
-        FFirst = FCount;
-        FMaxID = 0;
+        _stackCount += 1;
+        _nextIndex = _count;
+        _first = _count;
+        _maxId = 0;
     }
 
     // Engine.pas:2349
     public void RestoreSettings()
     {
-        FStackCount -= 1;
-        FCount = FFirst;
-        ref Settings propertySettings = ref FStack[FStackCount];
-        FFirst = propertySettings.First;
-        FNextIndex = propertySettings.NextIndex;
-        FMaxID = propertySettings.MaxID;
+        _stackCount -= 1;
+        _count = _first;
+        ref Settings propertySettings = ref _stack[_stackCount];
+        _first = propertySettings.First;
+        _nextIndex = propertySettings.NextIndex;
+        _maxId = propertySettings.MaxId;
     }
 
     // Engine.pas:2361
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
-        int LongCount = default;
-        int ID = default;
-        int Offset = default;
-        byte ShortCount = default;
-        ushort Pair = default;
-        Stream.ReadExactly(Bytes.Of(ref ShortCount, 1));
-        if ((ShortCount & 128) != 0)
+        int longCount = default;
+        int id = default;
+        int offset = default;
+        byte shortCount = default;
+        ushort pair = default;
+        stream.ReadExactly(Bytes.Of(ref shortCount, 1));
+        if ((shortCount & 128) != 0)
         {
-            ShortCount = (byte)(ShortCount & 127);
-            Stream.ReadExactly(Bytes.Of(ref LongCount, 4));
+            shortCount = (byte)(shortCount & 127);
+            stream.ReadExactly(Bytes.Of(ref longCount, 4));
         }
         else
         {
-            LongCount = 0;
+            longCount = 0;
         }
 
-        if (ShortCount != 0)
+        if (shortCount != 0)
         {
-            for (int ordinal = 0, last = ShortCount - 1; ordinal <= last; ordinal++)
+            for (int ordinal = 0, last = shortCount - 1; ordinal <= last; ordinal++)
             {
-                Stream.ReadExactly(Bytes.Of(ref Pair, 2));
-                Add(Pair & 255, (int)(((uint)Pair) >> 8));
+                stream.ReadExactly(Bytes.Of(ref pair, 2));
+                Add(pair & 255, (int)(((uint)pair) >> 8));
             }
         }
 
-        if (LongCount != 0)
+        if (longCount != 0)
         {
-            for (int ordinal = 0, last = LongCount - 1; ordinal <= last; ordinal++)
+            for (int ordinal = 0, last = longCount - 1; ordinal <= last; ordinal++)
             {
-                Stream.ReadExactly(Bytes.Of(ref ID, 4));
-                Stream.ReadExactly(Bytes.Of(ref Offset, 4));
-                Add(ID, Offset);
+                stream.ReadExactly(Bytes.Of(ref id, 4));
+                stream.ReadExactly(Bytes.Of(ref offset, 4));
+                Add(id, offset);
             }
         }
     }
 
     // Engine.pas:2391
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        int LongCount;
-        byte ShortCount;
-        byte Marker;
-        int Pair = default;
-        LongCount = 0;
-        ShortCount = 0;
-        for (int I = FFirst, last = FCount - 1; I <= last; I++)
+        int longCount;
+        byte shortCount;
+        byte marker;
+        int pair = default;
+        longCount = 0;
+        shortCount = 0;
+        for (int I = _first, last = _count - 1; I <= last; I++)
         {
-            if (FItems[I].ID <= 127 && FItems[I].Offset <= 255)
+            if (_items[I].Id <= 127 && _items[I].Offset <= 255)
             {
-                ShortCount = (byte)(ShortCount + 1);
+                shortCount = (byte)(shortCount + 1);
             }
             else
             {
-                LongCount += 1;
+                longCount += 1;
             }
         }
 
-        if (LongCount != 0)
+        if (longCount != 0)
         {
-            Marker = (byte)(ShortCount | 128);
-            Stream.Write(Bytes.Of(ref Marker, 1));
-            Stream.Write(Bytes.Of(ref LongCount, 4));
+            marker = (byte)(shortCount | 128);
+            stream.Write(Bytes.Of(ref marker, 1));
+            stream.Write(Bytes.Of(ref longCount, 4));
         }
         else
         {
-            Stream.Write(Bytes.Of(ref ShortCount, 1));
+            stream.Write(Bytes.Of(ref shortCount, 1));
         }
 
-        if (ShortCount != 0)
+        if (shortCount != 0)
         {
-            for (int I = FFirst, last = FCount - 1; I <= last; I++)
+            for (int I = _first, last = _count - 1; I <= last; I++)
             {
-                if (FItems[I].ID <= 127 && FItems[I].Offset <= 255)
+                if (_items[I].Id <= 127 && _items[I].Offset <= 255)
                 {
-                    Pair = FItems[I].ID + (FItems[I].Offset << 8);
-                    Stream.Write(Bytes.Of(ref Pair, 2));
+                    pair = _items[I].Id + (_items[I].Offset << 8);
+                    stream.Write(Bytes.Of(ref pair, 2));
                 }
             }
         }
 
-        if (LongCount != 0)
+        if (longCount != 0)
         {
-            for (int I = FFirst, last = FCount - 1; I <= last; I++)
+            for (int I = _first, last = _count - 1; I <= last; I++)
             {
-                if (FItems[I].ID > 127 || FItems[I].Offset > 255)
+                if (_items[I].Id > 127 || _items[I].Offset > 255)
                 {
-                    Stream.Write(Bytes.Of(ref FItems[I].ID, 4));
-                    Stream.Write(Bytes.Of(ref FItems[I].Offset, 4));
+                    stream.Write(Bytes.Of(ref _items[I].Id, 4));
+                    stream.Write(Bytes.Of(ref _items[I].Offset, 4));
                 }
             }
         }
     }
 
-    public Item[] Items { get => FItems; }
-    public int Count { get => FCount; }
-    public int First { get => FFirst; }
+    public Item[] Items { get => _items; }
+    public int Count { get => _count; }
+    public int First { get => _first; }
 
     [StructLayout(LayoutKind.Explicit, Size = 8)]
     public struct Item
     {
         [FieldOffset(0)]
-        public int ID;
+        public int Id;
         [FieldOffset(4)]
         public int Offset;
     }
@@ -269,6 +269,6 @@ public partial class PropertyTable : IDisposable
         [FieldOffset(4)]
         public int NextIndex;
         [FieldOffset(8)]
-        public int MaxID;
+        public int MaxId;
     }
 }

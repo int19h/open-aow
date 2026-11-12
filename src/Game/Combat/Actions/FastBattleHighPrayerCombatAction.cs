@@ -8,42 +8,42 @@ namespace Aow.Game.Combat.Actions;
 public partial class FastBattleHighPrayerCombatAction : MultiTargetCombatSpellCombatAction
 {
     // CombatSpells.pas:937
-    public new const int ClassID = 131783;
+    public new const int ClassId = 131783;
 
     public FastBattleHighPrayerCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:943
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatObject Target;
-        base.Execute(Combat);
-        for (int I = FTargetIDs.Count - 1; I >= 0; I--)
+        CombatObject target;
+        base.Execute(combat);
+        for (int I = TargetIds.Count - 1; I >= 0; I--)
         {
-            var targetID = FTargetIDs[I];
-            Target = Combat.FCombatData.FindID(targetID);
-            Target.SetHitPoints((byte)(Target.GetHitPoints() + 5));
-            AoWHSSet.Current.FAbilityControl.GetAbility(100).Expand(((CombatUnit)Target).FUnit);
+            var targetId = TargetIds[I];
+            target = combat.CombatData.FindId(targetId);
+            target.SetHitPoints((byte)(target.GetHitPoints() + 5));
+            AoWHSSet.Current.AbilityControl.GetAbility(100).Expand(((CombatUnit)target).Troop);
         }
     }
 
     // CombatSpells.pas:958
-    public void Generate(CombatObject Source)
+    public void Generate(CombatObject source)
     {
         CombatSide Side;
-        CombatObject Target;
-        FSpellID = 102;
-        FSourceID = Source.FID;
-        var combat = Source.FCombat;
-        var side = Source.GetSide();
-        Side = combat.FSides[(int)side];
+        CombatObject target;
+        SpellId = 102;
+        SourceId = source.Id;
+        var combat = source.Combat;
+        var side = source.GetSide();
+        Side = combat.Sides[(int)side];
 
         for (int I = Side.GetCount() - 1; I >= 0; I--)
         {
-            Target = Side.GetObjects(I);
-            if (Target is CombatUnit && !Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+            target = Side.GetObjects(I);
+            if (target is CombatUnit && !target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                FTargetIDs.Add(Target.FID);
+                TargetIds.Add(target.Id);
             }
         }
     }

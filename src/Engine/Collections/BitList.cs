@@ -9,90 +9,90 @@ namespace Aow.Engine.Collections;
 
 public partial class BitList : Persistent
 {
-    internal Memory<byte> FList = Memory<byte>.Empty;
-    internal int FCount;
-    internal int FCapacity;
-    internal bool FDefault;
+    internal Memory<byte> _list = Memory<byte>.Empty;
+    internal int _count;
+    internal int _capacity;
+    internal bool _default;
 
     // Engine.pas:4743
-    internal void SetCapacity(int NewCapacity)
+    internal void SetCapacity(int newCapacity)
     {
-        if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
+        if (newCapacity < _count || newCapacity > EngineServices.MaxListSize)
         {
-            Error("List capacity out of bounds (%d)", NewCapacity);
+            Error("List capacity out of bounds (%d)", newCapacity);
         }
 
-        NewCapacity = (NewCapacity + 31) & ~31;
-        if (NewCapacity != FCapacity)
+        newCapacity = (newCapacity + 31) & ~31;
+        if (newCapacity != _capacity)
         {
-            if (NewCapacity == 0) FList = Memory<byte>.Empty;
+            if (newCapacity == 0) _list = Memory<byte>.Empty;
             else
             {
-                var resized = new byte[(int)((uint)NewCapacity >> 3)];
-                FList.Span[..Math.Min(FList.Length, resized.Length)].CopyTo(resized);
-                FList = resized;
+                var resized = new byte[(int)((uint)newCapacity >> 3)];
+                _list.Span[..Math.Min(_list.Length, resized.Length)].CopyTo(resized);
+                _list = resized;
             }
-            FCapacity = NewCapacity;
-            for (int I = FCount; I <= NewCapacity - 1; I++)
+            _capacity = newCapacity;
+            for (int I = _count; I <= newCapacity - 1; I++)
             {
-                Put(I, FDefault);
+                Put(I, _default);
             }
         }
     }
 
     // Engine.pas:4758
-    internal void SetCount(int NewCount)
+    internal void SetCount(int newCount)
     {
-        int OldCount;
-        if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
+        int oldCount;
+        if (newCount < 0 || newCount > EngineServices.MaxListSize)
         {
-            Error("List count out of bounds (%d)", NewCount);
+            Error("List count out of bounds (%d)", newCount);
         }
 
-        if (NewCount > FCapacity)
+        if (newCount > _capacity)
         {
-            SetCapacity(NewCount);
+            SetCapacity(newCount);
         }
 
-        if (NewCount > FCount)
+        if (newCount > _count)
         {
-            OldCount = FCount;
-            FCount = NewCount;
-            for (int I = OldCount, last = FCount - 1; I <= last; I++)
+            oldCount = _count;
+            _count = newCount;
+            for (int I = oldCount, last = _count - 1; I <= last; I++)
             {
-                Put(I, FDefault);
+                Put(I, _default);
             }
         }
         else
         {
-            FCount = NewCount;
+            _count = newCount;
         }
     }
 
     // Engine.pas:4798
     internal string GetItemString()
     {
-        string Result = "";
-        for (int I = 0, last = FCount - 1; I <= last; I++)
+        string result = "";
+        for (int I = 0, last = _count - 1; I <= last; I++)
         {
-            if (Get(I) != FDefault)
+            if (Get(I) != _default)
             {
-                Result = Result + IntToStr(I) + ",";
+                result = result + IntToStr(I) + ",";
             }
         }
 
-        if (!IsEmpty(Result))
+        if (!IsEmpty(result))
         {
-            Result = Copy(Result, 1, Result.Length - 1);
+            result = Copy(result, 1, result.Length - 1);
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:4810
     internal void SetItemString(string S)
     {
-        string Item;
+        string item;
         int P;
         Clear();
         P = Pos(",", S);
@@ -100,18 +100,18 @@ public partial class BitList : Persistent
         {
             if (P != 0)
             {
-                Item = Copy(S, 1, P - 1);
+                item = Copy(S, 1, P - 1);
                 S = RtlUnit.Delete(S, 1, P);
             }
             else
             {
-                Item = S;
+                item = S;
                 S = "";
             }
 
-            if (!IsEmpty(Item))
+            if (!IsEmpty(item))
             {
-                Put(StrToInt(Item), !FDefault);
+                Put(StrToInt(item), !_default);
             }
 
             P = Pos(",", S);
@@ -121,31 +121,31 @@ public partial class BitList : Persistent
     // Engine.pas:4834
     internal int GetBitsSet()
     {
-        int Result = 0;
-        for (int I = 0, last = FCount - 1; I <= last; I++)
+        int result = 0;
+        for (int I = 0, last = _count - 1; I <= last; I++)
         {
             if (Get(I))
             {
-                Result += 1;
+                result += 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:4843
     internal int GetBitsCleared()
     {
-        int Result = 0;
-        for (int I = 0, last = FCount - 1; I <= last; I++)
+        int result = 0;
+        for (int I = 0, last = _count - 1; I <= last; I++)
         {
             if (!Get(I))
             {
-                Result += 1;
+                result += 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:4683
@@ -153,7 +153,7 @@ public partial class BitList : Persistent
     // {Item}
     protected internal virtual void Grow()
     {
-        SetCapacity(FCapacity + 32);
+        SetCapacity(_capacity + 32);
     }
 
     // Engine.pas:4571
@@ -163,33 +163,33 @@ public partial class BitList : Persistent
     }
 
     // Engine.pas:4576
-    public override void Assign(Persistent Source)
+    public override void Assign(Persistent source)
     {
-        if (Source is BitList)
+        if (source is BitList)
         {
-            var bitList = (BitList)Source;
-            this.FCount = bitList.FCount;
-            this.SetCapacity(bitList.FCount);
-            RtlUnit.Move(bitList.FList.Span.Slice(0, (int)(((uint)(this.FCount + 31)) >> 5) * 4), this.FList.Span.Slice(0, (int)(((uint)(this.FCount + 31)) >> 5) * 4), (int)(((uint)(this.FCount + 31)) >> 5) * 4);
-            this.FDefault = bitList.FDefault;
+            var bitList = (BitList)source;
+            this._count = bitList._count;
+            this.SetCapacity(bitList._count);
+            RtlUnit.Move(bitList._list.Span.Slice(0, (int)(((uint)(this._count + 31)) >> 5) * 4), this._list.Span.Slice(0, (int)(((uint)(this._count + 31)) >> 5) * 4), (int)(((uint)(this._count + 31)) >> 5) * 4);
+            this._default = bitList._default;
         }
         else
         {
-            base.Assign(Source);
+            base.Assign(source);
         }
     }
 
     // Engine.pas:4590
-    public int Add(bool Item)
+    public int Add(bool item)
     {
-        int Result = FCount;
-        if (Result == FCapacity)
+        int result = _count;
+        if (result == _capacity)
         {
             Grow();
         }
 
-        Put(FCount, Item);
-        return Result;
+        Put(_count, item);
+        return result;
     }
 
     // Engine.pas:4597
@@ -200,17 +200,17 @@ public partial class BitList : Persistent
     }
 
     // Engine.pas:4603
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        if (Index < 0 || Index >= FCount)
+        if (index < 0 || index >= _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        FCount -= 1;
-        if (Index < FCount)
+        _count -= 1;
+        if (index < _count)
         {
-            for (int I = Index, last = FCount - 1; I <= last; I++)
+            for (int I = index, last = _count - 1; I <= last; I++)
             {
                 Put(I, Get(I + 1));
             }
@@ -218,28 +218,28 @@ public partial class BitList : Persistent
     }
 
     // Engine.pas:4624
-    public void Exchange(int Index1, int Index2)
+    public void Exchange(int index1, int index2)
     {
-        bool Item;
-        if (Index1 < 0 || Index1 >= FCount)
+        bool item;
+        if (index1 < 0 || index1 >= _count)
         {
-            Error("List index out of bounds (%d)", Index1);
+            Error("List index out of bounds (%d)", index1);
         }
 
-        if (Index2 < 0 || Index2 >= FCount)
+        if (index2 < 0 || index2 >= _count)
         {
-            Error("List index out of bounds (%d)", Index2);
+            Error("List index out of bounds (%d)", index2);
         }
 
-        Item = Get(Index1);
-        Put(Index1, Get(Index2));
-        Put(Index2, Item);
+        item = Get(index1);
+        Put(index1, Get(index2));
+        Put(index2, item);
     }
 
     // Engine.pas:4635
     public BitList Expand()
     {
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
@@ -251,90 +251,90 @@ public partial class BitList : Persistent
     public bool First() => Get(0);
 
     // Engine.pas:4688
-    public int IndexOf(bool Item)
+    public int IndexOf(bool item)
     {
-        int Result = 0;
-        while (Result < FCount && Item != Get(Result))
+        int result = 0;
+        while (result < _count && item != Get(result))
         {
-            Result += 1;
+            result += 1;
         }
 
-        if (Result == FCount)
+        if (result == _count)
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:4695
-    public void Insert(int Index, bool Item)
+    public void Insert(int index, bool item)
     {
-        if (Index < 0 || Index > FCount)
+        if (index < 0 || index > _count)
         {
-            Error("List index out of bounds (%d)", Index);
+            Error("List index out of bounds (%d)", index);
         }
 
-        if (FCount == FCapacity)
+        if (_count == _capacity)
         {
             Grow();
         }
 
-        if (Index < FCount)
+        if (index < _count)
         {
-            FCount += 1;
+            _count += 1;
             // { sic: the original copies the same bit FCount - Index - 1 times instead of moving the tail }
-            for (int I = FCount - 2; I >= Index; I--)
+            for (int I = _count - 2; I >= index; I--)
             {
-                Put(Index + 1, Get(Index));
+                Put(index + 1, Get(index));
             }
         }
         else
         {
-            FCount += 1;
+            _count += 1;
         }
 
-        Put(Index, Item);
+        Put(index, item);
     }
 
     // Engine.pas:4712
-    public bool Last() => Get(FCount - 1);
+    public bool Last() => Get(_count - 1);
 
     // Engine.pas:4717
-    public void Move(int CurIndex, int NewIndex)
+    public void Move(int currentIndex, int newIndex)
     {
-        bool Item;
-        if (CurIndex != NewIndex)
+        bool item;
+        if (currentIndex != newIndex)
         {
-            if (NewIndex < 0 || NewIndex >= FCount)
+            if (newIndex < 0 || newIndex >= _count)
             {
-                Error("List index out of bounds (%d)", NewIndex);
+                Error("List index out of bounds (%d)", newIndex);
             }
 
-            Item = Get(CurIndex);
-            Delete(CurIndex);
-            Insert(NewIndex, Item);
+            item = Get(currentIndex);
+            Delete(currentIndex);
+            Insert(newIndex, item);
         }
     }
 
     // Engine.pas:4730
-    public int Remove(bool Item)
+    public int Remove(bool item)
     {
-        int Result = IndexOf(Item);
-        if (Result != -1)
+        int result = IndexOf(item);
+        if (result != -1)
         {
-            Delete(Result);
+            Delete(result);
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:4736
     public void Pack()
     {
-        for (int I = FCount - 1; I >= 0; I--)
+        for (int I = _count - 1; I >= 0; I--)
         {
-            if (this[I] == FDefault)
+            if (this[I] == _default)
             {
                 Delete(I);
             }
@@ -342,40 +342,40 @@ public partial class BitList : Persistent
     }
 
     // Engine.pas:4775
-    public bool Compare(BitList List) => List.FCount == FCount && CompareMem(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), List.FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), (int)(((uint)(FCount + 7)) >> 3));
+    public bool Compare(BitList list) => list._count == _count && CompareMem(_list.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)), list._list.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)), (int)(((uint)(_count + 7)) >> 3));
 
     // Engine.pas:4782
-    public void LoadFromStream(Stream Stream)
+    public void LoadFromStream(Stream stream)
     {
         Clear();
-        Stream.ReadExactly(Bytes.Of(ref FDefault, 1));
-        Stream.ReadExactly(Bytes.Of(ref FCount, 4));
-        SetCapacity(FCount);
-        Stream.ReadExactly(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)));
+        stream.ReadExactly(Bytes.Of(ref _default, 1));
+        stream.ReadExactly(Bytes.Of(ref _count, 4));
+        SetCapacity(_count);
+        stream.ReadExactly(_list.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)));
     }
 
     // Engine.pas:4791
-    public void SaveToStream(Stream Stream)
+    public void SaveToStream(Stream stream)
     {
-        Stream.Write(Bytes.Of(ref FDefault, 1));
-        Stream.Write(Bytes.Of(ref FCount, 4));
-        Stream.Write(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)));
+        stream.Write(Bytes.Of(ref _default, 1));
+        stream.Write(Bytes.Of(ref _count, 4));
+        stream.Write(_list.Span.Slice(0, (int)(((uint)(_count + 7)) >> 3)));
     }
 
-    public int Capacity { get => FCapacity; set => SetCapacity(value); }
-    public int Count { get => FCount; set => SetCount(value); }
-    public bool Default { get => FDefault; set => FDefault = value; }
+    public int Capacity { get => _capacity; set => SetCapacity(value); }
+    public int Count { get => _count; set => SetCount(value); }
+    public bool Default { get => _default; set => _default = value; }
 
-    public bool this[int Index] { get => Get(Index); set => Put(Index, value); }
+    public bool this[int index] { get => Get(index); set => Put(index, value); }
 
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
     public int BitsSet { get => GetBitsSet(); }
     public int BitsCleared { get => GetBitsCleared(); }
 
     // Engine.pas:4613
-    protected internal static void Error(string Msg, int Data)
+    protected internal static void Error(string message, int data)
     {
-        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, [data]));
     }
 
 }

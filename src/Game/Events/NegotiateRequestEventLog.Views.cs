@@ -11,18 +11,18 @@ public partial class NegotiateRequestEventLog
     // to join, the party join otherwise. Without an army on the field nothing shows.
     public override EventView View()
     {
-        if (FObject == NegotiateObject.City)
+        if (Object == NegotiateObject.City)
         {
             return EventView.CityNegotiation;
         }
 
-        if (FObject == NegotiateObject.Army)
+        if (Object == NegotiateObject.Army)
         {
-            var ArmyHS = (ArmyHexSprite)World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
-            if (ArmyHS != null)
+            var armyHexSprite = (ArmyHexSprite)World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131607);
+            if (armyHexSprite != null)
             {
-                var joinSelection = ArmyHS.FArmy.GetJoinSelection(FPlayer);
-                return ArmyHS.FArmy.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? EventView.PartyJoin : EventView.HeroNegotiation;
+                var joinSelection = armyHexSprite.Army.GetJoinSelection(_player);
+                return armyHexSprite.Army.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? EventView.PartyJoin : EventView.HeroNegotiation;
             }
         }
 

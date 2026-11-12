@@ -12,32 +12,32 @@ public partial class DecayAbility : DurationAbility
     // PassiveAb.pas:844
     public DecayAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(DecayRStr);
-        FAbilityID = 131;
-        FAbilityType = AbilityType.Handicap;
-        FDurationMode = DurationMode.EntireCombat;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(s_decayText);
+        AbilityId = 131;
+        AbilityType = AbilityType.Handicap;
+        DurationMode = DurationMode.EntireCombat;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:855
-    public override void NewCombatTurn(CombatObject CombatObject, sbyte Player)
+    public override void NewCombatTurn(CombatObject combatObject, sbyte player)
     {
-        DurationAbilityData Data;
-        Data = (DurationAbilityData)CombatObject.GetAbilityOwner().GetAbilityData(FAbilityID);
-        if (Data != null && Data.FPlayerIndex == Player)
+        DurationAbilityData data;
+        data = (DurationAbilityData)combatObject.GetAbilityOwner().GetAbilityData(AbilityId);
+        if (data != null && data.PlayerIndex == player)
         {
-            if (CombatObject.GetAbilityOwner() is Troop)
+            if (combatObject.GetAbilityOwner() is Troop)
             {
-                CombatObject.ExecuteDamage(1);
+                combatObject.ExecuteDamage(1);
             }
         }
     }
 
     // PassiveAb.pas:868
-    public override void CombatDone(CombatObject CombatObject)
+    public override void CombatDone(CombatObject combatObject)
     {
-        CombatObject.DestroyObject();
+        combatObject.DestroyObject();
     }
 
-    private static readonly string DecayRStr = "Decay";
+    private static readonly string s_decayText = "Decay";
 }

@@ -10,70 +10,70 @@ namespace Aow.Game.Draw.Images;
 // UnregisterPalette (make a private copy again)
 public partial class Image08 : LibraryImage, ILibraryImageClass
 {
-    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new Image08(owner);
+    static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new Image08(owner);
 
     public Image08(CustomImageLibrary owner) : base(owner)
     { }
 
-    internal bool FOwnPalette;
-    internal LibraryImagePalette FImagePalette;
-    internal Palette FRemapPalette;
+    internal bool _ownPalette;
+    internal LibraryImagePalette _imagePalette;
+    internal Palette _remapPalette;
 
     // ImageLib.pas:7152
     public override void Clear()
     {
         UnregisterPalette();
-        FImagePalette?.Dispose();
-        FImagePalette = null;
+        _imagePalette?.Dispose();
+        _imagePalette = null;
         base.Clear();
     }
 
     // ImageLib.pas:7160
-    public override void ReadImageData(Stream Stream)
+    public override void ReadImageData(Stream stream)
     {
-        int Index = default;
-        base.ReadImageData(Stream);
-        Stream.ReadExactly(Bytes.Of(ref FOwnPalette, 1));
-        if (FOwnPalette)
+        int index = default;
+        base.ReadImageData(stream);
+        stream.ReadExactly(Bytes.Of(ref _ownPalette, 1));
+        if (_ownPalette)
         {
-            FImagePalette = new LibraryImagePalette();
-            FImagePalette.LoadFromStream(Stream);
+            _imagePalette = new LibraryImagePalette();
+            _imagePalette.LoadFromStream(stream);
         }
         else
         {
-            Stream.ReadExactly(Bytes.Of(ref Index, 4));
-            FImagePalette = FOwner.FPaletteManager.LinkToPalette(Index);
+            stream.ReadExactly(Bytes.Of(ref index, 4));
+            _imagePalette = _owner._paletteManager.LinkToPalette(index);
         }
 
-        FRemapPalette = FImagePalette.FPalette;
+        _remapPalette = _imagePalette._palette;
     }
 
     // ImageLib.pas:7179
-    public override void WriteImageData(Stream Stream)
+    public override void WriteImageData(Stream stream)
     {
-        base.WriteImageData(Stream);
-        Stream.Write(Bytes.Of(ref FOwnPalette, 1));
-        if (FOwnPalette)
+        base.WriteImageData(stream);
+        stream.Write(Bytes.Of(ref _ownPalette, 1));
+        if (_ownPalette)
         {
-            FImagePalette.SaveToStream(Stream);
+            _imagePalette.SaveToStream(stream);
         }
         else
         {
-            Stream.Write(Bytes.Of(ref FImagePalette.FIndex, 4));
+            stream.Write(Bytes.Of(ref _imagePalette._index, 4));
         }
     }
 
     // ImageLib.pas:7189
     public virtual void RegisterPalette()
     {
-        LibraryImagePalette Old;
-        if (FOwnPalette && FImagePalette != null && FOwner != null)
+        LibraryImagePalette old;
+        if (_ownPalette && _imagePalette != null && _owner != null)
         {
-            Old = FImagePalette;
-            FImagePalette = FOwner.FPaletteManager.RegisterPalette(FImagePalette.FPalette);
-            Old?.Dispose();
-            FRemapPalette = FImagePalette.FPalette;
-            FOwnPalette = false;
+            old = _imagePalette;
+            _imagePalette = _owner._paletteManager.RegisterPalette(_imagePalette._palette);
+            old?.Dispose();
+            _remapPalette = _imagePalette._palette;
+            _ownPalette = false;
         }
     }
 
@@ -81,68 +81,68 @@ public partial class Image08 : LibraryImage, ILibraryImageClass
     public virtual void UnregisterPalette()
     {
         LibraryImagePalette P;
-        if (!FOwnPalette && FImagePalette != null)
+        if (!_ownPalette && _imagePalette != null)
         {
             P = new LibraryImagePalette();
-            P.Assign(FImagePalette);
-            FOwner.FPaletteManager.UnregisterPalette(FImagePalette.FIndex);
-            FImagePalette = P;
-            FRemapPalette = FImagePalette.FPalette;
-            FOwnPalette = true;
+            P.Assign(_imagePalette);
+            _owner._paletteManager.UnregisterPalette(_imagePalette._index);
+            _imagePalette = P;
+            _remapPalette = _imagePalette._palette;
+            _ownPalette = true;
         }
     }
 
     // ImageLib.pas:7218
-    public void CreateLibraryImagePalette(Palette Palette)
+    public void CreateLibraryImagePalette(Palette palette)
     {
         UnregisterPalette();
-        if (FImagePalette == null)
+        if (_imagePalette == null)
         {
-            FImagePalette = new LibraryImagePalette();
+            _imagePalette = new LibraryImagePalette();
         }
 
-        FImagePalette.FPalette.Assign(Palette);
-        FRemapPalette = FImagePalette.FPalette;
-        FOwnPalette = true;
+        _imagePalette._palette.Assign(palette);
+        _remapPalette = _imagePalette._palette;
+        _ownPalette = true;
     }
 
     // ImageLib.pas:7227
-    public override void SetOwner(CustomImageLibrary AOwner)
+    public override void SetOwner(CustomImageLibrary owner)
     {
-        if (AOwner != FOwner)
+        if (owner != _owner)
         {
             UnregisterPalette();
-            base.SetOwner(AOwner);
+            base.SetOwner(owner);
             RegisterPalette();
         }
     }
 
     // ImageLib.pas:7237
-    public override int RemapToPixelFormat(int PixelFormatID)
+    public override int RemapToPixelFormat(int pixelFormatId)
     {
-        int Result;
+        int result;
         Palette P;
-        P = FImagePalette.RemapPalette(PixelFormatID);
+        P = _imagePalette.RemapPalette(pixelFormatId);
         if (P != null)
         {
-            FRemapPalette = P;
-            Result = PixelFormats.GFXE_OK;
+            _remapPalette = P;
+            result = PixelFormats.GFXE_OK;
         }
         else
         {
-            Result = PixelFormats.GFXE_NOTSUPPORTED;
+            result = PixelFormats.GFXE_NOTSUPPORTED;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:7251
-    public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfPAL8;
 
     // ImageLib.pas:7258
     // { ShowDC remaps the palette to pfPAL8 (an original slip: the surface is pfRGB565; ShowOpaque
     //   remaps the palette again when it differs). }
-    public override void ShowDC(Rect? SrcRect, Rect? DestRect, int DC, int BkColor)
+    public override void ShowDisplayController(Rect? sourceRectangle, Rect? destinationRectangle, int displayController, int bkColor)
     {
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();

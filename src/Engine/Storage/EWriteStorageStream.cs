@@ -58,7 +58,7 @@ public partial class EWriteStorageStream : EStorageStream
         Set<StorageModeElement> Result;
         if (FPartial)
         {
-            Result = Set<StorageModeElement>.Of(StorageModeElement.Write, EngineServices.smPartial);
+            Result = Set<StorageModeElement>.Of(StorageModeElement.Write, EngineServices.Partial);
         }
         else
         {
@@ -367,7 +367,7 @@ public partial class EWriteStorageStream : EStorageStream
             O = Obj;
             if (O != null)
             {
-                AClassID = O.EClass.ClassID;
+                AClassID = O.EngineClass.ClassId;
             }
             else
             {
@@ -429,7 +429,7 @@ public partial class EWriteStorageStream : EStorageStream
             for (int I = 0, last = Node.Count - 1; I <= last; I++)
             {
                 C = Node.Children[I];
-                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.csShared) && C.GetControlStyle().Contains(EngineServices.csStored))
+                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.Shared) && C.GetControlStyle().Contains(EngineServices.Stored))
                 {
                     rwCreateEObject(ref C, Node, I);
                 }

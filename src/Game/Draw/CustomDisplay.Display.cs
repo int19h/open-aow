@@ -18,8 +18,8 @@ public partial class CustomDisplay
     public void PresentInitialFrame()
     {
         // The initial paint presents the cleared surface before the first scene update.
-        if (PresentedFrames != 0 || !FOptions.Contains(BltOnWMPAINT) || FActiveDC is null) return;
-        ExecuteBltSurfaceEvent();
+        if (PresentedFrames != 0 || !_options.Contains(BlitOnPaint) || _activeDisplayController is null) return;
+        ExecuteBlitSurfaceEvent();
         PresentedFrames++;
         FramePresented?.Invoke(PresentedFrames);
     }
@@ -27,21 +27,21 @@ public partial class CustomDisplay
     public CustomDisplay(Component owner) : base(owner)
     {
         Width = Height = 100;
-        FOptions = Set<OptionsElement>.Of(AutoResizeBackSurface, AutoSwapDC,
-            AutoStartUpdateFrameLoop, AutoActivatePrimaryDC, RestoreSurfacesOnSwap, BltOnWMPAINT);
-        FBufferingScheme = BufferingScheme.Double;
-        FBackSurfaceControlMode = BackSurfaceControlMode.BltSurface;
-        FBackSurfaceWidth = 640;
-        FBackSurfaceHeight = 480;
-        FSurfaceIndex = 1;
-        FUpdateFrameMode = UpdateFrameMode.Synchrone;
+        _options = Set<OptionsElement>.Of(AutoResizeBackSurface, AutoSwapDisplayController,
+            AutoStartUpdateFrameLoop, AutoActivatePrimaryDisplayController, RestoreSurfacesOnSwap, BlitOnPaint);
+        _bufferingScheme = BufferingScheme.Double;
+        _backSurfaceControlMode = BackSurfaceControlMode.BlitSurface;
+        _backSurfaceWidth = 640;
+        _backSurfaceHeight = 480;
+        SurfaceIndex = 1;
+        _updateFrameMode = UpdateFrameMode.Synchronous;
         SetFrameRate(30);
     }
 
     public override void Dispose()
     {
         StopUpdateFrameLoop();
-        DeactivateDC();
+        DeactivateDisplayController();
         base.Dispose();
     }
 
@@ -52,33 +52,33 @@ public partial class CustomDisplay
 
     public virtual void Resize()
     {
-        if (FActiveDC is null) return;
-        var screen = FActiveDC.GetSurface(0);
-        if (FOptions.Contains(AutoResizeBackSurface)) ResizeBackSurfaces(screen.Width, screen.Height);
-        FOnResize?.Invoke(this);
+        if (_activeDisplayController is null) return;
+        var screen = _activeDisplayController.GetSurface(0);
+        if (_options.Contains(AutoResizeBackSurface)) ResizeBackSurfaces(screen.Width, screen.Height);
+        _onResize?.Invoke(this);
     }
 
     public virtual void ShowError(string message) => RtlUnit.ShowMessage(message);
-    public virtual void StopUpdateFrameLoop() => FStatus = FStatus.Without(FrameLoopActive);
+    public virtual void StopUpdateFrameLoop() => Status = Status.Without(FrameLoopActive);
 
-    public virtual void PauseFrameUpdateLoop() { FPauseCount++; FStatus = FStatus.With(FrameLoopPaused); }
+    public virtual void PauseFrameUpdateLoop() { _pauseCount++; Status = Status.With(FrameLoopPaused); }
 
     public virtual void ResumeFrameUpdateLoop()
     {
-        if (FPauseCount > 0) FPauseCount--;
-        if (FPauseCount == 0) FStatus = FStatus.Without(FrameLoopPaused);
+        if (_pauseCount > 0) _pauseCount--;
+        if (_pauseCount == 0) Status = Status.Without(FrameLoopPaused);
     }
 
     public virtual void StartUpdateFrameLoop()
     {
-        if (FStatus.Contains(FrameLoopActive)) return;
-        if (FUpdateFrameMode != UpdateFrameMode.Synchrone) throw new NotSupportedException("Asynchronous display loop");
-        FStatus = FStatus.With(FrameLoopActive);
+        if (Status.Contains(FrameLoopActive)) return;
+        if (_updateFrameMode != UpdateFrameMode.Synchronous) throw new NotSupportedException("Asynchronous display loop");
+        Status = Status.With(FrameLoopActive);
         try
         {
-            while (FStatus.Contains(FrameLoopActive) && !Terminated())
+            while (Status.Contains(FrameLoopActive) && !Terminated())
             {
-                if (!FStatus.Contains(FrameLoopPaused)) UpdateFrame();
+                if (!Status.Contains(FrameLoopPaused)) UpdateFrame();
                 else RtlUnit.Clock.WaitMilliseconds(1);
                 Host.PumpEvents(EventSink);
             }
@@ -90,48 +90,48 @@ public partial class CustomDisplay
 
     public virtual void UpdateFrame()
     {
-        if (FBufferingScheme == BufferingScheme.Tripple) FSurfaceIndex = FSurfaceIndex == 1 ? 2 : 1;
+        if (_bufferingScheme == BufferingScheme.Triple) SurfaceIndex = SurfaceIndex == 1 ? 2 : 1;
         int x = -1, y = -1;
-        GetMousePos(ref x, ref y);
-        if (FMouseAboveSurface && x == -1 && GetMouseButton() == 0) EventSink.MouseMove(default, -1, -1);
-        FMouseAboveSurface = x != -1;
-        FOnUpdateFrame?.Invoke(this, FActiveDC, FSurfaceIndex);
-        if (FActiveDC is null) return;
-        FActiveDC.NewFrame();
-        FActiveDC.WaitForVerticalBlank();
-        ExecuteBltSurfaceEvent();
+        GetMousePosition(ref x, ref y);
+        if (_mouseAboveSurface && x == -1 && GetMouseButton() == 0) EventSink.MouseMove(default, -1, -1);
+        _mouseAboveSurface = x != -1;
+        _onUpdateFrame?.Invoke(this, _activeDisplayController, SurfaceIndex);
+        if (_activeDisplayController is null) return;
+        _activeDisplayController.NewFrame();
+        _activeDisplayController.WaitForVerticalBlank();
+        ExecuteBlitSurfaceEvent();
         PresentedFrames++;
         FramePresented?.Invoke(PresentedFrames);
     }
 
-    public int ActivateDC(CustomDisplayController dc)
+    public int ActivateDisplayController(CustomDisplayController displayController)
     {
-        if (dc == FActiveDC) return 0;
-        var previous = FActiveDC;
+        if (displayController == _activeDisplayController) return 0;
+        var previous = _activeDisplayController;
         var saved = new DataSurface[3];
         PauseFrameUpdateLoop();
         try
         {
-            if (previous is not null && FOptions.Contains(RestoreSurfacesOnSwap))
-                for (int i = 1; i <= (int)FBufferingScheme; i++)
+            if (previous is not null && _options.Contains(RestoreSurfacesOnSwap))
+                for (int i = 1; i <= (int)_bufferingScheme; i++)
                 {
                     saved[i] = new DataSurface(0, 0, 0, null);
                     saved[i].CaptureSurface(previous.GetSurface(i), default);
                 }
-            DeactivateDC();
-            if (dc is null) return 0;
-            int result = dc.Activate(this);
+            DeactivateDisplayController();
+            if (displayController is null) return 0;
+            int result = displayController.Activate(this);
             if (result < 0)
             {
-                if (previous is not null && previous.Activate(this) >= 0) FActiveDC = previous;
+                if (previous is not null && previous.Activate(this) >= 0) _activeDisplayController = previous;
                 result = DCERR_ACTIVATEFAILED;
             }
-            else FActiveDC = dc;
-            if (FActiveDC is null) return result;
+            else _activeDisplayController = displayController;
+            if (_activeDisplayController is null) return result;
             Resize();
-            for (int i = 1; i <= (int)FBufferingScheme; i++)
-                if (saved[i] is not null) RemapSurface(saved[i], FActiveDC.GetSurface(i));
-            FOnActivateDC?.Invoke(this, FActiveDC);
+            for (int i = 1; i <= (int)_bufferingScheme; i++)
+                if (saved[i] is not null) RemapSurface(saved[i], _activeDisplayController.GetSurface(i));
+            _onActivateDisplayController?.Invoke(this, _activeDisplayController);
             return result;
         }
         finally
@@ -141,14 +141,14 @@ public partial class CustomDisplay
         }
     }
 
-    public int SwapDC()
+    public int SwapDisplayController()
     {
         PauseFrameUpdateLoop();
         try
         {
             if (Host is null) return DisplayCodes.DCERR_NOTACTIVATED;
             Host.Fullscreen = !Host.Fullscreen;
-            FOnSwapDC?.Invoke(FActiveDC);
+            _onSwapDisplayController?.Invoke(_activeDisplayController);
             Resize();
             return 0;
         }

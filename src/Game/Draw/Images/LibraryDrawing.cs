@@ -5,7 +5,7 @@ namespace Aow.Game.Draw.Images;
 
 internal static class LibraryDrawing
 {
-    internal static void BltLibraryImage(Canvas Canvas, LibraryImage Image, Rect Rect, BlitMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref Rect DrawRect)
+    internal static void BlitLibraryImage(Canvas canvas, LibraryImage image, Rect rectangle, BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref Rect drawRectangle)
     {
         /* TODO: Implement Windows.SetStretchBltMode in the platform or editor service. */
         throw new NotImplementedException();
@@ -17,28 +17,28 @@ internal static class LibraryDrawing
         throw new NotImplementedException();
     }
 
-    internal static void WriteStringToStream(string S, Stream Stream)
+    internal static void WriteStringToStream(string S, Stream stream)
     {
         int L;
         L = S.Length;
-        Stream.Write(Bytes.Of(ref L, 4));
-        Stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, L));
+        stream.Write(Bytes.Of(ref L, 4));
+        stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, L));
     }
 
-    internal static void ReadStringFromStream(ref string S, Stream Stream)
+    internal static void ReadStringFromStream(ref string S, Stream stream)
     {
         int L = default;
-        Stream.ReadExactly(Bytes.Of(ref L, 4));
+        stream.ReadExactly(Bytes.Of(ref L, 4));
         if (L < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
         byte[] buffer = new byte[L];
         Cp1252.Encode(S)[..Math.Min(S.Length, L)].CopyTo(buffer);
         // A failed read leaves the resized value in the destination.
         S = Cp1252.Decode(buffer);
-        Stream.ReadExactly(buffer);
+        stream.ReadExactly(buffer);
         S = Cp1252.Decode(buffer);
     }
 
-    internal static void DrawFocusFrame(int DC, Rect R, bool Focused, int Color)
+    internal static void DrawFocusFrame(int displayController, Rect R, bool focused, int color)
     {
         /* TODO: Implement Windows.CreateSolidBrush in the platform or editor service. */
         throw new NotImplementedException();

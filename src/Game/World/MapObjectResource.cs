@@ -12,35 +12,35 @@ using Aow.Rtl;
 namespace Aow.Game.World;
 
 // the resource of map objects. FEngine (set by the engine activation message),
-// FShowPriorityOffset (id 4), FImageLibrary (id 8), FImageSequenceList (nil without complex
-// images. ids 9, 10), FTerrainList (id 7), FLevel (id 5), FName (id 6)
+// _showPriorityOffset (id 4), _imageLibrary (id 8), _imageSequenceList (nil without complex
+// images. ids 9, 10), _terrainList (id 7), _level (id 5), _name (id 6)
 public partial class MapObjectResource : EngineResource
 {
-    public new const int ClassID = 65876;
+    public new const int ClassId = 65876;
 
     public MapObjectResource(ECustomNode owner) : base(owner)
     {
-        FTerrainList = new TerrainList();
-        FImageLibrary = new ImageLibrary(null);
+        _terrainList = new TerrainList();
+        _imageLibrary = new ImageLibrary(null);
         SetLevel(26);
     }
 
-    protected internal GameEngine FEngine;
-    protected internal int FShowPriorityOffset;
-    protected internal ImageLibrary FImageLibrary;
-    protected internal ImageSequenceList FImageSequenceList;
-    protected internal TerrainList FTerrainList;
-    protected internal byte FLevel;
-    protected internal string FName = "";
+    protected internal GameEngine _engine;
+    protected internal int _showPriorityOffset;
+    protected internal ImageLibrary _imageLibrary;
+    protected internal ImageSequenceList _imageSequenceList;
+    protected internal TerrainList _terrainList;
+    protected internal byte _level;
+    protected internal string _name = "";
 
     // MAPOBJ.PAS:391
     public override void Dispose()
     {
-        FTerrainList?.Dispose();
-        FImageLibrary?.Dispose();
-        if (FImageSequenceList != null)
+        _terrainList?.Dispose();
+        _imageLibrary?.Dispose();
+        if (_imageSequenceList != null)
         {
-            FImageSequenceList?.Dispose();
+            _imageSequenceList?.Dispose();
         }
 
         base.Dispose();
@@ -50,46 +50,46 @@ public partial class MapObjectResource : EngineResource
     public override int ClassVersion() => 1;
 
     // MAPOBJ.PAS:400
-    public override GameEngine GetEngine() => FEngine;
+    public override GameEngine GetEngine() => _engine;
 
     // MAPOBJ.PAS:470
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        bool Complex = default;
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FShowPriorityOffset, 4);
-        Stream.rwByte(ref FLevel, 5);
-        Stream.rwString(ref FName, 6);
-        Stream.rwStreamProc(7, FTerrainList.LoadFromStream, FTerrainList.SaveToStream);
-        FImageLibrary.ReduceCount();
-        Stream.rwStreamProc(8, FImageLibrary.LoadFromStream, FImageLibrary.SaveToStream);
-        if (!Stream.StorageMode().Contains(EngineServices.smText))
+        bool complex = default;
+        base.ReadWrite(stream);
+        stream.rwInteger(ref _showPriorityOffset, 4);
+        stream.rwByte(ref _level, 5);
+        stream.rwString(ref _name, 6);
+        stream.rwStreamProc(7, _terrainList.LoadFromStream, _terrainList.SaveToStream);
+        _imageLibrary.ReduceCount();
+        stream.rwStreamProc(8, _imageLibrary.LoadFromStream, _imageLibrary.SaveToStream);
+        if (!stream.StorageMode().Contains(EngineServices.Text))
         {
-            if (Stream.StorageMode().Contains(StorageModeElement.Read))
+            if (stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                Stream.rwBool(ref Complex, 9);
-                if (Complex)
+                stream.rwBool(ref complex, 9);
+                if (complex)
                 {
-                    if (FImageSequenceList == null)
+                    if (_imageSequenceList == null)
                     {
-                        FImageSequenceList = new ImageSequenceList(null, FImageLibrary);
+                        _imageSequenceList = new ImageSequenceList(null, _imageLibrary);
                     }
                 }
                 else
                 {
-                    FImageSequenceList?.Dispose();
-                    FImageSequenceList = null;
+                    _imageSequenceList?.Dispose();
+                    _imageSequenceList = null;
                 }
             }
             else
             {
-                Complex = FImageSequenceList != null;
-                Stream.rwBool(ref Complex, 9);
+                complex = _imageSequenceList != null;
+                stream.rwBool(ref complex, 9);
             }
 
-            if (Complex)
+            if (complex)
             {
-                Stream.rwStreamProc(10, FImageSequenceList.LoadFromStream, FImageSequenceList.SaveToStream);
+                stream.rwStreamProc(10, _imageSequenceList.LoadFromStream, _imageSequenceList.SaveToStream);
             }
         }
     }
@@ -97,29 +97,29 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:383
 
     // MAPOBJ.PAS:620
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
-            FEngine = Msg.Payload.As<GameEngine>();
-            if (FImageSequenceList != null)
+            _engine = message.Payload.As<GameEngine>();
+            if (_imageSequenceList != null)
             {
-                FImageSequenceList.FILManager = FEngine.FHSSet.FImageLibraryManager;
-                FImageSequenceList.LinkToIL();
+                _imageSequenceList._imageLibraryManager = _engine._hexSpriteSet._imageLibraryManager;
+                _imageSequenceList.LinkToImageLibrary();
             }
         }
         else
         {
-            if (Msg.MsgID == 65541)
+            if (message.MessageId == 65541)
             {
-                EditDropMsg(ref Msg);
+                EditDropMessage(ref message);
             }
             else
             {
-                if (Msg.MsgID == 65621)
+                if (message.MessageId == 65621)
                 {
-                    Msg.Result = 8;
+                    message.Result = 8;
                 }
             }
         }
@@ -130,154 +130,154 @@ public partial class MapObjectResource : EngineResource
     {
         int I;
         I = 0;
-        LibraryImage Result = null;
-        while (I != FImageLibrary.Count && Result == null)
+        LibraryImage result = null;
+        while (I != _imageLibrary.Count && result == null)
         {
-            Result = FImageLibrary.Get(I);
+            result = _imageLibrary.Get(I);
             I += 1;
         }
 
-        if (Result == null && FImageSequenceList != null)
+        if (result == null && _imageSequenceList != null)
         {
-            Result = FImageSequenceList.GetPreviewImage();
+            result = _imageSequenceList.GetPreviewImage();
         }
 
-        return Result;
+        return result;
     }
 
     // MAPOBJ.PAS:465
-    public override void SetCellImage(LibraryImage Value)
+    public override void SetCellImage(LibraryImage value)
     {
-        FImageLibrary.SetImage(0, Value);
+        _imageLibrary.SetImage(0, value);
     }
 
     // MAPOBJ.PAS:525
     public override EngineObject CreateResourceUser()
     {
-        int ID;
-        MapObject MO;
-        ID = ResourceUserClassID();
-        if (ID != 0)
+        int id;
+        MapObject mapObject;
+        id = ResourceUserClassId();
+        if (id != 0)
         {
-            MO = (MapObject)FEngine.CreateEObject(ID, null);
-            if (MO != null)
+            mapObject = (MapObject)_engine.CreateEngineObject(id, null);
+            if (mapObject != null)
             {
-                MO.SetResource(this);
-                MO.SetResourceLinked(true);
+                mapObject.SetResource(this);
+                mapObject.SetResourceLinked(true);
             }
         }
         else
         {
-            MO = null;
+            mapObject = null;
         }
 
-        return MO;
+        return mapObject;
     }
 
     // MAPOBJ.PAS:420
-    public override void Draw(Canvas Canvas, Rect Rect, Draw.Images.BlitMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
+    public override void Draw(Canvas canvas, Rect rectangle, Draw.Images.BlitMode mode, int scaleX, int scaleY, int bkColor, int color)
     {
         int I;
-        LibraryImage Image;
-        ImageSequence Sequence;
-        Rect DrawRect = default;
+        LibraryImage image;
+        ImageSequence sequence;
+        Rect drawRectangle = default;
         I = 0;
-        Image = null;
-        while (I != FImageLibrary.Count && Image == null)
+        image = null;
+        while (I != _imageLibrary.Count && image == null)
         {
-            Image = FImageLibrary.Get(I);
+            image = _imageLibrary.Get(I);
             I += 1;
         }
 
-        if (Image == null && FImageSequenceList != null)
+        if (image == null && _imageSequenceList != null)
         {
             I = 0;
-            Sequence = null;
-            while (I != FImageSequenceList.Count && Sequence == null)
+            sequence = null;
+            while (I != _imageSequenceList.Count && sequence == null)
             {
-                Sequence = FImageSequenceList.GetImageSequence(I);
-                if (Sequence == null)
+                sequence = _imageSequenceList.GetImageSequence(I);
+                if (sequence == null)
                 {
                     I += 1;
                 }
             }
 
-            BltImageSequenceEx(Canvas, Sequence, 0, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
+            BlitImageSequence(canvas, sequence, 0, rectangle, mode, scaleX, scaleY, bkColor, color, false, ref drawRectangle);
         }
         else
         {
-            LibraryDrawing.BltLibraryImage(Canvas, Image, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
+            LibraryDrawing.BlitLibraryImage(canvas, image, rectangle, mode, scaleX, scaleY, bkColor, color, false, ref drawRectangle);
         }
     }
 
     // MAPOBJ.PAS:550
-    public virtual void SetLevel(byte Value)
+    public virtual void SetLevel(byte value)
     {
-        FLevel = Value;
-        CalcShowPriorityOffset(16, 32, FLevel);
+        _level = value;
+        CalculateShowPriorityOffset(16, 32, _level);
     }
 
     // MAPOBJ.PAS:556
-    public virtual MapObject PlaceResourceUser(HSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public virtual MapObject PlaceResourceUser(HSMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
-        int Xhp = default;
-        int Yhp = default;
-        MapObject Result = (MapObject)CreateResourceUser();
-        HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
-        Xhp += 16;
-        Yhp += 16;
-        if (!HSMap.Place(Result, Xhp, Yhp, Lhx))
+        int pixelX = default;
+        int pixelY = default;
+        MapObject result = (MapObject)CreateResourceUser();
+        HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+        pixelX += 16;
+        pixelY += 16;
+        if (!hexSpriteMap.Place(result, pixelX, pixelY, hexLevel))
         {
-            Result?.Dispose();
-            Result = null;
+            result?.Dispose();
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // MAPOBJ.PAS:545
-    public virtual void CalcShowPriorityOffset(int dX, int dY, int Level)
+    public virtual void CalculateShowPriorityOffset(int dX, int dY, int level)
     {
-        FShowPriorityOffset = dX + ((Level << 26) + (dY << 13));
+        _showPriorityOffset = dX + ((level << 26) + (dY << 13));
     }
 
     // MAPOBJ.PAS:507
-    public void ShowComplexImage(int X, int Y, in LockedSurface SurfaceDesc, int Index, uint Offset)
+    public void ShowComplexImage(int X, int Y, in LockedSurface lockedSurface, int index, uint offset)
     {
-        ImageSequence Sequence;
-        int Frame;
-        if (Index < FImageSequenceList.Count)
+        ImageSequence sequence;
+        int frame;
+        if (index < _imageSequenceList.Count)
         {
-            Sequence = (ImageSequence)FImageSequenceList.List[Index];
+            sequence = (ImageSequence)_imageSequenceList.List[index];
         }
         else
         {
-            Sequence = null;
+            sequence = null;
         }
 
-        while (Sequence != null)
+        while (sequence != null)
         {
-            Frame = Sequence.GetFrameIndex(FEngine.FHSMap.FFrame, (int)Offset);
-            if (Frame != -1)
+            frame = sequence.GetFrameIndex(_engine._hexSpriteMap._frame, (int)offset);
+            if (frame != -1)
             {
-                Sequence.ImageLibrary.Get(Frame).Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
+                sequence.ImageLibrary.Get(frame).Show(X + sequence.OffsetX, Y + sequence.OffsetY, lockedSurface);
             }
 
-            Sequence = Sequence.Next;
+            sequence = sequence.Next;
         }
     }
 
     // MAPOBJ.PAS:571
-    public void ClearTerrain(int X, int Y, int Lhx)
+    public void ClearTerrain(int X, int Y, int hexLevel)
     {
-        int Xhx = default;
-        int Yhx = default;
-        for (int I = FTerrainList.FCount - 1; I >= 0; I--)
+        int hexX = default;
+        int hexY = default;
+        for (int I = _terrainList._count - 1; I >= 0; I--)
         {
-            if (FTerrainList.GetTerrain(I) >= 0)
+            if (_terrainList.GetTerrain(I) >= 0)
             {
-                HexGeometry.CenterHNtoHX(X, Y, I, ref Xhx, ref Yhx);
-                FEngine.FHSMap.ClearTerrain(Xhx, Yhx, Lhx, 0, -1);
+                HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
+                _engine._hexSpriteMap.ClearTerrain(hexX, hexY, hexLevel, 0, -1);
             }
         }
     }
@@ -285,60 +285,60 @@ public partial class MapObjectResource : EngineResource
     // MAPOBJ.PAS:586
     // { The resource was dropped on the map (message $10005): fill the hexagons in Param[1] rings around
     //   the drop point with its users, clearing the terrain first when Param[2] = 1 }
-    public void EditDropMsg(ref EngineMessage Msg)
+    public void EditDropMessage(ref EngineMessage message)
     {
-        MapLevel MapLevel;
-        int Xhx = default;
-        int Yhx = default;
-        int Lhx;
-        int Rad;
-        bool Clear;
-        bool Placed;
-        HexNumberWalkData Walk = default;
-        Placed = true;
-        MapLevel = Msg.Param[0].As<MapLevel>();
-        Lhx = Msg.Data[1];
-        Rad = Msg.Param[1].Int;
-        HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
-        Clear = Msg.Param[2].Int == 1;
-        HexNumberWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
-        while (Walk.Radius <= Rad)
+        MapLevel mapLevel;
+        int hexX = default;
+        int hexY = default;
+        int hexLevel;
+        int radius;
+        bool clear;
+        bool placed;
+        HexNumberWalkData walk = default;
+        placed = true;
+        mapLevel = message.Param[0].As<MapLevel>();
+        hexLevel = message.Data[1];
+        radius = message.Param[1].Int;
+        HexGeometry.PixelToHex(message.Payload.Int, message.Data[0], ref hexX, ref hexY);
+        clear = message.Param[2].Int == 1;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
+        while (walk.Radius <= radius)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
+            if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel._width && walk.Y < mapLevel._height)
             {
-                if (Clear)
+                if (clear)
                 {
-                    ClearTerrain(Walk.X, Walk.Y, Lhx);
+                    ClearTerrain(walk.X, walk.Y, hexLevel);
                 }
 
-                Placed = Placed && PlaceResourceUser(FEngine.FHSMap, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)Lhx) != null;
+                placed = placed && PlaceResourceUser(_engine._hexSpriteMap, (sbyte)walk.X, (sbyte)walk.Y, (sbyte)hexLevel) != null;
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        if (Placed)
+        if (placed)
         {
-            Msg.Result = 0;
+            message.Result = 0;
         }
         else
         {
-            Msg.Result = -1;
+            message.Result = -1;
         }
     }
 
-    public GameEngine Engine { get => FEngine; }
-    public int ShowPriorityOffset { get => FShowPriorityOffset; set => FShowPriorityOffset = value; }
-    public ImageLibrary ImageLibrary { get => FImageLibrary; }
-    public ImageSequenceList ImageSequenceList { get => FImageSequenceList; set => FImageSequenceList = value; }
-    public TerrainList TerrainList { get => FTerrainList; }
-    public byte Level { get => FLevel; set => SetLevel(value); }
-    public string Name { get => FName; set => FName = value; }
+    public GameEngine Engine { get => _engine; }
+    public int ShowPriorityOffset { get => _showPriorityOffset; set => _showPriorityOffset = value; }
+    public ImageLibrary ImageLibrary { get => _imageLibrary; }
+    public ImageSequenceList ImageSequenceList { get => _imageSequenceList; set => _imageSequenceList = value; }
+    public TerrainList TerrainList { get => _terrainList; }
+    public byte Level { get => _level; set => SetLevel(value); }
+    public string Name { get => _name; set => _name = value; }
 
     // MAPOBJ.PAS:415
     public override string ResourceEditName() => "";
 
-    internal static void BltImageSequenceEx(Canvas Canvas, ImageSequence Sequence, int Frame, Rect Rect, Draw.Images.BlitMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref Rect DrawRect)
+    internal static void BlitImageSequence(Canvas canvas, ImageSequence sequence, int frame, Rect rectangle, Draw.Images.BlitMode mode, int scaleX, int scaleY, int bkColor, int color, bool selected, ref Rect drawRectangle)
     {
         throw new NotImplementedException();
     }

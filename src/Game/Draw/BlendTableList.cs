@@ -3,56 +3,56 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw;
 
-// FList
+// _list
 public partial class BlendTableList : IDisposable
 {
-    internal List<BlendTable> FList;
+    internal List<BlendTable> _list;
 
     // GFXE.pas:9642
-    internal int GetCount() => FList.Count;
+    internal int GetCount() => _list.Count;
 
     // GFXE.pas:9656
-    internal BlendTable GetTables(int Index) => FList[Index];
+    internal BlendTable GetTables(int index) => _list[index];
 
     // GFXE.pas:9629
     public BlendTableList()
     {
-        FList = new List<BlendTable>();
+        _list = new List<BlendTable>();
     }
 
     // GFXE.pas:9635
     public virtual void Dispose()
     {
         Clear();
-        FList?.Clear();
+        _list?.Clear();
     }
 
     // GFXE.pas:9647
     public void Clear()
     {
-        while (FList.Count != 0)
+        while (_list.Count != 0)
         {
-            FList.RemoveAt(FList.Count - 1);
+            _list.RemoveAt(_list.Count - 1);
         }
     }
 
     // GFXE.pas:9661
-    public void Add(BlendTable Table)
+    public void Add(BlendTable table)
     {
-        FList.Add(Table);
+        _list.Add(table);
     }
 
     // GFXE.pas:9666
-    public void Delete(int Index)
+    public void Delete(int index)
     {
-        FList.RemoveAt(Index);
+        _list.RemoveAt(index);
     }
 
     public int Count { get => GetCount(); }
 
     public sealed class TablesAccessor(BlendTableList target)
     {
-        public BlendTable this[int Index] { get => target.GetTables(Index); }
+        public BlendTable this[int index] { get => target.GetTables(index); }
     }
 
     public TablesAccessor Tables => new TablesAccessor(this);

@@ -4,24 +4,24 @@ namespace Aow.Game.UI.Controls;
 public partial class ScrollBar
 {
     // The highest position is above FMin when a step can move the bar.
-    internal bool HasWheelRange() => FMax + 1 - FNumberVisible > FMin;
+    internal bool HasWheelRange() => _max + 1 - _numberVisible > _min;
 
     // One arrow step. The wheel, the arrow buttons and a held arrow all come through here.
     protected void ApplySmallStep(bool up)
     {
         if (up)
         {
-            FPosition = FPosition - FSmallChange;
-            if (FMin > FPosition) FPosition = FMin;
+            _position = _position - _smallChange;
+            if (_min > _position) _position = _min;
         }
         else
         {
-            FPosition = FPosition + FSmallChange;
-            if (FMax + 1 - FNumberVisible < FPosition) FPosition = FMax + 1 - FNumberVisible;
+            _position = _position + _smallChange;
+            if (_max + 1 - _numberVisible < _position) _position = _max + 1 - _numberVisible;
         }
 
-        FDrawn = false;
-        if (FOnChange != null) FOnChange(this);
+        Drawn = false;
+        if (_onChange != null) _onChange(this);
     }
 
     // Positive steps move toward FMin, one SmallChange and one OnChange per step.

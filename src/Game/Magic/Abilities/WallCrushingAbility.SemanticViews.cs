@@ -8,13 +8,13 @@ namespace Aow.Game.Magic.Abilities;
 public partial class WallCrushingAbility
 {
     // AoWAb.PAS:2081
-    public override bool fcExecuteCombatCommand(CombatObject source, FastBattleCommand command)
+    public override bool FastBattleExecuteCombatCommand(CombatObject source, FastBattleCommand command)
     {
-        var target = command.FTarget;
+        var target = command.Target;
         if (target.GetEnabled())
         {
-            var action = CreateDamageCA(source, target, 6, 6, Set<DamageType>.Of(DamageType.Wall));
-            source.FCombat.ExecuteCombatAction(action);
+            var action = CreateDamageCombatAction(source, target, 6, 6, Set<DamageType>.Of(DamageType.Wall));
+            source.Combat.ExecuteCombatAction(action);
             action.Release();
         }
         return true;

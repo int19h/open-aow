@@ -10,46 +10,46 @@ public struct SortStringsContext
     public ExchangeProc ExchangeProc;
     public DelphiList ExchangeData;
 
-    internal static void QuickSortStrings(ref SortStringsContext Ctx, int L, int R)
+    internal static void QuickSortStrings(ref SortStringsContext context, int L, int R)
     {
         int I;
         int J;
         int M;
-        object PO;
+        object po;
         string P;
         do
         {
             I = L;
             J = R;
             M = (int)(((uint)(L + R)) >> 1);
-            P = Ctx.Strings[M];
-            PO = Ctx.Strings.Objects[M];
+            P = context.Strings[M];
+            po = context.Strings.Objects[M];
             do
             {
                 while (true)
                 {
-                    var item = Ctx.Strings.Objects[I];
-                    var stringsItem = Ctx.Strings[I];
-                    if (!(Ctx.Compare(stringsItem, P, item, PO) < 0))
+                    var item = context.Strings.Objects[I];
+                    var stringsItem = context.Strings[I];
+                    if (!(context.Compare(stringsItem, P, item, po) < 0))
                         break;
                     I += 1;
                 }
 
                 while (true)
                 {
-                    var item = Ctx.Strings.Objects[J];
-                    var stringsItem = Ctx.Strings[J];
-                    if (!(Ctx.Compare(stringsItem, P, item, PO) > 0))
+                    var item = context.Strings.Objects[J];
+                    var stringsItem = context.Strings[J];
+                    if (!(context.Compare(stringsItem, P, item, po) > 0))
                         break;
                     J -= 1;
                 }
 
                 if (I <= J)
                 {
-                    Ctx.Strings.Exchange(I, J);
-                    if (Ctx.ExchangeProc != null)
+                    context.Strings.Exchange(I, J);
+                    if (context.ExchangeProc != null)
                     {
-                        Ctx.ExchangeProc(Ctx.ExchangeData, I, J);
+                        context.ExchangeProc(context.ExchangeData, I, J);
                     }
 
                     I += 1;
@@ -59,7 +59,7 @@ public struct SortStringsContext
             while (!(I > J));
             if (L < J)
             {
-                QuickSortStrings(ref Ctx, L, J);
+                QuickSortStrings(ref context, L, J);
             }
 
             L = I;

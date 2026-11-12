@@ -5,12 +5,12 @@ namespace Aow.Game.UI.Dialogs;
 
 public partial class UnitWindow
 {
-    public void UnitWinEnter() => GameHost.MainForm.FCursorImage = FCursorImage;
+    public void UnitWinEnter() => GameHost.MainForm.FCursorImage = CursorImage;
     public void UnitWinExit() => GameHost.MainForm.FCursorImage = null;
 
     public void UnitWinShow()
     {
-        FCursorImage = null;
-        GameHost.MainForm.FCursorImage = FCursorImage;
+        CursorImage = null;
+        GameHost.MainForm.FCursorImage = CursorImage;
     }
 }

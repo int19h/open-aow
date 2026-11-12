@@ -12,59 +12,59 @@ namespace Aow.Game.World.Map;
 public partial class MapContainer : ENode
 {
     // HSEngine.pas:3208
-    public new const int ClassID = 65795;
+    public new const int ClassId = 65795;
 
-    internal int FWidth;
-    internal int FHeight;
-    internal int FLevelCount;
-    internal HSMap FMap;
-    internal GameEngine FEngine;
+    internal int _width;
+    internal int _height;
+    internal int _levelCount;
+    internal HSMap _map;
+    internal GameEngine _engine;
 
     // HSEngine.pas:3167
-    public override void SetOwner(ECustomNode AOwner)
+    public override void SetOwner(ECustomNode owner)
     {
-        base.SetOwner(AOwner);
-        FMap = (HSMap)AOwner;
+        base.SetOwner(owner);
+        _map = (HSMap)owner;
     }
 
     // HSEngine.pas:3203
-    public override GameEngine GetEngine() => FEngine;
+    public override GameEngine GetEngine() => _engine;
 
     // HSEngine.pas:3173
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
         byte W;
         byte H;
         byte L;
-        base.ReadWrite(Stream);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        base.ReadWrite(stream);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.Text)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
-            FMap = (HSMap)Owner;
-            FEngine = Stream.Engine;
-            FMap.FMapContainer = this;
+            _map = (HSMap)Owner;
+            _engine = stream.Engine;
+            _map._mapContainer = this;
         }
 
-        W = (byte)FWidth;
-        Stream.rwByte(ref W, 3);
-        FWidth = W;
-        H = (byte)FHeight;
-        Stream.rwByte(ref H, 4);
-        FHeight = H;
-        L = (byte)FLevelCount;
-        Stream.rwByte(ref L, 5);
-        FLevelCount = L;
+        W = (byte)_width;
+        stream.rwByte(ref W, 3);
+        _width = W;
+        H = (byte)_height;
+        stream.rwByte(ref H, 4);
+        _height = H;
+        L = (byte)_levelCount;
+        stream.rwByte(ref L, 5);
+        _levelCount = L;
     }
 
     // HSEngine.pas:3197
-    public override void MainReadWrite(EStorageStream Stream)
+    public override void MainReadWrite(EStorageStream stream)
     {
-        if (!((HSMap)Owner).FStatus.Contains(HexSpriteMapStatusElement.PreviewMode))
+        if (!((HSMap)Owner)._status.Contains(HexSpriteMapStatusElement.PreviewMode))
         {
-            base.MainReadWrite(Stream);
+            base.MainReadWrite(stream);
         }
         else
         {
-            ReadWrite(Stream);
+            ReadWrite(stream);
         }
     }
 
@@ -77,21 +77,21 @@ public partial class MapContainer : ENode
     public override void Clear()
     {
         base.Clear();
-        FWidth = 0;
-        FHeight = 0;
-        FLevelCount = 0;
+        _width = 0;
+        _height = 0;
+        _levelCount = 0;
     }
 
     // HSEngine.pas:3213
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        if (Msg.MsgID == 536870920)
+        if (message.MessageId == 536870920)
         {
-            FEngine = Msg.Payload.As<GameEngine>();
+            _engine = message.Payload.As<GameEngine>();
         }
 
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
             UpdateTerrain();
             Activate();
@@ -99,60 +99,60 @@ public partial class MapContainer : ENode
     }
 
     // HSEngine.pas:3249
-    public virtual void RemoveLevel(int Index)
+    public virtual void RemoveLevel(int index)
     {
-        if (Index >= 0 && Index < FChildren.Count)
+        if (index >= 0 && index < _children.Count)
         {
-            ((MapLevel)FChildren.List[Index]).DestroyHS();
-            ((MapLevel)FChildren.List[Index])?.Dispose();
-            FLevelCount -= 1;
+            ((MapLevel)_children.List[index]).DestroyHexSprite();
+            ((MapLevel)_children.List[index])?.Dispose();
+            _levelCount -= 1;
         }
     }
 
     // HSEngine.pas:3259
-    public virtual bool AddLevel(int AClassID)
+    public virtual bool AddLevel(int classId)
     {
-        bool Result;
-        EngineClass LevelClass;
-        MapLevel Level;
-        LevelClass = FEngine.GetEClass(AClassID);
-        if (LevelClass != null)
+        bool result;
+        EngineClass levelClass;
+        MapLevel level;
+        levelClass = _engine.GetEngineClass(classId);
+        if (levelClass != null)
         {
-            Level = (MapLevel)LevelClass.Create(this);
-            Level.FLhx = FLevelCount;
-            FEngine.ActivateEObject(Level);
-            Level.CreateMapFieldList(FWidth, FHeight);
-            FLevelCount += 1;
-            Result = true;
+            level = (MapLevel)levelClass.CreateInstance(this);
+            level._hexLevel = _levelCount;
+            _engine.ActivateEngineObject(level);
+            level.CreateMapFieldList(_width, _height);
+            _levelCount += 1;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // HSEngine.pas:3277
-    public virtual void New(NewHexSpriteMapSettings Settings)
+    public virtual void New(NewHexSpriteMapSettings settings)
     {
-        EngineClass LevelClass;
-        MapLevel Level;
+        EngineClass levelClass;
+        MapLevel level;
         Clear();
         try
         {
-            LevelClass = FEngine.GetEClass(Settings.MapLevelClassID);
-            for (int I = 0, last = Settings.Levels - 1; I <= last; I++)
+            levelClass = _engine.GetEngineClass(settings.MapLevelClassId);
+            for (int I = 0, last = settings.Levels - 1; I <= last; I++)
             {
-                Level = (MapLevel)LevelClass.Create(this);
-                Level.FLhx = I;
-                FEngine.ActivateEObject(Level);
-                Level.New(Settings);
+                level = (MapLevel)levelClass.CreateInstance(this);
+                level._hexLevel = I;
+                _engine.ActivateEngineObject(level);
+                level.New(settings);
             }
 
-            FWidth = Settings.Width;
-            FHeight = Settings.Height;
-            FLevelCount = Settings.Levels;
+            _width = settings.Width;
+            _height = settings.Height;
+            _levelCount = settings.Levels;
         }
         catch
         {
@@ -164,41 +164,41 @@ public partial class MapContainer : ENode
     // HSEngine.pas:3323
     public virtual void UpdateTerrain()
     {
-        for (int I = 0, last = FLevelCount - 1; I <= last; I++)
+        for (int I = 0, last = _levelCount - 1; I <= last; I++)
         {
-            ((MapLevel)FChildren.List[I]).UpdateTerrain();
+            ((MapLevel)_children.List[I]).UpdateTerrain();
         }
     }
 
     // HSEngine.pas:3224
-    public MapLevel GetMapLevel(int Index) => (MapLevel)FChildren.List[Index];
+    public MapLevel GetMapLevel(int index) => (MapLevel)_children.List[index];
 
     // HSEngine.pas:3331
     public void Loaded()
     {
-        for (int I = 0, last = FLevelCount - 1; I <= last; I++)
+        for (int I = 0, last = _levelCount - 1; I <= last; I++)
         {
-            ((MapLevel)FChildren.List[I]).Loaded();
+            ((MapLevel)_children.List[I]).Loaded();
         }
     }
 
     // HSEngine.pas:3339
     public void Activate()
     {
-        for (int I = 0, last = FLevelCount - 1; I <= last; I++)
+        for (int I = 0, last = _levelCount - 1; I <= last; I++)
         {
-            ((MapLevel)FChildren.List[I]).Activate();
+            ((MapLevel)_children.List[I]).Activate();
         }
     }
 
-    public int Width { get => FWidth; }
-    public int Height { get => FHeight; }
-    public int LevelCount { get => FLevelCount; }
-    public HSMap Map { get => FMap; }
+    public int Width { get => _width; }
+    public int Height { get => _height; }
+    public int LevelCount { get => _levelCount; }
+    public HSMap Map { get => _map; }
 
     public sealed class MapLevelsAccessor(MapContainer target)
     {
-        public MapLevel this[int Index] { get => target.GetMapLevel(Index); }
+        public MapLevel this[int index] { get => target.GetMapLevel(index); }
     }
 
     public MapLevelsAccessor MapLevels => new MapLevelsAccessor(this);

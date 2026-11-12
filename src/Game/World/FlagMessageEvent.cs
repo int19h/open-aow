@@ -10,49 +10,49 @@ using Aow.Rtl;
 
 namespace Aow.Game.World;
 
-// FHelpFileName, FMessage
+// HelpFileName, Message
 public partial class FlagMessageEvent : FlagEvent
 {
     public FlagMessageEvent(ECustomNode owner) : base(owner)
     {
-        FMessage = new StringList();
+        Message = new StringList();
     }
 
     // FlagEvents.pas:192
-    public new const int ClassID = 132461;
+    public new const int ClassId = 132461;
 
-    public string FHelpFileName = "";
-    public StringList FMessage;
+    public string HelpFileName = "";
+    public StringList Message;
 
     // FlagEvents.pas:186
     public override void Dispose()
     {
-        FMessage?.Dispose();
+        Message?.Dispose();
         base.Dispose();
     }
 
     // FlagEvents.pas:197
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStrings(FMessage, 40);
-        Stream.rwString(ref FHelpFileName, 41);
+        base.ReadWrite(stream);
+        stream.rwStrings(Message, 40);
+        stream.rwString(ref HelpFileName, 41);
     }
 
     // FlagEvents.pas:180
 
     // FlagEvents.pas:204
-    public override bool Trigger(sbyte Player)
+    public override bool Trigger(sbyte player)
     {
-        FlagMessageEventLog Log;
-        if (AoWHSMap.Current.FSeatedPlayer == Player)
+        FlagMessageEventLog log;
+        if (AoWHSMap.Current.SeatedPlayer == player)
         {
-            Log = new FlagMessageEventLog(null);
-            Log.FHelpFileName = FHelpFileName;
-            var text = FMessage.Text;
-            Log.FMessage.Text = text;
-            AoWHSMap.Current.TriggerExecuteEventLog(Log, FTriggerMode == TriggerMode.Instant, null);
-            Log.Release();
+            log = new FlagMessageEventLog(null);
+            log.HelpFileName = HelpFileName;
+            var text = Message.Text;
+            log.Message.Text = text;
+            AoWHSMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
+            log.Release();
         }
 
         return true;
@@ -64,15 +64,15 @@ public partial class FlagMessageEvent : FlagEvent
         { }
 
         // FlagEvents.pas:218
-        public new const int ClassID = 132462;
+        public new const int ClassId = 132462;
 
         // FlagEvents.pas:228
-        public override int ResourceUserClassID() => 132461;
+        public override int ResourceUserClassId() => 132461;
 
         // FlagEvents.pas:223
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(FlagMessageEventRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_flagMessageEventText);
 
-        private static readonly string FlagMessageEventRStr = "Flag Message Event";
+        private static readonly string s_flagMessageEventText = "Flag Message Event";
 
     }
 

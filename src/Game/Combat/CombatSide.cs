@@ -10,7 +10,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat;
 
-// FSideIndex. FOpponent. FStrength. FConquerCount
+// SideIndex. Opponent. Strength. ConquerCount
 public partial class CombatSide : ENode
 {
     // Combat.pas:5999
@@ -18,28 +18,28 @@ public partial class CombatSide : ENode
     {
     }
 
-    public byte FSideIndex;
-    public CombatSide FOpponent;
-    public int FStrength;
-    public int FConquerCount;
+    public byte SideIndex;
+    public CombatSide Opponent;
+    public int Strength;
+    public int ConquerCount;
 
     // Combat.pas:6002
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
+        base.ReadWrite(stream);
     }
 
     // Combat.pas:6008
-    public CombatObject GetObjects(int Index) => (CombatObject)FChildren.List[Index];
+    public CombatObject GetObjects(int index) => (CombatObject)_children.List[index];
 
     // Combat.pas:6011
-    public int IndexOfID(int ID)
+    public int IndexOfId(int id)
     {
-        for (int Result = Count - 1; Result >= 0; Result--)
+        for (int result = Count - 1; result >= 0; result--)
         {
-            if (((CombatObject)FChildren.List[Result]).FID == ID)
+            if (((CombatObject)_children.List[result]).Id == id)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -49,55 +49,55 @@ public partial class CombatSide : ENode
     // Combat.pas:6018
     public int GetDestroyedObjects()
     {
-        int Result = 0;
+        int result = 0;
         for (int I = Count - 1; I >= 0; I--)
         {
-            if (((CombatObject)FChildren.List[I]).FStatus.Contains(CombatObjectStatusElement.Destroyed))
+            if (((CombatObject)_children.List[I]).Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                Result += 1;
+                result += 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:6026
     public int GetUndestroyedConquerObjects()
     {
-        CombatObject Obj;
-        int Result = 0;
+        CombatObject objectValue;
+        int result = 0;
         for (int I = Count - 1; I >= 0; I--)
         {
-            Obj = (CombatObject)FChildren.List[I];
-            if ((Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & Obj.FStatus) == Set<CombatObjectStatusElement>.Of() && Obj.FControlMode.Contains(CombatObjectControlModeElement.ConquerObject))
+            objectValue = (CombatObject)_children.List[I];
+            if ((Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Destroyed, CombatObjectStatusElement.Fled) & objectValue.Status) == Set<CombatObjectStatusElement>.Of() && objectValue.ControlMode.Contains(CombatObjectControlModeElement.ConquerObject))
             {
-                Result += 1;
+                result += 1;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Combat.pas:6038
     public void OutputDebugInfo()
     {
         string S;
-        if (FSideIndex == 0)
+        if (SideIndex == 0)
         {
-            GameTables.AoWEngine.OutputDebugMessage(CombatAbilityTables.CombatDID, "--- Combat Side Attacker ---");
+            GameTables.GameEngine.OutputDebugMessage(CombatAbilityTables.s_combatDebugChannel, "--- Combat Side Attacker ---");
         }
         else
         {
-            GameTables.AoWEngine.OutputDebugMessage(CombatAbilityTables.CombatDID, "--- Combat Side Defender ---");
+            GameTables.GameEngine.OutputDebugMessage(CombatAbilityTables.s_combatDebugChannel, "--- Combat Side Defender ---");
         }
 
-        for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+        for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            var idStr = GetObjects(I).IDStr();
+            var idString = GetObjects(I).IdString();
             var targetPriority = GetObjects(I).GetTargetPriority();
             var targetStrength = GetObjects(I).GetTargetStrength();
-            S = "(" + IntToStr(I) + "):" + idStr + " (Priority:" + IntToStr(targetPriority) + "/Strength:" + IntToStr(targetStrength) + ")";
-            GameTables.AoWEngine.OutputDebugMessage(CombatAbilityTables.CombatDID, S);
+            S = "(" + IntToStr(I) + "):" + idString + " (Priority:" + IntToStr(targetPriority) + "/Strength:" + IntToStr(targetStrength) + ")";
+            GameTables.GameEngine.OutputDebugMessage(CombatAbilityTables.s_combatDebugChannel, S);
         }
     }
 
@@ -105,21 +105,21 @@ public partial class CombatSide : ENode
     public void UpdateSettings()
     {
         int N;
-        CombatObject Obj;
-        FStrength = 0;
-        FConquerCount = 0;
-        for (int I = FChildren.Count - 1; I >= 0; I--)
+        CombatObject objectValue;
+        Strength = 0;
+        ConquerCount = 0;
+        for (int I = _children.Count - 1; I >= 0; I--)
         {
-            Obj = (CombatObject)FChildren.List[I];
-            N = Obj.FTargets.Count;
+            objectValue = (CombatObject)_children.List[I];
+            N = objectValue.Targets.Count;
             if (N > 0)
             {
-                FStrength += Obj.FCombatValue / N;
+                Strength += objectValue.CombatValue / N;
             }
 
-            if (Obj.FTargetedBy.Count > 0 && Obj.FAttackerCount == 0)
+            if (objectValue.TargetedBy.Count > 0 && objectValue.AttackerCount == 0)
             {
-                FConquerCount += 1;
+                ConquerCount += 1;
             }
         }
     }

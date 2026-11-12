@@ -3,22 +3,22 @@ using Aow.Engine.Nodes;
 
 namespace Aow.Game.AI.Groups;
 
-// FTargetSelector
+// TargetSelector
 public partial class BehaviorAIGroupControl : AIGroupControl
 {
-    public AIGroupTargetSelector FTargetSelector;
+    public AIGroupTargetSelector TargetSelector;
 
     // BehaviorAG.pas:150
     public override void Dispose()
     {
-        FTargetSelector.Release();
+        TargetSelector.Release();
         base.Dispose();
     }
 
     // BehaviorAG.pas:144
     public BehaviorAIGroupControl(ECustomNode owner) : base(owner)
     {
-        FTargetSelector = new AIGroupTargetSelector(null);
+        TargetSelector = new AIGroupTargetSelector(null);
     }
 
 }

@@ -15,25 +15,25 @@ public partial class VisibilityList : EControlStyleInverseSortNode
     // HSEngine.pas:3871
     public override void QuickClear()
     {
-        FCount = 0;
+        _count = 0;
     }
 
     // HSEngine.pas:3876
-    public override int RemoveChild(EngineObject Child)
+    public override int RemoveChild(EngineObject child)
     {
-        var hexagonSprite = (HexSprite)Child;
-        if (hexagonSprite.GetVisible())
+        var hexSprite = (HexSprite)child;
+        if (hexSprite.GetVisible())
         {
-            hexagonSprite.SetVisible(false);
+            hexSprite.SetVisible(false);
         }
 
-        return base.RemoveChild(Child);
+        return base.RemoveChild(child);
     }
 
     // HSEngine.pas:3866
     public override void Grow()
     {
-        Resize(FCapacity + 500);
+        Resize(Capacity + 500);
     }
 
 }

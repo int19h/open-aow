@@ -13,7 +13,7 @@ internal sealed class ImageFrame
     public JsonObject Owner { get; init; } = new();
     public ObjectNode? Parent { get; init; }
 
-    public ValueSite Value(DecodeContext ctx) => new()
+    public ValueSite Value(DecodeContext context) => new()
     {
         Property = Property,
         Id = Id,
@@ -21,7 +21,7 @@ internal sealed class ImageFrame
         Owner = Owner,
     };
 
-    public ValueSite Value(EncodeContext ctx) => new()
+    public ValueSite Value(EncodeContext context) => new()
     {
         Property = Property,
         Id = Id,
@@ -29,21 +29,21 @@ internal sealed class ImageFrame
         Owner = Owner,
     };
 
-    public DocumentSite Document(EncodeContext ctx) => new()
+    public DocumentSite Document(EncodeContext context) => new()
     {
         Property = Property,
         Path = Path,
-        Schema = ctx.Schema,
-        Engine = ctx.Engine,
-        Context = ctx,
+        Schema = context.Schema,
+        Engine = context.Engine,
+        Context = context,
     };
 
-    public DocumentSite Document(DecodeContext ctx) => new()
+    public DocumentSite Document(DecodeContext context) => new()
     {
         Property = Property,
         Path = Path,
-        Schema = ctx.Schema,
-        Engine = ctx.Engine,
-        Context = new EncodeContext(ctx.Schema, ctx.Engine, ctx.Profile, ctx.File, ctx.Limits, ExportOptions.Default),
+        Schema = context.Schema,
+        Engine = context.Engine,
+        Context = new EncodeContext(context.Schema, context.Engine, context.Profile, context.File, context.Limits, ExportOptions.Default),
     };
 }

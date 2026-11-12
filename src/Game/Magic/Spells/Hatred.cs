@@ -15,26 +15,26 @@ public partial class Hatred : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:889
     public Hatred(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.HatredRStr);
-        FSpellID = 46;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 20;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Death;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_hatredText);
+        SpellId = 46;
+        SpellType = SpellType.Global;
+        BaseManaCost = 20;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Death;
     }
 
     // GlobalEnchantmentSpells.pas:900
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        Source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        source.GetLocation(ref X, ref Y, ref L);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         AoWHSMap.Current.AddEffect(WorldEffectType.Hatred);
-        FCastSounds.Play(0);
-        CastingDone(Source, Event.FEventMana);
+        CastSounds.Play(0);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 

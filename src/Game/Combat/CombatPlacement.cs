@@ -3,12 +3,12 @@ namespace Aow.Game.Combat;
 
 internal static class CombatPlacement
 {
-    internal static byte TCombatUnitSelectionControl_CalculateMovePath__ClimbFlag = 1;
+    internal static byte s_climbFlag = 1;
 
-    internal static int CombatXLoc;
+    internal static int s_combatXLocation;
 
-    internal static int CombatYLoc;
+    internal static int s_combatYLocation;
 
-    internal static int CombatLLoc;
+    internal static int s_combatLLocation;
 
 }

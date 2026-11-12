@@ -8,23 +8,23 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw.Images;
 
 // (ClassID $11): a run length encoded 16 bit sprite. FColorKey (the transparent color, in
-// FPixelFormatID), FData (FDataSize bytes), FSpriteX, FSpriteY, FSpriteWidth, FSpriteHeight (as
+// FPixelFormatID), _data (FDataSize bytes), _spriteX, _spriteY, _spriteWidth, _spriteHeight (as
 // TSprite16). The data is FSpriteHeight rows. a row is a word with its size in bytes (the
 // header included), a zero word, then pixels and skips (the color key and the size of the skip
 // in bytes), padded with the color key to a dword
 public partial class RleSprite16 : Image16, ILibraryImageClass
 {
-    static int ILibraryImageClass.ClassID => 17;
+    static int ILibraryImageClass.ClassId => 17;
     static string ILibraryImageClass.Name => "RLE Sprite (16bpp)";
 
-    static LibraryImage ILibraryImageClass.Create(CustomImageLibrary owner) => new RleSprite16(owner);
+    static LibraryImage ILibraryImageClass.CreateInstance(CustomImageLibrary owner) => new RleSprite16(owner);
 
-    internal int FColorKey;
-    internal byte[] FData;
-    internal int FSpriteX;
-    internal int FSpriteY;
-    internal int FSpriteWidth;
-    internal int FSpriteHeight;
+    internal int _colorKey;
+    internal byte[] _data;
+    internal int _spriteX;
+    internal int _spriteY;
+    internal int _spriteWidth;
+    internal int _spriteHeight;
 
     // ImageLib.pas:2881
     public RleSprite16(CustomImageLibrary owner) : base(owner)
@@ -32,412 +32,412 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     }
 
     // ImageLib.pas:2896
-    public override void SetXshift(int Value)
+    public override void SetXshift(int value)
     {
-        if (Value < -FSpriteX)
+        if (value < -_spriteX)
         {
-            Value = -FSpriteX;
+            value = -_spriteX;
         }
 
-        base.SetXshift(Value);
-        SetWidth(FWidth);
+        base.SetXshift(value);
+        SetWidth(_width);
     }
 
     // ImageLib.pas:2903
-    public override void SetYshift(int Value)
+    public override void SetYshift(int value)
     {
-        if (Value < -FSpriteY)
+        if (value < -_spriteY)
         {
-            Value = -FSpriteY;
+            value = -_spriteY;
         }
 
-        base.SetYshift(Value);
-        SetHeight(FHeight);
+        base.SetYshift(value);
+        SetHeight(_height);
     }
 
     // ImageLib.pas:2910
-    public override void SetWidth(int Value)
+    public override void SetWidth(int value)
     {
         int W;
-        W = FXshift + FSpriteX + FSpriteWidth;
-        if (Value < W)
+        W = _xshift + _spriteX + _spriteWidth;
+        if (value < W)
         {
-            Value = W;
+            value = W;
         }
 
-        base.SetWidth(Value);
+        base.SetWidth(value);
     }
 
     // ImageLib.pas:2919
-    public override void SetHeight(int Value)
+    public override void SetHeight(int value)
     {
         int W;
-        W = FYshift + FSpriteY + FSpriteHeight;
-        if (Value < W)
+        W = _yshift + _spriteY + _spriteHeight;
+        if (value < W)
         {
-            Value = W;
+            value = W;
         }
 
-        base.SetHeight(Value);
+        base.SetHeight(value);
     }
 
     // ImageLib.pas:2928
     public override void GetVisualDimensions(ref Rect R)
     {
-        R.Left = FXshift + FSpriteX;
-        R.Right = R.Left + FSpriteWidth;
-        R.Top = FYshift + FSpriteY;
-        R.Bottom = R.Top + FSpriteHeight;
+        R.Left = _xshift + _spriteX;
+        R.Right = R.Left + _spriteWidth;
+        R.Top = _yshift + _spriteY;
+        R.Bottom = R.Top + _spriteHeight;
     }
 
     // ImageLib.pas:2936
     public override void ReleaseDiscardableImageData()
     {
-        if (FDataLoaded)
+        if (_dataLoaded)
         {
-            FData = null;
-            FDataLoaded = false;
+            _data = null;
+            _dataLoaded = false;
         }
     }
 
     // ImageLib.pas:2947
     // { The last dword of the image data is not used: ReadImageData skips it and WriteImageData
     //   writes an uninitialized local variable (an original bug). }
-    public override void ReadImageData(Stream Stream)
+    public override void ReadImageData(Stream stream)
     {
-        int Reserved = default;
-        base.ReadImageData(Stream);
-        Stream.ReadExactly(Bytes.Of(ref FSpriteWidth, 4));
-        Stream.ReadExactly(Bytes.Of(ref FSpriteHeight, 4));
-        Stream.ReadExactly(Bytes.Of(ref FSpriteX, 4));
-        Stream.ReadExactly(Bytes.Of(ref FSpriteY, 4));
-        Stream.ReadExactly(Bytes.Of(ref FColorKey, 4));
-        Stream.ReadExactly(Bytes.Of(ref Reserved, 4));
+        int reserved = default;
+        base.ReadImageData(stream);
+        stream.ReadExactly(Bytes.Of(ref _spriteWidth, 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteHeight, 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteX, 4));
+        stream.ReadExactly(Bytes.Of(ref _spriteY, 4));
+        stream.ReadExactly(Bytes.Of(ref _colorKey, 4));
+        stream.ReadExactly(Bytes.Of(ref reserved, 4));
     }
 
     // ImageLib.pas:2960
-    public override void WriteImageData(Stream Stream)
+    public override void WriteImageData(Stream stream)
     {
-        int Reserved = default;
-        base.WriteImageData(Stream);
-        Stream.Write(Bytes.Of(ref FSpriteWidth, 4));
-        Stream.Write(Bytes.Of(ref FSpriteHeight, 4));
-        Stream.Write(Bytes.Of(ref FSpriteX, 4));
-        Stream.Write(Bytes.Of(ref FSpriteY, 4));
-        Stream.Write(Bytes.Of(ref FColorKey, 4));
-        Stream.Write(Bytes.Of(ref Reserved, 4));
+        int reserved = default;
+        base.WriteImageData(stream);
+        stream.Write(Bytes.Of(ref _spriteWidth, 4));
+        stream.Write(Bytes.Of(ref _spriteHeight, 4));
+        stream.Write(Bytes.Of(ref _spriteX, 4));
+        stream.Write(Bytes.Of(ref _spriteY, 4));
+        stream.Write(Bytes.Of(ref _colorKey, 4));
+        stream.Write(Bytes.Of(ref reserved, 4));
     }
 
     // ImageLib.pas:2973
-    public override void ReadDiscardableImageData(Stream Stream)
+    public override void ReadDiscardableImageData(Stream stream)
     {
-        base.ReadDiscardableImageData(Stream);
-        FData = MemorySurfaces.Reallocate(FData, FDataSize);
-        Stream.ReadExactly(FData.AsSpan(0, FDataSize));
+        base.ReadDiscardableImageData(stream);
+        _data = MemorySurfaces.Reallocate(_data, _dataSize);
+        stream.ReadExactly(_data.AsSpan(0, _dataSize));
     }
 
     // ImageLib.pas:2980
-    public override void WriteDiscardableImageData(Stream Stream)
+    public override void WriteDiscardableImageData(Stream stream)
     {
-        base.WriteDiscardableImageData(Stream);
-        Stream.Write(FData.AsSpan(0, FDataSize));
+        base.WriteDiscardableImageData(stream);
+        stream.Write(_data.AsSpan(0, _dataSize));
     }
 
     // ImageLib.pas:2986
-    public override int RemapToPixelFormat(int PixelFormatID)
+    public override int RemapToPixelFormat(int pixelFormatId)
     {
-        int Result = 0;
-        if (PixelFormatID != FPixelFormatID)
+        int result = 0;
+        if (pixelFormatId != _pixelFormatId)
         {
-            switch (PixelFormatID)
+            switch (pixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    RemapRLE555to565(FData, FSpriteHeight, FColorKey);
-                    FPixelFormatID = PixelFormats.pfRGB565;
+                    RemapRle555To565(_data, _spriteHeight, _colorKey);
+                    _pixelFormatId = PixelFormats.pfRGB565;
                     break;
                 case PixelFormats.pfRGB555:
-                    RemapRLE565to555(FData, FSpriteHeight, FColorKey);
-                    FPixelFormatID = PixelFormats.pfRGB555;
+                    RemapRle565To555(_data, _spriteHeight, _colorKey);
+                    _pixelFormatId = PixelFormats.pfRGB555;
                     break;
                 default:
-                    Result = PixelFormats.GFXE_NOTSUPPORTED;
+                    result = PixelFormats.GFXE_NOTSUPPORTED;
                     break;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:3006
-    public override bool SupportShowMode(ShowMode ShowMode, int PixelFormatID) => (PixelFormatID == 0 || PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent).Contains(ShowMode);
+    public override bool SupportShowMode(ShowMode showMode, int pixelFormatId) => (pixelFormatId == 0 || pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555) && Set<ShowMode>.Of(ShowMode.Opaque, ShowMode.Transparent).Contains(showMode);
 
     // ImageLib.pas:3012
-    public override void ShowOpaque(int X, int Y, in LockedSurface SD)
+    public override void ShowOpaque(int X, int Y, in LockedSurface lockedSurface)
     {
-        if (!FDataLoaded)
+        if (!_dataLoaded)
         {
             LoadDiscardableImageData();
-            if (SD.PixelFormatID == FPixelFormatID)
+            if (lockedSurface.PixelFormatId == _pixelFormatId)
             {
-                BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                BlitRle16(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
             }
             else
             {
-                if (RemapToPixelFormat(SD.PixelFormatID) != 0)
+                if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
                 {
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
-                BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                BlitRle16(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
             }
 
-            if (FLoadMode == LoadMode.LoadFreeOnDemand)
+            if (_loadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
         }
         else
         {
-            if (SD.PixelFormatID == FPixelFormatID)
+            if (lockedSurface.PixelFormatId == _pixelFormatId)
             {
-                BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                BlitRle16(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
             }
             else
             {
-                if (RemapToPixelFormat(SD.PixelFormatID) != 0)
+                if (RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
                 {
                     throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
-                BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                BlitRle16(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
             }
         }
     }
 
     // ImageLib.pas:3045
     // { ShowTransparent shows the sprite blended 50% }
-    public override void ShowTransparent(int X, int Y, in LockedSurface SD)
+    public override void ShowTransparent(int X, int Y, in LockedSurface lockedSurface)
     {
-        if (!FDataLoaded)
+        if (!_dataLoaded)
         {
             LoadDiscardableImageData();
-            if (SD.PixelFormatID != FPixelFormatID && RemapToPixelFormat(SD.PixelFormatID) != 0)
+            if (lockedSurface.PixelFormatId != _pixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
             {
                 throw new NotSupportedException("Surface pixel format not supported!");
             }
 
-            switch (FPixelFormatID)
+            switch (_pixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    BlendRle565(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
                     break;
                 case PixelFormats.pfRGB555:
-                    BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    BlendRle555(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
                     break;
             }
 
-            if (FLoadMode == LoadMode.LoadFreeOnDemand)
+            if (_loadMode == LoadMode.LoadFreeOnDemand)
             {
                 ReleaseDiscardableImageData();
             }
         }
         else
         {
-            if (SD.PixelFormatID != FPixelFormatID && RemapToPixelFormat(SD.PixelFormatID) != 0)
+            if (lockedSurface.PixelFormatId != _pixelFormatId && RemapToPixelFormat(lockedSurface.PixelFormatId) != 0)
             {
                 throw new NotSupportedException("Surface pixel format not supported!");
             }
 
-            switch (FPixelFormatID)
+            switch (_pixelFormatId)
             {
                 case PixelFormats.pfRGB565:
-                    BlendRLE565(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    BlendRle565(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
                     break;
                 case PixelFormats.pfRGB555:
-                    BlendRLE555(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
+                    BlendRle555(X + _xshift + _spriteX, Y + _yshift + _spriteY, lockedSurface, _data, _spriteWidth, _spriteHeight, _colorKey);
                     break;
             }
         }
     }
 
     // ImageLib.pas:3073
-    public override bool SupportGrabPixelFormat(int PixelFormatID) => PixelFormatID == PixelFormats.pfRGB565 || PixelFormatID == PixelFormats.pfRGB555 || PixelFormatID == PixelFormats.pfRGB24 || PixelFormatID == PixelFormats.pfPAL8;
+    public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB24 || pixelFormatId == PixelFormats.pfPAL8;
 
     // ImageLib.pas:3079
-    public override Form CreateGrabForm(Component AOwner, in LockedSurface SD, ImagesGrabbedEvent OnImagesGrabbed) => null;
+    public override Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
 
     // ImageLib.pas:3090
     // The sprites take their transparent color from TGrabInfo (declared Reserved in the core),
     // not from TransparentColor (+4, the color GetSurfaceRectangles separates the images with).
     // GrabImage encodes the rows into FData, which grows in 4 KB steps. FDataSize stays 0 until
     // the end, so every word added past the first step reallocates (an original inefficiency)
-    public override bool GrabImage(in LockedSurface SD, in Rect R, GrabInfo GrabInfo)
+    public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)
     {
-        int Pos;
-        int RowStart;
-        int Skip;
-        DataSurface Surface;
-        LockedSurface LSD = default;
-        Rect GR = default;
-        Rect MR = default;
+        int position;
+        int rowStart;
+        int skip;
+        DataSurface surface;
+        LockedSurface lSD = default;
+        Rect gr = default;
+        Rect mr = default;
         int C;
         void AddWord(ushort W)
         {
-            if (FDataSize <= Pos)
+            if (_dataSize <= position)
             {
-                FData = MemorySurfaces.Reallocate(FData, Pos + 4096);
+                _data = MemorySurfaces.Reallocate(_data, position + 4096);
             }
 
-            BinaryPrimitives.WriteUInt16LittleEndian(FData.AsSpan(Pos, 2), W);
-            Pos += 2;
+            BinaryPrimitives.WriteUInt16LittleEndian(_data.AsSpan(position, 2), W);
+            position += 2;
         }
 
         void StartRow()
         {
-            RowStart = Pos;
+            rowStart = position;
             AddWord(0);
             AddWord(0);
         }
 
         void FlushSkip()
         {
-            if (Skip != 0)
+            if (skip != 0)
             {
-                AddWord((ushort)FColorKey);
-                AddWord((ushort)(Skip * 2));
-                Skip = 0;
+                AddWord((ushort)_colorKey);
+                AddWord((ushort)(skip * 2));
+                skip = 0;
             }
         }
 
         void EndRow()
         {
             FlushSkip();
-            if (FDataSize <= Pos)
+            if (_dataSize <= position)
             {
-                FData = MemorySurfaces.Reallocate(FData, Pos + 4096);
+                _data = MemorySurfaces.Reallocate(_data, position + 4096);
             }
 
-            BinaryPrimitives.WriteUInt16LittleEndian(FData.AsSpan(RowStart, 2), (ushort)(Pos - RowStart));
+            BinaryPrimitives.WriteUInt16LittleEndian(_data.AsSpan(rowStart, 2), (ushort)(position - rowStart));
 
-            if ((Pos & 3) != 0)
+            if ((position & 3) != 0)
             {
-                AddWord((ushort)FColorKey);
+                AddWord((ushort)_colorKey);
             }
         }
 
-        bool Result = true;
+        bool result = true;
         try
         {
-            Surface = null;
+            surface = null;
             try
             {
-                if (SD.BitCount != 16)
+                if (lockedSurface.BitCount != 16)
                 {
-                    Surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565, null);
-                    GR.Left = 0;
-                    GR.Top = 0;
-                    var width = Surface.GetWidth();
-                    GR.Right = width;
-                    var height = Surface.GetHeight();
-                    GR.Bottom = height;
-                    Surface.Lock(ref LSD);
-                    var surfaceWidth = Surface.GetWidth();
-                    var surfaceHeight = Surface.GetHeight();
-                    if (LockedSurface.RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
+                    surface = new DataSurface(R.Right - R.Left, R.Bottom - R.Top, PixelFormats.pfRGB565, null);
+                    gr.Left = 0;
+                    gr.Top = 0;
+                    var width = surface.GetWidth();
+                    gr.Right = width;
+                    var height = surface.GetHeight();
+                    gr.Bottom = height;
+                    surface.Lock(ref lSD);
+                    var surfaceWidth = surface.GetWidth();
+                    var surfaceHeight = surface.GetHeight();
+                    if (LockedSurface.RemapSurfacePart(lockedSurface, R.Left, R.Top, surfaceWidth, surfaceHeight, lSD, 0, 0) != 0)
                     {
                         throw new ArgumentException("Invalid PixelFormat");
                     }
 
-                    FColorKey = PixelRemap.RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
+                    _colorKey = PixelRemap.RemapPixelInfo(grabInfo.TransparentPixel, lockedSurface.PixelFormatId, lockedSurface.Palette, lSD.PixelFormatId, null);
                 }
                 else
                 {
-                    LSD = SD;
-                    GR = R;
-                    FColorKey = GrabInfo.TransparentPixel;
+                    lSD = lockedSurface;
+                    gr = R;
+                    _colorKey = grabInfo.TransparentPixel;
                 }
 
                 Clear();
-                FDataLoaded = true;
-                FDataWidth = GR.Right - GR.Left;
-                FDataHeight = GR.Bottom - GR.Top;
-                FWidth = FDataWidth;
-                FHeight = FDataHeight;
-                FFileName = ExtractFileName(GrabInfo.FileName);
-                FFileIndex = GrabInfo.FileIndex;
-                FStoredPixelFormatID = LSD.PixelFormatID;
-                FPixelFormatID = FStoredPixelFormatID;
-                Pos = 0;
-                Skip = 0;
-                LockedSurface.MinimizeTransparentRect(LSD, GR, FColorKey, ref MR);
-                FSpriteX = MR.Left - GR.Left;
-                FSpriteY = MR.Top - GR.Top;
-                FSpriteWidth = MR.Right - MR.Left;
-                FSpriteHeight = MR.Bottom - MR.Top;
-                for (int Y = MR.Top, last = MR.Bottom - 1; Y <= last; Y++)
+                _dataLoaded = true;
+                _dataWidth = gr.Right - gr.Left;
+                _dataHeight = gr.Bottom - gr.Top;
+                _width = _dataWidth;
+                _height = _dataHeight;
+                _fileName = ExtractFileName(grabInfo.FileName);
+                _fileIndex = grabInfo.FileIndex;
+                _storedPixelFormatId = lSD.PixelFormatId;
+                _pixelFormatId = _storedPixelFormatId;
+                position = 0;
+                skip = 0;
+                LockedSurface.MinimizeTransparentRectangle(lSD, gr, _colorKey, ref mr);
+                _spriteX = mr.Left - gr.Left;
+                _spriteY = mr.Top - gr.Top;
+                _spriteWidth = mr.Right - mr.Left;
+                _spriteHeight = mr.Bottom - mr.Top;
+                for (int Y = mr.Top, last = mr.Bottom - 1; Y <= last; Y++)
                 {
-                    int Row = LSD.Pitch * Y;
+                    int row = lSD.Pitch * Y;
                     StartRow();
-                    for (int X = MR.Left, lastX = MR.Right - 1; X <= lastX; X++)
+                    for (int X = mr.Left, lastX = mr.Right - 1; X <= lastX; X++)
                     {
-                        C = LSD.View().Word(Row + X + X);
-                        if (C != FColorKey)
+                        C = lSD.View().UInt16(row + X + X);
+                        if (C != _colorKey)
                         {
                             FlushSkip();
                             AddWord((ushort)C);
                         }
                         else
                         {
-                            Skip += 1;
+                            skip += 1;
                         }
                     }
 
                     EndRow();
                 }
 
-                FData = MemorySurfaces.Reallocate(FData, Pos);
-                FDataSize = Pos;
+                _data = MemorySurfaces.Reallocate(_data, position);
+                _dataSize = position;
             }
             finally
             {
-                if (Surface != null)
+                if (surface != null)
                 {
-                    Surface.Dispose();
+                    surface.Dispose();
                 }
             }
         }
         catch
         {
             ReleaseDiscardableImageData();
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static void RemapRLE565to555(Span<byte> Data, int Height, int ColorKey)
+    private static void RemapRle565To555(Span<byte> data, int height, int colorKey)
     {
-        Blit.RemapRLE565to555(Data, Height, ColorKey);
+        Blit.RemapRle565To555(data, height, colorKey);
     }
 
-    private static void RemapRLE555to565(Span<byte> Data, int Height, int ColorKey)
+    private static void RemapRle555To565(Span<byte> data, int height, int colorKey)
     {
-        Blit.RemapRLE555to565(Data, Height, ColorKey);
+        Blit.RemapRle555To565(data, height, colorKey);
     }
 
-    private static void BltRLE16(int X, int Y, in LockedSurface SD, ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey)
+    private static void BlitRle16(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey)
     {
-        Blit.BltRLE16(X, Y, SD.View(), Data, Width, Height, ColorKey);
+        Blit.BlitRle16(X, Y, lockedSurface.View(), data, width, height, colorKey);
     }
 
-    private static void BlendRLE565(int X, int Y, in LockedSurface SD, ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey)
+    private static void BlendRle565(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey)
     {
-        Blit.BlendRLE565(X, Y, SD.View(), Data, Width, Height, ColorKey);
+        Blit.BlendRle565(X, Y, lockedSurface.View(), data, width, height, colorKey);
     }
 
-    private static void BlendRLE555(int X, int Y, in LockedSurface SD, ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey)
+    private static void BlendRle555(int X, int Y, in LockedSurface lockedSurface, ReadOnlySpan<byte> data, int width, int height, int colorKey)
     {
-        Blit.BlendRLE555(X, Y, SD.View(), Data, Width, Height, ColorKey);
+        Blit.BlendRle555(X, Y, lockedSurface.View(), data, width, height, colorKey);
     }
 
 }

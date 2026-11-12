@@ -110,7 +110,7 @@ public partial class InfoWindow : DataModule
     public Label PopulationRaceLbl;
     public Label PopulationLbl;
     public IvTranslator Translator;
-    public ItemHexSprite FItemBag;
+    public ItemHexSprite ItemBag;
     // Renderers of the structure views (Structure.Views.cs): the panel of each InfoPanel key and the
     // screen of each InfoButton key. ClassRegistry adds the original renderers.
     public static readonly Catalog<StructureView, Action<InfoWindow, Structure>> StructurePanels = new("structure info panel");
@@ -119,7 +119,7 @@ public partial class InfoWindow : DataModule
     // AoWInfoWin.pas:137
     public void InfoWinResize()
     {
-        this.InfoWin.Alignment.RightOffset = this.InfoWin.FWinManager.WinWidth - this.InfoWin.WinLeft - this.InfoWin.WinWidth;
+        this.InfoWin.Alignment.RightOffset = this.InfoWin._windowManager.WinWidth - this.InfoWin.WinLeft - this.InfoWin.WinWidth;
         this.InfoWin.Alignment.TopOffset = this.InfoWin.WinTop;
     }
 
@@ -135,7 +135,7 @@ public partial class InfoWindow : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         InfoWin.Visible = false;
-        DialogHosts.TBWindow.StructButton.Visible = false;
+        DialogHosts.TaskBar.StructButton.Visible = false;
     }
 
     // AoWInfoWin.pas:159
@@ -152,42 +152,42 @@ public partial class InfoWindow : DataModule
     public void CenterClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FItemBag != null)
+        if (ItemBag != null)
         {
-            var itemHS = FItemBag;
-            var yhx = FItemBag.Yhx;
-            var xhx = itemHS.Xhx;
-            AoWHSMap.Current.CenterViewTo(xhx, yhx, FItemBag.Lhx);
+            var itemHexSprite = ItemBag;
+            var hexY = ItemBag.HexY;
+            var hexX = itemHexSprite.HexX;
+            AoWHSMap.Current.CenterViewTo(hexX, hexY, ItemBag.HexLevel);
 
-            var fItemBagYhx = FItemBag.Yhx;
-            var fItemBagXhx = FItemBag.Xhx;
-            AoWHSMap.Current.PlayCenterAnimation(fItemBagXhx, fItemBagYhx, FItemBag.Lhx);
+            var fItemBagHexY = ItemBag.HexY;
+            var fItemBagHexX = ItemBag.HexX;
+            AoWHSMap.Current.PlayCenterAnimation(fItemBagHexX, fItemBagHexY, ItemBag.HexLevel);
         }
         else
         {
-            var yhx = DialogHosts.General.FStructure.Yhx;
-            var xhx = DialogHosts.General.FStructure.Xhx;
-            AoWHSMap.Current.CenterViewTo(xhx, yhx, DialogHosts.General.FStructure.Lhx);
-            var fStructureYhx = DialogHosts.General.FStructure.Yhx;
-            var fStructureXhx = DialogHosts.General.FStructure.Xhx;
-            AoWHSMap.Current.PlayCenterAnimation(fStructureXhx, fStructureYhx, DialogHosts.General.FStructure.Lhx);
+            var hexY = DialogHosts.General.Structure.HexY;
+            var hexX = DialogHosts.General.Structure.HexX;
+            AoWHSMap.Current.CenterViewTo(hexX, hexY, DialogHosts.General.Structure.HexLevel);
+            var fStructureHexY = DialogHosts.General.Structure.HexY;
+            var fStructureHexX = DialogHosts.General.Structure.HexX;
+            AoWHSMap.Current.PlayCenterAnimation(fStructureHexX, fStructureHexY, DialogHosts.General.Structure.HexLevel);
         }
     }
 
     // AoWInfoWin.pas:180
     public void RazeBtnClick()
     {
-        string Reason = "";
+        string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (DialogHosts.General.FStructure != null)
+        if (DialogHosts.General.Structure != null)
         {
-            if (DialogHosts.General.FStructure.CanRaze(AoWHSMap.Current.FSeatedPlayer, ref Reason))
+            if (DialogHosts.General.Structure.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
             {
-                DialogHosts.General.FStructure.Raze(AoWHSMap.Current.FSeatedPlayer);
+                DialogHosts.General.Structure.Raze(AoWHSMap.Current.SeatedPlayer);
             }
             else
             {
-                AoWHSMap.Current.ShowWarning(Reason);
+                AoWHSMap.Current.ShowWarning(reason);
             }
         }
     }
@@ -195,27 +195,27 @@ public partial class InfoWindow : DataModule
     // AoWInfoWin.pas:190
     public void MainBtnClick()
     {
-        ArmyHexSprite Army;
+        ArmyHexSprite army;
         DialogHosts.General.PlayButtonSound(0);
-        if (DialogHosts.General.FStructure != null)
+        if (DialogHosts.General.Structure != null)
         {
-            var structure = DialogHosts.General.FStructure;
-            if (StructureButtons.TryGet(structure.InfoButton(AoWHSMap.Current.FSeatedPlayer), out var open))
+            var structure = DialogHosts.General.Structure;
+            if (StructureButtons.TryGet(structure.InfoButton(AoWHSMap.Current.SeatedPlayer), out var open))
             {
                 open(this, structure);
             }
         }
         else
         {
-            if (FItemBag != null)
+            if (ItemBag != null)
             {
-                Army = ((AoWMapField)FItemBag.Owner).GetArmyHS();
-                if (Army != null && Army.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
+                army = ((AoWMapField)ItemBag.Owner).GetArmyHexSprite();
+                if (army != null && army.Army.Player == AoWHSMap.Current.SeatedPlayer)
                 {
-                    if (Army.FArmy.Hero(255, RosterTables.AllHeroTypes) != null)
+                    if (army.Army.Hero(255, RosterTables.AllHeroTypes) != null)
                     {
-                        var hero = Army.FArmy.Hero(255, RosterTables.AllHeroTypes);
-                        DialogHosts.General.FSelectedUnit = hero;
+                        var hero = army.Army.Hero(255, RosterTables.AllHeroTypes);
+                        DialogHosts.General.SelectedUnit = hero;
                         DialogHosts.UnitWindow.ShowUnit();
                         DialogHosts.UnitWindow.UnitTab.Selected = 2;
                     }
@@ -225,14 +225,14 @@ public partial class InfoWindow : DataModule
     }
 
     // AoWInfoWin.pas:226
-    public void ItembagLBDrawItem(in Rect DrawRect, int DrawItem, in LockedSurface Surface)
+    public void ItembagLBDrawItem(in Rect drawRectangle, int drawItem, in LockedSurface surface)
     {
-        if (FItemBag != null)
+        if (ItemBag != null)
         {
             // { Original uses the scroll offset for every row. }
-            if (FItemBag.FItems.Count > ItembagLB.ListOffset)
+            if (ItemBag.Items.Count > ItembagLB.ListOffset)
             {
-                FItemBag.FItems.GetItem(ItembagLB.ListOffset).Show(DrawRect.Left + 10, DrawRect.Top + 10, Surface);
+                ItemBag.Items.GetItem(ItembagLB.ListOffset).Show(drawRectangle.Left + 10, drawRectangle.Top + 10, surface);
             }
         }
     }
@@ -246,471 +246,471 @@ public partial class InfoWindow : DataModule
     // AoWInfoWin.pas:236
     public void ESSBChange()
     {
-        ESMemo.FDrawn = false;
-        InfoWin.FDrawn = false;
+        ESMemo.Drawn = false;
+        InfoWin.Drawn = false;
     }
 
-    internal static void SetStructureHeader(InfoWindow Dialog, Structure Structure)
+    internal static void SetStructureHeader(InfoWindow dialog, Structure structure)
     {
-        var name = Structure.GetName();
-        Dialog.StructNameLbl.Text = name;
-        if (Structure.GetBottomBorderImage() != null)
+        var name = structure.GetName();
+        dialog.StructNameLbl.Text = name;
+        if (structure.GetBottomBorderImage() != null)
         {
-            var topBorderImage = Structure.GetTopBorderImage();
-            Dialog.StructLine.ImageTop = topBorderImage;
-            var middleBorderImage = Structure.GetMiddleBorderImage();
-            Dialog.StructLine.ImageMiddle = middleBorderImage;
-            var bottomBorderImage = Structure.GetBottomBorderImage();
-            Dialog.StructLine.ImageBottom = bottomBorderImage;
+            var topBorderImage = structure.GetTopBorderImage();
+            dialog.StructLine.ImageTop = topBorderImage;
+            var middleBorderImage = structure.GetMiddleBorderImage();
+            dialog.StructLine.ImageMiddle = middleBorderImage;
+            var bottomBorderImage = structure.GetBottomBorderImage();
+            dialog.StructLine.ImageBottom = bottomBorderImage;
         }
 
-        Dialog.StructLine.Visible = true;
+        dialog.StructLine.Visible = true;
     }
 
-    internal static void ShowMineInfo(InfoWindow Dialog, Mine Structure)
+    internal static void ShowMineInfo(InfoWindow dialog, Mine structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.IncomePnl.Visible = true;
-        var description = Structure.GetDescription();
-        Dialog.IncomeMemo.Items.Assign(description);
-        Dialog.IncomeTypeImage.CurrentImage = 31;
-        var income = Structure.GetIncome();
-        Dialog.IncomeAmountLbl.Text = IntToStr(income);
-        Dialog.RazePnl.Visible = true;
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.IncomePnl.Visible = true;
+        var description = structure.GetDescription();
+        dialog.IncomeMemo.Items.Assign(description);
+        dialog.IncomeTypeImage.CurrentImage = 31;
+        var income = structure.GetIncome();
+        dialog.IncomeAmountLbl.Text = IntToStr(income);
+        dialog.RazePnl.Visible = true;
     }
 
-    internal static void ShowPowerNodeInfo(InfoWindow Dialog, PowerNode Structure)
+    internal static void ShowPowerNodeInfo(InfoWindow dialog, PowerNode structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.IncomePnl.Visible = true;
-        var description = Structure.GetDescription();
-        Dialog.IncomeMemo.Items.Assign(description);
-        Dialog.IncomeTypeImage.CurrentImage = 33;
-        var power = Structure.GetPower();
-        Dialog.IncomeAmountLbl.Text = IntToStr(power);
-        Dialog.RazePnl.Visible = true;
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.IncomePnl.Visible = true;
+        var description = structure.GetDescription();
+        dialog.IncomeMemo.Items.Assign(description);
+        dialog.IncomeTypeImage.CurrentImage = 33;
+        var power = structure.GetPower();
+        dialog.IncomeAmountLbl.Text = IntToStr(power);
+        dialog.RazePnl.Visible = true;
     }
 
-    internal static void ShowProductionIncome(InfoWindow Dialog, ProductionPlace Structure)
+    internal static void ShowProductionIncome(InfoWindow dialog, ProductionPlace structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.IncomePnl.Visible = true;
-        var description = Structure.GetDescription();
-        Dialog.IncomeMemo.Items.Assign(description);
-        Dialog.IncomeTypeImage.CurrentImage = 33;
-        var power = Structure.GetPower();
-        Dialog.IncomeAmountLbl.Text = IntToStr(power);
-        Dialog.RazePnl.Visible = true;
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.IncomePnl.Visible = true;
+        var description = structure.GetDescription();
+        dialog.IncomeMemo.Items.Assign(description);
+        dialog.IncomeTypeImage.CurrentImage = 33;
+        var power = structure.GetPower();
+        dialog.IncomeAmountLbl.Text = IntToStr(power);
+        dialog.RazePnl.Visible = true;
     }
 
-    internal static void ShowFarmInfo(InfoWindow Dialog, Farm Structure)
+    internal static void ShowFarmInfo(InfoWindow dialog, Farm structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.SingleButPnl.Visible = true;
-        var description = Structure.GetDescription();
-        Dialog.SBmemo.Items.Assign(description);
-        Dialog.SBmemo.Items.Add("");
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.IncomeXRStr), [IntToStr(Structure.FIncome)]);
-        Dialog.SBmemo.Items.Add(format);
-        Dialog.RazePnl.Visible = true;
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.SingleButPnl.Visible = true;
+        var description = structure.GetDescription();
+        dialog.SBmemo.Items.Assign(description);
+        dialog.SBmemo.Items.Add("");
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_incomeFormat), [IntToStr(structure.Income)]);
+        dialog.SBmemo.Items.Add(format);
+        dialog.RazePnl.Visible = true;
     }
 
-    internal static void ShowSignInfo(InfoWindow Dialog, Sign Structure)
+    internal static void ShowSignInfo(InfoWindow dialog, Sign structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        DialogHosts.General.FSign = Structure;
-        Dialog.SignPnl.Visible = true;
-        Dialog.SignText.Items.Assign(Structure.FText);
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        DialogHosts.General.Sign = structure;
+        dialog.SignPnl.Visible = true;
+        dialog.SignText.Items.Assign(structure.Text);
     }
 
-    internal static void ShowTeleportInfo(InfoWindow Dialog, Teleport Structure)
+    internal static void ShowTeleportInfo(InfoWindow dialog, Teleport structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.SingleButPnl.Visible = true;
-        var description = DialogHosts.General.FStructure.GetDescription();
-        Dialog.SBmemo.Items.Assign(description);
-        Dialog.SBmemo.FSized = false;
-        var canTeleport = Structure.CanTeleport(AoWHSMap.Current.FSeatedPlayer);
-        Dialog.MainBtn.Visible = canTeleport;
-        var teleport = AbilityRules.TranslateRStr(Teleport.Resource.TeleportRStr);
-        Dialog.MainBtn.Text = teleport;
-        Dialog.RazePnl.Visible = Dialog.MainBtn.Visible;
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.SingleButPnl.Visible = true;
+        var description = DialogHosts.General.Structure.GetDescription();
+        dialog.SBmemo.Items.Assign(description);
+        dialog.SBmemo.Sized = false;
+        var canTeleport = structure.CanTeleport(AoWHSMap.Current.SeatedPlayer);
+        dialog.MainBtn.Visible = canTeleport;
+        var teleport = AbilityRules.TranslateResourceString(Teleport.Resource.s_teleportText);
+        dialog.MainBtn.Text = teleport;
+        dialog.RazePnl.Visible = dialog.MainBtn.Visible;
     }
 
-    internal static void ShowTowerInfo(InfoWindow Dialog, WizardsTower Structure)
+    internal static void ShowTowerInfo(InfoWindow dialog, WizardsTower structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.SingleButPnl.Visible = true;
-        var description = Structure.GetDescription();
-        Dialog.SBmemo.Items.Assign(description);
-        var canEnter = Structure.CanEnter(AoWHSMap.Current.FSeatedPlayer);
-        Dialog.MainBtn.Visible = canEnter;
-        var enter = AbilityRules.TranslateRStr(GameText.EnterRStr);
-        Dialog.MainBtn.Text = enter;
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.SingleButPnl.Visible = true;
+        var description = structure.GetDescription();
+        dialog.SBmemo.Items.Assign(description);
+        var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
+        dialog.MainBtn.Visible = canEnter;
+        var enter = AbilityRules.TranslateResourceString(GameText.s_enterText);
+        dialog.MainBtn.Text = enter;
     }
 
-    internal static void ShowArenaInfo(InfoWindow Dialog, Arena Structure)
+    internal static void ShowArenaInfo(InfoWindow dialog, Arena structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.SingleButPnl.Visible = true;
-        var description = Structure.GetDescription();
-        Dialog.SBmemo.Items.Assign(description);
-        var canEnter = Structure.CanEnter(AoWHSMap.Current.FSeatedPlayer);
-        Dialog.MainBtn.Visible = canEnter;
-        var enter = AbilityRules.TranslateRStr(GameText.EnterRStr);
-        Dialog.MainBtn.Text = enter;
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.SingleButPnl.Visible = true;
+        var description = structure.GetDescription();
+        dialog.SBmemo.Items.Assign(description);
+        var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
+        dialog.MainBtn.Visible = canEnter;
+        var enter = AbilityRules.TranslateResourceString(GameText.s_enterText);
+        dialog.MainBtn.Text = enter;
     }
 
-    internal static void ShowCaveInfo(InfoWindow Dialog, Cave Structure)
+    internal static void ShowCaveInfo(InfoWindow dialog, Cave structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.SingleButPnl.Visible = true;
-        var description = Structure.GetDescription();
-        Dialog.SBmemo.Items.Assign(description);
-        var canEnter = Structure.CanEnter(AoWHSMap.Current.FSeatedPlayer);
-        Dialog.MainBtn.Visible = canEnter;
-        switch (Structure.FEntrance)
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.SingleButPnl.Visible = true;
+        var description = structure.GetDescription();
+        dialog.SBmemo.Items.Assign(description);
+        var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
+        dialog.MainBtn.Visible = canEnter;
+        switch (structure.Entrance)
         {
-            case Cave.Entrance.Up:
-                var goUp = AbilityRules.TranslateRStr(GameText.GoUpRStr);
-                Dialog.MainBtn.Text = goUp;
+            case CaveEntrance.Up:
+                var goUp = AbilityRules.TranslateResourceString(GameText.s_goUpText);
+                dialog.MainBtn.Text = goUp;
                 break;
-            case Cave.Entrance.Down:
-                var goDown = AbilityRules.TranslateRStr(GameText.GoDownRStr);
-                Dialog.MainBtn.Text = goDown;
+            case CaveEntrance.Down:
+                var goDown = AbilityRules.TranslateResourceString(GameText.s_goDownText);
+                dialog.MainBtn.Text = goDown;
                 break;
         }
     }
 
-    internal static void ShowWatchTowerInfo(InfoWindow Dialog, Tower Structure)
+    internal static void ShowWatchTowerInfo(InfoWindow dialog, Tower structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.SingleButPnl.Visible = true;
-        var description = Structure.GetDescription();
-        Dialog.SBmemo.Items.Assign(description);
-        Dialog.RazePnl.Visible = true;
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.SingleButPnl.Visible = true;
+        var description = structure.GetDescription();
+        dialog.SBmemo.Items.Assign(description);
+        dialog.RazePnl.Visible = true;
     }
 
-    internal static void ShowExplorationInfo(InfoWindow Dialog, ExplorationSite Structure)
+    internal static void ShowExplorationInfo(InfoWindow dialog, ExplorationSite structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.ExplorationSitePnl.Visible = true;
-        var description = DialogHosts.General.FStructure.GetDescription();
-        Dialog.ESMemo.Items.Assign(description);
-        var status = AbilityRules.TranslateRStr(CityScreen.StatusRStr);
-        Dialog.ESLbl.Text = status + ":";
-        if (Structure.GetExplored())
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.ExplorationSitePnl.Visible = true;
+        var description = DialogHosts.General.Structure.GetDescription();
+        dialog.ESMemo.Items.Assign(description);
+        var status = AbilityRules.TranslateResourceString(CityScreen.s_statusText);
+        dialog.ESLbl.Text = status + ":";
+        if (structure.GetExplored())
         {
-            var explored = AbilityRules.TranslateRStr(GameText.ExploredRStr);
-            Dialog.ESStatusLbl.Text = explored;
+            var explored = AbilityRules.TranslateResourceString(GameText.s_exploredText);
+            dialog.ESStatusLbl.Text = explored;
         }
         else
         {
-            var unexplored = AbilityRules.TranslateRStr(GameText.UnexploredRStr);
-            Dialog.ESStatusLbl.Text = unexplored;
+            var unexplored = AbilityRules.TranslateResourceString(GameText.s_unexploredText);
+            dialog.ESStatusLbl.Text = unexplored;
         }
 
-        var canSearch = ((ExplorationSite)DialogHosts.General.FStructure).CanSearch(AoWHSMap.Current.FSeatedPlayer);
-        Dialog.MainBtn.Visible = canSearch;
-        var search = AbilityRules.TranslateRStr(GameText.SearchRStr);
-        Dialog.MainBtn.Text = search;
+        var canSearch = ((ExplorationSite)DialogHosts.General.Structure).CanSearch(AoWHSMap.Current.SeatedPlayer);
+        dialog.MainBtn.Visible = canSearch;
+        var search = AbilityRules.TranslateResourceString(GameText.s_searchText);
+        dialog.MainBtn.Text = search;
     }
 
-    internal static void ShowAltarInfo(InfoWindow Dialog, Altar Structure)
+    internal static void ShowAltarInfo(InfoWindow dialog, Altar structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.AltarPnl.Visible = true;
-        if (Structure.GetTargeting())
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.AltarPnl.Visible = true;
+        if (structure.GetTargeting())
         {
-            var cancel = AbilityRules.TranslateRStr(GameText.CancelRStr);
-            Dialog.MainBtn.Text = cancel;
+            var cancel = AbilityRules.TranslateResourceString(GameText.s_cancelText);
+            dialog.MainBtn.Text = cancel;
         }
         else
         {
-            var target = AbilityRules.TranslateRStr(GameText.TargetRStr);
-            Dialog.MainBtn.Text = target;
+            var target = AbilityRules.TranslateResourceString(GameText.s_targetText);
+            dialog.MainBtn.Text = target;
         }
 
-        Dialog.MainBtn.Visible = true;
-        var rechargeDays = Structure.GetRechargeDays();
-        Dialog.Bar.Max = rechargeDays;
-        Dialog.Bar.Position = Structure.FRechargeDays;
-        var structureRechargeDays = Structure.GetRechargeDays();
-        Dialog.ChargePcntLbl.Text = IntToStr(Round((double)(Structure.FRechargeDays * 100) / structureRechargeDays)) + "%";
-        var rechargeDays2 = Structure.GetRechargeDays();
-        Dialog.DayLbl.Text = IntToStr(rechargeDays2 - Structure.FRechargeDays);
-        var targetMana = Structure.TargetMana();
-        Dialog.GemLbl.Text = IntToStr(targetMana);
-        Dialog.RazePnl.Visible = true;
+        dialog.MainBtn.Visible = true;
+        var rechargeDays = structure.GetRechargeDays();
+        dialog.Bar.Max = rechargeDays;
+        dialog.Bar.Position = structure.RechargeDays;
+        var structureRechargeDays = structure.GetRechargeDays();
+        dialog.ChargePcntLbl.Text = IntToStr(Round((double)(structure.RechargeDays * 100) / structureRechargeDays)) + "%";
+        var rechargeDays2 = structure.GetRechargeDays();
+        dialog.DayLbl.Text = IntToStr(rechargeDays2 - structure.RechargeDays);
+        var targetMana = structure.TargetMana();
+        dialog.GemLbl.Text = IntToStr(targetMana);
+        dialog.RazePnl.Visible = true;
     }
 
-    internal static void ShowWarCityInfo(InfoWindow Dialog, City Structure)
+    internal static void ShowWarCityInfo(InfoWindow dialog, City structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.SingleButPnl.Visible = true;
-        Dialog.SBmemo.Items.Add("");
-        Dialog.SBmemo.Items.Add("");
-        Dialog.SBmemo.Items.Add("");
-        Dialog.SBmemo.Items.Add("");
-        Dialog.SBmemo.Items.Add("");
-        Dialog.SBmemo.Items.Add("");
-        var statusWarmode = AbilityRules.TranslateRStr(GameText.StatusWarmodeRStr);
-        Dialog.SBmemo.Items.Add(statusWarmode);
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.SingleButPnl.Visible = true;
+        dialog.SBmemo.Items.Add("");
+        dialog.SBmemo.Items.Add("");
+        dialog.SBmemo.Items.Add("");
+        dialog.SBmemo.Items.Add("");
+        dialog.SBmemo.Items.Add("");
+        dialog.SBmemo.Items.Add("");
+        var statusWarMode = AbilityRules.TranslateResourceString(GameText.s_statusWarModeText);
+        dialog.SBmemo.Items.Add(statusWarMode);
     }
 
-    internal static void ShowCityInfo(InfoWindow Dialog, City Structure)
+    internal static void ShowCityInfo(InfoWindow dialog, City structure)
     {
-        string Reason = "";
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        var enter = AbilityRules.TranslateRStr(GameText.EnterRStr);
-        Dialog.MainBtn.Text = enter;
-        Dialog.MainBtn.Visible = true;
-        DialogHosts.General.FCity = Structure;
-        Dialog.CityPanel.Visible = true;
-        Dialog.ProductionWarningLbl.Visible = false;
-        Dialog.ActiveCityActionMemo.Items.Clear();
-        var name = DialogHosts.General.FCity.GetName();
-        Dialog.StructNameLbl.Text = name;
-        var raceNames = AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[DialogHosts.General.FCity.FRace]);
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.RaceXRStr), [raceNames]);
-        Dialog.CityRaceLbl.Text = format;
-        Dialog.CityLevelLbl.Text = IntToStr(Structure.FUpgradeLevel);
-        Dialog.CityIncomeLbl.Text = IntToStr(Structure.FIncome);
-        var civilStatus = Structure.GetCivilStatus();
-        var civilStatusText = AbilityRules.TranslateRStr(CityScreen.TCivilStatusRStr[(int)civilStatus]);
-        var aoWEFormat = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.StatusXRStr), [civilStatusText]);
-        Dialog.CivilStatusLbl.Text = aoWEFormat;
-        if (Structure.FProduction.FQueue.GetCount() != 0)
+        string reason = "";
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        var enter = AbilityRules.TranslateResourceString(GameText.s_enterText);
+        dialog.MainBtn.Text = enter;
+        dialog.MainBtn.Visible = true;
+        DialogHosts.General.City = structure;
+        dialog.CityPanel.Visible = true;
+        dialog.ProductionWarningLbl.Visible = false;
+        dialog.ActiveCityActionMemo.Items.Clear();
+        var name = DialogHosts.General.City.GetName();
+        dialog.StructNameLbl.Text = name;
+        var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[DialogHosts.General.City.Race]);
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_raceFormat), [raceNames]);
+        dialog.CityRaceLbl.Text = format;
+        dialog.CityLevelLbl.Text = IntToStr(structure.UpgradeLevel);
+        dialog.CityIncomeLbl.Text = IntToStr(structure.Income);
+        var civilStatus = structure.GetCivilStatus();
+        var civilStatusText = AbilityRules.TranslateResourceString(CityScreen.s_civilStatusTexts[(int)civilStatus]);
+        var formattedText = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_statusFormat), [civilStatusText]);
+        dialog.CivilStatusLbl.Text = formattedText;
+        if (structure.Production.Queue.GetCount() != 0)
         {
-            Structure.FProduction.FQueue.GetItem(0).Order.ActivityLines(Structure.FProduction, Dialog.ActiveCityActionMemo.Items);
+            structure.Production.Queue.GetItem(0).Order.ActivityLines(structure.Production, dialog.ActiveCityActionMemo.Items);
 
-            if (Structure.FProduction.FStatus == ProductionControl.Status.Producing)
+            if (structure.Production.Status == ProductionControlStatus.Producing)
             {
-                if (Structure.FProduction.FSettings.FTurnsLeft != -1)
+                if (structure.Production.Settings.TurnsLeft != -1)
                 {
-                    var fmtTurnsLeftStr = DurationText.FmtTurnsLeftStr(Structure.FProduction.FSettings.FTurnsLeft);
-                    Dialog.ActiveCityActionMemo.Items.Add(fmtTurnsLeftStr);
+                    var formatTurnsLeftString = DurationText.FormatTurnsLeftString(structure.Production.Settings.TurnsLeft);
+                    dialog.ActiveCityActionMemo.Items.Add(formatTurnsLeftString);
                 }
                 else
                 {
-                    var unlimited = AbilityRules.TranslateRStr(MapEvents.UnlimitedRStr);
-                    Dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
+                    var unlimited = AbilityRules.TranslateResourceString(MapEvents.s_unlimitedText);
+                    dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
                 }
             }
             else
             {
-                if (Structure.FProduction.FStatus == ProductionControl.Status.Waiting)
+                if (structure.Production.Status == ProductionControlStatus.Waiting)
                 {
-                    var queue = Structure.FProduction.FQueue.GetItem(0);
-                    Structure.FProduction.CanExecuteProduction(queue, ref Reason);
-                    Dialog.ProductionWarningLbl.Text = Reason;
-                    Dialog.ProductionWarningLbl.Visible = true;
+                    var queue = structure.Production.Queue.GetItem(0);
+                    structure.Production.CanExecuteProduction(queue, ref reason);
+                    dialog.ProductionWarningLbl.Text = reason;
+                    dialog.ProductionWarningLbl.Visible = true;
                 }
             }
         }
         else
         {
-            Dialog.ActiveCityActionMemo.Items.Add("");
-            var producingMerchandise = AbilityRules.TranslateRStr(GameText.ProducingMerchandiseRStr);
-            Dialog.ActiveCityActionMemo.Items.Add(producingMerchandise);
+            dialog.ActiveCityActionMemo.Items.Add("");
+            var producingMerchandise = AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText);
+            dialog.ActiveCityActionMemo.Items.Add(producingMerchandise);
         }
 
-        var playerRelation = AoWHSMap.Current.FRaces.GetRace(Structure.FRace).GetPlayerRelation(Structure.FPlayer);
-        Dialog.RaceRelationIcon.CurrentImage = (int)playerRelation + 11;
-        Dialog.RazePnl.Visible = true;
+        var playerRelation = AoWHSMap.Current.Races.GetRace(structure.Race).GetPlayerRelation(structure.Player);
+        dialog.RaceRelationIcon.CurrentImage = (int)playerRelation + 11;
+        dialog.RazePnl.Visible = true;
     }
 
-    internal static void ShowProductionInfo(InfoWindow Dialog, ProductionPlace Structure)
+    internal static void ShowProductionInfo(InfoWindow dialog, ProductionPlace structure)
     {
-        string Reason = "";
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        var enter = AbilityRules.TranslateRStr(GameText.EnterRStr);
-        Dialog.MainBtn.Text = enter;
-        Dialog.MainBtn.Visible = true;
-        DialogHosts.General.FProductionPlace = (ProductionPlace)DialogHosts.General.FStructure;
-        Dialog.ProductionPlacePnl.Visible = true;
-        DialogHosts.General.FProductionControl = DialogHosts.General.FProductionPlace.FProductionControl;
-        Dialog.CurrentActivityWarningLbl.Visible = false;
-        Dialog.ActiveActionMemo.Items.Clear();
-        Dialog.IncomeLbl.Visible = true;
-        Dialog.IncomeTypeIcon.Visible = true;
-        Dialog.IncomeValueLbl.Visible = true;
-        if (Structure.GetMagicSphere() != MagicSphere.None)
+        string reason = "";
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        var enter = AbilityRules.TranslateResourceString(GameText.s_enterText);
+        dialog.MainBtn.Text = enter;
+        dialog.MainBtn.Visible = true;
+        DialogHosts.General.ProductionPlace = (ProductionPlace)DialogHosts.General.Structure;
+        dialog.ProductionPlacePnl.Visible = true;
+        DialogHosts.General.ProductionControl = DialogHosts.General.ProductionPlace.ProductionControl;
+        dialog.CurrentActivityWarningLbl.Visible = false;
+        dialog.ActiveActionMemo.Items.Clear();
+        dialog.IncomeLbl.Visible = true;
+        dialog.IncomeTypeIcon.Visible = true;
+        dialog.IncomeValueLbl.Visible = true;
+        if (structure.GetMagicSphere() != MagicSphere.None)
         {
-            Dialog.IncomeTypeIcon.CurrentImage = 33;
-            var power = Structure.GetPower();
-            Dialog.IncomeValueLbl.Text = IntToStr(power);
+            dialog.IncomeTypeIcon.CurrentImage = 33;
+            var power = structure.GetPower();
+            dialog.IncomeValueLbl.Text = IntToStr(power);
         }
         else
         {
-            if (Structure.GetBaseIncome() != 0)
+            if (structure.GetBaseIncome() != 0)
             {
-                Dialog.IncomeTypeIcon.CurrentImage = 31;
-                var income = Structure.GetIncome();
-                Dialog.IncomeValueLbl.Text = IntToStr(income);
+                dialog.IncomeTypeIcon.CurrentImage = 31;
+                var income = structure.GetIncome();
+                dialog.IncomeValueLbl.Text = IntToStr(income);
             }
             else
             {
-                Dialog.IncomeLbl.Visible = false;
-                Dialog.IncomeTypeIcon.Visible = false;
-                Dialog.IncomeValueLbl.Visible = false;
+                dialog.IncomeLbl.Visible = false;
+                dialog.IncomeTypeIcon.Visible = false;
+                dialog.IncomeValueLbl.Visible = false;
             }
         }
 
-        Dialog.ProductionPlacePnl.Visible = true;
-        var name = Structure.GetName();
-        Dialog.StructNameLbl.Text = name;
-        if (Structure.FProductionControl.FQueue.GetCount() != 0)
+        dialog.ProductionPlacePnl.Visible = true;
+        var name = structure.GetName();
+        dialog.StructNameLbl.Text = name;
+        if (structure.ProductionControl.Queue.GetCount() != 0)
         {
-            Structure.FProductionControl.FQueue.GetItem(0).Order.ActivityLines(Structure.FProductionControl, Dialog.ActiveActionMemo.Items);
+            structure.ProductionControl.Queue.GetItem(0).Order.ActivityLines(structure.ProductionControl, dialog.ActiveActionMemo.Items);
 
-            if (Structure.FProductionControl.FStatus == ProductionControl.Status.Producing)
+            if (structure.ProductionControl.Status == ProductionControlStatus.Producing)
             {
-                if (Structure.FProductionControl.FSettings.FTurnsLeft != -1)
+                if (structure.ProductionControl.Settings.TurnsLeft != -1)
                 {
-                    var fmtTurnsLeftStr = DurationText.FmtTurnsLeftStr(Structure.FProductionControl.FSettings.FTurnsLeft);
-                    Dialog.ActiveActionMemo.Items.Add(fmtTurnsLeftStr);
+                    var formatTurnsLeftString = DurationText.FormatTurnsLeftString(structure.ProductionControl.Settings.TurnsLeft);
+                    dialog.ActiveActionMemo.Items.Add(formatTurnsLeftString);
                 }
                 else
                 {
                     // { Original writes the city memo in this branch. }
-                    var unlimited = AbilityRules.TranslateRStr(MapEvents.UnlimitedRStr);
-                    Dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
+                    var unlimited = AbilityRules.TranslateResourceString(MapEvents.s_unlimitedText);
+                    dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
                 }
             }
             else
             {
-                if (Structure.FProductionControl.FStatus == ProductionControl.Status.Waiting)
+                if (structure.ProductionControl.Status == ProductionControlStatus.Waiting)
                 {
-                    var queue = Structure.FProductionControl.FQueue.GetItem(0);
-                    Structure.FProductionControl.CanExecuteProduction(queue, ref Reason);
-                    Dialog.CurrentActivityWarningLbl.Text = Reason;
-                    Dialog.CurrentActivityWarningLbl.Visible = true;
+                    var queue = structure.ProductionControl.Queue.GetItem(0);
+                    structure.ProductionControl.CanExecuteProduction(queue, ref reason);
+                    dialog.CurrentActivityWarningLbl.Text = reason;
+                    dialog.CurrentActivityWarningLbl.Visible = true;
                 }
             }
         }
         else
         {
-            if (Structure.GetMagicSphere() == MagicSphere.None)
+            if (structure.GetMagicSphere() == MagicSphere.None)
             {
-                Dialog.ActiveActionMemo.Items.Add("");
-                if (Structure.GetBaseIncome() != 0)
+                dialog.ActiveActionMemo.Items.Add("");
+                if (structure.GetBaseIncome() != 0)
                 {
-                    var producingMerchandise = AbilityRules.TranslateRStr(GameText.ProducingMerchandiseRStr);
-                    Dialog.ActiveActionMemo.Items.Add(producingMerchandise);
+                    var producingMerchandise = AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText);
+                    dialog.ActiveActionMemo.Items.Add(producingMerchandise);
                 }
                 else
                 {
-                    var none = AbilityRules.TranslateRStr(GameTables.NoneRStr);
-                    Dialog.ActiveActionMemo.Items.Add(none);
+                    var none = AbilityRules.TranslateResourceString(GameTables.s_noneText);
+                    dialog.ActiveActionMemo.Items.Add(none);
                 }
             }
             else
             {
-                var generatingExtraPower = AbilityRules.TranslateRStr(GameText.GeneratingExtraPowerRStr);
-                Dialog.ActiveActionMemo.Items.Add(generatingExtraPower);
+                var generatingExtraPower = AbilityRules.TranslateResourceString(GameText.s_generatingExtraPowerText);
+                dialog.ActiveActionMemo.Items.Add(generatingExtraPower);
             }
         }
 
-        Dialog.RazePnl.Visible = true;
+        dialog.RazePnl.Visible = true;
     }
 
-    internal static void ShowBuildingInfo(InfoWindow Dialog, Structure Structure)
+    internal static void ShowBuildingInfo(InfoWindow dialog, Structure structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.ConstructionPnl.Visible = true;
-        var fmtDaysLeftStr = DurationText.FmtDaysLeftStr(Structure.FBuildingDays);
-        Dialog.ConstructionDaysLeftLbl.Text = fmtDaysLeftStr;
-        var description = Structure.GetDescription();
-        Dialog.ConstructionMemo.Items.Assign(description);
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.ConstructionPnl.Visible = true;
+        var formatDaysLeftString = DurationText.FormatDaysLeftString(structure.BuildingDays);
+        dialog.ConstructionDaysLeftLbl.Text = formatDaysLeftString;
+        var description = structure.GetDescription();
+        dialog.ConstructionMemo.Items.Assign(description);
     }
 
-    internal static void ShowRazedInfo(InfoWindow Dialog, Structure Structure)
+    internal static void ShowRazedInfo(InfoWindow dialog, Structure structure)
     {
-        string Text;
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.SingleButPnl.Visible = true;
-        if (Structure is City)
+        string text;
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.SingleButPnl.Visible = true;
+        if (structure is City)
         {
-            var name = Structure.GetName();
-            Text = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.CityOfXRStr), [name]);
+            var name = structure.GetName();
+            text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_cityFormat), [name]);
         }
         else
         {
-            Text = Structure.GetName();
+            text = structure.GetName();
         }
 
-        var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.TheXliesInRuinsRStr), [Text]);
-        Dialog.SBmemo.Items.Text = format;
-        Dialog.SBmemo.Items.Insert(0, "");
-        Dialog.SBmemo.Items.Insert(0, "");
+        var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_liesInRuinsFormat), [text]);
+        dialog.SBmemo.Items.Text = format;
+        dialog.SBmemo.Items.Insert(0, "");
+        dialog.SBmemo.Items.Insert(0, "");
     }
 
-    internal static void ShowOtherPlayerInfo(InfoWindow Dialog, PlayerStructure Structure)
+    internal static void ShowOtherPlayerInfo(InfoWindow dialog, PlayerStructure structure)
     {
-        int RaceIndex;
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.NotYoursPnl.Visible = true;
-        if (Structure is City && Structure.FPlayer == 0)
+        int raceIndex;
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.NotYoursPnl.Visible = true;
+        if (structure is City && structure.Player == 0)
         {
-            Dialog.PopulationRaceLbl.Visible = true;
-            var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[((City)Structure).FRace]);
-            Dialog.PopulationRaceLbl.Text = raceNamesPlural;
-            Dialog.PopulationLbl.Visible = true;
-            Dialog.NotYoursMemo.Items.Clear();
+            dialog.PopulationRaceLbl.Visible = true;
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[((City)structure).Race]);
+            dialog.PopulationRaceLbl.Text = raceNamesPlural;
+            dialog.PopulationLbl.Visible = true;
+            dialog.NotYoursMemo.Items.Clear();
         }
         else
         {
-            var description = Structure.GetDescription();
-            Dialog.NotYoursMemo.Items.Assign(description);
+            var description = structure.GetDescription();
+            dialog.NotYoursMemo.Items.Assign(description);
         }
 
-        if (Structure.FPlayer != -1)
+        if (structure.Player != -1)
         {
-            RaceIndex = AoWHSMap.Current.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
-            if (RaceIndex == -1)
+            raceIndex = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+            if (raceIndex == -1)
             {
-                RaceIndex = 12;
+                raceIndex = 12;
             }
 
-            var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[RaceIndex]);
-            Dialog.OwnerRaceLbl.Text = raceNamesPlural;
-            Dialog.OwnerRaceLbl.Visible = true;
-            Dialog.LShield.CurrentImage = RaceIndex + 26;
-            Dialog.LShield.Visible = true;
+            var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[raceIndex]);
+            dialog.OwnerRaceLbl.Text = raceNamesPlural;
+            dialog.OwnerRaceLbl.Visible = true;
+            dialog.LShield.CurrentImage = raceIndex + 26;
+            dialog.LShield.Visible = true;
         }
         else
         {
-            Dialog.OwnerRaceLbl.Visible = false;
-            Dialog.LShield.Visible = false;
+            dialog.OwnerRaceLbl.Visible = false;
+            dialog.LShield.Visible = false;
         }
     }
 
-    internal static void ShowGenericInfo(InfoWindow Dialog, Structure Structure)
+    internal static void ShowGenericInfo(InfoWindow dialog, Structure structure)
     {
-        MapEvents.ResetStructureInfo(Dialog);
-        SetStructureHeader(Dialog, Structure);
-        Dialog.SingleButPnl.Visible = true;
-        var description = Structure.GetDescription();
-        Dialog.SBmemo.Items.Assign(description);
+        MapEvents.ResetStructureInfo(dialog);
+        SetStructureHeader(dialog, structure);
+        dialog.SingleButPnl.Visible = true;
+        var description = structure.GetDescription();
+        dialog.SBmemo.Items.Assign(description);
     }
 
 }

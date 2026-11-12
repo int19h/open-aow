@@ -9,7 +9,7 @@ public sealed class TerrainChangedNotification
 
     public struct TerrainChangedInfo
     {
-        public Rect Rect;
+        public Rect Rectangle;
         public int Level;
         public MapLevel MapLevel;
     }

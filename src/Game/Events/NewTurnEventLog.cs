@@ -11,13 +11,13 @@ public partial class NewTurnEventLog : EventLog
     public NewTurnEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public sbyte FTurnPlayer;
-    public string FText = "";
-    public Mode FMode;
-    public Set<NewTurnEventLogDialogStyleElement> FDialogStyle;
+    public sbyte TurnPlayer;
+    public string Text = "";
+    public NewTurnEventLogMode Mode;
+    public Set<NewTurnEventLogDialogStyleElement> DialogStyle;
+}
 
-    public enum Mode : byte
-    {
-        Dialog = 0, Close = 1
-    }
+public enum NewTurnEventLogMode : byte
+{
+    Dialog = 0, Close = 1
 }

@@ -25,32 +25,32 @@ public partial class TitleScene
         VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
         DialogHosts.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.SetFrameRate(30);
-        GameHost.MainForm.DXDC.UseVerticalBlank = true;
-        FRedrawBackground = true;
-        FPressedButton = FHoverButton = -1;
-        FFont = FCreditsFont = DialogHosts.FontModule.AoW15WhiteGrey;
-        Window.WinManager.ILIndexTBack = 4;
+        GameHost.MainForm.DisplayController.UseVerticalBlank = true;
+        RedrawBackground = true;
+        PressedButton = HoverButton = -1;
+        Font = CreditsFont = DialogHosts.UIFonts.Font15WhiteGrey;
+        Window.WindowManager.ImageLibraryIndexTBack = 4;
         Window.Visible = true;
     }
 
     public void WindowHide()
     {
-        Window.WinManager.ILIndexTBack = 0;
+        Window.WindowManager.ImageLibraryIndexTBack = 0;
         GameHost.MainForm?.Display.SetFrameRate(30);
-        if (GameHost.MainForm is { } form) form.DXDC.UseVerticalBlank = false;
+        if (GameHost.MainForm is { } form) form.DisplayController.UseVerticalBlank = false;
         Window.Visible = false;
         TitleSceneIL.ReleaseDiscardableImageData();
     }
 
     public void WindowMouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
     {
-        FMouseX = x;
-        FMouseY = y;
-        FMouseButton = button;
-        if (HitTest() == FPressedButton)
+        MouseX = x;
+        MouseY = y;
+        MouseButton = button;
+        if (HitTest() == PressedButton)
         {
-            FSelectedButton = FPressedButton;
-            switch (FSelectedButton)
+            SelectedButton = PressedButton;
+            switch (SelectedButton)
             {
                 case 0:
                     Window.Visible = false;
@@ -58,36 +58,36 @@ public partial class TitleScene
                     DialogHosts.MultiWindow.Execute("");
                     break;
                 case 1:
-                    if (!GameTables.AoWEngine.FDemo)
+                    if (!GameTables.GameEngine.Demo)
                     {
                         Window.Visible = false;
                         DialogHosts.General.PlayButtonSound(0);
-                        ShowFactionSelection(DialogHosts.SelFactionWin);
+                        ShowFactionSelection(DialogHosts.FactionSelectionWindow);
                     }
                     else MessageDialog.ShowDemoMessage();
                     break;
                 case 2:
-                    LoadGame(DialogHosts.General, FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
+                    LoadGame(DialogHosts.General, FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
                     if (AoWHSMap.Current is { } map)
                     {
-                        map.FFixedLeaders = true;
+                        map.FixedLeaders = true;
                         StartGame(DialogHosts.General);
                         Window.Visible = false;
                     }
                     break;
                 case 3:
                     DialogHosts.General.PlayButtonSound(0);
-                    DialogHosts.FileDlgWindow.FMode = 0;
-                    DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+                    DialogHosts.FileDialogWindow.Mode = 0;
+                    DialogHosts.FileDialogWindow.FileDialog.Visible = true;
                     break;
                 case 4:
                     Window.Visible = false;
                     DialogHosts.General.PlayButtonSound(0);
-                    if (GameTables.AoWEngine.FDemo) DialogHosts.TitleWindow.ShowExitSplash();
+                    if (GameTables.GameEngine.Demo) DialogHosts.TitleWindow.ShowExitSplash();
                     else GameHost.MainForm.CloseRequested();
                     break;
             }
         }
-        FPressedButton = -1;
+        PressedButton = -1;
     }
 }

@@ -95,9 +95,9 @@ public static class GameFiles
     public static ExportResult Export(JsonObject document, ExportOptions? options = null, string? fileName = null, FormatLimits? limits = null)
     {
         var (profile, _, container, root) = Envelope(document, fileName);
-        var ctx = new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, options ?? ExportOptions.Default);
-        var bytes = profile.Export(container, root, ctx);
-        return new ExportResult { Bytes = bytes, Profile = profile, Invalidated = ctx.Invalidated };
+        var context = new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, options ?? ExportOptions.Default);
+        var bytes = profile.Export(container, root, context);
+        return new ExportResult { Bytes = bytes, Profile = profile, Invalidated = context.Invalidated };
     }
 
     /// <summary>
@@ -108,8 +108,8 @@ public static class GameFiles
     public static byte[] ExportImage(JsonObject document, string? fileName = null, FormatLimits? limits = null)
     {
         var (profile, _, container, root) = Envelope(document, fileName);
-        var ctx = new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, ExportOptions.Default);
-        return profile.ExportImage(container, root, ctx);
+        var context = new EncodeContext(Schema, profile.Engine, profile.Name, fileName, limits ?? FormatLimits.Default, ExportOptions.Default);
+        return profile.ExportImage(container, root, context);
     }
 
     /// <summary>Imports an image the engine wrote, in the profile's game container.</summary>

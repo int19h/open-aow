@@ -8,6 +8,6 @@ public partial class ProductionEventLog : LocationTextEventLog
     public ProductionEventLog(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131833;
+    public new const int ClassId = 131833;
 
 }

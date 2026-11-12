@@ -16,37 +16,37 @@ namespace Aow.Game.Tests;
 [Collection("Engine")]
 public sealed class OwnExtensionNameTests : IDisposable
 {
-    private readonly string directory = Path.Combine(Path.GetTempPath(), "open-aow-names-" + Guid.NewGuid().ToString("N"));
-    private readonly IFileSystem previous = Runtime.Files;
-    private readonly Action<FileLogRecord>? previousLog = FileBoundary.Log;
-    private readonly bool previousOwn = Runtime.WritesOwnExtensions;
-    private readonly List<FileLogRecord> log = [];
+    private readonly string _directory = Path.Combine(Path.GetTempPath(), "open-aow-names-" + Guid.NewGuid().ToString("N"));
+    private readonly IFileSystem _previous = Runtime.Files;
+    private readonly Action<FileLogRecord>? _previousLog = FileBoundary.Log;
+    private readonly bool _previousOwn = Runtime.WritesOwnExtensions;
+    private readonly List<FileLogRecord> _log = [];
 
     // The shipped hosts write own extensions.
     public OwnExtensionNameTests()
     {
         Runtime.WritesOwnExtensions = true;
-        foreach (var name in new[] { "Save", "User", "EmailIn" }) Directory.CreateDirectory(Path.Combine(directory, "root", name));
-        Directory.CreateDirectory(Path.Combine(directory, "user"));
+        foreach (var name in new[] { "Save", "User", "EmailIn" }) Directory.CreateDirectory(Path.Combine(_directory, "root", name));
+        Directory.CreateDirectory(Path.Combine(_directory, "user"));
         Install();
-        FileBoundary.Log = log.Add;
+        FileBoundary.Log = _log.Add;
         FileBoundary.Previews.Clear();
     }
 
     public void Dispose()
     {
-        Runtime.Files = previous;
-        Runtime.WritesOwnExtensions = previousOwn;
-        FileBoundary.Log = previousLog;
+        Runtime.Files = _previous;
+        Runtime.WritesOwnExtensions = _previousOwn;
+        FileBoundary.Log = _previousLog;
         FileBoundary.Previews.Clear();
-        Directory.Delete(directory, true);
+        Directory.Delete(_directory, true);
     }
 
     // The layered file service caches its listings, so a case installs it again after it writes
     // files behind its back.
-    private void Install() => Runtime.Files = new LayeredFileSystem(Path.Combine(directory, "root"), Path.Combine(directory, "user"));
+    private void Install() => Runtime.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
 
-    private string Root(string relative) => Path.Combine(directory, "root", relative);
+    private string Root(string relative) => Path.Combine(_directory, "root", relative);
 
     private static byte[] HeroList(string name) => Encoding.UTF8.GetBytes(
         "{\"$format\": \"OpenAoW\", \"$version\": 1, \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {\"LibraryName\": \""
@@ -130,14 +130,14 @@ public sealed class OwnExtensionNameTests : IDisposable
         byte[]? fromJson = FileBoundary.Load(Root(@"Save\Json.asg"), GameProfile.WorldMap);
         Assert.NotNull(fromOriginal);
         Assert.Equal(fromOriginal, fromJson);
-        Assert.Equal([DetectedFormat.Original.ToString(), DetectedFormat.OwnJson.ToString()], log.Select(r => r.Report.Format));
+        Assert.Equal([DetectedFormat.Original.ToString(), DetectedFormat.OwnJson.ToString()], _log.Select(r => r.Report.Format));
 
         File.WriteAllBytes(Root(@"Save\Original.oasg"), own);
         Install();
         string derived = FileBoundary.ReadName(Root(@"Save\Original.asg"));
         Assert.Equal(Root(@"Save\Original.oasg"), derived);
         Assert.Equal(fromOriginal, FileBoundary.Load(derived, GameProfile.WorldMap));
-        Assert.Equal(DetectedFormat.OwnJson.ToString(), log[^1].Report.Format);
+        Assert.Equal(DetectedFormat.OwnJson.ToString(), _log[^1].Report.Format);
         Assert.Equal(original, File.ReadAllBytes(Root(@"Save\Original.asg")));
     }
 

@@ -36,31 +36,31 @@ public sealed class SweepConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly int previousSeed = Runtime.RandSeed;
-        private readonly AoWHSSet previousSet = AoWHSSet.Current;
-        private readonly GameEngine previousEngine = GameTables.AoWEngine;
-        private readonly AoWHSMap previousMap = AoWHSMap.Current;
+        private readonly int _previousSeed = Runtime.RandSeed;
+        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GameEngine _previousEngine = GameTables.GameEngine;
+        private readonly AoWHSMap _previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly MapObjectResourceList CombatResources = new MapObjectResourceList(null!);
 
         internal Fixture()
         {
             Runtime.RandSeed = 123456789;
-            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
+            var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.CombatResources = CombatResources; });
             AoWHSSet.Current = set;
-            GameTables.AoWEngine = EngineFixture.Engine;
+            GameTables.GameEngine = EngineFixture.Engine;
             AoWHSMap.Current = null!;
-            AoWHSSet.Current.FUnitGFXResources = null!;
+            AoWHSSet.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
         public void Dispose()
         {
-            Runtime.RandSeed = previousSeed;
+            Runtime.RandSeed = _previousSeed;
 
-            AoWHSSet.Current = previousSet;
-            GameTables.AoWEngine = previousEngine;
-            AoWHSMap.Current = previousMap;
+            AoWHSSet.Current = _previousSet;
+            GameTables.GameEngine = _previousEngine;
+            AoWHSMap.Current = _previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
         }
@@ -90,10 +90,10 @@ public sealed class SweepConstructionTests
             for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
-                    if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
+                    if (field.Name == "_engineClass") continue; // the descriptor cache is not constructor state
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
-                    if (field.Name == "FOwner") { fields[key] = child is null ? null : "$owner"; continue; }
+                    if (field.Name == "_owner") { fields[key] = child is null ? null : "$owner"; continue; }
                     fields[key] = State(child, path + "." + key);
                 }
             return fields;
@@ -101,7 +101,7 @@ public sealed class SweepConstructionTests
         return JsonSerializer.Serialize(State(value, "$"));
     }
 
-    private static readonly string[] Names =
+    private static readonly string[] s_names =
     [
         "Aow.Game.World.Structures.AirNode",
         "Aow.Game.World.Structures.AirNode+Resource",
@@ -346,7 +346,7 @@ public sealed class SweepConstructionTests
         "Aow.Game.Commands.GlobalTargetSpellTokenEvent",
     ];
 
-    public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
+    public static IEnumerable<object[]> Classes => s_names.Select(name => new object[] { name });
 
     private static object? Invoke(Func<object?> action)
     {
@@ -382,9 +382,9 @@ public sealed class SweepConstructionTests
                 var states = new List<string>();
                 try
                 {
-                    value = route == 1 ? EngineClass.Of(type).Create(owner!)
+                    value = route == 1 ? EngineClass.Of(type).CreateInstance(owner!)
                         : route == 0 ? Direct(type, owner!)
-                        : route == 2 ? EngineClass.Of(type).Create(owner!)
+                        : route == 2 ? EngineClass.Of(type).CreateInstance(owner!)
                         : Saved(type, owner!);
                     Assert.IsType(type, value);
                     Assert.Same(owner, value.Owner);
@@ -409,11 +409,11 @@ public sealed class SweepConstructionTests
         if (EngineHost.Engines is null) EngineHost.Initialize();
         using GameEngine engine = new GameEngine(null!);
         var descriptor = EngineClass.Of(type);
-        engine.Options -= Set<EngineModeElement>.Of(GameEngine.eoVerifyClasses);
-        try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
+        engine.Options -= Set<EngineModeElement>.Of(GameEngine.VerifyClasses);
+        try { engine.UnregisterEngineClasses([engine.GetEngineClass(descriptor.ClassId)]); }
         catch (Exception error) when (PortedExceptions.Is(error)) { }
-        engine.RegisterEClasses([descriptor]);
-        return engine.CreateEObject(descriptor.ClassID, owner);
+        engine.RegisterEngineClasses([descriptor]);
+        return engine.CreateEngineObject(descriptor.ClassId, owner);
     }
 
     [Theory]

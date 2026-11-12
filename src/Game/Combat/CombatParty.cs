@@ -11,51 +11,51 @@ namespace Aow.Game.Combat;
 public partial class CombatParty : EngineObject
 {
     // Combat2.pas:47
-    public new const int ClassID = 131746;
+    public new const int ClassId = 131746;
 
     // Combat2.pas:37
     public CombatParty(ECustomNode owner) : base(owner)
     {
-        FArmy = new Army(null);
+        Army = new Army(null);
     }
 
-    public Army FArmy;
-    public int F_CombatParty_0C;
-    public int F_CombatParty_10;
-    public int F_CombatParty_14;
-    public byte FWall;
-    public byte F_CombatParty_19;
-    public byte FPlayerIndex;
+    public Army Army;
+    public int X;
+    public int Y;
+    public int MapLevel;
+    public byte Wall;
+    public byte Position;
+    public byte PlayerIndex;
 
     // Combat2.pas:40
     public override void Dispose()
     {
-        FArmy.Deactivate();
-        FArmy?.Dispose();
+        Army.Deactivate();
+        Army?.Dispose();
         base.Dispose();
     }
 
     // Combat2.pas:50
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref F_CombatParty_0C, 11);
-        Stream.rwInteger(ref F_CombatParty_10, 12);
-        Stream.rwInteger(ref F_CombatParty_14, 13);
-        Stream.rwByte(ref FPlayerIndex, 14);
-        Stream.rwData(Bytes.Of(ref FWall, 1), 1, 15);
-        Stream.rwByte(ref F_CombatParty_19, 16);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref X, 11);
+        stream.rwInteger(ref Y, 12);
+        stream.rwInteger(ref MapLevel, 13);
+        stream.rwByte(ref PlayerIndex, 14);
+        stream.rwData(Bytes.Of(ref Wall, 1), 1, 15);
+        stream.rwByte(ref Position, 16);
     }
 
     // Combat2.pas:61
-    public void Activate(Battle ACombat)
+    public void Activate(Battle combat)
     {
-        var players = ACombat.FCombatData.FPlayers.GetPlayers((sbyte)FPlayerIndex);
-        FArmy.SetPlayer(players.FPlayer);
+        var players = combat.CombatData.Players.GetPlayers((sbyte)PlayerIndex);
+        Army.SetPlayer(players.Player);
     }
 
     // Combat2.pas:67
-    public void Deactivate(Battle ACombat)
+    public void Deactivate(Battle combat)
     {
     }
 

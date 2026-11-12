@@ -154,7 +154,7 @@ finishing when `vpsPlaying` leaves the status. The file is 94 MB: 640 by 480, 15
 2,033 frames, video `IV32` (Indeo 3.2) at 24 bits, audio PCM stereo 16-bit 22050. The decoder
 implementation binds FFmpeg's `libavcodec` (`indeo3`) and `libavformat` when their shared libraries
 are present next to the port or on the system path; the frames are converted to the back surface's
-555 format with `RemapSurfacePart`'s path, and the audio goes through `SampleData.CreateEx` (Delphi `TSampleData`). Without
+555 format with `RemapSurfacePart`'s path, and the audio goes through `SampleData.Create` (Delphi `TSampleData`). Without
 the libraries `Open` returns `False` and `IntroScene` finishes at once, which is what the original did
 when the codec was missing.
 
@@ -236,7 +236,7 @@ Saves, maps, campaigns, the scenario set and the user lists pass through the gam
 
 The shim's `Registry` stores them in `settings.json` in the user layer as `Section/Name` with the
 value's kind (integer, boolean, string, rectangle, bytes); a missing value reads as the original's
-default, which the transpiled getters supply. `AssociateAoWMap` (file association under
+default, which the transpiled getters supply. `AssociateMapFiles` (file association under
 `\Software\Classes`), `RegisterDPlayLobbyServer` and `GetDeveloper`'s GUID key are no-ops.
 `Display Mode` 1 maps to the fullscreen flag, `Use DirectSound` is read and ignored. `Video/VSync`
 is the port's own setting, absent from the original: missing or nonzero means vsync on (section 3).

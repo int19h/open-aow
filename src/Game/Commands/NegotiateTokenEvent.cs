@@ -28,79 +28,79 @@ namespace Aow.Game.Commands;
 public partial class NegotiateTokenEvent : TokenEvent
 {
     // Diplomacy.pas:133
-    public new const int ClassID = 135431;
+    public new const int ClassId = 135431;
 
-    public int FGold;
-    public NegotiateOffer FOffer;
-    public byte FX;
-    public byte FY;
-    public byte FL;
-    public ArmyId FArmyID;
-    public sbyte FPlayer;
-    public byte FOwnerPlayer;
-    public ArmyHexSprite FArmyHS;
-    public NegotiateObject FObject;
-    public int FMovePoints;
-    public byte FSelection;
-    public Set<NegotiateModeElement> FMode;
-    public NegotiateResult FResult;
-    public int FEventLogID;
-    public int FData1;
-    public int FData2;
+    public int Gold;
+    public NegotiateOffer Offer;
+    public byte X;
+    public byte Y;
+    public byte MapLevel;
+    public ArmyId ArmyId;
+    public sbyte Player;
+    public byte OwnerPlayer;
+    public ArmyHexSprite ArmyHexSprite;
+    public NegotiateObject Object;
+    public int MovePoints;
+    public byte Selection;
+    public Set<NegotiateModeElement> Mode;
+    public NegotiateResult Result;
+    public int EventLogId;
+    public int Data1;
+    public int Data2;
 
     // Diplomacy.pas:124
     public override void Dispose()
     {
-        ArmyId ID;
-        ID = FArmyID;
-        if (ID != null)
+        ArmyId id;
+        id = ArmyId;
+        if (id != null)
         {
-            ID?.Dispose();
+            id?.Dispose();
         }
 
         base.Dispose();
     }
 
     // Diplomacy.pas:138
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FGold, 30);
-        Stream.rwData(Bytes.Of(ref FOffer, 1), 1, 31);
-        Stream.rwByte(ref FX, 32);
-        Stream.rwByte(ref FY, 33);
-        Stream.rwByte(ref FL, 34);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 35);
-        Stream.rwByte(ref FOwnerPlayer, 36);
-        Stream.rwData(Bytes.Of(ref FObject, 1), 1, 37);
-        Stream.rwInteger(ref FMovePoints, 38);
-        Stream.rwInteger(ref FData1, 39);
-        Stream.rwInteger(ref FData2, 40);
-        RwSet(ref FMode, 1, 41, Stream.rwData, 0);
-        Stream.rwData(Bytes.Of(ref FResult, 1), 1, 42);
-        Stream.rwCreateEObject(ref FArmyID, null, 43);
-        Stream.rwIntegerEx(ref FEventLogID, -1, 44);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Gold, 30);
+        stream.rwData(Bytes.Of(ref Offer, 1), 1, 31);
+        stream.rwByte(ref X, 32);
+        stream.rwByte(ref Y, 33);
+        stream.rwByte(ref MapLevel, 34);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 35);
+        stream.rwByte(ref OwnerPlayer, 36);
+        stream.rwData(Bytes.Of(ref Object, 1), 1, 37);
+        stream.rwInteger(ref MovePoints, 38);
+        stream.rwInteger(ref Data1, 39);
+        stream.rwInteger(ref Data2, 40);
+        RwSet(ref Mode, 1, 41, stream.rwData, 0);
+        stream.rwData(Bytes.Of(ref Result, 1), 1, 42);
+        stream.rwCreateEObject(ref ArmyId, null, 43);
+        stream.rwIntegerEx(ref EventLogId, -1, 44);
     }
 
     // Diplomacy.pas:115
     public NegotiateTokenEvent(ECustomNode owner) : base(owner)
     {
-        FArmyID = null;
-        FMode = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject, NegotiateModeElement.MoveOnAccept);
-        FEventLogID = -1;
-        FOwnerPlayer = 0;
+        ArmyId = null;
+        Mode = Set<NegotiateModeElement>.Of(NegotiateModeElement.AttackOnReject, NegotiateModeElement.MoveOnAccept);
+        EventLogId = -1;
+        OwnerPlayer = 0;
     }
 
     // Diplomacy.pas:247
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        MapFieldMessage Msg = default;
+        MapFieldMessage message = default;
         if (Validate())
         {
-            Msg.MsgID = 4367;
-            Msg.Param[0] = this;
-            Msg.Result = 0;
-            AoWHSMap.Current.MapContainer.GetField((sbyte)FX, (sbyte)FY, (sbyte)FL).SendMapFieldMsg(ref Msg);
+            message.MessageId = 4367;
+            message.Param[0] = this;
+            message.Result = 0;
+            AoWHSMap.Current.MapContainer.GetField((sbyte)X, (sbyte)Y, (sbyte)MapLevel).SendMapFieldMessage(ref message);
         }
 
         return ExecuteResult.Done;
@@ -109,61 +109,61 @@ public partial class NegotiateTokenEvent : TokenEvent
     // Diplomacy.pas:158
     public virtual bool Validate()
     {
-        bool Result;
-        ArmyId ID;
-        ID = FArmyID;
-        if (ID != null)
+        bool result;
+        ArmyId id;
+        id = ArmyId;
+        if (id != null)
         {
-            Result = ID.RetrieveArmy(ref FArmyHS, ref FSelection);
+            result = id.RetrieveArmy(ref ArmyHexSprite, ref Selection);
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        if (Result && FX != 255)
+        if (result && X != 255)
         {
-            Result = (byte)((AoWMapField)AoWHSMap.Current.MapContainer.GetField((sbyte)FX, (sbyte)FY, (sbyte)FL)).GetPlayer() == FOwnerPlayer;
+            result = (byte)((AoWMapField)AoWHSMap.Current.MapContainer.GetField((sbyte)X, (sbyte)Y, (sbyte)MapLevel)).GetPlayer() == OwnerPlayer;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:192
     public virtual void Accept()
     {
-        EventLog Log;
-        MovePath Path;
-        MoveArmyTokenEvent Move;
-        if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FGems >= FGold)
+        EventLog log;
+        MovePath path;
+        MoveArmyTokenEvent move;
+        if (AoWHSMap.Current.Players.GetPlayers(Player).Gems >= Gold)
         {
-            var players = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).SetGems(players.FGems - FGold);
-            if (FEventLogID != -1)
+            var players = AoWHSMap.Current.Players.GetPlayers(Player);
+            AoWHSMap.Current.Players.GetPlayers(Player).SetGems(players.Gems - Gold);
+            if (EventLogId != -1)
             {
-                Log = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FEventLogbook.FindID(FEventLogID);
-                if (Log != null)
+                log = AoWHSMap.Current.Players.GetPlayers(Player).EventLogbook.FindId(EventLogId);
+                if (log != null)
                 {
-                    AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FEventLogbook.RemoveEvent(Log);
+                    AoWHSMap.Current.Players.GetPlayers(Player).EventLogbook.RemoveEvent(log);
                 }
             }
 
-            if (FArmyHS != null && FMode.Contains(NegotiateModeElement.MoveOnAccept))
+            if (ArmyHexSprite != null && Mode.Contains(NegotiateModeElement.MoveOnAccept))
             {
-                Path = new MovePath();
-                Path.AddXYL((sbyte)FX, (sbyte)FY, (sbyte)FL);
-                var yhx = FArmyHS.Yhx;
-                Path.AddXYL(FArmyHS.Xhx, yhx, FArmyHS.Lhx);
-                Path.List[0].Flag = (sbyte)FMovePoints;
-                Move = ArmyHexSprite.CreateArmyMoveTE(FArmyHS, FSelection, Path, (MoveAction)(byte)3, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
-                AoWHSMap.Current.FTokenManager.TokenExecuter.InsertExecuteEvent(Move);
+                path = new MovePath();
+                path.AddMapCoordinate((sbyte)X, (sbyte)Y, (sbyte)MapLevel);
+                var hexY = ArmyHexSprite.HexY;
+                path.AddMapCoordinate(ArmyHexSprite.HexX, hexY, ArmyHexSprite.HexLevel);
+                path.List[0].Tag = (sbyte)MovePoints;
+                move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, Selection, path, (MoveAction)(byte)3, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
+                AoWHSMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
-                Move.Release();
-                Path?.Dispose();
+                move.Release();
+                path?.Dispose();
             }
         }
     }
@@ -171,20 +171,20 @@ public partial class NegotiateTokenEvent : TokenEvent
     // Diplomacy.pas:226
     public virtual void Reject()
     {
-        MovePath Path;
-        MoveArmyTokenEvent Move;
-        if (FOffer == NegotiateOffer.ForceOffer && FArmyHS != null && FMode.Contains(NegotiateModeElement.AttackOnReject))
+        MovePath path;
+        MoveArmyTokenEvent move;
+        if (Offer == NegotiateOffer.ForceOffer && ArmyHexSprite != null && Mode.Contains(NegotiateModeElement.AttackOnReject))
         {
-            Path = new MovePath();
-            Path.AddXYL((sbyte)FX, (sbyte)FY, (sbyte)FL);
-            var yhx = FArmyHS.Yhx;
-            Path.AddXYL(FArmyHS.Xhx, yhx, FArmyHS.Lhx);
-            Path.List[0].Flag = (sbyte)FMovePoints;
-            Move = ArmyHexSprite.CreateArmyMoveTE(FArmyHS, FSelection, Path, (MoveAction)(byte)1, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
-            AoWHSMap.Current.FTokenManager.TokenExecuter.InsertExecuteEvent(Move);
+            path = new MovePath();
+            path.AddMapCoordinate((sbyte)X, (sbyte)Y, (sbyte)MapLevel);
+            var hexY = ArmyHexSprite.HexY;
+            path.AddMapCoordinate(ArmyHexSprite.HexX, hexY, ArmyHexSprite.HexLevel);
+            path.List[0].Tag = (sbyte)MovePoints;
+            move = ArmyHexSprite.CreateArmyMoveTokenEvent(ArmyHexSprite, Selection, path, (MoveAction)(byte)1, Set<ArmyMoveModeElement>.Of(ArmyMoveModeElement.SelectEndLocation));
+            AoWHSMap.Current.TokenManager.TokenExecutor.InsertExecuteEvent(move);
             // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
-            Move.Release();
-            Path?.Dispose();
+            move.Release();
+            path?.Dispose();
         }
     }
 

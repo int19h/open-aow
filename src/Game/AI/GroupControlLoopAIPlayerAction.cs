@@ -17,8 +17,8 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
     {
     }
 
-    public int FGroupProcessCycles;
-    public AIGroupControl FGroupControl;
+    public int GroupProcessCycles;
+    public AIGroupControl GroupControl;
 
     // AI.pas:1124
     public override void Dispose()
@@ -30,94 +30,94 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
     // AI.pas:1156
     public override bool Activate()
     {
-        bool Result = base.Activate();
-        var player = FControl.FPlayer;
-        for (int I = player.FAIGroups.Count - 1; I >= 0; I--)
+        bool result = base.Activate();
+        var player = Control.Player;
+        for (int I = player.AIGroups.Count - 1; I >= 0; I--)
         {
-            var groups = player.FAIGroups.GetGroups(I);
-            player.FAIGroups.GetGroups(I).FStatus = groups.FStatus - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
+            var groups = player.AIGroups.GetGroups(I);
+            player.AIGroups.GetGroups(I).Status = groups.Status - Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Done);
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1166
     public override bool Process()
     {
-        bool Result;
-        bool Busy;
-        bool Done;
+        bool result;
+        bool busy;
+        bool done;
         int I;
-        AIGroupControl Control;
-        FGroupProcessCycles += 1;
+        AIGroupControl control;
+        GroupProcessCycles += 1;
         try
         {
-            Busy = false;
-            Done = false;
-            while (!Done && !Busy && AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 0)
+            busy = false;
+            done = false;
+            while (!done && !busy && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
             {
-                if (FGroupControl == null)
+                if (GroupControl == null)
                 {
-                    FControl.FPlayer.FAIGroups.SortOnProcessPriority();
+                    Control.Player.AIGroups.SortOnProcessPriority();
                     I = 0;
-                    while (I < FControl.FPlayer.FAIGroups.Count && FControl.FPlayer.FAIGroups.GetGroups(I).FStatus.Contains(AIGroupStatusElement.Done))
+                    while (I < Control.Player.AIGroups.Count && Control.Player.AIGroups.GetGroups(I).Status.Contains(AIGroupStatusElement.Done))
                     {
                         I += 1;
                     }
 
-                    if (I < FControl.FPlayer.FAIGroups.Count)
+                    if (I < Control.Player.AIGroups.Count)
                     {
-                        ActivateGroupControl(FControl.FPlayer.FAIGroups.GetGroups(I));
+                        ActivateGroupControl(Control.Player.AIGroups.GetGroups(I));
                     }
                     else
                     {
-                        Done = true;
+                        done = true;
                     }
                 }
 
-                Control = FGroupControl;
-                if (Control != null)
+                control = GroupControl;
+                if (control != null)
                 {
-                    Busy = Control.Process(true);
-                    if (!Busy)
+                    busy = control.Process(true);
+                    if (!busy)
                     {
                         DeactivateGroupControl();
                     }
                 }
                 else
                 {
-                    Done = true;
+                    done = true;
                 }
             }
 
-            Result = !Done;
+            result = !done;
         }
         catch
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // AI.pas:1136
-    public void ActivateGroupControl(AIGroup Group)
+    public void ActivateGroupControl(AIGroup group)
     {
         DeactivateGroupControl();
-        FGroupControl = Group.CreateGroupControl();
-        FGroupControl.Activate();
+        GroupControl = group.CreateGroupControl();
+        GroupControl.Activate();
     }
 
     // AI.pas:1143
     public void DeactivateGroupControl()
     {
-        AIGroupControl Control;
-        Control = FGroupControl;
-        if (Control != null)
+        AIGroupControl control;
+        control = GroupControl;
+        if (control != null)
         {
-            Control.Deactivate();
-            FGroupControl?.Dispose();
-            FGroupControl = null;
+            control.Deactivate();
+            GroupControl?.Dispose();
+            GroupControl = null;
         }
     }
 

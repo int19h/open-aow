@@ -14,56 +14,56 @@ namespace Aow.Game.Magic.Spells;
 public partial class AirMasteryEnchantment : GlobalEnchantment
 {
     // GlobalEnchantmentSpells.pas:649
-    public new const int ClassID = 135966;
+    public new const int ClassId = 135966;
 
     // GlobalEnchantmentSpells.pas:641
     public AirMasteryEnchantment(ECustomNode owner) : base(owner)
     {
-        FName = AbilityRules.TranslateRStr(GameText.AirMasteryRStr);
-        FEnchantmentType = GlobalEnchantmentType.None;
-        FDispelMana = 175;
+        Name = AbilityRules.TranslateResourceString(GameText.s_airMasteryText);
+        EnchantmentType = GlobalEnchantmentType.None;
+        DispelMana = 175;
     }
 
     // GlobalEnchantmentSpells.pas:654
     public override int GetAIUpkeepPriority() => 1250;
 
     // GlobalEnchantmentSpells.pas:679
-    public override bool Deactivate(byte Player)
+    public override bool Deactivate(byte player)
     {
-        base.Deactivate(Player);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery));
+        base.Deactivate(player);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery));
         // { Original uses Earth. }
-        AoWHSMap.Current.FGlobalMagicControl.DecDoubleSphereManaCount(MagicSphere.Earth);
+        AoWHSMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Earth);
         return true;
     }
 
     // GlobalEnchantmentSpells.pas:659
-    public override bool CanActivate(sbyte Player, ref string Reason)
+    public override bool CanActivate(sbyte player, ref string reason)
     {
-        bool Result = base.CanActivate(Player, ref Reason);
-        if (Result)
+        bool result = base.CanActivate(player, ref reason);
+        if (result)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery))
+            if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery))
             {
-                var xIsAlreadyActive = AbilityRules.TranslateRStr(GameText.XIsAlreadyActiveRStr);
+                var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.s_isAlreadyActiveFormat);
                 var name = GetName();
-                Reason = RtlUnit.Format(xIsAlreadyActive, [name]);
-                Result = false;
+                reason = RtlUnit.Format(xIsAlreadyActive, [name]);
+                result = false;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // GlobalEnchantmentSpells.pas:670
-    public override bool Activate(sbyte Player)
+    public override bool Activate(sbyte player)
     {
-        base.Activate(Player);
-        var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex);
-        AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FMagicControl.SetActiveEnchantments(player.FMagicControl.FActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery));
+        base.Activate(player);
+        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.AirMastery));
         // { Original uses Earth. }
-        AoWHSMap.Current.FGlobalMagicControl.IncDoubleSphereManaCount(MagicSphere.Earth);
+        AoWHSMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Earth);
         return true;
     }
 

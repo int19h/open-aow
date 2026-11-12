@@ -184,65 +184,65 @@ public partial class LeaderSetupWindow : DataModule
     public Panel LeaderPnl;
     public ComboBox RaceCB;
     public IvTranslator Translator;
-    public LeaderSetupControl FSetup;
-    public int FPhase;
-    public int FFixedSpheres;
-    public Leader FLeader;
-    public int FSelectedSort;
-    public int FAvailableSort;
+    public LeaderSetupControl Setup;
+    public int Phase;
+    public int FixedSpheres;
+    public Leader Leader;
+    public int SelectedSort;
+    public int AvailableSort;
 
     // AoWLeaderSetup.pas:1050
-    public void Execute(LeaderSetupControl Control)
+    public void Execute(LeaderSetupControl control)
     {
         Reset();
-        if (FSetup != null)
+        if (Setup != null)
         {
-            FSetup.Release();
+            Setup.Release();
         }
 
-        FSetup = Control;
-        FSetup.AddRef();
-        FSelectedSort = 0;
-        FAvailableSort = 0;
-        LeaderPnl.ILTexture = DialogHosts.IntGfxMod.TitleScreen;
-        LeaderPnl.ILIndexTexture = 4;
-        RaceCB.Visible = FSetup.FItems.Count != 0 && FSetup.FMode.Contains(LeaderSetupModeElement.Campaign);
+        Setup = control;
+        Setup.AddRef();
+        SelectedSort = 0;
+        AvailableSort = 0;
+        LeaderPnl.ImageLibraryTexture = DialogHosts.UIGraphics.TitleScreen;
+        LeaderPnl.ImageLibraryIndexTexture = 4;
+        RaceCB.Visible = Setup.Items.Count != 0 && Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
         RaceLbl.Visible = RaceCB.Visible;
         if (RaceCB.Visible)
         {
             RaceCB.Items.Clear();
-            for (int I = 0, last = FSetup.FItems.Count - 1; I <= last; I++)
+            for (int I = 0, last = Setup.Items.Count - 1; I <= last; I++)
             {
-                var item = FSetup.FItems[I];
-                var raceNames = AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[item]);
-                var item2 = FSetup.FItems[I];
+                var item = Setup.Items[I];
+                var raceNames = AbilityRules.TranslateResourceString(GameTables.s_raceNames[item]);
+                var item2 = Setup.Items[I];
                 RaceCB.Items.AddObject(raceNames, IntToObject(item2));
             }
 
-            var indexOf = FSetup.FItems.IndexOf(FSetup.FOriginalLeader.FRace);
+            var indexOf = Setup.Items.IndexOf(Setup.OriginalLeader.Race);
             RaceCB.Selected = indexOf;
         }
 
-        var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[FSetup.FOriginalLeader.FRace]);
+        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[Setup.OriginalLeader.Race]);
         SideNameLbl.Text = raceNamesPlural;
-        ShieldL.CurrentImage = FSetup.FOriginalLeader.FRace + 13;
-        ShieldR.CurrentImage = FSetup.FOriginalLeader.FRace + 13;
-        ShieldR.Visible = !FSetup.FMode.Contains(LeaderSetupModeElement.Campaign);
+        ShieldL.CurrentImage = Setup.OriginalLeader.Race + 13;
+        ShieldR.CurrentImage = Setup.OriginalLeader.Race + 13;
+        ShieldR.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
         LoadLeader();
         SaveLeader();
-        if (FSetup.FMode.Contains(LeaderSetupModeElement.Look))
+        if (Setup.Mode.Contains(LeaderSetupModeElement.Look))
         {
             SetPhase(1);
         }
         else
         {
-            if (FSetup.FMode.Contains(LeaderSetupModeElement.Settings))
+            if (Setup.Mode.Contains(LeaderSetupModeElement.Settings))
             {
                 SetPhase(2);
             }
             else
             {
-                if (FSetup.FMode.Contains(LeaderSetupModeElement.Spheres))
+                if (Setup.Mode.Contains(LeaderSetupModeElement.Spheres))
                 {
                     SetPhase(3);
                 }
@@ -255,100 +255,100 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:1083
     public void Finish()
     {
-        LeaderSetupControl Control;
+        LeaderSetupControl control;
         SaveLeader();
-        Control = FSetup;
-        Control.FStatus = LeaderSetupControl.LeaderSetupStatus.Done;
-        FSetup = null;
+        control = Setup;
+        control.Status = LeaderSetupControl.LeaderSetupStatus.Done;
+        Setup = null;
         LeaderPnl.Visible = false;
-        DialogHosts.SetupEvents.UpdatePlayerName(Control.FOriginalLeader.FHeroName);
-        Control.Done();
-        Control.Release();
+        DialogHosts.SetupEvents.UpdatePlayerName(control.OriginalLeader.HeroName);
+        control.Done();
+        control.Release();
     }
 
     // AoWLeaderSetup.pas:1097
     public void Cancel()
     {
-        LeaderSetupControl Control;
+        LeaderSetupControl control;
         SaveLeader();
-        Control = FSetup;
-        Control.FStatus = LeaderSetupControl.LeaderSetupStatus.Canceled;
-        FSetup = null;
+        control = Setup;
+        control.Status = LeaderSetupControl.LeaderSetupStatus.Canceled;
+        Setup = null;
         LeaderPnl.Visible = false;
-        Control.Done();
-        Control.Release();
+        control.Done();
+        control.Release();
     }
 
     // AoWLeaderSetup.pas:750
     public void LoadLeader()
     {
-        FLeader.Assign(FSetup.FOriginalLeader, GameTables.AoWEngine);
+        Leader.Assign(Setup.OriginalLeader, GameTables.GameEngine);
     }
 
     // AoWLeaderSetup.pas:755
     public void SaveLeader()
     {
-        Leader Leader;
-        FSetup.FOriginalLeader.Assign(FLeader, GameTables.AoWEngine);
-        Leader = FSetup.FOriginalLeader;
-        LeaderName.Text = Leader.FHeroName;
-        var inherentAttack = Leader.GetInherentAttack();
+        Leader leader;
+        Setup.OriginalLeader.Assign(Leader, GameTables.GameEngine);
+        leader = Setup.OriginalLeader;
+        LeaderName.Text = leader.HeroName;
+        var inherentAttack = leader.GetInherentAttack();
         UAttack.Text = IntToStr(inherentAttack);
-        var inherentDefense = Leader.GetInherentDefense();
+        var inherentDefense = leader.GetInherentDefense();
         UDefense.Text = IntToStr(inherentDefense);
-        var inherentDamage = Leader.GetInherentDamage();
+        var inherentDamage = leader.GetInherentDamage();
         UDamage.Text = IntToStr(inherentDamage);
-        var inherentResistance = Leader.GetInherentResistance();
+        var inherentResistance = leader.GetInherentResistance();
         UResistance.Text = IntToStr(inherentResistance);
-        var hits = Leader.GetHits();
+        var hits = leader.GetHits();
         UHits.Text = IntToStr(hits);
-        var moves = Leader.GetMoves();
+        var moves = leader.GetMoves();
         UMoves.Text = IntToStr(moves);
         UAbilities.Items.Clear();
-        Leader.ListAbilities(UAbilities.Items);
-        var raceNamesPlural = AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Leader.FRace]);
+        leader.ListAbilities(UAbilities.Items);
+        var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.s_raceNamesPluralTexts[leader.Race]);
         SideNameLbl.Text = raceNamesPlural;
-        ShieldL.CurrentImage = Leader.FRace + 13;
-        ShieldR.CurrentImage = Leader.FRace + 13;
+        ShieldL.CurrentImage = leader.Race + 13;
+        ShieldR.CurrentImage = leader.Race + 13;
     }
 
     // AoWLeaderSetup.pas:775
     public void UpdateSkillPoints()
     {
-        var skillPoints = FLeader.GetSkillPoints();
-        var skillPointsText = AbilityRules.TranslateRStr(SkillPointsRStr);
-        var skillPointsMax = FLeader.GetSkillPointsMax();
+        var skillPoints = Leader.GetSkillPoints();
+        var skillPointsText = AbilityRules.TranslateResourceString(s_skillPointsText);
+        var skillPointsMax = Leader.GetSkillPointsMax();
         SkillPointsLbl.Text = skillPointsText + " " + IntToStr(skillPoints) + "/" + IntToStr(skillPointsMax);
     }
 
     // AoWLeaderSetup.pas:781
     public void UpdateStatistics()
     {
-        HeroResource Res;
-        Res = FLeader.FHeroResource;
-        AttB.Text = IntToStr(Res.FAttack);
-        DefB.Text = IntToStr(Res.FDefense);
-        DamB.Text = IntToStr(Res.FDamage);
-        ResB.Text = IntToStr(Res.FResistance);
-        HitB.Text = IntToStr(Res.FHits);
-        MovB.Text = IntToStr(Res.FMoves);
-        AttA.Text = IntToStr(FLeader.FUnitAttack);
-        DefA.Text = IntToStr(FLeader.FUnitDefense);
-        DamA.Text = IntToStr(FLeader.FUnitDamage);
-        ResA.Text = IntToStr(FLeader.FUnitResistance);
-        HitA.Text = IntToStr(FLeader.FUnitHits);
-        MovA.Text = IntToStr(FLeader.FUnitMoves);
-        var inherentAttack = FLeader.GetInherentAttack();
+        HeroResource resource;
+        resource = Leader.HeroResource;
+        AttB.Text = IntToStr(resource.Attack);
+        DefB.Text = IntToStr(resource.Defense);
+        DamB.Text = IntToStr(resource.Damage);
+        ResB.Text = IntToStr(resource.Resistance);
+        HitB.Text = IntToStr(resource.Hits);
+        MovB.Text = IntToStr(resource.Moves);
+        AttA.Text = IntToStr(Leader.UnitAttack);
+        DefA.Text = IntToStr(Leader.UnitDefense);
+        DamA.Text = IntToStr(Leader.UnitDamage);
+        ResA.Text = IntToStr(Leader.UnitResistance);
+        HitA.Text = IntToStr(Leader.UnitHits);
+        MovA.Text = IntToStr(Leader.UnitMoves);
+        var inherentAttack = Leader.GetInherentAttack();
         AttValue.Text = IntToStr(inherentAttack);
-        var inherentDefense = FLeader.GetInherentDefense();
+        var inherentDefense = Leader.GetInherentDefense();
         DefValue.Text = IntToStr(inherentDefense);
-        var inherentDamage = FLeader.GetInherentDamage();
+        var inherentDamage = Leader.GetInherentDamage();
         DamValue.Text = IntToStr(inherentDamage);
-        var inherentResistance = FLeader.GetInherentResistance();
+        var inherentResistance = Leader.GetInherentResistance();
         ResValue.Text = IntToStr(inherentResistance);
-        var hits = FLeader.GetHits();
+        var hits = Leader.GetHits();
         HitValue.Text = IntToStr(hits);
-        var moves = FLeader.GetMoves();
+        var moves = Leader.GetMoves();
         MovValue.Text = IntToStr(moves);
         UpdateSkillPoints();
     }
@@ -356,7 +356,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:807
     public void UpdateLeader()
     {
-        NameEdit.Text = FLeader.FHeroName;
+        NameEdit.Text = Leader.HeroName;
         UpdateAbilities();
         UpdateStatistics();
     }
@@ -364,7 +364,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:814
     public void SortSelectedAbilities()
     {
-        switch (FSelectedSort)
+        switch (SelectedSort)
         {
             case 0:
                 StringSorting.SortStringsAscending(SelectedAbilities.Items, [SelectedAbilitiesCost.Items]);
@@ -384,7 +384,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:830
     public void SortAvailableAbilities()
     {
-        switch (FAvailableSort)
+        switch (AvailableSort)
         {
             case 0:
                 StringSorting.SortStringsAscending(AvailableAbilities.Items, [AvailableAbilitiesCost.Items]);
@@ -404,20 +404,20 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:852
     public void UpdateAbilities()
     {
-        string Name;
-        string Cost;
-        Ability Ability;
+        string name;
+        string cost;
+        Ability ability;
         AvailableAbilities.Items.Clear();
         AvailableAbilitiesCost.Items.Clear();
-        for (int I = 0, last = AoWHSSet.Current.FAbilityControl.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = AoWHSSet.Current.AbilityControl.GetCount() - 1; I <= last; I++)
         {
-            if (AoWHSSet.Current.FAbilityControl.GetAbility(I) != null && (AoWHSSet.Current.FAbilityControl.GetAbility(I).FSelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
+            if (AoWHSSet.Current.AbilityControl.GetAbility(I) != null && (AoWHSSet.Current.AbilityControl.GetAbility(I).SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of())
             {
-                if (AoWHSSet.Current.FAbilityControl.GetAbility(I).CanExpand(FLeader))
+                if (AoWHSSet.Current.AbilityControl.GetAbility(I).CanExpand(Leader))
                 {
-                    var expandName = AoWHSSet.Current.FAbilityControl.GetAbility(I).ExpandName(FLeader);
+                    var expandName = AoWHSSet.Current.AbilityControl.GetAbility(I).ExpandName(Leader);
                     AvailableAbilities.Items.AddObject(expandName, IntToObject(I));
-                    var expandCost = AoWHSSet.Current.FAbilityControl.GetAbility(I).ExpandCost(FLeader);
+                    var expandCost = AoWHSSet.Current.AbilityControl.GetAbility(I).ExpandCost(Leader);
                     AvailableAbilitiesCost.Items.Add(IntToStr(expandCost));
                 }
             }
@@ -425,24 +425,24 @@ public partial class LeaderSetupWindow : DataModule
 
         SelectedAbilities.Items.Clear();
         SelectedAbilitiesCost.Items.Clear();
-        for (int I = 0, last = FLeader.GetAbCount() - 1; I <= last; I++)
+        for (int I = 0, last = Leader.GetAbCount() - 1; I <= last; I++)
         {
-            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(I);
-            if (FLeader.GetAbSet(I) && (FLeader.FHeroResource.FAbilities.GetAbSet(I) || (Ability.FSelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of()))
+            ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+            if (Leader.GetAbilitySetAt(I) && (Leader.HeroResource.Abilities.GetAbilitySetAt(I) || (ability.SelectionTypes & Set<AbilitySelectionType>.Of(AbilitySelectionType.CustomizeLeader, AbilitySelectionType.HeroUpgrade)) != Set<AbilitySelectionType>.Of()))
             {
-                Name = AoWHSSet.Current.FAbilityControl.GetAbility(I).GetName(FLeader);
-                if (FLeader.FHeroResource.FAbilities.GetAbSet(I) && FLeader.FHeroResource.FAbilities.GetAbLevel(I) == FLeader.GetAbilityLevel(I))
+                name = AoWHSSet.Current.AbilityControl.GetAbility(I).GetName(Leader);
+                if (Leader.HeroResource.Abilities.GetAbilitySetAt(I) && Leader.HeroResource.Abilities.GetAbLevel(I) == Leader.GetAbilityLevel(I))
                 {
-                    Name = Name + " (" + AbilityRules.TranslateRStr(GameText.FixedRStr) + ")";
-                    Cost = "-";
+                    name = name + " (" + AbilityRules.TranslateResourceString(GameText.s_fixedText) + ")";
+                    cost = "-";
                 }
                 else
                 {
-                    Cost = IntToStr(Ability.GetSkillPoints(FLeader) - Ability.GetSkillPoints(FLeader.FHeroResource.FAbilities));
+                    cost = IntToStr(ability.GetSkillPoints(Leader) - ability.GetSkillPoints(Leader.HeroResource.Abilities));
                 }
 
-                SelectedAbilitiesCost.Items.Add(Cost);
-                SelectedAbilities.Items.AddObject(Name, IntToObject(I));
+                SelectedAbilitiesCost.Items.Add(cost);
+                SelectedAbilities.Items.AddObject(name, IntToObject(I));
             }
         }
 
@@ -455,53 +455,53 @@ public partial class LeaderSetupWindow : DataModule
     }
 
     // AoWLeaderSetup.pas:840
-    public void SelectAvailableAbility(int Index)
+    public void SelectAvailableAbility(int index)
     {
-        AvailableAbilities.Selected = Index;
-        AvailableAbilitiesCost.Selected = Index;
+        AvailableAbilities.Selected = index;
+        AvailableAbilitiesCost.Selected = index;
     }
 
     // AoWLeaderSetup.pas:824
-    public void SelectSelectedAbility(int Index)
+    public void SelectSelectedAbility(int index)
     {
-        SelectedAbilities.Selected = Index;
-        SelectedAbilitiesCost.Selected = Index;
+        SelectedAbilities.Selected = index;
+        SelectedAbilitiesCost.Selected = index;
     }
 
     // AoWLeaderSetup.pas:846
-    public bool CanAddAbility(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).CanExpand(FLeader) && AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).ExpandCost(FLeader) <= FLeader.GetSkillPoints();
+    public bool CanAddAbility(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).CanExpand(Leader) && AoWHSSet.Current.AbilityControl.GetAbility(abilityId).ExpandCost(Leader) <= Leader.GetSkillPoints();
 
     // AoWLeaderSetup.pas:913
-    public void SetPhase(int Value)
+    public void SetPhase(int value)
     {
-        FPhase = Value;
-        Phase1Pnl.Visible = Value == 1;
-        Phase2Pnl.Visible = Value == 2;
-        Phase3Pnl.Visible = Value == 3;
-        Phase1Header.Visible = Value == 1;
-        Phase2Header.Visible = Value == 2;
-        Phase3Header.Visible = Value == 3;
-        StatPnl.Visible = Value > 2;
-        AbilityPnl.Visible = Value > 2;
-        LeaderName.Visible = Value > 1;
-        LeaderLbl.Visible = !FSetup.FMode.Contains(LeaderSetupModeElement.Campaign);
-        SideNameLbl.Visible = !FSetup.FMode.Contains(LeaderSetupModeElement.Campaign);
-        ShieldL.Visible = !FSetup.FMode.Contains(LeaderSetupModeElement.Campaign) || Value > 1;
-        ShieldR.Visible = !FSetup.FMode.Contains(LeaderSetupModeElement.Campaign) || Value > 1;
-        MainFaceFr.Visible = !FSetup.FMode.Contains(LeaderSetupModeElement.Campaign) || Value > 1;
+        Phase = value;
+        Phase1Pnl.Visible = value == 1;
+        Phase2Pnl.Visible = value == 2;
+        Phase3Pnl.Visible = value == 3;
+        Phase1Header.Visible = value == 1;
+        Phase2Header.Visible = value == 2;
+        Phase3Header.Visible = value == 3;
+        StatPnl.Visible = value > 2;
+        AbilityPnl.Visible = value > 2;
+        LeaderName.Visible = value > 1;
+        LeaderLbl.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
+        SideNameLbl.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign);
+        ShieldL.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
+        ShieldR.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
+        MainFaceFr.Visible = !Setup.Mode.Contains(LeaderSetupModeElement.Campaign) || value > 1;
         MainFace.Visible = MainFaceFr.Visible;
-        if (Value == 3 || (Value == 2 && (FSetup.FMode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()) || (Value == 1 && (FSetup.FMode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()))
+        if (value == 3 || (value == 2 && (Setup.Mode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()) || (value == 1 && (Setup.Mode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()))
         {
-            var finish = AbilityRules.TranslateRStr(FinishRStr);
+            var finish = AbilityRules.TranslateResourceString(s_finishText);
             NextBtn.Text = finish;
         }
         else
         {
-            var next = AbilityRules.TranslateRStr(NextRStr);
+            var next = AbilityRules.TranslateResourceString(s_nextText);
             NextBtn.Text = next;
         }
 
-        switch (Value)
+        switch (value)
         {
             case 1:
                 UpdateLeader();
@@ -516,9 +516,9 @@ public partial class LeaderSetupWindow : DataModule
     }
 
     // AoWLeaderSetup.pas:895
-    public void SetFixedSpheres(int Value)
+    public void SetFixedSpheres(int value)
     {
-        FFixedSpheres = Value;
+        FixedSpheres = value;
         UpdateSpheres();
     }
 
@@ -529,11 +529,11 @@ public partial class LeaderSetupWindow : DataModule
         DefaultBtn.Visible = true;
         PrevBtn.Visible = true;
         NextBtn.Visible = true;
-        var step1CustomizeLeader = AbilityRules.TranslateRStr(Step1CustomizeLeaderRStr);
+        var step1CustomizeLeader = AbilityRules.TranslateResourceString(s_step1CustomizeLeaderText);
         Phase1Header.Text = step1CustomizeLeader;
-        var step2AssignSkillPoints = AbilityRules.TranslateRStr(Step2AssignSkillPointsRStr);
+        var step2AssignSkillPoints = AbilityRules.TranslateResourceString(s_step2AssignSkillPointsText);
         Phase2Header.Text = step2AssignSkillPoints;
-        var step3AssignSpheres = AbilityRules.TranslateRStr(Step3AssignSpheresRStr);
+        var step3AssignSpheres = AbilityRules.TranslateResourceString(s_step3AssignSpheresText);
         Phase3Header.Text = step3AssignSpheres;
         SetFixedSpheres(0);
     }
@@ -541,190 +541,190 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:943
     public void UpdateSpheres()
     {
-        Button Btn;
+        Button button;
         for (int I = 0; I <= 6; I++)
         {
             switch (I)
             {
                 case 0:
-                    Btn = Sel1;
+                    button = Sel1;
                     break;
                 case 1:
-                    Btn = Sel2;
+                    button = Sel2;
                     break;
                 case 2:
-                    Btn = Sel3;
+                    button = Sel3;
                     break;
                 case 3:
-                    Btn = Sel4;
+                    button = Sel4;
                     break;
                 case 4:
-                    Btn = Sel5;
+                    button = Sel5;
                     break;
                 case 5:
-                    Btn = Sel6;
+                    button = Sel6;
                     break;
                 case 6:
-                    Btn = Sel7;
+                    button = Sel7;
                     break;
                 default:
-                    Btn = null;
+                    button = null;
                     break;
             }
 
-            if (I < FLeader.GetSphereCount())
+            if (I < Leader.GetSphereCount())
             {
-                Btn.Visible = true;
-                switch ((int)FLeader.GetSpheres(I) & 127)
+                button.Visible = true;
+                switch ((int)Leader.GetSpheres(I) & 127)
                 {
                     case 1:
-                        Btn.ILIndexDown = 28;
-                        Btn.ILIndexLit = 29;
-                        Btn.ILIndexUp = 27;
+                        button.ImageLibraryIndexDown = 28;
+                        button.ImageLibraryIndexLit = 29;
+                        button.ImageLibraryIndexUp = 27;
                         break;
                     case 5:
-                        Btn.ILIndexDown = 43;
-                        Btn.ILIndexLit = 44;
-                        Btn.ILIndexUp = 42;
+                        button.ImageLibraryIndexDown = 43;
+                        button.ImageLibraryIndexLit = 44;
+                        button.ImageLibraryIndexUp = 42;
                         break;
                     case 3:
-                        Btn.ILIndexDown = 34;
-                        Btn.ILIndexLit = 35;
-                        Btn.ILIndexUp = 33;
+                        button.ImageLibraryIndexDown = 34;
+                        button.ImageLibraryIndexLit = 35;
+                        button.ImageLibraryIndexUp = 33;
                         break;
                     case 4:
-                        Btn.ILIndexDown = 37;
-                        Btn.ILIndexLit = 38;
-                        Btn.ILIndexUp = 36;
+                        button.ImageLibraryIndexDown = 37;
+                        button.ImageLibraryIndexLit = 38;
+                        button.ImageLibraryIndexUp = 36;
                         break;
                     case 6:
-                        Btn.ILIndexDown = 40;
-                        Btn.ILIndexLit = 41;
-                        Btn.ILIndexUp = 39;
+                        button.ImageLibraryIndexDown = 40;
+                        button.ImageLibraryIndexLit = 41;
+                        button.ImageLibraryIndexUp = 39;
                         break;
                     case 2:
-                        Btn.ILIndexDown = 31;
-                        Btn.ILIndexLit = 32;
-                        Btn.ILIndexUp = 30;
+                        button.ImageLibraryIndexDown = 31;
+                        button.ImageLibraryIndexLit = 32;
+                        button.ImageLibraryIndexUp = 30;
                         break;
                 }
             }
             else
             {
-                Btn.Visible = false;
+                button.Visible = false;
             }
 
-            if (I < FFixedSpheres)
+            if (I < FixedSpheres)
             {
-                Btn.FCaptureInput = false;
-                Btn.ILIndexUp = Btn.ILIndexUp + 1;
+                button._captureInput = false;
+                button.ImageLibraryIndexUp = button.ImageLibraryIndexUp + 1;
             }
             else
             {
-                Btn.FCaptureInput = true;
+                button._captureInput = true;
             }
         }
 
-        var sphereCount = FLeader.GetSphereCount();
-        var selectedSpheres = AbilityRules.TranslateRStr(SelectedSpheresRStr);
-        SelectedSpheresLbl.Text = selectedSpheres + " (" + IntToStr(sphereCount) + "/" + IntToStr(FLeader.FSpherePicksMax) + ")";
-        if (FLeader.CanAddSphere(MagicSphere.Life))
+        var sphereCount = Leader.GetSphereCount();
+        var selectedSpheres = AbilityRules.TranslateResourceString(s_selectedSpheresText);
+        SelectedSpheresLbl.Text = selectedSpheres + " (" + IntToStr(sphereCount) + "/" + IntToStr(Leader.SpherePicksMax) + ")";
+        if (Leader.CanAddSphere(MagicSphere.Life))
         {
-            SelLife.ILIndexUp = 27;
-            SelLife.FCaptureInput = true;
+            SelLife.ImageLibraryIndexUp = 27;
+            SelLife._captureInput = true;
         }
         else
         {
-            SelLife.ILIndexUp = 28;
-            SelLife.FCaptureInput = false;
+            SelLife.ImageLibraryIndexUp = 28;
+            SelLife._captureInput = false;
         }
 
-        if (FLeader.CanAddSphere(MagicSphere.Death))
+        if (Leader.CanAddSphere(MagicSphere.Death))
         {
-            SelDeath.ILIndexUp = 30;
-            SelDeath.FCaptureInput = true;
+            SelDeath.ImageLibraryIndexUp = 30;
+            SelDeath._captureInput = true;
         }
         else
         {
-            SelDeath.ILIndexUp = 31;
-            SelDeath.FCaptureInput = false;
+            SelDeath.ImageLibraryIndexUp = 31;
+            SelDeath._captureInput = false;
         }
 
-        if (FLeader.CanAddSphere(MagicSphere.Fire))
+        if (Leader.CanAddSphere(MagicSphere.Fire))
         {
-            SelFire.ILIndexUp = 42;
-            SelFire.FCaptureInput = true;
+            SelFire.ImageLibraryIndexUp = 42;
+            SelFire._captureInput = true;
         }
         else
         {
-            SelFire.ILIndexUp = 43;
-            SelFire.FCaptureInput = false;
+            SelFire.ImageLibraryIndexUp = 43;
+            SelFire._captureInput = false;
         }
 
-        if (FLeader.CanAddSphere(MagicSphere.Water))
+        if (Leader.CanAddSphere(MagicSphere.Water))
         {
-            SelWater.ILIndexUp = 39;
-            SelWater.FCaptureInput = true;
+            SelWater.ImageLibraryIndexUp = 39;
+            SelWater._captureInput = true;
         }
         else
         {
-            SelWater.ILIndexUp = 40;
-            SelWater.FCaptureInput = false;
+            SelWater.ImageLibraryIndexUp = 40;
+            SelWater._captureInput = false;
         }
 
-        if (FLeader.CanAddSphere(MagicSphere.Earth))
+        if (Leader.CanAddSphere(MagicSphere.Earth))
         {
-            SelEarth.ILIndexUp = 33;
-            SelEarth.FCaptureInput = true;
+            SelEarth.ImageLibraryIndexUp = 33;
+            SelEarth._captureInput = true;
         }
         else
         {
-            SelEarth.ILIndexUp = 34;
-            SelEarth.FCaptureInput = false;
+            SelEarth.ImageLibraryIndexUp = 34;
+            SelEarth._captureInput = false;
         }
 
-        if (FLeader.CanAddSphere(MagicSphere.Air))
+        if (Leader.CanAddSphere(MagicSphere.Air))
         {
-            SelAir.ILIndexUp = 36;
-            SelAir.FCaptureInput = true;
+            SelAir.ImageLibraryIndexUp = 36;
+            SelAir._captureInput = true;
         }
         else
         {
-            SelAir.ILIndexUp = 37;
-            SelAir.FCaptureInput = false;
+            SelAir.ImageLibraryIndexUp = 37;
+            SelAir._captureInput = false;
         }
 
-        SelLife.FDrawn = false;
-        SelDeath.FDrawn = false;
-        SelFire.FDrawn = false;
-        SelWater.FDrawn = false;
-        SelEarth.FDrawn = false;
-        SelAir.FDrawn = false;
+        SelLife.Drawn = false;
+        SelDeath.Drawn = false;
+        SelFire.Drawn = false;
+        SelWater.Drawn = false;
+        SelEarth.Drawn = false;
+        SelAir.Drawn = false;
     }
 
     // AoWLeaderSetup.pas:269
     public void LeaderSetupWinCreate()
     {
-        FLeader = new Leader(null);
+        Leader = new Leader(null);
     }
 
     // AoWLeaderSetup.pas:274
     public void LeaderSetupWinDestroy()
     {
-        FLeader?.Dispose();
+        Leader?.Dispose();
     }
 
     // AoWLeaderSetup.pas:279
     public void AddAbilityClick()
     {
-        int AbilityID;
+        int abilityId;
         DialogHosts.General.PlayButtonSound(0);
         if (AvailableAbilities.Selected != -1)
         {
-            AbilityID = ObjectToInt(AvailableAbilities.Items.Objects[AvailableAbilities.Selected]);
-            if (CanAddAbility(AbilityID))
+            abilityId = ObjectToInt(AvailableAbilities.Items.Objects[AvailableAbilities.Selected]);
+            if (CanAddAbility(abilityId))
             {
-                FLeader.ExpandAbility(AbilityID);
+                Leader.ExpandAbility(abilityId);
                 UpdateAbilities();
                 UpdateLeader();
             }
@@ -734,52 +734,52 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:296
     public void RemoveAbilityClick()
     {
-        int AbilityID;
+        int abilityId;
         DialogHosts.General.PlayButtonSound(0);
         if (SelectedAbilities.Selected != -1)
         {
-            AbilityID = ObjectToInt(SelectedAbilities.Items.Objects[SelectedAbilities.Selected]);
-            if (FLeader.FHeroResource.FAbilities.GetAbSet(AbilityID) && FLeader.FHeroResource.FAbilities.GetAbLevel(AbilityID) == FLeader.GetAbilityLevel(AbilityID))
+            abilityId = ObjectToInt(SelectedAbilities.Items.Objects[SelectedAbilities.Selected]);
+            if (Leader.HeroResource.Abilities.GetAbilitySetAt(abilityId) && Leader.HeroResource.Abilities.GetAbLevel(abilityId) == Leader.GetAbilityLevel(abilityId))
             {
                 return;
             }
 
-            FLeader.RemoveAbility(AbilityID);
+            Leader.RemoveAbility(abilityId);
             UpdateAbilities();
             UpdateLeader();
         }
     }
 
     // AoWLeaderSetup.pas:312
-    public void DrawSelectionFace(Frame Sender, LockedSurface SD, int Offset)
+    public void DrawSelectionFace(Frame sender, LockedSurface lockedSurface, int offset)
     {
-        LeaderSetupControl Setup;
-        int Index;
+        LeaderSetupControl setup;
+        int index;
         Rect R;
-        FaceResource Face;
-        Setup = FSetup;
-        Index = FLeader.FFaceIndex;
-        while (Offset < 0)
+        FaceResource face;
+        setup = Setup;
+        index = Leader.FaceIndex;
+        while (offset < 0)
         {
-            Offset += 1;
-            Index = AoWHSSet.Current.FFaceResources.PrevFace(Index);
+            offset += 1;
+            index = AoWHSSet.Current.FaceResources.PreviousFace(index);
         }
 
-        while (Offset > 0)
+        while (offset > 0)
         {
-            Offset -= 1;
-            Index = AoWHSSet.Current.FFaceResources.NextFace(Index);
+            offset -= 1;
+            index = AoWHSSet.Current.FaceResources.NextFace(index);
         }
 
-        var image = Sender;
+        var image = sender;
         R = new Rect(Phase1Pnl.WinLeft + image.WinLeft + 2, Phase1Pnl.WinTop + image.WinTop, Phase1Pnl.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Pnl.WinTop + image.WinTop + image.WinHeight - 2);
 
-        if (Setup.FOriginalLeader.GetFace() != null)
+        if (setup.OriginalLeader.GetFace() != null)
         {
-            Face = AoWHSSet.Current.FFaceResources.GetFaceResource(Index);
-            Face.AddRef();
-            Face.GetFaceImage().ShowStretched(R, SD);
-            Face.Release();
+            face = AoWHSSet.Current.FaceResources.GetFaceResource(index);
+            face.AddRef();
+            face.GetFaceImage().ShowStretched(R, lockedSurface);
+            face.Release();
         }
     }
 
@@ -787,28 +787,28 @@ public partial class LeaderSetupWindow : DataModule
     public void FacePrevBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var prevFace = AoWHSSet.Current.FFaceResources.PrevFace(FLeader.FFaceIndex);
-        FLeader.SetFaceIndex(prevFace);
-        DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+        var previousFace = AoWHSSet.Current.FaceResources.PreviousFace(Leader.FaceIndex);
+        Leader.SetFaceIndex(previousFace);
+        DialogHosts.TitleWindow.TitleWin.Drawn = false;
     }
 
     // AoWLeaderSetup.pas:352
     public void FaceNextBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        var nextFace = AoWHSSet.Current.FFaceResources.NextFace(FLeader.FFaceIndex);
-        FLeader.SetFaceIndex(nextFace);
-        DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+        var nextFace = AoWHSSet.Current.FaceResources.NextFace(Leader.FaceIndex);
+        Leader.SetFaceIndex(nextFace);
+        DialogHosts.TitleWindow.TitleWin.Drawn = false;
     }
 
     // AoWLeaderSetup.pas:359
     public void PrevBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        switch (FPhase)
+        switch (Phase)
         {
             case 1:
-                if (FSetup.FMode.Contains(LeaderSetupModeElement.Campaign))
+                if (Setup.Mode.Contains(LeaderSetupModeElement.Campaign))
                 {
                     Cancel();
                 }
@@ -816,7 +816,7 @@ public partial class LeaderSetupWindow : DataModule
                 break;
             case 2:
                 SaveLeader();
-                if (FSetup.FMode.Contains(LeaderSetupModeElement.Look))
+                if (Setup.Mode.Contains(LeaderSetupModeElement.Look))
                 {
                     SetPhase(1);
                 }
@@ -824,13 +824,13 @@ public partial class LeaderSetupWindow : DataModule
                 break;
             case 3:
                 SaveLeader();
-                if (FSetup.FMode.Contains(LeaderSetupModeElement.Settings))
+                if (Setup.Mode.Contains(LeaderSetupModeElement.Settings))
                 {
                     SetPhase(2);
                 }
                 else
                 {
-                    if (FSetup.FMode.Contains(LeaderSetupModeElement.Look))
+                    if (Setup.Mode.Contains(LeaderSetupModeElement.Look))
                     {
                         SetPhase(1);
                     }
@@ -844,17 +844,17 @@ public partial class LeaderSetupWindow : DataModule
     public void NextBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        switch (FPhase)
+        switch (Phase)
         {
             case 1:
                 SaveLeader();
-                if (FSetup.FMode.Contains(LeaderSetupModeElement.Settings))
+                if (Setup.Mode.Contains(LeaderSetupModeElement.Settings))
                 {
                     SetPhase(2);
                 }
                 else
                 {
-                    if (FSetup.FMode.Contains(LeaderSetupModeElement.Spheres))
+                    if (Setup.Mode.Contains(LeaderSetupModeElement.Spheres))
                     {
                         SetPhase(3);
                     }
@@ -864,11 +864,11 @@ public partial class LeaderSetupWindow : DataModule
                     }
                 }
 
-                DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+                DialogHosts.TitleWindow.TitleWin.Drawn = false;
                 break;
             case 2:
                 SaveLeader();
-                if (FSetup.FMode.Contains(LeaderSetupModeElement.Spheres))
+                if (Setup.Mode.Contains(LeaderSetupModeElement.Spheres))
                 {
                     SetPhase(3);
                 }
@@ -877,21 +877,21 @@ public partial class LeaderSetupWindow : DataModule
                     Finish();
                 }
 
-                DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+                DialogHosts.TitleWindow.TitleWin.Drawn = false;
                 break;
             case 3:
-                if (FLeader.GetSphereCount() == FLeader.FSpherePicksMax)
+                if (Leader.GetSphereCount() == Leader.SpherePicksMax)
                 {
                     Finish();
                 }
                 else
                 {
-                    MessageDialog.ResetMessageDialog(DialogHosts.MessageDlg);
-                    DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-                    var pleaseAssignAllSpheres = AbilityRules.TranslateRStr(PleaseAssignAllSpheresRStr);
-                    DialogHosts.MessageDlg.MessageMemo.Items.Add(pleaseAssignAllSpheres);
-                    DialogHosts.MessageDlg.OKPnl.Visible = true;
-                    DialogHosts.MessageDlg.Dlg.Visible = true;
+                    MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
+                    DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+                    var pleaseAssignAllSpheres = AbilityRules.TranslateResourceString(s_pleaseAssignAllSpheresText);
+                    DialogHosts.MessageDialog.MessageMemo.Items.Add(pleaseAssignAllSpheres);
+                    DialogHosts.MessageDialog.OKPnl.Visible = true;
+                    DialogHosts.MessageDialog.Dlg.Visible = true;
                 }
 
                 break;
@@ -899,19 +899,19 @@ public partial class LeaderSetupWindow : DataModule
     }
 
     // AoWLeaderSetup.pas:405
-    public void MainFaceFrPreDraw(Frame Sender, LockedSurface SD)
+    public void MainFaceFrPreDraw(Frame sender, LockedSurface lockedSurface)
     {
-        LeaderSetupControl Setup;
+        LeaderSetupControl setup;
         Rect R;
-        Setup = FSetup;
-        if (FPhase > 1)
+        setup = Setup;
+        if (Phase > 1)
         {
-            var frame = Sender;
+            var frame = sender;
             R = new Rect(LMainPnl.WinLeft + frame.WinLeft + 2, LMainPnl.WinTop + frame.WinTop, LMainPnl.WinLeft + frame.WinLeft + frame.WinWidth - 2, LMainPnl.WinTop + frame.WinTop + frame.WinHeight - 2);
 
-            if (Setup.FOriginalLeader.GetFace() != null)
+            if (setup.OriginalLeader.GetFace() != null)
             {
-                Setup.FOriginalLeader.GetFace().ShowStretched(R, SD);
+                setup.OriginalLeader.GetFace().ShowStretched(R, lockedSurface);
             }
         }
     }
@@ -919,7 +919,7 @@ public partial class LeaderSetupWindow : DataModule
     // AoWLeaderSetup.pas:422
     public void NameEditChange()
     {
-        FLeader.FHeroName = NameEdit.Text;
+        Leader.HeroName = NameEdit.Text;
     }
 
     // AoWLeaderSetup.pas:427
@@ -964,7 +964,7 @@ public partial class LeaderSetupWindow : DataModule
     public void AttUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitAttack((sbyte)(FLeader.FUnitAttack + 1));
+        Leader.SetUnitAttack((sbyte)(Leader.UnitAttack + 1));
         UpdateStatistics();
     }
 
@@ -972,7 +972,7 @@ public partial class LeaderSetupWindow : DataModule
     public void AttDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitAttack((sbyte)(FLeader.FUnitAttack - 1));
+        Leader.SetUnitAttack((sbyte)(Leader.UnitAttack - 1));
         UpdateStatistics();
     }
 
@@ -980,7 +980,7 @@ public partial class LeaderSetupWindow : DataModule
     public void DefUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitDefense((sbyte)(FLeader.FUnitDefense + 1));
+        Leader.SetUnitDefense((sbyte)(Leader.UnitDefense + 1));
         UpdateStatistics();
     }
 
@@ -988,7 +988,7 @@ public partial class LeaderSetupWindow : DataModule
     public void DefDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitDefense((sbyte)(FLeader.FUnitDefense - 1));
+        Leader.SetUnitDefense((sbyte)(Leader.UnitDefense - 1));
         UpdateStatistics();
     }
 
@@ -996,7 +996,7 @@ public partial class LeaderSetupWindow : DataModule
     public void DamUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitDamage((sbyte)(FLeader.FUnitDamage + 1));
+        Leader.SetUnitDamage((sbyte)(Leader.UnitDamage + 1));
         UpdateStatistics();
     }
 
@@ -1004,7 +1004,7 @@ public partial class LeaderSetupWindow : DataModule
     public void DamDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitDamage((sbyte)(FLeader.FUnitDamage - 1));
+        Leader.SetUnitDamage((sbyte)(Leader.UnitDamage - 1));
         UpdateStatistics();
     }
 
@@ -1012,7 +1012,7 @@ public partial class LeaderSetupWindow : DataModule
     public void ResUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitResistance((sbyte)(FLeader.FUnitResistance + 1));
+        Leader.SetUnitResistance((sbyte)(Leader.UnitResistance + 1));
         UpdateStatistics();
     }
 
@@ -1020,7 +1020,7 @@ public partial class LeaderSetupWindow : DataModule
     public void ResDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitResistance((sbyte)(FLeader.FUnitResistance - 1));
+        Leader.SetUnitResistance((sbyte)(Leader.UnitResistance - 1));
         UpdateStatistics();
     }
 
@@ -1028,7 +1028,7 @@ public partial class LeaderSetupWindow : DataModule
     public void HitUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitHits((sbyte)(FLeader.FUnitHits + 1));
+        Leader.SetUnitHits((sbyte)(Leader.UnitHits + 1));
         UpdateStatistics();
     }
 
@@ -1036,7 +1036,7 @@ public partial class LeaderSetupWindow : DataModule
     public void HitDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitHits((sbyte)(FLeader.FUnitHits - 1));
+        Leader.SetUnitHits((sbyte)(Leader.UnitHits - 1));
         UpdateStatistics();
     }
 
@@ -1044,7 +1044,7 @@ public partial class LeaderSetupWindow : DataModule
     public void MovUpClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitMoves((sbyte)(FLeader.FUnitMoves + 1));
+        Leader.SetUnitMoves((sbyte)(Leader.UnitMoves + 1));
         UpdateStatistics();
     }
 
@@ -1052,7 +1052,7 @@ public partial class LeaderSetupWindow : DataModule
     public void MovDnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        FLeader.SetUnitMoves((sbyte)(FLeader.FUnitMoves - 1));
+        Leader.SetUnitMoves((sbyte)(Leader.UnitMoves - 1));
         UpdateStatistics();
     }
 
@@ -1060,21 +1060,21 @@ public partial class LeaderSetupWindow : DataModule
     public void ClearBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        switch (FPhase)
+        switch (Phase)
         {
             case 1:
                 {
-                    var leader = FLeader;
+                    var leader = Leader;
                     leader.SetNickname("");
-                    leader.FHeroName = "";
+                    leader.HeroName = "";
                     UpdateLeader();
                 }
 
                 break;
             case 2:
                 {
-                    var leader = FLeader;
-                    leader.AssignAb(leader.FHeroResource.FAbilities);
+                    var leader = Leader;
+                    leader.AssignAbility(leader.HeroResource.Abilities);
                     leader.SetUnitAttack(0);
                     leader.SetUnitDefense(0);
                     leader.SetUnitDamage(0);
@@ -1086,7 +1086,7 @@ public partial class LeaderSetupWindow : DataModule
 
                 break;
             case 3:
-                FLeader.ClearSpheres();
+                Leader.ClearSpheres();
                 UpdateSpheres();
                 break;
         }
@@ -1096,40 +1096,40 @@ public partial class LeaderSetupWindow : DataModule
     public void DefaultBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.TitleWindow.TitleWin.FDrawn = false;
-        switch (FPhase)
+        DialogHosts.TitleWindow.TitleWin.Drawn = false;
+        switch (Phase)
         {
             case 1:
                 {
-                    var leader = FLeader;
-                    leader.SetNickname(FSetup.FLeader.GetNickname());
-                    leader.FHeroName = FSetup.FLeader.FHeroName;
-                    leader.SetFaceIndex(FSetup.FLeader.FFaceIndex);
+                    var leader = Leader;
+                    leader.SetNickname(Setup.Leader.GetNickname());
+                    leader.HeroName = Setup.Leader.HeroName;
+                    leader.SetFaceIndex(Setup.Leader.FaceIndex);
                     UpdateLeader();
                 }
 
                 break;
             case 2:
                 {
-                    var leader = FLeader;
-                    leader.AssignAb(FSetup.FLeader);
-                    leader.SetUnitAttack(FSetup.FLeader.FUnitAttack);
-                    leader.SetUnitDefense(FSetup.FLeader.FUnitDefense);
-                    leader.SetUnitDamage(FSetup.FLeader.FUnitDamage);
-                    leader.SetUnitHits(FSetup.FLeader.FUnitHits);
-                    leader.SetUnitMoves(FSetup.FLeader.FUnitMoves);
-                    leader.SetUnitResistance(FSetup.FLeader.FUnitResistance);
+                    var leader = Leader;
+                    leader.AssignAbility(Setup.Leader);
+                    leader.SetUnitAttack(Setup.Leader.UnitAttack);
+                    leader.SetUnitDefense(Setup.Leader.UnitDefense);
+                    leader.SetUnitDamage(Setup.Leader.UnitDamage);
+                    leader.SetUnitHits(Setup.Leader.UnitHits);
+                    leader.SetUnitMoves(Setup.Leader.UnitMoves);
+                    leader.SetUnitResistance(Setup.Leader.UnitResistance);
                     UpdateLeader();
                 }
 
                 break;
             case 3:
                 {
-                    var leader = FLeader;
+                    var leader = Leader;
                     leader.ClearSpheres();
-                    for (int I = 0, last = FSetup.FLeader.GetSphereCount() - 1; I <= last; I++)
+                    for (int I = 0, last = Setup.Leader.GetSphereCount() - 1; I <= last; I++)
                     {
-                        leader.AddSphere(FSetup.FLeader.GetSpheres(I));
+                        leader.AddSphere(Setup.Leader.GetSpheres(I));
                     }
 
                     UpdateLeader();
@@ -1144,9 +1144,9 @@ public partial class LeaderSetupWindow : DataModule
     public void SelLifeClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FLeader.CanAddSphere(MagicSphere.Life))
+        if (Leader.CanAddSphere(MagicSphere.Life))
         {
-            FLeader.AddSphere(MagicSphere.Life);
+            Leader.AddSphere(MagicSphere.Life);
             UpdateSpheres();
         }
     }
@@ -1155,9 +1155,9 @@ public partial class LeaderSetupWindow : DataModule
     public void SelFireClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FLeader.CanAddSphere(MagicSphere.Fire))
+        if (Leader.CanAddSphere(MagicSphere.Fire))
         {
-            FLeader.AddSphere(MagicSphere.Fire);
+            Leader.AddSphere(MagicSphere.Fire);
             UpdateSpheres();
         }
     }
@@ -1166,9 +1166,9 @@ public partial class LeaderSetupWindow : DataModule
     public void SelDeathClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FLeader.CanAddSphere(MagicSphere.Death))
+        if (Leader.CanAddSphere(MagicSphere.Death))
         {
-            FLeader.AddSphere(MagicSphere.Death);
+            Leader.AddSphere(MagicSphere.Death);
             UpdateSpheres();
         }
     }
@@ -1177,9 +1177,9 @@ public partial class LeaderSetupWindow : DataModule
     public void SelWaterClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FLeader.CanAddSphere(MagicSphere.Water))
+        if (Leader.CanAddSphere(MagicSphere.Water))
         {
-            FLeader.AddSphere(MagicSphere.Water);
+            Leader.AddSphere(MagicSphere.Water);
             UpdateSpheres();
         }
     }
@@ -1188,9 +1188,9 @@ public partial class LeaderSetupWindow : DataModule
     public void SelAirClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FLeader.CanAddSphere(MagicSphere.Air))
+        if (Leader.CanAddSphere(MagicSphere.Air))
         {
-            FLeader.AddSphere(MagicSphere.Air);
+            Leader.AddSphere(MagicSphere.Air);
             UpdateSpheres();
         }
     }
@@ -1199,21 +1199,21 @@ public partial class LeaderSetupWindow : DataModule
     public void SelEarthClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FLeader.CanAddSphere(MagicSphere.Earth))
+        if (Leader.CanAddSphere(MagicSphere.Earth))
         {
-            FLeader.AddSphere(MagicSphere.Earth);
+            Leader.AddSphere(MagicSphere.Earth);
             UpdateSpheres();
         }
     }
 
     // AoWLeaderSetup.pas:664
-    public void DeleteSphereClick(int Slot)
+    public void DeleteSphereClick(int slot)
     {
         DialogHosts.General.PlayButtonSound(0);
-        var sphereCount = FLeader.GetSphereCount();
-        if (Slot < sphereCount)
+        var sphereCount = Leader.GetSphereCount();
+        if (slot < sphereCount)
         {
-            FLeader.DeleteSphereIndex(Slot);
+            Leader.DeleteSphereIndex(slot);
         }
 
         UpdateSpheres();
@@ -1224,20 +1224,20 @@ public partial class LeaderSetupWindow : DataModule
     {
         DialogHosts.General.PlayButtonSound(0);
         var objectValue = RaceCB.Items.Objects[RaceCB.Selected];
-        FLeader.SetRace((sbyte)ObjectToInt(objectValue));
+        Leader.SetRace((sbyte)ObjectToInt(objectValue));
     }
 
     // AoWLeaderSetup.pas:678
     public void SelectedAbilitiesSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FSelectedSort == 0)
+        if (SelectedSort == 0)
         {
-            FSelectedSort = 1;
+            SelectedSort = 1;
         }
         else
         {
-            FSelectedSort = 0;
+            SelectedSort = 0;
         }
 
         SortSelectedAbilities();
@@ -1247,13 +1247,13 @@ public partial class LeaderSetupWindow : DataModule
     public void SelectedAbilitiesCostSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FSelectedSort == 2)
+        if (SelectedSort == 2)
         {
-            FSelectedSort = 3;
+            SelectedSort = 3;
         }
         else
         {
-            FSelectedSort = 2;
+            SelectedSort = 2;
         }
 
         SortSelectedAbilities();
@@ -1263,13 +1263,13 @@ public partial class LeaderSetupWindow : DataModule
     public void AvailableAbilitiesSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FAvailableSort == 0)
+        if (AvailableSort == 0)
         {
-            FAvailableSort = 1;
+            AvailableSort = 1;
         }
         else
         {
-            FAvailableSort = 0;
+            AvailableSort = 0;
         }
 
         SortAvailableAbilities();
@@ -1279,13 +1279,13 @@ public partial class LeaderSetupWindow : DataModule
     public void AvailableAbilitiesCostSortClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (FAvailableSort == 2)
+        if (AvailableSort == 2)
         {
-            FAvailableSort = 3;
+            AvailableSort = 3;
         }
         else
         {
-            FAvailableSort = 2;
+            AvailableSort = 2;
         }
 
         SortAvailableAbilities();
@@ -1310,43 +1310,43 @@ public partial class LeaderSetupWindow : DataModule
     }
 
     // AoWLeaderSetup.pas:725
-    public void SelectedAbilitiesCostMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void SelectedAbilitiesCostMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Ability Ability;
-        if (Button == MouseButton.Right && SelectedAbilities.Selected != -1)
+        Ability ability;
+        if (button == MouseButton.Right && SelectedAbilities.Selected != -1)
         {
             var objectValue = SelectedAbilities.Items.Objects[SelectedAbilities.Selected];
-            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
-            if (Ability != null)
+            ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            if (ability != null)
             {
-                var name = Ability.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
+                var name = ability.GetName(null);
+                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, ability.Description);
             }
         }
     }
 
     // AoWLeaderSetup.pas:737
-    public void AvailableAbilitiesMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public void AvailableAbilitiesMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Ability Ability;
-        if (Button == MouseButton.Right && AvailableAbilities.Selected != -1)
+        Ability ability;
+        if (button == MouseButton.Right && AvailableAbilities.Selected != -1)
         {
             var objectValue = AvailableAbilities.Items.Objects[AvailableAbilities.Selected];
-            Ability = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
-            if (Ability != null)
+            ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            if (ability != null)
             {
-                var name = Ability.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
+                var name = ability.GetName(null);
+                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, ability.Description);
             }
         }
     }
 
-    private static readonly string FinishRStr = "Finish";
-    private static readonly string NextRStr = "Next";
-    private static readonly string PleaseAssignAllSpheresRStr = "Please assign all spheres!";
-    private static readonly string SelectedSpheresRStr = "Selected Spheres";
-    private static readonly string SkillPointsRStr = "Skill Points";
-    private static readonly string Step1CustomizeLeaderRStr = "Step 1: Customize Leader";
-    private static readonly string Step2AssignSkillPointsRStr = "Step 2: Assign Skill Points";
-    private static readonly string Step3AssignSpheresRStr = "Step 3: Assign Spheres";
+    private static readonly string s_finishText = "Finish";
+    private static readonly string s_nextText = "Next";
+    private static readonly string s_pleaseAssignAllSpheresText = "Please assign all spheres!";
+    private static readonly string s_selectedSpheresText = "Selected Spheres";
+    private static readonly string s_skillPointsText = "Skill Points";
+    private static readonly string s_step1CustomizeLeaderText = "Step 1: Customize Leader";
+    private static readonly string s_step2AssignSkillPointsText = "Step 2: Assign Skill Points";
+    private static readonly string s_step3AssignSpheresText = "Step 3: Assign Spheres";
 }

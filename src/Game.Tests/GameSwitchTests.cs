@@ -105,15 +105,15 @@ public sealed class GameSwitchTests
         byte[] bytes = GameFiles.Write(document);
         File.WriteAllBytes(file, bytes);
         GameEngine engine = EngineFixture.Engine;
-        var live = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FDay = 7; value.FMapName = "live"; });
-        var previous = engine.FHSMap;
-        engine.FHSMap = live;
+        var live = EngineFixture.Configure(new AoWHSMap(null!), value => { value.Day = 7; value.MapName = "live"; });
+        var previous = engine._hexSpriteMap;
+        engine._hexSpriteMap = live;
         try
         {
-            engine.LoadHSM(file, false, null!, GameProfile.WorldMap);
-            Assert.Same(live, engine.FHSMap);
-            Assert.Equal(7, live.FDay);
-            Assert.Equal("live", live.FMapName);
+            engine.LoadHsm(file, false, null!, GameProfile.WorldMap);
+            Assert.Same(live, engine._hexSpriteMap);
+            Assert.Equal(7, live.Day);
+            Assert.Equal("live", live.MapName);
             Assert.Equal(bytes, File.ReadAllBytes(file));
             var failure = FileBoundary.LastFailure;
             Assert.NotNull(failure);
@@ -124,7 +124,7 @@ public sealed class GameSwitchTests
         }
         finally
         {
-            engine.FHSMap = previous;
+            engine._hexSpriteMap = previous;
             File.Delete(file);
         }
     }
@@ -202,7 +202,7 @@ public sealed class GameSwitchTests
         byte[] edited = GameFiles.Write(document);
         var result = GameBoundary.PrepareLoad(edited, "edited.asg", GameProfile.WorldMap, FormatMapping.Validators);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
-        Assert.Equal("not applicable: own document", result.Report.G1);
+        Assert.Equal("not applicable: own document", result.Report.OriginalRoundTrip);
         var reread = GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document;
         Assert.Equal(edited, GameFiles.Write(reread));
         Assert.Equal(day + 1, ((JsonInteger)Root(reread)["Day"]!).Value);
@@ -242,7 +242,7 @@ public sealed class GameSwitchTests
     // own-formats.md 2.7, removed property: an absent rwData member is absent from the engine
     // image, and the engine's read of an absent rwData id leaves the constructor's value, not 0.
     [InstalledFact]
-    public void RemovedRwDataPropertyKeepsTheConstructorDefault()
+    public void RemovedReadWriteDataPropertyKeepsTheConstructorDefault()
     {
         var document = ShippedSave();
         var groups = Groups(document);
@@ -256,8 +256,8 @@ public sealed class GameSwitchTests
 
         // The id table is weak since C12, so the unlinked group needs no teardown.
         var group = new PassiveAIGroup(null!);
-        Assert.Equal(-1, group.FIndependentRelation);
-        sbyte relation = group.FIndependentRelation;
+        Assert.Equal(-1, group.IndependentRelation);
+        sbyte relation = group.IndependentRelation;
         using var memory = new MemoryStream();
         memory.Write(new byte[] { 0 });
         memory.Position = 0;
@@ -303,7 +303,7 @@ public sealed class GameSwitchTests
         byte[] file = File.ReadAllBytes(InstalledSave.Save);
         var result = GameBoundary.PrepareLoad(file, InstalledSave.Save, GameProfile.WorldMap, FormatMapping.Validators);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
-        Assert.Equal("equal", result.Report.G1);
+        Assert.Equal("equal", result.Report.OriginalRoundTrip);
         Assert.Equal("passed", result.Report.Validation);
         Assert.Equal(GameProfile.WorldMap.Profile.Comparable(file, FormatLimits.Default)[5..], result.Bytes);
     }
@@ -353,7 +353,7 @@ public sealed class GameSwitchTests
         string file = Path.Combine(InstalledSave.Root, relative.Replace('/', Path.DirectorySeparatorChar));
         var result = GameBoundary.PrepareLoad(File.ReadAllBytes(file), file, profile, FormatMapping.Validators);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
-        Assert.Equal("equal", result.Report.G1);
+        Assert.Equal("equal", result.Report.OriginalRoundTrip);
     }
 
     [Fact]
@@ -368,7 +368,7 @@ public sealed class GameSwitchTests
     [Fact]
     public void FileLogRecordNamesEveryField()
     {
-        var report = new GameFileReport { Operation = "open", Profile = GameProfile.WorldMap, Kind = "save", Format = "OwnJson", Version = 1, G1 = "not applicable: own document", Validation = "refused", Error = new FormatDiagnostic(Codes.Reference, "x") { File = "a.asg" } };
+        var report = new GameFileReport { Operation = "open", Profile = GameProfile.WorldMap, Kind = "save", Format = "OwnJson", Version = 1, OriginalRoundTrip = "not applicable: own document", Validation = "refused", Error = new FormatDiagnostic(Codes.Reference, "x") { File = "a.asg" } };
         string line = new FileLogRecord(@"C:\Save\a.asg", "user", report).ToJson();
         Assert.Equal("{\"operation\":\"open\",\"path\":\"C:\\\\Save\\\\a.asg\",\"layer\":\"user\",\"profile\":\"world-hsm\",\"use\":\"world-map\",\"kind\":\"save\",\"format\":\"OwnJson\",\"version\":1,\"g1\":\"not applicable: own document\",\"validation\":\"refused\",\"error\":\"E_REFERENCE\",\"diagnostic\":\"a.asg E_REFERENCE\\nx\",\"cached\":false}", line);
     }

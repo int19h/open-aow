@@ -13,23 +13,23 @@ public partial class SingleCombatHex : AbstractHexagon
     { }
 
     // SingleCombatHex.pas:41
-    public new const int ClassID = 2229534;
+    public new const int ClassId = 2229534;
 
     // SingleCombatHex.pas:47
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        ImageSequence Sequence;
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-        X = X - XhpSurf - 8;
-        Y = Y - YhpSurf;
-        Sequence = FResource.ImageSequenceList.GetImageSequence(0);
-        Sequence.ImageLibrary.Get(Sequence.ImageIndex).Show(X, Y, SurfaceDesc);
+        ImageSequence sequence;
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+        X = X - pixelXSurface - 8;
+        Y = Y - pixelYSurface;
+        sequence = _resource.ImageSequenceList.GetImageSequence(0);
+        sequence.ImageLibrary.Get(sequence.ImageIndex).Show(X, Y, lockedSurface);
     }
 
     // SingleCombatHex.pas:44
-    public override MapObjectResourceList GetResourceList(GameEngine AEngine) => AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
 
     public new partial class Resource : AbstractHexagonResource
     {
@@ -37,29 +37,29 @@ public partial class SingleCombatHex : AbstractHexagon
         { }
 
         // SingleCombatHex.pas:59
-        public new const int ClassID = 2229535;
+        public new const int ClassId = 2229535;
 
         // SingleCombatHex.pas:73
-        public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+        public override void MessageProc(ref EngineMessage message, EngineObject sender)
         {
-            base.MsgProc(ref Msg, Sender);
-            if (Msg.MsgID == 65621)
+            base.MessageProc(ref message, sender);
+            if (message.MessageId == 65621)
             {
-                Msg.Result = 5;
+                message.Result = 5;
             }
         }
 
         // SingleCombatHex.pas:79
-        public override int ResourceUserClassID() => 2229534;
+        public override int ResourceUserClassId() => 2229534;
 
         // SingleCombatHex.pas:65
-        public override void SetLevel(byte Value)
+        public override void SetLevel(byte value)
         {
             base.SetLevel(0);
         }
 
         // SingleCombatHex.pas:70
-        public override HexControl GetHexagonControl() => null;
+        public override HexControl GetHexControl() => null;
 
         // SingleCombatHex.pas:62
         public override string ResourceEditName() => "Combat Single Hexagon";

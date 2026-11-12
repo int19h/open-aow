@@ -18,32 +18,32 @@ public partial class PbemPlayerSettings : EngineObject
     // Player.PAS:236
     public PbemPlayerSettings(ECustomNode owner) : base(owner)
     {
-        FStatus = Set<PbemPlayerStatusElement>.Of();
-        FEmailGame = new EmailGame(null);
+        Status = Set<PbemPlayerStatusElement>.Of();
+        EmailGame = new EmailGame(null);
     }
 
-    public Set<PbemPlayerStatusElement> FStatus;
-    public EmailGame FEmailGame;
+    public Set<PbemPlayerStatusElement> Status;
+    public EmailGame EmailGame;
 
     // Player.PAS:243
     public override void Dispose()
     {
-        FEmailGame?.Dispose();
+        EmailGame?.Dispose();
         base.Dispose();
     }
 
     // Player.PAS:249
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        RwSet(ref FStatus, 1, 20, Stream.rwData, 0);
-        Stream.rwEObject(FEmailGame, 21);
+        base.ReadWrite(stream);
+        RwSet(ref Status, 1, 20, stream.rwData, 0);
+        stream.rwEObject(EmailGame, 21);
     }
 
     // Player.PAS:256
-    public void SetGame(EngineObject Game)
+    public void SetGame(EngineObject game)
     {
-        FEmailGame.Assign(Game, GameTables.AoWEngine);
+        EmailGame.Assign(game, GameTables.GameEngine);
     }
 
     // intf_P1_03.inc:160

@@ -31,24 +31,24 @@ public static class JsonWriter
     {
         switch (value)
         {
-            case JsonObject obj:
-                if (obj.Members.Count == 0)
+            case JsonObject objectValue:
+                if (objectValue.Members.Count == 0)
                 {
                     builder.Append("{}");
                     return;
                 }
                 builder.Append("{\n");
-                for (int i = 0; i < obj.Members.Count; i++)
+                for (int i = 0; i < objectValue.Members.Count; i++)
                 {
                     Indent(builder, depth + 1);
-                    WriteString(builder, obj.Members[i].Name);
+                    WriteString(builder, objectValue.Members[i].Name);
                     builder.Append(": ");
-                    var member = obj.Members[i];
+                    var member = objectValue.Members[i];
                     // Map field rows take one line each, also in a parsed document without layout marks.
                     if (member.Name == "Fields" && member.Value is JsonArray { Items.Count: > 0 } rows && rows.Items.All(r => r is JsonArray))
                         WriteRows(builder, rows, depth + 1);
                     else Write(builder, member.Value, depth + 1);
-                    builder.Append(i + 1 < obj.Members.Count ? ",\n" : "\n");
+                    builder.Append(i + 1 < objectValue.Members.Count ? ",\n" : "\n");
                 }
                 Indent(builder, depth);
                 builder.Append('}');
@@ -94,14 +94,14 @@ public static class JsonWriter
     {
         switch (value)
         {
-            case JsonObject obj:
+            case JsonObject objectValue:
                 builder.Append('{');
-                for (int i = 0; i < obj.Members.Count; i++)
+                for (int i = 0; i < objectValue.Members.Count; i++)
                 {
                     if (i > 0) builder.Append(", ");
-                    WriteString(builder, obj.Members[i].Name);
+                    WriteString(builder, objectValue.Members[i].Name);
                     builder.Append(": ");
-                    WriteCompact(builder, obj.Members[i].Value);
+                    WriteCompact(builder, objectValue.Members[i].Value);
                 }
                 builder.Append('}');
                 return;

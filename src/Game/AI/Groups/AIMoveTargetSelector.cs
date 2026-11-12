@@ -24,54 +24,54 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6375
     public AIMoveTargetSelector(ECustomNode owner) : base(owner)
     {
-        FSettings = new MoveControlSettings(null);
-        FTargets = new MoveTargetList(null);
-        FBufferedTargets = new MoveTargetList(null);
-        FUnits = new UnitUserList(null);
+        Settings = new MoveControlSettings(null);
+        Targets = new MoveTargetList(null);
+        BufferedTargets = new MoveTargetList(null);
+        Units = new UnitUserList(null);
     }
 
-    public int FState;
-    public MoveTargetList FTargets;
-    public Status FStatus;
-    public MoveControlSettings FSettings;
-    public Set<AIMoveTargetSelectorModeElement> FMode;
-    public MoveTargetList FBufferedTargets;
-    public MoveTargetFoundEvent FOnTargetFound;
-    public int FProcessCycles;
-    public SByteArray16By16 FTransportMovePointTable;
-    public MapCoordinate FSourceLocation;
-    public AITargetInfo FTargetInfo;
-    public SByteArray16By16 FMovePointTable;
-    public int FMovePointsMax;
-    public int FMovePointsMin;
-    public Troop FTransporter;
-    public UnitUserList FUnits;
-    public AIGroupControl FControl;
+    public int State;
+    public MoveTargetList Targets;
+    public AIMoveTargetSelectorStatus Status;
+    public MoveControlSettings Settings;
+    public Set<AIMoveTargetSelectorModeElement> Mode;
+    public MoveTargetList BufferedTargets;
+    public MoveTargetFoundEvent OnTargetFound;
+    public int ProcessCycles;
+    public SByteArray16By16 TransportMovePointTable;
+    public MapCoordinate SourceLocation;
+    public AITargetInfo TargetInfo;
+    public SByteArray16By16 MovePointTable;
+    public int MovePointsMax;
+    public int MovePointsMin;
+    public Troop Transporter;
+    public UnitUserList Units;
+    public AIGroupControl Control;
 
     // AIGroup.pas:6384
     public override void Dispose()
     {
-        FSettings.Release();
-        FTargets?.Dispose();
-        FBufferedTargets?.Dispose();
-        FUnits?.Dispose();
+        Settings.Release();
+        Targets?.Dispose();
+        BufferedTargets?.Dispose();
+        Units?.Dispose();
         base.Dispose();
     }
 
     // AIGroup.pas:6393
-    public void SetTransporter(Troop Transporter)
+    public void SetTransporter(Troop transporter)
     {
-        if (Transporter != FTransporter)
+        if (transporter != Transporter)
         {
-            if (FTransporter != null)
+            if (Transporter != null)
             {
-                FTransporter.Release();
+                Transporter.Release();
             }
 
-            FTransporter = Transporter;
-            if (FTransporter != null)
+            Transporter = transporter;
+            if (Transporter != null)
             {
-                FTransporter.AddRef();
+                Transporter.AddRef();
             }
         }
     }
@@ -79,67 +79,67 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6403
     public void Reset()
     {
-        FState = 0;
-        FStatus = Status.Idle;
-        FOnTargetFound = null;
-        FProcessCycles = 0;
-        FillBytes(Bytes.Of(ref FMovePointTable, 256), -1);
-        FTargetInfo = default;
-        FTargetInfo.Player = -1;
-        FMovePointsMax = 250;
-        FMovePointsMin = 100;
+        State = 0;
+        Status = AIMoveTargetSelectorStatus.Idle;
+        OnTargetFound = null;
+        ProcessCycles = 0;
+        FillBytes(Bytes.Of(ref MovePointTable, 256), -1);
+        TargetInfo = default;
+        TargetInfo.Player = -1;
+        MovePointsMax = 250;
+        MovePointsMin = 100;
         SetTransporter(null);
-        FSourceLocation.Packed = 16777215;
-        FTargets.Clear();
-        FMode = Set<AIMoveTargetSelectorModeElement>.Of();
-        FUnits.Clear();
+        SourceLocation.Packed = 16777215;
+        Targets.Clear();
+        Mode = Set<AIMoveTargetSelectorModeElement>.Of();
+        Units.Clear();
     }
 
     // AIGroup.pas:6421
-    public bool SetupArmy(ArmyHexSprite Army, byte Selection)
+    public bool SetupArmy(ArmyHexSprite army, byte selection)
     {
         Reset();
-        var xyl = Army.GetXYL();
-        FSourceLocation.Packed = xyl;
-        FUnits.AddUnitsEx(Army.FArmy, Selection);
-        FTargetInfo.Player = Army.FArmy.FPlayer;
-        if (FTargetInfo.Player == 0)
+        var mapCoordinate = army.GetMapCoordinate();
+        SourceLocation.Packed = mapCoordinate;
+        Units.AddUnits(army.Army, selection);
+        TargetInfo.Player = army.Army.Player;
+        if (TargetInfo.Player == 0)
         {
-            FTargetInfo.IndependentRelation = Army.FArmy.FIndependentRelation;
+            TargetInfo.IndependentRelation = army.Army.IndependentRelation;
         }
 
-        Army.FArmy.CreateMovePointTable(Selection, Bytes.Of(ref FMovePointTable));
+        army.Army.CreateMovePointTable(selection, Bytes.Of(ref MovePointTable));
         return true;
     }
 
     // AIGroup.pas:6432
-    public void SetupTransport(Troop Transporter, bool ResetSettings)
+    public void SetupTransport(Troop transporter, bool resetSettings)
     {
-        if (ResetSettings)
+        if (resetSettings)
         {
             Reset();
         }
 
-        SetTransporter(Transporter);
-        FMovePointsMax = 0;
+        SetTransporter(transporter);
+        MovePointsMax = 0;
     }
 
     // AIGroup.pas:6439
     public void Done()
     {
-        FState = -1;
-        FStatus = Status.Done;
+        State = -1;
+        Status = AIMoveTargetSelectorStatus.Done;
     }
 
     // AIGroup.pas:6445
-    public void TriggerTargetFound(MoveTarget Target)
+    public void TriggerTargetFound(MoveTarget target)
     {
-        bool SearchDone;
-        if (FOnTargetFound != null)
+        bool searchDone;
+        if (OnTargetFound != null)
         {
-            SearchDone = false;
-            FOnTargetFound(Target, ref SearchDone);
-            if (SearchDone)
+            searchDone = false;
+            OnTargetFound(target, ref searchDone);
+            if (searchDone)
             {
                 Done();
             }
@@ -149,273 +149,273 @@ public partial class AIMoveTargetSelector : EngineObject
     // AIGroup.pas:6456
     public bool ProcessBufferedTargets()
     {
-        if (FBufferedTargets.Count != 0)
+        if (BufferedTargets.Count != 0)
         {
-            TriggerTargetFound(FBufferedTargets.GetTarget(0));
-            var target = FBufferedTargets.GetTarget(0);
-            FTargets.AddChild(target);
-            var fBufferedTargetsTarget = FBufferedTargets.GetTarget(0);
-            FBufferedTargets.RemoveChild(fBufferedTargetsTarget);
+            TriggerTargetFound(BufferedTargets.GetTarget(0));
+            var target = BufferedTargets.GetTarget(0);
+            Targets.AddChild(target);
+            var fBufferedTargetsTarget = BufferedTargets.GetTarget(0);
+            BufferedTargets.RemoveChild(fBufferedTargetsTarget);
         }
 
-        return FBufferedTargets.Count != 0 && FState != -1;
+        return BufferedTargets.Count != 0 && State != -1;
     }
 
     // AIGroup.pas:6467
     public bool ProcessBufferedTransportTargets()
     {
-        MapCoordinate Location = default;
-        Int32List Gaps;
-        MoveTarget Target;
-        bool Valid;
+        MapCoordinate location = default;
+        Int32List gaps;
+        MoveTarget target;
+        bool valid;
         int I;
-        if (FBufferedTargets.Count != 0)
+        if (BufferedTargets.Count != 0)
         {
-            Gaps = new Int32List();
-            Target = FBufferedTargets.GetTarget(0);
-            FTransporter.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
-            if (ListMovementGaps(AoWHSMap.Current, Target.FMovepath, FMovePointTable, Gaps, null) != 0)
+            gaps = new Int32List();
+            target = BufferedTargets.GetTarget(0);
+            Transporter.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
+            if (ListMovementGaps(AoWHSMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
             {
-                FSettings.Reset();
-                this.FSettings.FPlayer = FTargetInfo.Player;
-                this.FSettings.FMode = this.FSettings.FMode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
-                this.FSettings.SetSourcePos(Location.X, Location.Y, Location.L);
+                Settings.Reset();
+                this.Settings.Player = TargetInfo.Player;
+                this.Settings.Mode = this.Settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
+                this.Settings.SetSourcePosition(location.X, location.Y, location.MapLevel);
 
-                FSettings.FMovePointsMax = FMovePointsMax;
-                FSettings.FMovePointTable = FTransportMovePointTable;
-                I = Gaps.Count;
-                Valid = true;
-                while (I != 0 && Valid)
+                Settings.MovePointsMax = MovePointsMax;
+                Settings.MovePointTable = TransportMovePointTable;
+                I = gaps.Count;
+                valid = true;
+                while (I != 0 && valid)
                 {
                     I -= 1;
-                    FSettings.ResetState();
-                    var item = Gaps[I];
-                    var fMovepathItem = Target.FMovepath[item];
-                    var gapsItem = Gaps[I];
-                    var item2 = Target.FMovepath[gapsItem];
-                    var item3 = Gaps[I];
-                    var item4 = Target.FMovepath[item3];
-                    FSettings.SetDestinationPos(item4.X, item2.Y, fMovepathItem.L);
-                    Valid = AoWHSMap.Current.FMoveControl.CanMove(FSettings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
+                    Settings.ResetState();
+                    var item = gaps[I];
+                    var fMovePathItem = target.MovePath[item];
+                    var gapsItem = gaps[I];
+                    var item2 = target.MovePath[gapsItem];
+                    var item3 = gaps[I];
+                    var item4 = target.MovePath[item3];
+                    Settings.SetDestinationPosition(item4.X, item2.Y, fMovePathItem.MapLevel);
+                    valid = AoWHSMap.Current.MoveControl.CanMove(Settings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
                 }
             }
             else
             {
-                Valid = true;
+                valid = true;
             }
 
-            if (Valid)
+            if (valid)
             {
-                TriggerTargetFound(Target);
-                FTargets.AddChild(Target);
+                TriggerTargetFound(target);
+                Targets.AddChild(target);
             }
 
-            FBufferedTargets.RemoveChild(Target);
-            Gaps?.Dispose();
+            BufferedTargets.RemoveChild(target);
+            gaps?.Dispose();
         }
 
-        return FBufferedTargets.Count != 0 && FState != -1;
+        return BufferedTargets.Count != 0 && State != -1;
     }
 
     // AIGroup.pas:6514
     public bool ProcessStates()
     {
-        bool Yield;
-        bool Processing;
-        bool Found;
+        bool yield;
+        bool processing;
+        bool found;
         int I;
-        MoveControlSettings Settings;
-        AoWMapField Field;
-        MoveTarget Target;
-        AITargetData Data = default;
-        Yield = false;
-        switch (FState)
+        MoveControlSettings settings;
+        AoWMapField field;
+        MoveTarget target;
+        AITargetData data = default;
+        yield = false;
+        switch (State)
         {
             case 0:
-                if (FMovePointsMax != 0)
+                if (MovePointsMax != 0)
                 {
-                    FBufferedTargets.Clear();
-                    FSettings.Reset();
-                    this.FSettings.FPlayer = FTargetInfo.Player;
-                    this.FSettings.FMode = this.FSettings.FMode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
-                    this.FSettings.SetSourcePos(FSourceLocation.X, FSourceLocation.Y, FSourceLocation.L);
+                    BufferedTargets.Clear();
+                    Settings.Reset();
+                    this.Settings.Player = TargetInfo.Player;
+                    this.Settings.Mode = this.Settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
+                    this.Settings.SetSourcePosition(SourceLocation.X, SourceLocation.Y, SourceLocation.MapLevel);
 
-                    FSettings.FMovePointsMax = FMovePointsMax;
-                    FSettings.FMovePointTable = FMovePointTable;
-                    FSettings.FUnits.AddUnits(FUnits);
-                    FState = 1;
+                    Settings.MovePointsMax = MovePointsMax;
+                    Settings.MovePointTable = MovePointTable;
+                    Settings.Units.AddUnits(Units);
+                    State = 1;
                 }
                 else
                 {
-                    FState = 10;
+                    State = 10;
                 }
 
-                Yield = false;
+                yield = false;
                 break;
             case 1:
-                AoWHSMap.Current.FMoveControl.Activate(FSettings);
-                Processing = true;
-                while (AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 0 && Processing)
+                AoWHSMap.Current.MoveControl.Activate(Settings);
+                processing = true;
+                while (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && processing)
                 {
-                    Processing = AoWHSMap.Current.FMoveControl.Process();
+                    processing = AoWHSMap.Current.MoveControl.Process();
                 }
 
-                Yield = Processing;
-                AoWHSMap.Current.FMoveControl.Deactivate();
-                if (FSettings.FStatus != MoveControlSettings.Status.Processing)
+                yield = processing;
+                AoWHSMap.Current.MoveControl.Deactivate();
+                if (Settings.Status != MoveControlSettingsStatus.Processing)
                 {
-                    FState = 2;
+                    State = 2;
                 }
 
                 break;
             case 2:
-                Settings = FSettings;
-                Found = false;
-                I = Settings.FProcessedMapFields.Count;
-                while (I > 0 && !Found)
+                settings = Settings;
+                found = false;
+                I = settings.ProcessedMapFields.Count;
+                while (I > 0 && !found)
                 {
                     I -= 1;
-                    Field = (AoWMapField)Settings.FProcessedMapFields.List[I];
-                    if ((Field.FFieldFlags & 134217728) != 0)
+                    field = (AoWMapField)settings.ProcessedMapFields.List[I];
+                    if ((field.FieldFlags & 134217728) != 0)
                     {
-                        var xyl = Field.GetXYL();
-                        if (FTargets.IndexOfXYL(xyl) == -1 && Field.GetAITarget(FControl, FTargetInfo, ref Data))
+                        var mapCoordinate = field.GetMapCoordinate();
+                        if (Targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(Control, TargetInfo, ref data))
                         {
-                            Target = new MoveTarget(null);
-                            var fieldXYL = Field.GetXYL();
-                            Target.FLocation.Packed = fieldXYL;
-                            Target.FMovePoints = Settings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
-                            Target.FTransporterID = -1;
-                            Target.FData = Data;
-                            if (FMode.Contains(AIMoveTargetSelectorModeElement.CreateMovepaths))
+                            target = new MoveTarget(null);
+                            var fieldMapCoordinate = field.GetMapCoordinate();
+                            target.Location.Packed = fieldMapCoordinate;
+                            target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
+                            target.TransporterId = -1;
+                            target.Data = data;
+                            if (Mode.Contains(AIMoveTargetSelectorModeElement.CreateMovePaths))
                             {
-                                Target.FMovepath = new MovePath();
-                                AoWHSMap.Current.FMoveControl.Activate(FSettings);
-                                AoWHSMap.Current.FMoveControl.CalculatePathEx(Target.FMovepath, Field.Xhx, Field.Yhx, Field.Lhx);
-                                if (Target.FMovepath.Count != 0)
+                                target.MovePath = new MovePath();
+                                AoWHSMap.Current.MoveControl.Activate(Settings);
+                                AoWHSMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
+                                if (target.MovePath.Count != 0)
                                 {
-                                    FBufferedTargets.AddChild(Target);
+                                    BufferedTargets.AddChild(target);
                                 }
 
-                                AoWHSMap.Current.FMoveControl.Deactivate();
+                                AoWHSMap.Current.MoveControl.Deactivate();
                             }
                             else
                             {
-                                FBufferedTargets.AddChild(Target);
+                                BufferedTargets.AddChild(target);
                             }
 
-                            Target.Release();
-                            Found = true;
+                            target.Release();
+                            found = true;
                         }
                     }
 
-                    Settings.FProcessedMapFields.Delete(I);
+                    settings.ProcessedMapFields.Delete(I);
                 }
 
-                if (FSettings.FProcessedMapFields.Count == 0)
+                if (Settings.ProcessedMapFields.Count == 0)
                 {
-                    FBufferedTargets.SortOnMovePoints();
-                    FState = 3;
+                    BufferedTargets.SortOnMovePoints();
+                    State = 3;
                 }
 
-                Yield = false;
+                yield = false;
                 break;
             case 3:
-                if (!ProcessBufferedTargets() && FState == 3)
+                if (!ProcessBufferedTargets() && State == 3)
                 {
-                    FState = 10;
+                    State = 10;
                 }
 
-                Yield = false;
+                yield = false;
                 break;
             case 10:
-                if (FMovePointsMin > 0 && FTransporter != null)
+                if (MovePointsMin > 0 && Transporter != null)
                 {
-                    FBufferedTargets.Clear();
-                    FSettings.Reset();
-                    this.FSettings.FPlayer = FTargetInfo.Player;
-                    this.FSettings.FMode = this.FSettings.FMode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI, MoveModeElement.AvoidArmies);
-                    this.FSettings.SetSourcePos(FSourceLocation.X, FSourceLocation.Y, FSourceLocation.L);
+                    BufferedTargets.Clear();
+                    Settings.Reset();
+                    this.Settings.Player = TargetInfo.Player;
+                    this.Settings.Mode = this.Settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI, MoveModeElement.AvoidArmies);
+                    this.Settings.SetSourcePosition(SourceLocation.X, SourceLocation.Y, SourceLocation.MapLevel);
 
-                    FSettings.FMovePointsMax = FMovePointsMin;
-                    FSettings.FMovePointTable = FMovePointTable;
-                    FSettings.FUnits.AddUnits(FUnits);
-                    FTransporter.CreateMovePointTable(ref FTransportMovePointTable);
-                    for (int Terrain = 0; Terrain <= 15; Terrain++)
+                    Settings.MovePointsMax = MovePointsMin;
+                    Settings.MovePointTable = MovePointTable;
+                    Settings.Units.AddUnits(Units);
+                    Transporter.CreateMovePointTable(ref TransportMovePointTable);
+                    for (int terrain = 0; terrain <= 15; terrain++)
                     {
-                        for (int Overlay = -1; Overlay <= 11; Overlay++)
+                        for (int overlay = -1; overlay <= 11; overlay++)
                         {
-                            if (FSettings.FMovePointTable[Terrain][Overlay - -1] == -1 && FTransportMovePointTable[Terrain][Overlay - -1] != -1)
+                            if (Settings.MovePointTable[terrain][overlay - -1] == -1 && TransportMovePointTable[terrain][overlay - -1] != -1)
                             {
-                                FSettings.FMovePointTable[Terrain][Overlay - -1] = 8;
+                                Settings.MovePointTable[terrain][overlay - -1] = 8;
                             }
                         }
                     }
 
-                    FState = 11;
+                    State = 11;
                 }
                 else
                 {
                     Done();
                 }
 
-                Yield = false;
+                yield = false;
                 break;
             case 11:
-                AoWHSMap.Current.FMoveControl.Activate(FSettings);
-                while (AoWHSMap.Current.FMoveControl.Process() && AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 0)
+                AoWHSMap.Current.MoveControl.Activate(Settings);
+                while (AoWHSMap.Current.MoveControl.Process() && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
                 {
                 }
 
-                AoWHSMap.Current.FMoveControl.Deactivate();
-                if (FSettings.FStatus != MoveControlSettings.Status.Processing)
+                AoWHSMap.Current.MoveControl.Deactivate();
+                if (Settings.Status != MoveControlSettingsStatus.Processing)
                 {
-                    FState = 12;
+                    State = 12;
                 }
 
                 break;
             case 12:
-                Settings = FSettings;
-                Found = false;
-                I = Settings.FProcessedMapFields.Count;
-                while (I > 0 && !Found)
+                settings = Settings;
+                found = false;
+                I = settings.ProcessedMapFields.Count;
+                while (I > 0 && !found)
                 {
                     I -= 1;
-                    Field = (AoWMapField)Settings.FProcessedMapFields.List[I];
-                    if ((Field.FFieldFlags & 134217728) != 0)
+                    field = (AoWMapField)settings.ProcessedMapFields.List[I];
+                    if ((field.FieldFlags & 134217728) != 0)
                     {
-                        var xyl = Field.GetXYL();
-                        if (FTargets.IndexOfXYL(xyl) == -1 && Field.GetAITarget(FControl, FTargetInfo, ref Data) && FMovePointTable[Field.TerrainType][Field.OverlayType - -1] >= 0)
+                        var mapCoordinate = field.GetMapCoordinate();
+                        if (Targets.IndexOfMapCoordinate(mapCoordinate) == -1 && field.GetAITarget(Control, TargetInfo, ref data) && MovePointTable[field.TerrainType][field.OverlayType - -1] >= 0)
                         {
-                            Target = new MoveTarget(null);
-                            var fieldXYL = Field.GetXYL();
-                            Target.FLocation.Packed = fieldXYL;
-                            Target.FMovePoints = Settings.GetMovePoints(Field.Xhx, Field.Yhx, Field.Lhx);
-                            Target.FTransporterID = FTransporter.FUnitID;
-                            Target.FData = Data;
-                            Target.FMovepath = new MovePath();
-                            AoWHSMap.Current.FMoveControl.Activate(FSettings);
-                            AoWHSMap.Current.FMoveControl.CalculatePathEx(Target.FMovepath, Field.Xhx, Field.Yhx, Field.Lhx);
-                            AoWHSMap.Current.FMoveControl.Deactivate();
-                            FBufferedTargets.AddChild(Target);
-                            Target.Release();
-                            Found = true;
+                            target = new MoveTarget(null);
+                            var fieldMapCoordinate = field.GetMapCoordinate();
+                            target.Location.Packed = fieldMapCoordinate;
+                            target.MovePoints = settings.GetMovePoints(field.HexX, field.HexY, field.HexLevel);
+                            target.TransporterId = Transporter.UnitId;
+                            target.Data = data;
+                            target.MovePath = new MovePath();
+                            AoWHSMap.Current.MoveControl.Activate(Settings);
+                            AoWHSMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
+                            AoWHSMap.Current.MoveControl.Deactivate();
+                            BufferedTargets.AddChild(target);
+                            target.Release();
+                            found = true;
                         }
                     }
 
-                    Settings.FProcessedMapFields.Delete(I);
+                    settings.ProcessedMapFields.Delete(I);
                 }
 
-                if (FSettings.FProcessedMapFields.Count == 0)
+                if (Settings.ProcessedMapFields.Count == 0)
                 {
-                    FBufferedTargets.SortOnMovePoints();
-                    FState = 13;
+                    BufferedTargets.SortOnMovePoints();
+                    State = 13;
                 }
 
-                Yield = false;
+                yield = false;
                 break;
             case 13:
-                if (!ProcessBufferedTransportTargets() && FState == 13)
+                if (!ProcessBufferedTransportTargets() && State == 13)
                 {
                     Done();
                 }
@@ -423,100 +423,100 @@ public partial class AIMoveTargetSelector : EngineObject
                 break;
         }
 
-        return Yield;
+        return yield;
     }
 
     // AIGroup.pas:6677
     public bool Process()
     {
-        bool Yield;
+        bool yield;
         try
         {
-            Yield = false;
-            while (!Yield && FState != -1 && AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() > 0)
+            yield = false;
+            while (!yield && State != -1 && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
             {
-                Yield = ProcessStates();
+                yield = ProcessStates();
             }
         }
         catch
         {
-            FState = -1;
+            State = -1;
         }
 
-        return FState != -1;
+        return State != -1;
     }
 
     // AIGroup.pas:6690
-    public bool Search(AIGroupControl Control)
+    public bool Search(AIGroupControl control)
     {
-        bool Result;
-        if (FTargetInfo.Player != -1 && FOnTargetFound != null && FSourceLocation.Packed != 16777215 && (FMovePointsMax > 0 || (FMovePointsMin > 0 && FTransporter != null)))
+        bool result;
+        if (TargetInfo.Player != -1 && OnTargetFound != null && SourceLocation.Packed != 16777215 && (MovePointsMax > 0 || (MovePointsMin > 0 && Transporter != null)))
         {
-            if (FMovePointsMax > 0)
+            if (MovePointsMax > 0)
             {
-                FState = 0;
+                State = 0;
             }
             else
             {
-                FState = 10;
+                State = 10;
             }
 
-            FProcessCycles = 0;
-            FControl = Control;
-            FStatus = Status.Searching;
-            Result = true;
+            ProcessCycles = 0;
+            Control = control;
+            Status = AIMoveTargetSelectorStatus.Searching;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
-    private static int ListMovementGaps(AoWHSMap Map, MovePath Path, SByteArray16By16 Table, Int32List Starts, Int32List Ends)
+    private static int ListMovementGaps(AoWHSMap map, MovePath path, SByteArray16By16 table, Int32List starts, Int32List ends)
     {
-        int num = Path.Count - 1;
-        int num2 = 0;
+        int number = path.Count - 1;
+        int number2 = 0;
         bool flag = false;
-        while (num > 1)
+        while (number > 1)
         {
-            num--;
-            MapCoordinate tXYL = Path[num];
-            MapCoordinate tXYL2 = Path[num];
-            MapCoordinate tXYL3 = Path[num];
-            MapField field = Map.MapContainer.GetField(tXYL3.X, tXYL2.Y, tXYL.L);
-            if (Table[(int)field.TerrainType][field.OverlayType - -1] == -1)
+            number--;
+            MapCoordinate mapCoordinate = path[number];
+            MapCoordinate mapCoordinate2 = path[number];
+            MapCoordinate mapCoordinate3 = path[number];
+            MapField field = map.MapContainer.GetField(mapCoordinate3.X, mapCoordinate2.Y, mapCoordinate.MapLevel);
+            if (table[(int)field.TerrainType][field.OverlayType - -1] == -1)
             {
                 if (!flag)
                 {
-                    num2++;
-                    Starts?.Add(num);
+                    number2++;
+                    starts?.Add(number);
                     flag = true;
                 }
             }
             else if (flag)
             {
-                Ends?.Add(num);
+                ends?.Add(number);
                 flag = false;
             }
         }
         if (flag)
         {
-            Ends?.Add(1);
+            ends?.Add(1);
         }
-        return num2;
+        return number2;
     }
 
     public delegate void MoveTargetFoundEvent(MoveTarget Target, ref bool SearchDone);
 
-    public enum Status : byte
-    {
-        Idle = 0, Searching = 1, Done = 2, Failed = 3, Invalidated = 4
-    }
-
     // intf_P5_06.inc:242
 
     // intf_P5_06.inc:242
 
+}
+
+public enum AIMoveTargetSelectorStatus : byte
+{
+    Idle = 0, Searching = 1, Done = 2, Failed = 3, Invalidated = 4
 }

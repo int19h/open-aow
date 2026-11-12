@@ -18,23 +18,23 @@ public sealed partial class EngineFixture
 
     internal sealed class RecordingHost : IRtlHost, IFileSystem, ISettingsStore, IDialogService, IDisposable
     {
-        private readonly string fault;
-        private readonly string root = Path.Combine(Path.GetTempPath(), "open-aow-engine-" + Guid.NewGuid().ToString("N"));
-        private readonly PhysicalFileSystem files = new();
-        private readonly Dictionary<FieldInfo, object?> globals = [];
-        private readonly IFileSystem previousFiles = Runtime.Files;
-        private readonly ISettingsStore? previousSettings = Runtime.Settings;
-        private readonly IDialogService? previousDialogs = Runtime.Dialogs;
-        private readonly IShellService? previousShell = Runtime.Shell;
-        private readonly IClock previousClock = Runtime.Clock;
-        private readonly string previousExe = Runtime.Application.ExeName;
-        private readonly Action<string> previousMessage = Runtime.MessageHandler;
-        private readonly string previousLocalization = LocalizationRuntime.StartupDirectory;
+        private readonly string _fault;
+        private readonly string _root = Path.Combine(Path.GetTempPath(), "open-aow-engine-" + Guid.NewGuid().ToString("N"));
+        private readonly PhysicalFileSystem _files = new();
+        private readonly Dictionary<FieldInfo, object?> _globals = [];
+        private readonly IFileSystem _previousFiles = Runtime.Files;
+        private readonly ISettingsStore? _previousSettings = Runtime.Settings;
+        private readonly IDialogService? _previousDialogs = Runtime.Dialogs;
+        private readonly IShellService? _previousShell = Runtime.Shell;
+        private readonly IClock _previousClock = Runtime.Clock;
+        private readonly string _previousExecutable = Runtime.Application.ExeName;
+        private readonly Action<string> _previousMessage = Runtime.MessageHandler;
+        private readonly string _previousLocalization = LocalizationRuntime.StartupDirectory;
         internal readonly List<Entry> Events = [];
 
         internal RecordingHost(string fault)
         {
-            this.fault = fault;
+            this._fault = fault;
             foreach (Type type in new[]
             {
                 typeof(GameTables), typeof(AbilityRules), typeof(GameText),
@@ -46,38 +46,38 @@ public sealed partial class EngineFixture
             })
                 foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
                 {
-                    if (!field.IsLiteral && !field.IsInitOnly) globals.Add(field, field.GetValue(null));
+                    if (!field.IsLiteral && !field.IsInitOnly) _globals.Add(field, field.GetValue(null));
                 }
-            Directory.CreateDirectory(root);
-            foreach (string directory in new[] { "IMAGES", "SFX", "PLUGINS", "Dict" }) Directory.CreateDirectory(Path.Combine(root, directory));
-            if (fault == "dictionary") File.WriteAllBytes(Path.Combine(root, "Dict", "ResStr.mld"), [0]);
-            if (fault == "plugin") File.WriteAllBytes(Path.Combine(root, "PLUGINS", "X.DPL"), []);
-            files.SetCurrentDirectory(root);
+            Directory.CreateDirectory(_root);
+            foreach (string directory in new[] { "IMAGES", "SFX", "PLUGINS", "Dict" }) Directory.CreateDirectory(Path.Combine(_root, directory));
+            if (fault == "dictionary") File.WriteAllBytes(Path.Combine(_root, "Dict", "ResStr.mld"), [0]);
+            if (fault == "plugin") File.WriteAllBytes(Path.Combine(_root, "PLUGINS", "X.DPL"), []);
+            _files.SetCurrentDirectory(_root);
             EngineHost.Engines = new List<GameEngine>();
-            EngineHost.PlugIns = new List<Engine.Plugin>();
+            EngineHost.Plugins = new List<Engine.Plugin>();
             EngineHost.Packages = new StringList();
-            EngineHost.VerifyEObjectEnabled = true;
-            GameTables.AoWEngine = null!;
+            EngineHost.s_verifyEngineObjectEnabled = true;
+            GameTables.GameEngine = null!;
             AoWHSSet.Current = null!;
             AoWHSMap.Current = null!;
-            GameEngine.HSEngineDID = CombatAbilityTables.CombatDID = AbilityRules.AIDID = AbilityRules.TMPDID = GameEngine.MAGICDID = 0;
+            GameEngine.s_hexSpriteEngineDebugChannel = CombatAbilityTables.s_combatDebugChannel = AbilityRules.s_aiDebugChannel = AbilityRules.s_temporaryDebugChannel = GameEngine.s_magicDebugChannel = 0;
             ImageLibraries.BaseImageLibraryPath = AudioHost.BaseSoundEnginePath = "";
             LocalizationRuntime.StartupDirectory = "";
         }
 
-        internal string Relative(string value) => value.Replace(root, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
-        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), GameTables.AoWEngine is not null, AoWHSSet.Current is not null, EngineHost.Engines.Count, destroy ?? []);
+        internal string Relative(string value) => value.Replace(_root, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
+        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), GameTables.GameEngine is not null, AoWHSSet.Current is not null, EngineHost.Engines.Count, destroy ?? []);
         private void Record(string call, string argument) => Events.Add(Event(call, argument));
 
         internal JsonObject State() => new()
         {
-            ["AoWEngine"] = GameTables.AoWEngine is not null,
+            ["AoWEngine"] = GameTables.GameEngine is not null,
             ["AoWHSSet"] = AoWHSSet.Current is not null,
-            ["HSEngineDID"] = GameEngine.HSEngineDID,
-            ["CombatDID"] = CombatAbilityTables.CombatDID,
-            ["AIDID"] = AbilityRules.AIDID,
-            ["TMPDID"] = AbilityRules.TMPDID,
-            ["MAGICDID"] = GameEngine.MAGICDID,
+            ["HSEngineDID"] = GameEngine.s_hexSpriteEngineDebugChannel,
+            ["CombatDID"] = CombatAbilityTables.s_combatDebugChannel,
+            ["AIDID"] = AbilityRules.s_aiDebugChannel,
+            ["TMPDID"] = AbilityRules.s_temporaryDebugChannel,
+            ["MAGICDID"] = GameEngine.s_magicDebugChannel,
             ["BaseImageLibraryPath"] = Relative(ImageLibraries.BaseImageLibraryPath),
             ["BaseSoundEnginePath"] = Relative(AudioHost.BaseSoundEnginePath),
             ["LocalizationStartupDirectory"] = Relative(LocalizationRuntime.StartupDirectory),
@@ -89,54 +89,54 @@ public sealed partial class EngineFixture
         public IDialogService Dialogs => this;
         // Engine tests record startup calls and never open a browser.
         public IShellService Shell { get; } = new RecordingShell();
-        public IClock Clock => previousClock;
-        public string ExeName => Path.Combine(root, "AoW.exe");
-        public string GameRoot => root;
-        public string CurrentDirectory { get { Record("CurrentDirectory", ""); return files.CurrentDirectory; } }
+        public IClock Clock => _previousClock;
+        public string ExecutableName => Path.Combine(_root, "AoW.exe");
+        public string GameRoot => _root;
+        public string CurrentDirectory { get { Record("CurrentDirectory", ""); return _files.CurrentDirectory; } }
 
         public string ExpandPath(string path) { Record("ExpandPath", path); return Checked(path); }
 
         private string Checked(string path)
         {
-            string full = files.ExpandPath(path);
-            Assert.True(full.Equals(root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "Startup escaped temporary root: " + full);
+            string full = _files.ExpandPath(path);
+            Assert.True(full.Equals(_root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(_root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "Startup escaped temporary root: " + full);
             return full;
         }
 
-        public bool SetCurrentDirectory(string path) { Record("SetCurrentDirectory", path); return files.SetCurrentDirectory(Checked(path)); }
+        public bool SetCurrentDirectory(string path) { Record("SetCurrentDirectory", path); return _files.SetCurrentDirectory(Checked(path)); }
 
-        public Stream Open(string path, int mode) { Record("Open:" + mode, path); return files.Open(Checked(path), mode); }
+        public Stream Open(string path, int mode) { Record("Open:" + mode, path); return _files.Open(Checked(path), mode); }
 
-        public bool FileExists(string path) { Record("FileExists", path); return files.FileExists(Checked(path)); }
+        public bool FileExists(string path) { Record("FileExists", path); return _files.FileExists(Checked(path)); }
 
-        public bool DirectoryExists(string path) { Record("DirectoryExists", path); return files.DirectoryExists(Checked(path)); }
+        public bool DirectoryExists(string path) { Record("DirectoryExists", path); return _files.DirectoryExists(Checked(path)); }
 
-        public bool DeleteFile(string path) { Record("DeleteFile", path); return files.DeleteFile(Checked(path)); }
+        public bool DeleteFile(string path) { Record("DeleteFile", path); return _files.DeleteFile(Checked(path)); }
 
-        public bool RenameFile(string source, string target) { Record("RenameFile", source + " -> " + target); return files.RenameFile(Checked(source), Checked(target)); }
+        public bool RenameFile(string source, string target) { Record("RenameFile", source + " -> " + target); return _files.RenameFile(Checked(source), Checked(target)); }
 
-        public bool CreateDirectory(string path) { Record("CreateDirectory", path); return files.CreateDirectory(Checked(path)); }
+        public bool CreateDirectory(string path) { Record("CreateDirectory", path); return _files.CreateDirectory(Checked(path)); }
 
-        public bool RemoveDirectory(string path) { Record("RemoveDirectory", path); return files.RemoveDirectory(Checked(path)); }
+        public bool RemoveDirectory(string path) { Record("RemoveDirectory", path); return _files.RemoveDirectory(Checked(path)); }
 
-        public int GetAttributes(string path) { Record("GetAttributes", path); return files.GetAttributes(Checked(path)); }
+        public int GetAttributes(string path) { Record("GetAttributes", path); return _files.GetAttributes(Checked(path)); }
 
-        public int SetAttributes(string path, int attributes) { Record("SetAttributes:" + attributes, path); return files.SetAttributes(Checked(path), attributes); }
+        public int SetAttributes(string path, int attributes) { Record("SetAttributes:" + attributes, path); return _files.SetAttributes(Checked(path), attributes); }
 
-        public DateTime? LastWriteTime(string path) { Record("LastWriteTime", path); return files.LastWriteTime(Checked(path)); }
+        public DateTime? LastWriteTime(string path) { Record("LastWriteTime", path); return _files.LastWriteTime(Checked(path)); }
 
         public IEnumerable<RtlFileEntry> Enumerate(string directory)
         {
             Record("Enumerate", directory);
-            if (fault == "images" && Checked(directory).TrimEnd('\\', '/').Equals(Path.Combine(root, "IMAGES"), StringComparison.OrdinalIgnoreCase))
+            if (_fault == "images" && Checked(directory).TrimEnd('\\', '/').Equals(Path.Combine(_root, "IMAGES"), StringComparison.OrdinalIgnoreCase))
                 throw new InvalidDataException("injected IMAGES search failure");
-            return files.Enumerate(Checked(directory)).ToArray();
+            return _files.Enumerate(Checked(directory)).ToArray();
         }
 
         public object? Read(string key)
         {
             Record("Settings.Read", key);
-            if (fault == "debug" && key.EndsWith("\\Debug Mode", StringComparison.Ordinal)) throw new InvalidDataException("injected debug-mode settings failure");
+            if (_fault == "debug" && key.EndsWith("\\Debug Mode", StringComparison.Ordinal)) throw new InvalidDataException("injected debug-mode settings failure");
             return null;
         }
 
@@ -146,24 +146,24 @@ public sealed partial class EngineFixture
 
         internal void RestoreServices()
         {
-            Runtime.Files = previousFiles; Runtime.Settings = previousSettings; Runtime.Dialogs = previousDialogs;
-            Runtime.Shell = previousShell;
-            Runtime.Clock = previousClock; Runtime.Application.ExeName = previousExe; Runtime.MessageHandler = previousMessage;
+            Runtime.Files = _previousFiles; Runtime.Settings = _previousSettings; Runtime.Dialogs = _previousDialogs;
+            Runtime.Shell = _previousShell;
+            Runtime.Clock = _previousClock; Runtime.Application.ExeName = _previousExecutable; Runtime.MessageHandler = _previousMessage;
         }
 
         public void Dispose()
         {
-            GameEngine partial = GameTables.AoWEngine;
-            if (partial is not null && partial.FGameSet is null)
+            GameEngine partial = GameTables.GameEngine;
+            if (partial is not null && partial.GameSet is null)
             {
-                partial.FDictionary?.Dispose();
-                partial.FEmailGames?.Dispose();
+                partial.Dictionary?.Dispose();
+                partial.EmailGames?.Dispose();
             }
-            EngineHost.Engines?.Clear(); EngineHost.PlugIns?.Clear(); EngineHost.Packages?.Dispose();
-            foreach (var pair in globals) pair.Key.SetValue(null, pair.Value);
-            LocalizationRuntime.StartupDirectory = previousLocalization;
+            EngineHost.Engines?.Clear(); EngineHost.Plugins?.Clear(); EngineHost.Packages?.Dispose();
+            foreach (var pair in _globals) pair.Key.SetValue(null, pair.Value);
+            LocalizationRuntime.StartupDirectory = _previousLocalization;
             RestoreServices();
-            Directory.Delete(root, true);
+            Directory.Delete(_root, true);
         }
     }
 }

@@ -13,92 +13,92 @@ namespace Aow.Game.Session;
 public partial class SetupSettings : ENode
 {
     // AoWSetup.pas:356
-    public new const int ClassID = 131680;
+    public new const int ClassId = 131680;
 
-    public int FHostRemoteID;
-    public string FFileName = "";
-    public string FMapName = "";
-    public int FMapCRC;
-    public int FSetCRC;
-    public int FMapDay;
-    public byte FPlayMode;
-    public bool FExplorationEnabled;
-    public bool FLeadersOnMap;
-    public bool FAlliedVictory;
-    public byte FVictoryCondition;
-    public byte FIndependentAIMode;
-    public bool FCustomizeLeaders;
-    public int FRandomSeed;
-    public int FDayLimit;
-    public int FTurnTime;
-    public RemotePlayerList FRemotePlayers;
-    public byte FConnectionType;
-    public byte FTacticalCombatAvailability;
-    public bool FAlwaysViewTC;
-    public string FEmailGameName = "";
+    public int HostRemoteId;
+    public string FileName = "";
+    public string MapName = "";
+    public int MapCrc;
+    public int SetCrc;
+    public int MapDay;
+    public byte PlayMode;
+    public bool ExplorationEnabled;
+    public bool LeadersOnMap;
+    public bool AlliedVictory;
+    public byte VictoryCondition;
+    public byte IndependentAIMode;
+    public bool CustomizeLeaders;
+    public int RandomSeed;
+    public int DayLimit;
+    public int TurnTime;
+    public RemotePlayerList RemotePlayers;
+    public byte ConnectionType;
+    public byte TacticalBattleAvailability;
+    public bool AlwaysViewTacticalBattle;
+    public string EmailGameName = "";
 
     // AoWSetup.pas:334
     public override void Dispose()
     {
-        FRemotePlayers?.Dispose();
+        RemotePlayers?.Dispose();
         base.Dispose();
     }
 
     // AoWSetup.pas:402
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwString(ref FFileName, 10);
-        Stream.rwData(Bytes.Of(ref FPlayMode, 1), 1, 11);
-        Stream.rwBool(ref FExplorationEnabled, 12);
-        Stream.rwString(ref FMapName, 13);
-        Stream.rwData(Bytes.Of(ref FVictoryCondition, 1), 1, 14);
-        Stream.rwData(Bytes.Of(ref FIndependentAIMode, 1), 1, 15);
-        Stream.rwBool(ref FCustomizeLeaders, 16);
-        Stream.rwInteger(ref FRandomSeed, 17);
-        Stream.rwBool(ref FLeadersOnMap, 18);
-        Stream.rwInteger(ref FDayLimit, 19);
-        Stream.rwInteger(ref FTurnTime, 20);
-        Stream.rwEObject(FRemotePlayers, 21);
-        Stream.rwInteger(ref FHostRemoteID, 22);
-        Stream.rwInteger(ref FMapDay, 23);
-        Stream.rwBool(ref FAlliedVictory, 24);
-        Stream.rwData(Bytes.Of(ref FConnectionType, 1), 1, 25);
-        Stream.rwInteger(ref FMapCRC, 26);
-        Stream.rwInteger(ref FSetCRC, 27);
-        Stream.rwData(Bytes.Of(ref FTacticalCombatAvailability, 1), 1, 28);
-        Stream.rwBool(ref FAlwaysViewTC, 29);
+        base.ReadWrite(stream);
+        stream.rwString(ref FileName, 10);
+        stream.rwData(Bytes.Of(ref PlayMode, 1), 1, 11);
+        stream.rwBool(ref ExplorationEnabled, 12);
+        stream.rwString(ref MapName, 13);
+        stream.rwData(Bytes.Of(ref VictoryCondition, 1), 1, 14);
+        stream.rwData(Bytes.Of(ref IndependentAIMode, 1), 1, 15);
+        stream.rwBool(ref CustomizeLeaders, 16);
+        stream.rwInteger(ref RandomSeed, 17);
+        stream.rwBool(ref LeadersOnMap, 18);
+        stream.rwInteger(ref DayLimit, 19);
+        stream.rwInteger(ref TurnTime, 20);
+        stream.rwEObject(RemotePlayers, 21);
+        stream.rwInteger(ref HostRemoteId, 22);
+        stream.rwInteger(ref MapDay, 23);
+        stream.rwBool(ref AlliedVictory, 24);
+        stream.rwData(Bytes.Of(ref ConnectionType, 1), 1, 25);
+        stream.rwInteger(ref MapCrc, 26);
+        stream.rwInteger(ref SetCrc, 27);
+        stream.rwData(Bytes.Of(ref TacticalBattleAvailability, 1), 1, 28);
+        stream.rwBool(ref AlwaysViewTacticalBattle, 29);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.String("FileName", ref FFileName);
-        persister.RawByte("PlayMode", ref FPlayMode);
-        persister.Bool("ExplorationEnabled", ref FExplorationEnabled);
-        persister.String("MapName", ref FMapName);
-        persister.RawByte("VictoryCondition", ref FVictoryCondition);
-        persister.RawByte("IndependentAIMode", ref FIndependentAIMode);
-        persister.Bool("CustomizeLeaders", ref FCustomizeLeaders);
-        persister.Int("RandomSeed", ref FRandomSeed);
-        persister.Bool("LeadersOnMap", ref FLeadersOnMap);
-        persister.Int("DayLimit", ref FDayLimit);
-        persister.Int("TurnTime", ref FTurnTime);
-        persister.Object("RemotePlayers", FRemotePlayers);
-        persister.Int("HostRemoteID", ref FHostRemoteID);
-        persister.Int("MapDay", ref FMapDay);
-        persister.Bool("AlliedVictory", ref FAlliedVictory);
-        persister.RawByte("ConnectionType", ref FConnectionType);
-        persister.Int("MapCRC", ref FMapCRC);
-        persister.Int("SetCRC", ref FSetCRC);
-        persister.RawByte("TacticalCombatAvailability", ref FTacticalCombatAvailability);
-        persister.Bool("AlwaysViewTC", ref FAlwaysViewTC);
+        persister.String("FileName", ref FileName);
+        persister.RawByte("PlayMode", ref PlayMode);
+        persister.Boolean("ExplorationEnabled", ref ExplorationEnabled);
+        persister.String("MapName", ref MapName);
+        persister.RawByte("VictoryCondition", ref VictoryCondition);
+        persister.RawByte("IndependentAIMode", ref IndependentAIMode);
+        persister.Boolean("CustomizeLeaders", ref CustomizeLeaders);
+        persister.Int32("RandomSeed", ref RandomSeed);
+        persister.Boolean("LeadersOnMap", ref LeadersOnMap);
+        persister.Int32("DayLimit", ref DayLimit);
+        persister.Int32("TurnTime", ref TurnTime);
+        persister.Object("RemotePlayers", RemotePlayers);
+        persister.Int32("HostRemoteID", ref HostRemoteId);
+        persister.Int32("MapDay", ref MapDay);
+        persister.Boolean("AlliedVictory", ref AlliedVictory);
+        persister.RawByte("ConnectionType", ref ConnectionType);
+        persister.Int32("MapCRC", ref MapCrc);
+        persister.Int32("SetCRC", ref SetCrc);
+        persister.RawByte("TacticalCombatAvailability", ref TacticalBattleAvailability);
+        persister.Boolean("AlwaysViewTC", ref AlwaysViewTacticalBattle);
     }
 
     // AoWSetup.pas:327
     public SetupSettings(ECustomNode owner) : base(owner)
     {
-        FRemotePlayers = new RemotePlayerList(null);
+        RemotePlayers = new RemotePlayerList(null);
         Reset();
     }
 
@@ -106,90 +106,90 @@ public partial class SetupSettings : ENode
     public void Reset()
     {
         Clear();
-        FTacticalCombatAvailability = 1;
-        FCustomizeLeaders = false;
-        FTurnTime = 0;
-        FDayLimit = 0;
-        FPlayMode = 2;
-        FExplorationEnabled = true;
-        FLeadersOnMap = true;
-        FRemotePlayers.Clear();
-        FMapName = "";
-        FFileName = "";
-        FAlwaysViewTC = false;
+        TacticalBattleAvailability = 1;
+        CustomizeLeaders = false;
+        TurnTime = 0;
+        DayLimit = 0;
+        PlayMode = 2;
+        ExplorationEnabled = true;
+        LeadersOnMap = true;
+        RemotePlayers.Clear();
+        MapName = "";
+        FileName = "";
+        AlwaysViewTacticalBattle = false;
     }
 
     // AoWSetup.pas:359
-    public PlayerSetupSettings GetSettings(int Index)
+    public PlayerSetupSettings GetSettings(int index)
     {
-        PlayerSetupSettings Result;
-        if (Index >= 0 && Index < FChildren.Count)
+        PlayerSetupSettings result;
+        if (index >= 0 && index < _children.Count)
         {
-            Result = (PlayerSetupSettings)FChildren.List[Index];
+            result = (PlayerSetupSettings)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:366
-    public int IndexOfPlayer(byte Player)
+    public int IndexOfPlayer(byte player)
     {
         int I;
-        int Result = -1;
+        int result = -1;
         I = 0;
-        while (Result == -1 && I != FChildren.Count)
+        while (result == -1 && I != _children.Count)
         {
-            if (((PlayerSetupSettings)FChildren.List[I]).FPlayerID == Player)
+            if (((PlayerSetupSettings)_children.List[I]).PlayerId == player)
             {
-                Result = I;
+                result = I;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:378
-    public int IndexOfRemoteID(int RemoteID)
+    public int IndexOfRemoteId(int remoteId)
     {
         int I;
-        int Result = -1;
+        int result = -1;
         I = 0;
-        while (Result == -1 && I != FChildren.Count)
+        while (result == -1 && I != _children.Count)
         {
-            if (((PlayerSetupSettings)FChildren.List[I]).FBehavior.Flags == RemoteID)
+            if (((PlayerSetupSettings)_children.List[I]).Behavior.Flags == remoteId)
             {
-                Result = I;
+                result = I;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWSetup.pas:390
-    public int IndexOfRace(byte Race)
+    public int IndexOfRace(byte race)
     {
         int I;
-        int Result = -1;
+        int result = -1;
         I = 0;
-        while (Result == -1 && I != FChildren.Count)
+        while (result == -1 && I != _children.Count)
         {
-            if (Race == (byte)((PlayerSetupSettings)FChildren.List[I]).FRace)
+            if (race == (byte)((PlayerSetupSettings)_children.List[I]).Race)
             {
-                Result = I;
+                result = I;
             }
 
             I += 1;
         }
 
-        return Result;
+        return result;
     }
 
 }

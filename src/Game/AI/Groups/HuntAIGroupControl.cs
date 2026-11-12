@@ -21,39 +21,39 @@ public partial class HuntAIGroupControl : AIGroupControl
     { }
 
     // AIGroup.pas:1479
-    public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(AIGroupTargetFinder sender, AIGroupControlTarget target, ref bool searchDone)
     {
-        AoWMapField Field;
-        ArmyHexSprite Army;
+        AoWMapField field;
+        ArmyHexSprite army;
         int I;
-        HuntAIGroup Group;
-        bool Found;
-        Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<MapCoordinate, int>(ref Target.FLocation));
-        if (Field.GetPlayer() != FGroup.FPlayer)
+        HuntAIGroup group;
+        bool found;
+        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location));
+        if (field.GetPlayer() != Group.Player)
         {
-            Army = Field.GetArmyHS();
-            if (Army != null)
+            army = field.GetArmyHexSprite();
+            if (army != null)
             {
-                Group = (HuntAIGroup)FGroup;
-                Found = false;
-                I = Group.FTargetUnitIDs.Count;
-                while (!Found && I != 0)
+                group = (HuntAIGroup)Group;
+                found = false;
+                I = group.TargetUnitIds.Count;
+                while (!found && I != 0)
                 {
                     I -= 1;
-                    var item = Group.FTargetUnitIDs[I];
-                    Found = Army.FArmy.IndexOfID(item) != -1;
+                    var item = group.TargetUnitIds[I];
+                    found = army.Army.IndexOfId(item) != -1;
                 }
 
-                if (Found)
+                if (found)
                 {
-                    SetupCP(Target);
-                    var execute = FCombatPredictor.Execute();
+                    SetupCP(target);
+                    var execute = CombatPredictor.Execute();
                     if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
                     {
-                        if (FCombatPredictor.GetEfficiency() != 0)
+                        if (CombatPredictor.GetEfficiency() != 0)
                         {
-                            Target.FData.Priority = 1000 - Target.FMovePoints;
-                            base.TargetFoundEvent(Sender, Target, ref SearchDone);
+                            target.Data.Priority = 1000 - target.MovePoints;
+                            base.TargetFoundEvent(sender, target, ref searchDone);
                         }
                     }
                 }
@@ -64,52 +64,52 @@ public partial class HuntAIGroupControl : AIGroupControl
     // AIGroup.pas:1515
     public override void ProcessStates()
     {
-        AIGroupTargetFinder Finder;
-        HuntAIGroup Group;
-        Troop AUnit;
-        AIGroup NewGroup;
-        switch (FState)
+        AIGroupTargetFinder finder;
+        HuntAIGroup group;
+        Troop troop;
+        AIGroup newGroup;
+        switch (State)
         {
             case 0:
-                Group = (HuntAIGroup)FGroup;
+                group = (HuntAIGroup)Group;
                 {
-                    for (int I = Group.FTargetUnitIDs.Count - 1; I >= 0; I--)
+                    for (int I = group.TargetUnitIds.Count - 1; I >= 0; I--)
                     {
-                        var item = Group.FTargetUnitIDs[I];
-                        AUnit = AoWHSMap.Current.FUnitControl.FindUnit(item);
-                        if (AUnit == null || AUnit.FPlayer == 0)
+                        var item = group.TargetUnitIds[I];
+                        troop = AoWHSMap.Current.UnitControl.FindUnit(item);
+                        if (troop == null || troop.Player == 0)
                         {
-                            Group.FTargetUnitIDs.Delete(I);
+                            group.TargetUnitIds.Delete(I);
                         }
                     }
                 }
 
-                if (Group.FTargetUnitIDs.Count != 0)
+                if (group.TargetUnitIds.Count != 0)
                 {
-                    Finder = new AIGroupTargetFinder(null);
-                    Finder.Setup(this);
-                    Finder.FSelector.FTargetInfo.Mode = AITargetMode.Hunt;
-                    ActivatePlugin(Finder);
-                    Finder.Release();
-                    FState += 1;
+                    finder = new AIGroupTargetFinder(null);
+                    finder.Setup(this);
+                    finder.Selector.TargetInfo.Mode = AITargetMode.Hunt;
+                    ActivatePlugin(finder);
+                    finder.Release();
+                    State += 1;
                 }
                 else
                 {
-                    NewGroup = AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, GroupBehavior.Patrol);
-                    NewGroup.AddUnits(FGroup);
-                    NewGroup.Release();
+                    newGroup = AoWHSMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, GroupBehavior.Patrol);
+                    newGroup.AddUnits(Group);
+                    newGroup.Release();
                     Done();
                 }
 
                 break;
             case 1:
-                if (FTargets.Count != 0)
+                if (Targets.Count != 0)
                 {
                     SetupME();
-                    var targets = FTargets.GetTargets(0);
-                    var fTargetsTargets = FTargets.GetTargets(0);
-                    ExecuteME(FTargets.GetTargets(0).FLocation.X, fTargetsTargets.FLocation.Y, targets.FLocation.L);
-                    FTargets.Delete(0);
+                    var targets = Targets.GetTargets(0);
+                    var fTargetsTargets = Targets.GetTargets(0);
+                    ExecuteME(Targets.GetTargets(0).Location.X, fTargetsTargets.Location.Y, targets.Location.MapLevel);
+                    Targets.Delete(0);
                 }
                 else
                 {

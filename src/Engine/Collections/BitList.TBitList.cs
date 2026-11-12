@@ -6,16 +6,16 @@ namespace Aow.Engine.Collections;
 public partial class BitList
 {
     // Engine.pas:4646. The unsigned comparison sends negative indices to the default.
-    internal bool Get(int index) => (uint)index < (uint)FCount
-        ? (FList.Span[index >> 3] & (1 << (index & 7))) != 0
-        : (Unsafe.As<bool, byte>(ref FDefault) & 1) != 0;
+    internal bool Get(int index) => (uint)index < (uint)_count
+        ? (_list.Span[index >> 3] & (1 << (index & 7))) != 0
+        : (Unsafe.As<bool, byte>(ref _default) & 1) != 0;
 
     // Engine.pas:4660. The write is relative to the buffer, including negative indices.
     internal void Put(int index, bool item)
     {
-        if ((uint)index >= (uint)FCount) SetCount(index + 1);
-        if (FList.Equals(default(Memory<byte>))) throw new NullReferenceException();
-        if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>)FList, out var storage))
+        if ((uint)index >= (uint)_count) SetCount(index + 1);
+        if (_list.Equals(default(Memory<byte>))) throw new NullReferenceException();
+        if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>)_list, out var storage))
             throw new InvalidOperationException("Bit list storage has no backing array");
         ref byte value = ref storage.Array![storage.Offset + (index >> 3)];
         byte mask = (byte)(1 << (index & 7));

@@ -21,92 +21,92 @@ namespace Aow.Game.Session;
 // references, units, hero unit, special units, hero names
 public partial class RaceResource : EngineResource
 {
-    public new const int ClassID = 131585;
+    public new const int ClassId = 131585;
 
     // PlayerC.PAS:1732
     public RaceResource(ECustomNode owner) : base(owner)
     {
-        FUnitIndexes = new UnitIndexList();
-        FSpecialUnitIndexes = new UnitIndexList();
-        FHeroNames = new StringList();
+        UnitIndexes = new UnitIndexList();
+        SpecialUnitIndexes = new UnitIndexList();
+        HeroNames = new StringList();
     }
 
-    public CustomImageLibrary FFaceLibrary;
-    public CustomImageLibrary FImageLibrary;
-    public string FImageLibraryName = "";
-    public string FName = "";
-    public string FRaceName = "";
-    public string FDescription = "";
-    public Set<Alignment> FAlignments;
-    public int FReferences;
-    public UnitIndexList FUnitIndexes;
-    public int FHeroUnitIndex;
-    public UnitIndexList FSpecialUnitIndexes;
-    public StringList FHeroNames;
+    public CustomImageLibrary FaceLibrary;
+    public CustomImageLibrary ImageLibrary;
+    public string ImageLibraryName = "";
+    public string Name = "";
+    public string RaceName = "";
+    public string Description = "";
+    public Set<Alignment> Alignments;
+    public int References;
+    public UnitIndexList UnitIndexes;
+    public int HeroUnitIndex;
+    public UnitIndexList SpecialUnitIndexes;
+    public StringList HeroNames;
 
     // PlayerC.PAS:1740
     public override void Dispose()
     {
-        ReleaseIL();
-        FUnitIndexes?.Dispose();
-        FSpecialUnitIndexes?.Dispose();
-        FHeroNames?.Dispose();
+        ReleaseImageLibrary();
+        UnitIndexes?.Dispose();
+        SpecialUnitIndexes?.Dispose();
+        HeroNames?.Dispose();
         base.Dispose();
     }
 
     // PlayerC.PAS:1749
-    public override GameEngine GetEngine() => GameTables.AoWEngine;
+    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // PlayerC.PAS:1861
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwString(ref FName, 5);
-        Stream.rwString(ref FRaceName, 6);
-        Stream.rwString(ref FDescription, 7);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        base.ReadWrite(stream);
+        stream.rwString(ref Name, 5);
+        stream.rwString(ref RaceName, 6);
+        stream.rwString(ref Description, 7);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Stream.rwString(ref FImageLibraryName, 8);
+            stream.rwString(ref ImageLibraryName, 8);
         }
 
-        RwSet(ref FAlignments, 1, 9, Stream.rwData, 0);
-        Stream.rwStreamProc(10, FUnitIndexes.LoadFromStream, FUnitIndexes.SaveToStream);
-        Stream.rwStreamProc(11, FSpecialUnitIndexes.LoadFromStream, FSpecialUnitIndexes.SaveToStream);
-        Stream.rwInteger(ref FHeroUnitIndex, 12);
-        Stream.rwStrings(FHeroNames, 13);
+        RwSet(ref Alignments, 1, 9, stream.rwData, 0);
+        stream.rwStreamProc(10, UnitIndexes.LoadFromStream, UnitIndexes.SaveToStream);
+        stream.rwStreamProc(11, SpecialUnitIndexes.LoadFromStream, SpecialUnitIndexes.SaveToStream);
+        stream.rwInteger(ref HeroUnitIndex, 12);
+        stream.rwStrings(HeroNames, 13);
     }
 
     // PlayerC.PAS:1798
     public override int AddRef()
     {
-        if (FReferences == 0)
+        if (References == 0)
         {
-            LinkToIL();
+            LinkToImageLibrary();
         }
 
-        FReferences += 1;
-        return FReferences;
+        References += 1;
+        return References;
     }
 
     // PlayerC.PAS:1805
     public override int Release()
     {
-        FReferences -= 1;
-        if (FReferences == 0)
+        References -= 1;
+        if (References == 0)
         {
-            ReleaseIL();
+            ReleaseImageLibrary();
         }
 
-        return FReferences;
+        return References;
     }
 
     // PlayerC.PAS:1855
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 536870920)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 536870920)
         {
-            FUnitIndexes.VerifyUnits(true);
+            UnitIndexes.VerifyUnits(true);
         }
     }
 
@@ -115,184 +115,184 @@ public partial class RaceResource : EngineResource
     {
         int I;
         AddRef();
-        LibraryImage Result = null;
-        if (FImageLibrary != null)
+        LibraryImage result = null;
+        if (ImageLibrary != null)
         {
             I = 0;
-            while (I < FImageLibrary.Count && Result == null)
+            while (I < ImageLibrary.Count && result == null)
             {
-                Result = FImageLibrary[I];
+                result = ImageLibrary[I];
                 I += 1;
             }
         }
 
         Release();
-        return Result;
+        return result;
     }
 
     // PlayerC.PAS:1836
-    public override void SetCellImage(LibraryImage Value)
+    public override void SetCellImage(LibraryImage value)
     {
     }
 
     // PlayerC.PAS:1752
     public LibraryImage GetFace()
     {
-        LibraryImage Result;
-        CustomImageLibrary Images;
+        LibraryImage result;
+        CustomImageLibrary images;
         AddRef();
-        Images = FFaceLibrary;
-        if (Images != null)
+        images = FaceLibrary;
+        if (images != null)
         {
-            Result = Images.GetSafe(GetRaceIndex());
+            result = images.GetSafe(GetRaceIndex());
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
         Release();
-        return Result;
+        return result;
     }
 
     // PlayerC.PAS:1763
     public int GetRaceIndex() => EditIndex;
 
     // PlayerC.PAS:1766
-    public void LinkToIL()
+    public void LinkToImageLibrary()
     {
-        if (FImageLibrary == null)
+        if (ImageLibrary == null)
         {
-            if (!IsEmpty(FImageLibraryName))
+            if (!IsEmpty(ImageLibraryName))
             {
-                FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
+                ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
             }
 
-            FFaceLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
+            FaceLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
         }
     }
 
     // PlayerC.PAS:1776
-    public void ReleaseIL()
+    public void ReleaseImageLibrary()
     {
         // { Original leaves the face library linked when the city library is nil. }
-        if (FImageLibrary != null)
+        if (ImageLibrary != null)
         {
-            if (!IsEmpty(FImageLibraryName))
+            if (!IsEmpty(ImageLibraryName))
             {
-                AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
+                AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
             }
 
-            AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
-            FFaceLibrary = null;
-            FImageLibrary = null;
+            AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "FACES\\R_FACES.ILB");
+            FaceLibrary = null;
+            ImageLibrary = null;
         }
     }
 
     // PlayerC.PAS:1788
-    public void SetImageLibraryName(string Value)
+    public void SetImageLibraryName(string value)
     {
-        if (Value != FImageLibraryName)
+        if (value != ImageLibraryName)
         {
-            ReleaseIL();
-            FImageLibraryName = Value;
-            if (FReferences != 0)
+            ReleaseImageLibrary();
+            ImageLibraryName = value;
+            if (References != 0)
             {
-                LinkToIL();
+                LinkToImageLibrary();
             }
         }
     }
 
     // PlayerC.PAS:1839
-    public LibraryImage GetCityImage(int Size, int Terrain, int Level)
+    public LibraryImage GetCityImage(int size, int terrain, int level)
     {
-        LibraryImage Result;
-        int Index;
-        if (Terrain == 5)
+        LibraryImage result;
+        int index;
+        if (terrain == 5)
         {
-            Index = Size + 60 - 1;
+            index = size + 60 - 1;
         }
         else
         {
-            Index = Terrain * 10 + 70 + (Size - 1);
+            index = terrain * 10 + 70 + (size - 1);
         }
 
-        if (FImageLibrary.ImageExist(Index))
+        if (ImageLibrary.ImageExist(index))
         {
-            Result = FImageLibrary[Index];
+            result = ImageLibrary[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        if (Result == null)
+        if (result == null)
         {
-            if (Level == 0)
+            if (level == 0)
             {
-                Index = Size + 50 - 1;
+                index = size + 50 - 1;
             }
             else
             {
-                Index = Size + 60 - 1;
+                index = size + 60 - 1;
             }
 
-            if (FImageLibrary.ImageExist(Index))
+            if (ImageLibrary.ImageExist(index))
             {
-                Result = FImageLibrary[Index];
+                result = ImageLibrary[index];
             }
         }
 
-        return Result;
+        return result;
     }
 
     // PlayerC.PAS:1875
     public Alignment GetAlignment()
     {
-        Alignment Result;
-        if (FAlignments == AlignmentTables.alsPureGood)
+        Alignment result;
+        if (Alignments == AlignmentTables.s_pureGoodAlignments)
         {
             return Alignment.PureGood;
         }
 
-        if (FAlignments == AlignmentTables.alsGood)
+        if (Alignments == AlignmentTables.s_goodAlignments)
         {
-            Result = Alignment.Good;
+            result = Alignment.Good;
         }
         else
         {
-            if (FAlignments == AlignmentTables.alsNeutral)
+            if (Alignments == AlignmentTables.s_neutralAlignments)
             {
-                Result = Alignment.Neutral;
+                result = Alignment.Neutral;
             }
             else
             {
-                if (FAlignments == AlignmentTables.alsEvil)
+                if (Alignments == AlignmentTables.s_evilAlignments)
                 {
-                    Result = Alignment.Evil;
+                    result = Alignment.Evil;
                 }
                 else
                 {
-                    if (FAlignments == AlignmentTables.alsPureEvil)
+                    if (Alignments == AlignmentTables.s_pureEvilAlignments)
                     {
-                        Result = Alignment.PureEvil;
+                        result = Alignment.PureEvil;
                     }
                     else
                     {
-                        if (FAlignments == alsPureNeutral)
+                        if (Alignments == s_pureNeutralAlignments)
                         {
-                            Result = Alignment.PureNeutral;
+                            result = Alignment.PureNeutral;
                         }
                         else
                         {
-                            Result = Alignment.None;
+                            result = Alignment.None;
                         }
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P1_09.inc:24
@@ -300,6 +300,6 @@ public partial class RaceResource : EngineResource
     // PlayerC.PAS:1815
     public override string ResourceEditName() => "Race";
 
-    private static Set<Alignment> alsPureNeutral = Set<Alignment>.FromMask(72uL);
+    private static Set<Alignment> s_pureNeutralAlignments = Set<Alignment>.FromMask(72uL);
 
 }

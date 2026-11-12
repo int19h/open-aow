@@ -17,130 +17,130 @@ namespace Aow.Game.Units;
 // { Interface declaration run owned by P1. }
 public partial class FaceResource : EngineResource
 {
-    public new const int ClassID = 131696;
+    public new const int ClassId = 131696;
 
     public FaceResource(ECustomNode owner) : base(owner)
     { }
 
-    public string FImageLibraryName = "";
-    public int FImageIndex;
-    public CustomImageLibrary FImageLibrary;
-    public int FReferences;
-    public bool FDeveloperOnly;
+    public string ImageLibraryName = "";
+    public int ImageIndex;
+    public CustomImageLibrary ImageLibrary;
+    public int References;
+    public bool DeveloperOnly;
 
     // Ability.PAS:445
-    public override GameEngine GetEngine() => GameTables.AoWEngine;
+    public override GameEngine GetEngine() => GameTables.GameEngine;
 
     // Ability.PAS:512
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+        base.ReadWrite(stream);
+        if (!stream.StorageMode().Contains(StorageModeElement.TextOnly))
         {
-            Stream.rwString(ref FImageLibraryName, 5);
+            stream.rwString(ref ImageLibraryName, 5);
         }
 
-        Stream.rwInteger(ref FImageIndex, 6);
-        Stream.rwBool(ref FDeveloperOnly, 7);
+        stream.rwInteger(ref ImageIndex, 6);
+        stream.rwBool(ref DeveloperOnly, 7);
     }
 
     // Ability.PAS:482
     public override int AddRef()
     {
-        if (FReferences == 0)
+        if (References == 0)
         {
-            LinkToIL();
+            LinkToImageLibrary();
         }
 
-        FReferences += 1;
-        return FReferences;
+        References += 1;
+        return References;
     }
 
     // Ability.PAS:489
     public override int Release()
     {
-        FReferences -= 1;
-        if (FReferences == 0)
+        References -= 1;
+        if (References == 0)
         {
-            ReleaseIL();
+            ReleaseImageLibrary();
         }
 
-        return FReferences;
+        return References;
     }
 
     // Ability.PAS:496
     public override LibraryImage GetCellImage()
     {
         AddRef();
-        LibraryImage Result = FImageLibrary[FImageIndex];
+        LibraryImage result = ImageLibrary[ImageIndex];
         Release();
-        return Result;
+        return result;
     }
 
     // Ability.PAS:448
     public int FaceResourceIndex() => Owner.FindChildIndex(this);
 
     // Ability.PAS:451
-    public void LinkToIL()
+    public void LinkToImageLibrary()
     {
-        ReleaseIL();
-        if (!IsEmpty(FImageLibraryName))
+        ReleaseImageLibrary();
+        if (!IsEmpty(ImageLibraryName))
         {
-            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
+            ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
         }
         else
         {
-            FImageLibrary = null;
+            ImageLibrary = null;
         }
     }
 
     // Ability.PAS:459
-    public void ReleaseIL()
+    public void ReleaseImageLibrary()
     {
-        if (FImageLibrary != null)
+        if (ImageLibrary != null)
         {
-            if (!IsEmpty(FImageLibraryName))
+            if (!IsEmpty(ImageLibraryName))
             {
-                AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
+                AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
             }
 
-            FImageLibrary = null;
+            ImageLibrary = null;
         }
     }
 
     // Ability.PAS:469
-    public void SetImageLibraryName(string Value)
+    public void SetImageLibraryName(string value)
     {
-        if (!IsEmpty(FImageLibraryName))
+        if (!IsEmpty(ImageLibraryName))
         {
             // { Original releases the old name even when this resource has no references. }
-            AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
-            FImageLibrary = null;
+            AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
+            ImageLibrary = null;
         }
 
-        FImageLibraryName = Value;
-        if (!IsEmpty(FImageLibraryName) && FReferences != 0)
+        ImageLibraryName = value;
+        if (!IsEmpty(ImageLibraryName) && References != 0)
         {
-            FImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), FImageLibraryName);
+            ImageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), ImageLibraryName);
         }
     }
 
     // Ability.PAS:503
     public LibraryImage GetFaceImage()
     {
-        LibraryImage Result;
-        CustomImageLibrary Images;
-        Images = FImageLibrary;
-        if (Images != null)
+        LibraryImage result;
+        CustomImageLibrary images;
+        images = ImageLibrary;
+        if (images != null)
         {
-            Result = Images[FImageIndex];
+            result = images[ImageIndex];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
 }

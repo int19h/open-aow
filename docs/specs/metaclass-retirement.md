@@ -2,7 +2,7 @@
 
 Status 2026-10-30. Complete through CF-3. Briefs 9.4-1 to 9.4-6, CF-2 and CF-3 retire the
 product shim. `src/Game/ClassRegistry.cs` registers every descriptor through the single
-`Catalog<TKey, TValue>` type. `EngineClass.ClassName` is a `string`. The class-id snapshot remains
+`Catalog<TKey, TValue>` type. `EngineClass.StorageKey` is a `string`. The class-id snapshot remains
 unchanged. The private transpiler still emits `Meta` in its reference tree, which diverges from
 the product source. The driver runs the full gate separately from this brief's build and tests.
 The construction form and roadmap in the private repository govern the final registration form.
@@ -21,10 +21,10 @@ generated `src/Units/MetaRegistry.cs`, which adds 954 registrations (43 `EObject
 | Category | Count on main | Where |
 |---|---|---|
 | Declarations that go with the type | 542 nested `Meta` types, 538 `Of<T>()`, 29 typed `ClassType` accessors, 472 `(TFoo)NewInstance()` inside `Meta.Create` factories | every unit |
-| Engine class registration | 136 `RegisterEClasses` and `UnregisterEClasses` lines holding 575 of the 659 `Meta.Of<T>()` sites | unit initialization sections |
-| Creation by class id | `Engine.CreateEObject` (Delphi `TEngine`), `GetEClass`, `RegisterEClasses`, `UnregisterEClasses`, `FEClasses` (`EngineObjectClassList` (Delphi `TEObjectClassList`)), `FClassTable`, `GetDescendantClasses`, `VerifyEObjectClass`, seven `rwCreateEObject` overrides, `HSMap.AddLevel` (Delphi `THSMap`) and `New` (`LevelClass.Create(this)`) | `Engine.cs`, `HSEngine.cs` |
+| Engine class registration | 136 `RegisterEngineClasses` and `UnregisterEngineClasses` lines holding 575 of the 659 `Meta.Of<T>()` sites | unit initialization sections |
+| Creation by class id | `Engine.CreateEngineObject` (Delphi `TEngine`), `GetEngineClass`, `RegisterEngineClasses`, `UnregisterEngineClasses`, `_engineClasses` (`EngineObjectClassList` (Delphi `TEObjectClassList`)), `_classTable`, `GetDescendantClasses`, `VerifyEngineObjectClass`, seven `rwCreateEObject` overrides, `HSMap.AddLevel` (Delphi `THSMap`) and `New` (`LevelClass.Create(this)`) | `Engine.cs`, `HSEngine.cs` |
 | Creation by `Type` or class reference | `EngineObject.Copy` (Delphi `TEObject`) (`ClassType.Create(null)`), `MapLevel.MapFieldClass()` and the per-field loop, `GroupControlClass().Create`, `AbilityDataClass().Create(null)`, the AI group and player action class lists, the image class lists (`ImageClass.Create`), the sound system list and `SampleClass().Create(data)`, `SampleDataClass().Create` and `CreateEx`, `GrabInfo` (Delphi `TGrabInfo`) | `Engine.cs`, `HSEngine.MapFields.cs`, `AoWE.cs`, `ImageLib.cs`, `GFXE.cs`, `Sound.cs` |
-| Class-side virtual methods | 25 introductions. Overrides: `ClassID` 477, `ResourceEditName` 93, `GroupControlClass` 17, `Behavior` 17, `Name` 16, `Priority` 13, `AbilityDataClass` 10, `ID` 4, `AnimationControlMode` 2, one each of `EditorClassID`, `SupportedPhases`, `ControlMode`, `GetExtension`, `GetDescription`, `GetPixelFormatID`, `CreateSurface`, `LoadToSurfaceDesc`. Instance-side calls through `ClassType`: `ClassID` 99, `Error` 80, `Behavior` 19, `AnimationControlMode` 9, `Name` 3, `ID` 3, `ClassVersion` 2, `ResourceEditName` 2, `AbilityDataClass` 2, one each of `SupportedPhases`, `GroupControlClass`, `DynamicIsometricHexagonClass`, `InstanceSize`. Calls through a class reference without an instance: `ClassID` (registration, `FindClass`, `FindLibraryImageClass`, the editor walk), `Priority` 2, `SupportedPhases` 1, `Behavior` 1, `EditorClassID` 1, `Edit` 1, `GetName` 4, `GetExtension` 3 | everywhere |
+| Class-side virtual methods | 25 introductions. Overrides: `ClassId` 477, `ResourceEditName` 93, `GroupControlClass` 17, `Behavior` 17, `Name` 16, `Priority` 13, `AbilityDataClass` 10, `ID` 4, `AnimationControlMode` 2, one each of `EditorClassId`, `SupportedPhases`, `ControlMode`, `GetExtension`, `GetDescription`, `GetPixelFormatId`, `CreateSurface`, `LoadToSurfaceDescription`. Instance-side calls through `ClassType`: `ClassId` 99, `Error` 80, `Behavior` 19, `AnimationControlMode` 9, `Name` 3, `ID` 3, `ClassVersion` 2, `ResourceEditName` 2, `AbilityDataClass` 2, one each of `SupportedPhases`, `GroupControlClass`, `DynamicIsometricHexagonClass`, `InstanceSize`. Calls through a class reference without an instance: `ClassId` (registration, `FindClass`, `FindLibraryImageClass`, the editor walk), `Priority` 2, `SupportedPhases` 1, `Behavior` 1, `EditorClassId` 1, `Edit` 1, `GetName` 4, `GetExtension` 3 | everywhere |
 | `ClassParent`, `InheritsFrom`, `ClassName`, `Type` | the editor walk in `EngineObject.Editor` (`Engine.cs:4493`), `GetDescendantClasses`, `EngineResource.Meta.ResourceEditName` (Delphi `TEResource`) (`this.ClassName`), `Editor` loop test `C.Type != typeof(EngineObject)` | `Engine.cs` |
 | `InstanceSize` | one read, `HSEngine.MapFields.cs:23` | |
 | Raw `NewInstance` outside a factory | `IsoHex.DynamicOwnership.cs:40` (then `Attach`), `SoundSystem.Meta.Create` (Delphi `TSoundSystem`) | |
@@ -61,11 +61,11 @@ namespace Aow.Units.Engine;
 public sealed class EngineClass
 {
     public Type Type { get; }
-    public int ClassID { get; }
+    public int ClassId { get; }
     public int InstanceSize { get; }
     public EngineClass? Parent { get; }                 // the base class's descriptor, null at EngineObject
-    public string ClassName => TObject.ClassNameOf(Type);
-    public EngineObject Create(ECustomNode? owner) => create(owner);
+    public string StorageKey => TObject.ClassNameOf(Type);
+    public EngineObject CreateInstance(ECustomNode? owner) => create(owner);
     public bool InheritsFrom(Type type) => type.IsAssignableFrom(Type);
     public static EngineClass Of(Type type);            // one instance per type, throws when unregistered
     public static EngineClass Of<T>() where T : EngineObject => Of(typeof(T));
@@ -80,11 +80,11 @@ from the `Meta.ClassID()` body into the class:
 ```csharp
 public partial class AoWHSMap : HSMap
 {
-    public new const int ClassID = 131089;         // Engine.pas:2461 spelling kept in the comment
+    public new const int ClassId = 131089;         // Engine.pas:2461 spelling kept in the comment
 ```
 
-The registry line reads it statically, `EngineClass.Register<TFoo>(TFoo.ClassID, static owner => new TFoo(owner), 16)`.
-C# resolves `TFoo.ClassID` to the nearest declaring ancestor, which is what an inherited Delphi
+The registry line reads it statically, `EngineClass.Register<TFoo>(TFoo.ClassId, static owner => new TFoo(owner), 16)`.
+C# resolves `TFoo.ClassId` to the nearest declaring ancestor, which is what an inherited Delphi
 class method returns, so an inherit-only class (`AIBudgetManager` (Delphi `TAIBudgetManager`), `EUser` (Delphi `TEUser`), `NewCombatRoundCombatAction` (Delphi `TNewCombatRoundCA`))
 gets the ancestor's id and its own creation delegate. A class with a retained guarded factory
 registers `static owner => TFoo.Create(owner)`.
@@ -98,13 +98,13 @@ public partial class EngineObject
     public EngineClass EngineClass => eclass ??= EngineClass.Of(GetType());
 ```
 
-`obj.ClassType.ClassID() == 131089` becomes `obj.EngineClass.ClassID == AoWHSMap.ClassID`.
+`obj.ClassType.ClassID() == 131089` becomes `obj.EngineClass.ClassId == AoWHSMap.ClassId`.
 
-`Engine` keeps the same members with `EngineClass` in place of `EngineObject.Meta`: `RegisterEClasses(ReadOnlySpan<EngineClass>)`,
-`UnregisterEClasses`, `EngineClass GetEClass(int)`, `CreateEObject(id, owner) => GetEClass(id).Create(owner)`,
-`FEClasses` a `List<EngineClass>` behind the existing `EClasses[]` accessor, `FClassTable` unchanged with
-`EngineClass` values, `GetDescendantClasses(Type)` through `InheritsFrom`, `VerifyEObjectClass(EngineClass)`.
-`EngineObject.Copy` is `Result = EngineClass.Create(null)`. The editor walk is
+`Engine` keeps the same members with `EngineClass` in place of `EngineObject.Meta`: `RegisterEngineClasses(ReadOnlySpan<EngineClass>)`,
+`UnregisterEngineClasses`, `EngineClass GetEngineClass(int)`, `CreateEngineObject(id, owner) => GetEngineClass(id).Create(owner)`,
+`_engineClasses` a `List<EngineClass>` behind the existing `EngineClasses[]` accessor, `_classTable` unchanged with
+`EngineClass` values, `GetDescendantClasses(Type)` through `InheritsFrom`, `VerifyEngineObjectClass(EngineClass)`.
+`EngineObject.Copy` is `Result = EngineClass.CreateInstance(null)`. The editor walk is
 `for (var c = EngineClass; c.Type != typeof(EngineObject) && result == null; c = c.Parent!)`.
 
 ### 2.2 Instance virtuals
@@ -118,7 +118,7 @@ on `LibraryImage` (Delphi `TLibraryImage`). `Error` (one introduction, no overri
 its list class, `ClassType.Error(...)` becomes `Error(...)`. `DynamicIsometricHexagonClass` has no
 override, so it goes and `IsometricHex` (Delphi `TIsometricHexagon`) constructs `new DynamicIsometricHex(this)`,
 whose constructor runs the `EngineObject` body with a null owner, then `hexagon = owner` and
-`Field.AddHS(this, 0)`, the order `Attach` has now.
+`Field.AddHexSprite(this, 0)`, the order `Attach` has now.
 
 ### 2.3 Descriptor families with static abstract members
 
@@ -149,11 +149,11 @@ public sealed class AIPlayerActionClass
 
 An instance reads `ActionClass.SupportedPhases` through a cached property like `EngineClass`. The
 families: `AIPlayerAction` (Delphi `TAIPlayerAction`) (`Priority`, `SupportedPhases`), `AIGroup` (`Behavior`, read by the
-group manager before `Create(this)`), `EngineObjectEditor` (Delphi `TEObjectEditor`) (`EditorClassID`, `Edit(obj, engine, done)`,
+group manager before `Create(this)`), `EngineObjectEditor` (Delphi `TEObjectEditor`) (`EditorClassId`, `Edit(obj, engine, done)`,
 the editor list becomes `List<EditorClass>` and `EngineObject.Editor()` returns `EditorClass`),
-`ImageFile` (Delphi `TImageFile`) (`GetName`, `GetExtension`, `GetDescription`, `GetPixelFormatID`,
-`LoadToSurfaceDesc`, `CreateSurface`, one implementor), `GrabInfo` (`GrabImages`, creation),
-`LibraryImage` (`ClassID`, `ClassVersion`, `Name`, creation `Func<CustomImageLibrary, LibraryImage>`,
+`ImageFile` (Delphi `TImageFile`) (`GetName`, `GetExtension`, `GetDescription`, `GetPixelFormatId`,
+`LoadToSurfaceDescription`, `CreateSurface`, one implementor), `GrabInfo` (`GrabImages`, creation),
+`LibraryImage` (`ClassId`, `ClassVersion`, `Name`, creation `Func<CustomImageLibrary, LibraryImage>`,
 replacing `LibraryImageCreation`), `SoundSystem` (`Name`, `Func<SoundSystem> Create`, registered
 through `RegisterSoundSystem(SoundSystemClass)`, the SDL and Galaxy aliases are two descriptors
 over one type), `Sample` and `SampleData` (their `Meta` already holds the delegates, the
@@ -174,22 +174,22 @@ transpiler's reference diffs are read with that in mind.
 
 - Saved class ids: each constant moves verbatim. A snapshot `data/metaclass/classids.json` taken on
   main before 9.4-1 (type name, id, instance size, parent) is compared by a test against the full
-  `EngineClass` table and against each engine's registered set after `RegisterEClasses`.
+  `EngineClass` table and against each engine's registered set after `RegisterEngineClasses`.
 - Creation order: descriptors are not `TObject`s (`Meta` is not one
   either), registration allocates no instance, `eoVerifyClasses` still creates and frees one object
   per registered class in registration order, and every creation site keeps its position and
   argument (`Copy` and the save path pass `null`).
 - Exact runtime type for inherit-only classes: `NewCombatRoundCombatAction` and the 299 inherit-only classes
   keep their own delegate, never an inherited static.
-- The binary read path `Engine.cs:12846`: `CreateEObject(AClassID, null)`, `FOwner` set directly,
-  `MainReadWrite`, `FOwner` cleared, `SetOwner(AOwner)`, the catch freeing the object and restoring
-  the table. Only the body of `CreateEObject` changes. The messages `Unregistered E-ClassID found (`
+- The binary read path `Engine.cs:12846`: `CreateEngineObject(AClassID, null)`, `_owner` set directly,
+  `MainReadWrite`, `_owner` cleared, `SetOwner(AOwner)`, the catch freeing the object and restoring
+  the table. Only the body of `CreateEngineObject` changes. The messages `Unregistered E-ClassID found (`
   and `EngineObject Class ID double defined!` stay.
 - The dynamic map field class: `MapFieldClass()` stays a virtual on `MapLevel` (Delphi `TMapLevel`) returning `EngineClass`
-  (`AoWMapLevel` (Delphi `TAoWMapLevel`) overrides it), `FFieldSize = type.InstanceSize` reads the same numbers from the
-  registry, the per-field `type.Create(this)` loop keeps row order, and `FHNOffsets` follow.
+  (`AoWMapLevel` (Delphi `TAoWMapLevel`) overrides it), `_fieldSize = type.InstanceSize` reads the same numbers from the
+  registry, the per-field `type.Create(this)` loop keeps row order, and `HexNumberOffsets` follow.
 - The isometric raw creation keeps its order (allocate, `EngineObject` body with null owner, attach,
-  `AddHS`), now inside one constructor.
+  `AddHexSprite`), now inside one constructor.
 - The 11 `TEObjectClass` typed constants of `inc/Combat.pas` evaluate `EngineClass.Of<T>()` during type
   initialization, so the registry stays a module initializer.
 
@@ -202,8 +202,8 @@ unchanged counts, `dotnet build` with zero warnings and `dotnet test`. All start
 
 | Brief | Scope | Removes | Done measure beyond the gate |
 |---|---|---|---|
-| 9.4-1 ids and registry | `EngineClass`, `const ClassID` in every class with an override (477, a script under `tools/` in the private repository writes the edit, the diff is reviewed), `Meta.ClassID()` bodies become `=> TFoo.ClassID`, the generated file registers an `EngineClass` per `EngineObject` class beside `Meta`, `Engine` and `HSMap.AddLevel` and `New` on `EngineClass`, the 136 registration lines on `EngineClass.Of<T>()`, `Meta.Create` forwards to `EngineClass.Of(Type).Create` | the engine's use of `EngineObject.Meta`, `EObjectCreation` | the id snapshot test passes, `grep -n "EngineObject.Meta" src/Units/Engine*.cs` finds only the facade |
-| 9.4-2 instance ids and creation by type | `EngineObject.EngineClass`, the 99 `ClassType.ClassID()` sites, `Copy`, `Editor` walk on `Parent`, `MapFieldClass`, `VerifyEObjectClass`, `GetDescendantClasses`, the 84 non-registration `Meta.Of<T>()` sites in the engine closure | `ClassType.ClassID`, `ClassParent`, `InstanceSize` on `Meta` | `grep -rn "ClassType.ClassID\|ClassParent\|\.InstanceSize" src/Units` finds only `EngineClass` reads, a test walks every `EngineClass` to `EngineObject` through `Parent` |
+| 9.4-1 ids and registry | `EngineClass`, `const ClassId` in every class with an override (477, a script under `tools/` in the private repository writes the edit, the diff is reviewed), `Meta.ClassID()` bodies become `=> TFoo.ClassId`, the generated file registers an `EngineClass` per `EngineObject` class beside `Meta`, `Engine` and `HSMap.AddLevel` and `New` on `EngineClass`, the 136 registration lines on `EngineClass.Of<T>()`, `Meta.Create` forwards to `EngineClass.Of(Type).Create` | the engine's use of `EngineObject.Meta`, `EObjectCreation` | the id snapshot test passes, `grep -n "EngineObject.Meta" src/Units/Engine*.cs` finds only the facade |
+| 9.4-2 instance ids and creation by type | `EngineObject.EngineClass`, the 99 `ClassType.ClassID()` sites, `Copy`, `Editor` walk on `Parent`, `MapFieldClass`, `VerifyEngineObjectClass`, `GetDescendantClasses`, the 84 non-registration `Meta.Of<T>()` sites in the engine closure | `ClassType.ClassID`, `ClassParent`, `InstanceSize` on `Meta` | `grep -rn "ClassType.ClassID\|ClassParent\|\.InstanceSize" src/Units` finds only `EngineClass` reads, a test walks every `EngineClass` to `EngineObject` through `Parent` |
 | 9.4-3 instance virtuals | section 2.2, with the isometric constructor | `ClassType.X()` for the listed members, `Error` | `grep -rn "ClassType\." src/Units` finds only `Behavior`, `SupportedPhases` and `Priority` sites, a map-load scenario with water and open sides exercises the dynamic hexagon |
 | 9.4-4 descriptor families in the engine closure | `AIPlayerAction`, `AIGroup`, `EngineObjectEditor` through section 2.3 | the last class-side members on engine `Meta` types | a test registers and unregisters the group and action classes and checks list identity, the editor test drives `ItemGrid` through `EditorClass.Edit` |
 | 9.4-5 image library and image files | `LibraryImage`, `ImageFile`, `GrabInfo` descriptors, `GraphicsConstructionTests` on the descriptor | `LibraryImageCreation`, the image `Meta` types' members | frame fixtures hold, a test loads a library through `FindLibraryImageClass` and reads `ClassVersion` and `Name` for every registered image class against the snapshot |
@@ -222,10 +222,10 @@ waits for all.
 - `EngineClass.Parent` undefined. Today `ClassParent` is `MetaRegistry.Of(Type.BaseType)` and throws
   outside the closure, and the editor walk stops at `EngineObject`. Evidence: the walk test of 9.4-2
   over every registered type.
-- Hot paths. `FHSList[i].ClassType.ClassID()` in `HSEngine.FieldSprites.cs:331` and the field scans
+- Hot paths. `_hexSpriteList[i].ClassType.ClassID()` in `HSEngine.FieldSprites.cs:331` and the field scans
   at `HSEngine.cs:309` and `343` trade a virtual call for a cached field read. Evidence: the pacing
   layer and the frame fixtures, with the cache in place from 9.4-2.
-- Descriptor identity. `UnregisterEClasses`, `UnRegisterClasses`, `UnregisterAIGroupClasses`, the
+- Descriptor identity. `UnregisterEngineClasses`, `UnregisterClasses`, `UnregisterAIGroupClasses`, the
   sound system `Find` and `OnHSMLoaded.Remove` rely on one object per class. Evidence: the
   identity tests of 9.4-4 and 9.4-6, and one explicit catalog registration per family type.
 - Retained initializer families. Their guarded static factory is the delegate, so 9.4 never calls

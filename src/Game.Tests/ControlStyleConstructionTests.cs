@@ -32,8 +32,8 @@ public sealed class ControlStyleConstructionTests
         if (kind == 2)
         {
             // The pad has the inherited ID 81, so isolate its class entry in this test engine.
-            engine.UnregisterEClasses([EngineClass.Of<ControlStyleObject>()]);
-            engine.RegisterEClasses([EngineClass.Of(type)]);
+            engine.UnregisterEngineClasses([EngineClass.Of<ControlStyleObject>()]);
+            engine.RegisterEngineClasses([EngineClass.Of(type)]);
         }
         var direct = kind switch
         {
@@ -41,22 +41,22 @@ public sealed class ControlStyleConstructionTests
             1 => new ResourceEditSettings(argument),
             _ => (ControlStyleObject)new PadControl(argument)
         };
-        EngineObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
+        EngineObject[] objects = [direct, meta.CreateInstance(argument), engine.CreateEngineObject(meta.ClassId, argument)];
         EngineObject? copy = null;
         try
         {
-            Assert.Equal(kind == 1 ? 1026 : 81, meta.ClassID);
+            Assert.Equal(kind == 1 ? 1026 : 81, meta.ClassId);
             Assert.Equal(kind == 0 ? 12 : kind == 1 ? 16 : 20, meta.InstanceSize);
             Assert.Same(meta, EngineClass.Of(type));
             foreach (var value in objects)
             {
                 Assert.IsType(type, value);
                 Assert.Same(argument, value.Owner);
-                Assert.Same(meta, value.EClass);
+                Assert.Same(meta, value.EngineClass);
             }
             if (direct is ResourceEditSettings settings)
                 settings.Editors.AddObject("Editor", Runtime.IntToObject(17));
-            direct.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared));
+            direct.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Stored, EngineServices.Shared));
             copy = direct.Copy(engine);
             Assert.IsType(type, copy);
             Assert.Null(copy.Owner);
@@ -69,8 +69,8 @@ public sealed class ControlStyleConstructionTests
             }
             if (direct is PadControl pad)
             {
-                Assert.NotNull(pad.FTerrainTypes);
-                Assert.NotNull(pad.FPadResources);
+                Assert.NotNull(pad.TerrainTypes);
+                Assert.NotNull(pad.PadResources);
             }
             Assert.Equal(owned ? 3 : 0, owner.Members.Count);
         }
@@ -106,7 +106,7 @@ public sealed class ControlStyleConstructionTests
     {
         using var fixture = new FlagFixture(loaded: true);
         Assert.Throws<NullReferenceException>(() => FlagControl.Create(null!));
-        Assert.Throws<NullReferenceException>(() => EngineClass.Of<FlagControl>().Create(null!));
+        Assert.Throws<NullReferenceException>(() => EngineClass.Of<FlagControl>().CreateInstance(null!));
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
     }
@@ -130,43 +130,43 @@ public sealed class ControlStyleConstructionTests
         internal readonly FlagOwner Owner;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly ImageLibraryManagerObject Entry;
-        private readonly AoWHSSet previous = AoWHSSet.Current;
-        private readonly IFileSystem previousFiles = Runtime.Files;
-        private readonly string previousStartup = EngineFixture.Engine.StartupDirectory;
-        private readonly string previousSoundPath = AudioHost.BaseSoundEnginePath;
-        private readonly string previousImagePath = ImageLibraries.BaseImageLibraryPath;
-        private readonly string previousExe = Runtime.Application.ExeName;
-        private readonly string root;
-        private readonly bool ownsRoot;
+        private readonly AoWHSSet _previous = AoWHSSet.Current;
+        private readonly IFileSystem _previousFiles = Runtime.Files;
+        private readonly string _previousStartup = EngineFixture.Engine.StartupDirectory;
+        private readonly string _previousSoundPath = AudioHost.BaseSoundEnginePath;
+        private readonly string _previousImagePath = ImageLibraries.BaseImageLibraryPath;
+        private readonly string _previousExecutable = Runtime.Application.ExeName;
+        private readonly string _root;
+        private readonly bool _ownsRoot;
         internal readonly FlagFiles Files;
 
         internal FlagFixture(bool loaded, string? directory = null)
         {
-            ownsRoot = directory is null;
-            root = directory ?? Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
-            Directory.CreateDirectory(root);
-            Directory.CreateDirectory(Path.Combine(root, "IMAGES"));
-            Directory.CreateDirectory(Path.Combine(root, "SFX"));
-            Files = new FlagFiles(root);
+            _ownsRoot = directory is null;
+            _root = directory ?? Path.Combine(Path.GetTempPath(), "aow-cf4-flags-" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(_root);
+            Directory.CreateDirectory(Path.Combine(_root, "IMAGES"));
+            Directory.CreateDirectory(Path.Combine(_root, "SFX"));
+            Files = new FlagFiles(_root);
             Runtime.Files = Files;
-            EngineFixture.Engine.SetStartupDirectory(root + Path.DirectorySeparatorChar);
-            AudioHost.BaseSoundEnginePath = root + Path.DirectorySeparatorChar;
-            ImageLibraries.BaseImageLibraryPath = root + Path.DirectorySeparatorChar;
-            Runtime.Application.ExeName = Path.Combine(root, "fixture.exe");
+            EngineFixture.Engine.SetStartupDirectory(_root + Path.DirectorySeparatorChar);
+            AudioHost.BaseSoundEnginePath = _root + Path.DirectorySeparatorChar;
+            ImageLibraries.BaseImageLibraryPath = _root + Path.DirectorySeparatorChar;
+            Runtime.Application.ExeName = Path.Combine(_root, "fixture.exe");
             try
             {
                 Owner = new FlagOwner();
-                Field(typeof(HSSet), "FImageLibraryManager").SetValue(Owner, Manager);
-                Field(typeof(ImageLibraryManager), "FSearchPath").SetValue(Manager, "9.3b-2-missing/");
-                var disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "FDiskList").GetValue(Manager)!;
-                if (directory is null) Entry = disk.AddILFile("Flags.ILB");
+                Field(typeof(HSSet), "_imageLibraryManager").SetValue(Owner, Manager);
+                Field(typeof(ImageLibraryManager), "_searchPath").SetValue(Manager, "9.3b-2-missing/");
+                var disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "_diskList").GetValue(Manager)!;
+                if (directory is null) Entry = disk.AddImageLibraryFile("Flags.ILB");
                 else
                 {
                     Manager.ExecutePathSearch(directory);
                     Entry = Assert.IsType<ImageLibraryManagerObject>(disk.Objects[0]);
                 }
                 if (loaded)
-                    Field(typeof(ImageLibraryManagerObject), "FImageLibrary").SetValue(Entry, new ImageLibrary(null!));
+                    Field(typeof(ImageLibraryManagerObject), "_imageLibrary").SetValue(Entry, new ImageLibrary(null!));
                 AoWHSSet.Current = Owner;
                 Owner.Members.Clear();
             }
@@ -182,7 +182,7 @@ public sealed class ControlStyleConstructionTests
             try { foreach (var child in Owner.Members.ToArray()) child.Dispose(); }
             finally
             {
-                AoWHSSet.Current = previous;
+                AoWHSSet.Current = _previous;
                 try { Manager.Dispose(); }
                 finally { RestoreFiles(); }
             }
@@ -190,67 +190,67 @@ public sealed class ControlStyleConstructionTests
 
         private void RestoreFiles()
         {
-            EngineFixture.Engine.SetStartupDirectory(previousStartup);
-            AudioHost.BaseSoundEnginePath = previousSoundPath;
-            ImageLibraries.BaseImageLibraryPath = previousImagePath;
-            Runtime.Application.ExeName = previousExe;
-            Runtime.Files = previousFiles;
-            if (ownsRoot) Directory.Delete(root, recursive: true);
+            EngineFixture.Engine.SetStartupDirectory(_previousStartup);
+            AudioHost.BaseSoundEnginePath = _previousSoundPath;
+            ImageLibraries.BaseImageLibraryPath = _previousImagePath;
+            Runtime.Application.ExeName = _previousExecutable;
+            Runtime.Files = _previousFiles;
+            if (_ownsRoot) Directory.Delete(_root, recursive: true);
         }
     }
 
     private sealed class FlagFiles : IFileSystem
     {
-        private readonly string root;
-        private readonly PhysicalFileSystem files = new();
+        private readonly string _root;
+        private readonly PhysicalFileSystem _files = new();
         internal readonly List<string> OpenedPaths = [];
         internal readonly List<string> EnumeratedDirectories = [];
 
         internal FlagFiles(string root)
         {
-            this.root = Path.GetFullPath(root);
-            Assert.True(files.SetCurrentDirectory(this.root));
+            this._root = Path.GetFullPath(root);
+            Assert.True(_files.SetCurrentDirectory(this._root));
         }
 
         private string Checked(string path)
         {
-            string full = files.ExpandPath(path);
-            Assert.True(full.Equals(root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "Flag fixture escaped temporary root: " + full);
+            string full = _files.ExpandPath(path);
+            Assert.True(full.Equals(_root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(_root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "Flag fixture escaped temporary root: " + full);
             return full;
         }
 
-        public string CurrentDirectory => files.CurrentDirectory;
+        public string CurrentDirectory => _files.CurrentDirectory;
 
-        public bool SetCurrentDirectory(string path) => files.SetCurrentDirectory(Checked(path));
+        public bool SetCurrentDirectory(string path) => _files.SetCurrentDirectory(Checked(path));
         public string ExpandPath(string path) => Checked(path);
 
         public Stream Open(string path, int mode)
         {
             string full = Checked(path);
             OpenedPaths.Add(full);
-            return files.Open(full, mode);
+            return _files.Open(full, mode);
         }
 
-        public bool FileExists(string path) => files.FileExists(Checked(path));
-        public bool DirectoryExists(string path) => files.DirectoryExists(Checked(path));
-        public bool DeleteFile(string path) => files.DeleteFile(Checked(path));
-        public bool RenameFile(string source, string target) => files.RenameFile(Checked(source), Checked(target));
-        public bool CreateDirectory(string path) => files.CreateDirectory(Checked(path));
-        public bool RemoveDirectory(string path) => files.RemoveDirectory(Checked(path));
-        public int GetAttributes(string path) => files.GetAttributes(Checked(path));
-        public int SetAttributes(string path, int attributes) => files.SetAttributes(Checked(path), attributes);
-        public DateTime? LastWriteTime(string path) => files.LastWriteTime(Checked(path));
+        public bool FileExists(string path) => _files.FileExists(Checked(path));
+        public bool DirectoryExists(string path) => _files.DirectoryExists(Checked(path));
+        public bool DeleteFile(string path) => _files.DeleteFile(Checked(path));
+        public bool RenameFile(string source, string target) => _files.RenameFile(Checked(source), Checked(target));
+        public bool CreateDirectory(string path) => _files.CreateDirectory(Checked(path));
+        public bool RemoveDirectory(string path) => _files.RemoveDirectory(Checked(path));
+        public int GetAttributes(string path) => _files.GetAttributes(Checked(path));
+        public int SetAttributes(string path, int attributes) => _files.SetAttributes(Checked(path), attributes);
+        public DateTime? LastWriteTime(string path) => _files.LastWriteTime(Checked(path));
 
         public IEnumerable<RtlFileEntry> Enumerate(string directory)
         {
             string full = Checked(directory);
             EnumeratedDirectories.Add(full);
-            return files.Enumerate(full).ToArray();
+            return _files.Enumerate(full).ToArray();
         }
     }
 
     private static FlagControl CreateFlag(ECustomNode owner, bool throughMeta) => throughMeta
-        ? (FlagControl)EngineClass.Of<FlagControl>().Create(owner)
+        ? (FlagControl)EngineClass.Of<FlagControl>().CreateInstance(owner)
         : FlagControl.Create(owner);
 
     [Theory]
@@ -263,7 +263,7 @@ public sealed class ControlStyleConstructionTests
         var control = CreateFlag(fixture.Owner, throughMeta);
         Assert.IsType<FlagControl>(control);
         Assert.Same(fixture.Owner, control.Owner);
-        Assert.Same(fixture.Entry.ImageLibrary, control.FFlags);
+        Assert.Same(fixture.Entry.ImageLibrary, control.Flags);
         Assert.Equal(1, fixture.Entry.RefCount);
         Assert.Same(control, Assert.Single(fixture.Owner.Members));
         control.Dispose();
@@ -298,7 +298,7 @@ public sealed class ControlStyleConstructionTests
         try
         {
             // The version-4 index is truncated, so ReadBuffer fails before any image-class lookup.
-            ImageLibraryHeader header = new() { ID = "ILB", Version = 4, HeaderSize = 24, IndexEnd = 28, Size = 28 };
+            ImageLibraryHeader header = new() { Id = "ILB", Version = 4, HeaderSize = 24, IndexEnd = 28, Size = 28 };
             string path = Path.Combine(directory, "FLAGS.ILB");
             File.WriteAllBytes(path, Bytes.Of(ref header, 24).ToArray());
             ImageLibraries.LibraryImageClasses = classes!;
@@ -326,9 +326,9 @@ public sealed class ControlStyleConstructionTests
 
         internal EngineObject? Created;
 
-        public override EngineObject CreateEObject(int classId, ECustomNode owner)
+        public override EngineObject CreateEngineObject(int classId, ECustomNode owner)
         {
-            Created = base.CreateEObject(classId, owner);
+            Created = base.CreateEngineObject(classId, owner);
             return Created;
         }
     }
@@ -359,7 +359,7 @@ public sealed class ControlStyleConstructionTests
         var engine = CreateEngine();
         var owner = new EngineFixture.Owner();
         var existing = new EngineObject(owner);
-        EngineObject source = EngineClass.Of<ControlStyleObject>().Create(null!);
+        EngineObject source = EngineClass.Of<ControlStyleObject>().CreateInstance(null!);
         using var stream = new TruncatedStream();
         try
         {
@@ -413,7 +413,7 @@ public sealed class ControlStyleConstructionTests
         var engine = CreateEngine();
         var owner = new EngineFixture.Owner();
         var existing = new EngineObject(owner);
-        EngineObject source = EngineClass.Of<ControlStyleObject>().Create(null!);
+        EngineObject source = EngineClass.Of<ControlStyleObject>().CreateInstance(null!);
         using var stream = new EmptyMessageStream();
         try
         {

@@ -19,290 +19,290 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-// FPrisoners, FPrisonersMode
+// Prisoners, PrisonersMode
 public partial class Dungeon : ExplorationSite
 {
     public Dungeon(ECustomNode owner) : base(owner)
     {
-        FPrisonersMode = PrisonersMode.Normal;
-        FPrisoners = new PrisonersArmy(null);
+        PrisonersMode = DungeonPrisonersMode.Normal;
+        Prisoners = new PrisonersArmy(null);
     }
 
     // Dungeon.pas:108
-    public new const int ClassID = 131882;
+    public new const int ClassId = 131882;
 
-    public PrisonersArmy FPrisoners;
-    public PrisonersMode FPrisonersMode;
+    public PrisonersArmy Prisoners;
+    public DungeonPrisonersMode PrisonersMode;
 
     // Dungeon.pas:102
     public override void Dispose()
     {
         base.Dispose();
-        FPrisoners?.Dispose();
+        Prisoners?.Dispose();
     }
 
     // Dungeon.pas:114
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwEObject(FPrisoners, 8);
-        Stream.rwData(Bytes.Of(ref FPrisonersMode, 1), 1, 9);
+        base.ReadWrite(stream);
+        stream.rwEObject(Prisoners, 8);
+        stream.rwData(Bytes.Of(ref PrisonersMode, 1), 1, 9);
     }
 
     // Dungeon.pas:95
 
     // Dungeon.pas:249
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        FPrisoners.MsgProc(ref Msg, Sender);
+        base.MessageProc(ref message, sender);
+        Prisoners.MessageProc(ref message, sender);
     }
 
     // Dungeon.pas:237
     public override void Activate()
     {
         base.Activate();
-        FPrisoners.Activate();
+        Prisoners.Activate();
     }
 
     // Dungeon.pas:243
     public override void Deactivate()
     {
-        FPrisoners.Deactivate();
+        Prisoners.Deactivate();
         base.Deactivate();
     }
 
     // Dungeon.pas:255
-    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer)
+    public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor)
     {
-        ExecuteResult Result = base.ExecuteTE(TE, Executer);
-        if (TE.FAction == 1)
+        ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
+        if (tokenEvent.Action == 1)
         {
-            LiberatePrisoners((sbyte)TE.FParam);
-            Result = ExecuteResult.Done;
+            LiberatePrisoners((sbyte)tokenEvent.Param);
+            result = ExecuteResult.Done;
         }
 
-        return Result;
+        return result;
     }
 
     // Dungeon.pas:231
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.FDay == 1)
+        if (AoWHSMap.Current.Day == 1)
         {
             GeneratePrisoners();
         }
     }
 
     // Dungeon.pas:111
-    public override bool GetExplored() => FPrisoners.Count == 0;
+    public override bool GetExplored() => Prisoners.Count == 0;
 
     // Dungeon.pas:121
-    public override void SetupCombat(Combat.Battle Combat, ArmyHexSprite Army)
+    public override void SetupCombat(Combat.Battle combat, ArmyHexSprite army)
     {
-        base.SetupCombat(Combat, Army);
-        Combat.FItems = FPrisoners;
+        base.SetupCombat(combat, army);
+        combat.Items = Prisoners;
     }
 
     // Dungeon.pas:127
-    public override void ExecuteSearchDone(CombatType CombatType, CombatResult CombatResult)
+    public override void ExecuteSearchDone(CombatType combatType, CombatResult combatResult)
     {
-        ArmyHexSprite Army;
-        PrisonersJoinEventLog Log;
-        if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(CombatResult))
+        ArmyHexSprite army;
+        PrisonersJoinEventLog log;
+        if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.NoDefenders).Contains(combatResult))
         {
-            Army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
-            Log = new PrisonersJoinEventLog(null);
-            Log.FX = GetXhx();
-            Log.FY = GetYhx();
-            Log.FL = GetLhx();
-            Log.FPlayer = Army.FArmy.FPlayer;
-            Log.FSelection = 255;
-            Log.FGold = 0;
-            Log.FJoinMode = JoinMode.Default;
-            Log.FFirstUnitID = FPrisoners.GetUnit(0).FUnitID;
-            for (int I = 0, last = FPrisoners.Count - 1; I <= last; I++)
+            army = (ArmyHexSprite)Owner.FindOwnedChild(131607);
+            log = new PrisonersJoinEventLog(null);
+            log.X = GetHexX();
+            log.Y = GetHexY();
+            log.MapLevel = GetHexLevel();
+            log._player = army.Army.Player;
+            log.Selection = 255;
+            log.Gold = 0;
+            log.JoinMode = JoinMode.Default;
+            log.FirstUnitId = Prisoners.GetUnit(0).UnitId;
+            for (int I = 0, last = Prisoners.Count - 1; I <= last; I++)
             {
-                var unit = FPrisoners.GetUnit(I);
-                Log.FUnitIDs.Add(unit.FUnitID);
+                var troop = Prisoners.GetUnit(I);
+                log.UnitIds.Add(troop.UnitId);
             }
 
-            if (FPrisoners.Count == 1)
+            if (Prisoners.Count == 1)
             {
-                var liberatePrisonerMessage = AbilityRules.TranslateRStr(LiberatePrisonerMessageRStr);
-                Log.FJoinMessage.Text = liberatePrisonerMessage;
+                var liberatePrisonerMessage = AbilityRules.TranslateResourceString(s_liberatePrisonerMessageText);
+                log.JoinMessage.Text = liberatePrisonerMessage;
             }
             else
             {
-                var liberatePrisonersMessage = AbilityRules.TranslateRStr(LiberatePrisonersMessageRStr);
-                Log.FJoinMessage.Text = liberatePrisonersMessage;
+                var liberatePrisonersMessage = AbilityRules.TranslateResourceString(s_liberatePrisonersMessageText);
+                log.JoinMessage.Text = liberatePrisonersMessage;
             }
 
-            Log.Execute(false, ExecuteTrigger.Event, null);
-            Log.Release();
+            log.Execute(false, ExecuteTrigger.Event, null);
+            log.Release();
         }
     }
 
     // Dungeon.pas:156
     public void GeneratePrisoners()
     {
-        int Collection;
-        UnitIndexList List;
-        UnitIndexListCollection Collections;
-        RandSeed = AoWHSMap.Current.FDefendersSeed;
-        if (FPrisonersMode == PrisonersMode.Random)
+        int collection;
+        UnitIndexList list;
+        UnitIndexListCollection collections;
+        RandSeed = AoWHSMap.Current.DefendersSeed;
+        if (PrisonersMode == DungeonPrisonersMode.Random)
         {
-            FPrisonersMode = (PrisonersMode)(Random(3) + 1);
+            PrisonersMode = (DungeonPrisonersMode)(Random(3) + 1);
         }
 
-        Collection = ((Resource)FResource).FPrisonerCollections.GetRndCollection();
-        if (Collection != -1)
+        collection = ((Resource)_resource).PrisonerCollections.GetRandomCollection();
+        if (collection != -1)
         {
-            List = new UnitIndexList();
-            Collections = ((Resource)FResource).FPrisonerCollections;
-            for (int I = Collections.GetCollectionCount(Collection) - 1; I >= 0; I--)
+            list = new UnitIndexList();
+            collections = ((Resource)_resource).PrisonerCollections;
+            for (int I = collections.GetCollectionCount(collection) - 1; I >= 0; I--)
             {
-                List.Add(Collections.GetU(Collection, I));
+                list.Add(collections.GetU(collection, I));
             }
 
-            Int32List.FillWithRandomUnits(List, FPrisoners, 4, (int)FPrisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
-            List?.Dispose();
+            Int32List.FillWithRandomUnits(list, Prisoners, 4, (int)PrisonersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+            list?.Dispose();
         }
     }
 
     // Dungeon.pas:178
-    public void LiberatePrisoners(sbyte Player)
+    public void LiberatePrisoners(sbyte player)
     {
-        LocationTextEventLog LocationLog;
-        ArmyInfoEventLog ArmyLog;
-        Hero Hero;
-        ArmyHexSprite Army;
-        LocationLog = new LocationTextEventLog(null);
-        LocationLog.FPlayer = GetPlayer();
+        LocationTextEventLog locationLog;
+        ArmyInfoEventLog armyLog;
+        Hero hero;
+        ArmyHexSprite army;
+        locationLog = new LocationTextEventLog(null);
+        locationLog._player = GetPlayer();
         var name = GetName();
-        LocationLog.FText = RtlUnit.Format(AbilityRules.TranslateRStr(XExploredRStr), [name]);
-        var lhx = GetLhx();
-        var yhx = GetYhx();
-        LocationLog.SetLocation(GetXhx(), yhx, lhx);
-        var yhx2 = GetYhx();
-        var lhx2 = GetLhx();
-        EventLog.DistributeLocationEventLog(LocationLog, Player, GetXhx(), yhx2, lhx2, false);
-        LocationLog.Release();
-        ArmyLog = new ArmyInfoEventLog(null);
-        ArmyLog.FArmyView.Setup(FPrisoners, 255);
-        var xhx = GetXhx();
-        ArmyLog.FArmyView.FX = xhx;
-        var yhx3 = GetYhx();
-        ArmyLog.FArmyView.FY = yhx3;
-        var lhx3 = GetLhx();
-        ArmyLog.FArmyView.FL = lhx3;
-        ArmyLog.FSelection = 255;
-        ArmyLog.FPlayer = GetPlayer();
-        ArmyLog.FTitle = AbilityRules.TranslateRStr(PrisonerLiberationRStr);
-        ArmyLog.FDescription = "";
-        Hero = FPrisoners.Hero(255, Set<HeroType>.Of(HeroType.Hero));
-        if (Hero == null)
+        locationLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_exploredFormat), [name]);
+        var hexLevel = GetHexLevel();
+        var hexY = GetHexY();
+        locationLog.SetLocation(GetHexX(), hexY, hexLevel);
+        var hexY2 = GetHexY();
+        var hexLevel2 = GetHexLevel();
+        EventLog.DistributeLocationEventLog(locationLog, player, GetHexX(), hexY2, hexLevel2, false);
+        locationLog.Release();
+        armyLog = new ArmyInfoEventLog(null);
+        armyLog.ArmyView.Setup(Prisoners, 255);
+        var hexX = GetHexX();
+        armyLog.ArmyView.X = hexX;
+        var hexY3 = GetHexY();
+        armyLog.ArmyView.Y = hexY3;
+        var hexLevel3 = GetHexLevel();
+        armyLog.ArmyView.MapLevel = hexLevel3;
+        armyLog.Selection = 255;
+        armyLog._player = GetPlayer();
+        armyLog.Title = AbilityRules.TranslateResourceString(s_prisonerLiberationText);
+        armyLog.Description = "";
+        hero = Prisoners.Hero(255, Set<HeroType>.Of(HeroType.Hero));
+        if (hero == null)
         {
-            if (FPrisoners.Count == 1)
+            if (Prisoners.Count == 1)
             {
-                ArmyLog.FText = AbilityRules.TranslateRStr(OnePrisonerLiberatedRStr);
-                var name2 = AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
-                var format = RtlUnit.Format(AbilityRules.TranslateRStr(AfterLiberationOneUnitJoinedTheForcesOfXRStr), [name2]);
-                ArmyLog.FMessages.Text = format;
+                armyLog.Text = AbilityRules.TranslateResourceString(s_onePrisonerLiberatedText);
+                var name2 = AoWHSMap.Current.Players.GetPlayers(player).GetName();
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_afterLiberationOneUnitJoinedForcesFormat), [name2]);
+                armyLog.Messages.Text = format;
             }
             else
             {
-                var count = FPrisoners.Count;
-                ArmyLog.FText = RtlUnit.Format(AbilityRules.TranslateRStr(XPrisonersLiberatedRStr), [IntToStr(count)]);
-                var fPrisonersCount = FPrisoners.Count;
-                var name2 = AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
-                var format = RtlUnit.Format(AbilityRules.TranslateRStr(AfterLiberationXunitsJoinedTheForcesOfYRStr), [fPrisonersCount, name2]);
-                ArmyLog.FMessages.Text = format;
+                var count = Prisoners.Count;
+                armyLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_prisonersLiberatedFormat), [IntToStr(count)]);
+                var fPrisonersCount = Prisoners.Count;
+                var name2 = AoWHSMap.Current.Players.GetPlayers(player).GetName();
+                var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_afterLiberationUnitsJoinedForcesFormat), [fPrisonersCount, name2]);
+                armyLog.Messages.Text = format;
             }
         }
         else
         {
-            ArmyLog.FText = RtlUnit.Format(AbilityRules.TranslateRStr(XLiberatedRStr), [Hero.FHeroName]);
-            var name2 = AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
-            var format = RtlUnit.Format(AbilityRules.TranslateRStr(AfterLiberationXJoinedTheForcesOfYRStr), [Hero.FHeroName, name2]);
-            ArmyLog.FMessages.Text = format;
+            armyLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_liberatedFormat), [hero.HeroName]);
+            var name2 = AoWHSMap.Current.Players.GetPlayers(player).GetName();
+            var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_afterLiberationJoinedForcesFormat), [hero.HeroName, name2]);
+            armyLog.Messages.Text = format;
         }
 
-        var yhx4 = GetYhx();
-        var lhx4 = GetLhx();
-        EventLog.DistributeLocationEventLog(ArmyLog, -1, GetXhx(), yhx4, lhx4, false);
-        ArmyLog.Release();
-        Army = new ArmyHexSprite(null);
-        Army.FArmy.BeginUpdate();
-        Army.FArmy.SetPlayer(Player);
-        Army.FArmy.AddUnits(FPrisoners);
-        var lhx5 = GetLhx();
-        var yhx5 = GetYhx();
-        Army.PlaceEx(GetXhx(), yhx5, lhx5, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
-        Army.Activate();
-        Army.FArmy.EndUpdate();
+        var hexY4 = GetHexY();
+        var hexLevel4 = GetHexLevel();
+        EventLog.DistributeLocationEventLog(armyLog, -1, GetHexX(), hexY4, hexLevel4, false);
+        armyLog.Release();
+        army = new ArmyHexSprite(null);
+        army.Army.BeginUpdate();
+        army.Army.SetPlayer(player);
+        army.Army.AddUnits(Prisoners);
+        var hexLevel5 = GetHexLevel();
+        var hexY5 = GetHexY();
+        army.Place(GetHexX(), hexY5, hexLevel5, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
+        army.Activate();
+        army.Army.EndUpdate();
     }
 
-    private static readonly string AfterLiberationOneUnitJoinedTheForcesOfXRStr = "After liberation 1 unit joined the forces of %s";
-    private static readonly string AfterLiberationXJoinedTheForcesOfYRStr = "After liberation %s joined the forces of %s";
-    private static readonly string AfterLiberationXunitsJoinedTheForcesOfYRStr = "After liberation %d units joined the forces of %s";
-    private static readonly string LiberatePrisonerMessageRStr = "In gratitude for rescue, the captive offers to join you. Do you accept?";
-    private static readonly string LiberatePrisonersMessageRStr = "Grateful to be rescued, the captives offer to join you. Do you accept?";
-    private static readonly string OnePrisonerLiberatedRStr = "1 prisoner liberated";
-    internal static readonly string PrisonerLiberationRStr = "Prisoner Liberation";
-    private static readonly string XExploredRStr = "%s explored";
-    private static readonly string XLiberatedRStr = "%s liberated";
-    private static readonly string XPrisonersLiberatedRStr = "%s prisoners liberated";
+    private static readonly string s_afterLiberationOneUnitJoinedForcesFormat = "After liberation 1 unit joined the forces of %s";
+    private static readonly string s_afterLiberationJoinedForcesFormat = "After liberation %s joined the forces of %s";
+    private static readonly string s_afterLiberationUnitsJoinedForcesFormat = "After liberation %d units joined the forces of %s";
+    private static readonly string s_liberatePrisonerMessageText = "In gratitude for rescue, the captive offers to join you. Do you accept?";
+    private static readonly string s_liberatePrisonersMessageText = "Grateful to be rescued, the captives offer to join you. Do you accept?";
+    private static readonly string s_onePrisonerLiberatedText = "1 prisoner liberated";
+    internal static readonly string s_prisonerLiberationText = "Prisoner Liberation";
+    private static readonly string s_exploredFormat = "%s explored";
+    private static readonly string s_liberatedFormat = "%s liberated";
+    private static readonly string s_prisonersLiberatedFormat = "%s prisoners liberated";
 
-    // FPrisonerCollections
+    // PrisonerCollections
     public new partial class Resource : ExplorationSiteResource
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FPrisonerCollections = new UnitIndexListCollection();
+            PrisonerCollections = new UnitIndexListCollection();
         }
 
         // Dungeon.pas:280
-        public new const int ClassID = 131883;
+        public new const int ClassId = 131883;
 
-        public UnitIndexListCollection FPrisonerCollections;
+        public UnitIndexListCollection PrisonerCollections;
 
         // Dungeon.pas:271
         public override void Dispose()
         {
-            FPrisonerCollections?.Dispose();
+            PrisonerCollections?.Dispose();
             base.Dispose();
         }
 
         // Dungeon.pas:286
-        public override void ReadWrite(EStorageStream Stream)
+        public override void ReadWrite(EStorageStream stream)
         {
-            base.ReadWrite(Stream);
-            Stream.rwStreamProc(30, FPrisonerCollections.LoadFromStream, FPrisonerCollections.SaveToStream);
+            base.ReadWrite(stream);
+            stream.rwStreamProc(30, PrisonerCollections.LoadFromStream, PrisonerCollections.SaveToStream);
         }
 
         // Dungeon.pas:265
 
         // Dungeon.pas:283
-        public override int ResourceUserClassID() => 131882;
+        public override int ResourceUserClassId() => 131882;
 
         // Dungeon.pas:53
 
         // Dungeon.pas:277
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(DungeonRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_dungeonText);
 
-        private static readonly string DungeonRStr = "Dungeon";
+        private static readonly string s_dungeonText = "Dungeon";
 
-    }
-
-    public enum PrisonersMode : byte
-    {
-        UserDefined = 0, Low = 1, Normal = 2, High = 3, Random = 4
     }
 
     // Dungeon.pas:33
 
     // Dungeon.pas:33
 
+}
+
+public enum DungeonPrisonersMode : byte
+{
+    UserDefined = 0, Low = 1, Normal = 2, High = 3, Random = 4
 }

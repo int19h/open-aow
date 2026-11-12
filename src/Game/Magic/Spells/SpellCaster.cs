@@ -14,40 +14,40 @@ public partial class SpellCaster : EngineObject
     // Spells.PAS:748
     public SpellCaster(ECustomNode owner) : base(owner)
     {
-        FCasterRefCount = 1;
+        CasterRefCount = 1;
     }
 
-    public int FCasterSpellID;
-    public int FCasterSourceID;
-    public int FCasterRefCount;
+    public int CasterSpellId;
+    public int CasterSourceId;
+    public int CasterRefCount;
 
     // Spells.PAS:753
     public override int AddRef()
     {
-        FCasterRefCount += 1;
-        return FCasterRefCount;
+        CasterRefCount += 1;
+        return CasterRefCount;
     }
 
     // Spells.PAS:758
     public override int Release()
     {
-        int Count;
-        int ReleasedCount;
-        FCasterRefCount -= 1;
-        Count = FCasterRefCount;
-        ReleasedCount = Count;
-        if (Count == 0)
+        int count;
+        int releasedCount;
+        CasterRefCount -= 1;
+        count = CasterRefCount;
+        releasedCount = count;
+        if (count == 0)
         {
             Dispose();
         }
 
-        return ReleasedCount;
+        return releasedCount;
     }
 
     // Spells.PAS:789
     public virtual bool Cast() => true;
 
     // intf_P4_02.inc:998
-    public Troop GetSource() => AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID);
-    public virtual bool CanCast(ref string reason) => AoWHSMap.Current.FUnitControl.FindUnit(FCasterSourceID) != null;
+    public Troop GetSource() => AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
+    public virtual bool CanCast(ref string reason) => AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId) != null;
 }

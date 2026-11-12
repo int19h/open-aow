@@ -11,7 +11,7 @@ public class LayoutDirectPlay : GDPlay
     }
 
     public int FilePacketSize { get; set; }
-    public bool GauranteeMsgs { get; set; }
+    public bool GuaranteeMessages { get; set; }
     public int MaxPlayers { get; set; }
     public GDChatMessageEvent OnChatMessage { get; set; }
     public GDDestroyPlayerEvent OnDestroyPlayer { get; set; }

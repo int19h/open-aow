@@ -17,23 +17,23 @@ namespace Aow.Game.Tests;
 [Collection("Engine")]
 public sealed class AtomicReplacementTests : IDisposable
 {
-    private readonly string directory = Path.Combine(Path.GetTempPath(), "open-aow-replace-" + Guid.NewGuid().ToString("N"));
-    private readonly IFileSystem previous = Runtime.Files;
-    private readonly Action<FileLogRecord>? previousLog = FileBoundary.Log;
-    private readonly List<FileLogRecord> log = [];
+    private readonly string _directory = Path.Combine(Path.GetTempPath(), "open-aow-replace-" + Guid.NewGuid().ToString("N"));
+    private readonly IFileSystem _previous = Runtime.Files;
+    private readonly Action<FileLogRecord>? _previousLog = FileBoundary.Log;
+    private readonly List<FileLogRecord> _log = [];
 
     public AtomicReplacementTests()
     {
-        Directory.CreateDirectory(Path.Combine(directory, "root", "User"));
-        Directory.CreateDirectory(Path.Combine(directory, "user"));
-        FileBoundary.Log = log.Add;
+        Directory.CreateDirectory(Path.Combine(_directory, "root", "User"));
+        Directory.CreateDirectory(Path.Combine(_directory, "user"));
+        FileBoundary.Log = _log.Add;
     }
 
     public void Dispose()
     {
-        Runtime.Files = previous;
-        FileBoundary.Log = previousLog;
-        Directory.Delete(directory, true);
+        Runtime.Files = _previous;
+        FileBoundary.Log = _previousLog;
+        Directory.Delete(_directory, true);
     }
 
     /// <summary>The engine image of an empty hero list: the stored image of one root property.</summary>
@@ -41,8 +41,8 @@ public sealed class AtomicReplacementTests : IDisposable
         "{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {"
         + (name.Length == 0 ? "" : "\"LibraryName\": \"" + name + "\"") + "}}"));
 
-    private string Old => Path.Combine(directory, "user", "User", "list.ahl");
-    private string Logical => Path.Combine(directory, "root", "User", "list.ahl");
+    private string Old => Path.Combine(_directory, "user", "User", "list.ahl");
+    private string Logical => Path.Combine(_directory, "root", "User", "list.ahl");
     private string Temporary => FileBoundary.TemporaryFor(Old);
 
     private LayeredFileSystem Layers(bool withOld = true)
@@ -52,7 +52,7 @@ public sealed class AtomicReplacementTests : IDisposable
             Directory.CreateDirectory(Path.GetDirectoryName(Old)!);
             File.WriteAllBytes(Old, HeroListImage());
         }
-        var files = new LayeredFileSystem(Path.Combine(directory, "root"), Path.Combine(directory, "user"));
+        var files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
         Runtime.Files = files;
         return files;
     }
@@ -68,7 +68,7 @@ public sealed class AtomicReplacementTests : IDisposable
         Assert.False(File.Exists(Temporary));
         var reread = GameBoundary.PrepareLoad(written, Logical, GameProfile.HeroList, FormatMapping.Validators);
         Assert.Equal(original, reread.Bytes);
-        var record = Assert.Single(log);
+        var record = Assert.Single(_log);
         Assert.True(record.Succeeded);
         Assert.Equal("user", record.Layer);
         Assert.Equal("write", record.Report.Operation);
@@ -94,7 +94,7 @@ public sealed class AtomicReplacementTests : IDisposable
         Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
-        Assert.Equal(Codes.Output, Assert.Single(log).Report.Error!.Code);
+        Assert.Equal(Codes.Output, Assert.Single(_log).Report.Error!.Code);
     }
 
     [Fact]
@@ -112,9 +112,9 @@ public sealed class AtomicReplacementTests : IDisposable
     public void ShippedFileIsShadowedNeverWritten()
     {
         Layers(withOld: false);
-        string shipped = Path.Combine(directory, "root", "User", "list.ahl");
+        string shipped = Path.Combine(_directory, "root", "User", "list.ahl");
         File.WriteAllBytes(shipped, HeroListImage());
-        Runtime.Files = new LayeredFileSystem(Path.Combine(directory, "root"), Path.Combine(directory, "user"));
+        Runtime.Files = new LayeredFileSystem(Path.Combine(_directory, "root"), Path.Combine(_directory, "user"));
         FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New"));
         Assert.Equal(HeroListImage(), File.ReadAllBytes(shipped));
         Assert.True(GameFiles.IsJsonCandidate(File.ReadAllBytes(Old)));

@@ -17,7 +17,7 @@ public partial class ProgressDialog : DataModule
     public Window ProgDlg;
     public Gauge Bar;
     public Frame TCeltL;
-    public Image AOWImage1;
-    public Image AOWImage2;
+    public Image Image1;
+    public Image Image2;
     public IvTranslator Translator;
 }

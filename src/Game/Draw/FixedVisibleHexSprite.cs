@@ -13,23 +13,23 @@ public partial class FixedVisibleHexSprite : HexSprite
     public FixedVisibleHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    internal byte FStatus;
+    internal byte _status;
 
     // HXSPRITE.PAS:770
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        if (Value)
+        if (value)
         {
-            FStatus = (byte)(FStatus | 1);
+            _status = (byte)(_status | 1);
         }
         else
         {
-            FStatus = (byte)(FStatus & 254);
+            _status = (byte)(_status & 254);
         }
     }
 
     // HXSPRITE.PAS:775
-    public override bool GetVisible() => (FStatus & 1) != 0;
+    public override bool GetVisible() => (_status & 1) != 0;
 
     // HXSPRITE.PAS:787
     public override int GetShowPriority() => GetLevel() << 26;
@@ -43,12 +43,12 @@ public partial class FixedVisibleHexSprite : HexSprite
     }
 
     // HXSPRITE.PAS:779
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        if ((FStatus & 1) == 0)
+        if ((_status & 1) == 0)
         {
-            FStatus = (byte)(FStatus | 1);
-            VisibilityList.AddSortChild(this, GetShowPriority());
+            _status = (byte)(_status | 1);
+            visibilityList.AddSortChild(this, GetShowPriority());
         }
     }
 }

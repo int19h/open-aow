@@ -11,55 +11,55 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class AlignmentTables
 {
-    internal static Status dAlignmentToStatus(Alignment A, Alignment B) => Race.StatusValueToStatus(dAlignmentToStatusValue[(int)A][(int)B]);
+    internal static Status AlignmentToStatus(Alignment A, Alignment B) => Race.StatusValueToStatus(s_alignmentStatusValues[(int)A][(int)B]);
 
-    internal static sbyte AlignmentToIR(Alignment Alignment)
+    internal static sbyte AlignmentToIndependentRelation(Alignment alignment)
     {
-        sbyte Result;
-        switch (Alignment)
+        sbyte result;
+        switch (alignment)
         {
             case Alignment.PureGood:
             case Alignment.Good:
-                Result = -2;
+                result = -2;
                 break;
             case Alignment.Evil:
             case Alignment.PureEvil:
-                Result = -4;
+                result = -4;
                 break;
             case Alignment.PureNeutral:
             case Alignment.Neutral:
-                Result = -3;
+                result = -3;
                 break;
             default:
-                Result = -1;
+                result = -1;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static SByteArray7By7 dAlignmentToStatusValue = SByteArray7By7.From([SByteArray7.From([100, 90, 30, 40, 10, 0, 50]), SByteArray7.From([90, 90, 40, 50, 10, 10, 50]), SByteArray7.From([30, 40, 70, 50, 40, 30, 50]), SByteArray7.From([40, 50, 50, 50, 50, 40, 50]), SByteArray7.From([10, 10, 40, 50, 90, 90, 50]), SByteArray7.From([0, 10, 30, 40, 90, 100, 50]), SByteArray7.From([50, 50, 50, 50, 50, 50, 50])]);
+    internal static SByteArray7By7 s_alignmentStatusValues = SByteArray7By7.From([SByteArray7.From([100, 90, 30, 40, 10, 0, 50]), SByteArray7.From([90, 90, 40, 50, 10, 10, 50]), SByteArray7.From([30, 40, 70, 50, 40, 30, 50]), SByteArray7.From([40, 50, 50, 50, 50, 40, 50]), SByteArray7.From([10, 10, 40, 50, 90, 90, 50]), SByteArray7.From([0, 10, 30, 40, 90, 100, 50]), SByteArray7.From([50, 50, 50, 50, 50, 50, 50])]);
 
-    internal static SByteArray7By7 P2AlignmentToStatusValue = SByteArray7By7.From([SByteArray7.From([100, 90, 30, 40, 10, 0, 50]), SByteArray7.From([90, 90, 40, 50, 10, 10, 50]), SByteArray7.From([30, 40, 70, 50, 40, 30, 50]), SByteArray7.From([40, 50, 50, 50, 50, 40, 50]), SByteArray7.From([10, 10, 40, 50, 90, 90, 50]), SByteArray7.From([0, 10, 30, 40, 90, 100, 50]), SByteArray7.From([50, 50, 50, 50, 50, 50, 50])]);
+    internal static SByteArray7By7 s_alignmentToStatusValue = SByteArray7By7.From([SByteArray7.From([100, 90, 30, 40, 10, 0, 50]), SByteArray7.From([90, 90, 40, 50, 10, 10, 50]), SByteArray7.From([30, 40, 70, 50, 40, 30, 50]), SByteArray7.From([40, 50, 50, 50, 50, 40, 50]), SByteArray7.From([10, 10, 40, 50, 90, 90, 50]), SByteArray7.From([0, 10, 30, 40, 90, 100, 50]), SByteArray7.From([50, 50, 50, 50, 50, 50, 50])]);
 
-    internal static DiplomaticRelation dAlignmentToDiplomaticRelation(Alignment A, Alignment B)
+    internal static DiplomaticRelation AlignmentToDiplomaticRelation(Alignment A, Alignment B)
     {
-        DiplomaticRelation Result;
+        DiplomaticRelation result;
         if (Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(A))
         {
             if (Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(B))
             {
-                Result = DiplomaticRelation.Peace;
+                result = DiplomaticRelation.Peace;
             }
             else
             {
                 if (Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B))
                 {
-                    Result = DiplomaticRelation.Unknown;
+                    result = DiplomaticRelation.Unknown;
                 }
                 else
                 {
-                    Result = DiplomaticRelation.War;
+                    result = DiplomaticRelation.War;
                 }
             }
         }
@@ -69,17 +69,17 @@ internal static class AlignmentTables
             {
                 if (Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(B))
                 {
-                    Result = DiplomaticRelation.Peace;
+                    result = DiplomaticRelation.Peace;
                 }
                 else
                 {
                     if (Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B))
                     {
-                        Result = DiplomaticRelation.Unknown;
+                        result = DiplomaticRelation.Unknown;
                     }
                     else
                     {
-                        Result = DiplomaticRelation.War;
+                        result = DiplomaticRelation.War;
                     }
                 }
             }
@@ -87,52 +87,52 @@ internal static class AlignmentTables
             {
                 if (A == Alignment.PureNeutral && B == Alignment.PureNeutral)
                 {
-                    Result = DiplomaticRelation.Peace;
+                    result = DiplomaticRelation.Peace;
                 }
                 else
                 {
-                    Result = DiplomaticRelation.Unknown;
+                    result = DiplomaticRelation.Unknown;
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
-    internal static DiplomaticRelation StatusToDiplomaticRelation(Status Status)
+    internal static DiplomaticRelation StatusToDiplomaticRelation(Status status)
     {
-        DiplomaticRelation Result;
-        switch (Status)
+        DiplomaticRelation result;
+        switch (status)
         {
             case Status.Polite:
             case Status.Friendly:
-                Result = DiplomaticRelation.Peace;
+                result = DiplomaticRelation.Peace;
                 break;
             case Status.Neutral:
-                Result = DiplomaticRelation.Unknown;
+                result = DiplomaticRelation.Unknown;
                 break;
             case Status.Hostile:
             case Status.Wary:
-                Result = DiplomaticRelation.War;
+                result = DiplomaticRelation.War;
                 break;
             default:
-                Result = DiplomaticRelation.Unknown;
+                result = DiplomaticRelation.Unknown;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static Set<Alignment> alsPureGood = Set<Alignment>.FromMask(67UL);
+    internal static Set<Alignment> s_pureGoodAlignments = Set<Alignment>.FromMask(67UL);
 
-    internal static Set<Alignment> alsGood = Set<Alignment>.FromMask(75UL);
+    internal static Set<Alignment> s_goodAlignments = Set<Alignment>.FromMask(75UL);
 
-    internal static Set<Alignment> alsNeutral = Set<Alignment>.FromMask(90UL);
+    internal static Set<Alignment> s_neutralAlignments = Set<Alignment>.FromMask(90UL);
 
-    internal static Set<Alignment> alsEvil = Set<Alignment>.FromMask(120UL);
+    internal static Set<Alignment> s_evilAlignments = Set<Alignment>.FromMask(120UL);
 
-    internal static Set<Alignment> alsPureEvil = Set<Alignment>.FromMask(112UL);
+    internal static Set<Alignment> s_pureEvilAlignments = Set<Alignment>.FromMask(112UL);
 
-    internal static string NoneRStr = "None";
+    internal static string s_noneText = "None";
 
 }

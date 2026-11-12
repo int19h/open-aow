@@ -8,61 +8,61 @@ namespace Aow.Game.Magic.Abilities.Passive;
 internal static class PassiveAbilities
 {
 
-    internal static MovementAbility CreateMovementAbility(int ID, string Name, Set<MoveType> MoveTypes)
+    internal static MovementAbility CreateMovementAbility(int id, string name, Set<MoveType> moveTypes)
     {
-        MovementAbility Ability;
-        Ability = new MovementAbility(null);
-        Ability.FAbilityID = ID;
-        Ability.FAbilityName = Name;
-        Ability.FMoveTypes = MoveTypes;
-        if (MoveTypes.Contains(MoveType.Mountaineering) || MoveTypes.Contains(MoveType.Forestry) || MoveTypes.Contains(MoveType.CaveCrawling))
+        MovementAbility ability;
+        ability = new MovementAbility(null);
+        ability.AbilityId = id;
+        ability.AbilityName = name;
+        ability.MoveTypes = moveTypes;
+        if (moveTypes.Contains(MoveType.Mountaineering) || moveTypes.Contains(MoveType.Forestry) || moveTypes.Contains(MoveType.CaveCrawling))
         {
-            Ability.FSelectionTypes = Ability.FSelectionTypes + Set<AbilitySelectionType>.Of(AbilitySelectionType.Editor);
+            ability.SelectionTypes = ability.SelectionTypes + Set<AbilitySelectionType>.Of(AbilitySelectionType.Editor);
         }
 
-        return Ability;
+        return ability;
     }
 
-    internal static ImmunityAbility CreateImmunityAbility(int ID, string Name, Set<DamageType> DamageTypes)
+    internal static ImmunityAbility CreateImmunityAbility(int id, string name, Set<DamageType> damageTypes)
     {
-        ImmunityAbility Ability;
-        Ability = new ImmunityAbility(null);
-        Ability.FAbilityID = ID;
-        Ability.FAbilityName = Name;
-        Ability.FImmunityTypes = DamageTypes;
-        if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Death, DamageType.Holy, DamageType.Magic) & DamageTypes) == Set<DamageType>.Of())
+        ImmunityAbility ability;
+        ability = new ImmunityAbility(null);
+        ability.AbilityId = id;
+        ability.AbilityName = name;
+        ability.ImmunityTypes = damageTypes;
+        if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Death, DamageType.Holy, DamageType.Magic) & damageTypes) == Set<DamageType>.Of())
         {
-            Ability.FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
+            ability.SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
         }
         else
         {
-            if ((Set<DamageType>.Of(DamageType.Death, DamageType.Holy, DamageType.Magic) & DamageTypes) == Set<DamageType>.Of())
+            if ((Set<DamageType>.Of(DamageType.Death, DamageType.Holy, DamageType.Magic) & damageTypes) == Set<DamageType>.Of())
             {
-                Ability.FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
+                ability.SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
             }
             else
             {
-                Ability.FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
+                ability.SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
             }
         }
 
-        if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Magic) & DamageTypes) == Set<DamageType>.Of())
+        if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Magic) & damageTypes) == Set<DamageType>.Of())
         {
-            Ability.FSelectionTypes = Ability.FSelectionTypes + Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem);
+            ability.SelectionTypes = ability.SelectionTypes + Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem);
         }
 
-        return Ability;
+        return ability;
     }
 
-    internal static ProtectionAbility CreateProtectionAbility(int ID, string Name, Set<DamageType> DamageTypes, Set<AbilitySelectionType> SelectionTypes)
+    internal static ProtectionAbility CreateProtectionAbility(int id, string name, Set<DamageType> damageTypes, Set<AbilitySelectionType> selectionTypes)
     {
-        ProtectionAbility Ability;
-        Ability = new ProtectionAbility(null);
-        Ability.FAbilityID = ID;
-        Ability.FAbilityName = Name;
-        Ability.FProtectionTypes = DamageTypes;
-        Ability.FSelectionTypes = SelectionTypes;
-        return Ability;
+        ProtectionAbility ability;
+        ability = new ProtectionAbility(null);
+        ability.AbilityId = id;
+        ability.AbilityName = name;
+        ability.ProtectionTypes = damageTypes;
+        ability.SelectionTypes = selectionTypes;
+        return ability;
     }
 
 }

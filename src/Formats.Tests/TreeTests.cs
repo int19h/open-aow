@@ -74,9 +74,9 @@ public sealed class TreeTests : FormatsTest
         loaded.EditorObjects.Add(1);
         loaded.Scores.Add(1);
         loaded.Flags.Add(true);
-        loaded.Kids.Add(new Inner { N = 1 });
-        loaded.Made = new Inner { N = 1 };
-        loaded.Fixed.N = 5;
+        loaded.Kids.Add(new Inner { Number = 1 });
+        loaded.Made = new Inner { Number = 1 };
+        loaded.Fixed.Number = 5;
         TreeReader.Read(DocumentBackend.Read(document, SampleClass, Schema, "game"), loaded, new TestFactory());
         AssertSame(new Sample(), loaded);
     }
@@ -200,21 +200,21 @@ public sealed class TreeTests : FormatsTest
         parent.Add("Fixed", nested);
         parent.Add("Number", new IntegerNode(4, true, 6));
         var kept = new Sample { Number = 1 };
-        kept.Fixed.N = 4;
+        kept.Fixed.Number = 4;
         var instance = kept.Fixed;
         TreeReader.Read(parent, kept, new TestFactory());
         Assert.Same(instance, kept.Fixed);
-        Assert.Equal(4, kept.Fixed.N);
+        Assert.Equal(4, kept.Fixed.Number);
         Assert.Equal(6, kept.Number);
         var refused = new Sample { Number = 1 };
-        refused.Fixed.N = 4;
+        refused.Fixed.Number = 4;
         var refusedFixed = refused.Fixed;
         var fixedError = Assert.Throws<ConversionException>(() =>
             TreeReader.Read(parent, refused, new TestFactory(), static (string _, ref bool cont) => cont = false));
         Assert.Equal(Codes.Type, fixedError.Diagnostic.Code);
         Assert.Equal("root.Fixed.N", fixedError.Diagnostic.Path);
         Assert.Same(refusedFixed, refused.Fixed);
-        Assert.Equal(4, refused.Fixed.N);
+        Assert.Equal(4, refused.Fixed.Number);
         Assert.Equal(1, refused.Number);
     }
 
@@ -311,16 +311,16 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal("Version 3 stores a list only for a fixed integer array.", upkeepDocument.Diagnostic.Message);
 
         var schema = Version1;
-        var cls = schema.Get("TRefuse");
-        var scores = Assert.Throws<ConversionException>(() => DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Scores":[1,2]}""", "list.json"), cls, schema, "game"));
+        var classValue = schema.Get("TRefuse");
+        var scores = Assert.Throws<ConversionException>(() => DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Scores":[1,2]}""", "list.json"), classValue, schema, "game"));
         Assert.Equal("root.Scores", scores.Diagnostic.Path);
         Assert.Equal("Version 1 does not store a list.", scores.Diagnostic.Message);
-        var pair = Assert.Throws<ConversionException>(() => DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Pair":{"A":1}}""", "record.json"), cls, schema, "game"));
+        var pair = Assert.Throws<ConversionException>(() => DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Pair":{"A":1}}""", "record.json"), classValue, schema, "game"));
         Assert.Equal("root.Pair", pair.Diagnostic.Path);
         Assert.Equal("Version 1 does not store a record.", pair.Diagnostic.Message);
         var node = new ObjectNode(null, null);
         node.Add("Scores", new ListNode());
-        var written = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, cls, schema, "game"));
+        var written = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, classValue, schema, "game"));
         Assert.Equal("root.Scores", written.Diagnostic.Path);
         Assert.Equal("Version 1 does not store a list.", written.Diagnostic.Message);
     }
@@ -370,7 +370,7 @@ public sealed class TreeTests : FormatsTest
             Blob = [0x0A, 0x0B, 0x0C, 0x0D],
             PairA = 1,
             PairB = 5,
-            Made = new Inner { N = 5 },
+            Made = new Inner { Number = 5 },
         };
         sample.Message.Add("one");
         sample.Message.Add("two");
@@ -382,7 +382,7 @@ public sealed class TreeTests : FormatsTest
         sample.Scores.Add(int.MaxValue);
         sample.Flags.Add(false);
         sample.Flags.Add(true);
-        sample.Kids.Add(new Inner { N = 1 });
+        sample.Kids.Add(new Inner { Number = 1 });
         sample.Kids.Add(new Inner());
         return sample;
     }
@@ -408,16 +408,16 @@ public sealed class TreeTests : FormatsTest
         Assert.Equal(expected.EditorObjects, actual.EditorObjects);
         Assert.Equal(expected.Scores, actual.Scores);
         Assert.Equal(expected.Flags, actual.Flags);
-        Assert.Equal(expected.Kids.Select(k => k.N).ToList(), actual.Kids.Select(k => k.N).ToList());
-        Assert.Equal(expected.Made is Inner made ? made.N : -1, actual.Made is Inner loaded ? loaded.N : -1);
-        Assert.Equal(expected.Fixed.N, actual.Fixed.N);
+        Assert.Equal(expected.Kids.Select(k => k.Number).ToList(), actual.Kids.Select(k => k.Number).ToList());
+        Assert.Equal(expected.Made is Inner made ? made.Number : -1, actual.Made is Inner loaded ? loaded.Number : -1);
+        Assert.Equal(expected.Fixed.Number, actual.Fixed.Number);
     }
 
     private sealed class Inner : IPersistable
     {
-        public int N;
+        public int Number;
 
-        public void Persist(IPersister persister) => persister.Int("N", ref N);
+        public void Persist(IPersister persister) => persister.Int32("N", ref Number);
     }
 
     private sealed class Sample : IPersistable
@@ -464,27 +464,27 @@ public sealed class TreeTests : FormatsTest
             persister.LinesWithObjects("Editors", EditorLines, EditorObjects);
             persister.Lines("Message", Message);
             persister.String("Title", ref Title);
-            persister.Bool("Flag", ref Flag);
-            persister.UShort("WordFallback", ref WordFallback, 9);
-            persister.UShort("Word", ref Word);
+            persister.Boolean("Flag", ref Flag);
+            persister.UInt16("WordFallback", ref WordFallback, 9);
+            persister.UInt16("Word", ref Word);
             persister.SByte("SignedByte", ref SignedByte);
             persister.Byte("SmallFallback", ref SmallFallback, 3);
             persister.Byte("Small", ref Small);
-            persister.Int("NumberFallback", ref NumberFallback, 7);
-            persister.Int("Number", ref Number);
+            persister.Int32("NumberFallback", ref NumberFallback, 7);
+            persister.Int32("Number", ref Number);
             if (SkipNote) HadNote = persister.Has("Note");
             else persister.String("Note", ref Note);
         }
 
         private void WritePair(IPersister record)
         {
-            record.Int("B", ref PairB, 4);
-            record.Int("A", ref PairA);
+            record.Int32("B", ref PairB, 4);
+            record.Int32("A", ref PairA);
         }
 
-        private static void ScoreItem(IItemSlot slot, ref int value) => slot.Int(ref value);
+        private static void ScoreItem(IItemSlot slot, ref int value) => slot.Int32(ref value);
 
-        private static void FlagItem(IItemSlot slot, ref bool value) => slot.Bool(ref value);
+        private static void FlagItem(IItemSlot slot, ref bool value) => slot.Boolean(ref value);
     }
 
     private sealed class KidList(List<Inner> kids) : IChildCollection
@@ -519,8 +519,8 @@ public sealed class TreeTests : FormatsTest
 
         public void Persist(IPersister persister)
         {
-            persister.Int("Number", ref Number);
-            persister.Int("Number", ref Number);
+            persister.Int32("Number", ref Number);
+            persister.Int32("Number", ref Number);
         }
     }
 
@@ -533,7 +533,7 @@ public sealed class TreeTests : FormatsTest
 
     private sealed class TestFactory : IPersistableFactory
     {
-        public string ClassName(IPersistable obj) => NameTable.Stored(obj.GetType());
+        public string ClassName(IPersistable objectValue) => NameTable.Stored(objectValue.GetType());
 
         public IPersistable Create(string className)
         {

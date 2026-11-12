@@ -12,25 +12,25 @@ public partial class EventLogList : ENode
     public EventLogList(ECustomNode owner) : base(owner)
     { }
 
-    public int FUpdateCount;
-    public NotifyEvent<object> FOnChanged;
+    public int UpdateCount;
+    public NotifyEvent<object> OnChanged;
 
     // EventLog.pas:481
-    public override void MainReadWrite(EStorageStream Stream)
+    public override void MainReadWrite(EStorageStream stream)
     {
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             BeginUpdate();
         }
 
-        base.MainReadWrite(Stream);
-        if (Stream.StorageMode().Contains(StorageModeElement.Read))
+        base.MainReadWrite(stream);
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Compare, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+            if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Compare, StorageModeElement.Translate)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
-                for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+                for (int I = 0, last = _children.Count - 1; I <= last; I++)
                 {
-                    ((EngineObject)FChildren.List[I]).Release();
+                    ((EngineObject)_children.List[I]).Release();
                 }
             }
 
@@ -43,10 +43,10 @@ public partial class EventLogList : ENode
     {
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            ((EngineObject)FChildren.List[I]).Release();
+            ((EngineObject)_children.List[I]).Release();
         }
 
-        FChildren.Clear();
+        _children.Clear();
     }
 
     // EventLog.pas:478
@@ -56,90 +56,90 @@ public partial class EventLogList : ENode
     }
 
     // EventLog.pas:464
-    public override int RemoveChild(EngineObject Child)
+    public override int RemoveChild(EngineObject child)
     {
-        int Result = FChildren.Remove(Child);
-        if (Result != -1)
+        int result = _children.Remove(child);
+        if (result != -1)
         {
-            Child.SetOwner(null);
-            Child.Release();
+            child.SetOwner(null);
+            child.Release();
             Changed();
         }
 
-        return Result;
+        return result;
     }
 
     // EventLog.pas:456
-    public override int AddChild(EngineObject Child)
+    public override int AddChild(EngineObject child)
     {
-        FChildren.Add(Child);
-        if (Child.AddRef() == -1)
+        _children.Add(child);
+        if (child.AddRef() == -1)
         {
             throw new NotSupportedException("EObject doesn't support ReferenceCounting");
         }
 
-        int Result = FChildren.Count - 1;
+        int result = _children.Count - 1;
         Changed();
-        return Result;
+        return result;
     }
 
     // EventLog.pas:494
     public void Changed()
     {
-        if (FUpdateCount == 0 && FOnChanged != null)
+        if (UpdateCount == 0 && OnChanged != null)
         {
-            FOnChanged(this);
+            OnChanged(this);
         }
     }
 
     // EventLog.pas:499
     public void BeginUpdate()
     {
-        FUpdateCount += 1;
+        UpdateCount += 1;
     }
 
     // EventLog.pas:502
     public void EndUpdate()
     {
-        FUpdateCount -= 1;
-        if (FUpdateCount == 0)
+        UpdateCount -= 1;
+        if (UpdateCount == 0)
         {
             Changed();
         }
     }
 
     // EventLog.pas:505
-    public EventLog GetEvents(int Index) => (EventLog)FChildren.List[Index];
+    public EventLog GetEvents(int index) => (EventLog)_children.List[index];
 
     // EventLog.pas:508
-    public void AddEvent(EventLog Event)
+    public void AddEvent(EventLog eventValue)
     {
-        AddChild(Event);
+        AddChild(eventValue);
     }
 
     // EventLog.pas:511
-    public void RemoveEvent(EventLog Event)
+    public void RemoveEvent(EventLog eventValue)
     {
-        RemoveChild(Event);
+        RemoveChild(eventValue);
     }
 
     // EventLog.pas:514
-    public EventLog FindID(int ID)
+    public EventLog FindId(int id)
     {
         int I;
         I = GetCount();
-        EventLog Result = null;
-        while (I != 0 && Result == null)
+        EventLog result = null;
+        while (I != 0 && result == null)
         {
             I -= 1;
-            if (((EventLog)FChildren.List[I]).FID == ID)
+            if (((EventLog)_children.List[I]).Id == id)
             {
-                Result = (EventLog)FChildren.List[I];
+                result = (EventLog)_children.List[I];
                 break;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:631

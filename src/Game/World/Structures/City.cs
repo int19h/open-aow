@@ -27,93 +27,93 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-// FMode, FRace, FName, FWallType, FUpgradeLevel, FProduction, FFlagID, FEnchantmentList,
-// FEnchantments, FOverlay, FEnchantmentsVisible, FWallBackImage, FWallFrontImage, FCityImage,
-// FDefendersMode
+// Mode, Race, Name, WallType, UpgradeLevel, Production, _flagId, EnchantmentList,
+// Enchantments, _overlay, EnchantmentsVisible, WallBackImage, WallFrontImage, CityImage,
+// DefendersMode
 public partial class City : PlayerCropStructure
 {
     public City(ECustomNode owner) : base(owner)
     {
-        FProduction = new CityProductionControl(null);
-        FProduction.FCity = this;
-        FDefendersMode = DefendersGenerateMode.Average;
-        FRace = -1;
-        FName = AbilityRules.TranslateRStr(NonameRStr);
-        FUpgradeLevel = 1;
-        FOverlay = new CityOverlayHexSprite(null);
-        FOverlay.FCity = this;
-        FEnchantmentList = new GlobalEnchantmentList(null);
-        FEnchantmentsVisible = false;
+        Production = new CityProductionControl(null);
+        Production.City = this;
+        DefendersMode = DefendersGenerateMode.Average;
+        Race = -1;
+        Name = AbilityRules.TranslateResourceString(s_noNameText);
+        UpgradeLevel = 1;
+        _overlay = new CityOverlayHexSprite(null);
+        _overlay.City = this;
+        EnchantmentList = new GlobalEnchantmentList(null);
+        EnchantmentsVisible = false;
     }
 
     // City.pas:849
-    public new const int ClassID = 131336;
+    public new const int ClassId = 131336;
 
-    public Set<ModeElement> FMode;
-    public sbyte FRace;
-    public string FName = "";
-    public byte FWallType;
-    public byte FUpgradeLevel;
-    public CityProductionControl FProduction;
-    public new byte FFlagID;
-    public GlobalEnchantmentList FEnchantmentList;
-    public Set<CityEnchantmentId> FEnchantments;
-    public CityOverlayHexSprite FOverlay;
-    public bool FEnchantmentsVisible;
-    public LibraryImage FWallBackImage;
-    public LibraryImage FWallFrontImage;
-    public LibraryImage FCityImage;
-    public DefendersGenerateMode FDefendersMode;
+    public Set<ModeElement> Mode;
+    public sbyte Race;
+    public string Name = "";
+    public byte WallType;
+    public byte UpgradeLevel;
+    public CityProductionControl Production;
+    public new byte _flagId;
+    public GlobalEnchantmentList EnchantmentList;
+    public Set<CityEnchantmentId> Enchantments;
+    public CityOverlayHexSprite _overlay;
+    public bool EnchantmentsVisible;
+    public LibraryImage WallBackImage;
+    public LibraryImage WallFrontImage;
+    public LibraryImage CityImage;
+    public DefendersGenerateMode DefendersMode;
 
     // City.pas:839
     public override void Dispose()
     {
         if (GetVisible())
         {
-            AoWHSMap.Current.DynamicVisibleHS.RemoveChild(FOverlay);
+            AoWHSMap.Current.DynamicVisibleHexSprite.RemoveChild(_overlay);
         }
 
-        FOverlay?.Dispose();
+        _overlay?.Dispose();
         base.Dispose();
-        FProduction?.Dispose();
-        FEnchantmentList?.Dispose();
-        FEnchantmentList = null;
+        Production?.Dispose();
+        EnchantmentList?.Dispose();
+        EnchantmentList = null;
     }
 
     // City.pas:2157
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwString(ref FName, 12);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FRace), 13);
-        Stream.rwData(Bytes.Of(ref FWallType, 1), 1, 15);
-        Stream.rwByte(ref FUpgradeLevel, 16);
-        Stream.rwEObject(FProduction, 18);
-        RwSet(ref FMode, 1, 22, Stream.rwData, 0);
-        Stream.rwData(Bytes.Of(ref FDefendersMode, 1), 1, 27);
-        Stream.rwEObject(FEnchantmentList, 29);
+        base.ReadWrite(stream);
+        stream.rwString(ref Name, 12);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Race), 13);
+        stream.rwData(Bytes.Of(ref WallType, 1), 1, 15);
+        stream.rwByte(ref UpgradeLevel, 16);
+        stream.rwEObject(Production, 18);
+        RwSet(ref Mode, 1, 22, stream.rwData, 0);
+        stream.rwData(Bytes.Of(ref DefendersMode, 1), 1, 27);
+        stream.rwEObject(EnchantmentList, 29);
     }
 
     // City.pas:824
 
     // City.pas:2191
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001989)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001989)
         {
-            if (FRace >= 0)
+            if (Race >= 0)
             {
-                if (AoWHSMap.Current.FRaces.GetRace(FRace) == null || !AoWHSMap.Current.FRaces.GetRace(FRace).FEnabled)
+                if (AoWHSMap.Current.Races.GetRace(Race) == null || !AoWHSMap.Current.Races.GetRace(Race).Enabled)
                 {
-                    FRace = -1;
+                    Race = -1;
                     UpdateImages();
                 }
             }
         }
         else
         {
-            if (Msg.MsgID == 537001993)
+            if (message.MessageId == 537001993)
             {
                 UpdateVisibleForSeatedPlayer();
             }
@@ -121,174 +121,174 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2065
-    public override void TerrainChanged(in HexSpriteTerrainInfo Info)
+    public override void TerrainChanged(in HexSpriteTerrainInfo info)
     {
-        base.TerrainChanged(Info);
+        base.TerrainChanged(info);
         UpdateImages();
     }
 
     // City.pas:2132
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
         int X = default;
         int Y = default;
-        HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
-        XhpSurf = X - XhpSurf;
-        YhpSurf = Y - YhpSurf;
-        if (!FMode.Contains(ModeElement.Razed) || GetBuilding())
+        HexGeometry.HexToPixel(_hexX, _hexY, ref X, ref Y);
+        pixelXSurface = X - pixelXSurface;
+        pixelYSurface = Y - pixelYSurface;
+        if (!Mode.Contains(ModeElement.Razed) || GetBuilding())
         {
-            if ((AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || !FFogged || !AoWHSMap.Current.FFogEnabled) && FFlagID != 63 && (((PlayerStructureResource)FResource).FClaimed || (FFlagID & 32) == 0))
+            if ((AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || !Fogged || !AoWHSMap.Current.FogEnabled) && _flagId != 63 && (((PlayerStructureResource)_resource).Claimed || (_flagId & 32) == 0))
             {
-                var cityResource = (PlayerStructureResource)FResource;
-                if (cityResource.FFlagType <= 1)
+                var cityResource = (PlayerStructureResource)_resource;
+                if (cityResource.FlagType <= 1)
                 {
-                    AoWHSSet.Current.FFlagControl.ShowFlag(cityResource.FFlagX + XhpSurf, cityResource.FFlagY + YhpSurf, cityResource.Engine.HSMap.Frame + X, this.FFlagID, SurfaceDesc);
+                    AoWHSSet.Current.FlagControl.ShowFlag(cityResource.FlagX + pixelXSurface, cityResource.FlagY + pixelYSurface, cityResource.Engine.HexSpriteMap.Frame + X, this._flagId, lockedSurface);
                 }
                 else
                 {
-                    AoWHSSet.Current.FFlagControl.ShowStructureFlag(cityResource.FFlagX + XhpSurf, cityResource.FFlagY + YhpSurf, cityResource.Engine.HSMap.Frame + X, this.FFlagID, SurfaceDesc);
+                    AoWHSSet.Current.FlagControl.ShowStructureFlag(cityResource.FlagX + pixelXSurface, cityResource.FlagY + pixelYSurface, cityResource.Engine.HexSpriteMap.Frame + X, this._flagId, lockedSurface);
                 }
             }
         }
 
-        if (FMode.Contains(ModeElement.TownQuake))
+        if (Mode.Contains(ModeElement.TownQuake))
         {
-            XhpSurf = XhpSurf + Random(5) - 2;
-            YhpSurf = YhpSurf + Random(5) - 2;
+            pixelXSurface = pixelXSurface + Random(5) - 2;
+            pixelYSurface = pixelYSurface + Random(5) - 2;
         }
 
-        if (!FMode.Contains(ModeElement.Razed))
+        if (!Mode.Contains(ModeElement.Razed))
         {
-            ((Resource)FResource).ShowCity(XhpSurf, YhpSurf, SurfaceDesc, this);
+            ((Resource)_resource).ShowCity(pixelXSurface, pixelYSurface, lockedSurface, this);
         }
         else
         {
-            ((StructureResource)FResource).Show(XhpSurf, YhpSurf, SurfaceDesc, this);
+            ((StructureResource)_resource).Show(pixelXSurface, pixelYSurface, lockedSurface, this);
         }
     }
 
     // City.pas:2170
     public override bool PlaceOnMap()
     {
-        bool Result = base.PlaceOnMap();
-        if (Result)
+        bool result = base.PlaceOnMap();
+        if (result)
         {
-            UpdateMapFields((MapLevel)Owner.Owner, FXhx, FYhx);
+            UpdateMapFields((MapLevel)Owner.Owner, _hexX, _hexY);
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2176
     public override void RemoveFromMap()
     {
-        MapLevel MapLevel;
-        MapLevel = (MapLevel)Owner.Owner;
+        MapLevel mapLevel;
+        mapLevel = (MapLevel)Owner.Owner;
         base.RemoveFromMap();
-        UpdateMapFields(MapLevel, FXhx, FYhx);
+        UpdateMapFields(mapLevel, _hexX, _hexY);
     }
 
     // City.pas:2378
-    public override void MapFieldMsgProc(ref MapFieldMessage Msg)
+    public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (!(Msg.MsgID == 4364 && FResource.TerrainList.Terrain[Msg.HN] >= 0))
+        if (!(message.MessageId == 4364 && _resource.TerrainList.Terrain[message.HexNumber] >= 0))
         {
-            base.MapFieldMsgProc(ref Msg);
+            base.MapFieldMessageProc(ref message);
         }
 
-        if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
+        if (_resource.TerrainList.Terrain[message.HexNumber] >= 0)
         {
-            if (Msg.MsgID == 4364 && Msg.HN == 0)
+            if (message.MessageId == 4364 && message.HexNumber == 0)
             {
-                if ((!AoWHSMap.Current.FFogEnabled || !FFogged) && FPlayer >= 0)
+                if ((!AoWHSMap.Current.FogEnabled || !Fogged) && Player >= 0)
                 {
-                    if (FPlayer == 0)
+                    if (Player == 0)
                     {
-                        Msg.Param[0] = Msg.Param[0].Int + 851968;
+                        message.Param[0] = message.Param[0].Int + 851968;
                     }
                     else
                     {
-                        var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                        Msg.Param[0] = Msg.Param[0].Int + (player.FPlayerRace + 1) * 65536;
+                        var player = AoWHSMap.Current.Players.GetPlayers(Player);
+                        message.Param[0] = message.Param[0].Int + (player.PlayerRace + 1) * 65536;
                     }
                 }
                 else
                 {
-                    Msg.Param[0] = Msg.Param[0].Int + 917504;
+                    message.Param[0] = message.Param[0].Int + 917504;
                 }
 
-                Msg.Param[0] = Msg.Param[0].Int + (((Resource)FResource).FSize - 1) * 4194304;
+                message.Param[0] = message.Param[0].Int + (((Resource)_resource).Size - 1) * 4194304;
             }
             else
             {
-                if (Msg.MsgID == 4609)
+                if (message.MessageId == 4609)
                 {
-                    Msg.Result = FProduction;
+                    message.Result = Production;
                 }
                 else
                 {
-                    if (Msg.MsgID == 4360)
+                    if (message.MessageId == 4360)
                     {
-                        ReturnBattleFieldInfo(ref Msg.Param[0].As<BattleFieldQuery>().Info);
+                        ReturnBattleFieldInfo(ref message.Param[0].As<BattleFieldQuery>().Info);
                     }
                     else
                     {
-                        if (Msg.MsgID == 4359)
+                        if (message.MessageId == 4359)
                         {
-                            InitCombat(Msg.Param[0].As<Battle>(), Msg.Param[1].As<ArmyHexSprite>());
-                            Msg.Result = 1;
+                            InitializeCombat(message.Param[0].As<Battle>(), message.Param[1].As<ArmyHexSprite>());
+                            message.Result = 1;
                         }
                         else
                         {
-                            if (Msg.MsgID == 4365)
+                            if (message.MessageId == 4365)
                             {
                                 UpdateVisibleForSeatedPlayer();
                             }
                             else
                             {
-                                if (Msg.MsgID == 4387)
+                                if (message.MessageId == 4387)
                                 {
-                                    if (FWallType != 0 && !FMode.Contains(ModeElement.Warmode) && !GetRazed())
+                                    if (WallType != 0 && !Mode.Contains(ModeElement.WarMode) && !GetRazed())
                                     {
-                                        if (this == Msg.Param[0].As<MapField>().FindNoneTransparentHS(typeof(City)))
+                                        if (this == message.Param[0].As<MapField>().FindNoneTransparentHexSprite(typeof(City)))
                                         {
-                                            Msg.Result = FWallType;
+                                            message.Result = WallType;
                                         }
                                     }
                                 }
                                 else
                                 {
-                                    if (Msg.MsgID == 4389)
+                                    if (message.MessageId == 4389)
                                     {
-                                        if (FPlayer == 0)
+                                        if (Player == 0)
                                         {
                                             var independentRelation = GetIndependentRelation();
-                                            Msg.Result = independentRelation;
+                                            message.Result = independentRelation;
                                         }
                                     }
                                     else
                                     {
-                                        if (Msg.MsgID == 4366)
+                                        if (message.MessageId == 4366)
                                         {
-                                            if (IncommingNegotiateRequest(Msg.Param[0].As<NegotiateRequestEventLog>()))
+                                            if (IncomingNegotiateRequest(message.Param[0].As<NegotiateRequestEventLog>()))
                                             {
-                                                Msg.Param[1] = 1;
+                                                message.Param[1] = 1;
                                             }
                                         }
                                         else
                                         {
-                                            if (Msg.MsgID == 4367)
+                                            if (message.MessageId == 4367)
                                             {
-                                                if (IncommingNegotiateOffer(Msg.Param[0].As<NegotiateTokenEvent>()))
+                                                if (IncomingNegotiateOffer(message.Param[0].As<NegotiateTokenEvent>()))
                                                 {
-                                                    Msg.Result = 1;
+                                                    message.Result = 1;
                                                 }
                                             }
                                             else
                                             {
-                                                if (Msg.MsgID == 4393 && FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
+                                                if (message.MessageId == 4393 && Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
                                                 {
-                                                    Msg.Param[0] = 1;
+                                                    message.Param[0] = 1;
                                                 }
                                             }
                                         }
@@ -306,34 +306,34 @@ public partial class City : PlayerCropStructure
     public override void Deactivate()
     {
         UnregisterEnchantments();
-        if (FPlayer != -1)
+        if (Player != -1)
         {
-            AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FProductionControls.Remove(FProduction);
+            AoWHSMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(Production);
         }
 
-        FProduction.Deactivate();
+        Production.Deactivate();
         base.Deactivate();
     }
 
     // City.pas:2184
-    public override void UpdateMapField(in HexSpriteMapFieldInfo Info)
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
     {
-        base.UpdateMapField(Info);
-        if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
+        base.UpdateMapField(info);
+        if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 67108864;
+            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 67108864;
         }
     }
 
     // City.pas:1246
-    public override void MakeVisible(VisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList visibilityList)
     {
-        if (!FStatus.Contains(MapObjectStatusElement.Visible))
+        if (!_status.Contains(MapObjectStatusElement.Visible))
         {
-            base.MakeVisible(VisibilityList);
-            if ((Set<CityEnchantmentId>.Of(CityEnchantmentId.GoldRush, CityEnchantmentId.AntiMagicShell, CityEnchantmentId.Warmonger) & FEnchantments) != Set<CityEnchantmentId>.Of())
+            base.MakeVisible(visibilityList);
+            if ((Set<CityEnchantmentId>.Of(CityEnchantmentId.GoldRush, CityEnchantmentId.AntiMagicShell, CityEnchantmentId.Warmonger) & Enchantments) != Set<CityEnchantmentId>.Of())
             {
-                FOverlay.MakeVisible(VisibilityList);
+                _overlay.MakeVisible(visibilityList);
             }
         }
     }
@@ -345,176 +345,176 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1787
-    public override sbyte GetValidTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx) => GetMostFrequentMapFieldTerrainType(MapLevel, Xhx, Yhx, -1);
+    public override sbyte GetValidTerrainType(MapLevel mapLevel, sbyte hexX, sbyte hexY) => GetMostFrequentMapFieldTerrainType(mapLevel, hexX, hexY, -1);
 
     // City.pas:2422
     public override LibraryImage GetTopBorderImage()
     {
-        int Index;
-        ImageSequenceList Sequences;
-        LibraryImage Result = GetTopCityActionImage(GetActiveOrder());
-        if (Result == null)
+        int index;
+        ImageSequenceList sequences;
+        LibraryImage result = GetTopCityActionImage(GetActiveOrder());
+        if (result == null)
         {
-            if (FRace != -1)
+            if (Race != -1)
             {
-                if (GetLhx() == 0)
+                if (GetHexLevel() == 0)
                 {
-                    Result = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FImageLibrary.GetSafe(40);
+                    result = AoWHSSet.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(40);
                 }
                 else
                 {
-                    Result = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FImageLibrary.GetSafe(43);
+                    result = AoWHSSet.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(43);
                 }
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
 
-        if (FMode.Contains(ModeElement.Razed))
+        if (Mode.Contains(ModeElement.Razed))
         {
-            Index = 42;
-            Sequences = FResource.ImageSequenceList;
-            if (Sequences != null)
+            index = 42;
+            sequences = _resource.ImageSequenceList;
+            if (sequences != null)
             {
-                if (Sequences.GetImageSequence(Index) != null)
+                if (sequences.GetImageSequence(index) != null)
                 {
-                    Result = FResource.ImageSequenceList.GetImageSequence(Index).GetPreviewImage();
+                    result = _resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
                 }
                 else
                 {
-                    Result = null;
+                    result = null;
                 }
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2449
     public override LibraryImage GetMiddleBorderImage()
     {
-        int Index;
-        ImageSequenceList Sequences;
-        LibraryImage Result = GetMiddleCityActionImage(GetActiveOrder());
-        if (Result == null)
+        int index;
+        ImageSequenceList sequences;
+        LibraryImage result = GetMiddleCityActionImage(GetActiveOrder());
+        if (result == null)
         {
-            if (FRace != -1)
+            if (Race != -1)
             {
-                if (GetLhx() == 0)
+                if (GetHexLevel() == 0)
                 {
-                    Result = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FImageLibrary.GetSafe(41);
+                    result = AoWHSSet.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(41);
                 }
                 else
                 {
-                    Result = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FImageLibrary.GetSafe(44);
+                    result = AoWHSSet.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(44);
                 }
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
 
-        if (FMode.Contains(ModeElement.Razed))
+        if (Mode.Contains(ModeElement.Razed))
         {
-            Index = 43;
-            Sequences = FResource.ImageSequenceList;
-            if (Sequences != null)
+            index = 43;
+            sequences = _resource.ImageSequenceList;
+            if (sequences != null)
             {
-                if (Sequences.GetImageSequence(Index) != null)
+                if (sequences.GetImageSequence(index) != null)
                 {
-                    Result = FResource.ImageSequenceList.GetImageSequence(Index).GetPreviewImage();
+                    result = _resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
                 }
                 else
                 {
-                    Result = null;
+                    result = null;
                 }
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2476
     public override LibraryImage GetBottomBorderImage()
     {
-        int Index;
-        ImageSequenceList Sequences;
-        LibraryImage Result = GetBottomCityActionImage(GetActiveOrder());
-        if (Result == null)
+        int index;
+        ImageSequenceList sequences;
+        LibraryImage result = GetBottomCityActionImage(GetActiveOrder());
+        if (result == null)
         {
-            if (FRace >= 0)
+            if (Race >= 0)
             {
-                if (GetLhx() == 0)
+                if (GetHexLevel() == 0)
                 {
-                    Result = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FImageLibrary.GetSafe(42);
+                    result = AoWHSSet.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(42);
                 }
                 else
                 {
-                    Result = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FImageLibrary.GetSafe(45);
+                    result = AoWHSSet.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(45);
                 }
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
 
-        if (FMode.Contains(ModeElement.Razed))
+        if (Mode.Contains(ModeElement.Razed))
         {
-            Index = 44;
-            Sequences = FResource.ImageSequenceList;
-            if (Sequences != null)
+            index = 44;
+            sequences = _resource.ImageSequenceList;
+            if (sequences != null)
             {
-                if (Sequences.GetImageSequence(Index) != null)
+                if (sequences.GetImageSequence(index) != null)
                 {
-                    Result = FResource.ImageSequenceList.GetImageSequence(Index).GetPreviewImage();
+                    result = _resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
                 }
                 else
                 {
-                    Result = null;
+                    result = null;
                 }
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2080
-    public override string GetName() => FName;
+    public override string GetName() => Name;
 
     // City.pas:1623
-    public override void SetRazed(bool Value)
+    public override void SetRazed(bool value)
     {
-        if (Value != GetRazed())
+        if (value != GetRazed())
         {
-            FProduction.ExecuteDeleteProductions();
-            if (Value)
+            Production.ExecuteDeleteProductions();
+            if (value)
             {
                 SetPlayer(-1);
             }
 
-            if (Value)
+            if (value)
             {
-                FMode = FMode + Set<ModeElement>.Of(ModeElement.Razed);
+                Mode = Mode + Set<ModeElement>.Of(ModeElement.Razed);
             }
             else
             {
-                FMode = FMode - Set<ModeElement>.Of(ModeElement.Razed);
+                Mode = Mode - Set<ModeElement>.Of(ModeElement.Razed);
             }
 
             ImageIndex = GetTerrainTypeImage(TerrainType);
@@ -527,121 +527,121 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1618
-    public override bool GetRazed() => FMode.Contains(ModeElement.Razed);
+    public override bool GetRazed() => Mode.Contains(ModeElement.Razed);
 
     // City.pas:1111
-    public override void SetupRazeDefenderAG(UnitList Armies, UnitList Units)
+    public override void SetupRazeDefenderAIGroup(UnitList armies, UnitList units)
     {
-        AIGroup Group;
+        AIGroup group;
         if (AoWHSMap.Current.Random(8) == 0)
         {
-            var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(Units, 5);
-            Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Refuge);
-            Group.AddUnits(Units);
-            Group.Release();
+            var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(units, 5);
+            group = AoWHSMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Refuge);
+            group.AddUnits(units);
+            group.Release();
         }
         else
         {
-            base.SetupRazeDefenderAG(Armies, Units);
+            base.SetupRazeDefenderAIGroup(armies, units);
         }
     }
 
     // City.pas:864
-    public override ExecuteResult ExecuteTE(StructureTokenEvent TE, TokenExecutor Executer) => base.ExecuteTE(TE, Executer);
+    public override ExecuteResult ExecuteTokenEvent(StructureTokenEvent tokenEvent, TokenExecutor executor) => base.ExecuteTokenEvent(tokenEvent, executor);
 
     // City.pas:1134
-    public override bool GetDefenseRequirements(sbyte Player, ref DefenseRequirements Requirements)
+    public override bool GetDefenseRequirements(sbyte player, ref DefenseRequirements requirements)
     {
-        bool Result;
-        BattleFieldInfo Info = default;
-        int Maximum;
-        int Minimum;
-        Status Relation;
-        if ((FMode & Set<ModeElement>.Of(ModeElement.Warmode, ModeElement.Razed)) == Set<ModeElement>.Of())
+        bool result;
+        BattleFieldInfo info = default;
+        int maximum;
+        int minimum;
+        Status relation;
+        if ((Mode & Set<ModeElement>.Of(ModeElement.WarMode, ModeElement.Razed)) == Set<ModeElement>.Of())
         {
-            BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
-            Info.Requests = Info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
-            var lhx = GetLhx();
-            var yhx = GetYhx();
-            var xhx = GetXhx();
-            AoWHSMap.Current.RetrieveBattleFieldInfo(xhx, yhx, lhx, 10, ref Info);
-            Requirements.Strength = Info.Strength;
-            Maximum = Round(GetSize() * 5000);
-            Minimum = Round((double)(GetSize() * 5000) * AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIControl.FDefenseStrengthMultiplier);
-            if (Player != 0)
+            BattleFieldInfo.SetupBattleFieldInfo(ref info, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
+            info.Requests = info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents);
+            var hexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexX = GetHexX();
+            AoWHSMap.Current.RetrieveBattleFieldInfo(hexX, hexY, hexLevel, 10, ref info);
+            requirements.Strength = info.Strength;
+            maximum = Round(GetSize() * 5000);
+            minimum = Round((double)(GetSize() * 5000) * AoWHSMap.Current.Players.GetPlayers(player).AIControl.DefenseStrengthMultiplier);
+            if (player != 0)
             {
-                Relation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(Player);
+                relation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
             }
             else
             {
-                Relation = Session.Status.Friendly;
+                relation = Session.Status.Friendly;
             }
 
             // { Original condition makes this neutral-player adjustment unreachable. }
-            if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary, Session.Status.Neutral).Contains(Relation) && Player == FPlayer && FPlayer == 0)
+            if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary, Session.Status.Neutral).Contains(relation) && player == Player && base.Player == 0)
             {
-                Maximum = Round(Maximum) + 7500;
-                Minimum = Maximum;
+                maximum = Round(maximum) + 7500;
+                minimum = maximum;
             }
 
-            if (Requirements.Strength < Minimum)
+            if (requirements.Strength < minimum)
             {
-                Requirements.Strength = Minimum;
+                requirements.Strength = minimum;
             }
 
-            if (Maximum < Requirements.Strength)
+            if (maximum < requirements.Strength)
             {
-                Requirements.Strength = Maximum;
+                requirements.Strength = maximum;
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1123
     public override DefensePriority GetDefensePriority()
     {
-        DefensePriority Result;
-        if ((FMode & Set<ModeElement>.Of(ModeElement.Warmode, ModeElement.Razed)) == Set<ModeElement>.Of())
+        DefensePriority result;
+        if ((Mode & Set<ModeElement>.Of(ModeElement.WarMode, ModeElement.Razed)) == Set<ModeElement>.Of())
         {
             if (GetSize() == 1)
             {
-                Result = DefensePriority.Low;
+                result = DefensePriority.Low;
             }
             else
             {
-                Result = DefensePriority.Average;
+                result = DefensePriority.Average;
             }
 
-            if (FProduction.FStatus == ProductionControl.Status.Producing && Result == DefensePriority.Low)
+            if (Production.Status == ProductionControlStatus.Producing && result == DefensePriority.Low)
             {
-                Result = DefensePriority.Average;
+                result = DefensePriority.Average;
             }
 
-            bool condition = FPlayer != 0;
+            bool condition = Player != 0;
             if (condition)
             {
-                var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
+                var playerRelation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
                 condition = Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(playerRelation);
             }
 
             if (condition)
             {
-                Result = DefensePriority.High;
+                result = DefensePriority.High;
             }
         }
         else
         {
-            Result = DefensePriority.None;
+            result = DefensePriority.None;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1713
@@ -649,57 +649,57 @@ public partial class City : PlayerCropStructure
     {
         int I;
         base.NewDay();
-        if (FRace < 0)
+        if (Race < 0)
         {
-            if (FRace < -1 && AoWHSMap.Current.FGameType == GameType.Campaign)
+            if (Race < -1 && AoWHSMap.Current.GameType == GameType.Campaign)
             {
-                I = Math.Abs(FRace) - 3;
-                if (I >= 0 && I < GameTables.AoWEngine.FCampaign.FRaceHistory.Count)
+                I = Math.Abs(Race) - 3;
+                if (I >= 0 && I < GameTables.GameEngine.Campaign.RaceHistory.Count)
                 {
-                    SetRace((sbyte)GameTables.AoWEngine.FCampaign.FRaceHistory[I]);
+                    SetRace((sbyte)GameTables.GameEngine.Campaign.RaceHistory[I]);
                 }
                 else
                 {
-                    SetRace(AoWHSMap.Current.FRaces.GetRandomRace());
+                    SetRace(AoWHSMap.Current.Races.GetRandomRace());
                 }
             }
             else
             {
-                SetRace(AoWHSMap.Current.FRaces.GetRandomRace());
+                SetRace(AoWHSMap.Current.Races.GetRandomRace());
             }
         }
 
-        if (AoWHSMap.Current.FDay == 1)
+        if (AoWHSMap.Current.Day == 1)
         {
-            FProduction.FUnitProductions.Clear();
-            SetUpgradeLevel(FUpgradeLevel);
+            Production.UnitProductions.Clear();
+            SetUpgradeLevel(UpgradeLevel);
             GenerateDefenders();
-            if (FWallType == 3)
+            if (WallType == 3)
             {
-                FWallType = (byte)AoWHSMap.Current.Random(3);
+                WallType = (byte)AoWHSMap.Current.Random(3);
                 UpdateImages();
             }
         }
 
         CheckRebellion();
-        if (FOverlay.FMode == CityOverlayHexSprite.OverlayMode.ShowRazeAnimation)
+        if (_overlay.Mode == CityOverlayHexSprite.OverlayMode.ShowRazeAnimation)
         {
-            FOverlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
+            _overlay.SetMode(CityOverlayHexSprite.OverlayMode.Idle);
         }
     }
 
     // City.pas:1705
-    public override void NewTurn(sbyte Player)
+    public override void NewTurn(sbyte player)
     {
-        base.NewTurn(Player);
-        if (!FMode.Contains(ModeElement.Warmode))
+        base.NewTurn(player);
+        if (!Mode.Contains(ModeElement.WarMode))
         {
-            FProduction.NewTurn(Player);
+            Production.NewTurn(player);
         }
 
-        if (Player == FPlayer)
+        if (player == Player)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
+            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
             {
                 UpdateAIMigration();
             }
@@ -707,184 +707,184 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:1335
-    public override void ArmyPlaced(ArmyHexSprite PlacedArmy)
+    public override void ArmyPlaced(ArmyHexSprite placedArmy)
     {
-        base.ArmyPlaced(PlacedArmy);
-        if (FEnchantments.Contains(CityEnchantmentId.FountainOfLife))
+        base.ArmyPlaced(placedArmy);
+        if (Enchantments.Contains(CityEnchantmentId.FountainOfLife))
         {
             ExecuteFountainOfLife();
         }
 
-        if (FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
+        if (Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
-            FOverlay.PlayFadeShellAnimation();
+            _overlay.PlayFadeShellAnimation();
         }
     }
 
     // City.pas:1342
-    public override void ArmyRemoved(ArmyHexSprite Army)
+    public override void ArmyRemoved(ArmyHexSprite army)
     {
-        base.ArmyRemoved(Army);
+        base.ArmyRemoved(army);
         UpdatePlayer();
     }
 
     // City.pas:886
     public override void BuildingDone()
     {
-        FUpgradeLevel = 1;
-        FWallType = 0;
-        SetRace(AoWHSMap.Current.FPlayers.GetPlayers(FBuildingPlayer).FPlayerRace);
+        UpgradeLevel = 1;
+        WallType = 0;
+        SetRace(AoWHSMap.Current.Players.GetPlayers(BuildingPlayer).PlayerRace);
         base.BuildingDone();
     }
 
     // City.pas:1604
-    public override bool GenerateRazeDefenders(sbyte Player, UnitList Units)
+    public override bool GenerateRazeDefenders(sbyte player, UnitList units)
     {
-        GenerateRebelUnits(Units);
+        GenerateRebelUnits(units);
         return true;
     }
 
     // City.pas:1610
-    public override bool ExecuteRaze(sbyte Player)
+    public override bool ExecuteRaze(sbyte player)
     {
-        bool Result = base.ExecuteRaze(Player);
-        if (Result)
+        bool result = base.ExecuteRaze(player);
+        if (result)
         {
-            var playerRelationValue = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelationValue(Player);
-            AoWHSMap.Current.FRaces.GetRace(FRace).SetPlayerRelationValue(Player, playerRelationValue + -30);
+            var playerRelationValue = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelationValue(player);
+            AoWHSMap.Current.Races.GetRace(Race).SetPlayerRelationValue(player, playerRelationValue + -30);
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2611
     public override string GetCurrentActivityText()
     {
-        string Result;
-        if (FProduction.FQueue.Count == 0)
+        string result;
+        if (Production.Queue.Count == 0)
         {
-            Result = AbilityRules.TranslateRStr(GameText.ProducingMerchandiseRStr);
+            result = AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText);
         }
         else
         {
-            var queue = FProduction.FQueue.GetItem(0);
-            Result = FProduction.GetProductionNameProgressive(queue);
+            var queue = Production.Queue.GetItem(0);
+            result = Production.GetProductionNameProgressive(queue);
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:876
-    public override bool ValidateMap(StringCollection Messages)
+    public override bool ValidateMap(StringCollection messages)
     {
-        bool Result = base.ValidateMap(Messages);
-        var noname = AbilityRules.TranslateRStr(NonameRStr);
-        if (CompareText(FName, noname) == 0 || IsEmpty(FName))
+        bool result = base.ValidateMap(messages);
+        var noName = AbilityRules.TranslateResourceString(s_noNameText);
+        if (CompareText(Name, noName) == 0 || IsEmpty(Name))
         {
-            Messages.Add(AbilityRules.TranslateRStr(CityWarningRStr) + ": " + AbilityRules.TranslateRStr(NoNameSpecifiedRStr));
-            Result = false;
+            messages.Add(AbilityRules.TranslateResourceString(s_cityWarningText) + ": " + AbilityRules.TranslateResourceString(s_noNameSpecifiedText));
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1162
-    public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
+    public override void UpdateAITarget(in AITargetInfo info, ref AITargetData data)
     {
-        int Amount;
-        int Priority;
-        if (!FMode.Contains(ModeElement.Razed))
+        int amount;
+        int priority;
+        if (!Mode.Contains(ModeElement.Razed))
         {
-            switch (Info.Mode)
+            switch (info.Mode)
             {
                 case AITargetMode.Attack:
                 case AITargetMode.Raid:
-                    if (Info.Player != FPlayer)
+                    if (info.Player != Player)
                     {
-                        Priority = Data.Priority;
-                        if (FPlayer > 0)
+                        priority = data.Priority;
+                        if (Player > 0)
                         {
-                            if (AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, FRace))
+                            if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, Race))
                             {
-                                Priority = 100 + (GetSize() - 1) * 10;
+                                priority = 100 + (GetSize() - 1) * 10;
                             }
                         }
                         else
                         {
-                            if (FPlayer == 0)
+                            if (Player == 0)
                             {
-                                var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(Info.Player);
+                                var playerRelation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(info.Player);
                                 if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation))
                                 {
-                                    Amount = JoinAmount(Info.Player);
-                                    if (Amount != -1)
+                                    amount = JoinAmount(info.Player);
+                                    if (amount != -1)
                                     {
-                                        Data.Cost = Amount;
-                                        Priority = 100 + (GetSize() - 1) * 10;
-                                        Data.TargetType = AITargetType.Negotiate;
+                                        data.Cost = amount;
+                                        priority = 100 + (GetSize() - 1) * 10;
+                                        data.TargetType = AITargetType.Negotiate;
                                     }
                                     else
                                     {
-                                        Priority = 100 + (GetSize() - 1) * 10;
+                                        priority = 100 + (GetSize() - 1) * 10;
                                     }
                                 }
                                 else
                                 {
-                                    Priority = 100 + (GetSize() - 1) * 10;
+                                    priority = 100 + (GetSize() - 1) * 10;
                                 }
                             }
                             else
                             {
-                                if (FMode.Contains(ModeElement.Warmode) && Priority != 0)
+                                if (Mode.Contains(ModeElement.WarMode) && priority != 0)
                                 {
-                                    Priority = 100 + (GetSize() - 1) * 10;
+                                    priority = 100 + (GetSize() - 1) * 10;
                                 }
                             }
                         }
 
-                        if (Priority > Data.Priority)
+                        if (priority > data.Priority)
                         {
-                            Data.Priority = Priority;
+                            data.Priority = priority;
                         }
                     }
 
                     break;
                 case AITargetMode.Produce:
-                    if (Info.Player == FPlayer)
+                    if (info.Player == Player)
                     {
-                        Data.Priority = Data.Priority | 2;
+                        data.Priority = data.Priority | 2;
                     }
 
                     break;
                 case AITargetMode.Fortify:
-                    bool condition = Info.Player == FPlayer;
+                    bool condition = info.Player == Player;
                     if (condition)
                     {
-                        var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(Info.Player);
+                        var playerRelation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(info.Player);
                         condition = Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation);
                     }
 
                     if (condition && GetActiveAction() != CityAction.Migrate)
                     {
                         var size = GetSize();
-                        Data.Priority = 500 + size * 100 + FWallType * 45;
-                        if (FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
+                        data.Priority = 500 + size * 100 + WallType * 45;
+                        if (Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
                         {
-                            Data.Priority += 150;
+                            data.Priority += 150;
                         }
 
-                        if (GetLhx() != 0)
+                        if (GetHexLevel() != 0)
                         {
-                            Data.Priority += 50;
+                            data.Priority += 50;
                         }
                     }
 
                     break;
                 case AITargetMode.Defend:
-                    if (Info.Player == FPlayer)
+                    if (info.Player == Player)
                     {
                         var size = GetSize();
-                        Data.Priority = 50 + size * 20;
+                        data.Priority = 50 + size * 20;
                     }
 
                     break;
@@ -895,7 +895,7 @@ public partial class City : PlayerCropStructure
     // City.pas:867
     public override void Update()
     {
-        if (FUpdateCount == 0)
+        if (UpdateCount == 0)
         {
             UpdateIncome();
             base.Update();
@@ -903,241 +903,241 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:852
-    public override bool CanDblClick() => AoWHSMap.Current.FSeatedPlayer == FPlayer && !GetRazed() && !GetBuilding();
+    public override bool CanDoubleClick() => AoWHSMap.Current.SeatedPlayer == Player && !GetRazed() && !GetBuilding();
 
     // City.pas:1639
-    public override void GetRebuildInfo(ref int Cost, ref int Time)
+    public override void GetRebuildInfo(ref int cost, ref int time)
     {
-        Cost = GetSize() * 25;
-        Time = GetSize() + 1;
+        cost = GetSize() * 25;
+        time = GetSize() + 1;
     }
 
     // City.pas:1092
-    public override void SetPlayer(sbyte Player)
+    public override void SetPlayer(sbyte player)
     {
-        if (Player != FPlayer)
+        if (player != Player)
         {
-            FProduction.PlayerChanged();
+            Production.PlayerChanged();
             ResetEnchantments();
-            if (FPlayer != -1)
+            if (Player != -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FProductionControls.Remove(FProduction);
+                AoWHSMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(Production);
             }
 
-            base.SetPlayer(Player);
+            base.SetPlayer(player);
             if (GetActiveAction() == CityAction.Migrate)
             {
-                FProduction.ExecuteCancelProduction();
-                FProduction.FQueue.GetItem(0)?.Dispose();
+                Production.ExecuteCancelProduction();
+                Production.Queue.GetItem(0)?.Dispose();
             }
 
             ValidateAICityAction();
             UpdateAIMigration();
-            if (FPlayer != -1)
+            if (Player != -1)
             {
-                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProduction);
+                AoWHSMap.Current.Players.GetPlayers(Player).ProductionControls.Add(Production);
             }
         }
     }
 
     // City.pas:2071
-    public override void UpdateFlagID()
+    public override void UpdateFlagId()
     {
-        if (!FStatus.Contains(MapObjectStatusElement.EditMode) && (!FMode.Contains(ModeElement.Razed) || GetBuilding()) && !FMode.Contains(ModeElement.Warmode))
+        if (!_status.Contains(MapObjectStatusElement.EditMode) && (!Mode.Contains(ModeElement.Razed) || GetBuilding()) && !Mode.Contains(ModeElement.WarMode))
         {
-            if (FPlayer > 0)
+            if (Player > 0)
             {
-                FFlagID = (byte)(AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace + (FUpgradeLevel - 1) * 64);
+                _flagId = (byte)(AoWHSMap.Current.Players.GetPlayers(Player).PlayerRace + (UpgradeLevel - 1) * 64);
             }
             else
             {
-                FFlagID = (byte)(32 + (FUpgradeLevel - 1) * 64);
+                _flagId = (byte)(32 + (UpgradeLevel - 1) * 64);
             }
         }
         else
         {
-            FFlagID = 63;
+            _flagId = 63;
         }
     }
 
     // City.pas:1792
     public override int VisibilityRange()
     {
-        int Result = 6;
-        if (GetLhx() != 0 || FPlayer > 0 && (((byte)AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
+        int result = 6;
+        if (GetHexLevel() != 0 || Player > 0 && (((byte)AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
         {
-            Result = (int)(((uint)(Result + 1)) >> 1);
+            result = (int)(((uint)(result + 1)) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2225
-    public override void FinalizeCombat(Battle Combat)
+    public override void FinalizeCombat(Battle combat)
     {
-        if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
+        if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
         {
-            var combatData = Combat.FCombatData;
-            SetPlayer(combatData.FPlayers.GetPlayers(combatData.FAttackerPlayer).FPlayer);
+            var combatData = combat.CombatData;
+            SetPlayer(combatData.Players.GetPlayers(combatData.AttackerPlayer).Player);
 
             UpdatePlayer();
         }
     }
 
     // City.pas:2214
-    public override string GetCombatEventText(Battle Combat)
+    public override string GetCombatEventText(Battle combat)
     {
-        string Result = "";
+        string result = "";
         if (!GetRazed())
         {
-            if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
+            if (combat.CombatResult == CombatResult.Victory || combat.CombatResult == CombatResult.NoDefenders)
             {
-                var cityBattleWon = AbilityRules.TranslateRStr(CityBattleWonRStr);
+                var cityBattleWon = AbilityRules.TranslateResourceString(s_cityBattleWonFormat);
                 var name = GetName();
-                Result = RtlUnit.Format(cityBattleWon, [name]);
+                result = RtlUnit.Format(cityBattleWon, [name]);
             }
             else
             {
-                if (Combat.FCombatResult == CombatResult.Defeat)
+                if (combat.CombatResult == CombatResult.Defeat)
                 {
-                    var cityBattleLost = AbilityRules.TranslateRStr(CityBattleLostRStr);
+                    var cityBattleLost = AbilityRules.TranslateResourceString(s_cityBattleLostFormat);
                     var name = GetName();
-                    Result = RtlUnit.Format(cityBattleLost, [name]);
+                    result = RtlUnit.Format(cityBattleLost, [name]);
                 }
                 else
                 {
-                    if (Combat.FCombatResult != CombatResult.CannotBreachWall)
+                    if (combat.CombatResult != CombatResult.CannotBreachWall)
                     {
-                        var cityBattleDrawn = AbilityRules.TranslateRStr(CityBattleDrawnRStr);
+                        var cityBattleDrawn = AbilityRules.TranslateResourceString(s_cityBattleDrawnFormat);
                         var name = GetName();
-                        Result = RtlUnit.Format(cityBattleDrawn, [name]);
+                        result = RtlUnit.Format(cityBattleDrawn, [name]);
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1062
-    public override void StructureCaptured(sbyte OldPlayer, sbyte NewPlayer)
+    public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
-        CityProductionEventLog Log;
-        if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && FStatus.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)FResource).FClaimed)
+        CityProductionEventLog log;
+        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && _status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)_resource).Claimed)
         {
-            Log = new CityProductionEventLog(null);
-            Log.FPlayer = NewPlayer;
+            log = new CityProductionEventLog(null);
+            log._player = newPlayer;
             var editName = EditName();
-            Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.StructureCapturedRStr), [editName]);
-            Log.FXhx = GetXhx();
-            Log.FYhx = GetYhx();
-            Log.FLhx = GetLhx();
-            var yhx = GetYhx();
-            var lhx = GetLhx();
-            var xhx = GetXhx();
-            EventLog.DistributeLocationEventLog(Log, FPlayer, xhx, yhx, lhx, false);
-            Log.Release();
+            log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.s_structureCapturedFormat), [editName]);
+            log.HexX = GetHexX();
+            log.HexY = GetHexY();
+            log.HexLevel = GetHexLevel();
+            var hexY = GetHexY();
+            var hexLevel = GetHexLevel();
+            var hexX = GetHexX();
+            EventLog.DistributeLocationEventLog(log, Player, hexX, hexY, hexLevel, false);
+            log.Release();
         }
     }
 
     // City.pas:2271
-    public override MoveAction GetMoveAction(sbyte Player, MoveAction Action)
+    public override MoveAction GetMoveAction(sbyte player, MoveAction action)
     {
-        MoveAction Result = Action;
-        if (FPlayer == 0)
+        MoveAction result = action;
+        if (Player == 0)
         {
-            if (Set<MoveAction>.Of(MoveAction.Normal, MoveAction.Attack).Contains(Action) && !GetRazed() && !FMode.Contains(ModeElement.Warmode))
+            if (Set<MoveAction>.Of(MoveAction.Normal, MoveAction.Attack).Contains(action) && !GetRazed() && !Mode.Contains(ModeElement.WarMode))
             {
-                if (JoinAmount(Player) != -1)
+                if (JoinAmount(player) != -1)
                 {
-                    Result = MoveAction.Negotiate;
+                    result = MoveAction.Negotiate;
                 }
                 else
                 {
-                    Result = MoveAction.Attack;
+                    result = MoveAction.Attack;
                 }
             }
         }
         else
         {
-            if (FPlayer != Player && FPlayer != -1)
+            if (Player != player && Player != -1)
             {
-                Result = MoveAction.Attack;
+                result = MoveAction.Attack;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1285
     public override bool UpdatePlayer()
     {
-        bool MultiplePlayers;
-        MapLevel MapLevel;
-        int Count;
-        HexNumberWalkData Walk = default;
-        ArmyHexSprite Army;
-        sbyte Player;
-        if (!(FMode.Contains(ModeElement.Razed) && !GetBuilding()))
+        bool multiplePlayers;
+        MapLevel mapLevel;
+        int count;
+        HexNumberWalkData walk = default;
+        ArmyHexSprite army;
+        sbyte player;
+        if (!(Mode.Contains(ModeElement.Razed) && !GetBuilding()))
         {
-            MultiplePlayers = false;
-            Player = -1;
-            Count = GetTerrainCount();
-            MapLevel = (MapLevel)Owner.Owner;
-            HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
-            while (Walk.HN < Count && !MultiplePlayers)
+            multiplePlayers = false;
+            player = -1;
+            count = GetTerrainCount();
+            mapLevel = (MapLevel)Owner.Owner;
+            HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+            while (walk.HexNumber < count && !multiplePlayers)
             {
-                if (FResource.TerrainList.GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+                if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    Army = (ArmyHexSprite)MapLevel.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
-                    if (Army != null)
+                    army = (ArmyHexSprite)mapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                    if (army != null)
                     {
-                        if (Player == -1)
+                        if (player == -1)
                         {
-                            Player = Army.FArmy.FPlayer;
+                            player = army.Army.Player;
                         }
                         else
                         {
-                            MultiplePlayers = Army.FArmy.FPlayer != Player;
+                            multiplePlayers = army.Army.Player != player;
                         }
                     }
                 }
 
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
 
-            if (MultiplePlayers)
+            if (multiplePlayers)
             {
-                if (!FMode.Contains(ModeElement.Warmode))
+                if (!Mode.Contains(ModeElement.WarMode))
                 {
-                    FMode = FMode + Set<ModeElement>.Of(ModeElement.Warmode);
+                    Mode = Mode + Set<ModeElement>.Of(ModeElement.WarMode);
                     SetPlayer(-1);
-                    UpdateFlagID();
+                    UpdateFlagId();
                     Update();
                 }
             }
             else
             {
-                if (FMode.Contains(ModeElement.Warmode))
+                if (Mode.Contains(ModeElement.WarMode))
                 {
-                    FMode = FMode - Set<ModeElement>.Of(ModeElement.Warmode);
-                    if (Player != -1)
+                    Mode = Mode - Set<ModeElement>.Of(ModeElement.WarMode);
+                    if (player != -1)
                     {
-                        SetPlayer(Player);
+                        SetPlayer(player);
                     }
                     else
                     {
                         SetPlayer(0);
                     }
 
-                    UpdateFlagID();
+                    UpdateFlagId();
                     Update();
                 }
                 else
                 {
-                    if (Player != -1)
+                    if (player != -1)
                     {
-                        SetPlayer(Player);
+                        SetPlayer(player);
                     }
                 }
             }
@@ -1154,12 +1154,12 @@ public partial class City : PlayerCropStructure
             SetIncome((byte)(GetCropCount() * 2 + GetSize() * 5));
             if (Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(GetActiveAction()))
             {
-                SetIncome((byte)(FIncome + Round((double)FIncome * 0.25)));
+                SetIncome((byte)(Income + Round((double)Income * 0.25)));
             }
 
-            if (FEnchantments.Contains(CityEnchantmentId.GoldRush))
+            if (Enchantments.Contains(CityEnchantmentId.GoldRush))
             {
-                SetIncome((byte)(FIncome * 2));
+                SetIncome((byte)(Income * 2));
             }
         }
         else
@@ -1171,28 +1171,28 @@ public partial class City : PlayerCropStructure
     // City.pas:1741
     public override void UpdateCrops()
     {
-        int Count;
+        int count;
         if (!GetEditMode())
         {
             if (GetRazed())
             {
-                Count = 0;
+                count = 0;
             }
             else
             {
                 if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                 {
-                    Count = ((PlayerCropStructureResource)FResource).FCropLocations.Count;
+                    count = ((PlayerCropStructureResource)_resource).CropLocations.Count;
                 }
                 else
                 {
-                    Count = -1;
+                    count = -1;
                 }
             }
 
-            if (Count != -1)
+            if (count != -1)
             {
-                SetCropCount(Count);
+                SetCropCount(count);
             }
 
             UpdateCropSettings();
@@ -1201,35 +1201,35 @@ public partial class City : PlayerCropStructure
     }
 
     // City.pas:2108
-    public override sbyte GetRace() => FRace;
+    public override sbyte GetRace() => Race;
 
     // City.pas:1211
-    public override void CropTrampled(sbyte Player)
+    public override void CropTrampled(sbyte player)
     {
-        int Race;
-        if (Player != FPlayer && Player != 0)
+        int race;
+        if (player != Player && player != 0)
         {
-            if (FPlayer > 0)
+            if (Player > 0)
             {
-                Race = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+                race = AoWHSMap.Current.Players.GetPlayers(Player).PlayerRace;
             }
             else
             {
-                Race = FRace;
+                race = Race;
             }
 
-            var playerRelationValue = AoWHSMap.Current.FRaces.GetRace(Race).GetPlayerRelationValue(Player);
-            AoWHSMap.Current.FRaces.GetRace(Race).SetPlayerRelationValue(Player, playerRelationValue + -5);
+            var playerRelationValue = AoWHSMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
+            AoWHSMap.Current.Races.GetRace(race).SetPlayerRelationValue(player, playerRelationValue + -5);
         }
     }
 
     // City.pas:2097
-    public virtual void SetRace(sbyte Race)
+    public virtual void SetRace(sbyte race)
     {
-        if (Race != FRace)
+        if (race != Race)
         {
-            FRace = Race;
-            if (FRace >= 0)
+            Race = race;
+            if (Race >= 0)
             {
                 SetDefaultProductions();
             }
@@ -1243,26 +1243,26 @@ public partial class City : PlayerCropStructure
     public CityAction GetActiveAction() => GetActiveOrder()?.CityAction ?? CityAction.None;
 
     // The order the city carries out, null when it produces nothing.
-    public ProductionOrder GetActiveOrder() => FProduction.FStatus == ProductionControl.Status.Producing ? FProduction.FQueue.GetItem(0).Order : null;
+    public ProductionOrder GetActiveOrder() => Production.Status == ProductionControlStatus.Producing ? Production.Queue.GetItem(0).Order : null;
 
     // City.pas:894
     public void UpdateActiveEnchantments()
     {
-        FEnchantments = Set<CityEnchantmentId>.Of();
-        for (int I = FEnchantmentList.Count - 1; I >= 0; I--)
+        Enchantments = Set<CityEnchantmentId>.Of();
+        for (int I = EnchantmentList.Count - 1; I >= 0; I--)
         {
-            var enchantment = FEnchantmentList.GetEnchantments(I);
-            FEnchantments = FEnchantments + Set<CityEnchantmentId>.Of(((CityEnchantment)enchantment).FEnchantmentID);
+            var enchantment = EnchantmentList.GetEnchantments(I);
+            Enchantments = Enchantments + Set<CityEnchantmentId>.Of(((CityEnchantment)enchantment)._enchantmentId);
         }
     }
 
     // City.pas:902
     public void RegisterEnchantments()
     {
-        for (int I = FEnchantmentList.Count - 1; I >= 0; I--)
+        for (int I = EnchantmentList.Count - 1; I >= 0; I--)
         {
-            var enchantment = FEnchantmentList.GetEnchantments(I);
-            FEnchantmentList.GetEnchantments(I).Activate(enchantment.FPlayerIndex);
+            var enchantment = EnchantmentList.GetEnchantments(I);
+            EnchantmentList.GetEnchantments(I).Activate(enchantment.PlayerIndex);
         }
 
         UpdateActiveEnchantments();
@@ -1271,10 +1271,10 @@ public partial class City : PlayerCropStructure
     // City.pas:910
     public void UnregisterEnchantments()
     {
-        for (int I = FEnchantmentList.Count - 1; I >= 0; I--)
+        for (int I = EnchantmentList.Count - 1; I >= 0; I--)
         {
-            var enchantment = FEnchantmentList.GetEnchantments(I);
-            FEnchantmentList.GetEnchantments(I).Deactivate((byte)enchantment.FPlayerIndex);
+            var enchantment = EnchantmentList.GetEnchantments(I);
+            EnchantmentList.GetEnchantments(I).Deactivate((byte)enchantment.PlayerIndex);
         }
     }
 
@@ -1282,192 +1282,192 @@ public partial class City : PlayerCropStructure
     public void ResetEnchantments()
     {
         UnregisterEnchantments();
-        FEnchantmentList.Clear();
-        FEnchantments = Set<CityEnchantmentId>.Of();
+        EnchantmentList.Clear();
+        Enchantments = Set<CityEnchantmentId>.Of();
     }
 
     // City.pas:924
-    public int AICityEnchantmentUpkeepPriority(CityEnchantmentId ID)
+    public int AICityEnchantmentUpkeepPriority(CityEnchantmentId id)
     {
-        int Result;
-        switch (ID)
+        int result;
+        switch (id)
         {
             case CityEnchantmentId.FountainOfLife:
-                Result = GetSize() * 25 + 600;
+                result = GetSize() * 25 + 600;
                 break;
             case CityEnchantmentId.GoldRush:
-                Result = GetSize() * 25 + 600;
+                result = GetSize() * 25 + 600;
                 break;
             case CityEnchantmentId.AntiMagicShell:
-                Result = GetSize() * 25 + 700;
+                result = GetSize() * 25 + 700;
                 break;
             case CityEnchantmentId.Warmonger:
-                Result = GetSize() * 25 + 600;
+                result = GetSize() * 25 + 600;
                 break;
             default:
-                Result = 0;
+                result = 0;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:935
-    public void ActivateEnchantment(CityEnchantment Enchantment)
+    public void ActivateEnchantment(CityEnchantment enchantment)
     {
-        Enchantment.Owner = FEnchantmentList;
-        Enchantment.Activate(Enchantment.FPlayerIndex);
-        FEnchantments = FEnchantments + Set<CityEnchantmentId>.Of(Enchantment.FEnchantmentID);
-        if (Enchantment.FEnchantmentID == CityEnchantmentId.FountainOfLife)
+        enchantment.Owner = EnchantmentList;
+        enchantment.Activate(enchantment.PlayerIndex);
+        Enchantments = Enchantments + Set<CityEnchantmentId>.Of(enchantment._enchantmentId);
+        if (enchantment._enchantmentId == CityEnchantmentId.FountainOfLife)
         {
             ExecuteFountainOfLife();
         }
 
-        if (Enchantment.FEnchantmentID == CityEnchantmentId.GoldRush)
+        if (enchantment._enchantmentId == CityEnchantmentId.GoldRush)
         {
             UpdateIncome();
         }
 
-        if (Enchantment.FEnchantmentID == CityEnchantmentId.AntiMagicShell)
+        if (enchantment._enchantmentId == CityEnchantmentId.AntiMagicShell)
         {
-            FOverlay.PlaySetupShellAnimation();
+            _overlay.PlaySetupShellAnimation();
         }
     }
 
     // City.pas:945
-    public void DeactivateEnchantment(CityEnchantment Enchantment)
+    public void DeactivateEnchantment(CityEnchantment enchantment)
     {
-        Enchantment.Owner = null;
-        Enchantment.Deactivate((byte)Enchantment.FPlayerIndex);
+        enchantment.Owner = null;
+        enchantment.Deactivate((byte)enchantment.PlayerIndex);
         UpdateActiveEnchantments();
-        if (Enchantment.FEnchantmentID == CityEnchantmentId.GoldRush)
+        if (enchantment._enchantmentId == CityEnchantmentId.GoldRush)
         {
             UpdateIncome();
         }
 
-        Enchantment.Release();
+        enchantment.Release();
         Update();
     }
 
     // City.pas:955
-    public void ListEnhancementsInfo(StringCollection List)
+    public void ListEnhancementsInfo(StringCollection list)
     {
-        List.Add(RtlUnit.Format(AbilityRules.TranslateRStr(UpgradeLevelXRStr), [IntToStr(FUpgradeLevel)]));
-        if (FWallType == 1)
+        list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_upgradeLevelFormat), [IntToStr(UpgradeLevel)]));
+        if (WallType == 1)
         {
-            List.Add(AbilityRules.TranslateRStr(CityWoodenWallRStr));
+            list.Add(AbilityRules.TranslateResourceString(s_cityWoodenWallText));
         }
 
-        if (FWallType == 2)
+        if (WallType == 2)
         {
-            List.Add(AbilityRules.TranslateRStr(CityStoneWallRStr));
+            list.Add(AbilityRules.TranslateResourceString(s_cityStoneWallText));
         }
 
-        if (FEnchantments.Contains(CityEnchantmentId.FountainOfLife))
+        if (Enchantments.Contains(CityEnchantmentId.FountainOfLife))
         {
-            List.Add(AbilityRules.TranslateRStr(GameText.FountainOfLifeRStr) + ": " + AbilityRules.TranslateRStr(GameTables.EnchantmentRStr));
+            list.Add(AbilityRules.TranslateResourceString(GameText.s_fountainOfLifeText) + ": " + AbilityRules.TranslateResourceString(GameTables.s_enchantmentText));
         }
 
-        if (FEnchantments.Contains(CityEnchantmentId.GoldRush))
+        if (Enchantments.Contains(CityEnchantmentId.GoldRush))
         {
-            List.Add(AbilityRules.TranslateRStr(GameText.GoldRushRStr) + ": " + AbilityRules.TranslateRStr(GameTables.EnchantmentRStr));
+            list.Add(AbilityRules.TranslateResourceString(GameText.s_goldRushText) + ": " + AbilityRules.TranslateResourceString(GameTables.s_enchantmentText));
         }
 
-        if (FEnchantments.Contains(CityEnchantmentId.AntiMagicShell))
+        if (Enchantments.Contains(CityEnchantmentId.AntiMagicShell))
         {
-            List.Add(AbilityRules.TranslateRStr(GameText.AntiMagicShellRStr) + ": " + AbilityRules.TranslateRStr(GameTables.EnchantmentRStr));
+            list.Add(AbilityRules.TranslateResourceString(GameText.s_antiMagicShellText) + ": " + AbilityRules.TranslateResourceString(GameTables.s_enchantmentText));
         }
 
-        if (FEnchantments.Contains(CityEnchantmentId.Warmonger))
+        if (Enchantments.Contains(CityEnchantmentId.Warmonger))
         {
-            List.Add(AbilityRules.TranslateRStr(GameText.WarmongerRStr) + ": " + AbilityRules.TranslateRStr(GameTables.EnchantmentRStr));
+            list.Add(AbilityRules.TranslateResourceString(GameText.s_warmongerText) + ": " + AbilityRules.TranslateResourceString(GameTables.s_enchantmentText));
         }
     }
 
     // City.pas:970
     public void StartTownQuake()
     {
-        FMode = FMode + Set<ModeElement>.Of(ModeElement.TownQuake);
+        Mode = Mode + Set<ModeElement>.Of(ModeElement.TownQuake);
     }
 
     // City.pas:973
     public void StopTownQuake()
     {
-        FMode = FMode - Set<ModeElement>.Of(ModeElement.TownQuake);
+        Mode = Mode - Set<ModeElement>.Of(ModeElement.TownQuake);
     }
 
     // City.pas:976
     public void ExecuteAnarchy()
     {
-        FMode = FMode + Set<ModeElement>.Of(ModeElement.Anarchy);
+        Mode = Mode + Set<ModeElement>.Of(ModeElement.Anarchy);
         CheckRebellion();
-        FMode = FMode - Set<ModeElement>.Of(ModeElement.Anarchy);
+        Mode = Mode - Set<ModeElement>.Of(ModeElement.Anarchy);
     }
 
     // City.pas:983
     public bool ExecuteFountainOfLife()
     {
-        ArmyHSList Armies;
-        ImageSequenceAnimation Animation;
-        bool PlaySound;
-        Armies = new ArmyHSList(null);
-        ListArmies(Armies);
-        bool Result = false;
-        PlaySound = false;
-        for (int I = 0, last = Armies.Count - 1; I <= last; I++)
+        ArmyHSList armies;
+        ImageSequenceAnimation animation;
+        bool playSound;
+        armies = new ArmyHSList(null);
+        ListArmies(armies);
+        bool result = false;
+        playSound = false;
+        for (int I = 0, last = armies.Count - 1; I <= last; I++)
         {
-            if (Armies.GetArmyHS(I).FArmy.HealUnits(255))
+            if (armies.GetArmyHexSprite(I).Army.HealUnits(255))
             {
-                var lhx = Armies.GetArmyHS(I).GetLhx();
-                var yhx = Armies.GetArmyHS(I).GetYhx();
-                var xhx = Armies.GetArmyHS(I).GetXhx();
-                if (AoWHSMap.Current.VisibleForPlayer(xhx, yhx, lhx, AoWHSMap.Current.FSeatedPlayer))
+                var hexLevel = armies.GetArmyHexSprite(I).GetHexLevel();
+                var hexY = armies.GetArmyHexSprite(I).GetHexY();
+                var hexX = armies.GetArmyHexSprite(I).GetHexX();
+                if (AoWHSMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, AoWHSMap.Current.SeatedPlayer))
                 {
-                    Animation = new ImageSequenceAnimation(null);
-                    Animation.SetImageSequence(AoWHSSet.Current.FAbilityControl.GetAbility(47).FImageSequences.ImageSequences[0]);
-                    Animation.FAnimationLevel = 27;
-                    var lhx2 = Armies.GetArmyHS(I).GetLhx();
-                    var yhx2 = Armies.GetArmyHS(I).GetYhx();
-                    var xhx2 = Armies.GetArmyHS(I).GetXhx();
-                    AoWHSMap.Current.PlaceHX(Animation, xhx2, yhx2, lhx2);
-                    bool condition = PlaySound || Armies.GetArmyHS(I).FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer;
+                    animation = new ImageSequenceAnimation(null);
+                    animation.SetImageSequence(AoWHSSet.Current.AbilityControl.GetAbility(47).ImageSequences.ImageSequences[0]);
+                    animation.AnimationLevel = 27;
+                    var hexLevel2 = armies.GetArmyHexSprite(I).GetHexLevel();
+                    var hexY2 = armies.GetArmyHexSprite(I).GetHexY();
+                    var hexX2 = armies.GetArmyHexSprite(I).GetHexX();
+                    AoWHSMap.Current.PlaceHex(animation, hexX2, hexY2, hexLevel2);
+                    bool condition = playSound || armies.GetArmyHexSprite(I).Army.Player == AoWHSMap.Current.SeatedPlayer;
                     if (!condition)
                     {
-                        var lhx3 = Armies.GetArmyHS(I).GetLhx();
-                        var yhx3 = Armies.GetArmyHS(I).GetYhx();
-                        var xhx3 = Armies.GetArmyHS(I).GetXhx();
-                        condition = AoWHSMap.Current.Watching(xhx3, yhx3, lhx3, 1);
+                        var hexLevel3 = armies.GetArmyHexSprite(I).GetHexLevel();
+                        var hexY3 = armies.GetArmyHexSprite(I).GetHexY();
+                        var hexX3 = armies.GetArmyHexSprite(I).GetHexX();
+                        condition = AoWHSMap.Current.Watching(hexX3, hexY3, hexLevel3, 1);
                     }
 
-                    PlaySound = condition;
+                    playSound = condition;
                 }
 
-                Result = true;
+                result = true;
             }
         }
 
-        if (PlaySound)
+        if (playSound)
         {
-            AoWHSSet.Current.FAbilityControl.GetAbility(47).FSFXLibrary.Play(0);
+            AoWHSSet.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
         }
 
-        Armies?.Dispose();
-        return Result;
+        armies?.Dispose();
+        return result;
     }
 
     // City.pas:1015
     public void UpdateAIMigration()
     {
-        MigrationList Selection;
-        int Value;
-        int BestIndex;
-        int BestValue;
-        ProductionItem Item;
-        if (AoWHSMap.Current.FDay != 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        MigrationList selection;
+        int value;
+        int bestIndex;
+        int bestValue;
+        ProductionItem item;
+        if (AoWHSMap.Current.Day != 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            if (FPlayer > 0)
+            if (Player > 0)
             {
-                bool condition = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human && (Set<ModeElement>.Of(ModeElement.Warmode, ModeElement.Razed) & FMode) == Set<ModeElement>.Of();
+                bool condition = AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human && (Set<ModeElement>.Of(ModeElement.WarMode, ModeElement.Razed) & Mode) == Set<ModeElement>.Of();
                 if (condition)
                 {
                     var activeAction = GetActiveAction();
@@ -1477,66 +1477,66 @@ public partial class City : PlayerCropStructure
                 bool test = condition;
                 if (test)
                 {
-                    var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
+                    var playerRelation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
                     test = Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary, Session.Status.Neutral).Contains(playerRelation);
                 }
 
                 if (test)
                 {
-                    Selection = CreateMigrationSelection();
-                    BestValue = 0;
-                    BestIndex = -1;
-                    for (int I = 0, last = Selection.Count - 1; I <= last; I++)
+                    selection = CreateMigrationSelection();
+                    bestValue = 0;
+                    bestIndex = -1;
+                    for (int I = 0, last = selection.Count - 1; I <= last; I++)
                     {
-                        var itemRelation = Selection.GetItems(I);
-                        if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(itemRelation.FRelation))
+                        var itemRelation = selection.GetItems(I);
+                        if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(itemRelation.Relation))
                         {
-                            var itemRace = Selection.GetItems(I);
-                            bool passed = AoWHSMap.Current.FPlayers.RaceToPlayer(itemRace.FRace) == -1;
+                            var itemRace = selection.GetItems(I);
+                            bool passed = AoWHSMap.Current.Players.RaceToPlayer(itemRace.Race) == -1;
                             if (!passed)
                             {
-                                var migrationItem = Selection.GetItems(I);
-                                var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                                passed = migrationItem.FRace == player.FPlayerRace;
+                                var migrationItem = selection.GetItems(I);
+                                var player = AoWHSMap.Current.Players.GetPlayers(Player);
+                                passed = migrationItem.Race == player.PlayerRace;
                             }
 
                             if (passed)
                             {
-                                Value = 10;
+                                value = 10;
                             }
                             else
                             {
-                                Value = 5;
+                                value = 5;
                             }
                         }
                         else
                         {
-                            Value = 0;
+                            value = 0;
                         }
 
-                        Value += Selection.GetItems(I).FTime;
-                        if (Value > BestValue || Value == BestValue && AoWHSMap.Current.Random(2) == 1)
+                        value += selection.GetItems(I).Time;
+                        if (value > bestValue || value == bestValue && AoWHSMap.Current.Random(2) == 1)
                         {
-                            BestValue = Value;
-                            BestIndex = I;
+                            bestValue = value;
+                            bestIndex = I;
                         }
                     }
 
-                    if (BestIndex != -1)
+                    if (bestIndex != -1)
                     {
-                        FProduction.ExecuteDeleteProductions();
-                        Item = new ProductionItem(null);
-                        Item.Order = new Migrate(Selection.GetItems(BestIndex).FRace);
-                        FProduction.ExecuteAddProduction(Item);
-                        Item?.Dispose();
+                        Production.ExecuteDeleteProductions();
+                        item = new ProductionItem(null);
+                        item.Order = new Migrate(selection.GetItems(bestIndex).Race);
+                        Production.ExecuteAddProduction(item);
+                        item?.Dispose();
                     }
 
-                    Selection?.Dispose();
+                    selection?.Dispose();
                 }
             }
             else
             {
-                bool condition = FPlayer == 0;
+                bool condition = Player == 0;
                 if (condition)
                 {
                     var activeAction = GetActiveAction();
@@ -1545,7 +1545,7 @@ public partial class City : PlayerCropStructure
 
                 if (condition)
                 {
-                    FProduction.ExecuteDeleteProductions();
+                    Production.ExecuteDeleteProductions();
                 }
             }
         }
@@ -1554,8 +1554,8 @@ public partial class City : PlayerCropStructure
     // City.pas:1081
     public void ValidateAICityAction()
     {
-        bool Cancel;
-        bool condition = FPlayer > 0 && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human && (Set<ModeElement>.Of(ModeElement.Warmode, ModeElement.Razed) & FMode) == Set<ModeElement>.Of();
+        bool cancel;
+        bool condition = Player > 0 && AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human && (Set<ModeElement>.Of(ModeElement.WarMode, ModeElement.Razed) & Mode) == Set<ModeElement>.Of();
         if (condition)
         {
             var activeAction = GetActiveAction();
@@ -1564,509 +1564,509 @@ public partial class City : PlayerCropStructure
 
         if (condition)
         {
-            var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
+            var playerRelation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
             bool contains = Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary, Session.Status.Neutral).Contains(playerRelation);
             if (contains)
             {
                 bool test = false;
                 if (GetActiveOrder() is Migrate migrate)
                 {
-                    var playerRelation2 = AoWHSMap.Current.FRaces.GetRace(migrate.Race).GetPlayerRelation(FPlayer);
+                    var playerRelation2 = AoWHSMap.Current.Races.GetRace(migrate.Race).GetPlayerRelation(Player);
                     test = Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation2);
                 }
 
                 contains = !test;
             }
 
-            Cancel = contains;
-            if (Cancel)
+            cancel = contains;
+            if (cancel)
             {
-                FProduction.ExecuteDeleteProductions();
+                Production.ExecuteDeleteProductions();
             }
         }
     }
 
     // City.pas:1222
-    public bool MoveArmiesOutOfCity(Set<MoveOutOfCitySelectionElement> Selection)
+    public bool MoveArmiesOutOfCity(Set<MoveOutOfCitySelectionElement> selection)
     {
-        MapLevel MapLevel;
-        ArmyHexSprite Army;
-        int Count;
-        HexNumberWalkData Walk = default;
-        bool Result = true;
-        Count = GetTerrainCount();
-        MapLevel = (MapLevel)Owner.Owner;
+        MapLevel mapLevel;
+        ArmyHexSprite army;
+        int count;
+        HexNumberWalkData walk = default;
+        bool result = true;
+        count = GetTerrainCount();
+        mapLevel = (MapLevel)Owner.Owner;
         // { This eliminated copy preserves the original saved registers. }
-        HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
-        while (Walk.HN < Count && Result)
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 0);
+        while (walk.HexNumber < count && result)
         {
-            if (FResource.TerrainList.GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+            if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                Army = (ArmyHexSprite)MapLevel.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
-                if (Army != null && (!Selection.Contains(MoveOutOfCitySelectionElement.SkipOwnPlayer) || Army.FArmy.FPlayer != FPlayer))
+                army = (ArmyHexSprite)mapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                if (army != null && (!selection.Contains(MoveOutOfCitySelectionElement.SkipOwnPlayer) || army.Army.Player != Player))
                 {
-                    var lhx = GetLhx();
-                    Result = Army.PlaceEx((sbyte)Walk.X, (sbyte)Walk.Y, lhx, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
+                    var hexLevel = GetHexLevel();
+                    result = army.Place((sbyte)walk.X, (sbyte)walk.Y, hexLevel, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea));
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1256
-    public int GetSize() => ((Resource)FResource).FSize;
+    public int GetSize() => ((Resource)_resource).Size;
 
     // City.pas:1259
     public int GetObtainUnitsValue()
     {
-        int Count;
-        MapLevel MapLevel;
+        int count;
+        MapLevel mapLevel;
         HexNumberWalkData Walk = default;
-        ArmyHexSprite Army;
+        ArmyHexSprite army;
         ref var walk = ref Walk;
-        int Result = 0;
-        Count = GetTerrainCount();
-        MapLevel = (MapLevel)Owner.Owner;
-        var yhx = GetYhx();
-        var xhx = GetXhx();
-        HexNumberWalkData.InitHNWalk(ref Walk, xhx, yhx, 0);
-        while (walk.HN < Count)
+        int result = 0;
+        count = GetTerrainCount();
+        mapLevel = (MapLevel)Owner.Owner;
+        var hexY = GetHexY();
+        var hexX = GetHexX();
+        HexNumberWalkData.InitializeHexNumberWalk(ref Walk, hexX, hexY, 0);
+        while (walk.HexNumber < count)
         {
-            if (FResource.TerrainList.GetTerrain(walk.HN) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < MapLevel.Width && walk.Y < MapLevel.Height)
+            if (_resource.TerrainList.GetTerrain(walk.HexNumber) >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                Army = (ArmyHexSprite)MapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
-                if (Army != null)
+                army = (ArmyHexSprite)mapLevel.GetField(walk.X, walk.Y).FindOwnedChild(131607);
+                if (army != null)
                 {
-                    Result += Army.FArmy.ObtainValue(255);
+                    result += army.Army.ObtainValue(255);
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref Walk);
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1348
     public int UpgradeCost()
     {
         var size = GetSize();
-        return UpgradePrices[size - 1];
+        return s_upgradePrices[size - 1];
     }
 
     // City.pas:1351
     public int UpgradeTime() => 3;
 
     // City.pas:1356
-    public bool CanUpgrade(bool Queue, ref string Reason)
+    public bool CanUpgrade(bool queue, ref string reason)
     {
-        bool Result;
-        int Level;
-        Level = FUpgradeLevel;
-        if (Queue)
+        bool result;
+        int level;
+        level = UpgradeLevel;
+        if (queue)
         {
-            for (int I = 0, last = FProduction.FQueue.Count - 1; I <= last; I++)
+            for (int I = 0, last = Production.Queue.Count - 1; I <= last; I++)
             {
-                var queue = FProduction.FQueue.GetItem(I);
-                if (queue.Order is Upgrade)
+                var queueLocal = Production.Queue.GetItem(I);
+                if (queueLocal.Order is Upgrade)
                 {
-                    Level += 1;
+                    level += 1;
                 }
             }
         }
 
-        if (Level < GetSize())
+        if (level < GetSize())
         {
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
-            Reason = AbilityRules.TranslateRStr(MaxUpgradeLevelReachedRStr);
+            result = false;
+            reason = AbilityRules.TranslateResourceString(s_maxUpgradeLevelReachedText);
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1371
-    public bool Upgrade(bool Queue)
+    public bool Upgrade(bool queue)
     {
-        bool Result;
-        ProductionItem Item;
-        string Reason = "";
-        if (CanUpgrade(Queue, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        bool result;
+        ProductionItem item;
+        string reason = "";
+        if (CanUpgrade(queue, ref reason) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            Item = new ProductionItem(null);
-            Item.Order = new Upgrade();
-            FProduction.Produce(Item, Queue);
-            Item?.Dispose();
-            Result = true;
+            item = new ProductionItem(null);
+            item.Order = new Upgrade();
+            Production.Produce(item, queue);
+            item?.Dispose();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1386
     public int FortifyCost()
     {
-        int Result;
-        switch (FWallType)
+        int result;
+        switch (WallType)
         {
             case 0:
                 var size = GetSize();
-                Result = WoodWallPrices[size - 1];
+                result = s_woodWallPrices[size - 1];
                 break;
             case 1:
                 var size2 = GetSize();
-                Result = StoneWallPrices[size2 - 1];
+                result = s_stoneWallPrices[size2 - 1];
                 break;
             default:
-                Result = -1;
+                result = -1;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1395
     public int FortifyTime() => 2;
 
     // City.pas:1400
-    public bool CanFortify(bool Queue, ref string Reason)
+    public bool CanFortify(bool queue, ref string reason)
     {
-        bool Result;
-        int Level;
-        Level = FWallType;
-        if (Queue)
+        bool result;
+        int level;
+        level = WallType;
+        if (queue)
         {
-            for (int I = 0, last = FProduction.FQueue.Count - 1; I <= last; I++)
+            for (int I = 0, last = Production.Queue.Count - 1; I <= last; I++)
             {
-                var queue = FProduction.FQueue.GetItem(I);
-                if (queue.Order is Fortify)
+                var queueLocal = Production.Queue.GetItem(I);
+                if (queueLocal.Order is Fortify)
                 {
-                    Level += 1;
+                    level += 1;
                 }
             }
         }
 
-        if (Level != 2)
+        if (level != 2)
         {
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
-            Reason = AbilityRules.TranslateRStr(MaxFortifyLevelReachedRStr);
+            result = false;
+            reason = AbilityRules.TranslateResourceString(s_maxFortifyLevelReachedText);
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1415
-    public bool Fortify(bool Queue)
+    public bool Fortify(bool queue)
     {
-        bool Result;
-        ProductionItem Item;
-        string Reason = "";
-        if (CanFortify(Queue, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        bool result;
+        ProductionItem item;
+        string reason = "";
+        if (CanFortify(queue, ref reason) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            Item = new ProductionItem(null);
-            Item.Order = new Fortify();
-            FProduction.Produce(Item, Queue);
-            Item?.Dispose();
-            Result = true;
+            item = new ProductionItem(null);
+            item.Order = new Fortify();
+            Production.Produce(item, queue);
+            item?.Dispose();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1430
-    public int ProductionCost(int Index) => FProduction.UnitProductionGold(Index);
+    public int ProductionCost(int index) => Production.UnitProductionGold(index);
 
     // City.pas:1435
-    public int ProductionTime(int Index) => FProduction.UnitProductionTime(Index);
+    public int ProductionTime(int index) => Production.UnitProductionTime(index);
 
     // City.pas:1440
-    public bool CanProduce(int Index, bool Queue, ref string Reason) => FProduction.CanProduceUnit(Index, Queue, ref Reason);
+    public bool CanProduce(int index, bool queue, ref string reason) => Production.CanProduceUnit(index, queue, ref reason);
 
     // City.pas:1445
-    public bool Produce(int Index, bool Queue) => FProduction.ProduceUnit(Index, Queue);
+    public bool Produce(int index, bool queue) => Production.ProduceUnit(index, queue);
 
     // City.pas:1450
-    public int ResearchCost(int Index) => FProduction.UnitResearchGold(Index);
+    public int ResearchCost(int index) => Production.UnitResearchGold(index);
 
     // City.pas:1455
-    public int ResearchTime(int Index) => FProduction.UnitResearchTime(Index);
+    public int ResearchTime(int index) => Production.UnitResearchTime(index);
 
     // City.pas:1460
-    public bool CanResearch(int Index, bool Queue, ref string Reason) => FProduction.CanResearchUnit(Index, Queue, ref Reason);
+    public bool CanResearch(int index, bool queue, ref string reason) => Production.CanResearchUnit(index, queue, ref reason);
 
     // City.pas:1465
-    public bool Research(int Index, bool Queue) => FProduction.ResearchUnit(Index, Queue);
+    public bool Research(int index, bool queue) => Production.ResearchUnit(index, queue);
 
     // City.pas:1470
-    public bool CanTrade(bool Queue, ref string Reason) => true;
+    public bool CanTrade(bool queue, ref string reason) => true;
 
     // City.pas:1475
-    public bool Trade(bool Queue)
+    public bool Trade(bool queue)
     {
-        bool Result;
-        ProductionItem Item;
-        string Reason = "";
-        if (CanTrade(Queue, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        bool result;
+        ProductionItem item;
+        string reason = "";
+        if (CanTrade(queue, ref reason) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            Item = new ProductionItem(null);
-            if (Queue)
+            item = new ProductionItem(null);
+            if (queue)
             {
-                Item.Order = new Trade(1);
+                item.Order = new Trade(1);
             }
             else
             {
-                Item.Order = new Trade(-1);
+                item.Order = new Trade(-1);
             }
 
-            FProduction.Produce(Item, Queue);
-            Item?.Dispose();
-            Result = true;
+            Production.Produce(item, queue);
+            item?.Dispose();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1491
     public int LootTime() => GetSize();
 
     // City.pas:1496
-    public bool CanLoot(ref string Reason) => !FMode.Contains(ModeElement.Razed);
+    public bool CanLoot(ref string reason) => !Mode.Contains(ModeElement.Razed);
 
     // City.pas:1499
     public bool Loot()
     {
-        bool Result;
-        ProductionItem Item;
-        string Reason = "";
-        if (CanLoot(ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        bool result;
+        ProductionItem item;
+        string reason = "";
+        if (CanLoot(ref reason) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            Item = new ProductionItem(null);
-            Item.Order = new Loot();
-            FProduction.Produce(Item, false);
-            Item?.Dispose();
-            Result = true;
+            item = new ProductionItem(null);
+            item.Order = new Loot();
+            Production.Produce(item, false);
+            item?.Dispose();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1514
-    public int MigrationTime(sbyte Race)
+    public int MigrationTime(sbyte race)
     {
-        int Result;
-        string Reason = "";
-        HexNumberWalkData Walk = default;
-        MapLevel MapLevel;
-        int Radius;
-        City City;
-        if (CanMigrate(Race, ref Reason))
+        int result;
+        string reason = "";
+        HexNumberWalkData walk = default;
+        MapLevel mapLevel;
+        int radius;
+        City city;
+        if (CanMigrate(race, ref reason))
         {
-            if (Race != FRace)
+            if (race != Race)
             {
-                Radius = -1;
-                MapLevel = (MapLevel)Owner.Owner;
-                HexNumberWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 1);
-                while (Walk.Radius <= 20 && Radius == -1)
+                radius = -1;
+                mapLevel = (MapLevel)Owner.Owner;
+                HexNumberWalkData.InitializeHexNumberWalk(ref walk, _hexX, _hexY, 1);
+                while (walk.Radius <= 20 && radius == -1)
                 {
-                    if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
+                    if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                     {
-                        City = (City)MapLevel.GetField(Walk.X, Walk.Y).FindNoneTransparentHS(typeof(City));
-                        if (City != null && City.FRace == Race)
+                        city = (City)mapLevel.GetField(walk.X, walk.Y).FindNoneTransparentHexSprite(typeof(City));
+                        if (city != null && city.Race == race)
                         {
-                            Radius = Walk.Radius;
+                            radius = walk.Radius;
                         }
                     }
 
-                    HexNumberWalkData.WalkToNextHN(ref Walk);
+                    HexNumberWalkData.WalkToNextHexNumber(ref walk);
                 }
 
-                if (Radius != -1)
+                if (radius != -1)
                 {
-                    Result = Radius / 10 + 3;
+                    result = radius / 10 + 3;
                 }
                 else
                 {
-                    Result = 5;
+                    result = 5;
                 }
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
         else
         {
-            Result = -1;
+            result = -1;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1544
-    public bool CanMigrate(sbyte Race, ref string Reason)
+    public bool CanMigrate(sbyte race, ref string reason)
     {
-        bool Result;
+        bool result;
         int I;
-        sbyte Player;
-        if (FRace != Race)
+        sbyte player;
+        if (Race != race)
         {
-            Result = RaceInCity(Race, FPlayer);
-            I = AoWHSMap.Current.FPlayers.Count;
-            while (I != 1 && !Result)
+            result = RaceInCity(race, Player);
+            I = AoWHSMap.Current.Players.Count;
+            while (I != 1 && !result)
             {
                 I -= 1;
-                Player = (sbyte)I;
-                Result = AoWHSMap.Current.FPlayers.GetDiplomaticRelation((sbyte)(Player << 0), FPlayer) == DiplomaticRelation.Alliance && RaceInCity(Race, Player);
+                player = (sbyte)I;
+                result = AoWHSMap.Current.Players.GetDiplomaticRelation((sbyte)(player << 0), Player) == DiplomaticRelation.Alliance && RaceInCity(race, player);
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1561
-    public bool Migrate(sbyte Race)
+    public bool Migrate(sbyte race)
     {
-        bool Result;
-        ProductionItem Item;
-        string Reason = "";
-        if (CanMigrate(Race, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        bool result;
+        ProductionItem item;
+        string reason = "";
+        if (CanMigrate(race, ref reason) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            Item = new ProductionItem(null);
-            Item.Order = new Migrate(Race);
-            FProduction.Produce(Item, false);
-            Item?.Dispose();
-            Result = true;
+            item = new ProductionItem(null);
+            item.Order = new Migrate(race);
+            Production.Produce(item, false);
+            item?.Dispose();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1577
-    public MigrationItem CreateMigrationItem(sbyte Race)
+    public MigrationItem CreateMigrationItem(sbyte race)
     {
-        MigrationItem Result;
-        string Reason = "";
-        if (CanMigrate(Race, ref Reason))
+        MigrationItem result;
+        string reason = "";
+        if (CanMigrate(race, ref reason))
         {
-            Result = new MigrationItem(null);
-            Result.FRace = Race;
-            Result.FTime = MigrationTime(Race);
-            Result.FRelation = AoWHSMap.Current.FRaces.GetRace(Race).GetPlayerRelation(FPlayer);
+            result = new MigrationItem(null);
+            result.Race = race;
+            result.Time = MigrationTime(race);
+            result.Relation = AoWHSMap.Current.Races.GetRace(race).GetPlayerRelation(Player);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1589
     public MigrationList CreateMigrationSelection()
     {
-        MigrationItem Item;
-        MigrationList Result = new MigrationList(null);
-        for (int I = 0, last = AoWHSMap.Current.FRaces.Count - 1; I <= last; I++)
+        MigrationItem item;
+        MigrationList result = new MigrationList(null);
+        for (int I = 0, last = AoWHSMap.Current.Races.Count - 1; I <= last; I++)
         {
-            if (AoWHSMap.Current.FRaces.GetRace(I).FEnabled)
+            if (AoWHSMap.Current.Races.GetRace(I).Enabled)
             {
-                Item = CreateMigrationItem((sbyte)I);
-                if (Item != null && Set<Status>.Of(Session.Status.Neutral, Session.Status.Polite, Session.Status.Friendly).Contains(Item.FRelation))
+                item = CreateMigrationItem((sbyte)I);
+                if (item != null && Set<Status>.Of(Session.Status.Neutral, Session.Status.Polite, Session.Status.Friendly).Contains(item.Relation))
                 {
-                    Item.Owner = Result;
+                    item.Owner = result;
                 }
                 else
                 {
-                    Item?.Dispose();
+                    item?.Dispose();
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:1645
     public void CheckRebellion()
     {
-        CivilStatus Status;
-        int Chance;
-        CityRebellionEventLog Log;
-        UnitList Units;
-        if (FPlayer != 0)
+        CivilStatus status;
+        int chance;
+        CityRebellionEventLog log;
+        UnitList units;
+        if (Player != 0)
         {
-            Status = GetCivilStatus();
-            if (Set<CivilStatus>.Of(CivilStatus.Unruly, CivilStatus.Unrest).Contains(Status) && !GetRazed())
+            status = GetCivilStatus();
+            if (Set<CivilStatus>.Of(CivilStatus.Unruly, CivilStatus.Unrest).Contains(status) && !GetRazed())
             {
-                if (Status == CivilStatus.Unruly)
+                if (status == CivilStatus.Unruly)
                 {
-                    Chance = 50;
+                    chance = 50;
                 }
                 else
                 {
-                    Chance = 10;
+                    chance = 10;
                 }
 
-                if (Chance >= AoWHSMap.Current.Random(100))
+                if (chance >= AoWHSMap.Current.Random(100))
                 {
                     MoveArmiesOutOfCity(Set<MoveOutOfCitySelectionElement>.Of());
-                    Log = new CityRebellionEventLog(null);
-                    Log.FPlayer = FPlayer;
-                    Log.FCityName = GetName();
-                    Log.FXhx = GetXhx();
-                    Log.FYhx = GetYhx();
-                    Log.FLhx = GetLhx();
-                    var yhx = GetYhx();
-                    var lhx = GetLhx();
-                    var xhx = GetXhx();
-                    EventLog.DistributeLocationEventLog(Log, FPlayer, xhx, yhx, lhx, false);
-                    Log.Release();
+                    log = new CityRebellionEventLog(null);
+                    log._player = Player;
+                    log.CityName = GetName();
+                    log.HexX = GetHexX();
+                    log.HexY = GetHexY();
+                    log.HexLevel = GetHexLevel();
+                    var hexY = GetHexY();
+                    var hexLevel = GetHexLevel();
+                    var hexX = GetHexX();
+                    EventLog.DistributeLocationEventLog(log, Player, hexX, hexY, hexLevel, false);
+                    log.Release();
                     SetPlayer(0);
-                    Units = new UnitList(null);
-                    GenerateRebelUnits(Units);
-                    for (int I = Units.Count - 1; I >= 0; I--)
+                    units = new UnitList(null);
+                    GenerateRebelUnits(units);
+                    for (int I = units.Count - 1; I >= 0; I--)
                     {
-                        var lhx2 = GetLhx();
-                        var yhx2 = GetYhx();
-                        var xhx2 = GetXhx();
-                        Units.GetUnit(I).Place(xhx2, yhx2, lhx2, 0, Set<UnitPlaceModeElement>.Of());
+                        var hexLevel2 = GetHexLevel();
+                        var hexY2 = GetHexY();
+                        var hexX2 = GetHexX();
+                        units.GetUnit(I).Place(hexX2, hexY2, hexLevel2, 0, Set<UnitPlaceModeElement>.Of());
                     }
 
-                    Units?.Dispose();
-                    FProduction.ExecuteDeleteProductions();
+                    units?.Dispose();
+                    Production.ExecuteDeleteProductions();
                 }
             }
         }
@@ -2075,327 +2075,327 @@ public partial class City : PlayerCropStructure
     // City.pas:1681
     public void GenerateDefenders()
     {
-        int Value;
-        ArmyHSList Armies;
-        if (!GetRazed() && FDefendersMode != DefendersGenerateMode.None && !FMode.Contains(ModeElement.Warmode) && FPlayer == 0)
+        int value;
+        ArmyHSList armies;
+        if (!GetRazed() && DefendersMode != DefendersGenerateMode.None && !Mode.Contains(ModeElement.WarMode) && Player == 0)
         {
-            Armies = new ArmyHSList(null);
-            ListArmies(Armies);
-            if (FDefendersMode == DefendersGenerateMode.Random)
+            armies = new ArmyHSList(null);
+            ListArmies(armies);
+            if (DefendersMode == DefendersGenerateMode.Random)
             {
-                FDefendersMode = (DefendersGenerateMode)(Random(3) + 2);
+                DefendersMode = (DefendersGenerateMode)(Random(3) + 2);
             }
 
-            Value = ((int)FDefendersMode - 2) * 25 + 25;
-            Value += (GetSize() - 1) * Value / 2;
-            for (int I = 0, last = Armies.Count - 1; I <= last; I++)
+            value = ((int)DefendersMode - 2) * 25 + 25;
+            value += (GetSize() - 1) * value / 2;
+            for (int I = 0, last = armies.Count - 1; I <= last; I++)
             {
-                Value -= Armies.GetArmyHS(I).FArmy.ObtainValue(255);
+                value -= armies.GetArmyHexSprite(I).Army.ObtainValue(255);
             }
 
-            if (Value > 0)
+            if (value > 0)
             {
                 RandSeed = AoWHSMap.Current.Random(1048575);
-                var raceResource = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace);
-                var lhx = GetLhx();
-                var yhx = GetYhx();
-                AbilityRules.PlaceRandomUnits(GetXhx(), yhx, lhx, 0, raceResource.FUnitIndexes, FUpgradeLevel, Value, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
+                var raceResource = AoWHSSet.Current.RaceResources.GetRaceResource(Race);
+                var hexLevel = GetHexLevel();
+                var hexY = GetHexY();
+                AbilityRules.PlaceRandomUnits(GetHexX(), hexY, hexLevel, 0, raceResource.UnitIndexes, UpgradeLevel, value, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
             }
 
-            Armies?.Dispose();
+            armies?.Dispose();
         }
     }
 
     // City.pas:1755
-    public void ListIncomeInfo(StringCollection Names, StringCollection Values)
+    public void ListIncomeInfo(StringCollection names, StringCollection values)
     {
-        int Income;
-        Income = GetSize() * 5;
-        Names.Add(AbilityRules.TranslateRStr(GameText.BaseIncomeRStr));
-        Values.Add(IntToStr(Income));
-        Income += GetCropCount() * 2;
+        int income;
+        income = GetSize() * 5;
+        names.Add(AbilityRules.TranslateResourceString(GameText.s_baseIncomeText));
+        values.Add(IntToStr(income));
+        income += GetCropCount() * 2;
         var cropCount = GetCropCount();
-        Names.Add(RtlUnit.Format(AbilityRules.TranslateRStr(XCropFieldsRStr), [IntToStr(cropCount)]));
-        Values.Add(IntToStr(GetCropCount() * 2));
+        names.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_cropFieldsFormat), [IntToStr(cropCount)]));
+        values.Add(IntToStr(GetCropCount() * 2));
         if (Set<CityAction>.Of(CityAction.None, CityAction.Trade).Contains(GetActiveAction()))
         {
-            Names.Add(AbilityRules.TranslateRStr(GameText.ProducingMerchandiseRStr));
-            Values.Add(IntToStr(Round((double)Income * 0.25)));
-            Income += Round((double)Income * 0.25);
+            names.Add(AbilityRules.TranslateResourceString(GameText.s_producingMerchandiseText));
+            values.Add(IntToStr(Round((double)income * 0.25)));
+            income += Round((double)income * 0.25);
         }
 
-        if (FEnchantments.Contains(CityEnchantmentId.GoldRush))
+        if (Enchantments.Contains(CityEnchantmentId.GoldRush))
         {
-            Names.Add(AbilityRules.TranslateRStr(GameText.GoldRushRStr));
-            Values.Add(IntToStr(Income));
+            names.Add(AbilityRules.TranslateResourceString(GameText.s_goldRushText));
+            values.Add(IntToStr(income));
         }
     }
 
     // City.pas:1800
     public void SetDefaultProductions()
     {
-        FProduction.FUnitProductions.Clear();
-        if (FRace >= 0)
+        Production.UnitProductions.Clear();
+        if (Race >= 0)
         {
-            SetUpgradeLevel(FUpgradeLevel);
+            SetUpgradeLevel(UpgradeLevel);
         }
     }
 
     // City.pas:1816
-    public void ListCivilStatusInfo(StringCollection List)
+    public void ListCivilStatusInfo(StringCollection list)
     {
-        CombatPredictor Predictor;
-        ArmyHSList Armies;
-        UnitList Units;
+        CombatPredictor predictor;
+        ArmyHSList armies;
+        UnitList units;
         Troop U;
-        if (FPlayer != 0 && FRace >= 0)
+        if (Player != 0 && Race >= 0)
         {
-            var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
-            var status = AbilityRules.TranslateRStr(GameTables.TStatusRStr[(int)playerRelation]);
-            List.Add(RtlUnit.Format(AbilityRules.TranslateRStr(RaceRelationXRStr), [status]));
-            if (RaceTerrain[FRace].Penalty.Contains((byte)TerrainType))
+            var playerRelation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
+            var status = AbilityRules.TranslateResourceString(GameTables.s_statusTexts[(int)playerRelation]);
+            list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_raceRelationFormat), [status]));
+            if (RaceTerrain[Race].Penalty.Contains((byte)TerrainType))
             {
-                var terrainPenaltyX = AbilityRules.TranslateRStr(TerrainPenaltyXRStr);
+                var terrainPenaltyX = AbilityRules.TranslateResourceString(s_terrainPenaltyFormat);
                 var terrainType = AoWHSSet.Current.TerrainTypes[TerrainType];
-                List.Add(RtlUnit.Format(terrainPenaltyX, [terrainType]));
+                list.Add(RtlUnit.Format(terrainPenaltyX, [terrainType]));
             }
 
-            if (RaceTerrain[FRace].Bonus.Contains((byte)TerrainType))
+            if (RaceTerrain[Race].Bonus.Contains((byte)TerrainType))
             {
-                var terrainBonusX = AbilityRules.TranslateRStr(TerrainBonusXRStr);
+                var terrainBonusX = AbilityRules.TranslateResourceString(s_terrainBonusFormat);
                 var terrainType = AoWHSSet.Current.TerrainTypes[TerrainType];
-                List.Add(RtlUnit.Format(terrainBonusX, [terrainType]));
+                list.Add(RtlUnit.Format(terrainBonusX, [terrainType]));
             }
 
-            Predictor = new CombatPredictor();
-            Armies = new ArmyHSList(null);
-            ListArmies(Armies);
-            for (int I = 0, last = Armies.Count - 1; I <= last; I++)
+            predictor = new CombatPredictor();
+            armies = new ArmyHSList(null);
+            ListArmies(armies);
+            for (int I = 0, last = armies.Count - 1; I <= last; I++)
             {
-                for (int J = 0, lastJ = Armies.GetArmyHS(I).FArmy.Count - 1; J <= lastJ; J++)
+                for (int J = 0, lastJ = armies.GetArmyHexSprite(I).Army.Count - 1; J <= lastJ; J++)
                 {
-                    U = Armies.GetArmyHS(I).FArmy.GetUnit(J);
-                    if (U.FMoraleValue <= 40)
+                    U = armies.GetArmyHexSprite(I).Army.GetUnit(J);
+                    if (U.MoraleValue <= 40)
                     {
-                        Predictor.AddOpponent(U, 0);
+                        predictor.AddOpponent(U, 0);
                     }
                     else
                     {
-                        Predictor.AddUnit(U);
+                        predictor.AddUnit(U);
                     }
                 }
             }
 
-            Units = new UnitList(null);
-            GenerateRebelUnits(Units);
-            for (int J = 0, last = Units.Count - 1; J <= last; J++)
+            units = new UnitList(null);
+            GenerateRebelUnits(units);
+            for (int J = 0, last = units.Count - 1; J <= last; J++)
             {
-                Predictor.AddOpponent(Units.GetUnit(J), 0);
+                predictor.AddOpponent(units.GetUnit(J), 0);
             }
 
-            if (Predictor.Execute() == CombatResult.Victory)
+            if (predictor.Execute() == CombatResult.Victory)
             {
-                if (Predictor.GetSuperiority() / 4 >= 75)
+                if (predictor.GetSuperiority() / 4 >= 75)
                 {
-                    var strong = AbilityRules.TranslateRStr(StrongRStr);
-                    List.Add(RtlUnit.Format(AbilityRules.TranslateRStr(OccupationForcesXRStr), [strong]));
+                    var strong = AbilityRules.TranslateResourceString(s_strongText);
+                    list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_occupationForcesFormat), [strong]));
                 }
                 else
                 {
-                    var average = AbilityRules.TranslateRStr(AverageRStr);
-                    List.Add(RtlUnit.Format(AbilityRules.TranslateRStr(OccupationForcesXRStr), [average]));
+                    var average = AbilityRules.TranslateResourceString(s_averageText);
+                    list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_occupationForcesFormat), [average]));
                 }
             }
             else
             {
-                var weak = AbilityRules.TranslateRStr(WeakRStr);
-                List.Add(RtlUnit.Format(AbilityRules.TranslateRStr(OccupationForcesXRStr), [weak]));
+                var weak = AbilityRules.TranslateResourceString(s_weakText);
+                list.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_occupationForcesFormat), [weak]));
             }
 
-            Predictor?.Dispose();
-            Units?.Dispose();
-            Armies?.Dispose();
+            predictor?.Dispose();
+            units?.Dispose();
+            armies?.Dispose();
         }
     }
 
     // City.pas:1861
     public CivilStatus GetCivilStatus()
     {
-        CivilStatus Result;
-        Status Relation;
-        int Value;
-        int ArmyValue;
-        int Bonus;
-        CombatPredictor Predictor;
-        ArmyHSList Armies;
-        UnitList Units;
+        CivilStatus result;
+        Status relation;
+        int value;
+        int armyValue;
+        int bonus;
+        CombatPredictor predictor;
+        ArmyHSList armies;
+        UnitList units;
         Troop U;
-        if (FPlayer != 0 && !FMode.Contains(ModeElement.Warmode))
+        if (Player != 0 && !Mode.Contains(ModeElement.WarMode))
         {
-            if (FMode.Contains(ModeElement.Anarchy))
+            if (Mode.Contains(ModeElement.Anarchy))
             {
-                Relation = Session.Status.Hostile;
+                relation = Session.Status.Hostile;
             }
             else
             {
-                Relation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
+                relation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
             }
 
-            switch (Relation)
+            switch (relation)
             {
                 case Session.Status.Hostile:
-                    Value = -35;
+                    value = -35;
                     break;
                 case Session.Status.Wary:
-                    Value = -25;
+                    value = -25;
                     break;
                 case Session.Status.Neutral:
-                    Value = 0;
+                    value = 0;
                     break;
                 case Session.Status.Polite:
-                    Value = 15;
+                    value = 15;
                     break;
                 case Session.Status.Friendly:
-                    Value = 25;
+                    value = 25;
                     break;
                 default:
-                    Value = 0;
+                    value = 0;
                     break;
             }
 
-            Value = Value + FWallType * 5 + FUpgradeLevel * 5;
-            if (FRace >= 0)
+            value = value + WallType * 5 + UpgradeLevel * 5;
+            if (Race >= 0)
             {
-                if (RaceTerrain[FRace].Penalty.Contains((byte)TerrainType))
+                if (RaceTerrain[Race].Penalty.Contains((byte)TerrainType))
                 {
-                    Value += -10;
+                    value += -10;
                 }
 
-                if (RaceTerrain[FRace].Bonus.Contains((byte)TerrainType))
+                if (RaceTerrain[Race].Bonus.Contains((byte)TerrainType))
                 {
-                    Value += 10;
+                    value += 10;
                 }
 
-                Predictor = new CombatPredictor();
-                ArmyValue = 0;
-                Armies = new ArmyHSList(null);
-                ListArmies(Armies);
-                for (int I = 0, last = Armies.Count - 1; I <= last; I++)
+                predictor = new CombatPredictor();
+                armyValue = 0;
+                armies = new ArmyHSList(null);
+                ListArmies(armies);
+                for (int I = 0, last = armies.Count - 1; I <= last; I++)
                 {
-                    for (int J = 0, lastJ = Armies.GetArmyHS(I).FArmy.Count - 1; J <= lastJ; J++)
+                    for (int J = 0, lastJ = armies.GetArmyHexSprite(I).Army.Count - 1; J <= lastJ; J++)
                     {
-                        U = Armies.GetArmyHS(I).FArmy.GetUnit(J);
-                        if (U.FMoraleValue <= 40)
+                        U = armies.GetArmyHexSprite(I).Army.GetUnit(J);
+                        if (U.MoraleValue <= 40)
                         {
-                            Predictor.AddOpponent(U, 0);
+                            predictor.AddOpponent(U, 0);
                             // { Original anarchy counts disloyal defenders twice. }
-                            if (FMode.Contains(ModeElement.Anarchy))
+                            if (Mode.Contains(ModeElement.Anarchy))
                             {
-                                Predictor.AddOpponent(U, 0);
+                                predictor.AddOpponent(U, 0);
                             }
                         }
                         else
                         {
-                            ArmyValue += U.GetObtainValue();
-                            Predictor.AddUnit(U);
+                            armyValue += U.GetObtainValue();
+                            predictor.AddUnit(U);
                         }
                     }
                 }
 
-                Armies?.Dispose();
-                if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(Relation))
+                armies?.Dispose();
+                if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(relation))
                 {
-                    Units = new UnitList(null);
-                    GenerateRebelUnits(Units);
-                    for (int I = 0, last = Units.Count - 1; I <= last; I++)
+                    units = new UnitList(null);
+                    GenerateRebelUnits(units);
+                    for (int I = 0, last = units.Count - 1; I <= last; I++)
                     {
-                        Predictor.AddOpponent(Units.GetUnit(I), 0);
-                        if (FMode.Contains(ModeElement.Anarchy))
+                        predictor.AddOpponent(units.GetUnit(I), 0);
+                        if (Mode.Contains(ModeElement.Anarchy))
                         {
-                            Predictor.AddOpponent(Units.GetUnit(I), 0);
+                            predictor.AddOpponent(units.GetUnit(I), 0);
                         }
                     }
 
-                    if (Predictor.Execute() == CombatResult.Victory)
+                    if (predictor.Execute() == CombatResult.Victory)
                     {
-                        Bonus = Predictor.GetSuperiority() / 4;
-                        if (Bonus >= 75)
+                        bonus = predictor.GetSuperiority() / 4;
+                        if (bonus >= 75)
                         {
-                            Bonus = 75;
+                            bonus = 75;
                         }
                         else
                         {
-                            if (Bonus >= 26)
+                            if (bonus >= 26)
                             {
-                                Bonus = 50;
+                                bonus = 50;
                             }
                             else
                             {
-                                Bonus = 25;
+                                bonus = 25;
                             }
                         }
                     }
                     else
                     {
-                        Bonus = 0;
+                        bonus = 0;
                     }
 
-                    Value += Bonus;
-                    Units?.Dispose();
+                    value += bonus;
+                    units?.Dispose();
                 }
                 else
                 {
-                    if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(Relation))
+                    if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(relation))
                     {
-                        ArmyValue = ArmyValue / (GetSize() * 10);
-                        if (ArmyValue > 10)
+                        armyValue = armyValue / (GetSize() * 10);
+                        if (armyValue > 10)
                         {
-                            ArmyValue = 10;
+                            armyValue = 10;
                         }
 
-                        Value += ArmyValue;
+                        value += armyValue;
                     }
                 }
 
-                Predictor?.Dispose();
-                if (Value < -30)
+                predictor?.Dispose();
+                if (value < -30)
                 {
-                    Result = CivilStatus.Unruly;
+                    result = CivilStatus.Unruly;
                 }
                 else
                 {
-                    if (Value < -10)
+                    if (value < -10)
                     {
-                        Result = CivilStatus.Unrest;
+                        result = CivilStatus.Unrest;
                     }
                     else
                     {
-                        if (Value < 10)
+                        if (value < 10)
                         {
-                            Result = CivilStatus.Stable;
+                            result = CivilStatus.Stable;
                         }
                         else
                         {
-                            if (Value < 30)
+                            if (value < 30)
                             {
-                                if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(Relation))
+                                if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(relation))
                                 {
-                                    Result = CivilStatus.Oppressed;
+                                    result = CivilStatus.Oppressed;
                                 }
                                 else
                                 {
-                                    Result = CivilStatus.Content;
+                                    result = CivilStatus.Content;
                                 }
                             }
                             else
                             {
-                                if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(Relation))
+                                if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(relation))
                                 {
-                                    Result = CivilStatus.Slavery;
+                                    result = CivilStatus.Slavery;
                                 }
                                 else
                                 {
-                                    Result = CivilStatus.Cheerful;
+                                    result = CivilStatus.Cheerful;
                                 }
                             }
                         }
@@ -2404,326 +2404,326 @@ public partial class City : PlayerCropStructure
             }
             else
             {
-                Result = CivilStatus.Stable;
+                result = CivilStatus.Stable;
             }
         }
         else
         {
-            Result = CivilStatus.Stable;
+            result = CivilStatus.Stable;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2034
-    public void SetUpgradeLevel(byte Level)
+    public void SetUpgradeLevel(byte level)
     {
-        RaceResource RaceResource = default;
-        int UnitLevel = default;
-        bool Researched = default;
-        if (Level > GetSize())
+        RaceResource raceResource = default;
+        int unitLevel = default;
+        bool researched = default;
+        if (level > GetSize())
         {
-            Level = (byte)GetSize();
+            level = (byte)GetSize();
         }
 
-        if (Level < 1)
+        if (level < 1)
         {
-            Level = 1;
+            level = 1;
         }
 
-        FUpgradeLevel = Level;
-        if (FRace >= 0)
+        UpgradeLevel = level;
+        if (Race >= 0)
         {
-            RaceResource = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace);
-            for (int I = RaceResource.FUnitIndexes.Count - 1; I >= 0; I--)
+            raceResource = AoWHSSet.Current.RaceResources.GetRaceResource(Race);
+            for (int I = raceResource.UnitIndexes.Count - 1; I >= 0; I--)
             {
-                if (RaceResource.FUnitIndexes[I] != -1)
+                if (raceResource.UnitIndexes[I] != -1)
                 {
-                    var unitIndex = RaceResource.FUnitIndexes[I];
-                    if (FProduction.FUnitProductions.IndexOf(unitIndex) == -1)
+                    var unitIndex = raceResource.UnitIndexes[I];
+                    if (Production.UnitProductions.IndexOf(unitIndex) == -1)
                     {
-                        var unitIndex2 = RaceResource.FUnitIndexes[I];
-                        var unitResource = AoWHSSet.Current.FUnitResources.GetUnitResource(unitIndex2);
+                        var unitIndex2 = raceResource.UnitIndexes[I];
+                        var unitResource = AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex2);
                         var size = GetSize();
-                        UnitLevel = UnitLevelToCityLevel(unitResource.FLevel, size);
-                        if (UnitLevel != -1 && UnitLevel <= FUpgradeLevel)
+                        unitLevel = UnitLevelToCityLevel(unitResource.Level, size);
+                        if (unitLevel != -1 && unitLevel <= UpgradeLevel)
                         {
-                            Researched = UnitLevel == 1 && !(RaceResource.FSpecialUnitIndexes.Count >= 4 && RaceResource.FUnitIndexes[I] == RaceResource.FSpecialUnitIndexes[3]);
-                            var unitIndex3 = RaceResource.FUnitIndexes[I];
-                            FProduction.FUnitProductions.Add(unitIndex3, Researched);
+                            researched = unitLevel == 1 && !(raceResource.SpecialUnitIndexes.Count >= 4 && raceResource.UnitIndexes[I] == raceResource.SpecialUnitIndexes[3]);
+                            var unitIndex3 = raceResource.UnitIndexes[I];
+                            Production.UnitProductions.Add(unitIndex3, researched);
                         }
                     }
                 }
             }
 
-            SortingCity = this;
-            FProduction.FUnitProductions.FChildren.Sort(CompareCityProductions);
+            s_sortingCity = this;
+            Production.UnitProductions._children.Sort(CompareCityProductions);
         }
     }
 
     // City.pas:2085
-    public void SetName(string Name)
+    public void SetName(string name)
     {
-        FName = Name;
+        Name = name;
         Update();
     }
 
     // City.pas:2091
-    public void SetWallType(byte WallType)
+    public void SetWallType(byte wallType)
     {
-        FWallType = WallType;
+        WallType = wallType;
         UpdateImages();
     }
 
     // City.pas:2206
-    public void InitCombat(Battle Combat, ArmyHexSprite Army)
+    public void InitializeCombat(Battle combat, ArmyHexSprite army)
     {
-        if (FPlayer == 0)
+        if (Player == 0)
         {
-            var enemiesIndependentRelation = GetEnemiesIndependentRelation(Army.FArmy.FPlayer);
-            Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FDefenderPlayer).FIndependentRelation = (byte)enemiesIndependentRelation;
+            var enemiesIndependentRelation = GetEnemiesIndependentRelation(army.Army.Player);
+            combat.CombatData.Players.GetPlayers(combat.CombatData.DefenderPlayer).IndependentRelation = (byte)enemiesIndependentRelation;
         }
 
-        var lhx = Army.GetLhx();
-        var yhx = Army.GetYhx();
-        var xhx = Army.GetXhx();
-        Combat.InitDefaultArmies(Army.FArmy, xhx, yhx, lhx);
+        var hexLevel = army.GetHexLevel();
+        var hexY = army.GetHexY();
+        var hexX = army.GetHexX();
+        combat.InitializeDefaultArmies(army.Army, hexX, hexY, hexLevel);
     }
 
     // City.pas:2234
     public int GetObtainValue()
     {
         var size = GetSize();
-        int Result = UpgradePrices[size - 1] * FUpgradeLevel;
-        if (FWallType == 1)
+        int result = s_upgradePrices[size - 1] * UpgradeLevel;
+        if (WallType == 1)
         {
             var size2 = GetSize();
-            Result += WoodWallPrices[size2 - 1];
+            result += s_woodWallPrices[size2 - 1];
         }
 
-        if (FWallType == 2)
+        if (WallType == 2)
         {
             var size2 = GetSize();
             var size3 = GetSize();
-            Result = Result + WoodWallPrices[size2 - 1] + StoneWallPrices[size3 - 1];
+            result = result + s_woodWallPrices[size2 - 1] + s_stoneWallPrices[size3 - 1];
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2241
-    public int JoinAmount(sbyte Player)
+    public int JoinAmount(sbyte player)
     {
-        ArmyHSList Armies;
+        ArmyHSList armies;
         int I;
-        Army Army;
-        bool CanJoin;
-        int Value;
-        byte Relation;
-        byte Selection;
-        int Result = 0;
-        Armies = new ArmyHSList(null);
-        ListArmies(Armies);
-        I = Armies.Count;
-        CanJoin = true;
+        Army army;
+        bool canJoin;
+        int value;
+        byte relation;
+        byte selection;
+        int result = 0;
+        armies = new ArmyHSList(null);
+        ListArmies(armies);
+        I = armies.Count;
+        canJoin = true;
         if (I != 0)
         {
-            while (I != 0 && CanJoin)
+            while (I != 0 && canJoin)
             {
                 I -= 1;
-                Army = Armies.GetArmyHS(I).FArmy;
-                Selection = Army.GetCanJoinSelection(Player);
-                CanJoin = Selection == Army.ValidateSelection(255);
-                if (CanJoin)
+                army = armies.GetArmyHexSprite(I).Army;
+                selection = army.GetCanJoinSelection(player);
+                canJoin = selection == army.ValidateSelection(255);
+                if (canJoin)
                 {
-                    Result += Army.JoinAmount(Player, 255);
+                    result += army.JoinAmount(player, 255);
                 }
             }
 
-            if (CanJoin)
+            if (canJoin)
             {
-                Value = GetObtainValue() / 4;
-                Relation = (byte)AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(Player);
-                Result += TCity_JoinAmount__JoinPercent[(int)(Status)Relation] * Value / 100;
+                value = GetObtainValue() / 4;
+                relation = (byte)AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
+                result += s_joinPercentByStatus[(int)(Status)relation] * value / 100;
             }
             else
             {
-                Result = -1;
+                result = -1;
             }
         }
         else
         {
-            var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(Player);
+            var playerRelation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(player);
             if (Set<Status>.Of(Session.Status.Polite, Session.Status.Friendly).Contains(playerRelation))
             {
-                Result = 0;
+                result = 0;
             }
             else
             {
-                Result = -1;
+                result = -1;
             }
         }
 
-        Armies?.Dispose();
-        return Result;
+        armies?.Dispose();
+        return result;
     }
 
     // City.pas:2282
-    public bool IncommingNegotiateRequest(NegotiateRequestEventLog Request)
+    public bool IncomingNegotiateRequest(NegotiateRequestEventLog request)
     {
-        bool Result;
-        int Amount;
-        if (FPlayer == 0 && !FMode.Contains(ModeElement.Warmode))
+        bool result;
+        int amount;
+        if (Player == 0 && !Mode.Contains(ModeElement.WarMode))
         {
-            Amount = JoinAmount(Request.FPlayer);
-            if (Amount != -1)
+            amount = JoinAmount(request._player);
+            if (amount != -1)
             {
-                Request.FObject = NegotiateObject.City;
+                request.Object = NegotiateObject.City;
                 var name = GetName();
-                Request.FText = RtlUnit.Format(AbilityRules.TranslateRStr(CityJoinHeaderRStr), [name]);
-                Request.FGold = Amount;
-                if (Request.FGold == 0)
+                request.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_cityJoinHeaderFormat), [name]);
+                request.Gold = amount;
+                if (request.Gold == 0)
                 {
-                    var cityFreeJoin = AbilityRules.TranslateRStr(CityFreeJoinRStr);
-                    Request.FJoinMessage.Text = cityFreeJoin;
+                    var cityFreeJoin = AbilityRules.TranslateResourceString(s_cityFreeJoinText);
+                    request.JoinMessage.Text = cityFreeJoin;
                 }
                 else
                 {
-                    var format = RtlUnit.Format(AbilityRules.TranslateRStr(CityTributeJoinRStr), [IntToStr(Request.FGold)]);
-                    Request.FJoinMessage.Text = format;
+                    var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_cityTributeJoinFormat), [IntToStr(request.Gold)]);
+                    request.JoinMessage.Text = format;
                 }
 
-                Result = true;
+                result = true;
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2302
-    public bool IncommingNegotiateOffer(NegotiateTokenEvent Offer)
+    public bool IncomingNegotiateOffer(NegotiateTokenEvent offer)
     {
-        bool Result;
-        int Amount;
-        ArmyHSList Armies;
-        LocationTextEventLog Log;
-        if (Offer.FObject == NegotiateObject.City)
+        bool result;
+        int amount;
+        ArmyHSList armies;
+        LocationTextEventLog log;
+        if (offer.Object == NegotiateObject.City)
         {
-            Amount = JoinAmount(Offer.FPlayer);
-            if (Offer.FOffer == NegotiateTokenEvent.NegotiateOffer.OfferBribe && Amount <= Offer.FGold && Amount != -1)
+            amount = JoinAmount(offer.Player);
+            if (offer.Offer == NegotiateTokenEvent.NegotiateOffer.OfferBribe && amount <= offer.Gold && amount != -1)
             {
-                if (AoWHSMap.Current.FPlayers.GetPlayers(Offer.FPlayer).FGems >= Offer.FGold)
+                if (AoWHSMap.Current.Players.GetPlayers(offer.Player).Gems >= offer.Gold)
                 {
-                    SetPlayer(Offer.FPlayer);
-                    Armies = new ArmyHSList(null);
-                    ListArmies(Armies);
-                    for (int I = 0, last = Armies.Count - 1; I <= last; I++)
+                    SetPlayer(offer.Player);
+                    armies = new ArmyHSList(null);
+                    ListArmies(armies);
+                    for (int I = 0, last = armies.Count - 1; I <= last; I++)
                     {
-                        if (Armies.GetArmyHS(I).FArmy.FPlayer == 0)
+                        if (armies.GetArmyHexSprite(I).Army.Player == 0)
                         {
-                            Armies.GetArmyHS(I).FArmy.SetPlayer(Offer.FPlayer);
+                            armies.GetArmyHexSprite(I).Army.SetPlayer(offer.Player);
                         }
                     }
 
-                    Armies?.Dispose();
-                    Log = new LocationTextEventLog(null);
-                    Log.FPlayer = FPlayer;
+                    armies?.Dispose();
+                    log = new LocationTextEventLog(null);
+                    log._player = Player;
                     var name = GetName();
-                    Log.FText = RtlUnit.Format(AbilityRules.TranslateRStr(XOverthrownRStr), [name]);
-                    var lhx = GetLhx();
-                    var yhx = GetYhx();
-                    Log.SetLocation(GetXhx(), yhx, lhx);
-                    var yhx2 = GetYhx();
-                    var lhx2 = GetLhx();
-                    var xhx = GetXhx();
-                    EventLog.DistributeLocationEventLog(Log, FPlayer, xhx, yhx2, lhx2, false);
-                    Log.Release();
-                    Offer.Accept();
+                    log.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_overthrownFormat), [name]);
+                    var hexLevel = GetHexLevel();
+                    var hexY = GetHexY();
+                    log.SetLocation(GetHexX(), hexY, hexLevel);
+                    var hexY2 = GetHexY();
+                    var hexLevel2 = GetHexLevel();
+                    var hexX = GetHexX();
+                    EventLog.DistributeLocationEventLog(log, Player, hexX, hexY2, hexLevel2, false);
+                    log.Release();
+                    offer.Accept();
                 }
                 else
                 {
-                    var notEnoughGold = AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
+                    var notEnoughGold = AbilityRules.TranslateResourceString(GameText.s_notEnoughGoldText);
                     AoWHSMap.Current.ShowMessage(notEnoughGold);
                 }
             }
             else
             {
-                Offer.Reject();
+                offer.Reject();
             }
 
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2334
-    public sbyte GetEnemiesIndependentRelation(sbyte Player)
+    public sbyte GetEnemiesIndependentRelation(sbyte player)
     {
-        UnitUserList Units;
-        Units = new UnitUserList(null);
-        ListUnits(Units);
-        for (int I = Units.Count - 1; I >= 0; I--)
+        UnitUserList units;
+        units = new UnitUserList(null);
+        ListUnits(units);
+        for (int I = units.Count - 1; I >= 0; I--)
         {
-            if (Units.GetUnit(I).CanJoin(Player))
+            if (units.GetUnit(I).CanJoin(player))
             {
-                Units.DeleteUnit(Units.GetUnit(I));
+                units.DeleteUnit(units.GetUnit(I));
             }
         }
 
         // { Original uses the race index as the default relation. }
-        sbyte Result = UnitList.UnitsToIndependentRelation(Units, FRace);
-        Units?.Dispose();
-        return Result;
+        sbyte result = UnitList.UnitsToIndependentRelation(units, Race);
+        units?.Dispose();
+        return result;
     }
 
     // City.pas:2345
     public sbyte GetIndependentRelation()
     {
-        UnitUserList Units;
-        Units = new UnitUserList(null);
-        ListUnits(Units);
+        UnitUserList units;
+        units = new UnitUserList(null);
+        ListUnits(units);
         // { Original uses the race index as the default relation. }
-        sbyte Result = UnitList.UnitsToIndependentRelation(Units, FRace);
-        Units?.Dispose();
-        return Result;
+        sbyte result = UnitList.UnitsToIndependentRelation(units, Race);
+        units?.Dispose();
+        return result;
     }
 
     // City.pas:2354
-    public void ReturnBattleFieldInfo(ref BattleFieldInfo Info)
+    public void ReturnBattleFieldInfo(ref BattleFieldInfo info)
     {
-        int Value;
-        DiplomaticRelation Relation;
-        if (Info.Requests.Contains(BattleFieldInfoRequestsElement.EffectiveStrength) && FPlayer > 0)
+        int value;
+        DiplomaticRelation relation;
+        if (info.Requests.Contains(BattleFieldInfoRequestsElement.EffectiveStrength) && Player > 0)
         {
-            Value = 5000;
-            var playerRelation = AoWHSMap.Current.FRaces.GetRace(FRace).GetPlayerRelation(FPlayer);
+            value = 5000;
+            var playerRelation = AoWHSMap.Current.Races.GetRace(Race).GetPlayerRelation(Player);
             if (Set<Status>.Of(Session.Status.Hostile, Session.Status.Wary).Contains(playerRelation))
             {
-                Value = Value * 2;
+                value = value * 2;
             }
 
-            Relation = AbilityRules.DiplomaticRelation(Info.Player, Info.IndependentRelation, FPlayer, 0);
-            if (Info.FriendlyRelations.Contains((byte)(int)Relation))
+            relation = AbilityRules.DiplomaticRelation(info.Player, info.IndependentRelation, Player, 0);
+            if (info.FriendlyRelations.Contains((byte)(int)relation))
             {
-                Info.FriendlyStrength -= Value;
+                info.FriendlyStrength -= value;
             }
 
-            if (Info.EnemyRelations.Contains((byte)(int)Relation))
+            if (info.EnemyRelations.Contains((byte)(int)relation))
             {
-                Info.Strength -= Value;
+                info.Strength -= value;
             }
         }
     }
@@ -2731,103 +2731,103 @@ public partial class City : PlayerCropStructure
     // City.pas:2367
     public void UpdateVisibleForSeatedPlayer()
     {
-        bool Visible;
-        Visible = VisibleForPlayer(AoWHSMap.Current.FSeatedPlayer);
-        if (FEnchantmentsVisible ^ Visible)
+        bool visible;
+        visible = VisibleForPlayer(AoWHSMap.Current.SeatedPlayer);
+        if (EnchantmentsVisible ^ visible)
         {
-            FEnchantmentsVisible = Visible;
-            if (FEnchantments != Set<CityEnchantmentId>.Of())
+            EnchantmentsVisible = visible;
+            if (Enchantments != Set<CityEnchantmentId>.Of())
             {
-                AoWHSMap.Current.FGlobalMagicControl.TriggerChangedEvent();
+                AoWHSMap.Current.GlobalMagicControl.TriggerChangedEvent();
             }
         }
     }
 
     // City.pas:2503
-    public LibraryImage GetTopCityActionImage(ProductionOrder Order) => GetCityActionImage(Order, 0, FRace != -1, 40, 43);
+    public LibraryImage GetTopCityActionImage(ProductionOrder order) => GetCityActionImage(order, 0, Race != -1, 40, 43);
 
     // City.pas:2539
-    public LibraryImage GetMiddleCityActionImage(ProductionOrder Order) => GetCityActionImage(Order, 1, FRace != -1, 41, 44);
+    public LibraryImage GetMiddleCityActionImage(ProductionOrder order) => GetCityActionImage(order, 1, Race != -1, 41, 44);
 
     // City.pas:2575
-    public LibraryImage GetBottomCityActionImage(ProductionOrder Order) => GetCityActionImage(Order, 2, FRace >= 0, 42, 45);
+    public LibraryImage GetBottomCityActionImage(ProductionOrder order) => GetCityActionImage(order, 2, Race >= 0, 42, 45);
 
     // Row 0 to 2 of the city's map image while Order runs: an image sequence of the city when the
     // order names one, else the race image (Image on the surface, UndergroundImage below it).
-    private LibraryImage GetCityActionImage(ProductionOrder Order, int Row, bool HasRace, int Image, int UndergroundImage)
+    private LibraryImage GetCityActionImage(ProductionOrder order, int row, bool hasRace, int image, int undergroundImage)
     {
-        LibraryImage Result;
-        int? Sequence = Order?.CitySequence(this, Row);
-        if (Sequence is int Index)
+        LibraryImage result;
+        int? sequence = order?.CitySequence(this, row);
+        if (sequence is int index)
         {
-            if (FResource.ImageSequenceList != null && Index != -1)
+            if (_resource.ImageSequenceList != null && index != -1)
             {
-                if (FResource.ImageSequenceList.GetImageSequence(Index) != null)
+                if (_resource.ImageSequenceList.GetImageSequence(index) != null)
                 {
-                    Result = FResource.ImageSequenceList.GetImageSequence(Index).GetPreviewImage();
+                    result = _resource.ImageSequenceList.GetImageSequence(index).GetPreviewImage();
                 }
                 else
                 {
-                    Result = null;
+                    result = null;
                 }
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
         else
         {
-            if (HasRace)
+            if (hasRace)
             {
-                if (GetLhx() == 0)
+                if (GetHexLevel() == 0)
                 {
-                    Result = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FImageLibrary.GetSafe(Image);
+                    result = AoWHSSet.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(image);
                 }
                 else
                 {
-                    Result = AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FImageLibrary.GetSafe(UndergroundImage);
+                    result = AoWHSSet.Current.RaceResources.GetRaceResource(Race).ImageLibrary.GetSafe(undergroundImage);
                 }
             }
             else
             {
-                Result = null;
+                result = null;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:138
     public void GenerateRebelUnits(UnitList units)
     {
         int saved = RandSeed;
-        RandSeed = GetXhx() * 10 + AoWHSMap.Current.FInitialRandomSeed + GetYhx();
-        Int32List.FillWithRandomUnits(AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).FUnitIndexes, units, 2, GetSize() * 25, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
+        RandSeed = GetHexX() * 10 + AoWHSMap.Current.InitialRandomSeed + GetHexY();
+        Int32List.FillWithRandomUnits(AoWHSSet.Current.RaceResources.GetRaceResource(Race).UnitIndexes, units, 2, GetSize() * 25, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
         // The source restores only after a successful fill.
         RandSeed = saved;
     }
 
-    private static readonly string AverageRStr = "Average";
-    private static readonly string CityBattleDrawnRStr = "Battle of %s drawn";
-    private static readonly string CityBattleLostRStr = "Battle of %s lost";
-    private static readonly string CityBattleWonRStr = "%s captured";
-    private static readonly string CityFreeJoinRStr = "The city council eagerly vows its loyalty and awaits your orders.";
-    private static readonly string CityJoinHeaderRStr = "A herald from %s:";
-    private static readonly string CityTributeJoinRStr = "The city council offers its allegiance for %s pieces of gold.";
-    private static readonly string MaxFortifyLevelReachedRStr = "Max. fortify level reached.";
-    private static readonly string MaxUpgradeLevelReachedRStr = "Max. upgrade level reached.";
-    private static readonly string NoNameSpecifiedRStr = "no name specified";
-    private static readonly string NonameRStr = "Noname";
-    private static readonly string OccupationForcesXRStr = "Occupation Forces: %s";
-    private static readonly string RaceRelationXRStr = "Race Relation: %s";
-    private static readonly string StrongRStr = "Strong";
-    private static readonly string TerrainBonusXRStr = "Terrain Bonus: %s";
-    private static readonly string TerrainPenaltyXRStr = "Terrain Penalty: %s";
-    private static readonly string UpgradeLevelXRStr = "Upgrade Level: %s";
-    private static readonly string WeakRStr = "Weak";
-    private static readonly string XCropFieldsRStr = "%s Crop Fields";
-    private static readonly string XOverthrownRStr = "%s overthrown";
+    private static readonly string s_averageText = "Average";
+    private static readonly string s_cityBattleDrawnFormat = "Battle of %s drawn";
+    private static readonly string s_cityBattleLostFormat = "Battle of %s lost";
+    private static readonly string s_cityBattleWonFormat = "%s captured";
+    private static readonly string s_cityFreeJoinText = "The city council eagerly vows its loyalty and awaits your orders.";
+    private static readonly string s_cityJoinHeaderFormat = "A herald from %s:";
+    private static readonly string s_cityTributeJoinFormat = "The city council offers its allegiance for %s pieces of gold.";
+    private static readonly string s_maxFortifyLevelReachedText = "Max. fortify level reached.";
+    private static readonly string s_maxUpgradeLevelReachedText = "Max. upgrade level reached.";
+    private static readonly string s_noNameSpecifiedText = "no name specified";
+    private static readonly string s_noNameText = "Noname";
+    private static readonly string s_occupationForcesFormat = "Occupation Forces: %s";
+    private static readonly string s_raceRelationFormat = "Race Relation: %s";
+    private static readonly string s_strongText = "Strong";
+    private static readonly string s_terrainBonusFormat = "Terrain Bonus: %s";
+    private static readonly string s_terrainPenaltyFormat = "Terrain Penalty: %s";
+    private static readonly string s_upgradeLevelFormat = "Upgrade Level: %s";
+    private static readonly string s_weakText = "Weak";
+    private static readonly string s_cropFieldsFormat = "%s Crop Fields";
+    private static readonly string s_overthrownFormat = "%s overthrown";
 
     internal static RaceTerrainInfo[] RaceTerrain = new RaceTerrainInfo[12]
     {
@@ -2895,79 +2895,79 @@ public partial class City : PlayerCropStructure
         }
     };
 
-    private static Int32Array5 TCity_JoinAmount__JoinPercent = Int32Array5.From([200, 175, 150, 125, 100]);
-    private static ByteArray4 UpgradePrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 250, 250, 250, 250 });
-    private static ByteArray4 WoodWallPrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 20, 40, 60, 80 });
-    private static ByteArray4 StoneWallPrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 20, 40, 60, 80 });
-    private static readonly string CityWarningRStr = "Warning";
-    private static readonly string CityWoodenWallRStr = "Wooden Wall";
-    private static readonly string CityStoneWallRStr = "Stone Wall";
-    private static City SortingCity;
+    private static Int32Array5 s_joinPercentByStatus = Int32Array5.From([200, 175, 150, 125, 100]);
+    private static ByteArray4 s_upgradePrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 250, 250, 250, 250 });
+    private static ByteArray4 s_woodWallPrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 20, 40, 60, 80 });
+    private static ByteArray4 s_stoneWallPrices = ByteArray4.From((ReadOnlySpan<byte>)new byte[4] { 20, 40, 60, 80 });
+    private static readonly string s_cityWarningText = "Warning";
+    private static readonly string s_cityWoodenWallText = "Wooden Wall";
+    private static readonly string s_cityStoneWallText = "Stone Wall";
+    private static City s_sortingCity;
 
-    private static bool RaceInCity(sbyte Race, sbyte Player)
+    private static bool RaceInCity(sbyte race, sbyte player)
     {
         bool flag = false;
-        Player players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        for (int i = 0; i != players.FStructures.Count; i++)
+        Player players = AoWHSMap.Current.Players.GetPlayers(player);
+        for (int i = 0; i != players.Structures.Count; i++)
         {
             if (flag)
             {
                 break;
             }
-            if (players.FStructures.GetStructure(i) is City)
+            if (players.Structures.GetStructure(i) is City)
             {
-                flag = !players.FStructures.GetStructure(i).GetBuilding() && ((City)players.FStructures.GetStructure(i)).FRace == Race;
+                flag = !players.Structures.GetStructure(i).GetBuilding() && ((City)players.Structures.GetStructure(i)).Race == race;
             }
         }
         return flag;
     }
 
-    private static int UnitLevelToCityLevel(int Level, int Size)
+    private static int UnitLevelToCityLevel(int level, int size)
     {
-        return Level;
+        return level;
     }
 
-    private static int CompareCityProductions(object Item1, object Item2)
+    private static int CompareCityProductions(object item1, object item2)
     {
-        UnitProduction tUnitProduction = (UnitProduction)Item1;
-        int num;
-        if (AoWHSSet.Current.FUnitResources.GetUnitResource(tUnitProduction.FUnitIndex) != null)
+        UnitProduction unitProduction = (UnitProduction)item1;
+        int number;
+        if (AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex) != null)
         {
-            num = AoWHSSet.Current.FUnitResources.GetUnitResource(tUnitProduction.FUnitIndex).FLevel * 2;
-            if (SortingCity.FRace != -1 && AoWHSSet.Current.FRaceResources.GetRaceResource(SortingCity.FRace).FSpecialUnitIndexes.Count > 3 && AoWHSSet.Current.FRaceResources.GetRaceResource(SortingCity.FRace).FSpecialUnitIndexes[3] == tUnitProduction.FUnitIndex)
+            number = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 2;
+            if (s_sortingCity.Race != -1 && AoWHSSet.Current.RaceResources.GetRaceResource(s_sortingCity.Race).SpecialUnitIndexes.Count > 3 && AoWHSSet.Current.RaceResources.GetRaceResource(s_sortingCity.Race).SpecialUnitIndexes[3] == unitProduction.UnitIndex)
             {
-                num++;
+                number++;
             }
         }
         else
         {
-            num = 0;
+            number = 0;
         }
-        UnitProduction tUnitProduction2 = (UnitProduction)Item2;
-        int num2;
-        if (AoWHSSet.Current.FUnitResources.GetUnitResource(tUnitProduction2.FUnitIndex) != null)
+        UnitProduction unitProduction2 = (UnitProduction)item2;
+        int number2;
+        if (AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction2.UnitIndex) != null)
         {
-            num2 = AoWHSSet.Current.FUnitResources.GetUnitResource(tUnitProduction2.FUnitIndex).FLevel * 2;
-            if (SortingCity.FRace != -1 && AoWHSSet.Current.FRaceResources.GetRaceResource(SortingCity.FRace).FSpecialUnitIndexes.Count > 3 && AoWHSSet.Current.FRaceResources.GetRaceResource(SortingCity.FRace).FSpecialUnitIndexes[3] == tUnitProduction2.FUnitIndex)
+            number2 = AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction2.UnitIndex).Level * 2;
+            if (s_sortingCity.Race != -1 && AoWHSSet.Current.RaceResources.GetRaceResource(s_sortingCity.Race).SpecialUnitIndexes.Count > 3 && AoWHSSet.Current.RaceResources.GetRaceResource(s_sortingCity.Race).SpecialUnitIndexes[3] == unitProduction2.UnitIndex)
             {
-                num2++;
+                number2++;
             }
         }
         else
         {
-            num2 = 0;
+            number2 = 0;
         }
-        int num3 = num - num2;
-        if (num3 == 0)
+        int number3 = number - number2;
+        if (number3 == 0)
         {
-            num3 = ((UnitProduction)Item1).FUnitIndex - ((UnitProduction)Item2).FUnitIndex;
+            number3 = ((UnitProduction)item1).UnitIndex - ((UnitProduction)item2).UnitIndex;
         }
-        return num3;
+        return number3;
     }
 
     public enum ModeElement : byte
     {
-        Warmode = 0, Razed = 1, TownQuake = 2, Anarchy = 3
+        WarMode = 0, Razed = 1, TownQuake = 2, Anarchy = 3
     }
 
     public enum MoveOutOfCitySelectionElement : byte

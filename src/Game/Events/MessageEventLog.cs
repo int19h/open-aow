@@ -16,82 +16,82 @@ public partial class MessageEventLog : EventLog
     // EventLog.pas:824
     public MessageEventLog(ECustomNode owner) : base(owner)
     {
-        FMessage = new StringList();
-        FTitle = AbilityRules.TranslateRStr(GameText.MessageRStr);
-        FButtons = Buttons.Ok;
-        FPressedButton = PressedEventLogButton.None;
-        FLayout = Layout.Normal;
+        Message = new StringList();
+        Title = AbilityRules.TranslateResourceString(GameText.s_messageText);
+        Buttons = MessageEventLogButtons.Ok;
+        PressedButton = PressedEventLogButton.None;
+        Layout = MessageEventLogLayout.Normal;
     }
 
-    public string FTitle = "";
-    public string FHeader = "";
-    public StringCollection FMessage;
-    public Layout FLayout;
-    public Buttons FButtons;
-    public PressedEventLogButton FPressedButton;
+    public string Title = "";
+    public string Header = "";
+    public StringCollection Message;
+    public MessageEventLogLayout Layout;
+    public MessageEventLogButtons Buttons;
+    public PressedEventLogButton PressedButton;
 
     // EventLog.pas:832
     public override void Dispose()
     {
-        FMessage?.Dispose();
+        Message?.Dispose();
         base.Dispose();
     }
 
     // EventLog.pas:835
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwStrings(FMessage, 30);
-        Stream.rwData(Bytes.Of(ref FLayout, 1), 1, 31);
-        Stream.rwData(Bytes.Of(ref FButtons, 1), 1, 32);
-        Stream.rwString(ref FTitle, 33);
+        base.ReadWrite(stream);
+        stream.rwStrings(Message, 30);
+        stream.rwData(Bytes.Of(ref Layout, 1), 1, 31);
+        stream.rwData(Bytes.Of(ref Buttons, 1), 1, 32);
+        stream.rwString(ref Title, 33);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Lines(persister, "Message", FMessage);
-        persister.Enum("Layout", ref FLayout);
-        persister.Enum("Buttons", ref FButtons);
-        persister.String("Title", ref FTitle);
+        PersistSupport.Lines(persister, "Message", Message);
+        persister.Enum("Layout", ref Layout);
+        persister.Enum("Buttons", ref Buttons);
+        persister.String("Title", ref Title);
     }
 
     // EventLog.pas:842
-    public virtual bool OK()
+    public virtual bool Ok()
     {
-        FPressedButton = PressedEventLogButton.Ok;
+        PressedButton = PressedEventLogButton.Ok;
         return true;
     }
 
     // EventLog.pas:845
     public virtual bool Cancel()
     {
-        FPressedButton = PressedEventLogButton.Cancel;
+        PressedButton = PressedEventLogButton.Cancel;
         return true;
     }
 
     // EventLog.pas:848
     public virtual bool Yes()
     {
-        FPressedButton = PressedEventLogButton.Yes;
+        PressedButton = PressedEventLogButton.Yes;
         return true;
     }
 
     // EventLog.pas:854
     public virtual bool No()
     {
-        FPressedButton = PressedEventLogButton.No;
+        PressedButton = PressedEventLogButton.No;
         return true;
     }
 
-    public enum Buttons : byte
-    {
-        Ok = 0, OkCancel = 1, YesNo = 2, YesNoCancel = 3
-    }
+}
 
-    public enum Layout : byte
-    {
-        Normal = 0, Header = 1
-    }
+public enum MessageEventLogButtons : byte
+{
+    Ok = 0, OkCancel = 1, YesNo = 2, YesNoCancel = 3
+}
 
+public enum MessageEventLogLayout : byte
+{
+    Normal = 0, Header = 1
 }

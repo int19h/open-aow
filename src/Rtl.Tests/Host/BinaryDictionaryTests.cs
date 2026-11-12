@@ -26,7 +26,7 @@ public sealed class BinaryDictionaryTests
                 Entry("unchanged", "", "", "");
                 Text([0x63, 0x61, 0x66, 0xe9]); Text([]); Text([]); Text([0x74, 0x65, 0x61]); Text([]);
             }
-            var dictionary = new IvBinaryDictionary { FFileName = path };
+            var dictionary = new IvBinaryDictionary { FileName = path };
             dictionary.SetLanguage(1);
             dictionary.Open();
             Assert.Equal("items", dictionary.Translate("item(plural)"));
@@ -56,7 +56,7 @@ public sealed class BinaryDictionaryTests
                 WriteHeader(writer, 1);
                 writer.Write((ushort)5);
             }
-            var dictionary = new IvBinaryDictionary { FFileName = path };
+            var dictionary = new IvBinaryDictionary { FileName = path };
             Assert.Throws<InvalidDataException>(dictionary.Open);
         }
         finally { File.Delete(path); }

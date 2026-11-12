@@ -3,127 +3,127 @@ using Aow.Rtl;
 
 namespace Aow.Game.Net;
 
-// FTokenExecuter, FTokenPackageDistributer, FOwner, FTokenControls (one per player, nil for a
-// free slot), FOnMessage
+// _tokenExecutor, _tokenPackageDistributor, _owner, _tokenControls (one per player, nil for a
+// free slot), _onMessage
 public partial class TokenManager : IDisposable
 {
 
     public TokenManager(object owner)
     {
-        FOwner = owner;
-        FTokenControls = new List<TokenControl>();
-        FTokenExecuter = CreateTokenExecuter();
-        FTokenPackageDistributer = CreateTokenPackageDistributer();
+        _owner = owner;
+        _tokenControls = new List<TokenControl>();
+        _tokenExecutor = CreateTokenExecutor();
+        _tokenPackageDistributor = CreateTokenPackageDistributor();
     }
 
-    internal TokenExecutor FTokenExecuter;
-    internal TokenPackageDistributor FTokenPackageDistributer;
-    internal object FOwner;
-    internal List<TokenControl> FTokenControls;
-    internal NetworkMessageEvent FOnMessage;
+    internal TokenExecutor _tokenExecutor;
+    internal TokenPackageDistributor _tokenPackageDistributor;
+    internal object _owner;
+    internal List<TokenControl> _tokenControls;
+    internal NetworkMessageEvent _onMessage;
 
     // NetworkE.pas:1642
-    public virtual TokenExecutor CreateTokenExecuter() => new TokenExecutor(this);
+    public virtual TokenExecutor CreateTokenExecutor() => new TokenExecutor(this);
 
     // NetworkE.pas:1647
-    public virtual TokenPackageDistributor CreateTokenPackageDistributer() => new TokenPackageDistributor(this);
+    public virtual TokenPackageDistributor CreateTokenPackageDistributor() => new TokenPackageDistributor(this);
 
     // NetworkE.pas:1652
-    public virtual TokenControl CreateTokenControl(int APlayer) => new TokenControl(this, APlayer);
+    public virtual TokenControl CreateTokenControl(int player) => new TokenControl(this, player);
 
     // NetworkE.pas:1628
-    public virtual void Initialize(PlayerCommunicator PC)
+    public virtual void Initialize(PlayerCommunicator pc)
     {
-        FTokenPackageDistributer.SetPC(PC);
-        if (PC.FPCC.GetCount() > 0)
+        _tokenPackageDistributor.SetPC(pc);
+        if (pc._playerCommunicationControl.GetCount() > 0)
         {
             ClearPlayers();
-            for (int I = 0, last = PC.FPCC.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = pc._playerCommunicationControl.GetCount() - 1; I <= last; I++)
             {
                 CreatePlayer(I);
             }
         }
 
-        FTokenExecuter.Initialize(0);
+        _tokenExecutor.Initialize(0);
     }
 
     // NetworkE.pas:1657
     public virtual void Process()
     {
-        if (FTokenExecuter != null)
+        if (_tokenExecutor != null)
         {
-            FTokenExecuter.Process();
+            _tokenExecutor.Process();
         }
     }
 
     // NetworkE.pas:1694
     // { A player is ready when nothing of his waits: no system events, no token events, and his events
     //   are not being executed }
-    public virtual bool PlayerReady(int APlayer)
+    public virtual bool PlayerReady(int player)
     {
-        bool Result;
-        if (APlayer < FTokenControls.Count && FTokenControls[APlayer] != null)
+        bool result;
+        if (player < _tokenControls.Count && _tokenControls[player] != null)
         {
-            bool condition = FTokenExecuter.FSystemEvents.Count != 0 || (FTokenControls[APlayer]).GetCount() != 0;
+            bool condition = _tokenExecutor._systemEvents.Count != 0 || (_tokenControls[player]).GetCount() != 0;
             if (!condition)
             {
-                var item = FTokenControls[APlayer];
-                condition = FTokenExecuter.FPrefetchTC == item && FTokenExecuter.FState.Contains(TokenExecutorState.Executing);
+                var item = _tokenControls[player];
+                condition = _tokenExecutor._prefetchTacticalBattle == item && _tokenExecutor._state.Contains(TokenExecutorState.Executing);
             }
 
             if (condition)
             {
-                Result = false;
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:1663
-    public virtual void CreatePlayer(int APlayer)
+    public virtual void CreatePlayer(int player)
     {
-        if (APlayer >= FTokenControls.Count || FTokenControls[APlayer] == null)
+        if (player >= _tokenControls.Count || _tokenControls[player] == null)
         {
-            while (APlayer >= FTokenControls.Count)
+            while (player >= _tokenControls.Count)
             {
-                FTokenControls.Add(null);
+                _tokenControls.Add(null);
             }
 
-            var createTokenControl = CreateTokenControl(APlayer);
-            FTokenControls[APlayer] = createTokenControl;
+            var createTokenControl = CreateTokenControl(player);
+            _tokenControls[player] = createTokenControl;
         }
     }
 
     // NetworkE.pas:1673
-    public virtual void DeletePlayer(int APlayer)
+    public virtual void DeletePlayer(int player)
     {
-        if (APlayer < FTokenControls.Count && FTokenControls[APlayer] != null)
+        if (player < _tokenControls.Count && _tokenControls[player] != null)
         {
-            (FTokenControls[APlayer] as IDisposable)?.Dispose();
-            FTokenControls[APlayer] = null;
+            (_tokenControls[player] as IDisposable)?.Dispose();
+            _tokenControls[player] = null;
         }
     }
 
     // NetworkE.pas:1682
     public virtual void ClearPlayers()
     {
-        while (FTokenControls.Count != 0)
+        while (_tokenControls.Count != 0)
         {
-            if (FTokenControls[FTokenControls.Count - 1] != null)
+            if (_tokenControls[_tokenControls.Count - 1] != null)
             {
-                (FTokenControls[FTokenControls.Count - 1] as IDisposable)?.Dispose();
+                (_tokenControls[_tokenControls.Count - 1] as IDisposable)?.Dispose();
             }
 
-            FTokenControls.RemoveAt(FTokenControls.Count - 1);
+            _tokenControls.RemoveAt(_tokenControls.Count - 1);
         }
     }
 
@@ -134,50 +134,50 @@ public partial class TokenManager : IDisposable
     public virtual void Dispose()
     {
         ClearPlayers();
-        FTokenControls?.Clear();
-        FTokenExecuter?.Dispose();
+        _tokenControls?.Clear();
+        _tokenExecutor?.Dispose();
     }
 
     // NetworkE.pas:1623
-    public int GetCount() => FTokenControls.Count;
+    public int GetCount() => _tokenControls.Count;
 
     // NetworkE.pas:1710
-    public TokenControl GetTokenControl(int APlayer)
+    public TokenControl GetTokenControl(int player)
     {
-        TokenControl Result;
-        if (APlayer < FTokenControls.Count)
+        TokenControl result;
+        if (player < _tokenControls.Count)
         {
-            Result = FTokenControls[APlayer];
+            result = _tokenControls[player];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:1718
-    public void TriggerMessage(string Msg)
+    public void TriggerMessage(string message)
     {
-        if (FOnMessage != null)
+        if (_onMessage != null)
         {
-            FOnMessage(this, Msg);
+            _onMessage(this, message);
         }
     }
 
-    public TokenExecutor TokenExecuter { get => FTokenExecuter; }
-    public TokenPackageDistributor TokenPackageDistributer { get => FTokenPackageDistributer; }
-    public object Owner { get => FOwner; }
+    public TokenExecutor TokenExecutor { get => _tokenExecutor; }
+    public TokenPackageDistributor TokenPackageDistributor { get => _tokenPackageDistributor; }
+    public object Owner { get => _owner; }
     public int Count { get => GetCount(); }
 
     public sealed class TokenControlsAccessor(TokenManager target)
     {
-        public TokenControl this[int APlayer] { get => target.GetTokenControl(APlayer); }
+        public TokenControl this[int player] { get => target.GetTokenControl(player); }
     }
 
     public TokenControlsAccessor TokenControls => new TokenControlsAccessor(this);
-    public NetworkMessageEvent OnMessage { get => FOnMessage; set => FOnMessage = value; }
+    public NetworkMessageEvent OnMessage { get => _onMessage; set => _onMessage = value; }
 
     public delegate void NetworkMessageEvent(object Sender, string Msg);
 

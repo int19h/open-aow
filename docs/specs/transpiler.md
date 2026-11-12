@@ -297,7 +297,7 @@ unmanaged and become explicit-layout structs whose arms are overlapping `[FieldO
 which the toolchain probe `tests/toolchain/cs15probe` compiles. `EngineMessage` (Delphi `TEMsg`) (Engine) and `ShowInfo` (Delphi `TShowInfo`)
 (ImageLib) overlay a reference with an integer at one offset, which the runtime forbids, and the
 survey shows `EngineMessage` is a real pun, not a tagged union: `PlayerControl.NewTurn` (Delphi `TPlayerControl`) writes `Value` and
-`AIGroup.MsgProc` (Delphi `TAIGroup`) reads `Integer(Msg.Engine)` for the same message, and `ValidateMap` stores a
+`AIGroup.MessageProc` (Delphi `TAIGroup`) reads `Integer(Msg.Engine)` for the same message, and `ValidateMap` stores a
 `StringCollection` (Delphi `TStrings`) reference in `Value`. The rule for such an overlay is the shim's `IntOrRef`
 (`rtl-shim.md` 1.5): the overlapping arms become one `IntOrRef` field, and each arm name is an
 accessor on it. `Msg.Engine` reads `Payload.As<Engine>()`, `Integer(Msg.Engine)` reads
@@ -326,7 +326,7 @@ forms, and the transpiler maps each mechanically:
    that straddles two real fields or padding is an error when accessed. One view field covers
    `DamageTypes` and two bytes of padding, and the product leaves that field unread. The damage
    path writes `AbilityDamageValues.SourceDamage`, `SourceCost`, `TargetDamage` and `TargetCost`.
-   The `SpellLocation` and `Location` casts read `MapCoordinate.X`, `MapCoordinate.Y` and `MapCoordinate.L`. `XYLRec`
+   The `SpellLocation` and `Location` casts read `MapCoordinate.X`, `MapCoordinate.Y` and `MapCoordinate.MapLevel`. `XYLRec`
    (Delphi `TXYLRec`) is a view over an `Integer`, not a record, and its three uses in
    `HSEngine.pas:3231-3232` become `Unsafe.BitCast<int, TXYL>(XYL).X` and so on.
 3. An address that escapes the expression (17 sites, 10 types): passed as `TObject(@Info)` to a
@@ -365,7 +365,7 @@ pointer to a record whose provenance the resolver cannot see is an error that an
 The survey found none in the set, so the rule is there for upstream changes.
 
 Pointers to records in arrays and allocated blocks (the 15 types: the engine's item lists with
-`ReallocMem`, `MeleeRound.FStrikes` (Delphi `TMeleeRound`), palette entries, hash items, `CallBackEvent` (Delphi `TCallBackEvent`) through
+`ReallocMem`, `MeleeRound.Strikes` (Delphi `TMeleeRound`), palette entries, hash items, `CallBackEvent` (Delphi `TCallBackEvent`) through
 `New`) are `Ptr<T>` over the backing array (section 5.8). `@FItems^[I]` is `Ptr<T>.To(FItems.Array,
 I)`, and `GetEntry` returning `@Entries[Index]` returns a `Ptr<Entry>` into the `T[]` that
 the addressable static array became. A pointer into one of these outlives a call by design and
@@ -445,7 +445,7 @@ sizes both: 15 `class of` types, 702 class method declarations of which 39 intro
 class method, 10 virtual constructors, 31 constructor calls through a class reference, 222 calls of
 a virtual class method on an instance's run-time class, 384 `is` tests, 23 `ClassName` uses, no
 `as` and no TypInfo use. The closure of classes that need a `Meta` under the rule below is 1,014 of
-1,307 (973 of them through `EngineObject.ClassID` (Delphi `TEObject`) alone, then `HexSprite.ControlMode` (Delphi `THexagonSprite`) 150,
+1,307 (973 of them through `EngineObject.ClassId` (Delphi `TEObject`) alone, then `HexSprite.ControlMode` (Delphi `THexagonSprite`) 150,
 `EngineResource.ResourceEditName` (Delphi `TEResource`) 110, `Ability.AbilityDataClass` (Delphi `TAbility`) 84). 293 classes need none.
 
 The rule. A class is in the metaclass closure when it, or an ancestor, introduces a virtual class
@@ -1010,7 +1010,7 @@ Each entry names the rule and the probe (section 11) that proves it.
    Boolean type in the transpile set, and two of them carry a byte the `bool` loses. `Boolean(6)`
    passed to `CreateDamageCA` (`AoWAb.PAS:2089`) is the damage byte 6 under a mislabeled recovered
    parameter. The port declares that parameter `int Damage`, and the
-   `WallCrushingAbility.fcExecuteCombatCommand` (Delphi `TWallCrushingAbility`) override passes 6 directly to `CreateDamageCA`.
+   `WallCrushingAbility.FastBattleExecuteCombatCommand` (Delphi `TWallCrushingAbility`) override passes 6 directly to `CreateDamageCombatAction`.
    `Boolean(PChar(Self)[$158]) = True` (`AoWMemo.pas:546`) gets an override that keeps Delphi's
    comparison (`== 1` on the byte). The report lists every cast to a Boolean type with the uses of
    its value.
@@ -1075,7 +1075,7 @@ five hero and item grid units 10 each, HSEngine 8, and smaller groups; by kind:
 | constant | 35 | `XOR EAX,EAX`, `MOV EAX,n`, `MOV AL,n` bodies | rule A1 |
 | allocator | 1 | `MapField.NewInstance` from the pool `MapFieldMemory` | rule A3 |
 | blitter | 32 | GFXE and ImageLib pixel routines | `graphics.md` section 5 |
-| bitop | 9 | `BitList.Get` (Delphi `TBitList`) and `Put`, `AoWMapField.GetExplored` (Delphi `TAoWMapField`) and `SetExplored`, `CustomAbilityList.GetAbSet` (Delphi `TCustomAbilityList`) and `SetAbSet`, `Troop.GetAbilitySet` (Delphi `TAbstractUnit`), `Mine.GetRazed` (Delphi `TMine`), `Teleport.GetRazed` (Delphi `TTeleport`): `BT`, `RCR`, `SBB` style bit tests, the original authors' assembler | overrides from the catalogue's Pascal equivalents, with their edge cases (`GetExplored` masks the rotate count to 5 bits, so player 0 and player 32 read as explored and player 33 tests bit 0; `SetExplored(0, ...)` touches bit 31 and tests all of `ECX`; `BitList.Put` with a negative index corrupts memory before the array) |
+| bitop | 9 | `BitList.Get` (Delphi `TBitList`) and `Put`, `AoWMapField.GetExplored` (Delphi `TAoWMapField`) and `SetExplored`, `CustomAbilityList.GetAbilitySetAt` (Delphi `TCustomAbilityList`) and `SetAbilitySet`, `Troop.GetAbilitySet` (Delphi `TAbstractUnit`), `Mine.GetRazed` (Delphi `TMine`), `Teleport.GetRazed` (Delphi `TTeleport`): `BT`, `RCR`, `SBB` style bit tests, the original authors' assembler | overrides from the catalogue's Pascal equivalents, with their edge cases (`GetExplored` masks the rotate count to 5 bits, so player 0 and player 32 read as explored and player 33 tests bit 0; `SetExplored(0, ...)` touches bit 31 and tests all of `ECX`; `BitList.Put` with a negative index corrupts memory before the array) |
 | fill | 7 | the Engine `Fill*` routines and GFXE's `FillInt`, `FillWord`, `FillTrippleByte` (no zero-count guard) | overrides |
 | hex-coords | 6 | `HXtoV`, `HXtoH` (a floor division by 2 except at one overflow value), `HVtoHX`, `HPtoHX`, `HPtoHXs` (writes 4 bytes into each `Shortint` target), `WalkToNextHN` | overrides |
 | list-error | 10 | the nested `ReturnAddr` helpers of the typed lists' `Error` methods | the shim's exception raise |

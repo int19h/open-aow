@@ -6,7 +6,7 @@ namespace Aow.Game.Net;
 // FPackageDataList. The control of a game on one system: what is sent is received again
 public partial class LocalPlayerCommunicationControl : PlayerCommunicationControl
 {
-    internal PackageDataList FPackageDataList;
+    internal PackageDataList _packageDataList;
 
     // NetworkE.pas:709
     public override int GetSystemCount() => 1;
@@ -15,66 +15,66 @@ public partial class LocalPlayerCommunicationControl : PlayerCommunicationContro
     public override string Name() => "Local";
 
     // NetworkE.pas:724
-    public override bool ReceivePackageData(MemoryStream Stream)
+    public override bool ReceivePackageData(MemoryStream stream)
     {
-        bool Result;
-        if (FPackageDataList.Count != 0)
+        bool result;
+        if (_packageDataList.Count != 0)
         {
-            Stream.SetLength(FPackageDataList.PackageData[0].Length);
-            var size = (int)Stream.Length;
-            Move(FPackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), Stream.GetBuffer().AsSpan(0, size), size);
-            FPackageDataList.Delete(0);
-            Result = true;
+            stream.SetLength(_packageDataList.PackageData[0].Length);
+            var size = (int)stream.Length;
+            Move(_packageDataList.PackageData[0].GetBuffer().AsSpan(0, size), stream.GetBuffer().AsSpan(0, size), size);
+            _packageDataList.Delete(0);
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:737
-    public override bool SendPackageData(int APlayer, MemoryStream Stream)
+    public override bool SendPackageData(int player, MemoryStream stream)
     {
-        FPackageDataList.Add(Stream);
+        _packageDataList.Add(stream);
         return true;
     }
 
     // NetworkE.pas:697
     public LocalPlayerCommunicationControl() : base()
     {
-        FPackageDataList = new PackageDataList();
+        _packageDataList = new PackageDataList();
     }
 
     // NetworkE.pas:703
     public override void Dispose()
     {
-        FPackageDataList?.Dispose();
+        _packageDataList?.Dispose();
         base.Dispose();
     }
 
     // NetworkE.pas:719
     public void Clear()
     {
-        FPackageDataList.Clear();
+        _packageDataList.Clear();
     }
 
     // NetworkE.pas:743
-    public new void Setup(int ACount)
+    public new void Setup(int count)
     {
-        base.Setup(ACount);
-        for (int I = FPCSList.Count - 1; I >= 0; I--)
+        base.Setup(count);
+        for (int I = _playerCommunicationSettingsList.Count - 1; I >= 0; I--)
         {
-            var localSystemID = GetLocalSystemID();
-            FPCSList.Players[I].FSystemID = localSystemID;
+            var localSystemId = GetLocalSystemId();
+            _playerCommunicationSettingsList.Players[I]._systemId = localSystemId;
         }
     }
 
     // NetworkE.pas:752
-    public void SetConnectionMode(int Index, ConnectionMode Mode)
+    public void SetConnectionMode(int index, ConnectionMode mode)
     {
-        FPCSList.Players[Index].FConnectionMode = Mode;
+        _playerCommunicationSettingsList.Players[index]._connectionMode = mode;
     }
 
 }

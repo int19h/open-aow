@@ -9,26 +9,26 @@ public partial class DiplomaticActionList : EReferenceNode
     { }
 
     // Diplomacy.pas:1097
-    public DiplomaticAction GetDiplomaticActions(int Index) => (DiplomaticAction)FChildren.List[Index];
+    public DiplomaticAction GetDiplomaticActions(int index) => (DiplomaticAction)_children.List[index];
 
     // Diplomacy.pas:1100
-    public DiplomaticAction FindLastAction(byte Kind, DiplomaticActionReaction Reaction, sbyte Source, sbyte Target, sbyte Other)
+    public DiplomaticAction FindLastAction(byte kind, DiplomaticActionReaction reaction, sbyte source, sbyte target, sbyte other)
     {
         int I;
-        DiplomaticAction Candidate;
-        DiplomaticAction Result = null;
+        DiplomaticAction candidate;
+        DiplomaticAction result = null;
         I = Count;
-        while (Result == null && I != 0)
+        while (result == null && I != 0)
         {
             I -= 1;
-            Candidate = (DiplomaticAction)FChildren.List[I];
-            if (Candidate.Proposal.ToFields().Kind == Kind && Candidate.FReaction == Reaction && (Source == Candidate.FSource || Source == -1) && (Candidate.FTarget == Target || Target == -1) && (Candidate.FOtherPlayer == Other || Other == -1))
+            candidate = (DiplomaticAction)_children.List[I];
+            if (candidate.Proposal.ToFields().Kind == kind && candidate.Reaction == reaction && (source == candidate.Source || source == -1) && (candidate.Target == target || target == -1) && (candidate.OtherPlayer == other || other == -1))
             {
-                Result = Candidate;
+                result = candidate;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Engine.pas:631

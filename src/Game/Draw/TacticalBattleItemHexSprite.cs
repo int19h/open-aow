@@ -16,29 +16,29 @@ public partial class TacticalBattleItemHexSprite : ItemHexSprite
     // AoWTC.pas:2586
     public override void Deactivate()
     {
-        ItemHexSprite ItemHS;
-        ECustomNode Items;
-        FItems.FOnChanged = null;
-        if (CombatMap.Current.FCombat.FExplorationSite == 1)
+        ItemHexSprite itemHexSprite;
+        ECustomNode items;
+        Items.OnChanged = null;
+        if (CombatMap.Current.Combat.ExplorationSite == 1)
         {
-            Items = (ECustomNode)CombatMap.Current.FCombat.FItems;
-            for (int I = FItems.GetCount() - 1; I >= 0; I--)
+            items = (ECustomNode)CombatMap.Current.Combat.Items;
+            for (int I = Items.GetCount() - 1; I >= 0; I--)
             {
-                FItems.GetItem(I).SetOwner(Items);
+                Items.GetItem(I).SetOwner(items);
             }
         }
         else
         {
-            ItemHS = (ItemHexSprite)AoWHSMap.Current.MapContainer.GetField(CombatMap.Current.FCombat.FCombatData.FX, CombatMap.Current.FCombat.FCombatData.FY, CombatMap.Current.FCombat.FCombatData.FL).FindOwnedChild(131697);
-            if (ItemHS == null)
+            itemHexSprite = (ItemHexSprite)AoWHSMap.Current.MapContainer.GetField(CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, CombatMap.Current.Combat.CombatData.MapLevel).FindOwnedChild(131697);
+            if (itemHexSprite == null)
             {
-                ItemHS = new ItemHexSprite(null);
-                AoWHSMap.Current.PlaceHX(ItemHS, CombatMap.Current.FCombat.FCombatData.FX, CombatMap.Current.FCombat.FCombatData.FY, CombatMap.Current.FCombat.FCombatData.FL);
+                itemHexSprite = new ItemHexSprite(null);
+                AoWHSMap.Current.PlaceHex(itemHexSprite, CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, CombatMap.Current.Combat.CombatData.MapLevel);
             }
 
-            for (int I = FItems.GetCount() - 1; I >= 0; I--)
+            for (int I = Items.GetCount() - 1; I >= 0; I--)
             {
-                FItems.GetItem(I).SetOwner(ItemHS.FItems);
+                Items.GetItem(I).SetOwner(itemHexSprite.Items);
             }
         }
 

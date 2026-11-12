@@ -32,37 +32,37 @@ public static class EngineHost
         Packages.Clear();
     }
 
-    internal static void ReleaseCRC32Table()
+    internal static void ReleaseCrc32Table()
     {
-        CRC32Table = [];
+        s_crc32Table = [];
     }
 
-    internal static bool VerifyEObjectEnabled;
+    internal static bool s_verifyEngineObjectEnabled;
 
     public static List<GameEngine> Engines;
 
-    public static List<Plugin> PlugIns;
+    public static List<Plugin> Plugins;
 
     public static StringList Packages;
 
-    internal static int[] CRC32Table = [];
+    internal static int[] s_crc32Table = [];
 
     internal static void Initialize()
     {
-        CRC32Table = [];
-        VerifyEObjectEnabled = true;
+        s_crc32Table = [];
+        s_verifyEngineObjectEnabled = true;
         Engines = new List<GameEngine>();
-        PlugIns = new List<Plugin>();
+        Plugins = new List<Plugin>();
         Packages = new StringList();
     }
 
     internal static void Finalize()
     {
-        ReleaseCRC32Table();
+        ReleaseCrc32Table();
         UnloadExternalPlugIns();
         Packages?.Dispose();
         Engines?.Clear();
-        PlugIns?.Clear();
+        Plugins?.Clear();
     }
 
 }

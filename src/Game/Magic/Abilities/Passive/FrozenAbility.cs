@@ -13,14 +13,14 @@ public partial class FrozenAbility : UnitEnchantmentAbility
     // PassiveAb.pas:649
     public FrozenAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityName = AbilityRules.TranslateRStr(FrozenRStr);
-        FAbilityID = 95;
-        FAbilityType = AbilityType.Enchantment;
-        FSelectionTypes = Set<AbilitySelectionType>.Of();
+        AbilityName = AbilityRules.TranslateResourceString(s_frozenText);
+        AbilityId = 95;
+        AbilityType = AbilityType.Enchantment;
+        SelectionTypes = Set<AbilitySelectionType>.Of();
     }
 
     // PassiveAb.pas:674
-    public override sbyte GetDefense(AbilityOwner Owner) => -2;
+    public override sbyte GetDefense(AbilityOwner owner) => -2;
 
     // PassiveAb.pas:658
     public override DurationMode GetDurationMode() => DurationMode.CombatTurn;
@@ -31,10 +31,10 @@ public partial class FrozenAbility : UnitEnchantmentAbility
     // PassiveAb.pas:668
     public override UnitEnchantment CreateEnchantment()
     {
-        UnitEnchantment Result = base.CreateEnchantment();
-        Result.FDispelResistance = 3;
-        return Result;
+        UnitEnchantment result = base.CreateEnchantment();
+        result.DispelResistance = 3;
+        return result;
     }
 
-    private static readonly string FrozenRStr = "Frozen";
+    private static readonly string s_frozenText = "Frozen";
 }

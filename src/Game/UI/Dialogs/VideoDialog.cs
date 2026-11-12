@@ -34,22 +34,22 @@ public partial class VideoDialog : DataModule
     public Panel T3LBPnl;
     public VerticalScrollBar VideoSB;
     public IvTranslator Translator;
-    public DisplayModeList FDisplayModes;
-    public ScreenMode FFullScreen;
-    public bool FModeChanged;
-    public int FSceneWidth;
-    public int FSceneHeight;
-    public int FDisplayWidth;
-    public int FDisplayHeight;
+    public DisplayModeList DisplayModes;
+    public ScreenMode FullScreen;
+    public bool ModeChanged;
+    public int SceneWidth;
+    public int SceneHeight;
+    public int DisplayWidth;
+    public int DisplayHeight;
 
     // AoWVideoDlg.pas:366
     public void SetSceneSize(int W, int H)
     {
-        FSceneWidth = W;
-        FSceneHeight = H;
-        if (FFullScreen == ScreenMode.Title)
+        SceneWidth = W;
+        SceneHeight = H;
+        if (FullScreen == ScreenMode.Title)
         {
-            FModeChanged = true;
+            ModeChanged = true;
         }
     }
 
@@ -63,18 +63,18 @@ public partial class VideoDialog : DataModule
     // AoWVideoDlg.pas:172
     public void UpdateModes()
     {
-        DisplayModeItem Mode;
+        DisplayModeItem mode;
         string S;
         DisplayModesLB.Items.Clear();
-        var desktopWindow = AbilityRules.TranslateRStr(DesktopWindowRStr);
+        var desktopWindow = AbilityRules.TranslateResourceString(s_desktopWindowText);
         DisplayModesLB.Items.AddObject(desktopWindow, IntToObject(-1));
-        for (int I = 0, last = FDisplayModes.Count - 1; I <= last; I++)
+        for (int I = 0, last = DisplayModes.Count - 1; I <= last; I++)
         {
-            Mode = FDisplayModes.Items[I];
-            if (Mode.Width >= 640 && Mode.Height >= 480)
+            mode = DisplayModes.Items[I];
+            if (mode.Width >= 640 && mode.Height >= 480)
             {
-                var fullScreen = AbilityRules.TranslateRStr(FullScreenRStr);
-                DisplayModesLB.Items.AddObject(fullScreen + ":" + IntToStr(Mode.Width) + "x" + IntToStr(Mode.Height), IntToObject(I));
+                var fullScreen = AbilityRules.TranslateResourceString(s_fullScreenText);
+                DisplayModesLB.Items.AddObject(fullScreen + ":" + IntToStr(mode.Width) + "x" + IntToStr(mode.Height), IntToObject(I));
             }
         }
 
@@ -83,7 +83,7 @@ public partial class VideoDialog : DataModule
         if (DisplayModesLB.Selected != -1)
         {
             S = DisplayModesLB.Items[DisplayModesLB.Selected];
-            S = S + " (" + LowerCase(AbilityRules.TranslateRStr(CurrentRStr)) + ")";
+            S = S + " (" + LowerCase(AbilityRules.TranslateResourceString(s_currentText)) + ")";
             DisplayModesLB.Items[DisplayModesLB.Selected] = S;
         }
     }
@@ -91,14 +91,14 @@ public partial class VideoDialog : DataModule
     // AoWVideoDlg.pas:195
     public void VideoDlgWindowCreate()
     {
-        FDisplayModes = new DisplayModeList();
-        ListDisplayModes(FDisplayModes, 0, 0, 16);
+        DisplayModes = new DisplayModeList();
+        ListDisplayModes(DisplayModes, 0, 0, 16);
     }
 
     // AoWVideoDlg.pas:201
     public void VideoDlgWindowDestroy()
     {
-        FDisplayModes?.Dispose();
+        DisplayModes?.Dispose();
     }
 
     // AoWVideoDlg.pas:206
@@ -118,23 +118,23 @@ public partial class VideoDialog : DataModule
             I = ObjectToInt(DisplayModesLB.Items.Objects[DisplayModesLB.Selected]);
             if (I != -1)
             {
-                FDisplayWidth = FDisplayModes.Items[I].Width;
-                FDisplayHeight = FDisplayModes.Items[I].Height;
-                ChangeResolution(FDisplayWidth, FDisplayHeight);
-                FFullScreen = ScreenMode.Game;
+                DisplayWidth = DisplayModes.Items[I].Width;
+                DisplayHeight = DisplayModes.Items[I].Height;
+                ChangeResolution(DisplayWidth, DisplayHeight);
+                FullScreen = ScreenMode.Game;
             }
             else
             {
-                FFullScreen = ScreenMode.Windowed;
+                FullScreen = ScreenMode.Windowed;
                 ChangeResolution(0, 0);
             }
         }
     }
 
     // AoWVideoDlg.pas:233
-    public void ResCBChange(CheckBox Sender)
+    public void ResCBChange(CheckBox sender)
     {
-        if (Sender.Checked)
+        if (sender.Checked)
         {
             DialogHosts.General.PlayButtonSound(1);
         }
@@ -143,14 +143,14 @@ public partial class VideoDialog : DataModule
             DialogHosts.General.PlayButtonSound(2);
         }
 
-        GameTables.AoWEngine.FRegistry.SetAllowResolutionSwitches(ResCB.Checked);
+        GameTables.GameEngine.Registry.SetAllowResolutionSwitches(ResCB.Checked);
     }
 
     // AoWVideoDlg.pas:239
-    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
+    public void DlgKeyDown(ref ushort key, Set<ShiftState> shift)
     {
-        DialogHosts.General.Manager.FAligned = false;
-        if (Key == 27)
+        DialogHosts.General.Manager.Aligned = false;
+        if (key == 27)
         {
             Dlg.Visible = false;
         }
@@ -159,66 +159,66 @@ public partial class VideoDialog : DataModule
     // AoWVideoDlg.pas:245
     public void DlgShow()
     {
-        var allowResolutionSwitches = GameTables.AoWEngine.FRegistry.GetAllowResolutionSwitches();
+        var allowResolutionSwitches = GameTables.GameEngine.Registry.GetAllowResolutionSwitches();
         DialogHosts.VideoDialog.ResCB.Checked = allowResolutionSwitches;
     }
 
-    private static readonly string CurrentRStr = "Current";
+    private static readonly string s_currentText = "Current";
 
-    private static readonly string DesktopWindowRStr = "Desktop Window";
+    private static readonly string s_desktopWindowText = "Desktop Window";
 
-    private static readonly string FullScreenRStr = "Full Screen";
+    private static readonly string s_fullScreenText = "Full Screen";
 
     internal static Func<(int Width, int Height)> DesktopSize { get; set; } = () => (1280, 1024);
 
     internal static Func<IReadOnlyList<(int Width, int Height)>> FullscreenSizes { get; set; } = () => null;
 
-    private static readonly (int Width, int Height)[] FixedSizes = [(640, 480), (800, 600), (1024, 768), (1280, 1024)];
+    private static readonly (int Width, int Height)[] s_fixedSizes = [(640, 480), (800, 600), (1024, 768), (1280, 1024)];
 
-    private static void ListDisplayModes(DisplayModeList list, int width, int height, int pixelFormatID)
+    private static void ListDisplayModes(DisplayModeList list, int width, int height, int pixelFormatId)
     {
         var desktop = DesktopSize();
-        var sizes = FullscreenSizes() ?? [.. FixedSizes.Where(size => size.Width <= desktop.Width && size.Height <= desktop.Height)];
+        var sizes = FullscreenSizes() ?? [.. s_fixedSizes.Where(size => size.Width <= desktop.Width && size.Height <= desktop.Height)];
         foreach (var size in sizes)
             if ((width == 0 || width == size.Width) && (height == 0 || height == size.Height) &&
-                (pixelFormatID == 0 || pixelFormatID == 16 || pixelFormatID == PixelFormats.pfRGB555))
+                (pixelFormatId == 0 || pixelFormatId == 16 || pixelFormatId == PixelFormats.pfRGB555))
                 list.Add(size.Width, size.Height, PixelFormats.pfRGB555);
     }
 
-    internal static void SetSceneSize(VideoDialog Dialog, int Width, int Height)
+    internal static void SetSceneSize(VideoDialog dialog, int width, int height)
     {
-        Dialog.FSceneWidth = Width;
-        Dialog.FSceneHeight = Height;
-        if (Dialog.FFullScreen == ScreenMode.Title)
+        dialog.SceneWidth = width;
+        dialog.SceneHeight = height;
+        if (dialog.FullScreen == ScreenMode.Title)
         {
-            Dialog.FModeChanged = true;
+            dialog.ModeChanged = true;
         }
     }
 
     internal static void ApplyVideoSettings(VideoDialog dialog) => dialog.ApplyMode();
 
-    internal static void SetVideoSize(VideoDialog Dialog, int Width, int Height)
+    internal static void SetVideoSize(VideoDialog dialog, int width, int height)
     {
-        Dialog.FDisplayWidth = Width;
-        Dialog.FDisplayHeight = Height;
-        if (Dialog.FFullScreen == ScreenMode.Game)
+        dialog.DisplayWidth = width;
+        dialog.DisplayHeight = height;
+        if (dialog.FullScreen == ScreenMode.Game)
         {
-            Dialog.FModeChanged = true;
+            dialog.ModeChanged = true;
         }
     }
 
-    internal static void ShowVideoSettings(VideoDialog Dialog)
+    internal static void ShowVideoSettings(VideoDialog dialog)
     {
-        Dialog.Dlg.Visible = true;
-        Dialog.UpdateModes();
+        dialog.Dlg.Visible = true;
+        dialog.UpdateModes();
     }
 
-    internal static void SetVideoMode(VideoDialog Dialog, ScreenMode FullScreen)
+    internal static void SetVideoMode(VideoDialog dialog, ScreenMode fullScreen)
     {
-        if (FullScreen != Dialog.FFullScreen)
+        if (fullScreen != dialog.FullScreen)
         {
-            Dialog.FFullScreen = FullScreen;
-            Dialog.FModeChanged = true;
+            dialog.FullScreen = fullScreen;
+            dialog.ModeChanged = true;
         }
     }
 

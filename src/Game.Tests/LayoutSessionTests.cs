@@ -66,18 +66,18 @@ public sealed class LayoutSessionTests
         }
     }
 
-    private static FailingModule? FailingGlobal;
-    private static GoodModule? GoodGlobal;
+    private static FailingModule? s_failingGlobal;
+    private static GoodModule? s_goodGlobal;
 
     [Fact]
     public void FailingModuleLeavesItsGlobalNullAndItsTreeDestroyed()
     {
         var session = new LayoutSession();
         var module = new FailingModule();
-        FailingGlobal = null;
-        var error = Assert.Throws<ArgumentException>(() => session.Load(module, value => FailingGlobal = value));
+        s_failingGlobal = null;
+        var error = Assert.Throws<ArgumentException>(() => session.Load(module, value => s_failingGlobal = value));
         Assert.Contains("Child", error.Message);
-        Assert.Null(FailingGlobal);
+        Assert.Null(s_failingGlobal);
         Assert.Equal(0, module.ComponentCount);
         Assert.True(module.ComponentState.Contains(ComponentState.Destroying));
         Assert.True(module.First!.Destroyed);
@@ -93,8 +93,8 @@ public sealed class LayoutSessionTests
     {
         var session = new LayoutSession();
         var module = new ThrowingCleanupModule();
-        var error = Assert.Throws<AggregateException>(() => session.Load(module, value => FailingGlobal = value));
-        Assert.Null(FailingGlobal);
+        var error = Assert.Throws<AggregateException>(() => session.Load(module, value => s_failingGlobal = value));
+        Assert.Null(s_failingGlobal);
         Assert.Collection(error.InnerExceptions,
             original => Assert.IsType<ArgumentException>(original),
             cleanup => Assert.Equal("cleanup", cleanup.Message));
@@ -107,8 +107,8 @@ public sealed class LayoutSessionTests
         var session = new LayoutSession();
         using var module = new GoodModule();
         GoodModule? seen = null;
-        session.Load(module, value => { GoodGlobal = value; seen ??= value; });
-        Assert.Same(module, GoodGlobal);
+        session.Load(module, value => { s_goodGlobal = value; seen ??= value; });
+        Assert.Same(module, s_goodGlobal);
         Assert.Same(module, seen);
         Assert.Same(module, session.Modules["Good"]);
         Assert.Equal(1, module.ComponentCount);

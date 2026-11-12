@@ -9,23 +9,23 @@ namespace Aow.Game.World.Structures;
 public partial class CityRegistrar
 {
     // City.pas:3306
-    public static void MapLoaded(HSMap Sender)
+    public static void MapLoaded(HSMap sender)
     {
-        if (Sender == AoWHSMap.Current)
+        if (sender == AoWHSMap.Current)
         {
-            AoWHSMap.Current.FAIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<CityAIPlayerAction>()]);
+            AoWHSMap.Current.AIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<CityAIPlayerAction>()]);
         }
     }
 
     internal static void SubscribeMapLoaded()
     {
-        if (GameTables.ValidateAoWEngine())
-            GameTables.AoWEngine.OnHSMLoaded += MapLoaded;
+        if (GameTables.ValidateGameEngine())
+            GameTables.GameEngine.OnHsmLoaded += MapLoaded;
     }
 
     internal static void UnsubscribeMapLoaded()
     {
-        if (GameTables.AoWEngine != null)
-            GameTables.AoWEngine.OnHSMLoaded -= MapLoaded;
+        if (GameTables.GameEngine != null)
+            GameTables.GameEngine.OnHsmLoaded -= MapLoaded;
     }
 }

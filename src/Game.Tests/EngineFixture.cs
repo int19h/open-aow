@@ -11,46 +11,46 @@ namespace Aow.Game.Tests;
 // Real startup over the isolated host used by EngineStartupTests.
 public sealed partial class EngineFixture : IDisposable
 {
-    private readonly RecordingHost host = new("fixture");
-    private static RecordingHost services = null!;
+    private readonly RecordingHost _host = new("fixture");
+    private static RecordingHost s_services = null!;
 
     internal static GameEngine Engine { get; private set; } = null!;
     internal static AoWHSSet GameSet { get; private set; } = null!;
-    internal static string Root => services.GameRoot;
+    internal static string Root => s_services.GameRoot;
 
-    private static readonly Dictionary<FieldInfo, object?> state = [];
+    private static readonly Dictionary<FieldInfo, object?> s_state = [];
 
     internal static void RestoreEngine()
     {
-        foreach (var pair in state) pair.Key.SetValue(Engine, pair.Value);
-        GameTables.AoWEngine = Engine;
+        foreach (var pair in s_state) pair.Key.SetValue(Engine, pair.Value);
+        GameTables.GameEngine = Engine;
         AoWHSSet.Current = GameSet;
         AoWHSMap.Current = null!;
     }
 
     public EngineFixture()
     {
-        Runtime.InstallHost(host);
-        services = host;
-        GameTables.ValidateAoWEngine();
-        Engine = GameTables.AoWEngine;
+        Runtime.InstallHost(_host);
+        s_services = _host;
+        GameTables.ValidateGameEngine();
+        Engine = GameTables.GameEngine;
         GameSet = AoWHSSet.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
-                if (!field.IsInitOnly) state.Add(field, field.GetValue(Engine));
+                if (!field.IsInitOnly) s_state.Add(field, field.GetValue(Engine));
             }
-        host.RestoreServices();
+        _host.RestoreServices();
     }
 
-    internal static void InstallServices() => Runtime.InstallHost(services);
+    internal static void InstallServices() => Runtime.InstallHost(s_services);
 
-    internal static IRtlHost Services => services;
+    internal static IRtlHost Services => s_services;
 
     internal static AoWHSSet CreateGameSet(ImageLibraryManager manager)
     {
         var value = AoWHSSet.Create(null!);
-        typeof(HSSet).GetField("FImageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(value, manager);
+        typeof(HSSet).GetField("_imageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(value, manager);
         return value;
     }
 
@@ -89,9 +89,9 @@ public sealed partial class EngineFixture : IDisposable
         {
             Engine = null!;
             GameSet = null!;
-            services = null!;
-            state.Clear();
-            host.Dispose();
+            s_services = null!;
+            s_state.Clear();
+            _host.Dispose();
         }
     }
 }

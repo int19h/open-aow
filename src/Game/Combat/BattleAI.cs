@@ -13,24 +13,24 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat;
 
-// FSide. Units. Allies. Enemies. Moves. Walls. CurrentMove. FUnitIndex. FUnitLimit. FMinMoves.
-// FHeroMoves. FNormalUnits. FIgnoreWalls. FFlee. Status
+// Side. Units. Allies. Enemies. Moves. Walls. CurrentMove. UnitIndex. UnitLimit. MinMoves.
+// HeroMoves. NormalUnits. IgnoreWalls. Flee. Status
 public partial class BattleAI : IDisposable
 {
-    public CombatSideIndex FSide;
+    public CombatSideIndex Side;
     public List<CombatObject> Units;
     public List<CombatObject> Allies;
     public List<CombatObject> Enemies;
     public List<BattleAIMove> Moves;
     public List<CityWall> Walls;
     public int CurrentMove;
-    public int FUnitIndex;
-    public int FUnitLimit;
-    public int FMinMoves;
-    public int FHeroMoves;
-    public int FNormalUnits;
-    public bool FIgnoreWalls;
-    public bool FFlee;
+    public int UnitIndex;
+    public int UnitLimit;
+    public int MinMoves;
+    public int HeroMoves;
+    public int NormalUnits;
+    public bool IgnoreWalls;
+    public bool Flee;
     public AIStatus Status;
 
     // AoWTC.pas:762
@@ -78,77 +78,77 @@ public partial class BattleAI : IDisposable
     }
 
     // AoWTC.pas:790
-    public void CreateMove(BattleAIMoveType MoveType, int X, int Y, int Value, int Ability, int Spell, TacticalBattleUnit U, CombatObject Target)
+    public void CreateMove(BattleAIMoveType moveType, int X, int Y, int value, int ability, int spell, TacticalBattleUnit U, CombatObject target)
     {
         BattleAIMove M;
         M = new BattleAIMove();
-        M.UnitHS = U.FUnitHS;
-        M.Target = Target;
-        M.MoveType = MoveType;
-        M.Ability = (short)Ability;
-        M.Spell = (short)Spell;
+        M.UnitHexSprite = U.UnitHexSprite;
+        M.Target = target;
+        M.MoveType = moveType;
+        M.Ability = (short)ability;
+        M.Spell = (short)spell;
         M.X = (ushort)X;
         M.Y = (ushort)Y;
-        M.Value = Value;
+        M.Value = value;
         Moves.Add(M);
     }
 
     // AoWTC.pas:805
-    public int tcDVtoDEV(int DV1, int DV2, CombatObject Source, CombatObject Target)
+    public int TacticalBattleDamageValueToDamageEvaluation(int damageValue1, int damageValue2, CombatObject source, CombatObject target)
     {
-        int Strength;
-        Strength = Target.GetTargetStrength();
-        if (Target is TacticalBattleUnit)
+        int strength;
+        strength = target.GetTargetStrength();
+        if (target is TacticalBattleUnit)
         {
-            if (((CombatUnit)Target).FUnit is Hero)
+            if (((CombatUnit)target).Troop is Hero)
             {
-                Strength = Strength * 2;
+                strength = strength * 2;
             }
 
-            if (((CombatUnit)Target).FUnit is Leader)
+            if (((CombatUnit)target).Troop is Leader)
             {
-                Strength = Strength * 2;
+                strength = strength * 2;
             }
         }
 
-        int Result = Strength * DV1;
-        Strength = Source.GetTargetStrength();
-        if (Source is TacticalBattleUnit)
+        int result = strength * damageValue1;
+        strength = source.GetTargetStrength();
+        if (source is TacticalBattleUnit)
         {
-            if (((CombatUnit)Source).FUnit is Hero)
+            if (((CombatUnit)source).Troop is Hero)
             {
-                Strength = Strength * 2;
+                strength = strength * 2;
             }
 
-            if (((CombatUnit)Source).FUnit is Leader)
+            if (((CombatUnit)source).Troop is Leader)
             {
-                Strength = Strength * 2;
+                strength = strength * 2;
             }
         }
 
-        Result = Result - Strength * DV2;
-        return Result / 100;
+        result = result - strength * damageValue2;
+        return result / 100;
     }
 
     // AoWTC.pas:823
-    public bool ChargeFromPos(int Position)
+    public bool ChargeFromPosition(int position)
     {
-        bool Result;
+        bool result;
         int J;
-        int Empty;
-        if (Position == 0)
+        int empty;
+        if (position == 0)
         {
-            Result = false;
-            Empty = 0;
-            if (FSide == CombatSideIndex.Defender && CombatMap.Current.FCombat.FCombatData.FWallType != 0 && !CombatMap.Current.FCombat.FCombatData.FWallBreached)
+            result = false;
+            empty = 0;
+            if (Side == CombatSideIndex.Defender && CombatMap.Current.Combat.CombatData.WallType != 0 && !CombatMap.Current.Combat.CombatData.WallBreached)
             {
-                Result = true;
+                result = true;
             }
             else
             {
                 for (int I = 1; I <= 6; I++)
                 {
-                    if (CombatMap.Current.FPositionStatus[I] == 1)
+                    if (CombatMap.Current.PositionStatus[I] == 1)
                     {
                         J = I - 1;
                         if (J == 0)
@@ -156,9 +156,9 @@ public partial class BattleAI : IDisposable
                             J = 6;
                         }
 
-                        if (CombatMap.Current.FPositionStatus[J] == 0)
+                        if (CombatMap.Current.PositionStatus[J] == 0)
                         {
-                            Result = true;
+                            result = true;
                         }
 
                         J = I + 1;
@@ -167,58 +167,58 @@ public partial class BattleAI : IDisposable
                             J = 1;
                         }
 
-                        if (CombatMap.Current.FPositionStatus[J] == 0)
+                        if (CombatMap.Current.PositionStatus[J] == 0)
                         {
-                            Result = true;
+                            result = true;
                         }
                     }
                     else
                     {
-                        if (CombatMap.Current.FPositionStatus[I] == 0)
+                        if (CombatMap.Current.PositionStatus[I] == 0)
                         {
-                            Empty += 1;
+                            empty += 1;
                         }
                     }
                 }
 
-                if (Empty > 1)
+                if (empty > 1)
                 {
-                    Result = true;
+                    result = true;
                 }
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:849
     public int UnitSafe(TacticalBattleUnit U, int X, int Y)
     {
-        int Result;
-        int Distance;
-        if (!(U.FUnit is Hero) || (Units.Count == 1 && FSide == CombatSideIndex.Defender))
+        int result;
+        int distance;
+        if (!(U.Troop is Hero) || (Units.Count == 1 && Side == CombatSideIndex.Defender))
         {
-            Result = 0;
+            result = 0;
         }
         else
         {
-            Result = U.GetTargetStrength() * 20 * U.GetHitPoints() / U.GetHits();
-            if (U.FUnit is Leader)
+            result = U.GetTargetStrength() * 20 * U.GetHitPoints() / U.GetHits();
+            if (U.Troop is Leader)
             {
-                Result = Result / 2;
+                result = result / 2;
             }
 
             for (int I = 0, last = Enemies.Count - 1; I <= last; I++)
             {
-                var yhx = ((TacticalBattleUnit)Enemies[I]).FUnitHS.GetYhx();
-                Distance = HexGeometry.dHXtoRad(X, Y, ((TacticalBattleUnit)Enemies[I]).FUnitHS.GetXhx(), yhx);
-                if (Distance < 15 && (Enemies[I]).GetTargetStrength() > 0)
+                var hexY = ((TacticalBattleUnit)Enemies[I]).UnitHexSprite.GetHexY();
+                distance = HexGeometry.DeltaHexToRadius(X, Y, ((TacticalBattleUnit)Enemies[I]).UnitHexSprite.GetHexX(), hexY);
+                if (distance < 15 && (Enemies[I]).GetTargetStrength() > 0)
                 {
-                    Result = Result - (Enemies[I]).GetTargetStrength() * (15 - Distance);
+                    result = result - (Enemies[I]).GetTargetStrength() * (15 - distance);
                 }
             }
 
@@ -226,134 +226,134 @@ public partial class BattleAI : IDisposable
             {
                 if ((TacticalBattleUnit)Units[I] != U)
                 {
-                    var yhx = ((TacticalBattleUnit)Units[I]).FUnitHS.GetYhx();
-                    Distance = HexGeometry.dHXtoRad(X, Y, ((TacticalBattleUnit)Units[I]).FUnitHS.GetXhx(), yhx);
-                    if (Distance < 15 && (Units[I]).GetTargetStrength() > 0)
+                    var hexY = ((TacticalBattleUnit)Units[I]).UnitHexSprite.GetHexY();
+                    distance = HexGeometry.DeltaHexToRadius(X, Y, ((TacticalBattleUnit)Units[I]).UnitHexSprite.GetHexX(), hexY);
+                    if (distance < 15 && (Units[I]).GetTargetStrength() > 0)
                     {
-                        Result = Result + (Units[I]).GetTargetStrength() * (15 - Distance);
+                        result = result + (Units[I]).GetTargetStrength() * (15 - distance);
                     }
                 }
             }
 
             for (int I = 0, last = Allies.Count - 1; I <= last; I++)
             {
-                var yhx = ((TacticalBattleUnit)Allies[I]).FUnitHS.GetYhx();
-                Distance = HexGeometry.dHXtoRad(X, Y, ((TacticalBattleUnit)Allies[I]).FUnitHS.GetXhx(), yhx);
-                if (Distance < 15 && (Allies[I]).GetTargetStrength() > 0)
+                var hexY = ((TacticalBattleUnit)Allies[I]).UnitHexSprite.GetHexY();
+                distance = HexGeometry.DeltaHexToRadius(X, Y, ((TacticalBattleUnit)Allies[I]).UnitHexSprite.GetHexX(), hexY);
+                if (distance < 15 && (Allies[I]).GetTargetStrength() > 0)
                 {
-                    Result = Result + (Allies[I]).GetTargetStrength() * (15 - Distance);
+                    result = result + (Allies[I]).GetTargetStrength() * (15 - distance);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:880
     // The tactical AI passes the wall as Ignore. The original casts that object to TTacticalCombatUnit
     // without a check and compares the reference with the sprite's unit. Ignore is a combat object so the
     // wall reaches the same comparison.
-    public int MakeTerrainPath(CombatMoveControlSettings MCS, ref MapCoordinateList Path, ref int Value, TacticalBattleUnit U, CombatObject Ignore, bool FreeStrikes, bool FindWalls, int Cost)
+    public int MakeTerrainPath(CombatMoveControlSettings moveControlSettings, ref MapCoordinateList path, ref int value, TacticalBattleUnit U, CombatObject ignore, bool freeStrikes, bool findWalls, int cost)
     {
-        int Result;
+        int result;
         int J;
         int X = default;
         int Y = default;
-        TacticalBattleUnitHexSprite HS;
-        CityWall Wall;
-        bool NewWall;
-        if (Path.Count < 2)
+        TacticalBattleUnitHexSprite hexSprite;
+        CityWall wall;
+        bool newWall;
+        if (path.Count < 2)
         {
-            Result = -1;
+            result = -1;
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
         try
         {
-            Value = 0;
-            if (Result != -1)
+            value = 0;
+            if (result != -1)
             {
-                for (int I = 0, last = Path.Count - 1; I <= last; I++)
+                for (int I = 0, last = path.Count - 1; I <= last; I++)
                 {
-                    HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[Path.List[I].X, Path.List[I].Y].FindOwnedChild(2228484);
-                    if (FreeStrikes && (HS == null || HS == U.FUnitHS && I - 1 >= 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[Path.List[I - 1].X, Path.List[I - 1].Y].FindOwnedChild(2228484) == null))
+                    hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[I].X, path.List[I].Y].FindOwnedChild(2228484);
+                    if (freeStrikes && (hexSprite == null || hexSprite == U.UnitHexSprite && I - 1 >= 0 && CombatMap.Current.MapContainer.MapLevels[0].Field[path.List[I - 1].X, path.List[I - 1].Y].FindOwnedChild(2228484) == null))
                     {
                         J = 1;
                         for (; J <= 6; J += 1)
                         {
-                            HexGeometry.CenterHNtoHX(Path.List[I].X, Path.List[I].Y, J, ref X, ref Y);
-                            HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
-                            if (HS != null && HS.FUnit != Ignore && HS.FUnit.GetSide() != U.GetSide() && CombatObject.MeleeDamageTypes(HS.FUnit) != Set<DamageType>.Of() && !HS.FUnit.GetLocked() && HS.FUnit.GetAbilityEnabled(1) == U.GetAbilityEnabled(1))
+                            HexGeometry.CenterHexNumberToHex(path.List[I].X, path.List[I].Y, J, ref X, ref Y);
+                            hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+                            if (hexSprite != null && hexSprite.Unit != ignore && hexSprite.Unit.GetSide() != U.GetSide() && CombatObject.MeleeDamageTypes(hexSprite.Unit) != Set<DamageType>.Of() && !hexSprite.Unit.GetLocked() && hexSprite.Unit.GetAbilityEnabled(1) == U.GetAbilityEnabled(1))
                             {
-                                var tcDVtoDEV2 = tcDVtoDEV(CombatObject.StrikeDV(HS.FUnit, U), 0, HS.FUnit, U);
-                                Value = Value - tcDVtoDEV2 * 10;
+                                var tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(CombatObject.StrikeDamageValue(hexSprite.Unit, U), 0, hexSprite.Unit, U);
+                                value = value - tacticalBattleDamageValueToDamageEvaluation2 * 10;
                             }
                         }
                     }
 
-                    if (I < Path.Count - 1)
+                    if (I < path.Count - 1)
                     {
-                        if (CombatMap.Current.FCombat.FCombatData.FWallType != 0)
+                        if (CombatMap.Current.Combat.CombatData.WallType != 0)
                         {
-                            var pathY = Path[I];
-                            var pathX = Path[I];
-                            Wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
-                            if (Wall == null)
+                            var pathY = path[I];
+                            var pathX = path[I];
+                            wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y].FindOwnedChild(2229508);
+                            if (wall == null)
                             {
-                                var path = Path[I];
-                                var path2 = Path[I];
-                                Wall = CombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510) as CityWall;
+                                var pathLocal = path[I];
+                                var path2 = path[I];
+                                wall = CombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, pathLocal.Y].FindOwnedChild(2229510) as CityWall;
                             }
                         }
                         else
                         {
-                            Wall = null;
+                            wall = null;
                         }
 
-                        var path3 = Path[I];
-                        var path4 = Path[I];
+                        var path3 = path[I];
+                        var path4 = path[I];
                         var mapField = CombatMap.Current.MapContainer.MapLevels[0].Field[path4.X, path3.Y];
-                        var path5 = Path[I];
-                        var path6 = Path[I];
+                        var path5 = path[I];
+                        var path6 = path[I];
                         var fieldItem = CombatMap.Current.MapContainer.MapLevels[0].Field[path6.X, path5.Y];
-                        Path.List[I].Flag = MCS.FMovePointTable[fieldItem.TerrainType][mapField.OverlayType - -1];
-                        if (Wall != null)
+                        path.List[I].Tag = moveControlSettings.MovePointTable[fieldItem.TerrainType][mapField.OverlayType - -1];
+                        if (wall != null)
                         {
                             // { The wall lookup uses the current path point and the no-overlay column. }
-                            if (FSide == CombatSideIndex.Attacker && (U.GetAbilityEnabled(65) || U.GetAbilityEnabled(117)) && I == 0)
+                            if (Side == CombatSideIndex.Attacker && (U.GetAbilityEnabled(65) || U.GetAbilityEnabled(117)) && I == 0)
                             {
-                                var pathY = Path[I];
-                                var pathX = Path[I];
+                                var pathY = path[I];
+                                var pathX = path[I];
                                 var item = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
-                                Path.List[I].Flag = MCS.FMovePointTable[item.TerrainType][-1 - -1];
+                                path.List[I].Tag = moveControlSettings.MovePointTable[item.TerrainType][-1 - -1];
                             }
                             else
                             {
-                                if ((FSide == CombatSideIndex.Attacker || CombatMap.Current.FCombat.FCombatData.FWallBreached || FIgnoreWalls) && (Wall.FHitPoints == 0 || (FSide == CombatSideIndex.Defender && Wall is CityWallDoor) || CombatMap.Current.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(1) || CombatMap.Current.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(66) || CombatMap.Current.FMoveControl.FUnitHS.FUnit.GetAbilityEnabled(36)))
+                                if ((Side == CombatSideIndex.Attacker || CombatMap.Current.Combat.CombatData.WallBreached || IgnoreWalls) && (wall.HitPoints == 0 || (Side == CombatSideIndex.Defender && wall is CityWallDoor) || CombatMap.Current.MoveControl.UnitHexSprite.Unit.GetAbilityEnabled(1) || CombatMap.Current.MoveControl.UnitHexSprite.Unit.GetAbilityEnabled(66) || CombatMap.Current.MoveControl.UnitHexSprite.Unit.GetAbilityEnabled(36)))
                                 {
-                                    var pathY = Path[I];
-                                    var pathX = Path[I];
+                                    var pathY = path[I];
+                                    var pathX = path[I];
                                     var item2 = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
-                                    Path.List[I].Flag = MCS.FMovePointTable[item2.TerrainType][-1 - -1];
+                                    path.List[I].Tag = moveControlSettings.MovePointTable[item2.TerrainType][-1 - -1];
                                 }
                                 else
                                 {
-                                    Path.List[I].Flag = 100;
+                                    path.List[I].Tag = 100;
                                 }
                             }
 
-                            if (FindWalls && Wall.FHitPoints > 0)
+                            if (findWalls && wall.HitPoints > 0)
                             {
-                                NewWall = true;
+                                newWall = true;
                                 J = 0;
-                                while (NewWall && J < Walls.Count)
+                                while (newWall && J < Walls.Count)
                                 {
-                                    if (Walls[J] == Wall)
+                                    if (Walls[J] == wall)
                                     {
-                                        NewWall = false;
+                                        newWall = false;
                                     }
                                     else
                                     {
@@ -361,71 +361,71 @@ public partial class BattleAI : IDisposable
                                     }
                                 }
 
-                                if (NewWall)
+                                if (newWall)
                                 {
-                                    Walls.Add(Wall);
+                                    Walls.Add(wall);
                                 }
                             }
                         }
 
-                        var path7 = Path[I];
-                        var path8 = Path[I];
+                        var path7 = path[I];
+                        var path8 = path[I];
                         if (CombatMap.Current.MapContainer.MapLevels[0].Field[path8.X, path7.Y].FindOwnedChild(2228484) != null)
                         {
-                            var pathY = Path[I];
-                            var pathX = Path[I];
+                            var pathY = path[I];
+                            var pathX = path[I];
                             var item2 = CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, pathY.Y];
-                            Path.List[I].Flag = MCS.FMovePointTable[item2.TerrainType][-1 - -1];
+                            path.List[I].Tag = moveControlSettings.MovePointTable[item2.TerrainType][-1 - -1];
                         }
                     }
 
-                    Result = Result + Path.List[I].Flag;
+                    result = result + path.List[I].Tag;
                 }
             }
         }
         catch
         {
-            MessageBox(0, "Error during Eval Movepath", NullTerminatedText("Error - TCAI " + U.FUnit.GetName()), 0);
+            MessageBox(0, "Error during Eval Movepath", NullTerminatedText("Error - TCAI " + U.Troop.GetName()), 0);
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:952
-    public int MultDEV(int Value, int Multiplier, int Divider)
+    public int ScaleDamageEvaluation(int value, int multiplier, int divider)
     {
-        int Result = Value;
-        if (Value >= 0)
+        int result = value;
+        if (value >= 0)
         {
             try
             {
-                if (Multiplier != 1)
+                if (multiplier != 1)
                 {
-                    Result = Result * Multiplier;
+                    result = result * multiplier;
                 }
 
-                if (Divider != 1 && Divider != 0)
+                if (divider != 1 && divider != 0)
                 {
-                    Result = Result / Divider;
+                    result = result / divider;
                 }
             }
             catch
             {
                 try
                 {
-                    if (Divider != 1 && Divider != 0)
+                    if (divider != 1 && divider != 0)
                     {
-                        Result = Result / Divider;
+                        result = result / divider;
                     }
 
-                    if (Multiplier != 1)
+                    if (multiplier != 1)
                     {
-                        Result = Result * Multiplier;
+                        result = result * multiplier;
                     }
                 }
                 catch
                 {
-                    Result = 1000000;
+                    result = 1000000;
                 }
             }
         }
@@ -433,92 +433,92 @@ public partial class BattleAI : IDisposable
         {
             try
             {
-                if (Divider != 1)
+                if (divider != 1)
                 {
-                    Result = Result * Divider;
+                    result = result * divider;
                 }
 
-                if (Multiplier != 1 && Multiplier != 0)
+                if (multiplier != 1 && multiplier != 0)
                 {
-                    Result = Result / Multiplier;
+                    result = result / multiplier;
                 }
             }
             catch
             {
                 try
                 {
-                    if (Multiplier != 1 && Multiplier != 0)
+                    if (multiplier != 1 && multiplier != 0)
                     {
-                        Result = Result / Multiplier;
+                        result = result / multiplier;
                     }
 
-                    if (Divider != 1)
+                    if (divider != 1)
                     {
-                        Result = Result * Divider;
+                        result = result * divider;
                     }
                 }
                 catch
                 {
-                    Result = -1000000;
+                    result = -1000000;
                 }
             }
         }
 
-        if (Result > 1000000)
+        if (result > 1000000)
         {
-            Result = 1000000;
+            result = 1000000;
         }
 
-        if (Result < -1000000)
+        if (result < -1000000)
         {
-            Result = -1000000;
+            result = -1000000;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:980
-    public void EvalAll(ref int Value, List<CombatObject> List, CombatObject Ignore, int Spell, TacticalBattleUnit U)
+    public void EvalAll(ref int value, List<CombatObject> list, CombatObject ignore, int spell, TacticalBattleUnit U)
     {
-        CombatObject Target;
-        AbilityDamageValues DV = default;
-        for (int I = 0, last = List.Count - 1; I <= last; I++)
+        CombatObject target;
+        AbilityDamageValues damageValue = default;
+        for (int I = 0, last = list.Count - 1; I <= last; I++)
         {
-            if (List[I] != Ignore)
+            if (list[I] != ignore)
             {
-                Target = List[I];
-                AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, Target, ref DV);
-                if (DV.SourceDamage > 0)
+                target = list[I];
+                AoWHSSet.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, target, ref damageValue);
+                if (damageValue.SourceDamage > 0)
                 {
-                    switch (Spell)
+                    switch (spell)
                     {
                         case 102:
-                            if (Target.GetSide() != FSide)
+                            if (target.GetSide() != Side)
                             {
-                                var tcDVtoDEV2 = tcDVtoDEV(DV.SourceDamage, 0, U, Target);
-                                Value = Value - tcDVtoDEV2;
+                                var tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, target);
+                                value = value - tacticalBattleDamageValueToDamageEvaluation2;
                             }
                             else
                             {
-                                var tcDVtoDEV2 = tcDVtoDEV(DV.SourceDamage, 0, U, Target);
-                                Value = Value + tcDVtoDEV2;
+                                var tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, target);
+                                value = value + tacticalBattleDamageValueToDamageEvaluation2;
                             }
 
                             break;
                         default:
-                            if (Target.GetSide() != FSide)
+                            if (target.GetSide() != Side)
                             {
-                                var hitPoints = Target.GetHitPoints();
-                                var hits = Target.GetHits();
-                                var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, Target), hits, hitPoints);
-                                Value = Value + multDEV;
+                                var hitPoints = target.GetHitPoints();
+                                var hits = target.GetHits();
+                                var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, target), hits, hitPoints);
+                                value = value + multDamageEvaluation;
                             }
                             else
                             {
-                                var hitPoints = Target.GetHitPoints();
-                                var hits = Target.GetHits();
-                                var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, Target), hits, hitPoints);
-                                Value = Value - multDEV;
+                                var hitPoints = target.GetHitPoints();
+                                var hits = target.GetHits();
+                                var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, target), hits, hitPoints);
+                                value = value - multDamageEvaluation;
                             }
 
                             break;
@@ -529,69 +529,69 @@ public partial class BattleAI : IDisposable
     }
 
     // AoWTC.pas:1007
-    public void EvalHex(CombatObject Ignore, int Ability, int Spell, int X, int Y, ref int Value, bool HitWalls, bool Friendly, TacticalBattleUnit U, object IgnoreWall)
+    public void EvalHex(CombatObject ignore, int ability, int spell, int X, int Y, ref int value, bool hitWalls, bool friendly, TacticalBattleUnit U, object ignoreWall)
     {
-        TacticalBattleUnitHexSprite HS;
-        CityWall Wall;
-        AbilityDamageValues DV = default;
-        HS = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
-        if (HS != null && HS.FUnit != Ignore && (Friendly || HS.FUnit.GetSide() != U.GetSide()))
+        TacticalBattleUnitHexSprite hexSprite;
+        CityWall wall;
+        AbilityDamageValues damageValue = default;
+        hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+        if (hexSprite != null && hexSprite.Unit != ignore && (friendly || hexSprite.Unit.GetSide() != U.GetSide()))
         {
-            if (Ability == 52)
+            if (ability == 52)
             {
-                AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, HS.FUnit, ref DV);
+                AoWHSSet.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, hexSprite.Unit, ref damageValue);
             }
             else
             {
-                if (TacticalTables.AbilTypes[Ability] == BattleEffectType.Touch)
+                if (TacticalTables.s_abilityTypes[ability] == BattleEffectType.Touch)
                 {
-                    AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, HS.FUnit, ref DV);
+                    AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, hexSprite.Unit, ref damageValue);
                 }
                 else
                 {
-                    AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, HS.FUnit, ref DV);
+                    AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, hexSprite.Unit, ref damageValue);
                 }
             }
 
-            if (Ability == 65)
+            if (ability == 65)
             {
-                DV.TargetDamage = 0;
+                damageValue.TargetDamage = 0;
             }
 
-            if (DV.SourceDamage > 0)
+            if (damageValue.SourceDamage > 0)
             {
-                switch (Ability)
+                switch (ability)
                 {
                     case 52:
-                        switch (Spell)
+                        switch (spell)
                         {
                             case 106:
-                                if (HS.FUnit.GetSide() != U.GetSide())
+                                if (hexSprite.Unit.GetSide() != U.GetSide())
                                 {
-                                    var tcDVtoDEV2 = tcDVtoDEV(DV.SourceDamage, 0, U, HS.FUnit);
-                                    Value = Value + tcDVtoDEV2;
+                                    var tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit);
+                                    value = value + tacticalBattleDamageValueToDamageEvaluation2;
                                 }
                                 else
                                 {
-                                    var tcDVtoDEV2 = tcDVtoDEV(DV.SourceDamage, 0, U, HS.FUnit);
-                                    Value = Value - tcDVtoDEV2;
+                                    var tacticalBattleDamageValueToDamageEvaluation2 = TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit);
+                                    value = value - tacticalBattleDamageValueToDamageEvaluation2;
                                 }
 
                                 break;
                             default:
-                                if (HS.FUnit.GetSide() != U.GetSide())
+                                if (hexSprite.Unit.GetSide() != U.GetSide())
                                 {
-                                    var hitPoints = HS.FUnit.GetHitPoints();
-                                    var hits = HS.FUnit.GetHits();
-                                    var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, HS.FUnit), hits, hitPoints);
-                                    Value = Value + multDEV;
+                                    var hitPoints = hexSprite.Unit.GetHitPoints();
+                                    var hits = hexSprite.Unit.GetHits();
+                                    var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit), hits, hitPoints);
+                                    value = value + multDamageEvaluation;
                                 }
                                 else
                                 {
-                                    var hitPoints = HS.FUnit.GetHitPoints();
-                                    var hits = HS.FUnit.GetHits();
-                                    var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, HS.FUnit), hits, hitPoints);
-                                    Value = Value - multDEV;
+                                    var hitPoints = hexSprite.Unit.GetHitPoints();
+                                    var hits = hexSprite.Unit.GetHits();
+                                    var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit), hits, hitPoints);
+                                    value = value - multDamageEvaluation;
                                 }
 
                                 break;
@@ -599,19 +599,19 @@ public partial class BattleAI : IDisposable
 
                         break;
                     default:
-                        if (HS.FUnit.GetSide() != U.GetSide())
+                        if (hexSprite.Unit.GetSide() != U.GetSide())
                         {
-                            var hitPoints = HS.FUnit.GetHitPoints();
-                            var hits = HS.FUnit.GetHits();
-                            var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, HS.FUnit), hits, hitPoints);
-                            Value = Value + multDEV;
+                            var hitPoints = hexSprite.Unit.GetHitPoints();
+                            var hits = hexSprite.Unit.GetHits();
+                            var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit), hits, hitPoints);
+                            value = value + multDamageEvaluation;
                         }
                         else
                         {
-                            var hitPoints = HS.FUnit.GetHitPoints();
-                            var hits = HS.FUnit.GetHits();
-                            var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, HS.FUnit), hits, hitPoints);
-                            Value = Value - multDEV;
+                            var hitPoints = hexSprite.Unit.GetHitPoints();
+                            var hits = hexSprite.Unit.GetHits();
+                            var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, hexSprite.Unit), hits, hitPoints);
+                            value = value - multDamageEvaluation;
                         }
 
                         break;
@@ -619,48 +619,48 @@ public partial class BattleAI : IDisposable
             }
         }
 
-        if (HitWalls && CombatMap.Current.FCombat.FCombatData.FWallType != 0)
+        if (hitWalls && CombatMap.Current.Combat.CombatData.WallType != 0)
         {
-            Wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
-            if (Wall == null)
+            wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
+            if (wall == null)
             {
-                Wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
+                wall = CombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
             }
 
-            if (!CombatMap.Current.FCombat.FCombatData.FWallBreached && IgnoreWall != null && Wall != null && (Ignore == null || !(Ignore is CombatWall) || (Ignore is CombatWall && IgnoreWall != Wall)))
+            if (!CombatMap.Current.Combat.CombatData.WallBreached && ignoreWall != null && wall != null && (ignore == null || !(ignore is CombatWall) || (ignore is CombatWall && ignoreWall != wall)))
             {
-                if (Ability == 52)
+                if (ability == 52)
                 {
-                    AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, CombatMap.Current.FCombat.FCombatData.FWall, ref DV);
+                    AoWHSSet.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, CombatMap.Current.Combat.CombatData.Wall, ref damageValue);
                 }
                 else
                 {
-                    if (TacticalTables.AbilTypes[Ability] == BattleEffectType.Touch)
+                    if (TacticalTables.s_abilityTypes[ability] == BattleEffectType.Touch)
                     {
-                        AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, CombatMap.Current.FCombat.FCombatData.FWall, ref DV);
+                        AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, CombatMap.Current.Combat.CombatData.Wall, ref damageValue);
                     }
                     else
                     {
-                        AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, CombatMap.Current.FCombat.FCombatData.FWall, ref DV);
+                        AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, CombatMap.Current.Combat.CombatData.Wall, ref damageValue);
                     }
                 }
 
-                if (Ability == 65)
+                if (ability == 65)
                 {
-                    DV.TargetDamage = 0;
+                    damageValue.TargetDamage = 0;
                 }
 
-                if (DV.SourceDamage > 0)
+                if (damageValue.SourceDamage > 0)
                 {
                     if (U.GetSide() == CombatSideIndex.Attacker)
                     {
-                        var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, CombatMap.Current.FCombat.FCombatData.FWall), TacticalTables.WallMaxHP[Wall.FWallType - 1], Wall.FHitPoints);
-                        Value = Value + multDEV;
+                        var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, CombatMap.Current.Combat.CombatData.Wall), TacticalTables.s_wallMaxHitPoints[wall.WallType - 1], wall.HitPoints);
+                        value = value + multDamageEvaluation;
                     }
                     else
                     {
-                        var multDEV = MultDEV(tcDVtoDEV(DV.SourceDamage, 0, U, CombatMap.Current.FCombat.FCombatData.FWall), TacticalTables.WallMaxHP[Wall.FWallType - 1], Wall.FHitPoints);
-                        Value = Value - multDEV;
+                        var multDamageEvaluation = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(damageValue.SourceDamage, 0, U, CombatMap.Current.Combat.CombatData.Wall), TacticalTables.s_wallMaxHitPoints[wall.WallType - 1], wall.HitPoints);
+                        value = value - multDamageEvaluation;
                     }
                 }
             }
@@ -668,43 +668,43 @@ public partial class BattleAI : IDisposable
     }
 
     // AoWTC.pas:1072
-    public void EvalArea(ref int Value, CombatObject Ignore, int Ability, int Spell, int X, int Y, bool HitWalls, bool IncludeCenter, bool Friendly, TacticalBattleUnit U, object IgnoreWall)
+    public void EvalArea(ref int value, CombatObject ignore, int ability, int spell, int X, int Y, bool hitWalls, bool includeCenter, bool friendly, TacticalBattleUnit U, object ignoreWall)
     {
-        int X1 = default;
-        int Y1 = default;
+        int x1 = default;
+        int y1 = default;
         for (int I = 0; I <= 6; I++)
         {
-            HexGeometry.CenterHNtoHX(X, Y, I, ref X1, ref Y1);
-            if (IncludeCenter || U.FUnitHS.GetXhx() != X1 || U.FUnitHS.GetYhx() != Y1)
+            HexGeometry.CenterHexNumberToHex(X, Y, I, ref x1, ref y1);
+            if (includeCenter || U.UnitHexSprite.GetHexX() != x1 || U.UnitHexSprite.GetHexY() != y1)
             {
-                EvalHex(Ignore, Ability, Spell, X1, Y1, ref Value, HitWalls, Friendly, U, IgnoreWall);
+                EvalHex(ignore, ability, spell, x1, y1, ref value, hitWalls, friendly, U, ignoreWall);
             }
         }
     }
 
     // AoWTC.pas:1084
-    public int EvalPath(ref int Value, CombatObject Ignore, int Ability, int Spell, int X1, int Y1, int X2, int Y2, bool HitWalls, TacticalBattleUnit U, object IgnoreWall)
+    public int EvalPath(ref int value, CombatObject ignore, int ability, int spell, int x1, int y1, int x2, int y2, bool hitWalls, TacticalBattleUnit U, object ignoreWall)
     {
-        int Result;
+        int result;
         Point3DList Path;
-        DelphiList Obstacles;
+        DelphiList obstacles;
         int X = default;
         int Y = default;
         int V = default;
-        int Total;
-        int Original;
-        int Chance;
-        BattleEffectType FX;
-        if (Ability == 52)
+        int total;
+        int original;
+        int chance;
+        BattleEffectType effect;
+        if (ability == 52)
         {
-            FX = TacticalTables.SpellTypes[Spell];
+            effect = TacticalTables.SpellTypes[spell];
         }
         else
         {
-            FX = TacticalTables.AbilTypes[Ability];
+            effect = TacticalTables.s_abilityTypes[ability];
         }
 
-        switch (FX)
+        switch (effect)
         {
             case BattleEffectType.Arrow:
             case BattleEffectType.Rock:
@@ -714,209 +714,209 @@ public partial class BattleAI : IDisposable
             case BattleEffectType.Ray:
             case BattleEffectType.AltArrow:
                 Path = new Point3DList();
-                Obstacles = new DelphiList();
-                if (FX == BattleEffectType.Breath)
+                obstacles = new DelphiList();
+                if (effect == BattleEffectType.Breath)
                 {
-                    TacticalTables.MakeRangedPath(U.GetSide(), 50, 20, 50, (short)X1, (short)Y1, (short)X2, (short)Y2, 0, 0, false, ref Path, ref Obstacles);
+                    TacticalTables.MakeRangedPath(U.GetSide(), 50, 20, 50, (short)x1, (short)y1, (short)x2, (short)y2, 0, 0, false, ref Path, ref obstacles);
                 }
                 else
                 {
-                    TacticalTables.MakeAbilPath(U.GetSide(), (short)Ability, (short)Spell, (short)X1, (short)Y1, (short)X2, (short)Y2, ref Path, ref Obstacles);
+                    TacticalTables.MakeAbilityPath(U.GetSide(), (short)ability, (short)spell, (short)x1, (short)y1, (short)x2, (short)y2, ref Path, ref obstacles);
                 }
 
-                Total = 0;
-                Original = Value;
-                Chance = 100;
+                total = 0;
+                original = value;
+                chance = 100;
                 {
-                    for (int I = 0, last = Obstacles.Count - 1; I <= last; I++)
+                    for (int I = 0, last = obstacles.Count - 1; I <= last; I++)
                     {
-                        var obstacle = Obstacles[I];
+                        var obstacle = obstacles[I];
                         var path = Path[((RangedObstacle)obstacle).PathIndex];
-                        var obstacle2 = Obstacles[I];
-                        HexGeometry.HPtoHX(Path[((RangedObstacle)obstacle2).PathIndex].X, path.Y, ref X, ref Y);
+                        var obstacle2 = obstacles[I];
+                        HexGeometry.PixelToHex(Path[((RangedObstacle)obstacle2).PathIndex].X, path.Y, ref X, ref Y);
                         V = 0;
-                        EvalHex(Ignore, Ability, Spell, X, Y, ref V, HitWalls, true, U, IgnoreWall);
+                        EvalHex(ignore, ability, spell, X, Y, ref V, hitWalls, true, U, ignoreWall);
                         try
                         {
-                            var obstacle3 = Obstacles[I];
-                            Total = Total + V * Chance / 100 * ((RangedObstacle)obstacle3).Chance / 100;
+                            var obstacle3 = obstacles[I];
+                            total = total + V * chance / 100 * ((RangedObstacle)obstacle3).Chance / 100;
                         }
                         catch
                         {
-                            Total = Total + ((RangedObstacle)Obstacles[I]).Chance * (V / 100 * Chance / 100);
+                            total = total + ((RangedObstacle)obstacles[I]).Chance * (V / 100 * chance / 100);
                         }
 
-                        Chance = (100 - ((RangedObstacle)Obstacles[I]).Chance) * Chance / 100;
+                        chance = (100 - ((RangedObstacle)obstacles[I]).Chance) * chance / 100;
                     }
                 }
 
                 try
                 {
-                    Value = Value * Chance / 100;
+                    value = value * chance / 100;
                 }
                 catch
                 {
-                    Value = Value / 100 * Chance;
+                    value = value / 100 * chance;
                 }
 
-                Value = Value + Total;
+                value = value + total;
                 Path?.Dispose();
                 {
-                    for (int I = 0, last = Obstacles.Count - 1; I <= last; I++)
+                    for (int I = 0, last = obstacles.Count - 1; I <= last; I++)
                     {
-                        (Obstacles[I] as IDisposable)?.Dispose();
+                        (obstacles[I] as IDisposable)?.Dispose();
                     }
                 }
 
-                Obstacles?.Dispose();
-                Result = Original - Value;
+                obstacles?.Dispose();
+                result = original - value;
                 break;
             default:
-                Result = 0;
+                result = 0;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:1130
-    public int EvalBreath(ref int Value, CombatObject Ignore, int Ability, int Spell, int X1, int Y1, int X2, int Y2, TacticalBattleUnit U)
+    public int EvalBreath(ref int value, CombatObject ignore, int ability, int spell, int x1, int y1, int x2, int y2, TacticalBattleUnit U)
     {
         int V = default;
         int X = default;
         int Y = default;
-        var xhx = U.FUnitHS.GetXhx();
-        var yhx = U.FUnitHS.GetYhx();
-        int Result = EvalPath(ref Value, Ignore, Ability, Spell, xhx, yhx, X2, Y2, false, U, null);
+        var hexX = U.UnitHexSprite.GetHexX();
+        var hexY = U.UnitHexSprite.GetHexY();
+        int result = EvalPath(ref value, ignore, ability, spell, hexX, hexY, x2, y2, false, U, null);
         for (int I = 0; I <= 11; I++)
         {
             V = 0;
-            var dHXtoHN2 = HexGeometry.dHXtoHN(X1, Y1, X2, Y2);
-            HexGeometry.CenterHNtoHX(X1, Y1, TacticalTables.BreathHN[TacticalTables.BreathDirection[dHXtoHN2 - 1] * 12 + I - 12], ref X, ref Y);
-            EvalHex(Ignore, Ability, Spell, X, Y, ref V, true, true, U, null);
+            var deltaHexToHexNumber2 = HexGeometry.DeltaHexToHexNumber(x1, y1, x2, y2);
+            HexGeometry.CenterHexNumberToHex(x1, y1, TacticalTables.s_breathHexNumber[TacticalTables.BreathDirection[deltaHexToHexNumber2 - 1] * 12 + I - 12], ref X, ref Y);
+            EvalHex(ignore, ability, spell, X, Y, ref V, true, true, U, null);
             if (V != 0)
             {
-                var fUnitHSXhx = U.FUnitHS.GetXhx();
-                var fUnitHSYhx = U.FUnitHS.GetYhx();
-                EvalPath(ref V, Ignore, Ability, Spell, fUnitHSXhx, fUnitHSYhx, X, Y, false, U, null);
+                var fUnitHexSpriteHexX = U.UnitHexSprite.GetHexX();
+                var fUnitHexSpriteHexY = U.UnitHexSprite.GetHexY();
+                EvalPath(ref V, ignore, ability, spell, fUnitHexSpriteHexX, fUnitHexSpriteHexY, X, Y, false, U, null);
             }
 
-            Value = Value + V;
-            Result = Result - V;
+            value = value + V;
+            result = result - V;
         }
 
-        return Result;
+        return result;
     }
 
     // AoWTC.pas:1149
-    public void CheckUnit(int X, int Y, int Hits, int HitPoints, CombatMoveControlSettings Settings, TacticalBattleUnit U, CombatObject Target, DelphiList Abilities, object Wall)
+    public void CheckUnit(int X, int Y, int hits, int hitPoints, CombatMoveControlSettings settings, TacticalBattleUnit U, CombatObject target, DelphiList abilities, object wall)
     {
-        int SafeValue;
+        int safeValue;
         int I;
         int V;
-        int Distance;
-        int Range;
-        int Cost = default;
-        int BestIndex;
-        int BestValue;
+        int distance;
+        int range;
+        int cost = default;
+        int bestIndex;
+        int bestValue;
         int D = default;
-        int NX = default;
-        int NY = default;
-        int OriginalX;
-        int OriginalY;
-        int AX = default;
-        int AY = default;
-        int PathCost;
-        int TerrainValue;
-        int PathValue;
-        int Ability;
-        int Spell;
-        int Value = default;
+        int hexX = default;
+        int hexY = default;
+        int originalX;
+        int originalY;
+        int x = default;
+        int y = default;
+        int pathCost;
+        int terrainValue;
+        int pathValue;
+        int ability;
+        int spell;
+        int value = default;
         MapCoordinateList Path;
         MapCoordinateList DetourPath;
-        MapCoordinateList BasePath;
-        MeleeRound Round;
-        AbilityCombatInfo AbilityInfo = default;
-        SpellCombatInfo SpellInfo = default;
-        CityWall CityWall;
-        bool Adjacent;
-        AbilityDamageValues Values = default;
+        MapCoordinateList basePath;
+        MeleeRound round;
+        AbilityCombatInfo abilityInfo = default;
+        SpellCombatInfo spellInfo = default;
+        CityWall cityWall;
+        bool adjacent;
+        AbilityDamageValues values = default;
         Path = new MovePath();
-        BasePath = new MovePath();
+        basePath = new MovePath();
         DetourPath = new MovePath();
-        TerrainValue = 0;
-        OriginalX = X;
-        OriginalY = Y;
-        var yhx = U.FUnitHS.GetYhx();
-        Distance = HexGeometry.dHXtoRad(U.FUnitHS.GetXhx(), yhx, X, Y);
-        if (U.FMovePoints > 0)
+        terrainValue = 0;
+        originalX = X;
+        originalY = Y;
+        var yhx = U.UnitHexSprite.GetHexY();
+        distance = HexGeometry.DeltaHexToRadius(U.UnitHexSprite.GetHexX(), yhx, X, Y);
+        if (U.MovePoints > 0)
         {
-            CombatMap.Current.FMoveControl.CalculatePath(Settings, (MovePath)BasePath, (sbyte)X, (sbyte)Y, 0);
-            PathCost = MakeTerrainPath(Settings, ref BasePath, ref TerrainValue, U, Target, true, Target is TacticalBattleUnit && FSide == CombatSideIndex.Attacker, 1);
+            CombatMap.Current.MoveControl.CalculatePath(settings, (MovePath)basePath, (sbyte)X, (sbyte)Y, 0);
+            pathCost = MakeTerrainPath(settings, ref basePath, ref terrainValue, U, target, true, target is TacticalBattleUnit && Side == CombatSideIndex.Attacker, 1);
             I = 0;
-            int last = BasePath.Count - 1;
+            int last = basePath.Count - 1;
             for (; I <= last; I += 1)
             {
-                Path.Add(BasePath[I]);
+                Path.Add(basePath[I]);
             }
         }
         else
         {
-            PathCost = Distance * 4;
+            pathCost = distance * 4;
         }
 
-        if (PathCost != -1)
+        if (pathCost != -1)
         {
             try
             {
-                if (Target is CombatUnit && Target.GetSide() != U.GetSide() && CombatObject.MeleeDamageTypes(U) != Set<DamageType>.Of() && (U.GetAbilityEnabled(1) || !Target.GetAbilityEnabled(1)))
+                if (target is CombatUnit && target.GetSide() != U.GetSide() && CombatObject.MeleeDamageTypes(U) != Set<DamageType>.Of() && (U.GetAbilityEnabled(1) || !target.GetAbilityEnabled(1)))
                 {
-                    Ability = 0;
-                    Spell = 0;
-                    Round = new MeleeRound();
-                    Round.Calculate(U, Target);
-                    if (Round.GetAttackerDV() > 0)
+                    ability = 0;
+                    spell = 0;
+                    round = new MeleeRound();
+                    round.Calculate(U, target);
+                    if (round.GetAttackerDamageValue() > 0)
                     {
-                        Adjacent = ((MovePath)Path).MovePointsToPos(U.FMovePoints) == 0;
-                        U.FCanFlee = false;
-                        if (Target is CombatWall)
+                        adjacent = ((MovePath)Path).MovePointsToPosition(U.MovePoints) == 0;
+                        U.CanFlee = false;
+                        if (target is CombatWall)
                         {
-                            FFlee = false;
+                            Flee = false;
                         }
 
-                        var defenderDV = Round.GetDefenderDV();
-                        Value = MultDEV(tcDVtoDEV(Round.GetAttackerDV(), defenderDV, U, Target), HitPoints, Hits) + TerrainValue;
-                        if (Target.GetTargetStrength() <= 0 && Enemies.Count > 1)
+                        var defenderDamageValue = round.GetDefenderDamageValue();
+                        value = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(round.GetAttackerDamageValue(), defenderDamageValue, U, target), hitPoints, hits) + terrainValue;
+                        if (target.GetTargetStrength() <= 0 && Enemies.Count > 1)
                         {
-                            Value -= 10000;
+                            value -= 10000;
                         }
 
-                        Cost = (PathCost - U.FMovePoints) * 10;
-                        if (Cost < 1)
+                        cost = (pathCost - U.MovePoints) * 10;
+                        if (cost < 1)
                         {
-                            Cost = 1;
+                            cost = 1;
                         }
 
-                        if (!(U.FUnit is Hero))
+                        if (!(U.Troop is Hero))
                         {
-                            SafeValue = 0;
+                            safeValue = 0;
                         }
                         else
                         {
                             I = -1;
-                            BestIndex = ((MovePath)Path).MovePointsToPos(U.FMovePoints);
-                            var pathY = Path[BestIndex];
-                            SafeValue = UnitSafe(U, Path[BestIndex].X, pathY.Y);
-                            while (BestIndex < Path.Count - 1 && SafeValue < 0)
+                            bestIndex = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
+                            var pathY = Path[bestIndex];
+                            safeValue = UnitSafe(U, Path[bestIndex].X, pathY.Y);
+                            while (bestIndex < Path.Count - 1 && safeValue < 0)
                             {
-                                var path = Path[BestIndex];
-                                SafeValue = UnitSafe(U, Path[BestIndex].X, path.Y);
-                                if (SafeValue >= 0)
+                                var path = Path[bestIndex];
+                                safeValue = UnitSafe(U, Path[bestIndex].X, path.Y);
+                                if (safeValue >= 0)
                                 {
-                                    I = BestIndex;
+                                    I = bestIndex;
                                 }
 
-                                BestIndex += 1;
+                                bestIndex += 1;
                             }
 
                             if (I > -1)
@@ -931,12 +931,12 @@ public partial class BattleAI : IDisposable
 
                         if (Path.Count > 1)
                         {
-                            if ((SafeValue >= 0 || FNormalUnits == 0) && Adjacent)
+                            if ((safeValue >= 0 || NormalUnits == 0) && adjacent)
                             {
-                                if (Value > 0 || FNormalUnits == 0 || !(U.FUnit is Hero) || Units.Count <= 1)
+                                if (value > 0 || NormalUnits == 0 || !(U.Troop is Hero) || Units.Count <= 1)
                                 {
-                                    FHeroMoves += 1;
-                                    if (U.FUnit is Hero)
+                                    HeroMoves += 1;
+                                    if (U.Troop is Hero)
                                     {
                                         I = 50;
                                     }
@@ -945,32 +945,32 @@ public partial class BattleAI : IDisposable
                                         I = 100;
                                     }
 
-                                    CreateMove(BattleAIMoveType.Melee, X, Y, MultDEV(Value, I, 1), Ability, Spell, U, Target);
+                                    CreateMove(BattleAIMoveType.Melee, X, Y, ScaleDamageEvaluation(value, I, 1), ability, spell, U, target);
                                 }
                             }
                             else
                             {
-                                if (FIgnoreWalls || ChargeFromPos((int)(((uint)U.FPosition) >> 4)))
+                                if (IgnoreWalls || ChargeFromPosition((int)(((uint)U.Position) >> 4)))
                                 {
-                                    if (!((SafeValue < 0 && FNormalUnits != 0) || U.FMovePoints <= 0 || (Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15)))
+                                    if (!((safeValue < 0 && NormalUnits != 0) || U.MovePoints <= 0 || (Path.List[Path.Count - 2].Tag > U.MovePoints && Path.List[Path.Count - 2].Tag <= 15)))
                                     {
-                                        FHeroMoves += 1;
+                                        HeroMoves += 1;
                                         var moves = U.GetMoves();
-                                        var multDEV = MultDEV(Value, moves, Cost);
+                                        var multDamageEvaluation = ScaleDamageEvaluation(value, moves, cost);
                                         var path = Path[0];
-                                        CreateMove(BattleAIMoveType.Move, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
+                                        CreateMove(BattleAIMoveType.Move, Path[0].X, path.Y, multDamageEvaluation, ability, spell, U, target);
                                     }
                                     else
                                     {
                                         var moves = U.GetMoves();
-                                        CreateMove(BattleAIMoveType.Fake, X, Y, MultDEV(Value, moves, Cost), Ability, Spell, U, Target);
+                                        CreateMove(BattleAIMoveType.Fake, X, Y, ScaleDamageEvaluation(value, moves, cost), ability, spell, U, target);
                                     }
                                 }
                             }
                         }
                     }
 
-                    Round?.Dispose();
+                    round?.Dispose();
                 }
             }
             catch
@@ -978,30 +978,30 @@ public partial class BattleAI : IDisposable
                 MessageBox(0, "Error during Melee Check", "Error - TCAI ", 0);
             }
 
-            for (int AbilityIndex = 0, last = Abilities.Count - 1; AbilityIndex <= last; AbilityIndex++)
+            for (int abilityIndex = 0, last = abilities.Count - 1; abilityIndex <= last; abilityIndex++)
             {
                 Path.Clear();
                 I = 0;
-                int limit = BasePath.Count - 1;
+                int limit = basePath.Count - 1;
                 for (; I <= limit; I += 1)
                 {
-                    Path.Add(BasePath[I]);
+                    Path.Add(basePath[I]);
                 }
 
-                Ability = ((CombatAbilityRef)Abilities[AbilityIndex]).Ability;
-                Spell = 0;
-                X = OriginalX;
-                Y = OriginalY;
-                AoWHSSet.Current.FAbilityControl.GetAbility(Ability).GetCombatInfo(U.FUnit, ref AbilityInfo);
-                switch (Ability)
+                ability = ((CombatAbilityRef)abilities[abilityIndex]).Ability;
+                spell = 0;
+                X = originalX;
+                Y = originalY;
+                AoWHSSet.Current.AbilityControl.GetAbility(ability).GetCombatInfo(U.Troop, ref abilityInfo);
+                switch (ability)
                 {
                     case 52:
                         try
                         {
-                            if (!(Target is CombatWall) || !CombatMap.Current.FCombat.FCombatData.FWallBreached)
+                            if (!(target is CombatWall) || !CombatMap.Current.Combat.CombatData.WallBreached)
                             {
-                                Spell = ((CombatAbilityRef)Abilities[AbilityIndex]).Spell;
-                                switch (TacticalTables.SpellTypes[Spell])
+                                spell = ((CombatAbilityRef)abilities[abilityIndex]).Spell;
+                                switch (TacticalTables.SpellTypes[spell])
                                 {
                                     case BattleEffectType.Arrow:
                                     case BattleEffectType.Rock:
@@ -1027,32 +1027,32 @@ public partial class BattleAI : IDisposable
                                     case BattleEffectType.ShockWave:
                                     case BattleEffectType.SacFlame:
                                     case BattleEffectType.Winds:
-                                        AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatInfo(U.FUnit, ref SpellInfo);
-                                        AoWHSSet.Current.FSpellControl.GetSpell(Spell).GetCombatDamageValueEx(U, Target, ref Values);
-                                        if (Values.SourceDamage > 0)
+                                        AoWHSSet.Current.SpellControl.GetSpell(spell).GetCombatInfo(U.Troop, ref spellInfo);
+                                        AoWHSSet.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, target, ref values);
+                                        if (values.SourceDamage > 0)
                                         {
-                                            U.FCanFlee = false;
-                                            if (Target is CombatWall)
+                                            U.CanFlee = false;
+                                            if (target is CombatWall)
                                             {
-                                                FFlee = false;
+                                                Flee = false;
                                             }
 
-                                            PathValue = 0;
-                                            Range = SpellInfo.Range;
-                                            switch (Spell)
+                                            pathValue = 0;
+                                            range = spellInfo.Range;
+                                            switch (spell)
                                             {
                                                 case 108:
                                                 case 114:
-                                                    Range = 4;
+                                                    range = 4;
                                                     break;
                                             }
 
-                                            if (Range == -1)
+                                            if (range == -1)
                                             {
-                                                Range = 100;
+                                                range = 100;
                                             }
 
-                                            switch (Spell)
+                                            switch (spell)
                                             {
                                                 case 8:
                                                 case >= 15 and <= 17:
@@ -1070,267 +1070,267 @@ public partial class BattleAI : IDisposable
                                                 case 106:
                                                 case 110:
                                                 case 111:
-                                                    Value = tcDVtoDEV(Values.SourceDamage, 0, U, Target);
+                                                    value = TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, U, target);
                                                     break;
                                                 default:
-                                                    Value = MultDEV(tcDVtoDEV(Values.SourceDamage, 0, U, Target), HitPoints, Hits);
+                                                    value = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, U, target), hitPoints, hits);
                                                     break;
                                             }
 
-                                            if (Target.GetTargetStrength() <= 0 && Enemies.Count > 1)
+                                            if (target.GetTargetStrength() <= 0 && Enemies.Count > 1)
                                             {
-                                                Value -= 10000;
+                                                value -= 10000;
                                             }
 
-                                            if (U.FMovePoints > 0)
+                                            if (U.MovePoints > 0)
                                             {
-                                                I = ((MovePath)Path).MovePointsToPos(U.FMovePoints);
+                                                I = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
                                                 var pathY = Path[I];
-                                                D = HexGeometry.dHXtoRad(Path[I].X, pathY.Y, X, Y);
-                                                if (D <= Range || Distance <= Range)
+                                                D = HexGeometry.DeltaHexToRadius(Path[I].X, pathY.Y, X, Y);
+                                                if (D <= range || distance <= range)
                                                 {
-                                                    Cost = Value;
-                                                    if (Distance <= Range)
+                                                    cost = value;
+                                                    if (distance <= range)
                                                     {
-                                                        switch (Spell)
+                                                        switch (spell)
                                                         {
                                                             case 117:
-                                                                var xhx = U.FUnitHS.GetXhx();
-                                                                var fUnitHSYhx = U.FUnitHS.GetYhx();
-                                                                PathValue = EvalPath(ref Value, Target, Ability, Spell, xhx, fUnitHSYhx, X, Y, true, U, Wall);
-                                                                EvalArea(ref Value, Target, Ability, Spell, X, Y, true, true, true, U, Wall);
-                                                                BestIndex = X;
-                                                                BestValue = Y;
+                                                                var xhx = U.UnitHexSprite.GetHexX();
+                                                                var fUnitHexSpriteHexY = U.UnitHexSprite.GetHexY();
+                                                                pathValue = EvalPath(ref value, target, ability, spell, xhx, fUnitHexSpriteHexY, X, Y, true, U, wall);
+                                                                EvalArea(ref value, target, ability, spell, X, Y, true, true, true, U, wall);
+                                                                bestIndex = X;
+                                                                bestValue = Y;
                                                                 {
                                                                     I = 1;
                                                                     for (; I <= 6; I += 1)
                                                                     {
-                                                                        HexGeometry.CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                        var yhx2 = U.FUnitHS.GetYhx();
-                                                                        if (HexGeometry.dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
+                                                                        HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
+                                                                        var hexY2 = U.UnitHexSprite.GetHexY();
+                                                                        if (HexGeometry.DeltaHexToRadius(U.UnitHexSprite.GetHexX(), hexY2, hexX, hexY) <= range)
                                                                         {
-                                                                            D = Cost;
-                                                                            var fUnitHSXhx = U.FUnitHS.GetXhx();
-                                                                            var yhx3 = U.FUnitHS.GetYhx();
-                                                                            V = EvalPath(ref D, Target, Ability, Spell, fUnitHSXhx, yhx3, NX, NY, true, U, Wall);
-                                                                            EvalArea(ref D, Target, Ability, Spell, NX, NY, true, true, true, U, Wall);
-                                                                            if (D > Value)
+                                                                            D = cost;
+                                                                            var fUnitHexSpriteHexX = U.UnitHexSprite.GetHexX();
+                                                                            var hexY3 = U.UnitHexSprite.GetHexY();
+                                                                            V = EvalPath(ref D, target, ability, spell, fUnitHexSpriteHexX, hexY3, hexX, hexY, true, U, wall);
+                                                                            EvalArea(ref D, target, ability, spell, hexX, hexY, true, true, true, U, wall);
+                                                                            if (D > value)
                                                                             {
-                                                                                Value = D;
-                                                                                PathValue = V;
-                                                                                BestIndex = NX;
-                                                                                BestValue = NY;
+                                                                                value = D;
+                                                                                pathValue = V;
+                                                                                bestIndex = hexX;
+                                                                                bestValue = hexY;
                                                                             }
                                                                         }
                                                                     }
                                                                 }
 
-                                                                X = BestIndex;
-                                                                Y = BestValue;
+                                                                X = bestIndex;
+                                                                Y = bestValue;
                                                                 break;
                                                             case 127:
-                                                                Value = 0;
-                                                                Cost = 0;
+                                                                value = 0;
+                                                                cost = 0;
                                                                 {
                                                                     I = 1;
                                                                     for (; I <= 36; I += 1)
                                                                     {
-                                                                        var yhx2 = U.FUnitHS.GetYhx();
-                                                                        HexGeometry.CenterHNtoHX(U.FUnitHS.GetXhx(), yhx2, I, ref NX, ref NY);
-                                                                        EvalHex(null, Ability, Spell, NX, NY, ref Value, true, true, U, Wall);
+                                                                        var hexY2 = U.UnitHexSprite.GetHexY();
+                                                                        HexGeometry.CenterHexNumberToHex(U.UnitHexSprite.GetHexX(), hexY2, I, ref hexX, ref hexY);
+                                                                        EvalHex(null, ability, spell, hexX, hexY, ref value, true, true, U, wall);
                                                                     }
                                                                 }
 
                                                                 break;
                                                             case 128:
-                                                                EvalHex(Target, Ability, Spell, U.FUnitHS.GetXhx(), U.FUnitHS.GetYhx(), ref Value, true, true, U, Wall);
+                                                                EvalHex(target, ability, spell, U.UnitHexSprite.GetHexX(), U.UnitHexSprite.GetHexY(), ref value, true, true, U, wall);
                                                                 {
                                                                     I = 0;
                                                                     for (; I <= 18; I += 1)
                                                                     {
-                                                                        HexGeometry.CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                        EvalHex(Target, Ability, Spell, NX, NY, ref Value, true, true, U, Wall);
+                                                                        HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
+                                                                        EvalHex(target, ability, spell, hexX, hexY, ref value, true, true, U, wall);
                                                                     }
                                                                 }
 
-                                                                BestIndex = X;
-                                                                BestValue = Y;
+                                                                bestIndex = X;
+                                                                bestValue = Y;
                                                                 {
                                                                     I = 1;
                                                                     for (; I <= 18; I += 1)
                                                                     {
-                                                                        HexGeometry.CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                        var yhx2 = U.FUnitHS.GetYhx();
-                                                                        if (HexGeometry.dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
+                                                                        HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
+                                                                        var hexY2 = U.UnitHexSprite.GetHexY();
+                                                                        if (HexGeometry.DeltaHexToRadius(U.UnitHexSprite.GetHexX(), hexY2, hexX, hexY) <= range)
                                                                         {
-                                                                            D = Cost;
-                                                                            EvalHex(Target, Ability, Spell, U.FUnitHS.GetXhx(), U.FUnitHS.GetYhx(), ref D, true, true, U, Wall);
+                                                                            D = cost;
+                                                                            EvalHex(target, ability, spell, U.UnitHexSprite.GetHexX(), U.UnitHexSprite.GetHexY(), ref D, true, true, U, wall);
                                                                             V = 0;
                                                                             for (; V <= 18; V += 1)
                                                                             {
-                                                                                HexGeometry.CenterHNtoHX(NX, NY, V, ref AX, ref AY);
-                                                                                EvalHex(Target, Ability, Spell, AX, AY, ref D, true, true, U, Wall);
+                                                                                HexGeometry.CenterHexNumberToHex(hexX, hexY, V, ref x, ref y);
+                                                                                EvalHex(target, ability, spell, x, y, ref D, true, true, U, wall);
                                                                             }
 
-                                                                            if (D > Value)
+                                                                            if (D > value)
                                                                             {
-                                                                                Value = D;
-                                                                                BestIndex = NX;
-                                                                                BestValue = NY;
+                                                                                value = D;
+                                                                                bestIndex = hexX;
+                                                                                bestValue = hexY;
                                                                             }
                                                                         }
                                                                     }
                                                                 }
 
-                                                                X = BestIndex;
-                                                                Y = BestValue;
+                                                                X = bestIndex;
+                                                                Y = bestValue;
                                                                 break;
                                                             case 100:
                                                             case 103:
                                                             case 119:
                                                             case 122:
                                                             case 123:
-                                                                var xhx2 = U.FUnitHS.GetXhx();
-                                                                var yhx4 = U.FUnitHS.GetYhx();
-                                                                PathValue = EvalPath(ref Value, Target, Ability, Spell, xhx2, yhx4, X, Y, false, U, Wall);
+                                                                var hexX2 = U.UnitHexSprite.GetHexX();
+                                                                var hexY4 = U.UnitHexSprite.GetHexY();
+                                                                pathValue = EvalPath(ref value, target, ability, spell, hexX2, hexY4, X, Y, false, U, wall);
                                                                 break;
                                                             case 116:
-                                                                EvalArea(ref Value, Target, Ability, Spell, X, Y, true, true, true, U, Wall);
-                                                                BestIndex = X;
-                                                                BestValue = Y;
+                                                                EvalArea(ref value, target, ability, spell, X, Y, true, true, true, U, wall);
+                                                                bestIndex = X;
+                                                                bestValue = Y;
                                                                 {
                                                                     I = 1;
                                                                     for (; I <= 6; I += 1)
                                                                     {
-                                                                        HexGeometry.CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                        var yhx2 = U.FUnitHS.GetYhx();
-                                                                        if (HexGeometry.dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
+                                                                        HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
+                                                                        var hexY2 = U.UnitHexSprite.GetHexY();
+                                                                        if (HexGeometry.DeltaHexToRadius(U.UnitHexSprite.GetHexX(), hexY2, hexX, hexY) <= range)
                                                                         {
-                                                                            D = Cost;
-                                                                            EvalArea(ref D, Target, Ability, Spell, NX, NY, true, true, true, U, Wall);
-                                                                            if (D > Value)
+                                                                            D = cost;
+                                                                            EvalArea(ref D, target, ability, spell, hexX, hexY, true, true, true, U, wall);
+                                                                            if (D > value)
                                                                             {
-                                                                                Value = D;
-                                                                                BestIndex = NX;
-                                                                                BestValue = NY;
+                                                                                value = D;
+                                                                                bestIndex = hexX;
+                                                                                bestValue = hexY;
                                                                             }
                                                                         }
                                                                     }
                                                                 }
 
-                                                                X = BestIndex;
-                                                                Y = BestValue;
+                                                                X = bestIndex;
+                                                                Y = bestValue;
                                                                 break;
                                                             case 104:
                                                             case 120:
-                                                                EvalArea(ref Value, Target, Ability, Spell, X, Y, false, true, true, U, Wall);
-                                                                BestIndex = X;
-                                                                BestValue = Y;
+                                                                EvalArea(ref value, target, ability, spell, X, Y, false, true, true, U, wall);
+                                                                bestIndex = X;
+                                                                bestValue = Y;
                                                                 {
                                                                     I = 1;
                                                                     for (; I <= 6; I += 1)
                                                                     {
-                                                                        HexGeometry.CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                        var yhx2 = U.FUnitHS.GetYhx();
-                                                                        if (HexGeometry.dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
+                                                                        HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
+                                                                        var hexY2 = U.UnitHexSprite.GetHexY();
+                                                                        if (HexGeometry.DeltaHexToRadius(U.UnitHexSprite.GetHexX(), hexY2, hexX, hexY) <= range)
                                                                         {
-                                                                            D = Cost;
-                                                                            EvalArea(ref D, Target, Ability, Spell, NX, NY, false, true, true, U, Wall);
-                                                                            if (D > Value)
+                                                                            D = cost;
+                                                                            EvalArea(ref D, target, ability, spell, hexX, hexY, false, true, true, U, wall);
+                                                                            if (D > value)
                                                                             {
-                                                                                Value = D;
-                                                                                BestIndex = NX;
-                                                                                BestValue = NY;
+                                                                                value = D;
+                                                                                bestIndex = hexX;
+                                                                                bestValue = hexY;
                                                                             }
                                                                         }
                                                                     }
                                                                 }
 
-                                                                X = BestIndex;
-                                                                Y = BestValue;
+                                                                X = bestIndex;
+                                                                Y = bestValue;
                                                                 break;
                                                             case 106:
-                                                                EvalArea(ref Value, Target, Ability, Spell, X, Y, false, false, false, U, Wall);
-                                                                BestIndex = X;
-                                                                BestValue = Y;
+                                                                EvalArea(ref value, target, ability, spell, X, Y, false, false, false, U, wall);
+                                                                bestIndex = X;
+                                                                bestValue = Y;
                                                                 {
                                                                     I = 1;
                                                                     for (; I <= 6; I += 1)
                                                                     {
-                                                                        HexGeometry.CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                        var yhx2 = U.FUnitHS.GetYhx();
-                                                                        if (HexGeometry.dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
+                                                                        HexGeometry.CenterHexNumberToHex(X, Y, I, ref hexX, ref hexY);
+                                                                        var hexY2 = U.UnitHexSprite.GetHexY();
+                                                                        if (HexGeometry.DeltaHexToRadius(U.UnitHexSprite.GetHexX(), hexY2, hexX, hexY) <= range)
                                                                         {
-                                                                            D = Cost;
-                                                                            EvalArea(ref D, Target, Ability, Spell, NX, NY, false, false, false, U, Wall);
-                                                                            if (D > Value)
+                                                                            D = cost;
+                                                                            EvalArea(ref D, target, ability, spell, hexX, hexY, false, false, false, U, wall);
+                                                                            if (D > value)
                                                                             {
-                                                                                Value = D;
-                                                                                BestIndex = NX;
-                                                                                BestValue = NY;
+                                                                                value = D;
+                                                                                bestIndex = hexX;
+                                                                                bestValue = hexY;
                                                                             }
                                                                         }
                                                                     }
                                                                 }
 
-                                                                X = BestIndex;
-                                                                Y = BestValue;
+                                                                X = bestIndex;
+                                                                Y = bestValue;
                                                                 break;
                                                             case 112:
-                                                                if (FSide == CombatSideIndex.Defender && CombatMap.Current.FCombat.FCombatData.FWallType != 0)
+                                                                if (Side == CombatSideIndex.Defender && CombatMap.Current.Combat.CombatData.WallType != 0)
                                                                 {
-                                                                    Value = -9999;
+                                                                    value = -9999;
                                                                 }
                                                                 else
                                                                 {
-                                                                    EvalAll(ref Value, Enemies, Target, Spell, U);
-                                                                    EvalAll(ref Value, Allies, Target, Spell, U);
-                                                                    EvalAll(ref Value, Units, Target, Spell, U);
+                                                                    EvalAll(ref value, Enemies, target, spell, U);
+                                                                    EvalAll(ref value, Allies, target, spell, U);
+                                                                    EvalAll(ref value, Units, target, spell, U);
                                                                 }
 
                                                                 break;
                                                             case 125:
-                                                                EvalAll(ref Value, Enemies, Target, Spell, U);
-                                                                EvalAll(ref Value, Allies, Target, Spell, U);
-                                                                EvalAll(ref Value, Units, Target, Spell, U);
+                                                                EvalAll(ref value, Enemies, target, spell, U);
+                                                                EvalAll(ref value, Allies, target, spell, U);
+                                                                EvalAll(ref value, Units, target, spell, U);
                                                                 break;
                                                             case 102:
-                                                                EvalAll(ref Value, Units, Target, Spell, U);
+                                                                EvalAll(ref value, Units, target, spell, U);
                                                                 break;
                                                             case 105:
-                                                                EvalAll(ref Value, Enemies, Target, Spell, U);
+                                                                EvalAll(ref value, Enemies, target, spell, U);
                                                                 break;
                                                             case 108:
                                                             case 114:
-                                                                var xhx3 = U.FUnitHS.GetXhx();
-                                                                var yhx5 = U.FUnitHS.GetYhx();
-                                                                PathValue = EvalBreath(ref Value, Target, Ability, Spell, xhx3, yhx5, X, Y, U);
+                                                                var hexX3 = U.UnitHexSprite.GetHexX();
+                                                                var hexY5 = U.UnitHexSprite.GetHexY();
+                                                                pathValue = EvalBreath(ref value, target, ability, spell, hexX3, hexY5, X, Y, U);
                                                                 break;
                                                         }
                                                     }
                                                 }
 
-                                                if (D <= Range && (PathValue > 0 || Value > 0))
+                                                if (D <= range && (pathValue > 0 || value > 0))
                                                 {
-                                                    if (PathValue != 0 && Value < Cost)
+                                                    if (pathValue != 0 && value < cost)
                                                     {
-                                                        BestIndex = 0;
-                                                        BestValue = Value;
-                                                        D = Cost;
+                                                        bestIndex = 0;
+                                                        bestValue = value;
+                                                        D = cost;
                                                         I = Path.Count - 2;
                                                         while (I >= 1)
                                                         {
                                                             var path = Path[I];
                                                             var pathX = Path[I];
-                                                            CityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
-                                                            if (CityWall == null && FSide == CombatSideIndex.Attacker)
+                                                            cityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
+                                                            if (cityWall == null && Side == CombatSideIndex.Attacker)
                                                             {
                                                                 var path2 = Path[I];
                                                                 var path3 = Path[I];
-                                                                CityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510) as CityWall;
+                                                                cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510) as CityWall;
                                                             }
 
-                                                            if (!(CityWall == null || CityWall.FHitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
+                                                            if (!(cityWall == null || cityWall.HitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
                                                             {
                                                                 I = 1;
                                                             }
@@ -1339,17 +1339,17 @@ public partial class BattleAI : IDisposable
                                                                 var path2 = Path[I];
                                                                 var path3 = Path[I];
                                                                 var path4 = Path[0];
-                                                                if (HexGeometry.dHXtoRad(Path[0].X, path4.Y, path3.X, path2.Y) <= Range)
+                                                                if (HexGeometry.DeltaHexToRadius(Path[0].X, path4.Y, path3.X, path2.Y) <= range)
                                                                 {
                                                                     var path5 = Path[I];
                                                                     var path6 = Path[I];
-                                                                    V = EvalPath(ref Cost, Target, Ability, Spell, path5.X, path6.Y, X, Y, Spell == 117, U, Wall);
-                                                                    Cost = D;
-                                                                    if (V < PathValue)
+                                                                    V = EvalPath(ref cost, target, ability, spell, path5.X, path6.Y, X, Y, spell == 117, U, wall);
+                                                                    cost = D;
+                                                                    if (V < pathValue)
                                                                     {
-                                                                        BestValue = BestValue + PathValue - V;
-                                                                        PathValue = V;
-                                                                        BestIndex = I;
+                                                                        bestValue = bestValue + pathValue - V;
+                                                                        pathValue = V;
+                                                                        bestIndex = I;
                                                                     }
                                                                 }
                                                             }
@@ -1357,10 +1357,10 @@ public partial class BattleAI : IDisposable
                                                             I -= 1;
                                                         }
 
-                                                        if (BestIndex > 0)
+                                                        if (bestIndex > 0)
                                                         {
                                                             DetourPath.Clear();
-                                                            I = BestIndex;
+                                                            I = bestIndex;
                                                             int last2 = Path.Count - 1;
                                                             for (; I <= last2; I += 1)
                                                             {
@@ -1368,71 +1368,71 @@ public partial class BattleAI : IDisposable
                                                                 DetourPath.Add(path);
                                                             }
 
-                                                            TerrainValue = 0;
-                                                            PathCost = MakeTerrainPath(Settings, ref DetourPath, ref TerrainValue, U, Target, true, false, 1);
-                                                            PathValue += BestValue;
-                                                            PathCost = ((MovePath)Path).PosToMovePoints(0);
+                                                            terrainValue = 0;
+                                                            pathCost = MakeTerrainPath(settings, ref DetourPath, ref terrainValue, U, target, true, false, 1);
+                                                            pathValue += bestValue;
+                                                            pathCost = ((MovePath)Path).PositionToMovePoints(0);
                                                         }
                                                     }
 
-                                                    BestIndex = 0;
+                                                    bestIndex = 0;
                                                     I = 1;
                                                     int last3 = Path.Count - 2;
                                                     for (; I <= last3; I += 1)
                                                     {
                                                         var path = Path[I];
-                                                        if (HexGeometry.dHXtoRad(X, Y, Path[I].X, path.Y) <= Range && ((MovePath)Path).PosToMovePoints(I) <= U.FMovePoints)
+                                                        if (HexGeometry.DeltaHexToRadius(X, Y, Path[I].X, path.Y) <= range && ((MovePath)Path).PositionToMovePoints(I) <= U.MovePoints)
                                                         {
-                                                            Cost = 1000;
+                                                            cost = 1000;
                                                             var pathX = Path[I];
                                                             var path2 = Path[I];
-                                                            V = EvalPath(ref Cost, Target, Ability, Spell, pathX.X, path2.Y, X, Y, Spell == 117, U, Wall);
-                                                            if (V == 0 && Cost == 1000)
+                                                            V = EvalPath(ref cost, target, ability, spell, pathX.X, path2.Y, X, Y, spell == 117, U, wall);
+                                                            if (V == 0 && cost == 1000)
                                                             {
-                                                                BestIndex = I;
+                                                                bestIndex = I;
                                                             }
                                                         }
                                                     }
 
-                                                    if (BestIndex > 0)
+                                                    if (bestIndex > 0)
                                                     {
                                                         I = 0;
-                                                        for (; I <= BestIndex - 1; I += 1)
+                                                        for (; I <= bestIndex - 1; I += 1)
                                                         {
                                                             Path.Delete(0);
                                                         }
                                                     }
 
-                                                    PathCost = ((MovePath)Path).PosToMovePoints(0);
+                                                    pathCost = ((MovePath)Path).PositionToMovePoints(0);
                                                 }
 
                                                 // { Keep move selection inside the positive movement guard. }
-                                                Cost = (PathCost - U.FMovePoints - Range * 4) * 10;
-                                                if (Cost < 1)
+                                                cost = (pathCost - U.MovePoints - range * 4) * 10;
+                                                if (cost < 1)
                                                 {
-                                                    Cost = 1;
+                                                    cost = 1;
                                                 }
 
-                                                if (!(U.FUnit is Hero))
+                                                if (!(U.Troop is Hero))
                                                 {
-                                                    SafeValue = 0;
+                                                    safeValue = 0;
                                                 }
                                                 else
                                                 {
                                                     I = -1;
-                                                    BestIndex = ((MovePath)Path).MovePointsToPos(U.FMovePoints);
-                                                    var path = Path[BestIndex];
-                                                    SafeValue = UnitSafe(U, Path[BestIndex].X, path.Y);
-                                                    while (BestIndex < Path.Count - 1 && SafeValue < 0)
+                                                    bestIndex = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
+                                                    var path = Path[bestIndex];
+                                                    safeValue = UnitSafe(U, Path[bestIndex].X, path.Y);
+                                                    while (bestIndex < Path.Count - 1 && safeValue < 0)
                                                     {
-                                                        var path2 = Path[BestIndex];
-                                                        SafeValue = UnitSafe(U, Path[BestIndex].X, path2.Y);
-                                                        if (SafeValue >= 0)
+                                                        var path2 = Path[bestIndex];
+                                                        safeValue = UnitSafe(U, Path[bestIndex].X, path2.Y);
+                                                        if (safeValue >= 0)
                                                         {
-                                                            I = BestIndex;
+                                                            I = bestIndex;
                                                         }
 
-                                                        BestIndex += 1;
+                                                        bestIndex += 1;
                                                     }
 
                                                     if (I > -1)
@@ -1445,42 +1445,42 @@ public partial class BattleAI : IDisposable
                                                     }
                                                 }
 
-                                                if ((PathValue == 0 || Value != 0) && Distance <= Range && U.GetMoves() == U.FMovePoints)
+                                                if ((pathValue == 0 || value != 0) && distance <= range && U.GetMoves() == U.MovePoints)
                                                 {
-                                                    FHeroMoves += 1;
-                                                    I = Math.Abs(Value + PathValue);
+                                                    HeroMoves += 1;
+                                                    I = Math.Abs(value + pathValue);
                                                     if (I < 1)
                                                     {
                                                         I = 1;
                                                     }
 
-                                                    CreateMove(BattleAIMoveType.Ranged, X, Y, MultDEV(Value, Value * 100 / I, 1), Ability, Spell, U, Target);
-                                                    if (PathValue > 0 && U.FMovePoints > 0 && DetourPath.Count > 1)
+                                                    CreateMove(BattleAIMoveType.Ranged, X, Y, ScaleDamageEvaluation(value, value * 100 / I, 1), ability, spell, U, target);
+                                                    if (pathValue > 0 && U.MovePoints > 0 && DetourPath.Count > 1)
                                                     {
-                                                        if (!(DetourPath.List[DetourPath.Count - 2].Flag > U.FMovePoints && DetourPath.List[DetourPath.Count - 2].Flag <= 15))
+                                                        if (!(DetourPath.List[DetourPath.Count - 2].Tag > U.MovePoints && DetourPath.List[DetourPath.Count - 2].Tag <= 15))
                                                         {
-                                                            FHeroMoves += 1;
-                                                            var multDEV = MultDEV(PathValue + TerrainValue, 100 * PathValue / I, 1);
+                                                            HeroMoves += 1;
+                                                            var multDamageEvaluation = ScaleDamageEvaluation(pathValue + terrainValue, 100 * pathValue / I, 1);
                                                             var detourPath = DetourPath[0];
-                                                            CreateMove(BattleAIMoveType.MoveRanged, DetourPath[0].X, detourPath.Y, multDEV, Ability, Spell, U, Target);
+                                                            CreateMove(BattleAIMoveType.MoveRanged, DetourPath[0].X, detourPath.Y, multDamageEvaluation, ability, spell, U, target);
                                                         }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    if (Path.Count > 1 && (FIgnoreWalls || ChargeFromPos((int)(((uint)U.FPosition) >> 4))))
+                                                    if (Path.Count > 1 && (IgnoreWalls || ChargeFromPosition((int)(((uint)U.Position) >> 4))))
                                                     {
-                                                        if (!((SafeValue < 0 && FNormalUnits != 0) || U.FMovePoints <= 0 || Path.Count <= 1 || (Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15)))
+                                                        if (!((safeValue < 0 && NormalUnits != 0) || U.MovePoints <= 0 || Path.Count <= 1 || (Path.List[Path.Count - 2].Tag > U.MovePoints && Path.List[Path.Count - 2].Tag <= 15)))
                                                         {
                                                             var moves = U.GetMoves();
-                                                            var multDEV = MultDEV(PathValue + TerrainValue + Value, moves, Cost);
+                                                            var multDamageEvaluation = ScaleDamageEvaluation(pathValue + terrainValue + value, moves, cost);
                                                             var path = Path[0];
-                                                            CreateMove(BattleAIMoveType.MoveRanged, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
+                                                            CreateMove(BattleAIMoveType.MoveRanged, Path[0].X, path.Y, multDamageEvaluation, ability, spell, U, target);
                                                         }
                                                         else
                                                         {
                                                             var moves = U.GetMoves();
-                                                            CreateMove(BattleAIMoveType.Fake, X, Y, MultDEV(MultDEV(PathValue, 100, 1) + TerrainValue + Value, moves, Cost), Ability, Spell, U, Target);
+                                                            CreateMove(BattleAIMoveType.Fake, X, Y, ScaleDamageEvaluation(ScaleDamageEvaluation(pathValue, 100, 1) + terrainValue + value, moves, cost), ability, spell, U, target);
                                                         }
                                                     }
                                                 }
@@ -1493,35 +1493,35 @@ public partial class BattleAI : IDisposable
                         }
                         catch
                         {
-                            MessageBox(0, "Error during Spell Check", NullTerminatedText("Error - TCAI " + IntToStr(Ability) + " " + IntToStr(Spell)), 0);
+                            MessageBox(0, "Error during Spell Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
                         }
 
                         break;
                     default:
-                        switch (TacticalTables.AbilTypes[Ability])
+                        switch (TacticalTables.s_abilityTypes[ability])
                         {
                             case BattleEffectType.Touch:
-                                if (Target is CombatWall || Target is CombatUnit && ((TouchAbility)AoWHSSet.Current.FAbilityControl.GetAbility(Ability)).CanTouch(U, Target))
+                                if (target is CombatWall || target is CombatUnit && ((TouchAbility)AoWHSSet.Current.AbilityControl.GetAbility(ability)).CanTouch(U, target))
                                 {
                                     try
                                     {
-                                        AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValueEx(U, Target, ref Values);
-                                        if (Values.SourceDamage > 0)
+                                        AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, target, ref values);
+                                        if (values.SourceDamage > 0)
                                         {
-                                            Adjacent = ((MovePath)Path).MovePointsToPos(U.FMovePoints) == 0;
-                                            U.FCanFlee = false;
-                                            if (Target is CombatWall)
+                                            adjacent = ((MovePath)Path).MovePointsToPosition(U.MovePoints) == 0;
+                                            U.CanFlee = false;
+                                            if (target is CombatWall)
                                             {
-                                                FFlee = false;
+                                                Flee = false;
                                             }
 
-                                            if (Ability == 65)
+                                            if (ability == 65)
                                             {
-                                                Values.TargetDamage = 0;
+                                                values.TargetDamage = 0;
                                             }
 
-                                            Value = MultDEV(tcDVtoDEV(Values.SourceDamage, Values.TargetDamage, U, Target), HitPoints, Hits) + TerrainValue;
-                                            switch (Ability)
+                                            value = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, values.TargetDamage, U, target), hitPoints, hits) + terrainValue;
+                                            switch (ability)
                                             {
                                                 case >= 27 and <= 29:
                                                 case 40:
@@ -1529,62 +1529,62 @@ public partial class BattleAI : IDisposable
                                                 case 106:
                                                 case 107:
                                                 case 148:
-                                                    Value = tcDVtoDEV(Values.SourceDamage, 0, U, Target);
+                                                    value = TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, U, target);
                                                     break;
                                                 default:
-                                                    Value = MultDEV(tcDVtoDEV(Values.SourceDamage, 0, U, Target), HitPoints, Hits);
+                                                    value = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(values.SourceDamage, 0, U, target), hitPoints, hits);
                                                     break;
                                             }
 
-                                            if (Ability == 117 && CombatObject.MeleeDamageTypes(U) == Set<DamageType>.Of())
+                                            if (ability == 117 && CombatObject.MeleeDamageTypes(U) == Set<DamageType>.Of())
                                             {
-                                                Value = MultDEV(Value, 100, 1);
+                                                value = ScaleDamageEvaluation(value, 100, 1);
                                             }
 
-                                            if (Target.GetTargetStrength() <= 0 && Enemies.Count > 1)
+                                            if (target.GetTargetStrength() <= 0 && Enemies.Count > 1)
                                             {
-                                                Value -= 10000;
+                                                value -= 10000;
                                             }
 
-                                            if (U.FMovePoints > 0 && ((MovePath)Path).MovePointsToPos(U.FMovePoints) == 0)
+                                            if (U.MovePoints > 0 && ((MovePath)Path).MovePointsToPosition(U.MovePoints) == 0)
                                             {
-                                                switch (Ability)
+                                                switch (ability)
                                                 {
                                                     case 65:
-                                                        EvalArea(ref Value, Target, Ability, Spell, Path.List[1].X, Path.List[1].Y, true, false, true, U, Wall);
+                                                        EvalArea(ref value, target, ability, spell, Path.List[1].X, Path.List[1].Y, true, false, true, U, wall);
                                                         break;
                                                     case 114:
-                                                        EvalArea(ref Value, Target, Ability, Spell, Path.List[1].X, Path.List[1].Y, false, false, true, U, Wall);
+                                                        EvalArea(ref value, target, ability, spell, Path.List[1].X, Path.List[1].Y, false, false, true, U, wall);
                                                         break;
                                                 }
                                             }
 
-                                            Cost = (PathCost - U.FMovePoints) * 10;
-                                            if (Cost < 1)
+                                            cost = (pathCost - U.MovePoints) * 10;
+                                            if (cost < 1)
                                             {
-                                                Cost = 1;
+                                                cost = 1;
                                             }
 
-                                            if (!(U.FUnit is Hero))
+                                            if (!(U.Troop is Hero))
                                             {
-                                                SafeValue = 0;
+                                                safeValue = 0;
                                             }
                                             else
                                             {
                                                 I = -1;
-                                                BestIndex = ((MovePath)Path).MovePointsToPos(U.FMovePoints);
-                                                var pathY = Path[BestIndex];
-                                                SafeValue = UnitSafe(U, Path[BestIndex].X, pathY.Y);
-                                                while (BestIndex < Path.Count - 1 && SafeValue < 0)
+                                                bestIndex = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
+                                                var pathY = Path[bestIndex];
+                                                safeValue = UnitSafe(U, Path[bestIndex].X, pathY.Y);
+                                                while (bestIndex < Path.Count - 1 && safeValue < 0)
                                                 {
-                                                    var path = Path[BestIndex];
-                                                    SafeValue = UnitSafe(U, Path[BestIndex].X, path.Y);
-                                                    if (SafeValue >= 0)
+                                                    var path = Path[bestIndex];
+                                                    safeValue = UnitSafe(U, Path[bestIndex].X, path.Y);
+                                                    if (safeValue >= 0)
                                                     {
-                                                        I = BestIndex;
+                                                        I = bestIndex;
                                                     }
 
-                                                    BestIndex += 1;
+                                                    bestIndex += 1;
                                                 }
 
                                                 if (I > -1)
@@ -1599,16 +1599,16 @@ public partial class BattleAI : IDisposable
 
                                             if (Path.Count > 1)
                                             {
-                                                if ((SafeValue >= 0 || FNormalUnits == 0) && Adjacent)
+                                                if ((safeValue >= 0 || NormalUnits == 0) && adjacent)
                                                 {
-                                                    FHeroMoves += 1;
-                                                    if (U.FUnit is Hero)
+                                                    HeroMoves += 1;
+                                                    if (U.Troop is Hero)
                                                     {
                                                         I = 1;
                                                     }
                                                     else
                                                     {
-                                                        if (Target is CombatWall && CombatMap.Current.FCombat.FCombatData.FWallBreached && CombatMap.Current.FRound > 1)
+                                                        if (target is CombatWall && CombatMap.Current.Combat.CombatData.WallBreached && CombatMap.Current.Round > 1)
                                                         {
                                                             I = 10;
                                                         }
@@ -1618,24 +1618,24 @@ public partial class BattleAI : IDisposable
                                                         }
                                                     }
 
-                                                    CreateMove(BattleAIMoveType.Touch, X, Y, MultDEV(Value, I, 1), Ability, Spell, U, Target);
+                                                    CreateMove(BattleAIMoveType.Touch, X, Y, ScaleDamageEvaluation(value, I, 1), ability, spell, U, target);
                                                 }
                                                 else
                                                 {
-                                                    if (FIgnoreWalls || ChargeFromPos((int)(((uint)U.FPosition) >> 4)))
+                                                    if (IgnoreWalls || ChargeFromPosition((int)(((uint)U.Position) >> 4)))
                                                     {
-                                                        if (!((SafeValue < 0 && FNormalUnits != 0) || U.FMovePoints <= 0 || (Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15)))
+                                                        if (!((safeValue < 0 && NormalUnits != 0) || U.MovePoints <= 0 || (Path.List[Path.Count - 2].Tag > U.MovePoints && Path.List[Path.Count - 2].Tag <= 15)))
                                                         {
-                                                            FHeroMoves += 1;
+                                                            HeroMoves += 1;
                                                             var moves = U.GetMoves();
-                                                            var multDEV = MultDEV(Value, moves, Cost);
+                                                            var multDamageEvaluation = ScaleDamageEvaluation(value, moves, cost);
                                                             var path = Path[0];
-                                                            CreateMove(BattleAIMoveType.Move, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
+                                                            CreateMove(BattleAIMoveType.Move, Path[0].X, path.Y, multDamageEvaluation, ability, spell, U, target);
                                                         }
                                                         else
                                                         {
                                                             var moves = U.GetMoves();
-                                                            CreateMove(BattleAIMoveType.Fake, X, Y, MultDEV(Value, moves, Cost), Ability, Spell, U, Target);
+                                                            CreateMove(BattleAIMoveType.Fake, X, Y, ScaleDamageEvaluation(value, moves, cost), ability, spell, U, target);
                                                         }
                                                     }
                                                 }
@@ -1644,7 +1644,7 @@ public partial class BattleAI : IDisposable
                                     }
                                     catch
                                     {
-                                        MessageBox(0, "Error during Touch Check", NullTerminatedText("Error - TCAI " + IntToStr(Ability) + " " + IntToStr(Spell)), 0);
+                                        MessageBox(0, "Error during Touch Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
                                     }
                                 }
 
@@ -1671,49 +1671,49 @@ public partial class BattleAI : IDisposable
                             case BattleEffectType.HighPrayer:
                                 try
                                 {
-                                    Cost = AoWHSSet.Current.FAbilityControl.GetAbility(Ability).tcGetDamageValue(U, Target);
-                                    if (Cost > 0)
+                                    cost = AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValue(U, target);
+                                    if (cost > 0)
                                     {
-                                        U.FCanFlee = false;
-                                        if (Target is CombatWall)
+                                        U.CanFlee = false;
+                                        if (target is CombatWall)
                                         {
-                                            FFlee = false;
+                                            Flee = false;
                                         }
 
-                                        PathValue = 0;
-                                        if (AoWHSSet.Current.FAbilityControl.GetAbility(Ability).GetCombatMode(U.FUnit) == CombatMode.LongRange)
+                                        pathValue = 0;
+                                        if (AoWHSSet.Current.AbilityControl.GetAbility(ability).GetCombatMode(U.Troop) == CombatMode.LongRange)
                                         {
-                                            Range = 12;
+                                            range = 12;
                                         }
                                         else
                                         {
-                                            if (AoWHSSet.Current.FAbilityControl.GetAbility(Ability).GetCombatMode(U.FUnit) == CombatMode.MediumRange)
+                                            if (AoWHSSet.Current.AbilityControl.GetAbility(ability).GetCombatMode(U.Troop) == CombatMode.MediumRange)
                                             {
-                                                Range = 8;
+                                                range = 8;
                                             }
                                             else
                                             {
-                                                Range = 4;
+                                                range = 4;
                                             }
                                         }
 
-                                        Value = MultDEV(tcDVtoDEV(Cost, 0, U, Target), HitPoints, Hits);
-                                        if (Target.GetTargetStrength() <= 0 && Enemies.Count > 1)
+                                        value = ScaleDamageEvaluation(TacticalBattleDamageValueToDamageEvaluation(cost, 0, U, target), hitPoints, hits);
+                                        if (target.GetTargetStrength() <= 0 && Enemies.Count > 1)
                                         {
-                                            Value -= 10000;
+                                            value -= 10000;
                                         }
 
-                                        if (U.FMovePoints > 0)
+                                        if (U.MovePoints > 0)
                                         {
-                                            I = ((MovePath)Path).MovePointsToPos(U.FMovePoints);
+                                            I = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
                                             var pathY = Path[I];
-                                            D = HexGeometry.dHXtoRad(Path[I].X, pathY.Y, X, Y);
-                                            if (D <= Range || Distance <= Range)
+                                            D = HexGeometry.DeltaHexToRadius(Path[I].X, pathY.Y, X, Y);
+                                            if (D <= range || distance <= range)
                                             {
-                                                Cost = Value;
-                                                if (Distance <= Range)
+                                                cost = value;
+                                                if (distance <= range)
                                                 {
-                                                    switch (Ability)
+                                                    switch (ability)
                                                     {
                                                         case 22:
                                                         case 25:
@@ -1724,47 +1724,47 @@ public partial class BattleAI : IDisposable
                                                         case 61:
                                                         case 62:
                                                         case >= 120 and <= 124:
-                                                            var xhx = U.FUnitHS.GetXhx();
-                                                            var fUnitHSYhx = U.FUnitHS.GetYhx();
-                                                            PathValue = EvalPath(ref Value, Target, Ability, Spell, xhx, fUnitHSYhx, X, Y, false, U, Wall);
+                                                            var xhx = U.UnitHexSprite.GetHexX();
+                                                            var fUnitHexSpriteHexY = U.UnitHexSprite.GetHexY();
+                                                            pathValue = EvalPath(ref value, target, ability, spell, xhx, fUnitHexSpriteHexY, X, Y, false, U, wall);
                                                             break;
                                                         case 24:
                                                         case 44:
-                                                            var fUnitHSXhx = U.FUnitHS.GetXhx();
-                                                            var yhx2 = U.FUnitHS.GetYhx();
-                                                            PathValue = EvalPath(ref Value, Target, Ability, Spell, fUnitHSXhx, yhx2, X, Y, true, U, Wall);
+                                                            var fUnitHexSpriteHexX = U.UnitHexSprite.GetHexX();
+                                                            var hexY2 = U.UnitHexSprite.GetHexY();
+                                                            pathValue = EvalPath(ref value, target, ability, spell, fUnitHexSpriteHexX, hexY2, X, Y, true, U, wall);
                                                             break;
                                                         case 30:
                                                         case >= 86 and <= 90:
-                                                            var xhx2 = U.FUnitHS.GetXhx();
-                                                            var yhx3 = U.FUnitHS.GetYhx();
-                                                            PathValue = EvalBreath(ref Value, Target, Ability, Spell, xhx2, yhx3, X, Y, U);
+                                                            var hexX2 = U.UnitHexSprite.GetHexX();
+                                                            var hexY3 = U.UnitHexSprite.GetHexY();
+                                                            pathValue = EvalBreath(ref value, target, ability, spell, hexX2, hexY3, X, Y, U);
                                                             break;
                                                     }
                                                 }
                                             }
 
-                                            if (D <= Range && (PathValue > 0 || Value > 0))
+                                            if (D <= range && (pathValue > 0 || value > 0))
                                             {
-                                                if (PathValue != 0 && Value < Cost)
+                                                if (pathValue != 0 && value < cost)
                                                 {
-                                                    BestIndex = 0;
-                                                    BestValue = Value;
-                                                    D = Cost;
+                                                    bestIndex = 0;
+                                                    bestValue = value;
+                                                    D = cost;
                                                     I = Path.Count - 2;
                                                     while (I >= 1)
                                                     {
                                                         var path = Path[I];
                                                         var pathX = Path[I];
-                                                        CityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
-                                                        if (CityWall == null && FSide == CombatSideIndex.Attacker)
+                                                        cityWall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[pathX.X, path.Y].FindOwnedChild(2229508);
+                                                        if (cityWall == null && Side == CombatSideIndex.Attacker)
                                                         {
                                                             var path2 = Path[I];
                                                             var path3 = Path[I];
-                                                            CityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510) as CityWall;
+                                                            cityWall = CombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510) as CityWall;
                                                         }
 
-                                                        if (!(CityWall == null || CityWall.FHitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
+                                                        if (!(cityWall == null || cityWall.HitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
                                                         {
                                                             I = 1;
                                                         }
@@ -1773,17 +1773,17 @@ public partial class BattleAI : IDisposable
                                                             var path2 = Path[I];
                                                             var path3 = Path[I];
                                                             var path4 = Path[0];
-                                                            if (HexGeometry.dHXtoRad(Path[0].X, path4.Y, path3.X, path2.Y) <= Range)
+                                                            if (HexGeometry.DeltaHexToRadius(Path[0].X, path4.Y, path3.X, path2.Y) <= range)
                                                             {
                                                                 var path5 = Path[I];
                                                                 var path6 = Path[I];
-                                                                V = EvalPath(ref Cost, Target, Ability, Spell, path5.X, path6.Y, X, Y, Ability == 24 || Ability == 44, U, Wall);
-                                                                Cost = D;
-                                                                if (V < PathValue)
+                                                                V = EvalPath(ref cost, target, ability, spell, path5.X, path6.Y, X, Y, ability == 24 || ability == 44, U, wall);
+                                                                cost = D;
+                                                                if (V < pathValue)
                                                                 {
-                                                                    BestValue = BestValue + PathValue - V;
-                                                                    PathValue = V;
-                                                                    BestIndex = I;
+                                                                    bestValue = bestValue + pathValue - V;
+                                                                    pathValue = V;
+                                                                    bestIndex = I;
                                                                 }
                                                             }
                                                         }
@@ -1791,10 +1791,10 @@ public partial class BattleAI : IDisposable
                                                         I -= 1;
                                                     }
 
-                                                    if (BestIndex > 0)
+                                                    if (bestIndex > 0)
                                                     {
                                                         DetourPath.Clear();
-                                                        I = BestIndex;
+                                                        I = bestIndex;
                                                         int last2 = Path.Count - 1;
                                                         for (; I <= last2; I += 1)
                                                         {
@@ -1802,71 +1802,71 @@ public partial class BattleAI : IDisposable
                                                             DetourPath.Add(path);
                                                         }
 
-                                                        TerrainValue = 0;
-                                                        PathCost = MakeTerrainPath(Settings, ref DetourPath, ref TerrainValue, U, Target, true, false, 1);
-                                                        PathValue += BestValue;
-                                                        PathCost = ((MovePath)Path).PosToMovePoints(0);
+                                                        terrainValue = 0;
+                                                        pathCost = MakeTerrainPath(settings, ref DetourPath, ref terrainValue, U, target, true, false, 1);
+                                                        pathValue += bestValue;
+                                                        pathCost = ((MovePath)Path).PositionToMovePoints(0);
                                                     }
                                                 }
 
-                                                BestIndex = 0;
+                                                bestIndex = 0;
                                                 I = 1;
                                                 int last3 = Path.Count - 2;
                                                 for (; I <= last3; I += 1)
                                                 {
                                                     var path = Path[I];
-                                                    if (HexGeometry.dHXtoRad(X, Y, Path[I].X, path.Y) <= Range && ((MovePath)Path).PosToMovePoints(I) <= U.FMovePoints)
+                                                    if (HexGeometry.DeltaHexToRadius(X, Y, Path[I].X, path.Y) <= range && ((MovePath)Path).PositionToMovePoints(I) <= U.MovePoints)
                                                     {
-                                                        Cost = 1000;
+                                                        cost = 1000;
                                                         var pathX = Path[I];
                                                         var path2 = Path[I];
-                                                        V = EvalPath(ref Cost, Target, Ability, Spell, pathX.X, path2.Y, X, Y, Spell == 117, U, Wall);
-                                                        if (V == 0 && Cost == 1000)
+                                                        V = EvalPath(ref cost, target, ability, spell, pathX.X, path2.Y, X, Y, spell == 117, U, wall);
+                                                        if (V == 0 && cost == 1000)
                                                         {
-                                                            BestIndex = I;
+                                                            bestIndex = I;
                                                         }
                                                     }
                                                 }
 
-                                                if (BestIndex > 0)
+                                                if (bestIndex > 0)
                                                 {
                                                     I = 0;
-                                                    for (; I <= BestIndex - 1; I += 1)
+                                                    for (; I <= bestIndex - 1; I += 1)
                                                     {
                                                         Path.Delete(0);
                                                     }
                                                 }
 
-                                                PathCost = ((MovePath)Path).PosToMovePoints(0);
+                                                pathCost = ((MovePath)Path).PositionToMovePoints(0);
                                             }
 
                                             // { Keep move selection inside the positive movement guard. }
-                                            Cost = (PathCost - U.FMovePoints - Range * 4) * 10;
-                                            if (Cost < 1)
+                                            cost = (pathCost - U.MovePoints - range * 4) * 10;
+                                            if (cost < 1)
                                             {
-                                                Cost = 1;
+                                                cost = 1;
                                             }
 
-                                            if (!(U.FUnit is Hero))
+                                            if (!(U.Troop is Hero))
                                             {
-                                                SafeValue = 0;
+                                                safeValue = 0;
                                             }
                                             else
                                             {
                                                 I = -1;
-                                                BestIndex = ((MovePath)Path).MovePointsToPos(U.FMovePoints);
-                                                var path = Path[BestIndex];
-                                                SafeValue = UnitSafe(U, Path[BestIndex].X, path.Y);
-                                                while (BestIndex < Path.Count - 1 && SafeValue < 0)
+                                                bestIndex = ((MovePath)Path).MovePointsToPosition(U.MovePoints);
+                                                var path = Path[bestIndex];
+                                                safeValue = UnitSafe(U, Path[bestIndex].X, path.Y);
+                                                while (bestIndex < Path.Count - 1 && safeValue < 0)
                                                 {
-                                                    var path2 = Path[BestIndex];
-                                                    SafeValue = UnitSafe(U, Path[BestIndex].X, path2.Y);
-                                                    if (SafeValue >= 0)
+                                                    var path2 = Path[bestIndex];
+                                                    safeValue = UnitSafe(U, Path[bestIndex].X, path2.Y);
+                                                    if (safeValue >= 0)
                                                     {
-                                                        I = BestIndex;
+                                                        I = bestIndex;
                                                     }
 
-                                                    BestIndex += 1;
+                                                    bestIndex += 1;
                                                 }
 
                                                 if (I > -1)
@@ -1879,11 +1879,11 @@ public partial class BattleAI : IDisposable
                                                 }
                                             }
 
-                                            var yhx4 = U.FUnitHS.GetYhx();
-                                            if (!((UnitSafe(U, U.FUnitHS.GetXhx(), yhx4) < 0 && FNormalUnits != 0) || (PathValue != 0 && Value == 0) || Distance > Range || U.GetMoves() != U.FMovePoints))
+                                            var hexY4 = U.UnitHexSprite.GetHexY();
+                                            if (!((UnitSafe(U, U.UnitHexSprite.GetHexX(), hexY4) < 0 && NormalUnits != 0) || (pathValue != 0 && value == 0) || distance > range || U.GetMoves() != U.MovePoints))
                                             {
-                                                FHeroMoves += 1;
-                                                if (Target is CombatWall && CombatMap.Current.FCombat.FCombatData.FWallBreached && CombatMap.Current.FRound > 1)
+                                                HeroMoves += 1;
+                                                if (target is CombatWall && CombatMap.Current.Combat.CombatData.WallBreached && CombatMap.Current.Round > 1)
                                                 {
                                                     I = 10;
                                                 }
@@ -1892,39 +1892,39 @@ public partial class BattleAI : IDisposable
                                                     I = 100;
                                                 }
 
-                                                V = Math.Abs(Value + PathValue);
+                                                V = Math.Abs(value + pathValue);
                                                 if (V < 1)
                                                 {
                                                     V = 1;
                                                 }
 
-                                                CreateMove(BattleAIMoveType.Ranged, X, Y, MultDEV(Value, I * Value / V, 1), Ability, Spell, U, Target);
-                                                if (PathValue > 0 && U.FMovePoints > 0 && DetourPath.Count > 1)
+                                                CreateMove(BattleAIMoveType.Ranged, X, Y, ScaleDamageEvaluation(value, I * value / V, 1), ability, spell, U, target);
+                                                if (pathValue > 0 && U.MovePoints > 0 && DetourPath.Count > 1)
                                                 {
-                                                    if (!(DetourPath.List[DetourPath.Count - 2].Flag > U.FMovePoints && DetourPath.List[DetourPath.Count - 2].Flag <= 15))
+                                                    if (!(DetourPath.List[DetourPath.Count - 2].Tag > U.MovePoints && DetourPath.List[DetourPath.Count - 2].Tag <= 15))
                                                     {
-                                                        FHeroMoves += 1;
-                                                        var multDEV = MultDEV(PathValue + TerrainValue, I * PathValue / V, 1);
+                                                        HeroMoves += 1;
+                                                        var multDamageEvaluation = ScaleDamageEvaluation(pathValue + terrainValue, I * pathValue / V, 1);
                                                         var detourPath = DetourPath[0];
-                                                        CreateMove(BattleAIMoveType.MoveRanged, DetourPath[0].X, detourPath.Y, multDEV, Ability, Spell, U, Target);
+                                                        CreateMove(BattleAIMoveType.MoveRanged, DetourPath[0].X, detourPath.Y, multDamageEvaluation, ability, spell, U, target);
                                                     }
                                                 }
                                             }
                                             else
                                             {
-                                                if (Path.Count > 1 && (FIgnoreWalls || ChargeFromPos((int)(((uint)U.FPosition) >> 4))))
+                                                if (Path.Count > 1 && (IgnoreWalls || ChargeFromPosition((int)(((uint)U.Position) >> 4))))
                                                 {
-                                                    if (!((SafeValue < 0 && FNormalUnits != 0) || U.FMovePoints <= 0 || Path.Count <= 1 || (Path.List[Path.Count - 2].Flag > U.FMovePoints && Path.List[Path.Count - 2].Flag <= 15)))
+                                                    if (!((safeValue < 0 && NormalUnits != 0) || U.MovePoints <= 0 || Path.Count <= 1 || (Path.List[Path.Count - 2].Tag > U.MovePoints && Path.List[Path.Count - 2].Tag <= 15)))
                                                     {
                                                         var moves = U.GetMoves();
-                                                        var multDEV = MultDEV(PathValue + TerrainValue + Value, moves, Cost);
+                                                        var multDamageEvaluation = ScaleDamageEvaluation(pathValue + terrainValue + value, moves, cost);
                                                         var path = Path[0];
-                                                        CreateMove(BattleAIMoveType.MoveRanged, Path[0].X, path.Y, multDEV, Ability, Spell, U, Target);
+                                                        CreateMove(BattleAIMoveType.MoveRanged, Path[0].X, path.Y, multDamageEvaluation, ability, spell, U, target);
                                                     }
                                                     else
                                                     {
                                                         var moves = U.GetMoves();
-                                                        CreateMove(BattleAIMoveType.Fake, X, Y, MultDEV(MultDEV(PathValue, 100, 1) + TerrainValue + Value, moves, Cost), Ability, Spell, U, Target);
+                                                        CreateMove(BattleAIMoveType.Fake, X, Y, ScaleDamageEvaluation(ScaleDamageEvaluation(pathValue, 100, 1) + terrainValue + value, moves, cost), ability, spell, U, target);
                                                     }
                                                 }
                                             }
@@ -1933,7 +1933,7 @@ public partial class BattleAI : IDisposable
                                 }
                                 catch
                                 {
-                                    MessageBox(0, "Error during Ranged Check", NullTerminatedText("Error - TCAI " + IntToStr(Ability) + " " + IntToStr(Spell)), 0);
+                                    MessageBox(0, "Error during Ranged Check", NullTerminatedText("Error - TCAI " + IntToStr(ability) + " " + IntToStr(spell)), 0);
                                 }
 
                                 break;
@@ -1945,7 +1945,7 @@ public partial class BattleAI : IDisposable
         }
 
         Path?.Dispose();
-        BasePath?.Dispose();
+        basePath?.Dispose();
         DetourPath?.Dispose();
     }
 
@@ -1957,34 +1957,34 @@ public partial class BattleAI : IDisposable
         int K = default;
         int L = default;
         int N;
-        int Value = default;
-        BattleAIMove Move;
-        BattleAIMove OtherMove;
+        int value = default;
+        BattleAIMove move;
+        BattleAIMove otherMove;
         TacticalBattleUnit U;
-        TacticalBattleUnit Target;
-        CombatMoveControlSettings Settings;
-        bool Moved;
-        bool Found;
-        bool Visible;
-        DelphiList Abilities;
-        int TerrainCost = default;
-        int PathCost;
-        DelphiList Bonuses;
-        string Reason = "";
+        TacticalBattleUnit target;
+        CombatMoveControlSettings settings;
+        bool moved;
+        bool found;
+        bool visible;
+        DelphiList abilities;
+        int terrainCost = default;
+        int pathCost;
+        DelphiList bonuses;
+        string reason = "";
         MapCoordinateList Path = default;
-        AbilityCombatInfo AIInfo = default;
-        SpellCombatInfo SpellInfo = default;
+        AbilityCombatInfo aiInfo = default;
+        SpellCombatInfo spellInfo = default;
         CityWall Wall;
         Status = AIStatus.Busy;
-        if (AoWHSMap.Current.FTokenManager.PlayerReady(CombatMap.Current.FCurrentPlayer))
+        if (AoWHSMap.Current.TokenManager.PlayerReady(CombatMap.Current.CurrentPlayer))
         {
             switch (CurrentMove)
             {
                 case 0:
                     try
                     {
-                        FUnitIndex = 0;
-                        FHeroMoves = 0;
+                        UnitIndex = 0;
+                        HeroMoves = 0;
                         Units.Clear();
                         Allies.Clear();
                         Enemies.Clear();
@@ -1997,24 +1997,24 @@ public partial class BattleAI : IDisposable
 
                         Moves.Clear();
                         Walls.Clear();
-                        var tacticalCombat = CombatMap.Current.FCombat;
-                        FSide = (CombatSideIndex)tacticalCombat.FCombatData.FPlayers.GetPlayers((sbyte)tacticalCombat.FCombatData.FCurrentPlayer).FSideIndex;
-                        FNormalUnits = 0;
+                        var tacticalBattle = CombatMap.Current.Combat;
+                        Side = (CombatSideIndex)tacticalBattle.CombatData.Players.GetPlayers((sbyte)tacticalBattle.CombatData.CurrentPlayer).SideIndex;
+                        NormalUnits = 0;
                         I = 0;
-                        int limit = tacticalCombat.FCombatData.GetCount() - 1;
+                        int limit = tacticalBattle.CombatData.GetCount() - 1;
                         for (; I <= limit; I += 1)
                         {
-                            if (tacticalCombat.FCombatData.GetObjects(I) != null && tacticalCombat.FCombatData.GetObjects(I) is CombatUnit && tacticalCombat.FCombatData.GetObjects(I).GetEnabled())
+                            if (tacticalBattle.CombatData.GetObjects(I) != null && tacticalBattle.CombatData.GetObjects(I) is CombatUnit && tacticalBattle.CombatData.GetObjects(I).GetEnabled())
                             {
-                                Visible = false;
+                                visible = false;
                                 J = 0;
-                                while (!Visible && J < 19)
+                                while (!visible && J < 19)
                                 {
-                                    var yhx = ((TacticalBattleUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
-                                    HexGeometry.CenterHNtoHX(((TacticalBattleUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, J, ref K, ref L);
-                                    if (!CombatMap.Current.FExplorationEnabled || ((AoWMapField)CombatMap.Current.MapContainer.GetField(K, L, 0)).GetExplored(CombatMap.Current.FSeatedPlayer))
+                                    var hexY = ((TacticalBattleUnit)tacticalBattle.CombatData.GetObjects(I)).UnitHexSprite.GetHexY();
+                                    HexGeometry.CenterHexNumberToHex(((TacticalBattleUnit)tacticalBattle.CombatData.GetObjects(I)).UnitHexSprite.GetHexX(), hexY, J, ref K, ref L);
+                                    if (!CombatMap.Current.ExplorationEnabled || ((AoWMapField)CombatMap.Current.MapContainer.GetField(K, L, 0)).GetExplored(CombatMap.Current.SeatedPlayer))
                                     {
-                                        Visible = true;
+                                        visible = true;
                                     }
                                     else
                                     {
@@ -2022,110 +2022,110 @@ public partial class BattleAI : IDisposable
                                     }
                                 }
 
-                                if (Visible)
+                                if (visible)
                                 {
-                                    if (tacticalCombat.FCombatData.GetObjects(I).GetSide() == FSide)
+                                    if (tacticalBattle.CombatData.GetObjects(I).GetSide() == Side)
                                     {
-                                        if ((byte)tacticalCombat.FCombatData.GetObjects(I).FCombatPlayer == tacticalCombat.FCombatData.FCurrentPlayer)
+                                        if ((byte)tacticalBattle.CombatData.GetObjects(I).CombatPlayer == tacticalBattle.CombatData.CurrentPlayer)
                                         {
-                                            if (!tacticalCombat.FCombatData.GetObjects(I).GetLocked())
+                                            if (!tacticalBattle.CombatData.GetObjects(I).GetLocked())
                                             {
-                                                if (((CombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnit is Hero)
+                                                if (((CombatUnit)tacticalBattle.CombatData.GetObjects(I)).Troop is Hero)
                                                 {
-                                                    var combatObject = tacticalCombat.FCombatData.GetObjects(I);
+                                                    var combatObject = tacticalBattle.CombatData.GetObjects(I);
                                                     Units.Add(combatObject);
                                                 }
                                                 else
                                                 {
-                                                    FNormalUnits += 1;
-                                                    var objectValue = tacticalCombat.FCombatData.GetObjects(I);
+                                                    NormalUnits += 1;
+                                                    var objectValue = tacticalBattle.CombatData.GetObjects(I);
                                                     Units.Insert(0, objectValue);
                                                 }
                                             }
                                         }
                                         else
                                         {
-                                            var objectValue = tacticalCombat.FCombatData.GetObjects(I);
+                                            var objectValue = tacticalBattle.CombatData.GetObjects(I);
                                             Allies.Add(objectValue);
                                         }
                                     }
                                     else
                                     {
-                                        var objectValue = tacticalCombat.FCombatData.GetObjects(I);
+                                        var objectValue = tacticalBattle.CombatData.GetObjects(I);
                                         Enemies.Add(objectValue);
                                     }
                                 }
                             }
                         }
 
-                        GameTables.AoWEngine.OutputDebugStr("AI found " + IntToStr(Units.Count) + " Own units.");
-                        GameTables.AoWEngine.OutputDebugStr("AI found " + IntToStr(Allies.Count) + " Ally units.");
-                        GameTables.AoWEngine.OutputDebugStr("AI found " + IntToStr(Enemies.Count) + " Enemy units.");
-                        FIgnoreWalls = FSide == CombatSideIndex.Attacker;
-                        FFlee = FSide == CombatSideIndex.Attacker && CombatMap.Current.FCombat.FCombatData.FWallType != 0 && !CombatMap.Current.FCombat.FCombatData.FWallBreached;
-                        FMinMoves = 100;
+                        GameTables.GameEngine.OutputDebugString("AI found " + IntToStr(Units.Count) + " Own units.");
+                        GameTables.GameEngine.OutputDebugString("AI found " + IntToStr(Allies.Count) + " Ally units.");
+                        GameTables.GameEngine.OutputDebugString("AI found " + IntToStr(Enemies.Count) + " Enemy units.");
+                        IgnoreWalls = Side == CombatSideIndex.Attacker;
+                        Flee = Side == CombatSideIndex.Attacker && CombatMap.Current.Combat.CombatData.WallType != 0 && !CombatMap.Current.Combat.CombatData.WallBreached;
+                        MinMoves = 100;
                         I = 0;
                         int last2 = Units.Count - 1;
                         for (; I <= last2; I += 1)
                         {
                             U = (TacticalBattleUnit)Units[I];
-                            U.FCanFlee = FSide == CombatSideIndex.Attacker;
-                            if (U.GetMoves() < FMinMoves)
+                            U.CanFlee = Side == CombatSideIndex.Attacker;
+                            if (U.GetMoves() < MinMoves)
                             {
-                                FMinMoves = U.GetMoves();
+                                MinMoves = U.GetMoves();
                             }
 
                             J = 0;
                             int last3 = Enemies.Count - 1;
                             for (; J <= last3; J += 1)
                             {
-                                Target = (TacticalBattleUnit)Enemies[J];
-                                if (!FIgnoreWalls && Target.GetSide() != U.GetSide())
+                                target = (TacticalBattleUnit)Enemies[J];
+                                if (!IgnoreWalls && target.GetSide() != U.GetSide())
                                 {
-                                    var yhx = Target.FUnitHS.GetYhx();
-                                    var xhx = Target.FUnitHS.GetXhx();
-                                    var fUnitHSYhx = U.FUnitHS.GetYhx();
-                                    K = HexGeometry.dHXtoRad(U.FUnitHS.GetXhx(), fUnitHSYhx, xhx, yhx);
+                                    var hexY = target.UnitHexSprite.GetHexY();
+                                    var hexX = target.UnitHexSprite.GetHexX();
+                                    var fUnitHexSpriteHexY = U.UnitHexSprite.GetHexY();
+                                    K = HexGeometry.DeltaHexToRadius(U.UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, hexX, hexY);
                                     L = 22;
                                     for (; L <= 169; L += 1)
                                     {
-                                        if (Target.GetAbilityEnabled(L))
+                                        if (target.GetAbilityEnabled(L))
                                         {
-                                            if (L == 52 && Target.FUnit is Hero)
+                                            if (L == 52 && target.Troop is Hero)
                                             {
                                                 N = 0;
                                                 for (; N <= 130; N += 1)
                                                 {
-                                                    bool condition = Target.FUnit.FPlayer > 0 && TacticalTables.SpellTypes[N] != BattleEffectType.None && AoWHSMap.Current.FPlayers.GetPlayers(Target.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(N) != -1;
+                                                    bool condition = target.Troop.Player > 0 && TacticalTables.SpellTypes[N] != BattleEffectType.None && AoWHSMap.Current.Players.GetPlayers(target.Troop.Player).MagicControl.Spells.IndexOf(N) != -1;
                                                     if (condition)
                                                     {
-                                                        var spell = AoWHSSet.Current.FSpellControl.GetSpell(N);
-                                                        condition = ((Hero)Target.FUnit).CanCastSpellInstantly(N, spell.FBaseManaCost, ref Reason);
+                                                        var spell = AoWHSSet.Current.SpellControl.GetSpell(N);
+                                                        condition = ((Hero)target.Troop).CanCastSpellInstantly(N, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
                                                     {
-                                                        AoWHSSet.Current.FSpellControl.GetSpell(N).GetCombatInfo(Target.FUnit, ref SpellInfo);
-                                                        if (SpellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy) && (K <= SpellInfo.Range || SpellInfo.Range == -1))
+                                                        AoWHSSet.Current.SpellControl.GetSpell(N).GetCombatInfo(target.Troop, ref spellInfo);
+                                                        if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy) && (K <= spellInfo.Range || spellInfo.Range == -1))
                                                         {
-                                                            Value = AoWHSSet.Current.FSpellControl.GetSpell(N).GetCombatDamageValue(Target, U);
-                                                            if (Value > 0)
+                                                            value = AoWHSSet.Current.SpellControl.GetSpell(N).GetCombatDamageValue(target, U);
+                                                            if (value > 0)
                                                             {
                                                                 if (Set<BattleEffectType>.Of(BattleEffectType.Arrow, BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.Ray).Contains(TacticalTables.SpellTypes[N]))
                                                                 {
-                                                                    var fUnitHSXhx = Target.FUnitHS.GetXhx();
-                                                                    var yhx2 = Target.FUnitHS.GetYhx();
-                                                                    var xhx2 = U.FUnitHS.GetXhx();
-                                                                    var yhx3 = U.FUnitHS.GetYhx();
-                                                                    EvalPath(ref Value, U, L, N, fUnitHSXhx, yhx2, xhx2, yhx3, false, Target, null);
-                                                                    if (Value > 0)
+                                                                    var fUnitHexSpriteHexX = target.UnitHexSprite.GetHexX();
+                                                                    var hexY2 = target.UnitHexSprite.GetHexY();
+                                                                    var hexX2 = U.UnitHexSprite.GetHexX();
+                                                                    var hexY3 = U.UnitHexSprite.GetHexY();
+                                                                    EvalPath(ref value, U, L, N, fUnitHexSpriteHexX, hexY2, hexX2, hexY3, false, target, null);
+                                                                    if (value > 0)
                                                                     {
-                                                                        FIgnoreWalls = true;
+                                                                        IgnoreWalls = true;
                                                                     }
                                                                 }
                                                                 else
                                                                 {
-                                                                    FIgnoreWalls = true;
+                                                                    IgnoreWalls = true;
                                                                 }
                                                             }
                                                         }
@@ -2134,18 +2134,18 @@ public partial class BattleAI : IDisposable
                                             }
                                             else
                                             {
-                                                if (TacticalTables.AbilTypes[L] != BattleEffectType.None && TacticalTables.AbilTypes[L] != BattleEffectType.Touch)
+                                                if (TacticalTables.s_abilityTypes[L] != BattleEffectType.None && TacticalTables.s_abilityTypes[L] != BattleEffectType.Touch)
                                                 {
-                                                    AoWHSSet.Current.FAbilityControl.GetAbility(L).GetCombatInfo(Target.FUnit, ref AIInfo);
-                                                    if ((((byte)AIInfo.TargetTypes.Image) & 2) != 0)
+                                                    AoWHSSet.Current.AbilityControl.GetAbility(L).GetCombatInfo(target.Troop, ref aiInfo);
+                                                    if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
                                                     {
-                                                        if (AoWHSSet.Current.FAbilityControl.GetAbility(L).GetCombatMode(Target.FUnit) == CombatMode.LongRange)
+                                                        if (AoWHSSet.Current.AbilityControl.GetAbility(L).GetCombatMode(target.Troop) == CombatMode.LongRange)
                                                         {
                                                             N = 12;
                                                         }
                                                         else
                                                         {
-                                                            if (AoWHSSet.Current.FAbilityControl.GetAbility(L).GetCombatMode(Target.FUnit) == CombatMode.MediumRange)
+                                                            if (AoWHSSet.Current.AbilityControl.GetAbility(L).GetCombatMode(target.Troop) == CombatMode.MediumRange)
                                                             {
                                                                 N = 8;
                                                             }
@@ -2157,24 +2157,24 @@ public partial class BattleAI : IDisposable
 
                                                         if (K <= N)
                                                         {
-                                                            Value = AoWHSSet.Current.FAbilityControl.GetAbility(L).tcGetDamageValue(Target, U);
-                                                            if (Value > 0)
+                                                            value = AoWHSSet.Current.AbilityControl.GetAbility(L).TacticalBattleGetDamageValue(target, U);
+                                                            if (value > 0)
                                                             {
-                                                                if (Set<BattleEffectType>.Of(BattleEffectType.Arrow, BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.Ray).Contains(TacticalTables.AbilTypes[L]))
+                                                                if (Set<BattleEffectType>.Of(BattleEffectType.Arrow, BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.Ray).Contains(TacticalTables.s_abilityTypes[L]))
                                                                 {
-                                                                    var fUnitHSXhx = Target.FUnitHS.GetXhx();
-                                                                    var yhx2 = Target.FUnitHS.GetYhx();
-                                                                    var xhx2 = U.FUnitHS.GetXhx();
-                                                                    var yhx3 = U.FUnitHS.GetYhx();
-                                                                    EvalPath(ref Value, U, L, 0, fUnitHSXhx, yhx2, xhx2, yhx3, false, Target, null);
-                                                                    if (Value > 0)
+                                                                    var fUnitHexSpriteHexX = target.UnitHexSprite.GetHexX();
+                                                                    var hexY2 = target.UnitHexSprite.GetHexY();
+                                                                    var hexX2 = U.UnitHexSprite.GetHexX();
+                                                                    var hexY3 = U.UnitHexSprite.GetHexY();
+                                                                    EvalPath(ref value, U, L, 0, fUnitHexSpriteHexX, hexY2, hexX2, hexY3, false, target, null);
+                                                                    if (value > 0)
                                                                     {
-                                                                        FIgnoreWalls = true;
+                                                                        IgnoreWalls = true;
                                                                     }
                                                                 }
                                                                 else
                                                                 {
-                                                                    FIgnoreWalls = true;
+                                                                    IgnoreWalls = true;
                                                                 }
                                                             }
                                                         }
@@ -2188,8 +2188,8 @@ public partial class BattleAI : IDisposable
                         }
 
                         CurrentMove += 1;
-                        FUnitIndex = 0;
-                        FUnitLimit = 0;
+                        UnitIndex = 0;
+                        UnitLimit = 0;
                     }
                     catch
                     {
@@ -2200,12 +2200,12 @@ public partial class BattleAI : IDisposable
                 case 1:
                     try
                     {
-                        while (FUnitIndex < Units.Count && FUnitLimit < 1)
+                        while (UnitIndex < Units.Count && UnitLimit < 1)
                         {
-                            U = (TacticalBattleUnit)Units[FUnitIndex];
+                            U = (TacticalBattleUnit)Units[UnitIndex];
                             if (!U.GetLocked())
                             {
-                                Abilities = new DelphiList();
+                                abilities = new DelphiList();
                                 try
                                 {
                                     J = 0;
@@ -2219,43 +2219,43 @@ public partial class BattleAI : IDisposable
                                                 case 36:
                                                 case 66:
                                                 case 117:
-                                                    FFlee = false;
+                                                    Flee = false;
                                                     break;
                                             }
 
-                                            if (J == 52 && U.FUnit is Hero)
+                                            if (J == 52 && U.Troop is Hero)
                                             {
                                                 K = 0;
                                                 for (; K <= 130; K += 1)
                                                 {
-                                                    bool condition = U.FUnit.FPlayer > 0 && TacticalTables.SpellTypes[K] != BattleEffectType.None && AoWHSMap.Current.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
+                                                    bool condition = U.Troop.Player > 0 && TacticalTables.SpellTypes[K] != BattleEffectType.None && AoWHSMap.Current.Players.GetPlayers(U.Troop.Player).MagicControl.Spells.IndexOf(K) != -1;
                                                     if (condition)
                                                     {
-                                                        var spell = AoWHSSet.Current.FSpellControl.GetSpell(K);
-                                                        condition = ((Hero)U.FUnit).CanCastSpellInstantly(K, spell.FBaseManaCost, ref Reason);
+                                                        var spell = AoWHSSet.Current.SpellControl.GetSpell(K);
+                                                        condition = ((Hero)U.Troop).CanCastSpellInstantly(K, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
                                                     {
-                                                        AoWHSSet.Current.FSpellControl.GetSpell(K).GetCombatInfo(U.FUnit, ref SpellInfo);
-                                                        if (SpellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
+                                                        AoWHSSet.Current.SpellControl.GetSpell(K).GetCombatInfo(U.Troop, ref spellInfo);
+                                                        if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
                                                         {
-                                                            Abilities.Add(new CombatAbilityRef());
-                                                            ((CombatAbilityRef)Abilities[Abilities.Count - 1]).Ability = J;
-                                                            ((CombatAbilityRef)Abilities[Abilities.Count - 1]).Spell = K;
+                                                            abilities.Add(new CombatAbilityRef());
+                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
+                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Spell = K;
                                                         }
                                                     }
                                                 }
                                             }
                                             else
                                             {
-                                                if (TacticalTables.AbilTypes[J] != BattleEffectType.None)
+                                                if (TacticalTables.s_abilityTypes[J] != BattleEffectType.None)
                                                 {
-                                                    AoWHSSet.Current.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
-                                                    if ((((byte)AIInfo.TargetTypes.Image) & 2) != 0)
+                                                    AoWHSSet.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
+                                                    if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
                                                     {
-                                                        Abilities.Add(new CombatAbilityRef());
-                                                        ((CombatAbilityRef)Abilities[Abilities.Count - 1]).Ability = J;
+                                                        abilities.Add(new CombatAbilityRef());
+                                                        ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
                                                     }
                                                 }
                                             }
@@ -2264,47 +2264,47 @@ public partial class BattleAI : IDisposable
                                 }
                                 catch
                                 {
-                                    MessageBox(0, "Error during Eval Enemies", NullTerminatedText("Error - TCAI " + U.FUnit.GetName()), 0);
+                                    MessageBox(0, "Error during Eval Enemies", NullTerminatedText("Error - TCAI " + U.Troop.GetName()), 0);
                                 }
 
-                                Settings = new CombatMoveControlSettings(null);
-                                if (U.FMovePoints > 0)
+                                settings = new CombatMoveControlSettings(null);
+                                if (U.MovePoints > 0)
                                 {
-                                    var yhx = U.FUnitHS.GetYhx();
-                                    Settings.SetSourcePos(U.FUnitHS.GetXhx(), yhx, 0);
-                                    Settings.FArmyHS = U.FUnitHS;
-                                    Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
-                                    U.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
-                                    Settings.FPlayer = U.GetPlayer();
-                                    Settings.FMovePointsMax = 200;
-                                    CombatMap.Current.FMoveControl.ProcessMove(Settings);
+                                    var hexY = U.UnitHexSprite.GetHexY();
+                                    settings.SetSourcePosition(U.UnitHexSprite.GetHexX(), hexY, 0);
+                                    settings.ArmyHexSprite = U.UnitHexSprite;
+                                    settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
+                                    U.Troop.CreateMovePointTable(ref settings.MovePointTable);
+                                    settings.Player = U.GetPlayer();
+                                    settings.MovePointsMax = 200;
+                                    CombatMap.Current.MoveControl.ProcessMove(settings);
                                 }
 
-                                if (Abilities.Count > 0 || CombatObject.MeleeDamageTypes(U) != Set<DamageType>.Of())
+                                if (abilities.Count > 0 || CombatObject.MeleeDamageTypes(U) != Set<DamageType>.Of())
                                 {
                                     J = 0;
                                     int last = Enemies.Count - 1;
                                     for (; J <= last; J += 1)
                                     {
-                                        Target = (TacticalBattleUnit)Enemies[J];
-                                        if (!(U.FUnit is Hero) || FHeroMoves == 0)
+                                        target = (TacticalBattleUnit)Enemies[J];
+                                        if (!(U.Troop is Hero) || HeroMoves == 0)
                                         {
-                                            var hits = Target.GetHits();
-                                            var hitPoints = Target.GetHitPoints();
-                                            var yhx = Target.FUnitHS.GetYhx();
-                                            CheckUnit(Target.FUnitHS.GetXhx(), yhx, hitPoints, hits, Settings, U, Target, Abilities, null);
+                                            var hits = target.GetHits();
+                                            var hitPoints = target.GetHitPoints();
+                                            var hexY = target.UnitHexSprite.GetHexY();
+                                            CheckUnit(target.UnitHexSprite.GetHexX(), hexY, hitPoints, hits, settings, U, target, abilities, null);
                                         }
                                     }
                                 }
 
                                 I = 0;
-                                int limit = Abilities.Count - 1;
+                                int limit = abilities.Count - 1;
                                 for (; I <= limit; I += 1)
                                 {
-                                    (Abilities[I] as IDisposable)?.Dispose();
+                                    (abilities[I] as IDisposable)?.Dispose();
                                 }
 
-                                Abilities.Clear();
+                                abilities.Clear();
                                 try
                                 {
                                     J = 22;
@@ -2312,39 +2312,39 @@ public partial class BattleAI : IDisposable
                                     {
                                         if (U.GetAbilityEnabled(J))
                                         {
-                                            if (J == 52 && U.FUnit is Hero)
+                                            if (J == 52 && U.Troop is Hero)
                                             {
                                                 K = 0;
                                                 for (; K <= 130; K += 1)
                                                 {
-                                                    bool condition = TacticalTables.SpellTypes[K] != BattleEffectType.None && AoWHSMap.Current.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
+                                                    bool condition = TacticalTables.SpellTypes[K] != BattleEffectType.None && AoWHSMap.Current.Players.GetPlayers(U.Troop.Player).MagicControl.Spells.IndexOf(K) != -1;
                                                     if (condition)
                                                     {
-                                                        var spell = AoWHSSet.Current.FSpellControl.GetSpell(K);
-                                                        condition = ((Hero)U.FUnit).CanCastSpellInstantly(K, spell.FBaseManaCost, ref Reason);
+                                                        var spell = AoWHSSet.Current.SpellControl.GetSpell(K);
+                                                        condition = ((Hero)U.Troop).CanCastSpellInstantly(K, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
                                                     {
-                                                        AoWHSSet.Current.FSpellControl.GetSpell(K).GetCombatInfo(U.FUnit, ref SpellInfo);
-                                                        if (SpellInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend))
+                                                        AoWHSSet.Current.SpellControl.GetSpell(K).GetCombatInfo(U.Troop, ref spellInfo);
+                                                        if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                                                         {
-                                                            Abilities.Add(new CombatAbilityRef());
-                                                            ((CombatAbilityRef)Abilities[Abilities.Count - 1]).Ability = J;
-                                                            ((CombatAbilityRef)Abilities[Abilities.Count - 1]).Spell = K;
+                                                            abilities.Add(new CombatAbilityRef());
+                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
+                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Spell = K;
                                                         }
                                                     }
                                                 }
                                             }
                                             else
                                             {
-                                                if (TacticalTables.AbilTypes[J] != BattleEffectType.None)
+                                                if (TacticalTables.s_abilityTypes[J] != BattleEffectType.None)
                                                 {
-                                                    AoWHSSet.Current.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
-                                                    if ((((byte)AIInfo.TargetTypes.Image) & 1) != 0)
+                                                    AoWHSSet.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
+                                                    if ((((byte)aiInfo.TargetTypes.Image) & 1) != 0)
                                                     {
-                                                        Abilities.Add(new CombatAbilityRef());
-                                                        ((CombatAbilityRef)Abilities[Abilities.Count - 1]).Ability = J;
+                                                        abilities.Add(new CombatAbilityRef());
+                                                        ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
                                                     }
                                                 }
                                             }
@@ -2353,69 +2353,69 @@ public partial class BattleAI : IDisposable
                                 }
                                 catch
                                 {
-                                    MessageBox(0, "Error during Eval Friends", NullTerminatedText("Error - TCAI " + U.FUnit.GetName()), 0);
+                                    MessageBox(0, "Error during Eval Friends", NullTerminatedText("Error - TCAI " + U.Troop.GetName()), 0);
                                 }
 
-                                if (Abilities.Count > 0)
+                                if (abilities.Count > 0)
                                 {
                                     J = 0;
                                     int last = Units.Count - 1;
                                     for (; J <= last; J += 1)
                                     {
-                                        Target = (TacticalBattleUnit)Units[J];
-                                        if (!(U.FUnit is Hero) || FHeroMoves == 0)
+                                        target = (TacticalBattleUnit)Units[J];
+                                        if (!(U.Troop is Hero) || HeroMoves == 0)
                                         {
-                                            var hits = Target.GetHits();
-                                            var hitPoints = Target.GetHitPoints();
-                                            var yhx = Target.FUnitHS.GetYhx();
-                                            CheckUnit(Target.FUnitHS.GetXhx(), yhx, hitPoints, hits, Settings, U, Target, Abilities, null);
+                                            var hits = target.GetHits();
+                                            var hitPoints = target.GetHitPoints();
+                                            var hexY = target.UnitHexSprite.GetHexY();
+                                            CheckUnit(target.UnitHexSprite.GetHexX(), hexY, hitPoints, hits, settings, U, target, abilities, null);
                                         }
                                     }
                                 }
 
-                                Settings?.Dispose();
+                                settings?.Dispose();
                                 I = 0;
-                                int last2 = Abilities.Count - 1;
+                                int last2 = abilities.Count - 1;
                                 for (; I <= last2; I += 1)
                                 {
-                                    (Abilities[I] as IDisposable)?.Dispose();
+                                    (abilities[I] as IDisposable)?.Dispose();
                                 }
 
-                                Abilities?.Dispose();
+                                abilities?.Dispose();
                             }
 
-                            FUnitIndex += 1;
-                            FUnitLimit += 1;
+                            UnitIndex += 1;
+                            UnitLimit += 1;
                         }
 
-                        if (FUnitIndex >= Units.Count)
+                        if (UnitIndex >= Units.Count)
                         {
                             CurrentMove += 1;
                             try
                             {
-                                if (CombatMap.Current.FCombat.FCombatData.FWallType != 0 && CombatMap.Current.FCombat.FCombatData.FWall != null && FSide == CombatSideIndex.Attacker)
+                                if (CombatMap.Current.Combat.CombatData.WallType != 0 && CombatMap.Current.Combat.CombatData.Wall != null && Side == CombatSideIndex.Attacker)
                                 {
                                     J = 0;
-                                    int last = CombatMap.Current.FWalls.Count - 1;
+                                    int last = CombatMap.Current.Walls.Count - 1;
                                     for (; J <= last; J += 1)
                                     {
-                                        bool condition = (CombatMap.Current.FWalls[J]).FHitPoints > 0;
+                                        bool condition = (CombatMap.Current.Walls[J]).HitPoints > 0;
                                         if (condition)
                                         {
-                                            var wall = CombatMap.Current.FWalls[J];
-                                            var wall2 = CombatMap.Current.FWalls[J];
-                                            condition = ((CityWall)wall).FHitPoints < TacticalTables.WallMaxHP[((CityWall)wall2).FWallType - 1];
+                                            var wall = CombatMap.Current.Walls[J];
+                                            var wall2 = CombatMap.Current.Walls[J];
+                                            condition = ((CityWall)wall).HitPoints < TacticalTables.s_wallMaxHitPoints[((CityWall)wall2).WallType - 1];
                                         }
 
                                         if (condition)
                                         {
-                                            Found = true;
+                                            found = true;
                                             K = 0;
-                                            while (Found && K < Walls.Count)
+                                            while (found && K < Walls.Count)
                                             {
-                                                if (Walls[K] == CombatMap.Current.FWalls[J])
+                                                if (Walls[K] == CombatMap.Current.Walls[J])
                                                 {
-                                                    Found = false;
+                                                    found = false;
                                                 }
                                                 else
                                                 {
@@ -2423,23 +2423,23 @@ public partial class BattleAI : IDisposable
                                                 }
                                             }
 
-                                            if (Found)
+                                            if (found)
                                             {
-                                                var wall = CombatMap.Current.FWalls[J];
+                                                var wall = CombatMap.Current.Walls[J];
                                                 Walls.Add(wall);
                                             }
                                         }
                                     }
                                 }
 
-                                if (CombatMap.Current.FCombat.FCombatData.FWallType == 0 || CombatMap.Current.FCombat.FCombatData.FWall == null || FSide == CombatSideIndex.Defender)
+                                if (CombatMap.Current.Combat.CombatData.WallType == 0 || CombatMap.Current.Combat.CombatData.Wall == null || Side == CombatSideIndex.Defender)
                                 {
                                     CurrentMove += 1;
                                 }
 
-                                FUnitIndex = 0;
-                                GameTables.AoWEngine.OutputDebugStr("AI calculated " + IntToStr(Units.Count * Enemies.Count) + " Attack paths.");
-                                GameTables.AoWEngine.OutputDebugStr("AI calculated " + IntToStr(Moves.Count) + " Moves.");
+                                UnitIndex = 0;
+                                GameTables.GameEngine.OutputDebugString("AI calculated " + IntToStr(Units.Count * Enemies.Count) + " Attack paths.");
+                                GameTables.GameEngine.OutputDebugString("AI calculated " + IntToStr(Moves.Count) + " Moves.");
                             }
                             catch
                             {
@@ -2447,7 +2447,7 @@ public partial class BattleAI : IDisposable
                             }
                         }
 
-                        FUnitLimit = 0;
+                        UnitLimit = 0;
                     }
                     catch
                     {
@@ -2458,12 +2458,12 @@ public partial class BattleAI : IDisposable
                 case 2:
                     try
                     {
-                        while (FUnitIndex < Units.Count && FUnitLimit < 1)
+                        while (UnitIndex < Units.Count && UnitLimit < 1)
                         {
-                            U = (TacticalBattleUnit)Units[FUnitIndex];
+                            U = (TacticalBattleUnit)Units[UnitIndex];
                             if (!U.GetLocked())
                             {
-                                Abilities = new DelphiList();
+                                abilities = new DelphiList();
                                 J = 0;
                                 for (; J <= 169; J += 1)
                                 {
@@ -2475,33 +2475,33 @@ public partial class BattleAI : IDisposable
                                             case 36:
                                             case 66:
                                             case 117:
-                                                FFlee = false;
+                                                Flee = false;
                                                 break;
                                         }
 
-                                        if (J == 52 && U.FUnit is Hero)
+                                        if (J == 52 && U.Troop is Hero)
                                         {
-                                            if (U.FUnit.FPlayer > 0)
+                                            if (U.Troop.Player > 0)
                                             {
                                                 K = 0;
                                                 for (; K <= 130; K += 1)
                                                 {
-                                                    bool condition = TacticalTables.SpellTypes[K] != BattleEffectType.None && AoWHSMap.Current.FPlayers.GetPlayers(U.FUnit.FPlayer).FMagicControl.FSpells.IndexOf(K) != -1;
+                                                    bool condition = TacticalTables.SpellTypes[K] != BattleEffectType.None && AoWHSMap.Current.Players.GetPlayers(U.Troop.Player).MagicControl.Spells.IndexOf(K) != -1;
                                                     if (condition)
                                                     {
-                                                        var spell = AoWHSSet.Current.FSpellControl.GetSpell(K);
-                                                        condition = ((Hero)U.FUnit).CanCastSpellInstantly(K, spell.FBaseManaCost, ref Reason);
+                                                        var spell = AoWHSSet.Current.SpellControl.GetSpell(K);
+                                                        condition = ((Hero)U.Troop).CanCastSpellInstantly(K, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
                                                     {
-                                                        AoWHSSet.Current.FSpellControl.GetSpell(K).GetCombatInfo(U.FUnit, ref SpellInfo);
-                                                        if (SpellInfo.DamageTypes.Contains(DamageType.Wall))
+                                                        AoWHSSet.Current.SpellControl.GetSpell(K).GetCombatInfo(U.Troop, ref spellInfo);
+                                                        if (spellInfo.DamageTypes.Contains(DamageType.Wall))
                                                         {
-                                                            FFlee = false;
-                                                            Abilities.Add(new CombatAbilityRef());
-                                                            ((CombatAbilityRef)Abilities[Abilities.Count - 1]).Ability = J;
-                                                            ((CombatAbilityRef)Abilities[Abilities.Count - 1]).Spell = K;
+                                                            Flee = false;
+                                                            abilities.Add(new CombatAbilityRef());
+                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
+                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Spell = K;
                                                         }
                                                     }
                                                 }
@@ -2509,38 +2509,38 @@ public partial class BattleAI : IDisposable
                                         }
                                         else
                                         {
-                                            if (TacticalTables.AbilTypes[J] != BattleEffectType.None)
+                                            if (TacticalTables.s_abilityTypes[J] != BattleEffectType.None)
                                             {
-                                                AoWHSSet.Current.FAbilityControl.GetAbility(J).GetCombatInfo(U.FUnit, ref AIInfo);
-                                                if (AIInfo.DamageTypes.Contains(DamageType.Wall))
+                                                AoWHSSet.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
+                                                if (aiInfo.DamageTypes.Contains(DamageType.Wall))
                                                 {
-                                                    FFlee = false;
-                                                    Abilities.Add(new CombatAbilityRef());
-                                                    ((CombatAbilityRef)Abilities[Abilities.Count - 1]).Ability = J;
+                                                    Flee = false;
+                                                    abilities.Add(new CombatAbilityRef());
+                                                    ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
                                                 }
                                             }
                                         }
                                     }
                                 }
 
-                                if (Abilities.Count > 0)
+                                if (abilities.Count > 0)
                                 {
-                                    Settings = new CombatMoveControlSettings(null);
-                                    if (U.FMovePoints > 0)
+                                    settings = new CombatMoveControlSettings(null);
+                                    if (U.MovePoints > 0)
                                     {
-                                        var yhx = U.FUnitHS.GetYhx();
-                                        Settings.SetSourcePos(U.FUnitHS.GetXhx(), yhx, 0);
-                                        Settings.FArmyHS = U.FUnitHS;
-                                        Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
+                                        var hexY = U.UnitHexSprite.GetHexY();
+                                        settings.SetSourcePosition(U.UnitHexSprite.GetHexX(), hexY, 0);
+                                        settings.ArmyHexSprite = U.UnitHexSprite;
+                                        settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
                                         if (U.GetAbilityEnabled(65) || U.GetAbilityEnabled(117))
                                         {
-                                            Settings.FMoveFlags = Settings.FMoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
+                                            settings.MoveFlags = settings.MoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
                                         }
 
-                                        U.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
-                                        Settings.FPlayer = U.GetPlayer();
-                                        Settings.FMovePointsMax = 200;
-                                        CombatMap.Current.FMoveControl.ProcessMove(Settings);
+                                        U.Troop.CreateMovePointTable(ref settings.MovePointTable);
+                                        settings.Player = U.GetPlayer();
+                                        settings.MovePointsMax = 200;
+                                        CombatMap.Current.MoveControl.ProcessMove(settings);
                                     }
 
                                     J = 0;
@@ -2548,10 +2548,10 @@ public partial class BattleAI : IDisposable
                                     for (; J <= last; J += 1)
                                     {
                                         Wall = Walls[J];
-                                        if (!(U.FUnit is Hero) || FHeroMoves == 0)
+                                        if (!(U.Troop is Hero) || HeroMoves == 0)
                                         {
-                                            var yhx = Wall.GetYhx();
-                                            CheckUnit(Wall.GetXhx(), yhx, Wall.FHitPoints, TacticalTables.WallMaxHP[Wall.FWallType - 1] * 2, Settings, U, CombatMap.Current.FCombat.FCombatData.FWall, Abilities, Wall);
+                                            var hexY = Wall.GetHexY();
+                                            CheckUnit(Wall.GetHexX(), hexY, Wall.HitPoints, TacticalTables.s_wallMaxHitPoints[Wall.WallType - 1] * 2, settings, U, CombatMap.Current.Combat.CombatData.Wall, abilities, Wall);
                                         }
                                     }
 
@@ -2560,52 +2560,52 @@ public partial class BattleAI : IDisposable
                                         L = 100;
                                         Wall = null;
                                         J = 0;
-                                        int limit = CombatMap.Current.FWalls.Count - 1;
+                                        int limit = CombatMap.Current.Walls.Count - 1;
                                         for (; J <= limit; J += 1)
                                         {
-                                            var yhx = U.FUnitHS.GetYhx();
-                                            var yhx2 = (CombatMap.Current.FWalls[J]).GetYhx();
-                                            N = HexGeometry.dHXtoRad((CombatMap.Current.FWalls[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
-                                            if ((CombatMap.Current.FWalls[J]).FHitPoints > 0 && N < L)
+                                            var hexY = U.UnitHexSprite.GetHexY();
+                                            var hexY2 = (CombatMap.Current.Walls[J]).GetHexY();
+                                            N = HexGeometry.DeltaHexToRadius((CombatMap.Current.Walls[J]).GetHexX(), hexY2, U.UnitHexSprite.GetHexX(), hexY);
+                                            if ((CombatMap.Current.Walls[J]).HitPoints > 0 && N < L)
                                             {
-                                                Wall = CombatMap.Current.FWalls[J];
+                                                Wall = CombatMap.Current.Walls[J];
                                                 L = N;
                                             }
                                         }
 
                                         if (Wall != null)
                                         {
-                                            var yhx = Wall.GetYhx();
-                                            CheckUnit(Wall.GetXhx(), yhx, Wall.FHitPoints * 2, TacticalTables.WallMaxHP[Wall.FWallType - 1], Settings, U, CombatMap.Current.FCombat.FCombatData.FWall, Abilities, Wall);
+                                            var hexY = Wall.GetHexY();
+                                            CheckUnit(Wall.GetHexX(), hexY, Wall.HitPoints * 2, TacticalTables.s_wallMaxHitPoints[Wall.WallType - 1], settings, U, CombatMap.Current.Combat.CombatData.Wall, abilities, Wall);
                                         }
                                     }
 
-                                    Settings?.Dispose();
+                                    settings?.Dispose();
                                     I = 0;
-                                    int last2 = Abilities.Count - 1;
+                                    int last2 = abilities.Count - 1;
                                     for (; I <= last2; I += 1)
                                     {
-                                        (Abilities[I] as IDisposable)?.Dispose();
+                                        (abilities[I] as IDisposable)?.Dispose();
                                     }
                                 }
 
-                                Abilities?.Dispose();
+                                abilities?.Dispose();
                             }
 
-                            FUnitIndex += 1;
-                            FUnitLimit += 1;
+                            UnitIndex += 1;
+                            UnitLimit += 1;
                         }
 
-                        if (FUnitIndex >= Units.Count)
+                        if (UnitIndex >= Units.Count)
                         {
                             CurrentMove += 1;
                             Walls.Clear();
-                            FUnitIndex = 0;
-                            GameTables.AoWEngine.OutputDebugStr("AI calculated " + IntToStr(Units.Count * Enemies.Count) + " Attack paths.");
-                            GameTables.AoWEngine.OutputDebugStr("AI calculated " + IntToStr(Moves.Count) + " Moves.");
+                            UnitIndex = 0;
+                            GameTables.GameEngine.OutputDebugString("AI calculated " + IntToStr(Units.Count * Enemies.Count) + " Attack paths.");
+                            GameTables.GameEngine.OutputDebugString("AI calculated " + IntToStr(Moves.Count) + " Moves.");
                         }
 
-                        FUnitLimit = 0;
+                        UnitLimit = 0;
                     }
                     catch
                     {
@@ -2616,44 +2616,44 @@ public partial class BattleAI : IDisposable
                 case 3:
                     try
                     {
-                        Bonuses = new DelphiList();
+                        bonuses = new DelphiList();
                         I = 0;
                         int last = Units.Count - 1;
                         for (; I <= last; I += 1)
                         {
-                            Bonuses.Add(null);
+                            bonuses.Add(null);
                         }
 
-                        while (FUnitIndex < Moves.Count && FUnitLimit < 50)
+                        while (UnitIndex < Moves.Count && UnitLimit < 50)
                         {
-                            Move = Moves[FUnitIndex];
-                            if (Move.MoveType != BattleAIMoveType.Fake)
+                            move = Moves[UnitIndex];
+                            if (move.MoveType != BattleAIMoveType.Fake)
                             {
                                 J = 0;
                                 int limit = Units.Count - 1;
                                 for (; J <= limit; J += 1)
                                 {
-                                    Bonuses[J] = null;
+                                    bonuses[J] = null;
                                 }
 
                                 J = 0;
                                 int last2 = Moves.Count - 1;
                                 for (; J <= last2; J += 1)
                                 {
-                                    OtherMove = Moves[J];
-                                    if (Move.UnitHS.FUnit != OtherMove.UnitHS.FUnit)
+                                    otherMove = Moves[J];
+                                    if (move.UnitHexSprite.Unit != otherMove.UnitHexSprite.Unit)
                                     {
-                                        K = HexGeometry.dHXtoRad(Move.X, Move.Y, OtherMove.X, OtherMove.Y) * 4 - OtherMove.UnitHS.FUnit.FMovePoints;
+                                        K = HexGeometry.DeltaHexToRadius(move.X, move.Y, otherMove.X, otherMove.Y) * 4 - otherMove.UnitHexSprite.Unit.MovePoints;
                                         if (K < 4)
                                         {
                                             K = 4;
                                         }
 
-                                        L = OtherMove.UnitHS.FUnit.GetMoves() * (OtherMove.Value / (K * 10));
-                                        K = Units.IndexOf(OtherMove.UnitHS.FUnit);
-                                        if (ObjectToInt((object)Bonuses[K]) < L)
+                                        L = otherMove.UnitHexSprite.Unit.GetMoves() * (otherMove.Value / (K * 10));
+                                        K = Units.IndexOf(otherMove.UnitHexSprite.Unit);
+                                        if (ObjectToInt((object)bonuses[K]) < L)
                                         {
-                                            Bonuses[K] = IntToObject(L);
+                                            bonuses[K] = IntToObject(L);
                                         }
                                     }
                                 }
@@ -2662,25 +2662,25 @@ public partial class BattleAI : IDisposable
                                 int last3 = Units.Count - 1;
                                 for (; J <= last3; J += 1)
                                 {
-                                    if (Move.GroupValue > -1000000 && Move.GroupValue < 1000000)
+                                    if (move.GroupValue > -1000000 && move.GroupValue < 1000000)
                                     {
-                                        var bonuse = Bonuses[J];
-                                        Move.GroupValue += ObjectToInt((object)bonuse);
+                                        var bonus = bonuses[J];
+                                        move.GroupValue += ObjectToInt((object)bonus);
                                     }
                                 }
                             }
 
-                            FUnitIndex += 1;
-                            FUnitLimit += 1;
+                            UnitIndex += 1;
+                            UnitLimit += 1;
                         }
 
-                        if (FUnitIndex >= Moves.Count)
+                        if (UnitIndex >= Moves.Count)
                         {
                             CurrentMove += 1;
                         }
 
-                        FUnitLimit = 0;
-                        Bonuses?.Dispose();
+                        UnitLimit = 0;
+                        bonuses?.Dispose();
                     }
                     catch
                     {
@@ -2696,21 +2696,21 @@ public partial class BattleAI : IDisposable
                         for (; I <= last; I += 1)
                         {
                             U = (TacticalBattleUnit)Units[I];
-                            if (U.FUnit is Hero && FHeroMoves == 0 && U.FMovePoints > 0)
+                            if (U.Troop is Hero && HeroMoves == 0 && U.MovePoints > 0)
                             {
-                                var yhx = U.FUnitHS.GetYhx();
-                                K = UnitSafe(U, U.FUnitHS.GetXhx(), yhx);
-                                Value = K;
+                                var hexY = U.UnitHexSprite.GetHexY();
+                                K = UnitSafe(U, U.UnitHexSprite.GetHexX(), hexY);
+                                value = K;
                                 N = -1;
                                 J = 0;
                                 int limit = Units.Count - 1;
                                 for (; J <= limit; J += 1)
                                 {
-                                    Target = (TacticalBattleUnit)Units[J];
-                                    if (U != Target)
+                                    target = (TacticalBattleUnit)Units[J];
+                                    if (U != target)
                                     {
-                                        var fUnitHSYhx = Target.FUnitHS.GetYhx();
-                                        L = UnitSafe(U, Target.FUnitHS.GetXhx(), fUnitHSYhx);
+                                        var fUnitHexSpriteHexY = target.UnitHexSprite.GetHexY();
+                                        L = UnitSafe(U, target.UnitHexSprite.GetHexX(), fUnitHexSpriteHexY);
                                         if (L > K)
                                         {
                                             N = J;
@@ -2719,56 +2719,56 @@ public partial class BattleAI : IDisposable
                                     }
                                 }
 
-                                if (K > Value)
+                                if (K > value)
                                 {
-                                    Settings = new CombatMoveControlSettings(null);
+                                    settings = new CombatMoveControlSettings(null);
                                     // { Original uses X for both coordinates. }
-                                    var xhx = U.FUnitHS.GetXhx();
-                                    Settings.SetSourcePos(U.FUnitHS.GetXhx(), xhx, 0);
-                                    var fUnitHSYhx = ((TacticalBattleUnit)Units[N]).FUnitHS.GetYhx();
-                                    Settings.SetDestinationPos(((TacticalBattleUnit)Units[N]).FUnitHS.GetXhx(), fUnitHSYhx, 0);
-                                    Settings.FArmyHS = U.FUnitHS;
-                                    Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
-                                    U.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
-                                    Settings.FPlayer = U.GetPlayer();
-                                    CombatMap.Current.FMoveControl.ProcessMove(Settings);
-                                    if (Settings.FPath.Count > 2)
+                                    var hexX = U.UnitHexSprite.GetHexX();
+                                    settings.SetSourcePosition(U.UnitHexSprite.GetHexX(), hexX, 0);
+                                    var fUnitHexSpriteHexY = ((TacticalBattleUnit)Units[N]).UnitHexSprite.GetHexY();
+                                    settings.SetDestinationPosition(((TacticalBattleUnit)Units[N]).UnitHexSprite.GetHexX(), fUnitHexSpriteHexY, 0);
+                                    settings.ArmyHexSprite = U.UnitHexSprite;
+                                    settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee, CombatMoveModeElement.Move, CombatMoveModeElement.Wall);
+                                    U.Troop.CreateMovePointTable(ref settings.MovePointTable);
+                                    settings.Player = U.GetPlayer();
+                                    CombatMap.Current.MoveControl.ProcessMove(settings);
+                                    if (settings.Path.Count > 2)
                                     {
-                                        Settings.FPath.Delete(0);
-                                        var path = Settings.FPath[0];
-                                        CreateMove(BattleAIMoveType.Move, Settings.FPath[0].X, path.Y, K, 0, 0, U, null);
+                                        settings.Path.Delete(0);
+                                        var path = settings.Path[0];
+                                        CreateMove(BattleAIMoveType.Move, settings.Path[0].X, path.Y, K, 0, 0, U, null);
                                     }
 
-                                    Settings?.Dispose();
+                                    settings?.Dispose();
                                 }
                                 else
                                 {
-                                    if (FSide == CombatSideIndex.Attacker)
+                                    if (Side == CombatSideIndex.Attacker)
                                     {
-                                        U.FCanFlee = true;
+                                        U.CanFlee = true;
                                     }
                                 }
                             }
                         }
 
-                        if (FSide == CombatSideIndex.Attacker)
+                        if (Side == CombatSideIndex.Attacker)
                         {
                             I = 0;
                             int limit = Units.Count - 1;
                             for (; I <= limit; I += 1)
                             {
                                 U = (TacticalBattleUnit)Units[I];
-                                if ((!(U.FUnit is Hero) || FHeroMoves == 0 || (U.FUnit is Hero && Units.Count == 1)) && U.GetEnabled() && !U.GetLocked() && U.FMovePoints > 0 && (FFlee || U.FCanFlee))
+                                if ((!(U.Troop is Hero) || HeroMoves == 0 || (U.Troop is Hero && Units.Count == 1)) && U.GetEnabled() && !U.GetLocked() && U.MovePoints > 0 && (Flee || U.CanFlee))
                                 {
                                     J = 0;
-                                    int last2 = CombatMap.Current.FFleeLocations.Count - 1;
+                                    int last2 = CombatMap.Current.FleeLocations.Count - 1;
                                     for (; J <= last2; J += 1)
                                     {
-                                        var yhx = U.FUnitHS.GetYhx();
-                                        var yhx2 = (CombatMap.Current.FFleeLocations[J]).GetYhx();
-                                        var dHXtoRad2 = HexGeometry.dHXtoRad((CombatMap.Current.FFleeLocations[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
-                                        var yhx3 = (CombatMap.Current.FFleeLocations[J]).GetYhx();
-                                        CreateMove(BattleAIMoveType.Move, (CombatMap.Current.FFleeLocations[J]).GetXhx(), yhx3, 110000000 - dHXtoRad2 * 10, 0, 0, U, null);
+                                        var hexY = U.UnitHexSprite.GetHexY();
+                                        var hexY2 = (CombatMap.Current.FleeLocations[J]).GetHexY();
+                                        var deltaHexToRadius2 = HexGeometry.DeltaHexToRadius((CombatMap.Current.FleeLocations[J]).GetHexX(), hexY2, U.UnitHexSprite.GetHexX(), hexY);
+                                        var hexY3 = (CombatMap.Current.FleeLocations[J]).GetHexY();
+                                        CreateMove(BattleAIMoveType.Move, (CombatMap.Current.FleeLocations[J]).GetHexX(), hexY3, 110000000 - deltaHexToRadius2 * 10, 0, 0, U, null);
                                     }
                                 }
                             }
@@ -2777,17 +2777,17 @@ public partial class BattleAI : IDisposable
                         I = 0;
                         while (I < Moves.Count)
                         {
-                            Move = Moves[I];
-                            switch (Move.MoveType)
+                            move = Moves[I];
+                            switch (move.MoveType)
                             {
                                 case BattleAIMoveType.Fake:
                                     Moves.RemoveAt(I);
                                     break;
                                 default:
                                     {
-                                        if (Move.Value > -100000000 && Move.Value < 100000000)
+                                        if (move.Value > -100000000 && move.Value < 100000000)
                                         {
-                                            Move.Value += Move.GroupValue / 4;
+                                            move.Value += move.GroupValue / 4;
                                         }
 
                                         I += 1;
@@ -2801,13 +2801,13 @@ public partial class BattleAI : IDisposable
                         int last3 = Moves.Count - 1;
                         for (; I <= last3; I += 1)
                         {
-                            Move = Moves[I];
+                            move = Moves[I];
                             J = 0;
                             K = -1;
                             while (J < I)
                             {
-                                OtherMove = Moves[J];
-                                if (Move.Value > OtherMove.Value)
+                                otherMove = Moves[J];
+                                if (move.Value > otherMove.Value)
                                 {
                                     K = J;
                                     J = I;
@@ -2840,199 +2840,199 @@ public partial class BattleAI : IDisposable
                 case 5:
                     try
                     {
-                        Moved = false;
-                        while (Moves.Count > 0 && !Moved)
+                        moved = false;
+                        while (Moves.Count > 0 && !moved)
                         {
-                            Move = Moves[0];
-                            switch (Move.MoveType)
+                            move = Moves[0];
+                            switch (move.MoveType)
                             {
                                 case BattleAIMoveType.Move:
                                 case BattleAIMoveType.MoveRanged:
                                     {
-                                        var tacticalCombatUnitHS = Move.UnitHS;
-                                        if ((Move.UnitHS.FUnit.FUnit is Hero || (FSide == CombatSideIndex.Attacker && CombatMap.Current.FRound == 1)) && Move.UnitHS.FUnit.FMovePoints > FMinMoves)
+                                        var tacticalBattleUnitHexSprite = move.UnitHexSprite;
+                                        if ((move.UnitHexSprite.Unit.Troop is Hero || (Side == CombatSideIndex.Attacker && CombatMap.Current.Round == 1)) && move.UnitHexSprite.Unit.MovePoints > MinMoves)
                                         {
-                                            Move.UnitHS.FUnit.FMovePoints = FMinMoves;
+                                            move.UnitHexSprite.Unit.MovePoints = MinMoves;
                                         }
 
-                                        Settings = new CombatMoveControlSettings(null);
-                                        var lhx = tacticalCombatUnitHS.GetLhx();
-                                        var yhx = tacticalCombatUnitHS.GetYhx();
-                                        Settings.SetSourcePos(tacticalCombatUnitHS.GetXhx(), yhx, lhx);
-                                        Settings.SetDestinationPos(Move.X, Move.Y, 0);
-                                        Settings.FArmyHS = Move.UnitHS;
-                                        if (Move.MoveType == BattleAIMoveType.MoveRanged || CombatObject.MeleeDamageTypes(Move.UnitHS.FUnit) == Set<DamageType>.Of())
+                                        settings = new CombatMoveControlSettings(null);
+                                        var hexLevel = tacticalBattleUnitHexSprite.GetHexLevel();
+                                        var hexY = tacticalBattleUnitHexSprite.GetHexY();
+                                        settings.SetSourcePosition(tacticalBattleUnitHexSprite.GetHexX(), hexY, hexLevel);
+                                        settings.SetDestinationPosition(move.X, move.Y, 0);
+                                        settings.ArmyHexSprite = move.UnitHexSprite;
+                                        if (move.MoveType == BattleAIMoveType.MoveRanged || CombatObject.MeleeDamageTypes(move.UnitHexSprite.Unit) == Set<DamageType>.Of())
                                         {
-                                            Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.MoveRanged);
+                                            settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.MoveRanged);
                                         }
                                         else
                                         {
-                                            Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
+                                            settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
                                         }
 
-                                        if (CombatMap.Current.FCombat.FCombatData.FWallType != 0)
+                                        if (CombatMap.Current.Combat.CombatData.WallType != 0)
                                         {
-                                            if (!(CombatMap.Current.FCombat.FCombatData.FWallBreached && CombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508) == null && CombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510) == null))
+                                            if (!(CombatMap.Current.Combat.CombatData.WallBreached && CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229508) == null && CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229510) == null))
                                             {
-                                                if (!FIgnoreWalls || !ChargeFromPos((int)(((uint)Move.UnitHS.FUnit.FPosition) >> 4)) || FSide == CombatSideIndex.Attacker)
+                                                if (!IgnoreWalls || !ChargeFromPosition((int)(((uint)move.UnitHexSprite.Unit.Position) >> 4)) || Side == CombatSideIndex.Attacker)
                                                 {
-                                                    Settings.FMoveFlags = Settings.FMoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
+                                                    settings.MoveFlags = settings.MoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
                                                 }
                                             }
                                         }
 
-                                        Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
-                                        Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
-                                        CombatMap.Current.FMoveControl.ProcessMove(Settings);
-                                        if (Settings.FPath.Count < 2 && !Settings.FMoveFlags.Contains(CombatMoveModeElement.Wall))
+                                        move.UnitHexSprite.Unit.Troop.CreateMovePointTable(ref settings.MovePointTable);
+                                        settings.Player = move.UnitHexSprite.Unit.GetPlayer();
+                                        CombatMap.Current.MoveControl.ProcessMove(settings);
+                                        if (settings.Path.Count < 2 && !settings.MoveFlags.Contains(CombatMoveModeElement.Wall))
                                         {
-                                            Settings.FMoveFlags = Settings.FMoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
-                                            CombatMap.Current.FMoveControl.ProcessMove(Settings);
+                                            settings.MoveFlags = settings.MoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Wall);
+                                            CombatMap.Current.MoveControl.ProcessMove(settings);
                                         }
 
-                                        Wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508);
+                                        Wall = (CityWall)CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229508);
                                         if (Wall == null)
                                         {
-                                            Wall = CombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510) as CityWall;
+                                            Wall = CombatMap.Current.MapContainer.MapLevels[0].Field[move.X, move.Y].FindOwnedChild(2229510) as CityWall;
                                         }
 
-                                        if (Settings.FPath.Count == 2 && Move.MoveType == BattleAIMoveType.MoveRanged && Wall != null)
+                                        if (settings.Path.Count == 2 && move.MoveType == BattleAIMoveType.MoveRanged && Wall != null)
                                         {
-                                            Move.UnitHS.FUnit.FMovePoints = 0;
+                                            move.UnitHexSprite.Unit.MovePoints = 0;
                                         }
                                         else
                                         {
-                                            if (Settings.FPath.Count > 1)
+                                            if (settings.Path.Count > 1)
                                             {
-                                                Path = Settings.FPath;
-                                                PathCost = MakeTerrainPath(Settings, ref Path, ref TerrainCost, Move.UnitHS.FUnit, null, false, false, 0);
-                                                if (Path.Count > 1 && PathCost > -1)
+                                                Path = settings.Path;
+                                                pathCost = MakeTerrainPath(settings, ref Path, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 0);
+                                                if (Path.Count > 1 && pathCost > -1)
                                                 {
-                                                    if (Path[Path.Count - 2].Flag > 0 && Path[Path.Count - 2].Flag <= Move.UnitHS.FUnit.FMovePoints)
+                                                    if (Path[Path.Count - 2].Tag > 0 && Path[Path.Count - 2].Tag <= move.UnitHexSprite.Unit.MovePoints)
                                                     {
-                                                        if (Move.MoveType == BattleAIMoveType.MoveRanged)
+                                                        if (move.MoveType == BattleAIMoveType.MoveRanged)
                                                         {
-                                                            Value = ((MovePath)Path).PosToMovePoints(0);
-                                                            if (Value < Move.UnitHS.FUnit.FMovePoints)
+                                                            value = ((MovePath)Path).PositionToMovePoints(0);
+                                                            if (value < move.UnitHexSprite.Unit.MovePoints)
                                                             {
-                                                                Move.UnitHS.FUnit.FMovePoints = Value;
+                                                                move.UnitHexSprite.Unit.MovePoints = value;
                                                             }
                                                         }
 
-                                                        Value = ((MovePath)Path).MovePointsToPos(Move.UnitHS.FUnit.FMovePoints);
-                                                        Value = ((MovePath)Path).PosToMovePoints(Value);
-                                                        if (Value > 0 && Value < Move.UnitHS.FUnit.FMovePoints)
+                                                        value = ((MovePath)Path).MovePointsToPosition(move.UnitHexSprite.Unit.MovePoints);
+                                                        value = ((MovePath)Path).PositionToMovePoints(value);
+                                                        if (value > 0 && value < move.UnitHexSprite.Unit.MovePoints)
                                                         {
-                                                            Move.UnitHS.FUnit.FMovePoints = Value;
+                                                            move.UnitHexSprite.Unit.MovePoints = value;
                                                         }
 
                                                         // { Original repeats X. }
-                                                        GameTables.AoWEngine.OutputDebugStr("AI moves to X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
-                                                        Moved = TacticalBattleUnit.MoveCombatUnit(Move.UnitHS.FUnit, (MovePath)Path);
-                                                        if (Move.UnitHS.FUnit.FCombatPlayer == CombatMap.Current.FSeatedPlayer)
+                                                        GameTables.GameEngine.OutputDebugString("AI moves to X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                                        moved = TacticalBattleUnit.MoveCombatUnit(move.UnitHexSprite.Unit, (MovePath)Path);
+                                                        if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                         {
-                                                            var unitHSYhx = Move.UnitHS.GetYhx();
-                                                            var xhx = Move.UnitHS.GetXhx();
-                                                            CombatMap.Current.CenterViewTo(xhx, unitHSYhx, 0);
+                                                            var unitHexSpriteHexY = move.UnitHexSprite.GetHexY();
+                                                            var hexX = move.UnitHexSprite.GetHexX();
+                                                            CombatMap.Current.CenterViewTo(hexX, unitHexSpriteHexY, 0);
                                                         }
                                                     }
                                                     else
                                                     {
-                                                        Move.UnitHS.FUnit.FMovePoints = 0;
+                                                        move.UnitHexSprite.Unit.MovePoints = 0;
                                                     }
                                                 }
                                             }
                                         }
 
-                                        Settings?.Dispose();
+                                        settings?.Dispose();
                                     }
 
                                     break;
                                 case BattleAIMoveType.Melee:
-                                    Settings = new CombatMoveControlSettings(null);
-                                    var yhx2 = Move.UnitHS.GetYhx();
-                                    Settings.SetSourcePos(Move.UnitHS.GetXhx(), yhx2, 0);
-                                    Settings.SetDestinationPos(Move.X, Move.Y, 0);
-                                    Settings.FArmyHS = Move.UnitHS;
-                                    Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
-                                    Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
-                                    Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
-                                    CombatMap.Current.FMoveControl.ProcessMove(Settings);
-                                    if (Settings.FPath.Count > 1)
+                                    settings = new CombatMoveControlSettings(null);
+                                    var hexY2 = move.UnitHexSprite.GetHexY();
+                                    settings.SetSourcePosition(move.UnitHexSprite.GetHexX(), hexY2, 0);
+                                    settings.SetDestinationPosition(move.X, move.Y, 0);
+                                    settings.ArmyHexSprite = move.UnitHexSprite;
+                                    settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
+                                    move.UnitHexSprite.Unit.Troop.CreateMovePointTable(ref settings.MovePointTable);
+                                    settings.Player = move.UnitHexSprite.Unit.GetPlayer();
+                                    CombatMap.Current.MoveControl.ProcessMove(settings);
+                                    if (settings.Path.Count > 1)
                                     {
-                                        Path = Settings.FPath;
-                                        PathCost = MakeTerrainPath(Settings, ref Path, ref TerrainCost, Move.UnitHS.FUnit, null, false, false, 1);
-                                        if (Path.Count > 1 && PathCost > -1)
+                                        Path = settings.Path;
+                                        pathCost = MakeTerrainPath(settings, ref Path, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 1);
+                                        if (Path.Count > 1 && pathCost > -1)
                                         {
-                                            if (Path[Path.Count - 2].Flag <= Move.UnitHS.FUnit.FMovePoints)
+                                            if (Path[Path.Count - 2].Tag <= move.UnitHexSprite.Unit.MovePoints)
                                             {
                                                 // { Original repeats X in the debug text. }
-                                                GameTables.AoWEngine.OutputDebugStr("AI touches at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
-                                                Moved = Move.UnitHS.MeleeMoveTC((MovePath)Path);
-                                                if (Move.UnitHS.FUnit.FCombatPlayer == CombatMap.Current.FSeatedPlayer)
+                                                GameTables.GameEngine.OutputDebugString("AI touches at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                                moved = move.UnitHexSprite.MeleeMoveTacticalBattle((MovePath)Path);
+                                                if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
-                                                    var yhx = Move.UnitHS.GetYhx();
-                                                    var xhx = Move.UnitHS.GetXhx();
-                                                    CombatMap.Current.CenterViewTo(xhx, yhx, 0);
+                                                    var hexY = move.UnitHexSprite.GetHexY();
+                                                    var hexX = move.UnitHexSprite.GetHexX();
+                                                    CombatMap.Current.CenterViewTo(hexX, hexY, 0);
                                                 }
                                             }
                                         }
                                     }
 
-                                    Settings?.Dispose();
+                                    settings?.Dispose();
                                     break;
                                 case BattleAIMoveType.Touch:
-                                    AoWHSSet.Current.FAbilityControl.GetAbility(Move.Ability).GetCombatInfo(Move.UnitHS.FUnit.FUnit, ref AIInfo);
-                                    Settings = new CombatMoveControlSettings(null);
-                                    var yhx3 = Move.UnitHS.GetYhx();
-                                    Settings.SetSourcePos(Move.UnitHS.GetXhx(), yhx3, 0);
-                                    Settings.SetDestinationPos(Move.X, Move.Y, 0);
-                                    Settings.FArmyHS = Move.UnitHS;
-                                    Settings.FMoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
-                                    if (AIInfo.DamageTypes.Contains(DamageType.Wall))
+                                    AoWHSSet.Current.AbilityControl.GetAbility(move.Ability).GetCombatInfo(move.UnitHexSprite.Unit.Troop, ref aiInfo);
+                                    settings = new CombatMoveControlSettings(null);
+                                    var hexY3 = move.UnitHexSprite.GetHexY();
+                                    settings.SetSourcePosition(move.UnitHexSprite.GetHexX(), hexY3, 0);
+                                    settings.SetDestinationPosition(move.X, move.Y, 0);
+                                    settings.ArmyHexSprite = move.UnitHexSprite;
+                                    settings.MoveFlags = Set<CombatMoveModeElement>.Of(CombatMoveModeElement.Melee);
+                                    if (aiInfo.DamageTypes.Contains(DamageType.Wall))
                                     {
-                                        Settings.FMoveFlags = Settings.FMoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
+                                        settings.MoveFlags = settings.MoveFlags + Set<CombatMoveModeElement>.Of(CombatMoveModeElement.WallCrushing);
                                     }
 
-                                    Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
-                                    Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
-                                    Move.UnitHS.FSelectedAbility = Move.Ability;
-                                    CombatMap.Current.FMoveControl.ProcessMove(Settings);
-                                    if (Settings.FPath.Count > 1)
+                                    move.UnitHexSprite.Unit.Troop.CreateMovePointTable(ref settings.MovePointTable);
+                                    settings.Player = move.UnitHexSprite.Unit.GetPlayer();
+                                    move.UnitHexSprite.SelectedAbility = move.Ability;
+                                    CombatMap.Current.MoveControl.ProcessMove(settings);
+                                    if (settings.Path.Count > 1)
                                     {
-                                        Path = Settings.FPath;
-                                        PathCost = MakeTerrainPath(Settings, ref Path, ref TerrainCost, Move.UnitHS.FUnit, null, false, false, 1);
-                                        if (Path.Count > 1 && PathCost > -1)
+                                        Path = settings.Path;
+                                        pathCost = MakeTerrainPath(settings, ref Path, ref terrainCost, move.UnitHexSprite.Unit, null, false, false, 1);
+                                        if (Path.Count > 1 && pathCost > -1)
                                         {
-                                            if (Path[Path.Count - 2].Flag <= Move.UnitHS.FUnit.FMovePoints)
+                                            if (Path[Path.Count - 2].Tag <= move.UnitHexSprite.Unit.MovePoints)
                                             {
-                                                Move.UnitHS.FSelectedAbility = Move.Ability;
+                                                move.UnitHexSprite.SelectedAbility = move.Ability;
                                                 // { Original repeats X in the debug text. }
-                                                GameTables.AoWEngine.OutputDebugStr("AI melees at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
-                                                Moved = Move.UnitHS.AbTouchMoveTC((MovePath)Path);
-                                                if (Move.UnitHS.FUnit.FCombatPlayer == CombatMap.Current.FSeatedPlayer)
+                                                GameTables.GameEngine.OutputDebugString("AI melees at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                                moved = move.UnitHexSprite.AbilityTouchMoveTacticalBattle((MovePath)Path);
+                                                if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                                 {
-                                                    var yhx = Move.UnitHS.GetYhx();
-                                                    var xhx = Move.UnitHS.GetXhx();
-                                                    CombatMap.Current.CenterViewTo(xhx, yhx, 0);
+                                                    var hexY = move.UnitHexSprite.GetHexY();
+                                                    var hexX = move.UnitHexSprite.GetHexX();
+                                                    CombatMap.Current.CenterViewTo(hexX, hexY, 0);
                                                 }
                                             }
                                         }
                                     }
 
-                                    Settings?.Dispose();
+                                    settings?.Dispose();
                                     break;
                                 case BattleAIMoveType.Ranged:
-                                    Move.UnitHS.FSelectedAbility = Move.Ability;
-                                    Move.UnitHS.FSelectedSpell = Move.Spell;
+                                    move.UnitHexSprite.SelectedAbility = move.Ability;
+                                    move.UnitHexSprite.SelectedSpell = move.Spell;
                                     // { Original repeats X in the debug text. }
-                                    GameTables.AoWEngine.OutputDebugStr("AI ranged at X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
-                                    Moved = Move.UnitHS.AbRangedTC(Move.X, Move.Y);
-                                    if (Move.UnitHS.FUnit.FCombatPlayer == CombatMap.Current.FSeatedPlayer)
+                                    GameTables.GameEngine.OutputDebugString("AI ranged at X: " + IntToStr(move.X) + " Y: " + IntToStr(move.X));
+                                    moved = move.UnitHexSprite.AbilityRangedTacticalBattle(move.X, move.Y);
+                                    if (move.UnitHexSprite.Unit.CombatPlayer == CombatMap.Current.SeatedPlayer)
                                     {
-                                        var yhx = Move.UnitHS.GetYhx();
-                                        var xhx = Move.UnitHS.GetXhx();
-                                        CombatMap.Current.CenterViewTo(xhx, yhx, 0);
+                                        var hexY = move.UnitHexSprite.GetHexY();
+                                        var hexX = move.UnitHexSprite.GetHexX();
+                                        CombatMap.Current.CenterViewTo(hexX, hexY, 0);
                                     }
 
                                     break;
@@ -3043,7 +3043,7 @@ public partial class BattleAI : IDisposable
                             Moves.RemoveAt(0);
                         }
 
-                        if (!Moved)
+                        if (!moved)
                         {
                             Status = AIStatus.Done;
                         }

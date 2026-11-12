@@ -16,25 +16,25 @@ public partial class AIMoveExecutorArmyList : ENode
     { }
 
     // AIGroup.pas:4642
-    public AIMoveExecutorArmy GetArmies(int Index) => (AIMoveExecutorArmy)FChildren.List[Index];
+    public AIMoveExecutorArmy GetArmies(int index) => (AIMoveExecutorArmy)_children.List[index];
 
     // AIGroup.pas:4647
-    public int IndexOf(ArmyHexSprite Army, byte Selection)
+    public int IndexOf(ArmyHexSprite army, byte selection)
     {
-        byte FoundSelection = default;
+        byte foundSelection = default;
         int I;
-        AIMoveExecutorArmy Entry;
-        ArmyHexSprite FoundArmy = default;
+        AIMoveExecutorArmy entry;
+        ArmyHexSprite foundArmy = default;
         // { byte local precedes the pointer local }
         I = Count;
         while (I != 0)
         {
             I -= 1;
-            Entry = (AIMoveExecutorArmy)FChildren.List[I];
-            if (Army.GetXhx() == Entry.FLocation.X && Army.GetYhx() == Entry.FLocation.Y && Army.GetLhx() == Entry.FLocation.L)
+            entry = (AIMoveExecutorArmy)_children.List[I];
+            if (army.GetHexX() == entry.Location.X && army.GetHexY() == entry.Location.Y && army.GetHexLevel() == entry.Location.MapLevel)
             {
-                Entry.RetrieveArmy(255, ref FoundArmy, ref FoundSelection);
-                if (Army == FoundArmy && FoundSelection == Selection)
+                entry.RetrieveArmy(255, ref foundArmy, ref foundSelection);
+                if (army == foundArmy && foundSelection == selection)
                 {
                     return I;
                 }
@@ -45,16 +45,16 @@ public partial class AIMoveExecutorArmyList : ENode
     }
 
     // AIGroup.pas:4673
-    public int IndexOfXYL(sbyte X, sbyte Y, sbyte L)
+    public int IndexOfMapCoordinate(sbyte X, sbyte Y, sbyte L)
     {
         int I;
-        AIMoveExecutorArmy Army;
+        AIMoveExecutorArmy army;
         I = Count;
         while (I != 0)
         {
             I -= 1;
-            Army = (AIMoveExecutorArmy)FChildren.List[I];
-            if (X == Army.FLocation.X && Army.FLocation.Y == Y && Army.FLocation.L == L)
+            army = (AIMoveExecutorArmy)_children.List[I];
+            if (X == army.Location.X && army.Location.Y == Y && army.Location.MapLevel == L)
             {
                 return I;
             }
@@ -64,15 +64,15 @@ public partial class AIMoveExecutorArmyList : ENode
     }
 
     // AIGroup.pas:4693
-    public int IndexOfLoc(MapCoordinate Location)
+    public int IndexOfLocation(MapCoordinate location)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (Unsafe.As<MapCoordinate, int>(ref ((AIMoveExecutorArmy)FChildren.List[Result]).FLocation) == Unsafe.As<MapCoordinate, int>(ref Location))
+            result -= 1;
+            if (Unsafe.As<MapCoordinate, int>(ref ((AIMoveExecutorArmy)_children.List[result]).Location) == Unsafe.As<MapCoordinate, int>(ref location))
             {
-                return Result;
+                return result;
             }
         }
 
@@ -80,15 +80,15 @@ public partial class AIMoveExecutorArmyList : ENode
     }
 
     // AIGroup.pas:4704
-    public int IndexOfTransportStatus(AIMoveExecutorTransportStatus Status)
+    public int IndexOfTransportStatus(AIMoveExecutorTransportStatus status)
     {
-        int Result = Count;
-        while (Result != 0)
+        int result = Count;
+        while (result != 0)
         {
-            Result -= 1;
-            if (((AIMoveExecutorArmy)FChildren.List[Result]).FTransportStatus == Status)
+            result -= 1;
+            if (((AIMoveExecutorArmy)_children.List[result]).TransportStatus == status)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -98,12 +98,12 @@ public partial class AIMoveExecutorArmyList : ENode
     // AIGroup.pas:4721
     public void SortOnMovePoints()
     {
-        FChildren.Sort(CompareExecuterArmies);
+        _children.Sort(CompareExecutorArmies);
     }
 
-    private static int CompareExecuterArmies(object Item1, object Item2)
+    private static int CompareExecutorArmies(object item1, object item2)
     {
-        return ((AIMoveExecutorArmy)Item1).MovePoints(255) - ((AIMoveExecutorArmy)Item2).MovePoints(255);
+        return ((AIMoveExecutorArmy)item1).MovePoints(255) - ((AIMoveExecutorArmy)item2).MovePoints(255);
     }
 
     // Engine.pas:631

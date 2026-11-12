@@ -13,21 +13,21 @@ public sealed class NodeChildren(ECustomNode node) : IChildCollection
     {
         var child = node.GetChild(index);
         return child != null && child.Owner == node
-            && !child.GetControlStyle().Contains(EngineServices.csShared)
-            && child.GetControlStyle().Contains(EngineServices.csStored);
+            && !child.GetControlStyle().Contains(EngineServices.Shared)
+            && child.GetControlStyle().Contains(EngineServices.Stored);
     }
 
     public int Slot(int index) => index;
 
-    public bool KeepIndex => node.GetControlStyle().Contains(EngineServices.csKeepIndex);
+    public bool KeepIndex => node.GetControlStyle().Contains(EngineServices.KeepIndex);
 
-    public void Attach(IPersistable child) => ((EngineObject)child).FOwner = node;
+    public void Attach(IPersistable child) => ((EngineObject)child)._owner = node;
 
     public void Place(int slot, IPersistable child)
     {
-        var obj = (EngineObject)child;
-        obj.FOwner = null;
-        if (KeepIndex) obj.SetArrayOwner(node, slot);
-        else obj.SetOwner(node);
+        var objectValue = (EngineObject)child;
+        objectValue._owner = null;
+        if (KeepIndex) objectValue.SetArrayOwner(node, slot);
+        else objectValue.SetOwner(node);
     }
 }

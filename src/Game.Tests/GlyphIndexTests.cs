@@ -19,7 +19,7 @@ public sealed class GlyphIndexTests
         var previousTables = (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable);
         (GraphicsState.AlphaBlendTable, GraphicsState.IntensityBlendTable, GraphicsState.BrightenBlendTable, GraphicsState.ShadowBlendTable, GraphicsState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
-        GraphicsState.InitBlendTables(5, 31);
+        GraphicsState.InitializeBlendTables(5, 31);
         ImageLibraries.LibraryImageClasses = new List<LibraryImageClass>();
         // The game keeps library names relative to the install, as UIFonts does with Int\Fonts.
         ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
@@ -72,8 +72,8 @@ public sealed class GlyphIndexTests
                 Assert.True(text.Length == 1 && Cp1252.Byte(text[0]) == code, $"{name}: the one-char string of byte {code}");
                 var glyph = font.GetSafe(code);
                 Assert.True((glyph?.Width ?? 5) + font.CharacterDistance == font.TextWidth(text), $"{name}: TextWidth of byte {code}");
-                byte[] shown = Draw(width, height, sd => font.ShowText(24, 24, text, sd));
-                byte[] expected = Draw(width, height, sd => glyph?.Show(24, 24, sd));
+                byte[] shown = Draw(width, height, lockedSurface => font.ShowText(24, 24, text, lockedSurface));
+                byte[] expected = Draw(width, height, lockedSurface => glyph?.Show(24, 24, lockedSurface));
                 Assert.True(expected.AsSpan().SequenceEqual(shown), $"{name}: ShowText of byte {code} draws another glyph");
                 if (glyph is not null && expected.Any(value => value != 0)) drawn++;
             }
@@ -88,13 +88,13 @@ public sealed class GlyphIndexTests
     private static byte[] Draw(int width, int height, Action<LockedSurface> draw)
     {
         using var surface = new Dib16Surface(width, height, PixelFormats.pfRGB555);
-        surface.Cls(0);
-        LockedSurface sd = default;
-        surface.Lock(ref sd);
+        surface.Clear(0);
+        LockedSurface lockedSurface = default;
+        surface.Lock(ref lockedSurface);
         try
         {
-            draw(sd);
-            return sd.Data.AsSpan(sd.DataIndex, Math.Abs(sd.Pitch) * height).ToArray();
+            draw(lockedSurface);
+            return lockedSurface.Data.AsSpan(lockedSurface.DataIndex, Math.Abs(lockedSurface.Pitch) * height).ToArray();
         }
         finally { surface.Unlock(); }
     }

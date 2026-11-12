@@ -7,13 +7,13 @@ namespace Aow.Rtl.Tests;
 
 public sealed class StringFormatTests
 {
-    private static void Same(string format, params FormatArg[] args)
+    private static void Same(string format, params FormatArg[] arguments)
     {
         string ansi = format;
-        var error = Record.Exception(() => RtlUnit.Format(ansi, args));
-        if (error is null) Assert.Equal(RtlUnit.Format(ansi, args), RtlUnit.Format(format, args));
+        var error = Record.Exception(() => RtlUnit.Format(ansi, arguments));
+        if (error is null) Assert.Equal(RtlUnit.Format(ansi, arguments), RtlUnit.Format(format, arguments));
         else Assert.Equal(Assert.IsType<FormatException>(error).Message,
-            Assert.Throws<FormatException>(() => RtlUnit.Format(format, args)).Message);
+            Assert.Throws<FormatException>(() => RtlUnit.Format(format, arguments)).Message);
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public sealed class StringFormatTests
         Same("%*:*s", 1, 2, "bc"); Same("%*d", false, 1); Same("%*d", "x", 1);
         Same("%0:1:s", 7, "abcdef"); Same("%:s", "abc");
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Same(kind, 1.25);
-        foreach (FormatArg arg in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) }) Same("%s", arg);
+        foreach (FormatArg argument in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) }) Same("%s", argument);
         Same("%p", 1); Same("%d", (byte)'a'); Same("%0:1:d", 7, "abcdef");
         Assert.Equal("A", RtlUnit.Format("%.0s", 'A'));
         Assert.Equal("abc", RtlUnit.Format("%s", "abc\0def"[..3]));
@@ -107,8 +107,8 @@ public sealed class StringFormatTests
         Assert.Equal("null", CaseOf(default));
         Assert.Equal("Pointer FFFFFFFF", CaseOf(new PointerArg(uint.MaxValue)));
         // The same conversions in a collection expression and in a params span.
-        var obj = new SampleObject();
-        FormatArg[] list = [7, (byte)0x80, '\u0080', true, 1.25, "s", obj, (object?)null, new PointerArg(1)];
+        var objectValue = new SampleObject();
+        FormatArg[] list = [7, (byte)0x80, '\u0080', true, 1.25, "s", objectValue, (object?)null, new PointerArg(1)];
         Assert.Equal(new[] { "Integer 7", "Char U+20AC", "Char U+0080", "Boolean True", "Extended 1.25", "String s",
             "Object SampleObject", "null", "Pointer 00000001" }, list.Select(CaseOf));
         Assert.Equal("7 € € \u0080 x", RtlUnit.Format("%d %s %s %s %s", 7, (byte)0x80, '€', '\u0080', "x"));
@@ -118,14 +118,14 @@ public sealed class StringFormatTests
     [Fact]
     public void EveryCaseHoldsItsValue()
     {
-        var obj = new object();
+        var objectValue = new object();
         Assert.Equal(7, ((FormatArg)7).Value);
         Assert.Equal('€', ((FormatArg)(byte)0x80).Value);
         Assert.Equal('\u0080', ((FormatArg)'\u0080').Value);
         Assert.True(((FormatArg)true).Value is true);
         Assert.Equal(1.25, ((FormatArg)1.25).Value);
         Assert.Equal("abc", ((FormatArg)"abc").Value);
-        Assert.Same(obj, new FormatArg(obj).Value);
+        Assert.Same(objectValue, new FormatArg(objectValue).Value);
         Assert.Equal(new PointerArg(3), ((FormatArg)new PointerArg(3)).Value);
         Assert.Null(new FormatArg((object?)null).Value);
         Assert.Null(default(FormatArg).Value);
@@ -159,22 +159,22 @@ public sealed class StringFormatTests
     public static TheoryData<string, string, string> Conversions()
     {
         // Each row: an argument, a conversion and the result or the error message.
-        const string integer = "Integer format argument required", text = "String format argument required";
-        const string pointer = "Pointer format argument required", unsupported = "Unsupported format at 1";
+        const string Integer = "Integer format argument required", Text = "String format argument required";
+        const string Pointer = "Pointer format argument required", Unsupported = "Unsupported format at 1";
         var data = new TheoryData<string, string, string>();
         string[][] table =
         [
-            ["int", "-7", "4294967289", "FFFFFFF9", text, pointer],
-            ["byte", integer, integer, integer, "€", pointer],
-            ["char", integer, integer, integer, "€", pointer],
-            ["char80", integer, integer, integer, "\u0080", pointer],
-            ["bool", integer, integer, integer, text, pointer],
-            ["double", integer, integer, integer, text, pointer],
-            ["string", integer, integer, integer, "abc", pointer],
-            ["object", integer, integer, integer, text, pointer],
-            ["nil", integer, integer, integer, text, pointer],
-            ["default", integer, integer, integer, text, pointer],
-            ["pointer", integer, integer, integer, text, "0000BEEF"],
+            ["int", "-7", "4294967289", "FFFFFFF9", Text, Pointer],
+            ["byte", Integer, Integer, Integer, "€", Pointer],
+            ["char", Integer, Integer, Integer, "€", Pointer],
+            ["char80", Integer, Integer, Integer, "\u0080", Pointer],
+            ["bool", Integer, Integer, Integer, Text, Pointer],
+            ["double", Integer, Integer, Integer, Text, Pointer],
+            ["string", Integer, Integer, Integer, "abc", Pointer],
+            ["object", Integer, Integer, Integer, Text, Pointer],
+            ["nil", Integer, Integer, Integer, Text, Pointer],
+            ["default", Integer, Integer, Integer, Text, Pointer],
+            ["pointer", Integer, Integer, Integer, Text, "0000BEEF"],
         ];
         string[] letters = ["d", "u", "x", "s", "p"];
         foreach (var row in table)
@@ -184,7 +184,7 @@ public sealed class StringFormatTests
                 data.Add(row[0], "%" + letters[i], row[i + 1]);
                 data.Add(row[0], "%" + letters[i].ToUpperInvariant(), row[i + 1]);
             }
-            foreach (string other in new[] { "%e", "%f", "%g", "%n", "%m", "%q" }) data.Add(row[0], other, unsupported);
+            foreach (string other in new[] { "%e", "%f", "%g", "%n", "%m", "%q" }) data.Add(row[0], other, Unsupported);
         }
         return data;
     }

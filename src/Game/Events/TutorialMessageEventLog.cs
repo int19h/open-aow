@@ -11,7 +11,7 @@ public partial class TutorialMessageEventLog : HelpMessageEventLog
     // EventLog.pas:871
     public TutorialMessageEventLog(ECustomNode owner) : base(owner)
     {
-        FHelpFileName = AbilityRules.TranslateRStr(GameText.TutorialRStr);
+        HelpFileName = AbilityRules.TranslateResourceString(GameText.s_tutorialText);
     }
 
 }

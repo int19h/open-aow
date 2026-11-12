@@ -7,37 +7,37 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Draw;
 
-// FFrame. FOffsetX. FOffsetY
+// Frame. OffsetX. OffsetY
 public partial class TacticalBattleBloodHexSprite : SingleHexSprite
 {
     public TacticalBattleBloodHexSprite(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 2228487;
+    public new const int ClassId = 2228487;
 
-    public int FFrame;
-    public int FOffsetX;
-    public int FOffsetY;
+    public int Frame;
+    public int OffsetX;
+    public int OffsetY;
 
     // AoWTC.pas:6393
     public override byte GetLevel() => 26;
 
     // AoWTC.pas:6398
-    public override int GetShowPriority() => 1744830464 + (FOffsetY << 13) + FOffsetX;
+    public override int GetShowPriority() => 1744830464 + (OffsetY << 13) + OffsetX;
 
     // AoWTC.pas:6403
-    public override void Show(int XhpSurf, int YhpSurf, in LockedSurface SurfaceDesc)
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        int Frame;
-        ImageSequence Sequence;
+        int frame;
+        ImageSequence sequence;
         int X = default;
         int Y = default;
-        Sequence = AoWHSSet.Current.FImageSequences.ImageSequences[4];
-        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-        if (Sequence != null)
+        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[4];
+        HexGeometry.HexToPixel(((MapField)Owner).HexX, ((MapField)Owner).HexY, ref X, ref Y);
+        if (sequence != null)
         {
-            Frame = Sequence.GetUnloopedFrameIndex(FFrame);
-            Sequence.ImageLibrary[Frame].ShowClipped(X - XhpSurf + FOffsetX, Y - YhpSurf + FOffsetY, SurfaceDesc);
+            frame = sequence.GetUnloopedFrameIndex(Frame);
+            sequence.ImageLibrary[frame].ShowClipped(X - pixelXSurface + OffsetX, Y - pixelYSurface + OffsetY, lockedSurface);
         }
     }
 

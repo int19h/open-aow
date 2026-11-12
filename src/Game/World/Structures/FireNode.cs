@@ -12,7 +12,7 @@ public partial class FireNode : ProductionPlace
     { }
 
     // FireNode.pas:36
-    public new const int ClassID = 132062;
+    public new const int ClassId = 132062;
 
     // FireNode.pas:39
     public override MagicSphere GetMagicSphere() => MagicSphere.Fire;
@@ -21,25 +21,25 @@ public partial class FireNode : ProductionPlace
     {
         public Resource(ECustomNode owner) : base(owner)
         {
-            FRazeDefenderBudget = 200;
-            FRebuildGold = 50;
-            FRebuildDays = 3;
+            RazeDefenderBudget = 200;
+            RebuildGold = 50;
+            RebuildDays = 3;
         }
 
         // FireNode.pas:53
-        public new const int ClassID = 132063;
+        public new const int ClassId = 132063;
 
         // FireNode.pas:42
 
         // FireNode.pas:56
-        public override int ResourceUserClassID() => 132062;
+        public override int ResourceUserClassId() => 132062;
 
         // FireNode.pas:26
 
         // FireNode.pas:50
-        public override string ResourceEditName() => AbilityRules.TranslateRStr(FireNodeRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateResourceString(s_fireNodeText);
 
-        private static readonly string FireNodeRStr = "Fire Node";
+        private static readonly string s_fireNodeText = "Fire Node";
 
     }
 

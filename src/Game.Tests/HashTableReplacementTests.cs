@@ -15,7 +15,7 @@ public sealed class HashTableReplacementTests
     public void UnitTableHitsMissesAndKeepsTheFirstDuplicate()
     {
         var control = new UnitControl(null!);
-        var unit = new Unit(null!) { FUnitID = 7 };
+        var unit = new Unit(null!) { UnitId = 7 };
         control.RegisterUnit(unit);
         Assert.Same(unit, control.FindUnit(7));
         Assert.Same(unit, control.FindUnit<Unit>(7));
@@ -24,7 +24,7 @@ public sealed class HashTableReplacementTests
         Assert.Null(control.FindUnit<Hero>(7));
 
         var duplicate = Assert.Throws<InvalidOperationException>(() =>
-            HashTables.Add(control.FUnitTable, key: 7, value: new Unit(null!)));
+            HashTables.Add(control.UnitTable, key: 7, value: new Unit(null!)));
         Assert.Equal("ID already in HashTable", duplicate.Message);
         Assert.Same(unit, control.FindUnit(7));
     }
@@ -33,19 +33,19 @@ public sealed class HashTableReplacementTests
     public void UnregisterRemovesOnlyTheStoredUnit()
     {
         var control = new UnitControl(null!);
-        var first = new Unit(null!) { FUnitID = 4 };
+        var first = new Unit(null!) { UnitId = 4 };
         control.RegisterUnit(first);
         var other = new Unit(null!)
         {
-            FUnitID = 4,
-            FUnitStatus = Set<UnitStatusElement>.Of(UnitStatusElement.Registered)
+            UnitId = 4,
+            UnitStatus = Set<UnitStatusElement>.Of(UnitStatusElement.Registered)
         };
-        control.UnRegisterUnit(other);
+        control.UnregisterUnit(other);
         Assert.Same(first, control.FindUnit(4));
-        Assert.Contains(first, control.FUnits);
-        control.UnRegisterUnit(first);
+        Assert.Contains(first, control.Units);
+        control.UnregisterUnit(first);
         Assert.Null(control.FindUnit(4));
-        Assert.DoesNotContain(first, control.FUnits);
+        Assert.DoesNotContain(first, control.Units);
     }
 
     [Fact]
@@ -56,14 +56,14 @@ public sealed class HashTableReplacementTests
         try
         {
             EngineClass style = EngineClass.Of<ControlStyleObject>();
-            Assert.Same(style, engine.GetEClass(style.ClassID));
-            var missing = Assert.Throws<KeyNotFoundException>(() => engine.GetEClass(-999999));
+            Assert.Same(style, engine.GetEngineClass(style.ClassId));
+            var missing = Assert.Throws<KeyNotFoundException>(() => engine.GetEngineClass(-999999));
             Assert.Equal("Unregistered E-ClassID found (-999999)", missing.Message);
-            var duplicate = Assert.Throws<InvalidOperationException>(() => engine.RegisterEClasses([style]));
+            var duplicate = Assert.Throws<InvalidOperationException>(() => engine.RegisterEngineClasses([style]));
             Assert.Equal("EObject Class ID double defined!", duplicate.Message);
-            Assert.Same(style, engine.GetEClass(style.ClassID));
-            engine.UnregisterEClasses([style]);
-            Assert.Throws<KeyNotFoundException>(() => engine.GetEClass(style.ClassID));
+            Assert.Same(style, engine.GetEngineClass(style.ClassId));
+            engine.UnregisterEngineClasses([style]);
+            Assert.Throws<KeyNotFoundException>(() => engine.GetEngineClass(style.ClassId));
         }
         finally
         {
@@ -75,15 +75,15 @@ public sealed class HashTableReplacementTests
     public void ImageLibraryNamesHitMissAndRejectASecondFile()
     {
         var list = new ImageLibraryManagerList(new ImageLibraryManager(null!));
-        ImageLibraryManagerObject added = list.AddILFile("Town.ilb");
-        Assert.True(list.FHashTable.TryGetValue("TOWN.ILB", out ImageLibraryManagerObject? found));
+        ImageLibraryManagerObject added = list.AddImageLibraryFile("Town.ilb");
+        Assert.True(list._hashTable.TryGetValue("TOWN.ILB", out ImageLibraryManagerObject? found));
         Assert.Same(added, found);
-        Assert.False(list.FHashTable.ContainsKey("missing.ilb"));
-        Assert.Null(list.LinkToIL("missing.ilb"));
-        Assert.False(list.ReleaseIL("missing.ilb"));
-        var duplicate = Assert.Throws<InvalidOperationException>(() => list.AddILFile("town.ilb"));
+        Assert.False(list._hashTable.ContainsKey("missing.ilb"));
+        Assert.Null(list.LinkToImageLibrary("missing.ilb"));
+        Assert.False(list.ReleaseImageLibrary("missing.ilb"));
+        var duplicate = Assert.Throws<InvalidOperationException>(() => list.AddImageLibraryFile("town.ilb"));
         Assert.Equal("ID already in HashTable", duplicate.Message);
-        Assert.Same(added, list.FHashTable["TOWN.ILB"]);
+        Assert.Same(added, list._hashTable["TOWN.ILB"]);
     }
 
     [Fact]

@@ -3,26 +3,26 @@ using Aow.Rtl;
 
 namespace Aow.Engine.Nodes;
 
-// FControlStyle
+// _controlStyle
 public partial class EControlStyleInverseSortNode : EInverseSortNode
 {
     // Engine.pas:1695
-    public new const int ClassID = 263;
+    public new const int ClassId = 263;
 
     public EControlStyleInverseSortNode(ECustomNode owner) : base(owner)
     {
-        FControlStyle = base.GetControlStyle();
+        _controlStyle = base.GetControlStyle();
     }
 
-    internal Set<ControlStyleElement> FControlStyle;
+    internal Set<ControlStyleElement> _controlStyle;
 
     // Engine.pas:1700
-    public override Set<ControlStyleElement> GetControlStyle() => FControlStyle;
+    public override Set<ControlStyleElement> GetControlStyle() => _controlStyle;
 
     // Engine.pas:1705
-    public void SetControlStyle(Set<ControlStyleElement> Value)
+    public void SetControlStyle(Set<ControlStyleElement> value)
     {
-        FControlStyle = Value;
+        _controlStyle = value;
     }
 
     // Engine.pas:963

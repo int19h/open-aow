@@ -17,56 +17,56 @@ public partial class MoveSelector : IDisposable
     // control settings, moves, current move, map, status
     public MoveSelector()
     {
-        FMoveControlSettings = CreateMCS();
-        FMoveSettingsList = new MoveSettingsList(null);
-        FCurrentMove = -1;
-        FMap = null;
+        MoveControlSettings = CreateMoveControlSettings();
+        MoveSettingsList = new MoveSettingsList(null);
+        CurrentMove = -1;
+        Map = null;
     }
 
-    public MoveControlSettings FMoveControlSettings;
-    public MoveSettingsList FMoveSettingsList;
-    public int FCurrentMove;
-    public GameMap FMap;
-    public Set<MoveSelectorStatusElement> FStatus;
+    public MoveControlSettings MoveControlSettings;
+    public MoveSettingsList MoveSettingsList;
+    public int CurrentMove;
+    public GameMap Map;
+    public Set<MoveSelectorStatusElement> Status;
 
     // Structur.PAS:4118
     public virtual void Dispose()
     {
         Clear();
-        FMoveControlSettings.Release();
-        FMoveSettingsList?.Dispose();
+        MoveControlSettings.Release();
+        MoveSettingsList?.Dispose();
     }
 
     // Structur.PAS:4192
-    public virtual void MouseMoveEvent(object Sender)
+    public virtual void MouseMoveEvent(object sender)
     {
         UpdateMoveCursor();
     }
 
     // Structur.PAS:4214
-    public virtual void MouseDownEvent(object Sender)
+    public virtual void MouseDownEvent(object sender)
     {
-        object Capture;
-        HexSpriteMapMouse Mouse;
-        Mouse = FMap.Mouse;
-        Capture = Mouse.Capture;
-        if ((Capture != this && Capture != AoWHSMap.Current.FTargetSelection) || Mouse.Button == MouseButton.Right)
+        object capture;
+        HexSpriteMapMouse mouse;
+        mouse = Map.Mouse;
+        capture = mouse.Capture;
+        if ((capture != this && capture != AoWHSMap.Current.TargetSelection) || mouse.Button == MouseButton.Right)
         {
             Unselect();
         }
         else
         {
-            var hsMapMouse = FMap.Mouse;
-            if (Capture == this && hsMapMouse.Button == MouseButton.Left)
+            var hexSpriteMapMouse = Map.Mouse;
+            if (capture == this && hexSpriteMapMouse.Button == MouseButton.Left)
             {
-                var yhx = FMap.Mouse.Yhx;
-                SelectPath((sbyte)hsMapMouse.Xhx, (sbyte)yhx, (sbyte)FMap.ViewL);
+                var hexY = Map.Mouse.HexY;
+                SelectPath((sbyte)hexSpriteMapMouse.HexX, (sbyte)hexY, (sbyte)Map.ViewL);
             }
         }
     }
 
     // Structur.PAS:4197
-    public virtual void CalculateMovePath(int Index, sbyte X, sbyte Y, sbyte L)
+    public virtual void CalculateMovePath(int index, sbyte X, sbyte Y, sbyte L)
     {
     }
 
@@ -76,33 +76,33 @@ public partial class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4126
-    public virtual MoveControlSettings CreateMCS() => new MoveControlSettings(null);
+    public virtual MoveControlSettings CreateMoveControlSettings() => new MoveControlSettings(null);
 
     // Structur.PAS:4138
-    public virtual void SetCurrentMove(int Value)
+    public virtual void SetCurrentMove(int value)
     {
-        FCurrentMove = Value;
+        CurrentMove = value;
     }
 
     // Structur.PAS:4200
     public virtual void SelectPath(sbyte X, sbyte Y, sbyte L)
     {
-        if (FCurrentMove != -1 && X != -1)
+        if (CurrentMove != -1 && X != -1)
         {
-            var moveSettings = FMoveSettingsList.GetMoveSettings(FCurrentMove);
-            if (moveSettings.FPath.Count != 0 && moveSettings.FPath[0].X == X && moveSettings.FPath[0].Y == Y && moveSettings.FPath[0].L == L)
+            var moveSettings = MoveSettingsList.GetMoveSettings(CurrentMove);
+            if (moveSettings.Path.Count != 0 && moveSettings.Path[0].X == X && moveSettings.Path[0].Y == Y && moveSettings.Path[0].MapLevel == L)
             {
                 ExecuteMove();
             }
             else
             {
-                if (ValidateSelection((AoWMapField)FMap.MapContainer.GetField(X, Y, L)))
+                if (ValidateSelection((AoWMapField)Map.MapContainer.GetField(X, Y, L)))
                 {
-                    CalculateMovePath(FCurrentMove, X, Y, L);
+                    CalculateMovePath(CurrentMove, X, Y, L);
                 }
                 else
                 {
-                    moveSettings.FPath.Clear();
+                    moveSettings.Path.Clear();
                 }
             }
         }
@@ -116,7 +116,7 @@ public partial class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4149
-    public virtual bool ValidateSelection(AoWMapField Field) => true;
+    public virtual bool ValidateSelection(AoWMapField field) => true;
 
     // Structur.PAS:4154
     public virtual void ExecuteMove()
@@ -124,234 +124,234 @@ public partial class MoveSelector : IDisposable
     }
 
     // Structur.PAS:4225
-    public virtual void Activate(GameMap Map)
+    public virtual void Activate(GameMap map)
     {
-        if (FStatus.Contains(MoveSelectorStatusElement.Activated))
+        if (Status.Contains(MoveSelectorStatusElement.Activated))
         {
             Deactivate();
         }
 
-        FMap = Map;
-        FMap.Mouse.SetCapture(this);
-        FMap.Mouse.OnDown += MouseDownEvent;
-        FMap.Mouse.OnMove += MouseMoveEvent;
-        FMap.Mouse.OnCaptureChanged += MouseDownEvent;
-        FMap.Mouse.CursorMode = 256;
+        Map = map;
+        Map.Mouse.SetCapture(this);
+        Map.Mouse.OnDown += MouseDownEvent;
+        Map.Mouse.OnMove += MouseMoveEvent;
+        Map.Mouse.OnCaptureChanged += MouseDownEvent;
+        Map.Mouse.CursorMode = 256;
         UpdateMoveCursor();
-        FStatus = FStatus + Set<MoveSelectorStatusElement>.Of(MoveSelectorStatusElement.Activated);
-        FMap.ShowHexagonSelector();
+        Status = Status + Set<MoveSelectorStatusElement>.Of(MoveSelectorStatusElement.Activated);
+        Map.ShowHexSelector();
     }
 
     // Structur.PAS:4239
     public virtual void Deactivate()
     {
-        if (FStatus.Contains(MoveSelectorStatusElement.Activated))
+        if (Status.Contains(MoveSelectorStatusElement.Activated))
         {
-            FStatus = FStatus - Set<MoveSelectorStatusElement>.Of(MoveSelectorStatusElement.Activated);
-            FMap.Mouse.OnDown -= MouseDownEvent;
-            FMap.Mouse.OnMove -= MouseMoveEvent;
-            FMap.Mouse.OnCaptureChanged -= MouseDownEvent;
-            if (FMap.Mouse.Capture == this)
+            Status = Status - Set<MoveSelectorStatusElement>.Of(MoveSelectorStatusElement.Activated);
+            Map.Mouse.OnDown -= MouseDownEvent;
+            Map.Mouse.OnMove -= MouseMoveEvent;
+            Map.Mouse.OnCaptureChanged -= MouseDownEvent;
+            if (Map.Mouse.Capture == this)
             {
-                FMap.Mouse.SetCapture(null);
+                Map.Mouse.SetCapture(null);
             }
 
-            FMap.HideHexagonSelector();
+            Map.HideHexSelector();
             UpdateMoveCursor();
         }
     }
 
     // Structur.PAS:4253
-    public virtual void ShowMovePaths(in LockedSurface Surface)
+    public virtual void ShowMovePaths(in LockedSurface surface)
     {
-        int X1;
-        int Y1;
-        int X2;
-        int Y2;
+        int x1;
+        int y1;
+        int x2;
+        int y2;
         int J;
-        int ImageIndex;
-        int MaxX;
-        int MaxY;
-        int Xhp = default;
-        int Yhp = default;
-        int PointsLeft;
-        int Direction;
-        MoveSettings Settings;
-        MapField MapField;
-        if (FStatus.Contains(MoveSelectorStatusElement.Activated) && FMoveSettingsList.Count != 0)
+        int imageIndex;
+        int maxX;
+        int maxY;
+        int pixelX = default;
+        int pixelY = default;
+        int pointsLeft;
+        int direction;
+        MoveSettings settings;
+        MapField mapField;
+        if (Status.Contains(MoveSelectorStatusElement.Activated) && MoveSettingsList.Count != 0)
         {
-            MaxX = this.FMap.ViewXhx + this.FMap.ViewWidthHX - 1;
-            MaxY = this.FMap.ViewYhx + this.FMap.ViewHeightHX - 1;
+            maxX = this.Map.ViewHexX + this.Map.ViewWidthHex - 1;
+            maxY = this.Map.ViewHexY + this.Map.ViewHeightHex - 1;
 
-            for (int I = 0, last = FMoveSettingsList.Count - 1; I <= last; I++)
+            for (int I = 0, last = MoveSettingsList.Count - 1; I <= last; I++)
             {
-                Settings = FMoveSettingsList.GetMoveSettings(I);
-                PointsLeft = Settings.FPathMovePoints;
-                if (Settings.FPath.Count > 1)
+                settings = MoveSettingsList.GetMoveSettings(I);
+                pointsLeft = settings.PathMovePoints;
+                if (settings.Path.Count > 1)
                 {
                     J = 0;
-                    int limit = Settings.FPath.Count - 2;
+                    int limit = settings.Path.Count - 2;
                     for (; J <= limit; J += 1)
                     {
-                        if (Settings.FPath[J].X >= FMap.ViewXhx && Settings.FPath[J].X <= MaxX && Settings.FPath[J].Y >= FMap.ViewYhx && Settings.FPath[J].Y <= MaxY && Settings.FPath[J].L == FMap.ViewL)
+                        if (settings.Path[J].X >= Map.ViewHexX && settings.Path[J].X <= maxX && settings.Path[J].Y >= Map.ViewHexY && settings.Path[J].Y <= maxY && settings.Path[J].MapLevel == Map.ViewL)
                         {
-                            X1 = Settings.FPath[J].X;
-                            Y1 = Settings.FPath[J].Y;
-                            X2 = Settings.FPath[J + 1].X;
-                            Y2 = Settings.FPath[J + 1].Y;
-                            if (HexGeometry.dHXtoRad(X1, Y1, X2, Y2) == 1)
+                            x1 = settings.Path[J].X;
+                            y1 = settings.Path[J].Y;
+                            x2 = settings.Path[J + 1].X;
+                            y2 = settings.Path[J + 1].Y;
+                            if (HexGeometry.DeltaHexToRadius(x1, y1, x2, y2) == 1)
                             {
-                                Direction = HexGeometry.dHXtoHNfast(X1, Y1, X2, Y2);
-                                if (Direction != 0)
+                                direction = HexGeometry.DeltaHexToHexNumberFast(x1, y1, x2, y2);
+                                if (direction != 0)
                                 {
-                                    if (PointsLeft <= Settings.FMovePoints)
+                                    if (pointsLeft <= settings.MovePoints)
                                     {
-                                        ImageIndex = Direction + 34;
+                                        imageIndex = direction + 34;
                                     }
                                     else
                                     {
-                                        ImageIndex = Direction + 41;
+                                        imageIndex = direction + 41;
                                     }
 
-                                    HexGeometry.HXtoHP(X1, Y1, ref Xhp, ref Yhp);
-                                    if (FCurrentMove == I || FCurrentMove == -1)
+                                    HexGeometry.HexToPixel(x1, y1, ref pixelX, ref pixelY);
+                                    if (CurrentMove == I || CurrentMove == -1)
                                     {
-                                        AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
+                                        AoWHSSet.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
                                     }
                                     else
                                     {
-                                        AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
+                                        AoWHSSet.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
                                     }
                                 }
                             }
                             else
                             {
-                                if (FCurrentMove == I)
+                                if (CurrentMove == I)
                                 {
-                                    if (PointsLeft <= Settings.FMovePoints)
+                                    if (pointsLeft <= settings.MovePoints)
                                     {
-                                        ImageIndex = 41;
+                                        imageIndex = 41;
                                     }
                                     else
                                     {
-                                        ImageIndex = 48;
+                                        imageIndex = 48;
                                     }
 
-                                    HexGeometry.HXtoHP(X1, Y1, ref Xhp, ref Yhp);
-                                    AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
-                                    if (PointsLeft - Settings.FPath[J].Flag != 0 && Settings.FPath[J + 1].L == FMap.ViewL)
+                                    HexGeometry.HexToPixel(x1, y1, ref pixelX, ref pixelY);
+                                    AoWHSSet.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
+                                    if (pointsLeft - settings.Path[J].Tag != 0 && settings.Path[J + 1].MapLevel == Map.ViewL)
                                     {
-                                        if (PointsLeft - Settings.FPath[J].Flag <= Settings.FMovePoints)
+                                        if (pointsLeft - settings.Path[J].Tag <= settings.MovePoints)
                                         {
-                                            ImageIndex = 41;
+                                            imageIndex = 41;
                                         }
                                         else
                                         {
-                                            ImageIndex = 48;
+                                            imageIndex = 48;
                                         }
 
-                                        HexGeometry.HXtoHP(X2, Y2, ref Xhp, ref Yhp);
-                                        AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
+                                        HexGeometry.HexToPixel(x2, y2, ref pixelX, ref pixelY);
+                                        AoWHSSet.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
                                     }
                                 }
                                 else
                                 {
-                                    if (PointsLeft <= Settings.FMovePoints)
+                                    if (pointsLeft <= settings.MovePoints)
                                     {
-                                        ImageIndex = 41;
+                                        imageIndex = 41;
                                     }
                                     else
                                     {
-                                        ImageIndex = 48;
+                                        imageIndex = 48;
                                     }
 
-                                    HexGeometry.HXtoHP(X1, Y1, ref Xhp, ref Yhp);
-                                    AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
-                                    if (PointsLeft - Settings.FPath[J].Flag <= Settings.FMovePoints)
+                                    HexGeometry.HexToPixel(x1, y1, ref pixelX, ref pixelY);
+                                    AoWHSSet.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
+                                    if (pointsLeft - settings.Path[J].Tag <= settings.MovePoints)
                                     {
-                                        ImageIndex = 41;
+                                        imageIndex = 41;
                                     }
                                     else
                                     {
-                                        ImageIndex = 48;
+                                        imageIndex = 48;
                                     }
 
-                                    HexGeometry.HXtoHP(X2, Y2, ref Xhp, ref Yhp);
-                                    AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
+                                    HexGeometry.HexToPixel(x2, y2, ref pixelX, ref pixelY);
+                                    AoWHSSet.Current.CursorImages[imageIndex].ShowTransparent(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
                                 }
                             }
                         }
 
-                        PointsLeft -= Settings.FPath[J].Flag;
+                        pointsLeft -= settings.Path[J].Tag;
                     }
 
-                    if (Settings.FPath[0].X >= FMap.ViewXhx && Settings.FPath[0].X <= MaxX && Settings.FPath[0].Y >= FMap.ViewYhx && Settings.FPath[0].Y <= MaxY && Settings.FPath[0].L == FMap.ViewL)
+                    if (settings.Path[0].X >= Map.ViewHexX && settings.Path[0].X <= maxX && settings.Path[0].Y >= Map.ViewHexY && settings.Path[0].Y <= maxY && settings.Path[0].MapLevel == Map.ViewL)
                     {
-                        var item = Settings.FPath[0];
-                        var fPathItem = Settings.FPath[0];
-                        var item2 = Settings.FPath[0];
-                        MapField = FMap.MapContainer.GetField(item2.X, fPathItem.Y, item.L);
-                        HexGeometry.HXtoHP(MapField.Xhx, MapField.Yhx, ref Xhp, ref Yhp);
-                        Xhp = Xhp - FMap.ViewXhp - 8;
-                        Yhp = Yhp - FMap.ViewYhp - 8;
-                        if (Settings.FMovePoints < Settings.FPathMovePoints)
+                        var item = settings.Path[0];
+                        var fPathItem = settings.Path[0];
+                        var item2 = settings.Path[0];
+                        mapField = Map.MapContainer.GetField(item2.X, fPathItem.Y, item.MapLevel);
+                        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, ref pixelX, ref pixelY);
+                        pixelX = pixelX - Map.ViewPixelX - 8;
+                        pixelY = pixelY - Map.ViewPixelY - 8;
+                        if (settings.MovePoints < settings.PathMovePoints)
                         {
-                            ImageIndex = 48;
-                            AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp, Yhp, Surface);
+                            imageIndex = 48;
+                            AoWHSSet.Current.CursorImages[imageIndex].Show(pixelX, pixelY, surface);
                             // { Original sets the font color before checking the font for nil. }
-                            GameTables.AoWEngine.FCombatFont.Color = 0;
-                            if (GameTables.AoWEngine.FCombatFont != null)
+                            GameTables.GameEngine.CombatFont.Color = 0;
+                            if (GameTables.GameEngine.CombatFont != null)
                             {
-                                GameTables.AoWEngine.FCombatFont.SetTextCentered(Xhp + 25, Yhp + 9, IntToStr((Settings.FPathMovePoints - Settings.FMovePoints - 1) / Settings.FMoves + 1), Surface);
+                                GameTables.GameEngine.CombatFont.SetTextCentered(pixelX + 25, pixelY + 9, IntToStr((settings.PathMovePoints - settings.MovePoints - 1) / settings.Moves + 1), surface);
                             }
                         }
                         else
                         {
-                            ImageIndex = 41;
-                            if (FCurrentMove == I || FCurrentMove == -1)
+                            imageIndex = 41;
+                            if (CurrentMove == I || CurrentMove == -1)
                             {
-                                AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp, Yhp, Surface);
+                                AoWHSSet.Current.CursorImages[imageIndex].Show(pixelX, pixelY, surface);
                             }
                             else
                             {
-                                AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp, Yhp, Surface);
+                                AoWHSSet.Current.CursorImages[imageIndex].ShowTransparent(pixelX, pixelY, surface);
                             }
                         }
                     }
 
-                    if (Settings.FMovePoints < Settings.FPathMovePoints)
+                    if (settings.MovePoints < settings.PathMovePoints)
                     {
-                        J = Settings.FPath.MovePointsToPos(Settings.FMovePoints);
-                        if (J > 0 && J < Settings.FPath.Count - 1 && Settings.FPath[J].X >= FMap.ViewXhx && Settings.FPath[J].X <= MaxX && Settings.FPath[J].Y >= FMap.ViewYhx && Settings.FPath[J].Y <= MaxY && Settings.FPath[J].L == FMap.ViewL)
+                        J = settings.Path.MovePointsToPosition(settings.MovePoints);
+                        if (J > 0 && J < settings.Path.Count - 1 && settings.Path[J].X >= Map.ViewHexX && settings.Path[J].X <= maxX && settings.Path[J].Y >= Map.ViewHexY && settings.Path[J].Y <= maxY && settings.Path[J].MapLevel == Map.ViewL)
                         {
-                            var item = Settings.FPath[J];
-                            HexGeometry.HXtoHP(Settings.FPath[J].X, item.Y, ref Xhp, ref Yhp);
-                            Xhp = Xhp - FMap.ViewXhp - 8;
-                            Yhp = Yhp - FMap.ViewYhp - 8;
-                            ImageIndex = 41;
-                            if (FCurrentMove == I || FCurrentMove == -1)
+                            var item = settings.Path[J];
+                            HexGeometry.HexToPixel(settings.Path[J].X, item.Y, ref pixelX, ref pixelY);
+                            pixelX = pixelX - Map.ViewPixelX - 8;
+                            pixelY = pixelY - Map.ViewPixelY - 8;
+                            imageIndex = 41;
+                            if (CurrentMove == I || CurrentMove == -1)
                             {
-                                AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp, Yhp, Surface);
+                                AoWHSSet.Current.CursorImages[imageIndex].Show(pixelX, pixelY, surface);
                             }
                             else
                             {
-                                AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp, Yhp, Surface);
+                                AoWHSSet.Current.CursorImages[imageIndex].ShowTransparent(pixelX, pixelY, surface);
                             }
                         }
                     }
                 }
                 else
                 {
-                    if (Settings.FPath.Count == 1 && AoWHSMap.Current.FCombat != null)
+                    if (settings.Path.Count == 1 && AoWHSMap.Current.Combat != null)
                     {
-                        var item = Settings.FPath[0];
-                        var fPathItem = Settings.FPath[0];
-                        var item2 = Settings.FPath[0];
-                        MapField = FMap.MapContainer.GetField(item2.X, fPathItem.Y, item.L);
-                        HexGeometry.HXtoHP(MapField.Xhx, MapField.Yhx, ref Xhp, ref Yhp);
-                        Xhp = Xhp - FMap.ViewXhp - 8;
-                        Yhp = Yhp - FMap.ViewYhp - 8;
-                        AoWHSSet.Current.FCursorImages[41].Show(Xhp, Yhp, Surface);
+                        var item = settings.Path[0];
+                        var fPathItem = settings.Path[0];
+                        var item2 = settings.Path[0];
+                        mapField = Map.MapContainer.GetField(item2.X, fPathItem.Y, item.MapLevel);
+                        HexGeometry.HexToPixel(mapField.HexX, mapField.HexY, ref pixelX, ref pixelY);
+                        pixelX = pixelX - Map.ViewPixelX - 8;
+                        pixelY = pixelY - Map.ViewPixelY - 8;
+                        AoWHSSet.Current.CursorImages[41].Show(pixelX, pixelY, surface);
                     }
                 }
             }
@@ -364,46 +364,46 @@ public partial class MoveSelector : IDisposable
     // Structur.PAS:4131
     public void Clear()
     {
-        FMoveControlSettings.Clear();
-        FMoveSettingsList.Clear();
-        FCurrentMove = -1;
+        MoveControlSettings.Clear();
+        MoveSettingsList.Clear();
+        CurrentMove = -1;
     }
 
     // Structur.PAS:4157
-    public int AddMoveObject(HexSprite Obj)
+    public int AddMoveObject(HexSprite objectValue)
     {
-        MoveSettings Settings;
-        Settings = new MoveSettings(null);
-        Settings.FMoveObject = Obj;
-        Settings.SetOwner(FMoveSettingsList);
-        return FMoveSettingsList.Count - 1;
+        MoveSettings settings;
+        settings = new MoveSettings(null);
+        settings.MoveObject = objectValue;
+        settings.SetOwner(MoveSettingsList);
+        return MoveSettingsList.Count - 1;
     }
 
     // Structur.PAS:4167
-    public void DeleteMoveObject(int Index)
+    public void DeleteMoveObject(int index)
     {
-        object Obj;
-        if (FCurrentMove != -1)
+        object objectValue;
+        if (CurrentMove != -1)
         {
-            Obj = FMoveSettingsList.GetMoveSettings(FCurrentMove).FMoveObject;
+            objectValue = MoveSettingsList.GetMoveSettings(CurrentMove).MoveObject;
         }
         else
         {
-            Obj = null;
+            objectValue = null;
         }
 
         (
-        ((object)FMoveSettingsList.FChildren.List[Index]) as IDisposable)?.Dispose();
-        if (Obj != null)
+        ((object)MoveSettingsList._children.List[index]) as IDisposable)?.Dispose();
+        if (objectValue != null)
         {
-            Index = FMoveSettingsList.IndexOfMoveObject(Obj);
-            if (Index == -1)
+            index = MoveSettingsList.IndexOfMoveObject(objectValue);
+            if (index == -1)
             {
-                SetCurrentMove(FMoveSettingsList.Count - 1);
+                SetCurrentMove(MoveSettingsList.Count - 1);
             }
             else
             {
-                SetCurrentMove(Index);
+                SetCurrentMove(index);
             }
         }
     }
@@ -411,9 +411,9 @@ public partial class MoveSelector : IDisposable
     // Structur.PAS:4183
     public void DeleteMoves()
     {
-        while (FMoveSettingsList.Count != 0)
+        while (MoveSettingsList.Count != 0)
         {
-            DeleteMoveObject(FMoveSettingsList.Count - 1);
+            DeleteMoveObject(MoveSettingsList.Count - 1);
         }
     }
 

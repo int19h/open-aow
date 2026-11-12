@@ -18,67 +18,67 @@ public partial class HealingTokenEvent : TokenEvent
     public HealingTokenEvent(ECustomNode owner) : base(owner)
     { }
 
-    public new const int ClassID = 131826;
+    public new const int ClassId = 131826;
 
-    public int FSourceID;
-    public byte FSourcePlayer;
-    public int FTargetID;
-    public byte FTargetPlayer;
+    public int SourceId;
+    public byte SourcePlayer;
+    public int TargetId;
+    public byte TargetPlayer;
 
     // AoWAb.PAS:3853
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FSourceID, 25);
-        Stream.rwByte(ref FSourcePlayer, 26);
-        Stream.rwInteger(ref FTargetID, 27);
-        Stream.rwByte(ref FTargetPlayer, 28);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref SourceId, 25);
+        stream.rwByte(ref SourcePlayer, 26);
+        stream.rwInteger(ref TargetId, 27);
+        stream.rwByte(ref TargetPlayer, 28);
     }
 
     // AoWAb.PAS:3861
-    public override ExecuteResult Execute(TokenExecutor TE)
+    public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        ExecuteResult Result;
-        Troop Source;
-        Troop Target;
-        HealingAbility Ability;
-        ImageSequenceAnimation Anim;
+        ExecuteResult result;
+        Troop source;
+        Troop target;
+        HealingAbility ability;
+        ImageSequenceAnimation animation;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        base.Execute(TE);
-        Source = AoWHSMap.Current.FUnitControl.FindUnit(FSourceID);
-        Target = AoWHSMap.Current.FUnitControl.FindUnit(FTargetID);
-        if (Source != null && (byte)Source.FPlayer == FSourcePlayer && Target != null && (byte)Target.FPlayer == FTargetPlayer)
+        base.Execute(tokenEvent);
+        source = AoWHSMap.Current.UnitControl.FindUnit(SourceId);
+        target = AoWHSMap.Current.UnitControl.FindUnit(TargetId);
+        if (source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer)
         {
-            Ability = (HealingAbility)AoWHSSet.Current.FAbilityControl.GetAbility(47);
-            if (Ability.GetEnabled(Source))
+            ability = (HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(47);
+            if (ability.GetEnabled(source))
             {
-                Ability.SetEnabled(Source, false);
-                Ability.HealUnit(Target);
-                Target.GetLocation(ref X, ref Y, ref L);
-                AoWHSMap.Current.ValidateObservation((sbyte)FSourcePlayer, X, Y, L, 0);
+                ability.SetEnabled(source, false);
+                ability.HealUnit(target);
+                target.GetLocation(ref X, ref Y, ref L);
+                AoWHSMap.Current.ValidateObservation((sbyte)SourcePlayer, X, Y, L, 0);
                 if (AoWHSMap.Current.Visible(X, Y, L, 0))
                 {
-                    Anim = new ImageSequenceAnimation(null);
-                    Anim.SetImageSequence(Ability.FImageSequences.GetImageSequence(0));
-                    AoWHSMap.Current.PlaceHX(Anim, X, Y, L);
+                    animation = new ImageSequenceAnimation(null);
+                    animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
+                    AoWHSMap.Current.PlaceHex(animation, X, Y, L);
                 }
 
-                if ((byte)AoWHSMap.Current.FSeatedPlayer == FSourcePlayer || AoWHSMap.Current.Watching(X, Y, L, 0))
+                if ((byte)AoWHSMap.Current.SeatedPlayer == SourcePlayer || AoWHSMap.Current.Watching(X, Y, L, 0))
                 {
-                    Ability.FSFXLibrary.Play(0);
+                    ability.SfxLibrary.Play(0);
                 }
             }
 
-            Result = ExecuteResult.Done;
+            result = ExecuteResult.Done;
         }
         else
         {
-            Result = ExecuteResult.DoneHalt;
+            result = ExecuteResult.DoneHalt;
         }
 
-        return Result;
+        return result;
     }
 
     // NetworkE.pas:230

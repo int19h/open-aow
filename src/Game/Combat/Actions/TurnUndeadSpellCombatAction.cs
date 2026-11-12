@@ -10,29 +10,29 @@ namespace Aow.Game.Combat.Actions;
 public partial class TurnUndeadSpellCombatAction : CombatSpellCombatAction
 {
     // CombatSpells.pas:861
-    public new const int ClassID = 131788;
+    public new const int ClassId = 131788;
 
     public TurnUndeadSpellCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // CombatSpells.pas:867
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatObject Source;
-        CombatUnit Target;
-        UnitEnchantmentAbilityData Data;
-        base.Execute(Combat);
-        if (FDamage != 0)
+        CombatObject source;
+        CombatUnit target;
+        UnitEnchantmentAbilityData data;
+        base.Execute(combat);
+        if (Damage != 0)
         {
-            Source = Combat.FCombatData.FindID(FSourceID);
-            Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
-            if (!Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
+            source = combat.CombatData.FindId(SourceId);
+            target = (CombatUnit)combat.CombatData.FindId(TargetId);
+            if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                AoWHSSet.Current.FAbilityControl.GetAbility(34).Expand(Target.FUnit);
-                Data = (UnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(34);
-                if (Data != null)
+                AoWHSSet.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
+                data = (UnitEnchantmentAbilityData)target.Troop.GetAbilityData(34);
+                if (data != null)
                 {
-                    Data.FEnchantmentPlayerIndex = Source.FCombatPlayer;
+                    data.EnchantmentPlayerIndex = source.CombatPlayer;
                 }
             }
         }

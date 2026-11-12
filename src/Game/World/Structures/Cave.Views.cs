@@ -4,13 +4,13 @@ namespace Aow.Game.World.Structures;
 
 public partial class Cave
 {
-    public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Cave;
+    public override StructureView InfoPanel(sbyte viewer) => StatePanel() ?? StructureView.Cave;
 
-    public override StructureView InfoButton(sbyte Viewer)
+    public override StructureView InfoButton(sbyte viewer)
     {
-        Enter(Viewer);
+        Enter(viewer);
         return StructureView.None;
     }
 
-    public override string CombatMapName(CombatMapSite Site) => Site.RandomTerrain ? "CaveN000" : "CaveE000";
+    public override string CombatMapName(CombatMapSite site) => site.RandomTerrain ? "CaveN000" : "CaveE000";
 }

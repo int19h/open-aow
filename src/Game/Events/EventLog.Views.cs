@@ -8,5 +8,5 @@ public partial class EventLog
 
     // What the AI player Player does with the event when it goes through its logbook
     // (AI.pas:1626).
-    public virtual void ExecuteAI(sbyte Player) { }
+    public virtual void ExecuteAI(sbyte player) { }
 }

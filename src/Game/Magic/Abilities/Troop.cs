@@ -33,23 +33,23 @@ namespace Aow.Game.Magic.Abilities;
 public partial class Troop : AbilityOwner
 {
     // SetOwner observes this count before the base body, as in Unit.PAS:95.
-    public int FRefCount = 1;
-    public int FUnitID;
-    public int FGroupID;
-    public AIGroup FGroup;
+    public int RefCount = 1;
+    public int UnitId;
+    public int GroupId;
+    public AIGroup Group;
     // group
-    public sbyte FPlayer;
-    public Set<UnitStatusElement> FUnitStatus;
-    public sbyte FMoraleValue;
-    public ByteArray10 FOffensiveStrength;
-    public byte FMaxOffensiveStrength;
-    public int FDefensiveStrength;
-    public byte F_AbstractUnit_38;
+    public sbyte Player;
+    public Set<UnitStatusElement> UnitStatus;
+    public sbyte MoraleValue;
+    public ByteArray10 OffensiveStrength;
+    public byte MaxOffensiveStrength;
+    public int DefensiveStrength;
+    public byte LegacyGroupBehavior;
 
     // Unit.PAS:108
     public override void Dispose()
     {
-        if (FUnitStatus.Contains(UnitStatusElement.Activated))
+        if (UnitStatus.Contains(UnitStatusElement.Activated))
         {
             Deactivate();
         }
@@ -63,22 +63,22 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:518
-    public override void SetOwner(ECustomNode AOwner)
+    public override void SetOwner(ECustomNode owner)
     {
-        if (AOwner != FOwner)
+        if (owner != _owner)
         {
             AddRef();
-            if (FOwner != null)
+            if (_owner != null)
             {
-                FOwner.RemoveChild(this);
+                _owner.RemoveChild(this);
             }
 
-            FOwner = AOwner;
-            if (FOwner != null)
+            _owner = owner;
+            if (_owner != null)
             {
-                if (FOwner.AddChild(this) == -1)
+                if (_owner.AddChild(this) == -1)
                 {
-                    FOwner = null;
+                    _owner = null;
                 }
             }
 
@@ -87,27 +87,27 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:1762
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        EngineObject Legacy;
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FGroupID, 4);
-        Stream.rwIntegerEx(ref FUnitID, -1, 5);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FMoraleValue), 6);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 47);
-        if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+        EngineObject legacy;
+        base.ReadWrite(stream);
+        stream.rwInteger(ref GroupId, 4);
+        stream.rwIntegerEx(ref UnitId, -1, 5);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref MoraleValue), 6);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 47);
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             try
             {
-                Legacy = null;
-                Stream.rwCreateEObject(ref Legacy, null, 48);
-                if (Legacy != null)
+                legacy = null;
+                stream.rwCreateEObject(ref legacy, null, 48);
+                if (legacy != null)
                 {
-                    F_AbstractUnit_38 = (byte)((GroupControl)(object)Legacy).Behavior();
+                    LegacyGroupBehavior = (byte)((GroupControl)(object)legacy).Behavior();
                 }
                 else
                 {
-                    F_AbstractUnit_38 = 0;
+                    LegacyGroupBehavior = 0;
                 }
             }
             catch
@@ -117,69 +117,69 @@ public partial class Troop : AbilityOwner
         else
         {
             // { Original retains the obsolete object loaded for behavior conversion. }
-            F_AbstractUnit_38 = 0;
+            LegacyGroupBehavior = 0;
         }
     }
 
     // Unit.PAS:95
     public Troop(ECustomNode owner) : base(owner)
     {
-        FGroupID = 0;
-        FUnitID = -1;
+        GroupId = 0;
+        UnitId = -1;
     }
 
     // Unit.PAS:127
     public override int AddRef()
     {
-        FRefCount += 1;
-        return FRefCount;
+        RefCount += 1;
+        return RefCount;
     }
 
     // Unit.PAS:132
     public override int Release()
     {
-        int Count;
-        FRefCount -= 1;
-        Count = FRefCount;
-        int Result = Count;
-        if (Count == 0)
+        int count;
+        RefCount -= 1;
+        count = RefCount;
+        int result = count;
+        if (count == 0)
         {
             Dispose();
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1494
-    public override void MsgProc(ref EngineMessage Msg, EngineObject Sender)
+    public override void MessageProc(ref EngineMessage message, EngineObject sender)
     {
-        base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001986)
+        base.MessageProc(ref message, sender);
+        if (message.MessageId == 537001986)
         {
-            NewTurn((sbyte)Msg.Payload.Int);
+            NewTurn((sbyte)message.Payload.Int);
             return;
         }
         else
         {
-            if (Msg.MsgID == 537001987)
+            if (message.MessageId == 537001987)
             {
-                NewTurnDone((sbyte)Msg.Payload.Int);
+                NewTurnDone((sbyte)message.Payload.Int);
             }
             else
             {
-                if (Msg.MsgID == 537001985)
+                if (message.MessageId == 537001985)
                 {
                     NewDay();
                 }
                 else
                 {
-                    if (Msg.MsgID == 537002240)
+                    if (message.MessageId == 537002240)
                     {
                         ValidateLifeMastery();
                     }
                     else
                     {
-                        if (Msg.MsgID == 537002241)
+                        if (message.MessageId == 537002241)
                         {
                             ValidateDeathMastery();
                         }
@@ -190,15 +190,15 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:590
-    public override string GetOwnerName() => AbilityRules.TranslateRStr(GameText.P2InherentRStr);
+    public override string GetOwnerName() => AbilityRules.TranslateResourceString(GameText.s_inherentText);
 
     // Unit.PAS:171
-    public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => TroopConstants.TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes;
+    public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => TroopConstants.s_defaultAbilitySelectionTypes;
 
     // Unit.PAS:1411
     public override void Changed()
     {
-        if (FUnitStatus.Contains(UnitStatusElement.Activated))
+        if (UnitStatus.Contains(UnitStatusElement.Activated))
         {
             UpdateMoraleValue();
             UpdateOffensiveStrength();
@@ -246,22 +246,22 @@ public partial class Troop : AbilityOwner
     public virtual sbyte GetInherentResistance() => 0;
 
     // Unit.PAS:534
-    public virtual bool GetInherentAbility(int AbilityID)
+    public virtual bool GetInherentAbility(int abilityId)
     {
-        if (this.GetAbSet(AbilityID))
+        if (this.GetAbilitySetAt(abilityId))
         {
-            return AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetInherent(this);
+            return AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetInherent(this);
         }
 
         return false;
     }
 
     // Unit.PAS:543
-    public virtual int GetInherentAbilityLevel(int AbilityID)
+    public virtual int GetInherentAbilityLevel(int abilityId)
     {
-        if (this.GetAbSet(AbilityID))
+        if (this.GetAbilitySetAt(abilityId))
         {
-            return AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetInherentLevel(this);
+            return AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetInherentLevel(this);
         }
 
         return 0;
@@ -289,7 +289,7 @@ public partial class Troop : AbilityOwner
     public virtual sbyte GetMovePoints() => 0;
 
     // Unit.PAS:821
-    public virtual void SetMovePoints(sbyte Value)
+    public virtual void SetMovePoints(sbyte value)
     {
     }
 
@@ -297,19 +297,19 @@ public partial class Troop : AbilityOwner
     public virtual sbyte GetHitPoints() => 0;
 
     // Unit.PAS:827
-    public virtual void SetHitPoints(sbyte Value)
+    public virtual void SetHitPoints(sbyte value)
     {
         UpdateDefensiveStrength();
     }
 
     // Unit.PAS:973
-    public virtual Set<MoveType> GetMoveTypes() => GetAbMoveTypesAll();
+    public virtual Set<MoveType> GetMoveTypes() => GetAbilityMoveTypesAll();
 
     // Unit.PAS:852
-    public virtual Set<DamageType> GetImmunityTypes() => this.GetAbImmunityTypesAll() + Set<DamageType>.Of(DamageType.Wall);
+    public virtual Set<DamageType> GetImmunityTypes() => this.GetAbilityImmunityTypesAll() + Set<DamageType>.Of(DamageType.Wall);
 
     // Unit.PAS:858
-    public virtual Set<DamageType> GetProtectionTypes() => this.GetAbProtectionTypesAll();
+    public virtual Set<DamageType> GetProtectionTypes() => this.GetAbilityProtectionTypesAll();
 
     // Unit.PAS:977
     public virtual LibraryImage GetFace() => null;
@@ -339,26 +339,26 @@ public partial class Troop : AbilityOwner
     public virtual UnitType GetUnitType() => UnitType.Humanoid;
 
     // Unit.PAS:989
-    public virtual int GetUnitGFXResourceIndex() => -1;
+    public virtual int GetUnitGraphicsResourceIndex() => -1;
 
     // Unit.PAS:1480
-    public virtual bool CanAddToList(UnitList AList) => true;
+    public virtual bool CanAddToList(UnitList list) => true;
 
     // Unit.PAS:179
     public virtual Set<WallCombatFeaturesElement> GetWallCombatFeatures()
     {
-        Set<WallCombatFeaturesElement> Result = Set<WallCombatFeaturesElement>.Of();
+        Set<WallCombatFeaturesElement> result = Set<WallCombatFeaturesElement>.Of();
         if (GetAbilityEnabled(1) || GetAbilityEnabled(165) || GetAbilityEnabled(36) || GetAbilityEnabled(66))
         {
-            Result = Result + Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallPassing, WallCombatFeaturesElement.Participate);
+            result = result + Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallPassing, WallCombatFeaturesElement.Participate);
         }
 
         if (GetAbilityEnabled(117) || GetAbilityEnabled(24) || GetAbilityEnabled(65) || GetAbilityEnabled(44))
         {
-            Result = Result + Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
+            result = result + Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching, WallCombatFeaturesElement.Participate);
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:123
@@ -371,7 +371,7 @@ public partial class Troop : AbilityOwner
     public virtual sbyte GetCastingPoints() => 0;
 
     // Unit.PAS:918
-    public virtual void SetCastingPoints(sbyte Value)
+    public virtual void SetCastingPoints(sbyte value)
     {
     }
 
@@ -384,28 +384,28 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:1355
-    public virtual void NewTurn(sbyte Player)
+    public virtual void NewTurn(sbyte player)
     {
-        sbyte Heal;
-        if (Player == FPlayer)
+        sbyte heal;
+        if (player == Player)
         {
             SetMovePoints(GetMoves());
             if (GetHits() != GetHitPoints() && !GetAbilityEnabled(93))
             {
                 if (!GetAbilityEnabled(49))
                 {
-                    Heal = (sbyte)Round((double)GetHits() * 0.1);
-                    if (Heal == 0)
+                    heal = (sbyte)Round((double)GetHits() * 0.1);
+                    if (heal == 0)
                     {
-                        Heal = 1;
+                        heal = 1;
                     }
                 }
                 else
                 {
-                    Heal = GetHits();
+                    heal = GetHits();
                 }
 
-                SetHitPoints((sbyte)(GetHitPoints() + Heal));
+                SetHitPoints((sbyte)(GetHitPoints() + heal));
             }
 
             if (GetAbilityEnabled(109))
@@ -416,31 +416,31 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:1375
-    public virtual void NewTurnDone(sbyte Player)
+    public virtual void NewTurnDone(sbyte player)
     {
-        if (Player == FPlayer && FPlayer > 0)
+        if (player == Player && this.Player > 0)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
+            if (AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
             {
                 SetFireMasteryProtection();
             }
 
-            if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
+            if (AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
             {
                 SetEarthMasteryStoneSkin();
             }
 
-            if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
+            if (AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
             {
                 SetLifeMasteryBlessing();
             }
 
-            if ((((byte)AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 16) != 0)
+            if ((((byte)AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 16) != 0)
             {
                 ExecuteLifeMasteryFearRole();
             }
 
-            if ((((byte)AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 32) != 0)
+            if ((((byte)AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 32) != 0)
             {
                 ExecuteDeathMasteryCurseRole();
             }
@@ -448,26 +448,26 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:578
-    public virtual int GetAbilityLevel(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetLevel(this);
+    public virtual int GetAbilityLevel(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetLevel(this);
 
     // Unit.PAS:552
-    public virtual bool GetAbilityEnabled(int AbilityID)
+    public virtual bool GetAbilityEnabled(int abilityId)
     {
-        if (GetAbilitySet(AbilityID))
+        if (GetAbilitySet(abilityId))
         {
-            return AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetEnabled(this);
+            return AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetEnabled(this);
         }
 
         return false;
     }
 
     // Unit.PAS:574
-    public virtual string GetAbilityName(int AbilityID) => AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID).GetName(this);
+    public virtual string GetAbilityName(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetName(this);
 
     // Unit.PAS:582
-    public virtual AbilityOwner GetAbilityOwner(int AbilityID)
+    public virtual AbilityOwner GetAbilityOwner(int abilityId)
     {
-        if (this.GetAbSet(AbilityID))
+        if (this.GetAbilitySetAt(abilityId))
         {
             return this;
         }
@@ -476,13 +476,13 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:530
-    public virtual int GetAbilityCount() => FAbilityCount;
+    public virtual int GetAbilityCount() => AbilityCount;
 
     // Unit.PAS:747
     public virtual int GetExperience() => 0;
 
     // Unit.PAS:751
-    public virtual void SetExperience(int Value)
+    public virtual void SetExperience(int value)
     {
     }
 
@@ -493,23 +493,23 @@ public partial class Troop : AbilityOwner
     public virtual StringCollection GetDescription() => null;
 
     // Unit.PAS:494
-    public virtual void SetPlayer(sbyte Player)
+    public virtual void SetPlayer(sbyte player)
     {
-        UnitUserList List;
-        if (Player != FPlayer)
+        UnitUserList list;
+        if (player != Player)
         {
             AddRef();
             ResetLifeMasteryBlessing();
             ResetLifeMasteryFear();
             ResetEarthMasteryStoneSkin();
             ResetFireMasteryProtection();
-            List = FGroup;
-            if (List != null)
+            list = Group;
+            if (list != null)
             {
-                List.DeleteUnit(this);
+                list.DeleteUnit(this);
             }
 
-            FPlayer = Player;
+            Player = player;
             Release();
         }
     }
@@ -517,17 +517,17 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:513
     public virtual sbyte GetIndependentRelation()
     {
-        sbyte Result;
+        sbyte result;
         if (GetRace() >= 0)
         {
-            Result = GetRace();
+            result = GetRace();
         }
         else
         {
-            Result = AlignmentTables.AlignmentToIR(GetAlignment());
+            result = AlignmentTables.AlignmentToIndependentRelation(GetAlignment());
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:350
@@ -537,67 +537,67 @@ public partial class Troop : AbilityOwner
     public virtual UnitSize GetUnitSize() => UnitSize.Medium;
 
     // Unit.PAS:260
-    public virtual int GetUnitMoraleValue(sbyte Player, sbyte IndependentRelation)
+    public virtual int GetUnitMoraleValue(sbyte player, sbyte independentRelation)
     {
-        sbyte Race;
-        sbyte Xhx = default;
-        sbyte Yhx = default;
-        sbyte Lhx = default;
-        TerrainType TerrainType;
-        byte RawTerrain;
-        int RaceIndex;
-        int Morale;
-        if (Player >= 0 && GetUnitType() != UnitType.Machine && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        sbyte race;
+        sbyte hexX = default;
+        sbyte hexY = default;
+        sbyte hexLevel = default;
+        TerrainType terrainType;
+        byte rawTerrain;
+        int raceIndex;
+        int morale;
+        if (player >= 0 && GetUnitType() != UnitType.Machine && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            Race = GetRace();
-            Morale = GetRelationValue(Player, IndependentRelation);
-            if (Race != -1)
+            race = GetRace();
+            morale = GetRelationValue(player, independentRelation);
+            if (race != -1)
             {
-                GetLocation(ref Xhx, ref Yhx, ref Lhx);
-                if (Xhx != -1)
+                GetLocation(ref hexX, ref hexY, ref hexLevel);
+                if (hexX != -1)
                 {
-                    RawTerrain = (byte)AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx).TerrainType;
-                    RaceIndex = Race;
-                    TerrainType = (TerrainType)RawTerrain;
-                    if (City.RaceTerrain[RaceIndex].Penalty.Contains((byte)(int)TerrainType))
+                    rawTerrain = (byte)AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).TerrainType;
+                    raceIndex = race;
+                    terrainType = (TerrainType)rawTerrain;
+                    if (City.RaceTerrain[raceIndex].Penalty.Contains((byte)(int)terrainType))
                     {
                         // { Read the original shared table, not the private copy. }
-                        Morale -= 10;
+                        morale -= 10;
                     }
 
-                    if (City.RaceTerrain[RaceIndex].Bonus.Contains((byte)(int)TerrainType))
+                    if (City.RaceTerrain[raceIndex].Bonus.Contains((byte)(int)terrainType))
                     {
-                        Morale += 10;
+                        morale += 10;
                     }
                 }
             }
 
             if (GetAbilityEnabled(53))
             {
-                Morale -= 40;
+                morale -= 40;
             }
 
             if (GetAbilityEnabled(108))
             {
-                Morale -= 80;
+                morale -= 80;
             }
 
-            if (Morale < 0)
+            if (morale < 0)
             {
-                Morale = 0;
+                morale = 0;
             }
 
-            if (Morale > 100)
+            if (morale > 100)
             {
-                Morale = 100;
+                morale = 100;
             }
         }
         else
         {
-            Morale = 50;
+            morale = 50;
         }
 
-        return Morale;
+        return morale;
     }
 
     // Unit.PAS:743
@@ -606,24 +606,24 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:761
     public virtual void Activate()
     {
-        AIGroup Group;
-        FUnitStatus = FUnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Activated);
-        AoWHSMap.Current.FUnitControl.RegisterUnit(this);
-        if (FGroupID != 0 && FPlayer >= 0)
+        AIGroup group;
+        UnitStatus = UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Activated);
+        AoWHSMap.Current.UnitControl.RegisterUnit(this);
+        if (GroupId != 0 && Player >= 0)
         {
-            Group = AoWHSMap.Current.FAIGroupManager.FindID(FGroupID);
-            if (Group != null)
+            group = AoWHSMap.Current.AIGroupManager.FindId(GroupId);
+            if (group != null)
             {
-                Group.AddUnit(this);
+                group.AddUnit(this);
             }
             else
             {
-                FGroupID = 0;
+                GroupId = 0;
             }
         }
         else
         {
-            FGroupID = 0;
+            GroupId = 0;
         }
 
         RegisterEnchantments();
@@ -633,111 +633,111 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:777
     public virtual void Deactivate()
     {
-        UnitUserList Group;
-        Group = FGroup;
-        if (Group != null)
+        UnitUserList group;
+        group = Group;
+        if (group != null)
         {
-            Group.DeleteUnit(this);
+            group.DeleteUnit(this);
         }
 
-        AoWHSMap.Current.FUnitControl.UnRegisterUnit(this);
-        FUnitStatus = FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Activated);
+        AoWHSMap.Current.UnitControl.UnregisterUnit(this);
+        UnitStatus = UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Activated);
         UnregisterEnchantments();
     }
 
     // Unit.PAS:1100
-    public virtual void MovedTo(MapField OldField, MapField NewField, int MaxCost)
+    public virtual void MovedTo(MapField oldField, MapField newField, int maxCost)
     {
-        int Cost = default;
-        bool Transported = default;
-        EngineObject Army = default;
-        Cost = MovePointCost(NewField.TerrainType, NewField.OverlayType);
-        if (Cost < 0)
+        int cost = default;
+        bool transported = default;
+        EngineObject army = default;
+        cost = MovePointCost(newField.TerrainType, newField.OverlayType);
+        if (cost < 0)
         {
-            Cost = MaxCost;
+            cost = maxCost;
         }
         else
         {
-            if (Cost > MaxCost)
+            if (cost > maxCost)
             {
-                Cost = MaxCost;
+                cost = maxCost;
             }
         }
 
-        if (!AoWHSMap.Current.FUnlimitedMoves || AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human)
+        if (!AoWHSMap.Current.UnlimitedMoves || AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
         {
-            if (Cost > GetMovePoints())
+            if (cost > GetMovePoints())
             {
                 SetMovePoints(0);
             }
             else
             {
-                SetMovePoints((sbyte)(GetMovePoints() - Cost));
+                SetMovePoints((sbyte)(GetMovePoints() - cost));
             }
         }
 
-        if (NewField.TerrainType == (int)TerrainType.Earth)
+        if (newField.TerrainType == (int)TerrainType.Earth)
         {
-            AoWHSMap.Current.ChangeTerrain(null, NewField.Xhx, NewField.Yhx, NewField.Lhx, 0, (int)TerrainType.Dirt);
+            AoWHSMap.Current.ChangeTerrain(null, newField.HexX, newField.HexY, newField.HexLevel, 0, (int)TerrainType.Dirt);
         }
 
-        if (OldField != null)
+        if (oldField != null)
         {
-            Army = Owner;
-            Transported = Army is Army && ((Army)Army).Transporter(255) != null;
-            if (!Transported)
+            army = Owner;
+            transported = army is Army && ((Army)army).Transporter(255) != null;
+            if (!transported)
             {
-                if (OldField.Lhx == 0)
+                if (oldField.HexLevel == 0)
                 {
                     if (GetAbilityEnabled(69))
                     {
-                        AoWHSMap.Current.ChangeTerrainEx(null, OldField.Xhx, OldField.Yhx, OldField.Lhx, 1, PathOfLifeTerrainChange, null);
+                        AoWHSMap.Current.ChangeTerrain(null, oldField.HexX, oldField.HexY, oldField.HexLevel, 1, PathOfLifeTerrainChange, null);
                     }
                     else
                     {
                         if (GetAbilityEnabled(68))
                         {
-                            AoWHSMap.Current.ChangeTerrainEx(null, OldField.Xhx, OldField.Yhx, OldField.Lhx, 1, PathOfDecayTerrainChange, null);
+                            AoWHSMap.Current.ChangeTerrain(null, oldField.HexX, oldField.HexY, oldField.HexLevel, 1, PathOfDecayTerrainChange, null);
                         }
                     }
                 }
 
                 if (GetAbilityEnabled(109))
                 {
-                    AoWHSMap.Current.ChangeTerrainEx(null, OldField.Xhx, OldField.Yhx, OldField.Lhx, 1, PathOfFrostTerrainChange, PathOfFrostTerrainChanged);
+                    AoWHSMap.Current.ChangeTerrain(null, oldField.HexX, oldField.HexY, oldField.HexLevel, 1, PathOfFrostTerrainChange, PathOfFrostTerrainChanged);
                 }
             }
 
             if (GetAbilityEnabled(26))
             {
-                ExecuteTrailOfDarkness(OldField);
+                ExecuteTrailOfDarkness(oldField);
             }
         }
     }
 
     // Unit.PAS:1890
-    public virtual bool CanDisband(ref string Reason)
+    public virtual bool CanDisband(ref string reason)
     {
-        bool Result = AoWHSMap.Current.FSeatedPlayer == FPlayer;
-        if (Result && GetTransporter() && Owner is Army)
+        bool result = AoWHSMap.Current.SeatedPlayer == Player;
+        if (result && GetTransporter() && Owner is Army)
         {
-            Result = ArmyOwner.UnitsInTransporter() == 0;
+            result = ArmyOwner.UnitsInTransporter() == 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1796
-    public virtual bool CanJoin(sbyte Player)
+    public virtual bool CanJoin(sbyte player)
     {
-        bool Result;
-        Alignment Alignment;
-        DiplomaticRelation Relation;
+        bool result;
+        Alignment alignment;
+        DiplomaticRelation relation;
         int I;
-        bool condition = FGroup == null;
+        bool condition = Group == null;
         if (!condition)
         {
-            var behavior = FGroup.GroupClass.Behavior;
+            var behavior = Group.GroupClass.Behavior;
             condition = !Set<GroupBehavior>.Of(GroupBehavior.Guard, GroupBehavior.GuardArea).Contains(behavior);
         }
 
@@ -745,147 +745,147 @@ public partial class Troop : AbilityOwner
         {
             if (GetRace() == -1)
             {
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                Alignment = AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
+                var players = AoWHSMap.Current.Players.GetPlayers(player);
+                alignment = AoWHSSet.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
                 if (GetAlignment() != Units.Alignment.None)
                 {
-                    Relation = AlignmentTables.dAlignmentToDiplomaticRelation(GetAlignment(), Alignment);
-                    if (Relation == DiplomaticRelation.Unknown && this is Unit)
+                    relation = AlignmentTables.AlignmentToDiplomaticRelation(GetAlignment(), alignment);
+                    if (relation == DiplomaticRelation.Unknown && this is Unit)
                     {
-                        Result = false;
-                        I = AoWHSMap.Current.FRaces.Count;
-                        while (!Result && I != 0)
+                        result = false;
+                        I = AoWHSMap.Current.Races.Count;
+                        while (!result && I != 0)
                         {
                             I -= 1;
-                            bool test = AoWHSMap.Current.FRaces.GetRace(I).GetPlayerRelation(Player) >= Status.Polite;
+                            bool test = AoWHSMap.Current.Races.GetRace(I).GetPlayerRelation(player) >= Status.Polite;
                             if (test)
                             {
-                                var unitResourceIndex = ((Unit)this).FUnitResource.UnitResourceIndex();
-                                test = AoWHSSet.Current.FRaceResources.GetRaceResource(I).FUnitIndexes.IndexOf(unitResourceIndex) != -1;
+                                var unitResourceIndex = ((Unit)this).UnitResource.UnitResourceIndex();
+                                test = AoWHSSet.Current.RaceResources.GetRaceResource(I).UnitIndexes.IndexOf(unitResourceIndex) != -1;
                             }
 
-                            Result = test;
+                            result = test;
                         }
                     }
                     else
                     {
-                        Result = Relation == DiplomaticRelation.Peace;
+                        result = relation == DiplomaticRelation.Peace;
                     }
                 }
                 else
                 {
-                    Result = true;
+                    result = true;
                 }
             }
             else
             {
                 var race = GetRace();
-                Result = AoWHSMap.Current.FRaces.GetRace(race).GetPlayerRelation(Player) >= Status.Polite;
+                result = AoWHSMap.Current.Races.GetRace(race).GetPlayerRelation(player) >= Status.Polite;
             }
 
-            if (Result && FGroup != null && FGroup.GroupClass.Behavior == GroupBehavior.Hunt && ((HuntAIGroup)FGroup).HuntingPlayer(Player))
+            if (result && Group != null && Group.GroupClass.Behavior == GroupBehavior.Hunt && ((HuntAIGroup)Group).HuntingPlayer(player))
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1835
-    public virtual int JoinAmount(sbyte Player)
+    public virtual int JoinAmount(sbyte player)
     {
-        int Result;
-        UnitUserList Group;
-        Group = FGroup;
-        if (Group != null && ((AIGroup)(object)Group).GroupClass.Behavior == GroupBehavior.Refuge)
+        int result;
+        UnitUserList group;
+        group = Group;
+        if (group != null && ((AIGroup)(object)group).GroupClass.Behavior == GroupBehavior.Refuge)
         {
-            Result = 0;
+            result = 0;
         }
         else
         {
-            Result = Round((double)GetObtainValue() * 0.75);
+            result = Round((double)GetObtainValue() * 0.75);
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1843
-    public virtual bool OfferToJoin(sbyte Player)
+    public virtual bool OfferToJoin(sbyte player)
     {
-        bool Result;
-        UnitUserList Group;
-        Alignment Alignment;
-        if (CanJoin(Player))
+        bool result;
+        UnitUserList group;
+        Alignment alignment;
+        if (CanJoin(player))
         {
             if (GetRace() != -1)
             {
                 var race = GetRace();
-                Result = AoWHSMap.Current.FRaces.GetRace(race).GetPlayerRelation(Player) >= Status.Polite;
+                result = AoWHSMap.Current.Races.GetRace(race).GetPlayerRelation(player) >= Status.Polite;
             }
             else
             {
-                Group = FGroup;
-                if (Group != null && ((AIGroup)(object)Group).GroupClass.Behavior == GroupBehavior.Refuge)
+                group = Group;
+                if (group != null && ((AIGroup)(object)group).GroupClass.Behavior == GroupBehavior.Refuge)
                 {
-                    var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                    Alignment = AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
-                    if ((GetAlignment() != Units.Alignment.None || GetUnitType() == UnitType.Machine) && AlignmentTables.dAlignmentToDiplomaticRelation(GetAlignment(), Alignment) != DiplomaticRelation.Peace)
+                    var players = AoWHSMap.Current.Players.GetPlayers(player);
+                    alignment = AoWHSSet.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
+                    if ((GetAlignment() != Units.Alignment.None || GetUnitType() == UnitType.Machine) && AlignmentTables.AlignmentToDiplomaticRelation(GetAlignment(), alignment) != DiplomaticRelation.Peace)
                     {
-                        Result = false;
+                        result = false;
                     }
                     else
                     {
-                        Result = true;
+                        result = true;
                     }
                 }
                 else
                 {
-                    Result = false;
+                    result = false;
                 }
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1872
-    public virtual void GetJoinMessage(sbyte Player, int Count, int Amount, JoinMode Mode, StringCollection Messages)
+    public virtual void GetJoinMessage(sbyte player, int count, int amount, JoinMode mode, StringCollection messages)
     {
-        UnitUserList Group;
-        Messages.Clear();
-        switch (Mode)
+        UnitUserList group;
+        messages.Clear();
+        switch (mode)
         {
             case JoinMode.Default:
-                Group = FGroup;
-                if (Group != null && ((AIGroup)(object)Group).GroupClass.Behavior == GroupBehavior.Refuge && Amount == 0)
+                group = Group;
+                if (group != null && ((AIGroup)(object)group).GroupClass.Behavior == GroupBehavior.Refuge && amount == 0)
                 {
-                    if (Count == 0)
+                    if (count == 0)
                     {
-                        Messages.Text = AbilityRules.TranslateRStr(GameText.P2RefugeJoinRStr);
+                        messages.Text = AbilityRules.TranslateResourceString(GameText.s_refugeJoinText);
                     }
                     else
                     {
-                        Messages.Text = AbilityRules.TranslateRStr(GameText.P2RefugeesJoinRStr);
+                        messages.Text = AbilityRules.TranslateResourceString(GameText.s_refugeesJoinText);
                     }
                 }
                 else
                 {
-                    if (Count == 0)
+                    if (count == 0)
                     {
-                        Messages.Text = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.P2BribeUnitJoinRStr), [IntToStr(Amount)]);
+                        messages.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_bribeUnitJoinFormat), [IntToStr(amount)]);
                     }
                     else
                     {
-                        Messages.Text = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.P2BribeUnitsJoinRStr), [IntToStr(Amount)]);
+                        messages.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.s_bribeUnitsJoinFormat), [IntToStr(amount)]);
                     }
                 }
 
@@ -901,17 +901,17 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:1209
     public virtual void Killed()
     {
-        UnitUserList Group;
-        FUnitStatus = FUnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
+        UnitUserList group;
+        UnitStatus = UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
         ResetLifeMasteryBlessing();
         ResetLifeMasteryFear();
         ResetEarthMasteryStoneSkin();
         ResetFireMasteryProtection();
         UnregisterEnchantments();
-        Group = FGroup;
-        if (Group != null)
+        group = Group;
+        if (group != null)
         {
-            Group.DeleteUnit(this);
+            group.DeleteUnit(this);
         }
 
         SetPlayer(-1);
@@ -922,7 +922,7 @@ public partial class Troop : AbilityOwner
     public virtual void Resurrect()
     {
         this.ExpandAbility(128);
-        FUnitStatus = FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
+        UnitStatus = UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
         SetHitPoints(1);
         SetPlayer(0);
     }
@@ -931,37 +931,37 @@ public partial class Troop : AbilityOwner
     public virtual void Animate()
     {
         this.ExpandAbility(129);
-        FUnitStatus = FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
+        UnitStatus = UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Killed);
         SetHitPoints(1);
         SetPlayer(0);
     }
 
     // Unit.PAS:152
     // { A stack-argument assembler routine gets an EBP frame; remove it before jumping. }
-    public void RetrieveDamageInfo(sbyte Attack, sbyte Damage, Set<DamageType> DamageTypes, ref int DamageValue, ref int ObtainValue)
+    public void RetrieveDamageInfo(sbyte attack, sbyte damage, Set<DamageType> damageTypes, ref int damageValue, ref int obtainValue)
     {
-        int MaxDamage;
-        MaxDamage = GetHitPoints() * 100;
-        DamageValue = MeleeRound.StatisticsToDV(Attack, Damage, DamageTypes, GetDefense(), GetResistance(), GetImmunityTypes(), GetProtectionTypes());
-        if (MaxDamage < DamageValue)
+        int maxDamage;
+        maxDamage = GetHitPoints() * 100;
+        damageValue = MeleeRound.StatisticsToDamageValue(attack, damage, damageTypes, GetDefense(), GetResistance(), GetImmunityTypes(), GetProtectionTypes());
+        if (maxDamage < damageValue)
         {
-            DamageValue = MaxDamage;
+            damageValue = maxDamage;
         }
 
-        if (DamageValue > 0 && GetHitPoints() > 0)
+        if (damageValue > 0 && GetHitPoints() > 0)
         {
-            if (MaxDamage > DamageValue)
+            if (maxDamage > damageValue)
             {
-                ObtainValue = Round((double)GetObtainValue() * ((double)((double)DamageValue * 0.75) / MaxDamage));
+                obtainValue = Round((double)GetObtainValue() * ((double)((double)damageValue * 0.75) / maxDamage));
             }
             else
             {
-                ObtainValue = GetObtainValue();
+                obtainValue = GetObtainValue();
             }
         }
         else
         {
-            ObtainValue = 0;
+            obtainValue = 0;
         }
     }
 
@@ -971,166 +971,166 @@ public partial class Troop : AbilityOwner
     internal UnitList UnitListOwner => Owner is HeroList ? null : (UnitList)Owner;
 
     // Unit.PAS:189
-    public void GetLocation(ref sbyte Xhx, ref sbyte Yhx, ref sbyte Lhx)
+    public void GetLocation(ref sbyte hexX, ref sbyte hexY, ref sbyte hexLevel)
     {
         if (Owner is UnitList)
         {
-            UnitListOwner.GetLocation(ref Xhx, ref Yhx, ref Lhx);
+            UnitListOwner.GetLocation(ref hexX, ref hexY, ref hexLevel);
         }
         else
         {
-            Xhx = -1;
-            Yhx = -1;
-            Lhx = -1;
+            hexX = -1;
+            hexY = -1;
+            hexLevel = -1;
         }
     }
 
     // Unit.PAS:231
-    public int GetRelationValue(sbyte Player, sbyte IndependentRelation)
+    public int GetRelationValue(sbyte player, sbyte independentRelation)
     {
-        int Result;
-        sbyte Race;
-        Race = GetRace();
-        if (Player != 0)
+        int result;
+        sbyte race;
+        race = GetRace();
+        if (player != 0)
         {
-            if (Race != -1 && !GetAbilityEnabled(107))
+            if (race != -1 && !GetAbilityEnabled(107))
             {
-                Result = AoWHSMap.Current.FRaces.GetRace(Race).GetPlayerRelationValue(Player);
+                result = AoWHSMap.Current.Races.GetRace(race).GetPlayerRelationValue(player);
             }
             else
             {
-                var players = AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                var playerAlignment = AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
+                var players = AoWHSMap.Current.Players.GetPlayers(player);
+                var playerAlignment = AoWHSSet.Current.RaceResources.GetRaceResource(players.PlayerRace).GetAlignment();
                 var unitAlignment = GetAlignment();
-                Result = AlignmentTables.P2AlignmentToStatusValue[(int)unitAlignment][(int)playerAlignment];
+                result = AlignmentTables.s_alignmentToStatusValue[(int)unitAlignment][(int)playerAlignment];
             }
         }
         else
         {
-            var iRtoAlignment = AbilityRules.IRtoAlignment(IndependentRelation);
+            var iRtoAlignment = AbilityRules.IndependentRelationToAlignment(independentRelation);
             var alignment = GetAlignment();
-            Result = AlignmentTables.P2AlignmentToStatusValue[(int)alignment][(int)iRtoAlignment];
+            result = AlignmentTables.s_alignmentToStatusValue[(int)alignment][(int)iRtoAlignment];
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:256
-    public Status GetRelation(sbyte Player, sbyte IndependentRelation) => Race.StatusValueToStatus(GetRelationValue(Player, IndependentRelation));
+    public Status GetRelation(sbyte player, sbyte independentRelation) => Race.StatusValueToStatus(GetRelationValue(player, independentRelation));
 
     // Unit.PAS:301
-    public Status UnitRelation(Troop AUnit)
+    public Status UnitRelation(Troop troop)
     {
-        Status Result;
-        sbyte Race;
-        sbyte OtherRace;
-        Race = GetRace();
-        OtherRace = AUnit.GetRace();
-        if (Race != -1 && OtherRace != -1)
+        Status result;
+        sbyte race;
+        sbyte otherRace;
+        race = GetRace();
+        otherRace = troop.GetRace();
+        if (race != -1 && otherRace != -1)
         {
-            Result = AoWHSMap.Current.FRaces.GetRace(Race).GetRelation(OtherRace);
+            result = AoWHSMap.Current.Races.GetRace(race).GetRelation(otherRace);
         }
         else
         {
-            var alignment = AUnit.GetAlignment();
-            Result = AlignmentTables.dAlignmentToStatus(GetAlignment(), alignment);
+            var alignment = troop.GetAlignment();
+            result = AlignmentTables.AlignmentToStatus(GetAlignment(), alignment);
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:312
     public sbyte UpdateMoraleValue()
     {
-        int Player;
-        int Value;
-        Troop AUnit;
-        Player = FPlayer;
-        Value = GetUnitMoraleValue((sbyte)Player, GetIndependentRelation());
+        int player;
+        int value;
+        Troop troop;
+        player = Player;
+        value = GetUnitMoraleValue((sbyte)player, GetIndependentRelation());
         if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && GetUnitType() != UnitType.Machine && !(this is Leader) && Owner is Army)
         {
-            if (GetUpkeep() != 0 && Player > 0 && !GetAbilityEnabled(155))
+            if (GetUpkeep() != 0 && player > 0 && !GetAbilityEnabled(155))
             {
-                Value += AoWHSMap.Current.FPlayers.GetPlayers(Player).FMoraleValue;
+                value += AoWHSMap.Current.Players.GetPlayers(player).MoraleValue;
             }
 
             for (int I = Owner.Count - 1; I >= 0; I--)
             {
-                AUnit = (Troop)((EChangeNotifyNode)(object)Owner).FChildren.List[I];
-                if (AUnit.GetAbilityEnabled(37) && AUnit != this)
+                troop = (Troop)((EChangeNotifyNode)(object)Owner)._children.List[I];
+                if (troop.GetAbilityEnabled(37) && troop != this)
                 {
-                    Value += 30;
+                    value += 30;
                 }
                 else
                 {
-                    if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(UnitRelation(AUnit)))
+                    if (Set<Status>.Of(Status.Hostile, Status.Wary).Contains(UnitRelation(troop)))
                     {
-                        Value -= 10;
+                        value -= 10;
                     }
                 }
             }
         }
 
-        if (Value > 125)
+        if (value > 125)
         {
-            FMoraleValue = 125;
+            MoraleValue = 125;
         }
         else
         {
-            if (Value < -25)
+            if (value < -25)
             {
-                FMoraleValue = -25;
+                MoraleValue = -25;
             }
             else
             {
-                FMoraleValue = (sbyte)Value;
+                MoraleValue = (sbyte)value;
             }
         }
 
-        return FMoraleValue;
+        return MoraleValue;
     }
 
     // Unit.PAS:342
-    public Morale GetMorale() => AbilityRules.MoraleValueToMorale(FMoraleValue);
+    public Morale GetMorale() => AbilityRules.MoraleValueToMorale(MoraleValue);
 
     // Unit.PAS:358
     public void UpdateEnchanted()
     {
         int I;
-        AbilityTypeList List;
-        bool Enchanted;
-        List = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
-        Enchanted = false;
-        I = List.Count;
-        while (!Enchanted && I != 0)
+        AbilityTypeList list;
+        bool enchanted;
+        list = AoWHSSet.Current.AbilityControl.AbilitiesByType[4];
+        enchanted = false;
+        I = list.Count;
+        while (!enchanted && I != 0)
         {
             I -= 1;
-            Enchanted = GetAbilityEnabled(List.GetAbility(I).FAbilityID);
+            enchanted = GetAbilityEnabled(list.GetAbility(I).AbilityId);
         }
 
-        if (Enchanted)
+        if (enchanted)
         {
-            FUnitStatus = FUnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Enchanted);
+            UnitStatus = UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Enchanted);
         }
         else
         {
-            FUnitStatus = FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Enchanted);
+            UnitStatus = UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Enchanted);
         }
     }
 
     // Unit.PAS:375
     public void RemoveEnchantments()
     {
-        Ability Ability;
-        AbilityTypeList List;
+        Ability ability;
+        AbilityTypeList list;
         AddRef();
-        List = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
-        for (int I = List.Count - 1; I >= 0; I--)
+        list = AoWHSSet.Current.AbilityControl.AbilitiesByType[4];
+        for (int I = list.Count - 1; I >= 0; I--)
         {
-            Ability = List.GetAbility(I);
-            if (Ability is UnitEnchantmentAbility && GetAbilityEnabled(Ability.FAbilityID))
+            ability = list.GetAbility(I);
+            if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
             {
-                RemoveAbility(Ability.FAbilityID);
+                RemoveAbility(ability.AbilityId);
             }
         }
 
@@ -1150,19 +1150,19 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:403
     public void RegisterEnchantments()
     {
-        Ability Ability;
-        AbilityTypeList List;
-        UnitEnchantmentAbilityData Data;
-        List = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
-        for (int I = List.Count - 1; I >= 0; I--)
+        Ability ability;
+        AbilityTypeList list;
+        UnitEnchantmentAbilityData data;
+        list = AoWHSSet.Current.AbilityControl.AbilitiesByType[4];
+        for (int I = list.Count - 1; I >= 0; I--)
         {
-            Ability = List.GetAbility(I);
-            if (Ability is UnitEnchantmentAbility && GetAbilityEnabled(Ability.FAbilityID))
+            ability = list.GetAbility(I);
+            if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
             {
-                Data = (UnitEnchantmentAbilityData)this.GetAbilityData(Ability.FAbilityID);
-                if (Data.FEnchantment.FSource > -1)
+                data = (UnitEnchantmentAbilityData)this.GetAbilityData(ability.AbilityId);
+                if (data.Enchantment.Source > -1)
                 {
-                    AoWHSMap.Current.FPlayers.GetPlayers(Data.FEnchantment.FSource).FMagicControl.RegisterEnchantment(Data.FEnchantment);
+                    AoWHSMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.RegisterEnchantment(data.Enchantment);
                 }
             }
         }
@@ -1171,37 +1171,37 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:424
     public void UnregisterEnchantments()
     {
-        Ability Ability;
-        AbilityTypeList List;
-        UnitEnchantmentAbilityData Data;
-        List = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
-        for (int I = List.Count - 1; I >= 0; I--)
+        Ability ability;
+        AbilityTypeList list;
+        UnitEnchantmentAbilityData data;
+        list = AoWHSSet.Current.AbilityControl.AbilitiesByType[4];
+        for (int I = list.Count - 1; I >= 0; I--)
         {
-            Ability = List.GetAbility(I);
-            if (Ability is UnitEnchantmentAbility && GetAbilityEnabled(Ability.FAbilityID))
+            ability = list.GetAbility(I);
+            if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
             {
-                Data = (UnitEnchantmentAbilityData)this.GetAbilityData(Ability.FAbilityID);
-                if (Data.FEnchantment.FSource > -1)
+                data = (UnitEnchantmentAbilityData)this.GetAbilityData(ability.AbilityId);
+                if (data.Enchantment.Source > -1)
                 {
-                    AoWHSMap.Current.FPlayers.GetPlayers(Data.FEnchantment.FSource).FMagicControl.UnregisterEnchantment(Data.FEnchantment);
+                    AoWHSMap.Current.Players.GetPlayers(data.Enchantment.Source).MagicControl.UnregisterEnchantment(data.Enchantment);
                 }
             }
         }
     }
 
     // Unit.PAS:449
-    public UnitEnchantment AbilityToEnchantment(int AbilityID)
+    public UnitEnchantment AbilityToEnchantment(int abilityId)
     {
-        UnitEnchantment Result;
-        Ability Ability;
-        UnitEnchantmentAbilityData Data;
-        Ability = AoWHSSet.Current.FAbilityControl.GetAbility(AbilityID);
-        if (Ability is UnitEnchantmentAbility && GetAbilityEnabled(Ability.FAbilityID))
+        UnitEnchantment result;
+        Ability ability;
+        UnitEnchantmentAbilityData data;
+        ability = AoWHSSet.Current.AbilityControl.GetAbility(abilityId);
+        if (ability is UnitEnchantmentAbility && GetAbilityEnabled(ability.AbilityId))
         {
-            Data = (UnitEnchantmentAbilityData)this.GetAbilityData(Ability.FAbilityID);
-            if (Data != null)
+            data = (UnitEnchantmentAbilityData)this.GetAbilityData(ability.AbilityId);
+            if (data != null)
             {
-                Result = Data.FEnchantment;
+                result = data.Enchantment;
             }
             else
             {
@@ -1210,50 +1210,50 @@ public partial class Troop : AbilityOwner
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:463
-    public bool CanDispelEnchantment(sbyte Player)
+    public bool CanDispelEnchantment(sbyte player)
     {
         int I;
-        AbilityTypeList List;
-        UnitEnchantment Enchantment;
-        List = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
-        I = List.Count;
-        bool Result = false;
-        while (!Result && I != 0)
+        AbilityTypeList list;
+        UnitEnchantment enchantment;
+        list = AoWHSSet.Current.AbilityControl.AbilitiesByType[4];
+        I = list.Count;
+        bool result = false;
+        while (!result && I != 0)
         {
             I -= 1;
-            Enchantment = AbilityToEnchantment(List.GetAbility(I).FAbilityID);
-            if (Enchantment == null || Player == Enchantment.FSource)
+            enchantment = AbilityToEnchantment(list.GetAbility(I).AbilityId);
+            if (enchantment == null || player == enchantment.Source)
             {
-                Result = false;
+                result = false;
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:481
-    public void ListEnchantments(ECustomNode List)
+    public void ListEnchantments(ECustomNode list)
     {
-        AbilityTypeList Abilities;
-        UnitEnchantment Enchantment;
-        Abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
-        for (int I = Abilities.Count - 1; I >= 0; I--)
+        AbilityTypeList abilities;
+        UnitEnchantment enchantment;
+        abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[4];
+        for (int I = abilities.Count - 1; I >= 0; I--)
         {
-            Enchantment = AbilityToEnchantment(Abilities.GetAbility(I).FAbilityID);
-            if (Enchantment != null)
+            enchantment = AbilityToEnchantment(abilities.GetAbility(I).AbilityId);
+            if (enchantment != null)
             {
-                List.AddChild(Enchantment);
+                list.AddChild(enchantment);
             }
         }
     }
@@ -1261,122 +1261,122 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:620
     public void UpdateDefensiveStrength()
     {
-        FDefensiveStrength = (GetDefense() + 10 + GetResistance()) * (GetHitPoints() + 10);
-        if (FDefensiveStrength < 0)
+        DefensiveStrength = (GetDefense() + 10 + GetResistance()) * (GetHitPoints() + 10);
+        if (DefensiveStrength < 0)
         {
-            FDefensiveStrength = 1;
+            DefensiveStrength = 1;
         }
     }
 
     // Unit.PAS:657
-    public int GetStrength(DamageType DamageType)
+    public int GetStrength(DamageType damageType)
     {
-        if (!FUnitStatus.Contains(UnitStatusElement.Activated))
+        if (!UnitStatus.Contains(UnitStatusElement.Activated))
         {
             UpdateDefensiveStrength();
             UpdateOffensiveStrength();
         }
 
-        int Result = FOffensiveStrength[(int)DamageType];
-        if (Result != 0)
+        int result = OffensiveStrength[(int)damageType];
+        if (result != 0)
         {
-            Result = (Result + 10) * FDefensiveStrength;
+            result = (result + 10) * DefensiveStrength;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:664
-    public int GetStrengthMax(Set<DamageType> DamageTypes)
+    public int GetStrengthMax(Set<DamageType> damageTypes)
     {
-        int Result;
-        DamageType DamageType;
-        if (!FUnitStatus.Contains(UnitStatusElement.Activated))
+        int result;
+        DamageType damageType;
+        if (!UnitStatus.Contains(UnitStatusElement.Activated))
         {
             UpdateDefensiveStrength();
             UpdateOffensiveStrength();
         }
 
-        if (DamageTypes != TroopConstants.TAbstractUnit_GetStrengthMax__AllDamageTypes)
+        if (damageTypes != TroopConstants.s_allDamageTypes)
         {
-            Result = 0;
+            result = 0;
             for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
             {
-                DamageType = (DamageType)damageTypeOrdinal;
-                if (DamageTypes.Contains(DamageType))
+                damageType = (DamageType)damageTypeOrdinal;
+                if (damageTypes.Contains(damageType))
                 {
-                    if (Result < FOffensiveStrength[(int)DamageType])
+                    if (result < OffensiveStrength[(int)damageType])
                     {
-                        Result = FOffensiveStrength[(int)DamageType];
+                        result = OffensiveStrength[(int)damageType];
                     }
                 }
             }
 
-            if (Result != 0)
+            if (result != 0)
             {
-                Result = (Result + 10) * FDefensiveStrength;
+                result = (result + 10) * DefensiveStrength;
             }
         }
         else
         {
-            if (FMaxOffensiveStrength != 0)
+            if (MaxOffensiveStrength != 0)
             {
-                Result = (FMaxOffensiveStrength + 10) * FDefensiveStrength;
+                result = (MaxOffensiveStrength + 10) * DefensiveStrength;
             }
             else
             {
-                Result = 0;
+                result = 0;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:688
-    public int GetCombatValue(Troop Target, byte Mode)
+    public int GetCombatValue(Troop target, byte mode)
     {
-        int Value;
-        AbilityTypeList Abilities;
-        Ability Ability;
-        AbilityDamageValues Info = default;
-        int Result = 0;
-        Abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
-        for (int I = Abilities.Count - 1; I >= 0; I--)
+        int value;
+        AbilityTypeList abilities;
+        Ability ability;
+        AbilityDamageValues info = default;
+        int result = 0;
+        abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+        for (int I = abilities.Count - 1; I >= 0; I--)
         {
-            Ability = Abilities.GetAbility(I);
-            if (GetAbilityEnabled(Ability.FAbilityID))
+            ability = abilities.GetAbility(I);
+            if (GetAbilityEnabled(ability.AbilityId))
             {
-                Ability.GetDamageValueEx(this, Target, (WallSituation)Mode, ref Info);
-                if (Info.SourceDamage > 0)
+                ability.GetDamageValues(this, target, (WallSituation)mode, ref info);
+                if (info.SourceDamage > 0)
                 {
-                    Value = Info.SourceDamage * Info.SourceDamage / (Info.TargetDamage + Info.SourceDamage);
-                    if (Value <= 0)
+                    value = info.SourceDamage * info.SourceDamage / (info.TargetDamage + info.SourceDamage);
+                    if (value <= 0)
                     {
-                        Value = 1;
+                        value = 1;
                     }
 
-                    if (Value > Result)
+                    if (value > result)
                     {
-                        Result = Value;
+                        result = value;
                     }
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:797
     public int GetManaUpkeep()
     {
-        int Result;
-        Enchantment Enchantment;
+        int result;
+        Enchantment enchantment;
         if (GetAbilityEnabled(155))
         {
-            Enchantment = ((UnitEnchantmentAbilityData)this.GetAbilityData(155)).FEnchantment;
-            if (Enchantment != null)
+            enchantment = ((UnitEnchantmentAbilityData)this.GetAbilityData(155)).Enchantment;
+            if (enchantment != null)
             {
-                Result = Enchantment.FUpkeep;
+                result = enchantment.Upkeep;
             }
             else
             {
@@ -1385,92 +1385,92 @@ public partial class Troop : AbilityOwner
         }
         else
         {
-            Result = 0;
+            result = 0;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:831
     public bool GetTransporting()
     {
-        bool Result;
-        sbyte Xhx = default;
-        sbyte Yhx = default;
-        sbyte Lhx = default;
-        MapField MapField;
-        GetLocation(ref Xhx, ref Yhx, ref Lhx);
-        if (Xhx != -1)
+        bool result;
+        sbyte hexX = default;
+        sbyte hexY = default;
+        sbyte hexLevel = default;
+        MapField mapField;
+        GetLocation(ref hexX, ref hexY, ref hexLevel);
+        if (hexX != -1)
         {
-            MapField = AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx);
-            Result = !ValidTerrain(MapField.TerrainType, MapField.OverlayType);
+            mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+            result = !ValidTerrain(mapField.TerrainType, mapField.OverlayType);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:922
-    public void CreateMovePointTable(ref SByteArray16By16 Table)
+    public void CreateMovePointTable(ref SByteArray16By16 table)
     {
-        Set<MoveType> Moves;
-        int Points;
-        sbyte Value;
-        bool Faster;
-        bool Slower;
-        Moves = GetMoveTypes();
-        if (AoWHSMap.Current.FCombat != null)
+        Set<MoveType> moves;
+        int points;
+        sbyte value;
+        bool faster;
+        bool slower;
+        moves = GetMoveTypes();
+        if (AoWHSMap.Current.Combat != null)
         {
-            Moves = Moves - Set<MoveType>.Of(MoveType.Tunneling);
+            moves = moves - Set<MoveType>.Of(MoveType.Tunneling);
         }
 
-        var moveTypesToInt = MovementTables.MoveTypesToInt(Moves);
-        Table = MovementTables.MovePointTables[moveTypesToInt];
-        if (FPlayer > 0)
+        var moveTypesToInt32 = MovementTables.MoveTypesToInt32(moves);
+        table = MovementTables.MovePointTables[moveTypesToInt32];
+        if (Player > 0)
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.EnchantedRoads))
+            if (AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EnchantedRoads))
             {
-                for (int Terrain = 0; Terrain <= 15; Terrain++)
+                for (int terrain = 0; terrain <= 15; terrain++)
                 {
-                    if (Table[Terrain][4 - -1] != -1)
+                    if (table[terrain][4 - -1] != -1)
                     {
-                        Table[Terrain][4 - -1] = 2;
+                        table[terrain][4 - -1] = 2;
                     }
                 }
             }
 
             if (GetAbilityEnabled(23) || GetAbilityEnabled(1) || GetAbilityEnabled(165))
             {
-                Faster = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery);
-                Slower = (((byte)AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 4) != 0;
-                if (Faster && !Slower)
+                faster = AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.AirMastery);
+                slower = (((byte)AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 4) != 0;
+                if (faster && !slower)
                 {
-                    for (int Overlay = -1; Overlay <= 11; Overlay++)
+                    for (int overlay = -1; overlay <= 11; overlay++)
                     {
-                        for (int Terrain = 0; Terrain <= 15; Terrain++)
+                        for (int terrain = 0; terrain <= 15; terrain++)
                         {
-                            Value = Table[Terrain][Overlay - -1];
-                            if (Value > 2)
+                            value = table[terrain][overlay - -1];
+                            if (value > 2)
                             {
-                                Table[Terrain][Overlay - -1] = (sbyte)(int)(((uint)(Value + 1)) >> 1);
+                                table[terrain][overlay - -1] = (sbyte)(int)(((uint)(value + 1)) >> 1);
                             }
                         }
                     }
                 }
                 else
                 {
-                    if (!Faster && Slower)
+                    if (!faster && slower)
                     {
-                        for (int Overlay = -1; Overlay <= 11; Overlay++)
+                        for (int overlay = -1; overlay <= 11; overlay++)
                         {
-                            for (int Terrain = 0; Terrain <= 15; Terrain++)
+                            for (int terrain = 0; terrain <= 15; terrain++)
                             {
-                                if (Table[Terrain][Overlay - -1] >= 1)
+                                if (table[terrain][overlay - -1] >= 1)
                                 {
-                                    Table[Terrain][Overlay - -1] = (sbyte)(Table[Terrain][Overlay - -1] * 2);
+                                    table[terrain][overlay - -1] = (sbyte)(table[terrain][overlay - -1] * 2);
                                 }
                             }
                         }
@@ -1480,36 +1480,36 @@ public partial class Troop : AbilityOwner
 
             if (GetAbilityEnabled(152))
             {
-                for (int Overlay = -1; Overlay <= 11; Overlay++)
+                for (int overlay = -1; overlay <= 11; overlay++)
                 {
-                    for (int Terrain = 0; Terrain <= 15; Terrain++)
+                    for (int terrain = 0; terrain <= 15; terrain++)
                     {
-                        Points = Table[Terrain][Overlay - -1];
-                        if (Points > 2)
+                        points = table[terrain][overlay - -1];
+                        if (points > 2)
                         {
-                            Points -= 1;
+                            points -= 1;
                             // { Original retains this redundant lower bound after Points > 2. }
-                            if (Points < 2)
+                            if (points < 2)
                             {
-                                Points = 2;
+                                points = 2;
                             }
                         }
 
-                        Table[Terrain][Overlay - -1] = (sbyte)Points;
+                        table[terrain][overlay - -1] = (sbyte)points;
                     }
                 }
             }
 
             if (GetAbilityEnabled(132))
             {
-                for (int Overlay = -1; Overlay <= 11; Overlay++)
+                for (int overlay = -1; overlay <= 11; overlay++)
                 {
-                    for (int Terrain = 0; Terrain <= 15; Terrain++)
+                    for (int terrain = 0; terrain <= 15; terrain++)
                     {
-                        Points = Table[Terrain][Overlay - -1];
-                        if (Points > 0)
+                        points = table[terrain][overlay - -1];
+                        if (points > 0)
                         {
-                            Table[Terrain][Overlay - -1] = (sbyte)(Points + 2);
+                            table[terrain][overlay - -1] = (sbyte)(points + 2);
                         }
                     }
                 }
@@ -1518,274 +1518,274 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:993
-    public bool ValidTerrain(sbyte TerrainType, sbyte OverlayType)
+    public bool ValidTerrain(sbyte terrainType, sbyte overlayType)
     {
-        bool Result;
-        sbyte Cost;
+        bool result;
+        sbyte cost;
         // { Original retrieves the movement set twice and retains the first dead store. }
         GetMoveTypes();
-        var moveTypesToInt = MovementTables.MoveTypesToInt(GetMoveTypes());
-        Cost = MovementTables.MovePointTables[moveTypesToInt][TerrainType][OverlayType - -1];
-        if (Cost == -1 || Cost > GetMoves())
+        var moveTypesToInt32 = MovementTables.MoveTypesToInt32(GetMoveTypes());
+        cost = MovementTables.MovePointTables[moveTypesToInt32][terrainType][overlayType - -1];
+        if (cost == -1 || cost > GetMoves())
         {
-            Result = false;
+            result = false;
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1011
-    public void ExecuteTrailOfDarkness(MapField MapField)
+    public void ExecuteTrailOfDarkness(MapField mapField)
     {
-        MapLevel Level;
-        HexNumberWalkData Walk = default;
-        AoWMapField Field;
-        Level = (MapLevel)MapField.Owner;
-        HexNumberWalkData.InitHNWalk(ref Walk, MapField.Xhx, MapField.Yhx, 0);
-        while (Walk.Radius <= 1)
+        MapLevel level;
+        HexNumberWalkData walk = default;
+        AoWMapField field;
+        level = (MapLevel)mapField.Owner;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, mapField.HexX, mapField.HexY, 0);
+        while (walk.Radius <= 1)
         {
-            if (Walk.X >= 0 && Walk.X < Level.Width && Walk.Y >= 0 && Walk.Y < Level.Height)
+            if (walk.X >= 0 && walk.X < level.Width && walk.Y >= 0 && walk.Y < level.Height)
             {
-                Field = (AoWMapField)Level.GetField(Walk.X, Walk.Y);
-                if (Field.TerrainType != (int)TerrainType.Border)
+                field = (AoWMapField)level.GetField(walk.X, walk.Y);
+                if (field.TerrainType != (int)TerrainType.Border)
                 {
-                    for (int Player = 1, last = AoWHSMap.Current.FPlayers.Count - 1; Player <= last; Player++)
+                    for (int player = 1, last = AoWHSMap.Current.Players.Count - 1; player <= last; player++)
                     {
-                        if (Player != FPlayer && AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Player) == DiplomaticRelation.War && Field.GetExplored(Player) && !AoWHSMap.Current.VisibleForPlayer(Walk.X, Walk.Y, MapField.Lhx, (sbyte)Player))
+                        if (player != Player && AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.War && field.GetExplored(player) && !AoWHSMap.Current.VisibleForPlayer(walk.X, walk.Y, mapField.HexLevel, (sbyte)player))
                         {
-                            Field.SetExplored(Player, false);
+                            field.SetExplored(player, false);
                         }
                     }
                 }
             }
 
-            HexNumberWalkData.WalkToNextHN(ref Walk);
+            HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        AoWHSMap.Current.MapChangedRad(MapField.Xhx, MapField.Yhx, MapField.Lhx, 1);
+        AoWHSMap.Current.MapChangedRadius(mapField.HexX, mapField.HexY, mapField.HexLevel, 1);
     }
 
     // Unit.PAS:1038
-    public void PathOfLifeTerrainChange(MapField MapField, ref sbyte TerrainType, ref sbyte OverlayType)
+    public void PathOfLifeTerrainChange(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        if (TerrainType != (int)World.Map.TerrainType.Ice && TerrainType != (int)World.Map.TerrainType.Water && MapField.Lhx == 0)
+        if (terrainType != (int)World.Map.TerrainType.Ice && terrainType != (int)World.Map.TerrainType.Water && mapField.HexLevel == 0)
         {
-            TerrainType = (int)World.Map.TerrainType.Grass;
+            terrainType = (int)World.Map.TerrainType.Grass;
         }
     }
 
     // Unit.PAS:1043
-    public void PathOfDecayTerrainChange(MapField MapField, ref sbyte TerrainType, ref sbyte OverlayType)
+    public void PathOfDecayTerrainChange(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        if (TerrainType != (int)World.Map.TerrainType.Ice && TerrainType != (int)World.Map.TerrainType.Water && MapField.Lhx == 0)
+        if (terrainType != (int)World.Map.TerrainType.Ice && terrainType != (int)World.Map.TerrainType.Water && mapField.HexLevel == 0)
         {
-            TerrainType = (int)World.Map.TerrainType.Wasteland;
+            terrainType = (int)World.Map.TerrainType.Wasteland;
         }
     }
 
     // Unit.PAS:1048
-    public void PathOfFrostTerrainChange(MapField MapField, ref sbyte TerrainType, ref sbyte OverlayType)
+    public void PathOfFrostTerrainChange(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
-        FrozenWaterHexSprite Ice;
-        if (TerrainType == (int)World.Map.TerrainType.Water || TerrainType == (int)World.Map.TerrainType.UndergroundWater)
+        FrozenWaterHexSprite ice;
+        if (terrainType == (int)World.Map.TerrainType.Water || terrainType == (int)World.Map.TerrainType.UndergroundWater)
         {
-            if (TerrainType == (int)World.Map.TerrainType.Water)
+            if (terrainType == (int)World.Map.TerrainType.Water)
             {
-                TerrainType = (int)World.Map.TerrainType.Ice;
+                terrainType = (int)World.Map.TerrainType.Ice;
             }
             else
             {
-                TerrainType = (int)World.Map.TerrainType.UndergroundIce;
+                terrainType = (int)World.Map.TerrainType.UndergroundIce;
             }
         }
         else
         {
-            if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)TerrainType))
+            if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)terrainType))
             {
-                Ice = (FrozenWaterHexSprite)MapField.FindOwnedHS(typeof(FrozenWaterHexSprite));
-                if (Ice != null)
+                ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+                if (ice != null)
                 {
-                    Ice.FDaysRemaining = 2;
-                    Ice.FCasterPlayer = FPlayer;
+                    ice.DaysRemaining = 2;
+                    ice.CasterPlayer = Player;
                 }
             }
             else
             {
-                if (Set<byte>.WithBounds(0, 255).With(1).With(2).With(4).With(5).Contains((byte)TerrainType) && MapField.Lhx == 0)
+                if (Set<byte>.WithBounds(0, 255).With(1).With(2).With(4).With(5).Contains((byte)terrainType) && mapField.HexLevel == 0)
                 {
-                    TerrainType = (int)World.Map.TerrainType.Snow;
+                    terrainType = (int)World.Map.TerrainType.Snow;
                 }
             }
         }
     }
 
     // Unit.PAS:1066
-    public void PathOfFrostTerrainChanged(MapField MapField, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
+    public void PathOfFrostTerrainChanged(MapField mapField, sbyte originalTerrainType, sbyte originalOverlayType)
     {
-        FrozenWaterHexSprite Ice;
-        if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)MapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)OriginalTerrainType))
+        FrozenWaterHexSprite ice;
+        if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)mapField.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)originalTerrainType))
         {
-            Ice = (FrozenWaterHexSprite)MapField.FindOwnedHS(typeof(FrozenWaterHexSprite));
-            if (Ice == null)
+            ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+            if (ice == null)
             {
-                Ice = new FrozenWaterHexSprite(null);
-                AoWHSMap.Current.PlaceHX(Ice, MapField.Xhx, MapField.Yhx, MapField.Lhx);
+                ice = new FrozenWaterHexSprite(null);
+                AoWHSMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 
-            Ice.FDaysRemaining = 2;
-            Ice.FCasterPlayer = FPlayer;
+            ice.DaysRemaining = 2;
+            ice.CasterPlayer = Player;
         }
     }
 
     // Unit.PAS:1082
     public void UpdatePathOfFrost()
     {
-        sbyte Xhx = default;
-        sbyte Yhx = default;
-        sbyte Lhx = default;
-        MapField Field;
-        FrozenWaterHexSprite Ice;
-        GetLocation(ref Xhx, ref Yhx, ref Lhx);
-        if (Xhx > -1)
+        sbyte hexX = default;
+        sbyte hexY = default;
+        sbyte hexLevel = default;
+        MapField field;
+        FrozenWaterHexSprite ice;
+        GetLocation(ref hexX, ref hexY, ref hexLevel);
+        if (hexX > -1)
         {
-            Field = AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx);
-            if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)Field.TerrainType))
+            field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+            if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)field.TerrainType))
             {
-                Ice = (FrozenWaterHexSprite)Field.FindOwnedHS(typeof(FrozenWaterHexSprite));
-                if (Ice != null)
+                ice = (FrozenWaterHexSprite)field.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
+                if (ice != null)
                 {
-                    Ice.FDaysRemaining = 2;
-                    Ice.FCasterPlayer = FPlayer;
+                    ice.DaysRemaining = 2;
+                    ice.CasterPlayer = Player;
                 }
             }
         }
     }
 
     // Unit.PAS:1134
-    public bool ConcealedOnMapF(AoWMapField Field)
+    public bool ConcealedOnMapField(AoWMapField field)
     {
-        bool Result;
-        if (!GetAbilityEnabled(54) && !Field.GetConcealmentActive())
+        bool result;
+        if (!GetAbilityEnabled(54) && !field.GetConcealmentActive())
         {
-            Result = GetAbilityEnabled(139) && Field.Lhx != 0;
-            if (Field.OverlayType != 1 || !(GetAbilityEnabled(145) || GetAbilityEnabled(162)))
+            result = GetAbilityEnabled(139) && field.HexLevel != 0;
+            if (field.OverlayType != 1 || !(GetAbilityEnabled(145) || GetAbilityEnabled(162)))
             {
                 // { Original terrain branches overwrite the underground concealment result. }
-                switch ((short)Field.TerrainType)
+                switch ((short)field.TerrainType)
                 {
                     case 1:
-                        Result = GetAbilityEnabled(140);
+                        result = GetAbilityEnabled(140);
                         break;
                     case 3:
-                        Result = GetAbilityEnabled(141);
+                        result = GetAbilityEnabled(141);
                         break;
                     case 2:
-                        Result = GetAbilityEnabled(142);
+                        result = GetAbilityEnabled(142);
                         break;
                     case 5:
-                        Result = GetAbilityEnabled(143);
+                        result = GetAbilityEnabled(143);
                         break;
                     case 0:
                     case 10:
-                        Result = GetAbilityEnabled(144);
+                        result = GetAbilityEnabled(144);
                         break;
                     case 4:
-                        Result = GetAbilityEnabled(138);
+                        result = GetAbilityEnabled(138);
                         break;
                 }
             }
             else
             {
-                Result = true;
+                result = true;
             }
         }
         else
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1154
-    public int ExecuteStormDamage(StormType Storm, int Distance)
+    public int ExecuteStormDamage(StormType storm, int distance)
     {
-        int Result;
-        sbyte Terrain;
-        sbyte Overlay;
-        Set<MoveType> Moves;
-        sbyte Xhx = default;
-        sbyte Yhx = default;
-        sbyte Lhx = default;
-        MapField Field;
-        bool DoubleDamage;
-        int Attack;
-        Moves = GetMoveTypes();
-        DoubleDamage = GetAbilityEnabled(23);
-        if (!DoubleDamage && Moves.Contains(MoveType.Flying))
+        int result;
+        sbyte terrain;
+        sbyte overlay;
+        Set<MoveType> moves;
+        sbyte hexX = default;
+        sbyte hexY = default;
+        sbyte hexLevel = default;
+        MapField field;
+        bool doubleDamage;
+        int attack;
+        moves = GetMoveTypes();
+        doubleDamage = GetAbilityEnabled(23);
+        if (!doubleDamage && moves.Contains(MoveType.Flying))
         {
-            GetLocation(ref Xhx, ref Yhx, ref Lhx);
-            if (Xhx != -1)
+            GetLocation(ref hexX, ref hexY, ref hexLevel);
+            if (hexX != -1)
             {
-                Field = AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx);
-                Terrain = Field.TerrainType;
-                Overlay = Field.OverlayType;
-                Moves = Moves - Set<MoveType>.Of(MoveType.Flying);
-                var moveTypesToInt = MovementTables.MoveTypesToInt(Moves);
-                DoubleDamage = MovementTables.MovePointTables[moveTypesToInt][Terrain][Overlay - -1] == 0;
+                field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+                terrain = field.TerrainType;
+                overlay = field.OverlayType;
+                moves = moves - Set<MoveType>.Of(MoveType.Flying);
+                var moveTypesToInt32 = MovementTables.MoveTypesToInt32(moves);
+                doubleDamage = MovementTables.MovePointTables[moveTypesToInt32][terrain][overlay - -1] == 0;
             }
         }
 
-        switch (Storm)
+        switch (storm)
         {
             case StormType.Ice:
-                Attack = 7;
-                Result = 5;
+                attack = 7;
+                result = 5;
                 break;
             case StormType.Lightning:
-                Attack = 8;
-                Result = 7;
+                attack = 8;
+                result = 7;
                 break;
             case StormType.Death:
-                Attack = 7;
-                Result = 4;
+                attack = 7;
+                result = 4;
                 break;
             case StormType.Holy:
-                Attack = 7;
-                Result = 5;
+                attack = 7;
+                result = 5;
                 break;
             case StormType.Fire:
-                Attack = 7;
-                Result = 5;
+                attack = 7;
+                result = 5;
                 break;
             case StormType.Pestilence:
-                Attack = 4;
-                Result = 3;
+                attack = 4;
+                result = 3;
                 break;
             default:
-                Attack = 0;
-                Result = 0;
+                attack = 0;
+                result = 0;
                 break;
         }
 
-        if (DoubleDamage)
+        if (doubleDamage)
         {
-            Result = Result * 2;
+            result = result * 2;
         }
 
-        Result = ExecuteDamageRole(Attack, Result, Set<DamageType>.Of(Army.StormDamageType[(int)Storm]));
-        if (Result > GetHitPoints())
+        result = ExecuteDamageRole(attack, result, Set<DamageType>.Of(Army.StormDamageType[(int)storm]));
+        if (result > GetHitPoints())
         {
-            Result = GetHitPoints();
+            result = GetHitPoints();
         }
 
-        if (Result > 0)
+        if (result > 0)
         {
-            switch (Storm)
+            switch (storm)
             {
                 case StormType.Death:
                     ExecuteDamageEffects(Set<DamageType>.Of(DamageType.Death));
@@ -1796,17 +1796,17 @@ public partial class Troop : AbilityOwner
             }
         }
 
-        SetHitPoints((sbyte)(GetHitPoints() - Result));
-        return Result;
+        SetHitPoints((sbyte)(GetHitPoints() - result));
+        return result;
     }
 
     // Unit.PAS:1198
     // { Result is the final damage. }
-    public int MovePointCost(sbyte TerrainType, sbyte OverlayType)
+    public int MovePointCost(sbyte terrainType, sbyte overlayType)
     {
-        SByteArray16By16 Table = default;
-        CreateMovePointTable(ref Table);
-        return Table[TerrainType][OverlayType - -1];
+        SByteArray16By16 table = default;
+        CreateMovePointTable(ref table);
+        return table[terrainType][overlayType - -1];
     }
 
     // Unit.PAS:1238
@@ -1814,7 +1814,7 @@ public partial class Troop : AbilityOwner
     {
         if (GetAbilityEnabled(153))
         {
-            if (((UnitEnchantmentAbilityData)this.GetAbilityData(153)).FEnchantment.FSource == -2)
+            if (((UnitEnchantmentAbilityData)this.GetAbilityData(153)).Enchantment.Source == -2)
             {
                 RemoveAbility(153);
             }
@@ -1828,10 +1828,10 @@ public partial class Troop : AbilityOwner
         {
             if (this.ExpandAbility(153))
             {
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(153)).FEnchantment.SetUpkeep(0);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(153)).FEnchantment.SetSource(-2);
-                var spell = AoWHSSet.Current.FSpellControl.GetSpell(17);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(153)).FEnchantment.FDispelResistance = (sbyte)((UnitSpell)(object)spell).FUnitDispelResistance;
+                ((UnitEnchantmentAbilityData)this.GetAbilityData(153)).Enchantment.SetUpkeep(0);
+                ((UnitEnchantmentAbilityData)this.GetAbilityData(153)).Enchantment.SetSource(-2);
+                var spell = AoWHSSet.Current.SpellControl.GetSpell(17);
+                ((UnitEnchantmentAbilityData)this.GetAbilityData(153)).Enchantment.DispelResistance = (sbyte)((UnitSpell)(object)spell).UnitDispelResistance;
             }
         }
     }
@@ -1841,7 +1841,7 @@ public partial class Troop : AbilityOwner
     {
         if (GetAbilityEnabled(167))
         {
-            if (((UnitEnchantmentAbilityData)this.GetAbilityData(167)).FEnchantment.FSource == -2)
+            if (((UnitEnchantmentAbilityData)this.GetAbilityData(167)).Enchantment.Source == -2)
             {
                 RemoveAbility(167);
             }
@@ -1855,9 +1855,9 @@ public partial class Troop : AbilityOwner
         {
             if (this.ExpandAbility(167))
             {
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(167)).FEnchantment.SetUpkeep(0);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(167)).FEnchantment.SetSource(-2);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(167)).FEnchantment.FDispelResistance = 7;
+                ((UnitEnchantmentAbilityData)this.GetAbilityData(167)).Enchantment.SetUpkeep(0);
+                ((UnitEnchantmentAbilityData)this.GetAbilityData(167)).Enchantment.SetSource(-2);
+                ((UnitEnchantmentAbilityData)this.GetAbilityData(167)).Enchantment.DispelResistance = 7;
             }
         }
     }
@@ -1867,7 +1867,7 @@ public partial class Troop : AbilityOwner
     {
         if (GetAbilityEnabled(158))
         {
-            if (((UnitEnchantmentAbilityData)this.GetAbilityData(158)).FEnchantment.FSource == -2)
+            if (((UnitEnchantmentAbilityData)this.GetAbilityData(158)).Enchantment.Source == -2)
             {
                 RemoveAbility(158);
             }
@@ -1881,10 +1881,10 @@ public partial class Troop : AbilityOwner
         {
             if (this.ExpandAbility(158))
             {
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(158)).FEnchantment.SetUpkeep(0);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(158)).FEnchantment.SetSource(-2);
-                var spell = AoWHSSet.Current.FSpellControl.GetSpell(56);
-                ((UnitEnchantmentAbilityData)this.GetAbilityData(158)).FEnchantment.FDispelResistance = (sbyte)((UnitSpell)(object)spell).FUnitDispelResistance;
+                ((UnitEnchantmentAbilityData)this.GetAbilityData(158)).Enchantment.SetUpkeep(0);
+                ((UnitEnchantmentAbilityData)this.GetAbilityData(158)).Enchantment.SetSource(-2);
+                var spell = AoWHSSet.Current.SpellControl.GetSpell(56);
+                ((UnitEnchantmentAbilityData)this.GetAbilityData(158)).Enchantment.DispelResistance = (sbyte)((UnitSpell)(object)spell).UnitDispelResistance;
             }
         }
     }
@@ -1892,7 +1892,7 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:1305
     public void ExecuteLifeMasteryFearRole()
     {
-        DurationAbilityData Data;
+        DurationAbilityData data;
         bool condition = !GetAbilityEnabled(53);
         if (condition)
         {
@@ -1904,9 +1904,9 @@ public partial class Troop : AbilityOwner
         {
             if (this.ExpandAbility(53))
             {
-                Data = (DurationAbilityData)this.GetAbilityData(53);
-                Data.FSource = 1;
-                Data.FDuration = 0;
+                data = (DurationAbilityData)this.GetAbilityData(53);
+                data.Source = 1;
+                data.Duration = 0;
             }
         }
     }
@@ -1914,16 +1914,16 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:1319
     public void ValidateLifeMastery()
     {
-        sbyte Player;
-        Player = FPlayer;
-        if (Player > 0)
+        sbyte player;
+        player = Player;
+        if (player > 0)
         {
-            if (!AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
+            if (!AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.LifeMastery))
             {
                 ResetLifeMasteryBlessing();
             }
 
-            if ((((byte)AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 16) == 0)
+            if ((((byte)AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 16) == 0)
             {
                 ResetLifeMasteryFear();
             }
@@ -1933,7 +1933,7 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:1332
     public void ExecuteDeathMasteryCurseRole()
     {
-        DurationAbilityData Data;
+        DurationAbilityData data;
         bool condition = !GetAbilityEnabled(93);
         if (condition)
         {
@@ -1945,8 +1945,8 @@ public partial class Troop : AbilityOwner
         {
             if (this.ExpandAbility(93))
             {
-                Data = (DurationAbilityData)this.GetAbilityData(93);
-                Data.FSource = 1;
+                data = (DurationAbilityData)this.GetAbilityData(93);
+                data.Source = 1;
             }
         }
     }
@@ -1954,15 +1954,15 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:1344
     public void ValidateDeathMastery()
     {
-        sbyte Player;
-        Player = FPlayer;
-        if (Player > 0)
+        sbyte player;
+        player = Player;
+        if (player > 0)
         {
-            if ((((byte)AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FEnemyEnchantments.Image) & 32) == 0)
+            if ((((byte)AoWHSMap.Current.Players.GetPlayers(player).MagicControl.EnemyEnchantments.Image) & 32) == 0)
             {
                 if (GetAbilityEnabled(93))
                 {
-                    if (((DurationAbilityData)this.GetAbilityData(93)).FSource == 1)
+                    if (((DurationAbilityData)this.GetAbilityData(93)).Source == 1)
                     {
                         RemoveAbility(93);
                     }
@@ -1974,28 +1974,28 @@ public partial class Troop : AbilityOwner
     // Unit.PAS:1391
     public int VisibilityRange()
     {
-        int Result;
-        int Level;
-        sbyte Xhx = default;
-        sbyte Yhx = default;
-        sbyte Lhx = default;
-        Level = GetAbilityLevel(64);
-        if (Level != 0)
+        int result;
+        int level;
+        sbyte hexX = default;
+        sbyte hexY = default;
+        sbyte hexLevel = default;
+        level = GetAbilityLevel(64);
+        if (level != 0)
         {
-            Result = Level * 2 + 4;
+            result = level * 2 + 4;
         }
         else
         {
-            Result = 4;
+            result = 4;
         }
 
-        GetLocation(ref Xhx, ref Yhx, ref Lhx);
-        if (Lhx != 0 && !GetAbilityEnabled(39) || Lhx == 0 && FPlayer > 0 && (((byte)AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
+        GetLocation(ref hexX, ref hexY, ref hexLevel);
+        if (hexLevel != 0 && !GetAbilityEnabled(39) || hexLevel == 0 && Player > 0 && (((byte)AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
         {
-            Result = (int)(((uint)(Result + 1)) >> 1);
+            result = (int)(((uint)(result + 1)) >> 1);
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1404
@@ -2010,106 +2010,106 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:1428
-    public bool CanPlace(int X, int Y, int L, sbyte Player, Set<UnitPlaceModeElement> Mode)
+    public bool CanPlace(int X, int Y, int L, sbyte player, Set<UnitPlaceModeElement> mode)
     {
-        bool Result;
-        AoWMapField Field;
-        ArmyHexSprite ArmyHS;
-        sbyte FieldPlayer;
+        bool result;
+        AoWMapField field;
+        ArmyHexSprite armyHexSprite;
+        sbyte fieldPlayer;
         if (X >= 0 && Y >= 0 && X < AoWHSMap.Current.MapContainer.Width && Y < AoWHSMap.Current.MapContainer.Height)
         {
-            Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L);
-            FieldPlayer = Field.GetPlayer();
-            if (Mode.Contains(UnitPlaceModeElement.NeglectEmptyPlayerLocation) || FieldPlayer == Player || FieldPlayer == -1 || Player == -1)
+            field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+            fieldPlayer = field.GetPlayer();
+            if (mode.Contains(UnitPlaceModeElement.NeglectEmptyPlayerLocation) || fieldPlayer == player || fieldPlayer == -1 || player == -1)
             {
-                ArmyHS = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
-                if (ArmyHS != null)
+                armyHexSprite = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
+                if (armyHexSprite != null)
                 {
-                    if (Mode.Contains(UnitPlaceModeElement.CreateNewArmy) || (Player != -1 && ArmyHS.FArmy.FPlayer != Player) || !ArmyHS.FArmy.CanAddUnit(this))
+                    if (mode.Contains(UnitPlaceModeElement.CreateNewArmy) || (player != -1 && armyHexSprite.Army.Player != player) || !armyHexSprite.Army.CanAddUnit(this))
                     {
-                        Result = false;
+                        result = false;
                     }
                     else
                     {
-                        Result = true;
+                        result = true;
                     }
                 }
                 else
                 {
-                    Result = ValidTerrain(Field.TerrainType, Field.OverlayType);
+                    result = ValidTerrain(field.TerrainType, field.OverlayType);
                 }
             }
             else
             {
-                Result = false;
+                result = false;
             }
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1454
-    public ArmyHexSprite Place(int X, int Y, int L, sbyte Player, Set<UnitPlaceModeElement> Mode)
+    public ArmyHexSprite Place(int X, int Y, int L, sbyte player, Set<UnitPlaceModeElement> mode)
     {
-        HexNumberWalkData Walk = default;
-        ArmyHexSprite ArmyHS;
-        ArmyHexSprite Result = null;
-        HexNumberWalkData.InitHNWalk(ref Walk, X, Y, 0);
-        while (Result == null && (Walk.Radius == 0 || Mode.Contains(UnitPlaceModeElement.ScanArea)) && Walk.Radius < 30)
+        HexNumberWalkData walk = default;
+        ArmyHexSprite armyHexSprite;
+        ArmyHexSprite result = null;
+        HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
+        while (result == null && (walk.Radius == 0 || mode.Contains(UnitPlaceModeElement.ScanArea)) && walk.Radius < 30)
         {
-            if (CanPlace(Walk.X, Walk.Y, L, Player, Mode))
+            if (CanPlace(walk.X, walk.Y, L, player, mode))
             {
-                ArmyHS = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(Walk.X, Walk.Y, L).FindOwnedChild(131607);
-                if (ArmyHS == null)
+                armyHexSprite = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(walk.X, walk.Y, L).FindOwnedChild(131607);
+                if (armyHexSprite == null)
                 {
-                    ArmyHS = new ArmyHexSprite(null);
-                    if (Player != -1)
+                    armyHexSprite = new ArmyHexSprite(null);
+                    if (player != -1)
                     {
-                        ArmyHS.FArmy.SetPlayer(Player);
+                        armyHexSprite.Army.SetPlayer(player);
                     }
 
-                    if (!ArmyHS.FArmy.AddUnit(this) || !AoWHSMap.Current.PlaceHX(ArmyHS, Walk.X, Walk.Y, L))
+                    if (!armyHexSprite.Army.AddUnit(this) || !AoWHSMap.Current.PlaceHex(armyHexSprite, walk.X, walk.Y, L))
                     {
-                        ArmyHS?.Dispose();
-                        ArmyHS = null;
+                        armyHexSprite?.Dispose();
+                        armyHexSprite = null;
                     }
 
-                    Result = ArmyHS;
+                    result = armyHexSprite;
                 }
                 else
                 {
-                    if (ArmyHS.FArmy.AddUnit(this))
+                    if (armyHexSprite.Army.AddUnit(this))
                     {
-                        Result = ArmyHS;
+                        result = armyHexSprite;
                     }
                     else
                     {
-                        Result = null;
+                        result = null;
                     }
                 }
             }
 
-            if (Result == null)
+            if (result == null)
             {
-                HexNumberWalkData.WalkToNextHN(ref Walk);
+                HexNumberWalkData.WalkToNextHexNumber(ref walk);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1486
     public void ValidateCrusader()
     {
-        DurationAbilityData Data;
-        Data = (DurationAbilityData)GetAbilityData(101);
-        if (Data != null)
+        DurationAbilityData data;
+        data = (DurationAbilityData)GetAbilityData(101);
+        if (data != null)
         {
-            if (Data.FDuration <= 0)
+            if (data.Duration <= 0)
             {
                 Killed();
             }
@@ -2117,287 +2117,287 @@ public partial class Troop : AbilityOwner
     }
 
     // Unit.PAS:1504
-    public void Show(int X, int Y, in LockedSurface SD)
+    public void Show(int X, int Y, in LockedSurface lockedSurface)
     {
-        UnitShowInfo Info = default;
-        Info.Direction = 3;
-        Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-        Info.Animation = UnitAnimation.StandStill;
-        Info.Frame = 0;
-        Info.Looped = false;
-        ShowEx(X, Y, SD, Info);
+        UnitShowInfo info = default;
+        info.Direction = 3;
+        info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+        info.Animation = UnitAnimation.StandStill;
+        info.Frame = 0;
+        info.Looped = false;
+        Show(X, Y, lockedSurface, info);
     }
 
     // Unit.PAS:1610
-    public void ShowFace(in Rect R, in LockedSurface SD)
+    public void ShowFace(in Rect R, in LockedSurface lockedSurface)
     {
-        LibraryImage Image;
-        Image = GetFace();
-        if (Image != null)
+        LibraryImage image;
+        image = GetFace();
+        if (image != null)
         {
-            Image.ShowStretched(R, SD);
+            image.ShowStretched(R, lockedSurface);
         }
 
         if (GetAbilityEnabled(129))
         {
             if (AoWHSMap.Current != null)
             {
-                if (AoWHSSet.Current.FGeneralImages[45] != null)
+                if (AoWHSSet.Current.GeneralImages[45] != null)
                 {
-                    AoWHSSet.Current.FGeneralImages[45].ShowStretched(R, SD);
+                    AoWHSSet.Current.GeneralImages[45].ShowStretched(R, lockedSurface);
                 }
             }
         }
     }
 
     // Unit.PAS:1623
-    public int ExecuteDamageRole(int Attack, int Damage, Set<DamageType> DamageTypes)
+    public int ExecuteDamageRole(int attack, int damage, Set<DamageType> damageTypes)
     {
-        Set<DamageType> Active;
-        int DC;
-        int Result = 0;
-        Active = DamageTypes - GetImmunityTypes();
-        if (Active != Set<DamageType>.Of())
+        Set<DamageType> active;
+        int displayController;
+        int result = 0;
+        active = damageTypes - GetImmunityTypes();
+        if (active != Set<DamageType>.Of())
         {
-            DC = Attack - GetDefense();
-            Result = AbilityRules.ExecuteDamageRole(Damage, DC);
-            if (Active - GetProtectionTypes() == Set<DamageType>.Of())
+            displayController = attack - GetDefense();
+            result = AbilityRules.ExecuteDamageRole(damage, displayController);
+            if (active - GetProtectionTypes() == Set<DamageType>.Of())
             {
-                Result = (Result + 1) / 2;
+                result = (result + 1) / 2;
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1635
-    public bool ExecuteResistanceRole(int Attack, DamageType DamageType)
+    public bool ExecuteResistanceRole(int attack, DamageType damageType)
     {
-        bool Result;
-        if (!GetImmunityTypes().Contains(DamageType))
+        bool result;
+        if (!GetImmunityTypes().Contains(damageType))
         {
-            if (GetProtectionTypes().Contains(DamageType))
+            if (GetProtectionTypes().Contains(damageType))
             {
-                Attack -= 2;
+                attack -= 2;
             }
 
-            Result = HitChance.HitRole(Attack - GetResistance());
+            result = HitChance.HitRole(attack - GetResistance());
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1644
-    public Set<DamageType> ExecuteDamageEffectsRole(Set<DamageType> DamageTypes)
+    public Set<DamageType> ExecuteDamageEffectsRole(Set<DamageType> damageTypes)
     {
-        Set<DamageType> Active;
-        Set<DamageType> Protection;
-        int Resistance;
-        int EffectiveResistance;
-        Set<DamageType> Result = Set<DamageType>.Of();
-        Active = DamageTypes - GetImmunityTypes();
-        if (Active != Set<DamageType>.Of())
+        Set<DamageType> active;
+        Set<DamageType> protection;
+        int resistance;
+        int effectiveResistance;
+        Set<DamageType> result = Set<DamageType>.Of();
+        active = damageTypes - GetImmunityTypes();
+        if (active != Set<DamageType>.Of())
         {
-            Resistance = GetResistance();
-            Protection = GetProtectionTypes();
-            if (Active.Contains(DamageType.Fire) && !GetAbilityEnabled(7))
+            resistance = GetResistance();
+            protection = GetProtectionTypes();
+            if (active.Contains(DamageType.Fire) && !GetAbilityEnabled(7))
             {
-                if (Protection.Contains(DamageType.Fire))
+                if (protection.Contains(DamageType.Fire))
                 {
-                    EffectiveResistance = Resistance + 2;
+                    effectiveResistance = resistance + 2;
                 }
                 else
                 {
-                    EffectiveResistance = GetResistance();
+                    effectiveResistance = GetResistance();
                 }
 
-                if (HitChance.HitRole(4 - EffectiveResistance))
+                if (HitChance.HitRole(4 - effectiveResistance))
                 {
-                    Result = Result + Set<DamageType>.Of(DamageType.Fire);
+                    result = result + Set<DamageType>.Of(DamageType.Fire);
                 }
             }
 
-            if (Active.Contains(DamageType.Lightning) && GetUnitType() != UnitType.Machine && !GetAbilityEnabled(9))
+            if (active.Contains(DamageType.Lightning) && GetUnitType() != UnitType.Machine && !GetAbilityEnabled(9))
             {
-                if (Protection.Contains(DamageType.Lightning))
+                if (protection.Contains(DamageType.Lightning))
                 {
-                    EffectiveResistance = Resistance + 2;
+                    effectiveResistance = resistance + 2;
                 }
                 else
                 {
-                    EffectiveResistance = GetResistance();
+                    effectiveResistance = GetResistance();
                 }
 
-                if (HitChance.HitRole(6 - EffectiveResistance))
+                if (HitChance.HitRole(6 - effectiveResistance))
                 {
-                    Result = Result + Set<DamageType>.Of(DamageType.Lightning);
+                    result = result + Set<DamageType>.Of(DamageType.Lightning);
                 }
             }
 
-            if (Active.Contains(DamageType.Poison) && !GetAbilityEnabled(10))
+            if (active.Contains(DamageType.Poison) && !GetAbilityEnabled(10))
             {
-                if (Protection.Contains(DamageType.Poison))
+                if (protection.Contains(DamageType.Poison))
                 {
-                    EffectiveResistance = Resistance + 2;
+                    effectiveResistance = resistance + 2;
                 }
                 else
                 {
-                    EffectiveResistance = GetResistance();
+                    effectiveResistance = GetResistance();
                 }
 
-                if (HitChance.HitRole(3 - EffectiveResistance))
+                if (HitChance.HitRole(3 - effectiveResistance))
                 {
-                    Result = Result + Set<DamageType>.Of(DamageType.Poison);
+                    result = result + Set<DamageType>.Of(DamageType.Poison);
                 }
             }
 
-            if (Active.Contains(DamageType.Death) && !GetAbilityEnabled(11))
+            if (active.Contains(DamageType.Death) && !GetAbilityEnabled(11))
             {
-                if (Protection.Contains(DamageType.Death))
+                if (protection.Contains(DamageType.Death))
                 {
-                    EffectiveResistance = Resistance + 2;
+                    effectiveResistance = resistance + 2;
                 }
                 else
                 {
-                    EffectiveResistance = GetResistance();
+                    effectiveResistance = GetResistance();
                 }
 
-                if (HitChance.HitRole(4 - EffectiveResistance))
+                if (HitChance.HitRole(4 - effectiveResistance))
                 {
-                    Result = Result + Set<DamageType>.Of(DamageType.Death);
+                    result = result + Set<DamageType>.Of(DamageType.Death);
                 }
             }
 
-            if (Active.Contains(DamageType.Holy) && !GetAbilityEnabled(12))
+            if (active.Contains(DamageType.Holy) && !GetAbilityEnabled(12))
             {
-                if (Protection.Contains(DamageType.Holy))
+                if (protection.Contains(DamageType.Holy))
                 {
-                    EffectiveResistance = Resistance + 2;
+                    effectiveResistance = resistance + 2;
                 }
                 else
                 {
-                    EffectiveResistance = GetResistance();
+                    effectiveResistance = GetResistance();
                 }
 
-                if (HitChance.HitRole(3 - EffectiveResistance) && GetUnitType() != UnitType.Machine)
+                if (HitChance.HitRole(3 - effectiveResistance) && GetUnitType() != UnitType.Machine)
                 {
-                    Result = Result + Set<DamageType>.Of(DamageType.Holy);
+                    result = result + Set<DamageType>.Of(DamageType.Holy);
                 }
             }
 
-            if (Active.Contains(DamageType.Cold) && !GetAbilityEnabled(8))
+            if (active.Contains(DamageType.Cold) && !GetAbilityEnabled(8))
             {
-                if (Protection.Contains(DamageType.Cold))
+                if (protection.Contains(DamageType.Cold))
                 {
-                    EffectiveResistance = Resistance + 2;
+                    effectiveResistance = resistance + 2;
                 }
                 else
                 {
-                    EffectiveResistance = GetResistance();
+                    effectiveResistance = GetResistance();
                 }
 
-                if (HitChance.HitRole(2 - EffectiveResistance))
+                if (HitChance.HitRole(2 - effectiveResistance))
                 {
-                    Result = Result + Set<DamageType>.Of(DamageType.Cold);
+                    result = result + Set<DamageType>.Of(DamageType.Cold);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1699
-    public Set<DamageType> ExecuteDamageEffects(Set<DamageType> DamageTypes)
+    public Set<DamageType> ExecuteDamageEffects(Set<DamageType> damageTypes)
     {
-        Set<DamageType> Active;
-        Set<DamageType> Result = Set<DamageType>.Of();
-        Active = DamageTypes - GetImmunityTypes();
+        Set<DamageType> active;
+        Set<DamageType> result = Set<DamageType>.Of();
+        active = damageTypes - GetImmunityTypes();
         // { Preserve EBX allocation and byte membership tests. }
-        if (Active != Set<DamageType>.Of())
+        if (active != Set<DamageType>.Of())
         {
-            if (Active.Contains(DamageType.Poison) && this.ExpandAbility(96))
+            if (active.Contains(DamageType.Poison) && this.ExpandAbility(96))
             {
-                Result = Result + Set<DamageType>.Of(DamageType.Poison);
+                result = result + Set<DamageType>.Of(DamageType.Poison);
             }
 
-            if (Active.Contains(DamageType.Death) && this.ExpandAbility(93))
+            if (active.Contains(DamageType.Death) && this.ExpandAbility(93))
             {
-                Result = Result + Set<DamageType>.Of(DamageType.Death);
+                result = result + Set<DamageType>.Of(DamageType.Death);
             }
 
-            if (Active.Contains(DamageType.Holy) && this.ExpandAbility(98))
+            if (active.Contains(DamageType.Holy) && this.ExpandAbility(98))
             {
-                Result = Result + Set<DamageType>.Of(DamageType.Holy);
+                result = result + Set<DamageType>.Of(DamageType.Holy);
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1747
-    public DamageType OptimalDamageType(Set<DamageType> DamageTypes)
+    public DamageType OptimalDamageType(Set<DamageType> damageTypes)
     {
-        Set<DamageType> Active;
-        Set<DamageType> Protection;
-        DamageType Result = DamageType.None;
-        Active = DamageTypes - GetImmunityTypes();
-        if (Active != Set<DamageType>.Of())
+        Set<DamageType> active;
+        Set<DamageType> protection;
+        DamageType result = DamageType.None;
+        active = damageTypes - GetImmunityTypes();
+        if (active != Set<DamageType>.Of())
         {
-            Protection = GetProtectionTypes();
-            if (Protection == Set<DamageType>.Of() || Active - Protection == Set<DamageType>.Of())
+            protection = GetProtectionTypes();
+            if (protection == Set<DamageType>.Of() || active - protection == Set<DamageType>.Of())
             {
-                while (!Active.Contains(Result))
+                while (!active.Contains(result))
                 {
-                    Result = (DamageType)((int)Result - 1);
+                    result = (DamageType)((int)result - 1);
                 }
             }
             else
             {
-                while (!Active.Contains(Result) || Protection.Contains(Result))
+                while (!active.Contains(result) || protection.Contains(result))
                 {
-                    Result = (DamageType)((int)Result - 1);
+                    result = (DamageType)((int)result - 1);
                 }
             }
         }
 
-        return Result;
+        return result;
     }
 
     // Unit.PAS:1899
     public bool Disband()
     {
-        bool Result;
-        string Reason = "";
-        DisbandUnitTokenEvent Event;
-        if (CanDisband(ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        bool result;
+        string reason = "";
+        DisbandUnitTokenEvent eventValue;
+        if (CanDisband(ref reason) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
         {
-            Event = new DisbandUnitTokenEvent(null);
-            Event.FUnitID = FUnitID;
-            Event.FPlayer = FPlayer;
-            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(Event);
-            Event.Release();
-            Result = true;
+            eventValue = new DisbandUnitTokenEvent(null);
+            eventValue.UnitId = UnitId;
+            eventValue.Player = Player;
+            AoWHSMap.Current.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
+            eventValue.Release();
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // The producer ExecuteLifeMasteryFearRole writes the source marker on duration data.
     public void ResetLifeMasteryFear()
     {
-        if (GetAbilityEnabled(53) && ((DurationAbilityData)GetAbilityData(53)).FSource == 1)
+        if (GetAbilityEnabled(53) && ((DurationAbilityData)GetAbilityData(53)).Source == 1)
             RemoveAbility(53);
     }
 
-    public virtual bool GetAbilitySet(int index) => (uint)index < (uint)FAbilityCount && (FAbilityBits[index >> 3] & (1 << (index & 7))) != 0;
+    public virtual bool GetAbilitySet(int index) => (uint)index < (uint)AbilityCount && (AbilityBits[index >> 3] & (1 << (index & 7))) != 0;
 
     public override bool RemoveAbility(int ability)
     {
@@ -2416,10 +2416,10 @@ public partial class Troop : AbilityOwner
         {
             if (!GetAbilitySet(i)) continue;
             var owner = GetAbilityOwner(i);
-            var ability = AoWHSSet.Current.FAbilityControl.GetAbility(i);
+            var ability = AoWHSSet.Current.AbilityControl.GetAbility(i);
             var name = ability.GetName(owner);
             if (!IsEmpty(name)) names.AddObject(name, IntToObject(i));
-            types?.AddObject(AbilityRules.TranslateRStr(GameTables.TAbilityTypeRStr[(int)ability.GetAbilityType()]), IntToObject(i));
+            types?.AddObject(AbilityRules.TranslateResourceString(GameTables.s_abilityTypeTexts[(int)ability.GetAbilityType()]), IntToObject(i));
             var source = ability.GetSourceName(owner);
             sources?.AddObject(source, IntToObject(i));
         }
@@ -2439,14 +2439,14 @@ public partial class Troop : AbilityOwner
         if (active.Contains(DamageType.Cold) && ExpandAbility(95))
         {
             var data = (UnitEnchantmentAbilityData)GetAbilityData(95);
-            if (data != null) data.FEnchantmentPlayerIndex = (sbyte)combat.FCombatData.FCurrentPlayer;
+            if (data != null) data.EnchantmentPlayerIndex = (sbyte)combat.CombatData.CurrentPlayer;
             RemoveAbility(127);
             result += Set<DamageType>.Of(DamageType.Cold);
         }
         if (active.Contains(DamageType.Lightning) && ExpandAbility(92))
         {
             var data = (DurationAbilityData)GetAbilityData(92);
-            if (data != null) data.FPlayerIndex = combat.FCombatData.FCurrentPlayer;
+            if (data != null) data.PlayerIndex = combat.CombatData.CurrentPlayer;
             result += Set<DamageType>.Of(DamageType.Lightning);
         }
         if (active.Contains(DamageType.Poison) && ExpandAbility(96))
@@ -2460,13 +2460,13 @@ public partial class Troop : AbilityOwner
 
     public void UpdateOffensiveStrength()
     {
-        var abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
-        FMaxOffensiveStrength = 0;
-        FOffensiveStrength = default;
+        var abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+        MaxOffensiveStrength = 0;
+        OffensiveStrength = default;
         for (int i = abilities.Count - 1; i >= 0; i--)
         {
             var ability = abilities.GetAbility(i);
-            if (!GetAbilityEnabled(ability.FAbilityID)) continue;
+            if (!GetAbilityEnabled(ability.AbilityId)) continue;
             int strength = 0;
             Set<DamageType> types = default;
             ability.GetOffensiveStrength(this, ref strength, ref types);
@@ -2474,22 +2474,22 @@ public partial class Troop : AbilityOwner
             if (types == default)
                 Assert(false, $"Ability: {ability.GetName(null)}", @"D:\AoWDev\AoWE\inc\Unit.PAS", 0xE2B4);
             if (types == default) continue;
-            if (FMaxOffensiveStrength < strength) FMaxOffensiveStrength = (byte)strength;
+            if (MaxOffensiveStrength < strength) MaxOffensiveStrength = (byte)strength;
             for (int kind = (int)DamageType.Fire; kind <= (int)DamageType.None; kind++)
-                if (types.Contains((DamageType)kind) && FOffensiveStrength[kind] < strength)
-                    FOffensiveStrength[kind] = (byte)strength;
+                if (types.Contains((DamageType)kind) && OffensiveStrength[kind] < strength)
+                    OffensiveStrength[kind] = (byte)strength;
         }
     }
 
-    internal static int P4UnitStrikeDV(Troop Source, Troop Target)
+    internal static int UnitStrikeDamageValue(Troop source, Troop target)
     {
-        ((StrikeAbility)AoWHSSet.Current.FAbilityControl.GetAbility(21)).FMeleeRound.CalculateFreeUnitSwing(Source, Target);
-        return ((StrikeAbility)AoWHSSet.Current.FAbilityControl.GetAbility(21)).FMeleeRound.GetAttackerDV();
+        ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).MeleeRound.CalculateFreeUnitSwing(source, target);
+        return ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).MeleeRound.GetAttackerDamageValue();
     }
 
     public enum Morale : byte
     {
-        Terrible = 0, Poor = 1, OK = 2, Good = 3, High = 4
+        Terrible = 0, Poor = 1, Ok = 2, Good = 3, High = 4
     }
 
 }

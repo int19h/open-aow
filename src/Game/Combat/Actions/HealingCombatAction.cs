@@ -11,53 +11,53 @@ namespace Aow.Game.Combat.Actions;
 
 public partial class HealingCombatAction : SingleTargetCombatAction
 {
-    public new const int ClassID = 131773;
+    public new const int ClassId = 131773;
 
     public HealingCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:3579
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatUnit Source;
-        CombatUnit Target;
-        Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
-        Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
-        ((HealingAbility)AoWHSSet.Current.FAbilityControl.GetAbility(47)).SetEnabled(Source.FUnit, false);
-        ((HealingAbility)AoWHSSet.Current.FAbilityControl.GetAbility(47)).HealUnit(Target.FUnit);
+        CombatUnit source;
+        CombatUnit target;
+        source = (CombatUnit)combat.CombatData.FindId(SourceId);
+        target = (CombatUnit)combat.CombatData.FindId(TargetId);
+        ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(47)).SetEnabled(source.Troop, false);
+        ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(47)).HealUnit(target.Troop);
     }
 
     // AoWAb.PAS:3595
-    public override bool Play(CombatViewer Viewer)
+    public override bool Play(CombatViewer viewer)
     {
-        if (Viewer.FTime == 0)
+        if (viewer.Time == 0)
         {
-            AoWHSSet.Current.FAbilityControl.GetAbility(47).FSFXLibrary.Play(0);
+            AoWHSSet.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
         }
 
-        if (Viewer.FDelay == Viewer.FTime)
+        if (viewer.Delay == viewer.Time)
         {
-            Execute(Viewer.FCombat);
+            Execute(viewer.Combat);
         }
 
-        return Viewer.FDelay * 2 > Viewer.FTime;
+        return viewer.Delay * 2 > viewer.Time;
     }
 
     // AoWAb.PAS:3588
-    public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in LockedSurface Surface)
+    public override void ShowObject(CombatViewer viewer, CombatObject objectValue, int frame, int direction, int X, int Y, in LockedSurface surface)
     {
-        base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
-        if (Obj.FID == FTargetID)
+        base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
+        if (objectValue.Id == TargetId)
         {
-            AoWHSSet.Current.FAbilityControl.GetAbility(47).FImageSequences.Show(0, X + 32, Y + 32, Viewer.FTime, Surface);
+            AoWHSSet.Current.AbilityControl.GetAbility(47).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 
     // AoWAb.PAS:3574
-    public void Initialize(byte SourceID, byte TargetID)
+    public void Initialize(byte sourceId, byte targetId)
     {
-        FSourceID = SourceID;
-        FTargetID = TargetID;
+        SourceId = sourceId;
+        TargetId = targetId;
     }
 
     // intf_P3_02.inc:38

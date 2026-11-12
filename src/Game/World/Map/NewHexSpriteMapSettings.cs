@@ -11,22 +11,22 @@ public partial class NewHexSpriteMapSettings
         Width = 64;
         Height = 64;
         Levels = 1;
-        HSSFileName = "";
+        HssFileName = "";
         // { THSMap.ClassID }
-        HSMapClassID = 66048;
+        HexSpriteMapClassId = 66048;
         // { TMapContainer.ClassID }
-        MapContainerClassID = 65795;
+        MapContainerClassId = 65795;
         // { TMapLevel.ClassID }
-        MapLevelClassID = 65794;
+        MapLevelClassId = 65794;
     }
 
     public int Width;
     public int Height;
     public int Levels;
-    public string HSSFileName = "";
-    public int HSMapClassID;
-    public int MapContainerClassID;
-    public int MapLevelClassID;
+    public string HssFileName = "";
+    public int HexSpriteMapClassId;
+    public int MapContainerClassId;
+    public int MapLevelClassId;
     // HSEngine.pas:2802
 
 }

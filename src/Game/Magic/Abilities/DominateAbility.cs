@@ -10,14 +10,14 @@ public partial class DominateAbility : CommandAbility
     // AoWAb.PAS:5321
     public DominateAbility(ECustomNode owner) : base(owner)
     {
-        FAbilityID = 28;
-        FAbilityName = AbilityRules.TranslateRStr(DominateRStr);
-        FCommandedAbilityID = 150;
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
+        AbilityId = 28;
+        AbilityName = AbilityRules.TranslateResourceString(s_dominateText);
+        CommandedAbilityId = 150;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
     }
 
     // AoWAb.PAS:5329
-    public override sbyte GetTouchAttack(int Level) => 6;
+    public override sbyte GetTouchAttack(int level) => 6;
 
-    private static readonly string DominateRStr = "Dominate";
+    private static readonly string s_dominateText = "Dominate";
 }

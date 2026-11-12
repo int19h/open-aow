@@ -11,6 +11,6 @@ internal static class DisplayCodes
 
     internal const int DCERR_NOFLIP = -2147414007;
 
-    internal const short WM_DISPLAYC = 27135;
+    internal const short DisplayMessage = 27135;
 
 }

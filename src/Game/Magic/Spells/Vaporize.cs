@@ -15,10 +15,10 @@ public partial class Vaporize : CombatSpell
     // CombatSpells.pas:1570
     public Vaporize(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(VaporizeRStr);
-        FSpellID = 121;
-        FDamageMode = 1;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_vaporizeText);
+        SpellId = 121;
+        DamageMode = 1;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 7;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
@@ -26,5 +26,5 @@ public partial class Vaporize : CombatSpell
         spellCombatInfo.Range = 12;
     }
 
-    private static readonly string VaporizeRStr = "Vaporize";
+    private static readonly string s_vaporizeText = "Vaporize";
 }

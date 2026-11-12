@@ -6,7 +6,7 @@ namespace Aow.Game.World.Map;
 [InlineArray(8)]
 public struct XYTableEntryArray8
 {
-    private XYTableEntry element0;
+    private XYTableEntry _element0;
 
     public static XYTableEntryArray8 From(ReadOnlySpan<XYTableEntry> values)
     {

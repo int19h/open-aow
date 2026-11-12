@@ -16,121 +16,121 @@ public sealed partial record OfferPeace(int Gold = 0, int Mana = 0) : OfferPropo
 
     public override int Icon => 8;
 
-    public override string Name(DiplomaticAction Action) => AbilityRules.TranslateRStr(P5OfferPeaceRStr);
+    public override string Name(DiplomaticAction action) => AbilityRules.TranslateResourceString(s_offerPeaceText);
 
-    public override string LogText(DiplomaticAction Action)
+    public override string LogText(DiplomaticAction action)
     {
-        var subject = AbilityRules.TranslateRStr(P5PeaceOfferRStr);
-        var accepted = Action.FSource == AoWHSMap.Current.FSeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateRStr(GameTables.P5PeaceRStr);
-        return Outcome(Action, subject, subject, accepted, "");
+        var subject = AbilityRules.TranslateResourceString(s_peaceOfferText);
+        var accepted = action.Source == AoWHSMap.Current.SeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateResourceString(GameTables.s_peaceText);
+        return Outcome(action, subject, subject, accepted, "");
     }
 
     public override string LoggedSample => "SFX\\EVENTS\\MESSAGE2.WAV";
 
-    public override void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation) =>
-        Text.Exchange(Reaction, Relation == DiplomaticRelation.Unknown ? 103 : 154, 127, 130);
+    public override void DefaultMessage(DiplomaticMessageText text, DiplomaticActionReaction reaction, DiplomaticRelation relation) =>
+        text.Exchange(reaction, relation == DiplomaticRelation.Unknown ? 103 : 154, 127, 130);
 
-    public override void Sent(DiplomaticAction Action) => Deliver(Action);
+    public override void Sent(DiplomaticAction action) => Deliver(action);
 
-    public override bool LapsesUnanswered(DiplomaticAction Action) =>
-        Relation(Action.FSource, Action.FTarget) != DiplomaticRelation.Peace;
+    public override bool LapsesUnanswered(DiplomaticAction action) =>
+        Relation(action.Source, action.Target) != DiplomaticRelation.Peace;
 
-    public override void Accepted(DiplomaticAction Action)
+    public override void Accepted(DiplomaticAction action)
     {
-        AoWHSMap.Current.FPlayers.SetDiplomaticRelation((sbyte)(byte)Action.FSource, (sbyte)(byte)Action.FTarget, DiplomaticRelation.Peace);
-        Broadcast(Action, -1, Action.FSource);
-        RemoveTargetLog(Action);
+        AoWHSMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Peace);
+        Broadcast(action, -1, action.Source);
+        RemoveTargetLog(action);
     }
 
-    public override DiplomaticActionReaction RejectReaction(DiplomaticAction Action) =>
-        Relation(Action.FSource, Action.FTarget) != DiplomaticRelation.Peace ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
+    public override DiplomaticActionReaction RejectReaction(DiplomaticAction action) =>
+        Relation(action.Source, action.Target) != DiplomaticRelation.Peace ? DiplomaticActionReaction.Reject : DiplomaticActionReaction.Ignore;
 
-    public override void AnswerAI(DiplomaticAction Action, sbyte Player, DiplomaticRelation Relation, ByteList IdealPeace, ByteList IdealWar)
+    public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {
-        string ErrorText = "";
-        sbyte Source = Action.FSource;
-        sbyte Target = Action.FTarget;
-        var Last = AoWHSMap.Current.FPlayers.GetPlayers(Target).FDiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.None, Target, Source, -1);
-        if (IdealPeace.IndexOf((byte)Source) != -1 || (Last != null && AoWHSMap.Current.FDay - Last.FDay <= 1))
+        string errorText = "";
+        sbyte source = action.Source;
+        sbyte target = action.Target;
+        var last = AoWHSMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.None, target, source, -1);
+        if (idealPeace.IndexOf((byte)source) != -1 || (last != null && AoWHSMap.Current.Day - last.Day <= 1))
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Target).FAIControl.CanOfferPeace((byte)Source))
+            if (AoWHSMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace((byte)source))
             {
-                Action.Accept(ref ErrorText);
+                action.Accept(ref errorText);
             }
             else
             {
-                Action.Reject(ref ErrorText);
+                action.Reject(ref errorText);
             }
         }
         else
         {
-            if (AoWHSMap.Current.FPlayers.GetPlayers(Target).FAIControl.CanOfferPeace((byte)Source))
+            if (AoWHSMap.Current.Players.GetPlayers(target).AIControl.CanOfferPeace((byte)source))
             {
-                if (AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Source, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance)) + 1 < AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Source, Set<DiplomaticRelation>.Of(DiplomaticRelation.War)))
+                if (AoWHSMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)source, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance)) + 1 < AoWHSMap.Current.Players.GetDiplomaticRelationCount((sbyte)(byte)source, Set<DiplomaticRelation>.Of(DiplomaticRelation.War)))
                 {
-                    Last = AoWHSMap.Current.FPlayers.GetPlayers(Target).FDiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.Reject, Source, Target, -1);
-                    if (Last == null || AoWHSMap.Current.FDay - Last.FDay > 8)
+                    last = AoWHSMap.Current.Players.GetPlayers(target).DiplomaticActions.FindLastAction(Kind, DiplomaticActionReaction.Reject, source, target, -1);
+                    if (last == null || AoWHSMap.Current.Day - last.Day > 8)
                     {
                         // { Original bug: escrow gold is counted twice. }
-                        if (AoWHSMap.Current.Random(3) == 1 && AoWHSMap.Current.Random(250) + 100 < Action.FEscrowGold + Action.FEscrowGold)
+                        if (AoWHSMap.Current.Random(3) == 1 && AoWHSMap.Current.Random(250) + 100 < action.EscrowGold + action.EscrowGold)
                         {
-                            Action.Accept(ref ErrorText);
+                            action.Accept(ref errorText);
                         }
                         else
                         {
-                            Action.Reject(ref ErrorText);
+                            action.Reject(ref errorText);
                         }
                     }
                     else
                     {
-                        Action.Reject(ref ErrorText);
+                        action.Reject(ref errorText);
                     }
                 }
                 else
                 {
-                    Action.Reject(ref ErrorText);
+                    action.Reject(ref errorText);
                 }
             }
             else
             {
-                Action.Reject(ref ErrorText);
+                action.Reject(ref errorText);
             }
         }
     }
 
-    public override void RefusedAI(DiplomaticAction Action)
+    public override void RefusedAI(DiplomaticAction action)
     {
-        string ErrorText = "";
-        var diplomaticRelation = Relation(Action.FSource, Action.FTarget);
+        string errorText = "";
+        var diplomaticRelation = Relation(action.Source, action.Target);
         if (!Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.War).Contains(diplomaticRelation))
         {
-            var Last = AoWHSMap.Current.FPlayers.GetPlayers(Action.FSource).CreateDiplomaticAction(new DeclareWar(), Action.FTarget, -1);
-            if (Last != null)
+            var last = AoWHSMap.Current.Players.GetPlayers(action.Source).CreateDiplomaticAction(new DeclareWar(), action.Target, -1);
+            if (last != null)
             {
-                Last.Send(ref ErrorText);
-                Last.Release();
+                last.Send(ref errorText);
+                last.Release();
             }
         }
     }
 
-    public override int RelationModifier(DiplomaticAction Action, sbyte Player, sbyte Race)
+    public override int RelationModifier(DiplomaticAction action, sbyte player, sbyte race)
     {
-        if (Relation(Action.FSource, Action.FTarget) != DiplomaticRelation.Peace)
+        if (Relation(action.Source, action.Target) != DiplomaticRelation.Peace)
         {
-            if (Player == Action.FSource)
+            if (player == action.Source)
             {
-                return RaceModifier(Action.FTarget, Race, 10);
+                return RaceModifier(action.Target, race, 10);
             }
 
-            if (Player == Action.FTarget)
+            if (player == action.Target)
             {
-                return RaceModifier(Action.FSource, Race, 10);
+                return RaceModifier(action.Source, race, 10);
             }
         }
 
         return 0;
     }
 
-    internal static readonly string P5OfferPeaceRStr = "Offer peace";
-    internal static readonly string P5PeaceOfferRStr = "Peace offer";
+    internal static readonly string s_offerPeaceText = "Offer peace";
+    internal static readonly string s_peaceOfferText = "Peace offer";
 }

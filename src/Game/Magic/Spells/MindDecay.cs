@@ -18,9 +18,9 @@ public partial class MindDecay : CombatSpell
     // CombatSpells.pas:1190
     public MindDecay(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(MindDecayRStr);
-        FSpellID = 106;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_mindDecayText);
+        SpellId = 106;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 5;
         spellCombatInfo.Damage = 0;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.None);
@@ -30,26 +30,26 @@ public partial class MindDecay : CombatSpell
     }
 
     // CombatSpells.pas:1207
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        MindDecayCombatAction Action;
-        Action = new MindDecayCombatAction(null);
-        Action.FSourceID = Source.FID;
-        Action.FTargetID = Target.FID;
-        Action.FSpellID = FSpellID;
-        if (ChargeMana)
+        MindDecayCombatAction action;
+        action = new MindDecayCombatAction(null);
+        action.SourceId = source.Id;
+        action.TargetId = target.Id;
+        action.SpellId = SpellId;
+        if (chargeMana)
         {
-            Action.FManaCost = FBaseManaCost;
+            action.ManaCost = BaseManaCost;
         }
 
-        if (Target is CombatUnit && ((CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine && ((CombatUnit)Target).FUnit.GetRace() != 11 && !((CombatUnit)Target).FUnit.GetAbilityEnabled(129) && !(((CombatUnit)Target).FUnit is Leader))
+        if (target is CombatUnit && ((CombatUnit)target).Troop.GetUnitType() != UnitType.Machine && ((CombatUnit)target).Troop.GetRace() != 11 && !((CombatUnit)target).Troop.GetAbilityEnabled(129) && !(((CombatUnit)target).Troop is Leader))
         {
-            var resistance = Target.GetResistance();
-            Action.FSucceeded = HitChance.HitRole(FCombatInfo.Attack - resistance);
+            var resistance = target.GetResistance();
+            action.Succeeded = HitChance.HitRole(CombatInfo.Attack - resistance);
         }
 
-        return Action;
+        return action;
     }
 
-    private static readonly string MindDecayRStr = "Mind Decay";
+    private static readonly string s_mindDecayText = "Mind Decay";
 }

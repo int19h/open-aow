@@ -6,7 +6,7 @@ namespace Aow.Game.Combat;
 [InlineArray(131)]
 public struct BattleEffectTypeArray131
 {
-    private BattleEffectType element0;
+    private BattleEffectType _element0;
 
     public static BattleEffectTypeArray131 From(ReadOnlySpan<BattleEffectType> values)
     {

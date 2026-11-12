@@ -18,17 +18,17 @@ public partial class FaceResourceList : EResourceList
     }
 
     // Ability.PAS:526
-    public int IndexOfFaceImage(LibraryImage Image)
+    public int IndexOfFaceImage(LibraryImage image)
     {
-        FaceResource Face;
-        int Result = GetCount();
-        while (Result != 0)
+        FaceResource face;
+        int result = GetCount();
+        while (result != 0)
         {
-            Result -= 1;
-            Face = (FaceResource)FChildren.List[Result];
-            if (Face != null && Face.GetFaceImage() == Image)
+            result -= 1;
+            face = (FaceResource)_children.List[result];
+            if (face != null && face.GetFaceImage() == image)
             {
-                return Result;
+                return result;
             }
         }
 
@@ -36,57 +36,57 @@ public partial class FaceResourceList : EResourceList
     }
 
     // Ability.PAS:540
-    public FaceResource GetFaceResource(int Index)
+    public FaceResource GetFaceResource(int index)
     {
-        FaceResource Result;
-        if (Index < FChildren.Count && Index >= 0)
+        FaceResource result;
+        if (index < _children.Count && index >= 0)
         {
-            Result = (FaceResource)FChildren.List[Index];
+            result = (FaceResource)_children.List[index];
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Ability.PAS:547
-    public int PrevFace(int Index)
+    public int PreviousFace(int index)
     {
-        bool Developer;
-        int Result = Index;
-        Developer = GameTables.AoWEngine.FRegistry.GetDeveloper();
+        bool developer;
+        int result = index;
+        developer = GameTables.GameEngine.Registry.GetDeveloper();
         // { Original assumes the list contains a selectable face. }
         do
         {
-            Result -= 1;
-            if (Result < 0)
+            result -= 1;
+            if (result < 0)
             {
-                Result = FChildren.Count - 1;
+                result = _children.Count - 1;
             }
         }
-        while (!(FChildren.List[Result] != null && (Developer || !((FaceResource)FChildren.List[Result]).FDeveloperOnly)));
-        return Result;
+        while (!(_children.List[result] != null && (developer || !((FaceResource)_children.List[result]).DeveloperOnly)));
+        return result;
     }
 
     // Ability.PAS:561
-    public int NextFace(int Index)
+    public int NextFace(int index)
     {
-        bool Developer;
-        int Result = Index;
-        Developer = GameTables.AoWEngine.FRegistry.GetDeveloper();
+        bool developer;
+        int result = index;
+        developer = GameTables.GameEngine.Registry.GetDeveloper();
         // { Original assumes the list contains a selectable face. }
         do
         {
-            Result += 1;
-            if (Result >= FChildren.Count)
+            result += 1;
+            if (result >= _children.Count)
             {
-                Result = 0;
+                result = 0;
             }
         }
-        while (!(FChildren.List[Result] != null && (Developer || !((FaceResource)FChildren.List[Result]).FDeveloperOnly)));
-        return Result;
+        while (!(_children.List[result] != null && (developer || !((FaceResource)_children.List[result]).DeveloperOnly)));
+        return result;
     }
 
     // intf_P1_07.inc:27

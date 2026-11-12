@@ -9,5 +9,5 @@ public struct HexSpriteMoveOnInfo
     public object Sender;
     public MapField MapField;
     public int MoveOverCode;
-    public sbyte HN;
+    public sbyte HexNumber;
 }

@@ -17,44 +17,44 @@ namespace Aow.Game.UI.Controls;
 // none)
 public partial class ListBox : Control
 {
-    public StringList FItems;
-    public VerticalScrollBar FVScrollBar;
-    public int F11C;
-    public int FSelected;
-    public int F124;
-    public AoWOnDrawItemEvent<ListBox> FOnPreDrawItem;
-    public AoWOnDrawItemEvent<ListBox> FOnDrawItem;
-    public int F138;
-    public bool F13C;
-    public InterfaceImageLibrary FILFrame;
-    public InterfaceImageLibrary FILTextureNormal;
-    public InterfaceImageLibrary FILTextureSelected;
-    public int FItemHeight;
-    public NotifyEvent<ListBox> FOnDoubleClick;
-    public TextAlignment FTextAlign;
-    public int F15C;
-    public byte F160;
-    public int FILIndexFrame;
-    public int FILIndexTNormal;
-    public int FILIndexTSelected;
-    public Menu FPopupMenu;
-    public int FDrawItem;
-    public Rect FDrawItemRect;
-    public int F188;
+    public StringList _items;
+    public VerticalScrollBar _verticalScrollBar;
+    public int VisibleRows;
+    public int _selected;
+    public int UnusedPosition;
+    public AoWOnDrawItemEvent<ListBox> _onPreDrawItem;
+    public AoWOnDrawItemEvent<ListBox> _onDrawItem;
+    public int ScrollWidth;
+    public bool ScrollBarVisible;
+    public InterfaceImageLibrary _imageLibraryFrame;
+    public InterfaceImageLibrary _imageLibraryTextureNormal;
+    public InterfaceImageLibrary _imageLibraryTextureSelected;
+    public int _itemHeight;
+    public NotifyEvent<ListBox> _onDoubleClick;
+    public TextAlignment _textAlign;
+    public int FirstShownItem;
+    public byte TextOnly;
+    public int _imageLibraryIndexFrame;
+    public int _imageLibraryIndexTNormal;
+    public int _imageLibraryIndexTSelected;
+    public Menu _popupMenu;
+    public int DrawItem;
+    public Rect DrawItemRectangle;
+    public int HoverItem;
 
     // AoWListBox.pas:107
     public ListBox(Component owner) : base(owner)
     {
-        FItems = new StringList();
-        FItems.OnChange = OnChangeText;
-        F11C = 3;
-        FItemHeight = 10;
+        _items = new StringList();
+        _items.OnChange = OnChangeText;
+        VisibleRows = 3;
+        _itemHeight = 10;
     }
 
     // AoWListBox.pas:116
     public override void Dispose()
     {
-        FItems.Dispose();
+        _items.Dispose();
         base.Dispose();
     }
 
@@ -63,33 +63,33 @@ public partial class ListBox : Control
     //   text only }
     public override void Validate()
     {
-        if (FAOWFont != null)
+        if (_font != null)
         {
-            if (FILFrame != null)
+            if (_imageLibraryFrame != null)
             {
-                FILFrame = FILFrame.CheckIL(FILIndexFrame, 8, this);
+                _imageLibraryFrame = _imageLibraryFrame.CheckImageLibrary(_imageLibraryIndexFrame, 8, this);
             }
 
-            if (FILTextureNormal != null)
+            if (_imageLibraryTextureNormal != null)
             {
-                FILTextureNormal = FILTextureNormal.CheckIL(FILIndexTNormal, 1, this);
+                _imageLibraryTextureNormal = _imageLibraryTextureNormal.CheckImageLibrary(_imageLibraryIndexTNormal, 1, this);
             }
 
-            if (FILTextureSelected != null)
+            if (_imageLibraryTextureSelected != null)
             {
-                FILTextureSelected = FILTextureSelected.CheckIL(FILIndexTSelected, 1, this);
+                _imageLibraryTextureSelected = _imageLibraryTextureSelected.CheckImageLibrary(_imageLibraryIndexTSelected, 1, this);
             }
 
-            if (FILFrame != null && FILTextureNormal != null && FILTextureSelected != null)
+            if (_imageLibraryFrame != null && _imageLibraryTextureNormal != null && _imageLibraryTextureSelected != null)
             {
-                F160 = 0;
+                TextOnly = 0;
             }
             else
             {
-                F160 = 1;
+                TextOnly = 1;
             }
 
-            FValid = true;
+            Valid = true;
         }
 
         base.Validate();
@@ -98,101 +98,101 @@ public partial class ListBox : Control
     // AoWListBox.pas:143
     public override void SetSize()
     {
-        if (FItemHeight < 1)
+        if (_itemHeight < 1)
         {
-            FItemHeight = 10;
+            _itemHeight = 10;
         }
 
-        switch (F160)
+        switch (TextOnly)
         {
             case 0:
-                var ilFrameHeight = FILFrame[FILIndexFrame + 1];
-                var ilFrame = FILFrame[FILIndexFrame + 6];
-                if (ilFrameHeight.Height + ilFrame.Height > FWinHeight)
+                var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                if (imageLibraryFrameHeight.Height + imageLibraryFrame.Height > _winHeight)
                 {
-                    var ilFrame2 = FILFrame[FILIndexFrame + 1];
-                    var ilFrame3 = FILFrame[FILIndexFrame + 6];
-                    FWinHeight = ilFrame2.Height + ilFrame3.Height;
+                    var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                    var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                    _winHeight = imageLibraryFrame2.Height + imageLibraryFrame3.Height;
                 }
 
-                var ilFrameWidth = FILFrame[FILIndexFrame + 3];
-                var ilFrame4 = FILFrame[FILIndexFrame + 4];
-                if (ilFrameWidth.Width + ilFrame4.Width > FWinWidth)
+                var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                if (imageLibraryFrameWidth.Width + imageLibraryFrame4.Width > _winWidth)
                 {
-                    var ilFrame2 = FILFrame[FILIndexFrame + 3];
-                    var ilFrame3 = FILFrame[FILIndexFrame + 4];
-                    FWinWidth = ilFrame2.Width + ilFrame3.Width;
+                    var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                    var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
+                    _winWidth = imageLibraryFrame2.Width + imageLibraryFrame3.Width;
                 }
 
-                var ilFrame5 = FILFrame[FILIndexFrame + 1];
-                var ilFrame6 = FILFrame[FILIndexFrame + 6];
-                F11C = (FWinHeight - ilFrame5.Height - ilFrame6.Height) / FItemHeight;
-                F138 = FILFrame[FILIndexFrame + 4].Width;
-                FMasked = false;
+                var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                VisibleRows = (_winHeight - imageLibraryFrame5.Height - imageLibraryFrame6.Height) / _itemHeight;
+                ScrollWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 4].Width;
+                _masked = false;
                 break;
             case 1:
-                F11C = FWinHeight / FItemHeight;
-                F138 = 0;
-                FMasked = true;
+                VisibleRows = _winHeight / _itemHeight;
+                ScrollWidth = 0;
+                _masked = true;
                 break;
         }
 
-        if (FItems.Count < F11C)
+        if (_items.Count < VisibleRows)
         {
-            F11C = FItems.Count;
+            VisibleRows = _items.Count;
         }
 
-        if (F11C < 1)
+        if (VisibleRows < 1)
         {
-            F11C = 1;
+            VisibleRows = 1;
         }
 
-        if (FItems.Count <= FSelected)
+        if (_items.Count <= _selected)
         {
-            FSelected = FItems.Count - 1;
+            _selected = _items.Count - 1;
         }
 
-        if (FItems.Count < F15C + F11C)
+        if (_items.Count < FirstShownItem + VisibleRows)
         {
-            F15C = FItems.Count - F11C;
+            FirstShownItem = _items.Count - VisibleRows;
         }
 
-        if (F15C < 0)
+        if (FirstShownItem < 0)
         {
-            F15C = 0;
+            FirstShownItem = 0;
         }
 
-        F13C = false;
-        if (FVScrollBar != null)
+        ScrollBarVisible = false;
+        if (_verticalScrollBar != null)
         {
-            F124 = -1;
-            if (FVScrollBar.FAOWWindow != FAOWWindow)
+            UnusedPosition = -1;
+            if (_verticalScrollBar._window != _window)
             {
-                FVScrollBar.SetAOWWindow(FAOWWindow);
+                _verticalScrollBar.SetWindow(_window);
             }
 
-            FVScrollBar.Priority = FPriority + 1;
-            FVScrollBar.SetFMin(0);
-            var count = FItems.Count;
-            FVScrollBar.SetFMax(count - 1);
-            FVScrollBar.SetFPos(F15C);
-            FVScrollBar.SetFNum(F11C);
-            FVScrollBar.WinHeight = FWinHeight;
-            FVScrollBar.SetLarge(F11C - 1);
-            FVScrollBar.Visible = FVisible;
-            if (FVScrollBar.FVanishWhenFull && FItems.Count - 1 < F11C)
+            _verticalScrollBar.Priority = _priority + 1;
+            _verticalScrollBar.SetFMin(0);
+            var count = _items.Count;
+            _verticalScrollBar.SetFMax(count - 1);
+            _verticalScrollBar.SetFPosition(FirstShownItem);
+            _verticalScrollBar.SetFNumber(VisibleRows);
+            _verticalScrollBar.WinHeight = _winHeight;
+            _verticalScrollBar.SetLarge(VisibleRows - 1);
+            _verticalScrollBar.Visible = _visible;
+            if (_verticalScrollBar._vanishWhenFull && _items.Count - 1 < VisibleRows)
             {
-                FVScrollBar.Visible = false;
+                _verticalScrollBar.Visible = false;
             }
             else
             {
-                F138 = FVScrollBar.FWinWidth;
+                ScrollWidth = _verticalScrollBar._winWidth;
             }
 
-            FVScrollBar.FSized = false;
-            FVScrollBar.WinLeft = FWinLeft + FWinWidth - FVScrollBar.FWinWidth;
-            FVScrollBar.WinTop = FWinTop;
-            F13C = FVScrollBar.FVisible;
+            _verticalScrollBar.Sized = false;
+            _verticalScrollBar.WinLeft = _winLeft + _winWidth - _verticalScrollBar._winWidth;
+            _verticalScrollBar.WinTop = _winTop;
+            ScrollBarVisible = _verticalScrollBar._visible;
         }
 
         base.SetSize();
@@ -202,23 +202,23 @@ public partial class ListBox : Control
     // { Update keeps the first item shown in step with the scroll bar }
     public override void Update()
     {
-        if (FVisible && FVScrollBar != null && FItems.Count > 0)
+        if (_visible && _verticalScrollBar != null && _items.Count > 0)
         {
-            if (FVScrollBar.FPosition != F15C)
+            if (_verticalScrollBar._position != FirstShownItem)
             {
-                F15C = FVScrollBar.FPosition;
-                var count = FItems.Count;
-                if (F15C + F11C > count)
+                FirstShownItem = _verticalScrollBar._position;
+                var count = _items.Count;
+                if (FirstShownItem + VisibleRows > count)
                 {
-                    F15C = FItems.Count - F11C;
+                    FirstShownItem = _items.Count - VisibleRows;
                 }
 
-                if (F15C < 0)
+                if (FirstShownItem < 0)
                 {
-                    F15C = 0;
+                    FirstShownItem = 0;
                 }
 
-                FDrawn = false;
+                Drawn = false;
             }
         }
 
@@ -226,138 +226,138 @@ public partial class ListBox : Control
     }
 
     // AoWListBox.pas:241
-    public override void SetVisible(bool Value)
+    public override void SetVisible(bool value)
     {
-        base.SetVisible(Value);
-        if (FVScrollBar != null)
+        base.SetVisible(value);
+        if (_verticalScrollBar != null)
         {
-            FVScrollBar.Visible = FVisible;
+            _verticalScrollBar.Visible = _visible;
         }
     }
 
     // AoWListBox.pas:304
     // { Draw draws the frame and the texture, then the visible items (one more than fit: the loop runs
     //   to F11C, original) clipped to the inside, the selected one on its highlight texture }
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
         int L = default;
         int W = default;
         int T = default;
         int H = default;
-        Rect OldClip = default;
+        Rect oldClip = default;
         try
         {
-            if (FValid && FVisible)
+            if (Valid && _visible)
             {
-                if (FOnPreDraw != null)
+                if (_onPreDraw != null)
                 {
-                    FOnPreDraw(this, SurfDesc);
+                    _onPreDraw(this, lockedSurface);
                 }
 
-                FAOWFont.Color = FColor;
-                OldClip = SurfDesc.ClipRect;
-                switch (F160)
+                _font.Color = Color;
+                oldClip = lockedSurface.ClipRectangle;
+                switch (TextOnly)
                 {
                     case 0:
-                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
-                        FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
-                        var ilFrameHeight = FILFrame[FILIndexFrame + 1];
-                        var ilFrame = FILFrame[FILIndexFrame + 6];
-                        var ilFrameWidth = FILFrame[FILIndexFrame + 3];
-                        var ilFrame2 = FILFrame[FILIndexFrame + 1];
-                        var ilFrame3 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame3.Width, FAOWWindow.FWinTop + FWinTop + ilFrame2.Height, FWinWidth - ilFrameWidth.Width - F138, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
-                        FILTextureNormal.DrawILT(FILIndexTNormal, rect2, ref SurfDesc);
-                        var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                        L = FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width;
-                        var ilFrame5 = FILFrame[FILIndexFrame + 1];
-                        T = FAOWWindow.FWinTop + FWinTop + ilFrame5.Height;
-                        var ilFrame6 = FILFrame[FILIndexFrame + 1];
-                        var ilFrame7 = FILFrame[FILIndexFrame + 6];
-                        H = FWinHeight - ilFrame6.Height - ilFrame7.Height;
-                        var ilFrame8 = FILFrame[FILIndexFrame + 3];
-                        W = FWinWidth - ilFrame8.Width - F138;
+                        var rectangle = new Rect(_window._winLeft + _winLeft, _window._winTop + _winTop, _winWidth, _winHeight);
+                        _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
+                        var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        var imageLibraryFrameWidth = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        var rectangle2 = new Rect(_window._winLeft + _winLeft + imageLibraryFrame3.Width, _window._winTop + _winTop + imageLibraryFrame2.Height, _winWidth - imageLibraryFrameWidth.Width - ScrollWidth, _winHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                        _imageLibraryTextureNormal.DrawTiled(_imageLibraryIndexTNormal, rectangle2, ref lockedSurface);
+                        var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        L = _window._winLeft + _winLeft + imageLibraryFrame4.Width;
+                        var imageLibraryFrame5 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        T = _window._winTop + _winTop + imageLibraryFrame5.Height;
+                        var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
+                        var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
+                        H = _winHeight - imageLibraryFrame6.Height - imageLibraryFrame7.Height;
+                        var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
+                        W = _winWidth - imageLibraryFrame8.Width - ScrollWidth;
                         break;
                     default:
-                        L = FAOWWindow.FWinLeft + FWinLeft;
-                        T = FAOWWindow.FWinTop + FWinTop;
-                        H = FWinHeight;
-                        W = FWinWidth - F138;
+                        L = _window._winLeft + _winLeft;
+                        T = _window._winTop + _winTop;
+                        H = _winHeight;
+                        W = _winWidth - ScrollWidth;
                         break;
                 }
 
-                if (L + W < OldClip.Right)
+                if (L + W < oldClip.Right)
                 {
-                    SurfDesc.ClipRect.Right = L + W;
+                    lockedSurface.ClipRectangle.Right = L + W;
                 }
 
-                if (T + H < OldClip.Bottom)
+                if (T + H < oldClip.Bottom)
                 {
-                    SurfDesc.ClipRect.Bottom = T + H;
+                    lockedSurface.ClipRectangle.Bottom = T + H;
                 }
 
-                for (int I = 0, last = F11C; I <= last; I++)
+                for (int I = 0, last = VisibleRows; I <= last; I++)
                 {
-                    var count = FItems.Count;
-                    if (F15C + I < count)
+                    var count = _items.Count;
+                    if (FirstShownItem + I < count)
                     {
-                        FDrawItem = F15C + I;
-                        FDrawItemRect = new Rect(L, FItemHeight * I + T, L + W, (I + 1) * FItemHeight + T);
-                        if (FDrawItemRect.Bottom > SurfDesc.ClipRect.Bottom)
+                        DrawItem = FirstShownItem + I;
+                        DrawItemRectangle = new Rect(L, _itemHeight * I + T, L + W, (I + 1) * _itemHeight + T);
+                        if (DrawItemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
                         {
-                            FDrawItemRect.Bottom = SurfDesc.ClipRect.Bottom;
+                            DrawItemRectangle.Bottom = lockedSurface.ClipRectangle.Bottom;
                         }
 
-                        if (FOnPreDrawItem != null)
+                        if (_onPreDrawItem != null)
                         {
-                            FOnPreDrawItem(this, FDrawItemRect, FDrawItem, ref SurfDesc);
+                            _onPreDrawItem(this, DrawItemRectangle, DrawItem, ref lockedSurface);
                         }
 
-                        if (F15C + I == FSelected)
+                        if (FirstShownItem + I == _selected)
                         {
-                            FAOWFont.Color = FSelColor;
-                            if (F160 == 0)
+                            _font.Color = SelectedColor;
+                            if (TextOnly == 0)
                             {
-                                var rect = new Rect(L, FItemHeight * I + T, W, FItemHeight);
-                                FILTextureSelected.DrawILT(FILIndexTSelected, rect, ref SurfDesc);
+                                var rectangle = new Rect(L, _itemHeight * I + T, W, _itemHeight);
+                                _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle, ref lockedSurface);
                             }
                         }
                         else
                         {
-                            FAOWFont.Color = FColor;
+                            _font.Color = Color;
                         }
 
-                        switch (FTextAlign)
+                        switch (_textAlign)
                         {
                             case TextAlignment.Left:
-                                var item = FItems[F15C + I];
-                                FAOWFont.SetText(FBorderWidth + L, FBorderHeight + T + FItemHeight * I, item, SurfDesc);
+                                var item = _items[FirstShownItem + I];
+                                _font.SetText(_borderWidth + L, _borderHeight + T + _itemHeight * I, item, lockedSurface);
                                 break;
                             case TextAlignment.Right:
-                                var item2 = FItems[F15C + I];
-                                var textWidth = FAOWFont.GetTextWidth(item2);
-                                var item3 = FItems[F15C + I];
-                                FAOWFont.SetText(L + W - FBorderWidth - textWidth, FBorderHeight + T + FItemHeight * I, item3, SurfDesc);
+                                var item2 = _items[FirstShownItem + I];
+                                var textWidth = _font.GetTextWidth(item2);
+                                var item3 = _items[FirstShownItem + I];
+                                _font.SetText(L + W - _borderWidth - textWidth, _borderHeight + T + _itemHeight * I, item3, lockedSurface);
                                 break;
                             default:
-                                var item4 = FItems[F15C + I];
-                                var faowFontTextWidth = FAOWFont.GetTextWidth(item4);
-                                var item5 = FItems[F15C + I];
-                                FAOWFont.SetText(L + W / 2 - faowFontTextWidth / 2, FBorderHeight + T + FItemHeight * I, item5, SurfDesc);
+                                var item4 = _items[FirstShownItem + I];
+                                var fontTextWidth = _font.GetTextWidth(item4);
+                                var item5 = _items[FirstShownItem + I];
+                                _font.SetText(L + W / 2 - fontTextWidth / 2, _borderHeight + T + _itemHeight * I, item5, lockedSurface);
                                 break;
                         }
 
-                        if (FOnDrawItem != null)
+                        if (_onDrawItem != null)
                         {
-                            FOnDrawItem(this, FDrawItemRect, FDrawItem, ref SurfDesc);
+                            _onDrawItem(this, DrawItemRectangle, DrawItem, ref lockedSurface);
                         }
                     }
                 }
 
-                SurfDesc.ClipRect = OldClip;
-                if (FOnDraw != null)
+                lockedSurface.ClipRectangle = oldClip;
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
             }
         }
@@ -371,357 +371,357 @@ public partial class ListBox : Control
     // { CheckMouseDown selects the item under the mouse unless the owner already handled the click;
     //   a double click calls OnDoubleClick, the right button opens the popup menu at the mouse, moved
     //   back inside the window manager when it would stick out }
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
         int I;
-        base.CheckMouseDown(Button, Shift, X, Y);
-        FHandled = false;
-        if (!FAOWOwner.FHandled && X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F138 && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        base.CheckMouseDown(button, shift, X, Y);
+        Handled = false;
+        if (!_ownerComponent.Handled && X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth - ScrollWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (F160 == 0)
+            Handled = true;
+            if (TextOnly == 0)
             {
-                var ilFrame = FILFrame[FILIndexFrame];
-                I = (Y - FAOWWindow.FWinTop - FWinTop - ilFrame.Height) / FItemHeight + F15C;
+                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
+                I = (Y - _window._winTop - _winTop - imageLibraryFrame.Height) / _itemHeight + FirstShownItem;
             }
             else
             {
-                I = (Y - FAOWWindow.FWinTop - FWinTop) / FItemHeight + F15C;
+                I = (Y - _window._winTop - _winTop) / _itemHeight + FirstShownItem;
             }
 
-            if (FItems.Count > I)
+            if (_items.Count > I)
             {
-                if (I != FSelected)
+                if (I != _selected)
                 {
-                    FSelected = I;
-                    FDrawn = false;
-                    if (FOnChange != null)
+                    _selected = I;
+                    Drawn = false;
+                    if (_onChange != null)
                     {
-                        FOnChange(this);
+                        _onChange(this);
                     }
                 }
 
-                if (Button == MouseButton.Left && (Set<ShiftState>.Of(ShiftState.Double) & Shift) == Set<ShiftState>.Of(ShiftState.Double) && FOnDoubleClick != null)
+                if (button == MouseButton.Left && (Set<ShiftState>.Of(ShiftState.Double) & shift) == Set<ShiftState>.Of(ShiftState.Double) && _onDoubleClick != null)
                 {
-                    FOnDoubleClick(this);
+                    _onDoubleClick(this);
                 }
 
-                if (FSelected > -1 && Button == MouseButton.Right && FPopupMenu != null)
+                if (_selected > -1 && button == MouseButton.Right && _popupMenu != null)
                 {
-                    FPopupMenu.SetPopupOwner(this);
-                    FPopupMenu.WinLeft = X;
-                    FPopupMenu.WinTop = Y;
-                    if (FPopupMenu.WinManager != null)
+                    _popupMenu.SetPopupOwner(this);
+                    _popupMenu.WinLeft = X;
+                    _popupMenu.WinTop = Y;
+                    if (_popupMenu.WindowManager != null)
                     {
-                        if (FPopupMenu.FHidden)
+                        if (_popupMenu.Hidden)
                         {
-                            if (FPopupMenu.FMenuLeft + FPopupMenu.WinWidth > FPopupMenu.WinManager.WinWidth)
+                            if (_popupMenu.MenuLeft + _popupMenu.WinWidth > _popupMenu.WindowManager.WinWidth)
                             {
-                                FPopupMenu.WinLeft = X - FPopupMenu.WinWidth;
+                                _popupMenu.WinLeft = X - _popupMenu.WinWidth;
                             }
 
-                            if (FPopupMenu.FMenuTop + FPopupMenu.WinHeight > FPopupMenu.WinManager.WinHeight)
+                            if (_popupMenu.MenuTop + _popupMenu.WinHeight > _popupMenu.WindowManager.WinHeight)
                             {
-                                FPopupMenu.WinTop = Y - FPopupMenu.WinHeight;
+                                _popupMenu.WinTop = Y - _popupMenu.WinHeight;
                             }
                         }
                         else
                         {
-                            if (FPopupMenu.WinLeft + FPopupMenu.WinWidth > FPopupMenu.WinManager.WinWidth)
+                            if (_popupMenu.WinLeft + _popupMenu.WinWidth > _popupMenu.WindowManager.WinWidth)
                             {
-                                FPopupMenu.WinLeft = X - FPopupMenu.WinWidth;
+                                _popupMenu.WinLeft = X - _popupMenu.WinWidth;
                             }
 
-                            if (FPopupMenu.WinTop + FPopupMenu.WinHeight > FPopupMenu.WinManager.WinHeight)
+                            if (_popupMenu.WinTop + _popupMenu.WinHeight > _popupMenu.WindowManager.WinHeight)
                             {
-                                FPopupMenu.WinTop = Y - FPopupMenu.WinHeight;
+                                _popupMenu.WinTop = Y - _popupMenu.WinHeight;
                             }
                         }
                     }
 
-                    FPopupMenu.Visible = true;
+                    _popupMenu.Visible = true;
                 }
             }
 
-            if (FOnMouseDown != null)
+            if (_onMouseDown != null)
             {
-                FOnMouseDown(this, Button, Shift, X, Y);
+                _onMouseDown(this, button, shift, X, Y);
             }
         }
     }
 
     // AoWListBox.pas:460
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F138 && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth - ScrollWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FOnMouseUp != null)
+            Handled = true;
+            if (_onMouseUp != null)
             {
-                FOnMouseUp(this, Button, Shift, X, Y);
+                _onMouseUp(this, button, shift, X, Y);
             }
         }
     }
 
     // AoWListBox.pas:475
     // { CheckMouseMove tracks the item under the mouse }
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseMove(Shift, X, Y);
-        FHandled = false;
-        if (X < FAOWWindow.FWinLeft + FWinLeft || X > FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F138 - 1 || Y < FAOWWindow.FWinTop + FWinTop || Y > FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
+        base.CheckMouseMove(shift, X, Y);
+        Handled = false;
+        if (X < _window._winLeft + _winLeft || X > _window._winLeft + _winLeft + _winWidth - ScrollWidth - 1 || Y < _window._winTop + _winTop || Y > _window._winTop + _winTop + _winHeight - 1)
         {
-            F188 = -1;
+            HoverItem = -1;
         }
         else
         {
-            FHandled = true;
-            if (F160 == 0)
+            Handled = true;
+            if (TextOnly == 0)
             {
-                var ilFrame = FILFrame[FILIndexFrame];
-                F188 = (Y - FAOWWindow.FWinTop - FWinTop - ilFrame.Height) / FItemHeight + F15C;
+                var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame];
+                HoverItem = (Y - _window._winTop - _winTop - imageLibraryFrame.Height) / _itemHeight + FirstShownItem;
             }
             else
             {
-                F188 = (Y - FAOWWindow.FWinTop - FWinTop) / FItemHeight + F15C;
+                HoverItem = (Y - _window._winTop - _winTop) / _itemHeight + FirstShownItem;
             }
 
-            if (FOnMouseMove != null)
+            if (_onMouseMove != null)
             {
-                FOnMouseMove(this, Shift, X, Y);
+                _onMouseMove(this, shift, X, Y);
             }
         }
     }
 
     // AoWListBox.pas:497
-    public override void CheckKeyPress(ref byte Key)
+    public override void CheckKeyPress(ref byte key)
     {
-        FHandled = false;
+        Handled = false;
     }
 
     // AoWListBox.pas:275
-    public virtual void SetILFrame(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryFrame(InterfaceImageLibrary value)
     {
-        if (Value != FILFrame)
+        if (value != _imageLibraryFrame)
         {
-            FValid = false;
-            FILFrame = Value;
+            Valid = false;
+            _imageLibraryFrame = value;
         }
     }
 
     // AoWListBox.pas:284
-    public virtual void SetILTNorm(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryTileNorm(InterfaceImageLibrary value)
     {
-        if (Value != FILTextureNormal)
+        if (value != _imageLibraryTextureNormal)
         {
-            FValid = false;
-            FILTextureNormal = Value;
+            Valid = false;
+            _imageLibraryTextureNormal = value;
         }
     }
 
     // AoWListBox.pas:293
-    public virtual void SetILTSel(InterfaceImageLibrary Value)
+    public virtual void SetImageLibraryTileSelected(InterfaceImageLibrary value)
     {
-        if (Value != FILTextureSelected)
+        if (value != _imageLibraryTextureSelected)
         {
-            FValid = false;
-            FILTextureSelected = Value;
+            Valid = false;
+            _imageLibraryTextureSelected = value;
         }
     }
 
     // AoWListBox.pas:202
-    public void SetFStrings(StringList Value)
+    public void SetFStrings(StringList value)
     {
-        FItems.Clear();
-        FItems.AddStrings(Value);
+        _items.Clear();
+        _items.AddStrings(value);
     }
 
     // AoWListBox.pas:208
-    public void SetIndex(int Value)
+    public void SetIndex(int value)
     {
-        if (Value >= FItems.Count)
+        if (value >= _items.Count)
         {
-            Value = FItems.Count - 1;
+            value = _items.Count - 1;
         }
 
-        if (Value != FSelected)
+        if (value != _selected)
         {
-            FSelected = Value;
-            FDrawn = false;
+            _selected = value;
+            Drawn = false;
         }
     }
 
     // AoWListBox.pas:219
-    public void SetListOff(int Value)
+    public void SetListOff(int value)
     {
-        if (Value >= FItems.Count)
+        if (value >= _items.Count)
         {
-            Value = FItems.Count - 1;
+            value = _items.Count - 1;
         }
 
-        if (Value < 0)
+        if (value < 0)
         {
-            Value = 0;
+            value = 0;
         }
 
-        if (Value != F15C)
+        if (value != FirstShownItem)
         {
-            F15C = Value;
-            FDrawn = false;
+            FirstShownItem = value;
+            Drawn = false;
         }
     }
 
     // AoWListBox.pas:232
-    public void SetVScroll(VerticalScrollBar Value)
+    public void SetVScroll(VerticalScrollBar value)
     {
-        FVScrollBar = Value;
-        if (Value != null)
+        _verticalScrollBar = value;
+        if (value != null)
         {
-            Value.Priority = FPriority;
+            value.Priority = _priority;
         }
 
-        Priority = FPriority;
-        FSized = false;
+        Priority = _priority;
+        Sized = false;
     }
 
     // AoWListBox.pas:248
-    public void SetILFIndex(int Value)
+    public void SetILFIndex(int value)
     {
-        if (Value != FILIndexFrame)
+        if (value != _imageLibraryIndexFrame)
         {
-            FILIndexFrame = Value;
-            FValid = false;
+            _imageLibraryIndexFrame = value;
+            Valid = false;
         }
     }
 
     // AoWListBox.pas:257
-    public void SetILTnIndex(int Value)
+    public void SetImageLibraryTnIndex(int value)
     {
-        if (Value != FILIndexTNormal)
+        if (value != _imageLibraryIndexTNormal)
         {
-            FILIndexTNormal = Value;
-            FValid = false;
+            _imageLibraryIndexTNormal = value;
+            Valid = false;
         }
     }
 
     // AoWListBox.pas:266
-    public void SetILTsIndex(int Value)
+    public void SetImageLibraryTsIndex(int value)
     {
-        if (Value != FILIndexTSelected)
+        if (value != _imageLibraryIndexTSelected)
         {
-            FILIndexTSelected = Value;
-            FValid = false;
+            _imageLibraryIndexTSelected = value;
+            Valid = false;
         }
     }
 
-    public int ListOffset { get => F15C; set => SetListOff(value); }
+    public int ListOffset { get => FirstShownItem; set => SetListOff(value); }
 
     [Published]
-    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont Font { get => _font; set => _font = value; }
 
     [Published]
-    public StringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => _items; set => SetFStrings(value); }
 
     [Published]
-    public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
+    public int BorderWidth { get => _borderWidth; set => _borderWidth = value; }
 
     [Published]
-    public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
+    public int BorderHeight { get => _borderHeight; set => _borderHeight = value; }
 
     [Published]
-    public VerticalScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
+    public VerticalScrollBar VerticalScrollBar { get => _verticalScrollBar; set => SetVScroll(value); }
 
     [Published]
-    public NotifyEvent<ListBox> OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
+    public NotifyEvent<ListBox> OnDoubleClick { get => _onDoubleClick; set => _onDoubleClick = value; }
 
     [Published]
-    public int Selected { get => FSelected; set => SetIndex(value); }
+    public int Selected { get => _selected; set => SetIndex(value); }
 
     [Published]
-    public AoWOnDrawItemEvent<ListBox> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public AoWOnDrawItemEvent<ListBox> OnDrawItem { get => _onDrawItem; set => _onDrawItem = value; }
 
     [Published]
-    public AoWOnDrawItemEvent<ListBox> OnPreDrawItem { get => FOnPreDrawItem; set => FOnPreDrawItem = value; }
+    public AoWOnDrawItemEvent<ListBox> OnPreDrawItem { get => _onPreDrawItem; set => _onPreDrawItem = value; }
 
     [Published]
-    public InterfaceImageLibrary ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceImageLibrary ImageLibraryFrame { get => _imageLibraryFrame; set => SetImageLibraryFrame(value); }
 
     [Published]
-    public InterfaceImageLibrary ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
+    public InterfaceImageLibrary ImageLibraryTextureNormal { get => _imageLibraryTextureNormal; set => SetImageLibraryTileNorm(value); }
 
     [Published]
-    public InterfaceImageLibrary ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
+    public InterfaceImageLibrary ImageLibraryTextureSelected { get => _imageLibraryTextureSelected; set => SetImageLibraryTileSelected(value); }
 
     [Published]
-    public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
+    public int ImageLibraryIndexFrame { get => _imageLibraryIndexFrame; set => SetILFIndex(value); }
 
     [Published]
-    public int ILIndexTNormal { get => FILIndexTNormal; set => SetILTnIndex(value); }
+    public int ImageLibraryIndexTNormal { get => _imageLibraryIndexTNormal; set => SetImageLibraryTnIndex(value); }
 
     [Published]
-    public int ILIndexTSelected { get => FILIndexTSelected; set => SetILTsIndex(value); }
+    public int ImageLibraryIndexTSelected { get => _imageLibraryIndexTSelected; set => SetImageLibraryTsIndex(value); }
 
     [Published]
-    public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
+    public int ItemHeight { get => _itemHeight; set => _itemHeight = value; }
 
     [Published]
-    public Menu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
+    public Menu PopupMenu { get => _popupMenu; set => _popupMenu = value; }
 
     [Published]
-    public TextAlignment TextAlign { get => FTextAlign; set => FTextAlign = value; }
+    public TextAlignment TextAlign { get => _textAlign; set => _textAlign = value; }
 
     public new NotifyEvent<ListBox> OnChange
     {
-        get => EventSlot.Get(this, FOnChange);
-        set => EventSlot.Set(this, ref FOnChange, value);
+        get => EventSlot.Get(this, _onChange);
+        set => EventSlot.Set(this, ref _onChange, value);
     }
 
     public new MouseEvent<ListBox> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<ListBox> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<ListBox> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<ListBox> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<ListBox> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<ListBox> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<ListBox> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<ListBox> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

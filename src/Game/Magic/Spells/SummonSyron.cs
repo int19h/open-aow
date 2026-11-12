@@ -10,15 +10,15 @@ public partial class SummonSyron : SummonSpell
     // SummonSpells.pas:328
     public SummonSyron(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(SummonSyronRStr);
-        FSpellID = 24;
-        FBaseManaCost = 5;
-        FSpellLevel = 4;
-        FMagicSphere = MagicSphere.Cosmos;
-        FUnitIndices.Add(221);
-        FCastDuration = 40;
-        FAIBasePriority = 500;
+        SpellName = AbilityRules.TranslateResourceString(s_summonSyronText);
+        SpellId = 24;
+        BaseManaCost = 5;
+        SpellLevel = 4;
+        MagicSphere = MagicSphere.Cosmos;
+        UnitIndices.Add(221);
+        CastDuration = 40;
+        AIBasePriority = 500;
     }
 
-    private static readonly string SummonSyronRStr = "Summon Syron";
+    private static readonly string s_summonSyronText = "Summon Syron";
 }

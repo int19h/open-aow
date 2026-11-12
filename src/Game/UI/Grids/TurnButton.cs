@@ -12,29 +12,29 @@ namespace Aow.Game.UI.Grids;
 // change event, checked, animation frame
 public partial class TurnButton : Controls.Control
 {
-    public ImageLibrary FImageLib;
-    public int FCurPlayer;
-    public int FLastPlayer;
-    public bool FAnimating;
-    public int FAnimationPhase;
-    public int FFrameOffset;
-    public NotifyEvent<TurnButton> FOnAnimDone;
-    public NotifyEvent<TurnButton> FOnPlayerChange;
-    public bool FButtonChecked;
-    public int FAnimationFrame;
+    public ImageLibrary _imageLibrary;
+    public int _currentPlayer;
+    public int _lastPlayer;
+    public bool _animating;
+    public int AnimationPhase;
+    public int FrameOffset;
+    public NotifyEvent<TurnButton> _onAnimationDone;
+    public NotifyEvent<TurnButton> OnPlayerChange;
+    public bool ButtonChecked;
+    public int AnimationFrame;
 
     // TurnButton.pas:54
     public TurnButton(Component owner) : base(owner)
     {
-        FFrameOffset = 11;
+        FrameOffset = 11;
     }
 
     // TurnButton.pas:60
     public override void Validate()
     {
-        if (FImageLib != null)
+        if (_imageLibrary != null)
         {
-            FValid = true;
+            Valid = true;
         }
 
         base.Validate();
@@ -43,8 +43,8 @@ public partial class TurnButton : Controls.Control
     // TurnButton.pas:66
     public override void SetSize()
     {
-        FWinWidth = FImageLib[0].Width;
-        FWinHeight = FImageLib[0].Height;
+        _winWidth = _imageLibrary[0].Width;
+        _winHeight = _imageLibrary[0].Height;
         base.SetSize();
     }
 
@@ -52,56 +52,56 @@ public partial class TurnButton : Controls.Control
     public override void Update()
     {
         base.Update();
-        if (FVisible)
+        if (_visible)
         {
-            switch (FAnimationPhase)
+            switch (AnimationPhase)
             {
                 case 0:
-                    if (FLastPlayer != FCurPlayer)
+                    if (_lastPlayer != _currentPlayer)
                     {
-                        FAnimationFrame = FLastPlayer * 7;
-                        FFrameOffset = 11;
-                        FAnimationPhase = 1;
-                        FAnimating = true;
-                        FDrawn = false;
+                        AnimationFrame = _lastPlayer * 7;
+                        FrameOffset = 11;
+                        AnimationPhase = 1;
+                        _animating = true;
+                        Drawn = false;
                     }
 
                     break;
                 case 1:
-                    FAnimationFrame += 1;
-                    FDrawn = false;
-                    if (FLastPlayer * 7 + 5 < FAnimationFrame)
+                    AnimationFrame += 1;
+                    Drawn = false;
+                    if (_lastPlayer * 7 + 5 < AnimationFrame)
                     {
-                        FAnimationFrame = 0;
-                        FAnimationPhase = 2;
-                        FFrameOffset = 0;
+                        AnimationFrame = 0;
+                        AnimationPhase = 2;
+                        FrameOffset = 0;
                     }
 
                     break;
                 case 2:
-                    FAnimationFrame += 1;
-                    FDrawn = false;
-                    if (FAnimationFrame > 10)
+                    AnimationFrame += 1;
+                    Drawn = false;
+                    if (AnimationFrame > 10)
                     {
-                        FAnimationPhase = 3;
-                        FAnimationFrame = FCurPlayer * 7 + 5;
-                        FFrameOffset = 11;
+                        AnimationPhase = 3;
+                        AnimationFrame = _currentPlayer * 7 + 5;
+                        FrameOffset = 11;
                     }
 
                     break;
                 case 3:
-                    FAnimationFrame -= 1;
-                    FDrawn = false;
-                    if (FCurPlayer * 7 > FAnimationFrame)
+                    AnimationFrame -= 1;
+                    Drawn = false;
+                    if (_currentPlayer * 7 > AnimationFrame)
                     {
-                        FAnimationFrame = FCurPlayer * 7;
-                        FAnimationPhase = 0;
-                        FFrameOffset = 11;
-                        FLastPlayer = FCurPlayer;
-                        FAnimating = false;
-                        if (FOnAnimDone != null)
+                        AnimationFrame = _currentPlayer * 7;
+                        AnimationPhase = 0;
+                        FrameOffset = 11;
+                        _lastPlayer = _currentPlayer;
+                        _animating = false;
+                        if (_onAnimationDone != null)
                         {
-                            FOnAnimDone(this);
+                            _onAnimationDone(this);
                         }
                     }
 
@@ -111,29 +111,29 @@ public partial class TurnButton : Controls.Control
     }
 
     // TurnButton.pas:132
-    public override void Draw(LockedSurface SurfDesc)
+    public override void Draw(LockedSurface lockedSurface)
     {
         try
         {
-            if (FVisible == true && FValid == true)
+            if (_visible == true && Valid == true)
             {
-                if (FOnPreDraw != null)
+                if (_onPreDraw != null)
                 {
-                    FOnPreDraw(this, SurfDesc);
+                    _onPreDraw(this, lockedSurface);
                 }
 
-                if (!FAnimating && FButtonChecked == true)
+                if (!_animating && ButtonChecked == true)
                 {
-                    FImageLib[FFrameOffset + FCurPlayer * 7 + 6].ShowClipped(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, SurfDesc);
+                    _imageLibrary[FrameOffset + _currentPlayer * 7 + 6].ShowClipped(_window._winLeft + _winLeft, _window._winTop + _winTop, lockedSurface);
                 }
                 else
                 {
-                    FImageLib[FFrameOffset + FAnimationFrame].ShowClipped(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, SurfDesc);
+                    _imageLibrary[FrameOffset + AnimationFrame].ShowClipped(_window._winLeft + _winLeft, _window._winTop + _winTop, lockedSurface);
                 }
 
-                if (FOnDraw != null)
+                if (_onDraw != null)
                 {
-                    FOnDraw(this, SurfDesc);
+                    _onDraw(this, lockedSurface);
                 }
             }
         }
@@ -144,131 +144,131 @@ public partial class TurnButton : Controls.Control
     }
 
     // TurnButton.pas:151
-    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseDown(Button, Shift, X, Y);
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        base.CheckMouseDown(button, shift, X, Y);
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (Button == MouseButton.Left && Press())
+            Handled = true;
+            if (button == MouseButton.Left && Press())
             {
-                if (FOnMouseDown != null)
+                if (_onMouseDown != null)
                 {
-                    FOnMouseDown(this, Button, Shift, X, Y);
+                    _onMouseDown(this, button, shift, X, Y);
                 }
             }
         }
     }
 
     // TurnButton.pas:169
-    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        FHandled = false;
-        if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
+        Handled = false;
+        if (X > _window._winLeft + _winLeft - 1 && X < _window._winLeft + _winLeft + _winWidth && Y > _window._winTop + _winTop - 1 && Y < _window._winTop + _winTop + _winHeight)
         {
-            FHandled = true;
-            if (FOnMouseUp != null)
+            Handled = true;
+            if (_onMouseUp != null)
             {
-                FOnMouseUp(this, Button, Shift, X, Y);
+                _onMouseUp(this, button, shift, X, Y);
             }
         }
     }
 
     // TurnButton.pas:180
-    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> shift, int X, int Y)
     {
-        base.CheckMouseMove(Shift, X, Y);
-        FHandled = false;
-        if (X >= FAOWWindow.FWinLeft + FWinLeft && X <= FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 && Y >= FAOWWindow.FWinTop + FWinTop && Y <= FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
+        base.CheckMouseMove(shift, X, Y);
+        Handled = false;
+        if (X >= _window._winLeft + _winLeft && X <= _window._winLeft + _winLeft + _winWidth - 1 && Y >= _window._winTop + _winTop && Y <= _window._winTop + _winTop + _winHeight - 1)
         {
-            FHandled = true;
-            if (FOnMouseMove != null)
+            Handled = true;
+            if (_onMouseMove != null)
             {
-                FOnMouseMove(this, Shift, X, Y);
+                _onMouseMove(this, shift, X, Y);
             }
         }
     }
 
     // TurnButton.pas:73
-    public virtual void SetILB(ImageLibrary Value)
+    public virtual void SetImageLibrary(ImageLibrary value)
     {
-        if (Value != null)
+        if (value != null)
         {
-            FImageLib = Value;
+            _imageLibrary = value;
         }
         else
         {
-            FImageLib = null;
+            _imageLibrary = null;
         }
     }
 
     [Published]
-    public ImageLibrary ImageLib { get => FImageLib; set => SetILB(value); }
+    public ImageLibrary ImageLibrary { get => _imageLibrary; set => SetImageLibrary(value); }
 
     [Published]
-    public int CurPlayer { get => FCurPlayer; set => FCurPlayer = value; }
+    public int CurrentPlayer { get => _currentPlayer; set => _currentPlayer = value; }
 
     [Published]
-    public int LastPlayer { get => FLastPlayer; set => FLastPlayer = value; }
+    public int LastPlayer { get => _lastPlayer; set => _lastPlayer = value; }
 
     [Published]
-    public bool Animating { get => FAnimating; set => FAnimating = value; }
+    public bool Animating { get => _animating; set => _animating = value; }
 
     [Published]
-    public NotifyEvent<TurnButton> OnAnimDone { get => FOnAnimDone; set => FOnAnimDone = value; }
+    public NotifyEvent<TurnButton> OnAnimationDone { get => _onAnimationDone; set => _onAnimationDone = value; }
 
     [Published]
-    public new NotifyEvent<TurnButton> OnChange { get => FOnPlayerChange; set => FOnPlayerChange = value; }
+    public new NotifyEvent<TurnButton> OnChange { get => OnPlayerChange; set => OnPlayerChange = value; }
 
     [Published]
-    public bool Checked { get => FButtonChecked; set => FButtonChecked = value; }
+    public bool Checked { get => ButtonChecked; set => ButtonChecked = value; }
 
     public new MouseEvent<TurnButton> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown);
-        set => EventSlot.Set(this, ref FOnMouseDown, value);
+        get => EventSlot.Get(this, _onMouseDown);
+        set => EventSlot.Set(this, ref _onMouseDown, value);
     }
 
     public new MouseEvent<TurnButton> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp);
-        set => EventSlot.Set(this, ref FOnMouseUp, value);
+        get => EventSlot.Get(this, _onMouseUp);
+        set => EventSlot.Set(this, ref _onMouseUp, value);
     }
 
     public new MouseMoveEvent<TurnButton> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove);
-        set => EventSlot.Set(this, ref FOnMouseMove, value);
+        get => EventSlot.Get(this, _onMouseMove);
+        set => EventSlot.Set(this, ref _onMouseMove, value);
     }
 
     public new KeyPressEvent<TurnButton> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress);
-        set => EventSlot.Set(this, ref FOnKeyPress, value);
+        get => EventSlot.Get(this, _onKeyPress);
+        set => EventSlot.Set(this, ref _onKeyPress, value);
     }
 
     public new KeyEvent<TurnButton> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown);
-        set => EventSlot.Set(this, ref FOnKeyDown, value);
+        get => EventSlot.Get(this, _onKeyDown);
+        set => EventSlot.Set(this, ref _onKeyDown, value);
     }
 
     public new AoWOnDrawEvent<TurnButton> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw);
-        set => EventSlot.Set(this, ref FOnPreDraw, value);
+        get => EventSlot.Get(this, _onPreDraw);
+        set => EventSlot.Set(this, ref _onPreDraw, value);
     }
 
     public new AoWOnDrawEvent<TurnButton> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw);
-        set => EventSlot.Set(this, ref FOnDraw, value);
+        get => EventSlot.Get(this, _onDraw);
+        set => EventSlot.Set(this, ref _onDraw, value);
     }
 
     public new NotifyEvent<TurnButton> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate);
-        set => EventSlot.Set(this, ref FOnUpdate, value);
+        get => EventSlot.Get(this, _onUpdate);
+        set => EventSlot.Set(this, ref _onUpdate, value);
     }
 }

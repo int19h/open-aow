@@ -17,208 +17,208 @@ public partial class ArmyCombatMoveTokenEvent
     {
         if ((HeadlessHooks.Tactical || FrameFixtureInputs.Tactical) && (HeadlessHooks.TacticalBattles == 0 || HeadlessHooks.TacticalSelections < HeadlessHooks.TacticalBattles))
         {
-            FCombatType = CombatType.Tactical;
+            CombatType = CombatType.Tactical;
             HeadlessHooks.TacticalSelections++;
         }
-        CombatResult CombatResult = default;
-        AoWMapField Field = default;
-        AoWMapField Source = default;
-        sbyte Defender = default;
-        ArmyHexSprite OtherArmyHS = default;
-        ArmyHexSprite ArmyHS = default;
-        ArmyHexSprite MovedArmyHS = default;
-        Combat.Battle Combat = default;
-        MapFieldMessage Msg = default;
-        UserEventLog Log = default;
-        ImageSequenceAnimation Anim = default;
-        Troop AUnit = default;
-        Field = GetMapF(FPath[0]);
-        Defender = Field.GetPlayer();
-        Source = (AoWMapField)FArmyHS.Owner;
-        FArmyHS.SetOwner(null);
-        OtherArmyHS = Source.GetArmyHS();
-        FArmyHS.SetOwner(Source);
-        for (int I = 0, last = FArmyHS.FArmy.Count - 1; I <= last; I++)
+        CombatResult combatResult = default;
+        AoWMapField field = default;
+        AoWMapField source = default;
+        sbyte defender = default;
+        ArmyHexSprite otherArmyHexSprite = default;
+        ArmyHexSprite armyHexSprite = default;
+        ArmyHexSprite movedArmyHexSprite = default;
+        Combat.Battle combat = default;
+        MapFieldMessage message = default;
+        UserEventLog log = default;
+        ImageSequenceAnimation animation = default;
+        Troop troop = default;
+        field = GetMapField(Path[0]);
+        defender = field.GetPlayer();
+        source = (AoWMapField)ArmyHexSprite.Owner;
+        ArmyHexSprite.SetOwner(null);
+        otherArmyHexSprite = source.GetArmyHexSprite();
+        ArmyHexSprite.SetOwner(source);
+        for (int I = 0, last = ArmyHexSprite.Army.Count - 1; I <= last; I++)
         {
-            if ((FSelection & 1) != 0)
+            if ((Selection & 1) != 0)
             {
-                var unit = FArmyHS.FArmy.GetUnit(I);
-                FArmyHS.FArmy.GetUnit(I).FUnitStatus = unit.FUnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                var unit = ArmyHexSprite.Army.GetUnit(I);
+                ArmyHexSprite.Army.GetUnit(I).UnitStatus = unit.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
             else
             {
-                var unit = FArmyHS.FArmy.GetUnit(I);
-                FArmyHS.FArmy.GetUnit(I).FUnitStatus = unit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                var unit = ArmyHexSprite.Army.GetUnit(I);
+                ArmyHexSprite.Army.GetUnit(I).UnitStatus = unit.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
 
-            FSelection = (byte)(int)(((uint)FSelection) >> 1);
+            Selection = (byte)(int)(((uint)Selection) >> 1);
         }
 
-        if (OtherArmyHS != null)
+        if (otherArmyHexSprite != null)
         {
-            FArmyHS.FArmy.BeginUpdate();
-            FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode + Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
-            for (int I = OtherArmyHS.FArmy.Count - 1; I >= 0; I--)
+            ArmyHexSprite.Army.BeginUpdate();
+            ArmyHexSprite.Army.Mode = ArmyHexSprite.Army.Mode + Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
+            for (int I = otherArmyHexSprite.Army.Count - 1; I >= 0; I--)
             {
-                AUnit = OtherArmyHS.FArmy.GetUnit(I);
-                AUnit.FUnitStatus = AUnit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
-                FArmyHS.FArmy.AddUnit(AUnit);
+                troop = otherArmyHexSprite.Army.GetUnit(I);
+                troop.UnitStatus = troop.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                ArmyHexSprite.Army.AddUnit(troop);
             }
 
-            FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
-            FArmyHS.FArmy.EndUpdate();
+            ArmyHexSprite.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
+            ArmyHexSprite.Army.EndUpdate();
         }
 
-        FArmyHS.CancelMove();
+        ArmyHexSprite.CancelMove();
         AoWHSMap.Current.LockGameOverEvent();
-        if (FCombatType == CombatType.Fast)
+        if (CombatType == CombatType.Fast)
         {
-            Combat = AoWHSMap.Current.CreateCombat(131760);
+            combat = AoWHSMap.Current.CreateCombat(131760);
         }
         else
         {
-            Combat = AoWHSMap.Current.CreateCombat(2228496);
+            combat = AoWHSMap.Current.CreateCombat(2228496);
         }
 
-        var yhx = FArmyHS.GetYhx();
-        var lhx = FArmyHS.GetLhx();
-        var player = Field.GetPlayer();
-        var independentRelation = Field.GetIndependentRelation();
-        var item = FPath[0];
-        var fPathItem = FPath[0];
-        var item2 = FPath[0];
-        var xhx = FArmyHS.GetXhx();
-        Combat.Setup((byte)FArmyHS.FArmy.FPlayer, (byte)FArmyHS.FArmy.FIndependentRelation, xhx, yhx, lhx, (byte)player, independentRelation, item.X, fPathItem.Y, item2.L, FCombatType == CombatType.Fast);
-        Combat.FOnExecuted = CombatExecuted;
-        Msg.MsgID = 4359;
-        Msg.Param[0] = Combat;
-        Msg.Param[1] = FArmyHS;
-        Msg.Result = 0;
-        Field.SendMapFieldMsg(ref Msg);
-        if (Msg.Result.Int == 0)
+        var hexY = ArmyHexSprite.GetHexY();
+        var hexLevel = ArmyHexSprite.GetHexLevel();
+        var player = field.GetPlayer();
+        var independentRelation = field.GetIndependentRelation();
+        var item = Path[0];
+        var fPathItem = Path[0];
+        var item2 = Path[0];
+        var hexX = ArmyHexSprite.GetHexX();
+        combat.Setup((byte)ArmyHexSprite.Army.Player, (byte)ArmyHexSprite.Army.IndependentRelation, hexX, hexY, hexLevel, (byte)player, independentRelation, item.X, fPathItem.Y, item2.MapLevel, CombatType == CombatType.Fast);
+        combat.OnExecuted = CombatExecuted;
+        message.MessageId = 4359;
+        message.Param[0] = combat;
+        message.Param[1] = ArmyHexSprite;
+        message.Result = 0;
+        field.SendMapFieldMessage(ref message);
+        if (message.Result.Int == 0)
         {
-            var fArmyHSLhx = FArmyHS.GetLhx();
-            var fArmyHSYhx = FArmyHS.GetYhx();
-            var fArmyHSXhx = FArmyHS.GetXhx();
-            Combat.InitDefaultArmies(FArmyHS.FArmy, fArmyHSXhx, fArmyHSYhx, fArmyHSLhx);
+            var fArmyHexSpriteHexLevel = ArmyHexSprite.GetHexLevel();
+            var fArmyHexSpriteHexY = ArmyHexSprite.GetHexY();
+            var fArmyHexSpriteHexX = ArmyHexSprite.GetHexX();
+            combat.InitializeDefaultArmies(ArmyHexSprite.Army, fArmyHexSpriteHexX, fArmyHexSpriteHexY, fArmyHexSpriteHexLevel);
         }
 
-        Combat.Initialize();
-        Combat.Activate();
-        CombatResult = Combat.Execute();
-        FCombatMode = Mode.CombatExecuted;
-        if (CombatResult != Game.Combat.CombatResult.Busy)
+        combat.Initialize();
+        combat.Activate();
+        combatResult = combat.Execute();
+        CombatMode = ArmyCombatMoveTokenEventMode.CombatExecuted;
+        if (combatResult != Game.Combat.CombatResult.Busy)
         {
-            Combat.Deactivate();
-            Combat.Finalize();
-            if (Combat is FastBattle)
+            combat.Deactivate();
+            combat.Finalize();
+            if (combat is FastBattle)
             {
-                DistributeCombatEvent(Combat.FLogbook, true);
-                if (AoWHSMap.Current.FRequestCombatType && AoWHSMap.Current.FSeatedPlayer == Defender)
+                DistributeCombatEvent(combat.Logbook, true);
+                if (AoWHSMap.Current.RequestCombatType && AoWHSMap.Current.SeatedPlayer == defender)
                 {
-                    Log = new UserEventLog(null);
-                    Log.FData = this;
-                    AoWHSMap.Current.TriggerExecuteEventLog(Log, false, RestoreHotSeatModeCallBack);
-                    Log.Release();
-                    AoWHSMap.Current.FAIExecuter.Lock();
+                    log = new UserEventLog(null);
+                    log.Data = this;
+                    AoWHSMap.Current.TriggerExecuteEventLog(log, false, RestoreHotSeatModeCallback);
+                    log.Release();
+                    AoWHSMap.Current.AIExecutor.Lock();
                     AoWHSMap.Current.LockGameOverEvent();
-                    FCombatMode = Mode.RestoringHotseat;
+                    CombatMode = ArmyCombatMoveTokenEventMode.RestoringHotSeat;
                 }
             }
 
-            bool condition = CombatResult != Game.Combat.CombatResult.NoDefenders;
+            bool condition = combatResult != Game.Combat.CombatResult.NoDefenders;
             if (condition)
             {
-                var item3 = FPath[0];
-                var item4 = FPath[0];
-                var item5 = FPath[0];
-                condition = AoWHSMap.Current.VisibleForPlayer(item5.X, item4.Y, item3.L, AoWHSMap.Current.FSeatedPlayer);
+                var item3 = Path[0];
+                var item4 = Path[0];
+                var item5 = Path[0];
+                condition = AoWHSMap.Current.VisibleForPlayer(item5.X, item4.Y, item3.MapLevel, AoWHSMap.Current.SeatedPlayer);
             }
 
             if (condition)
             {
-                Anim = new ImageSequenceAnimation(null);
-                Anim.SetImageSequence(AoWHSSet.Current.FImageSequences.ImageSequences[22]);
-                var item3 = FPath[0];
-                var item4 = FPath[0];
-                var item5 = FPath[0];
-                AoWHSMap.Current.PlaceHX(Anim, item5.X, item4.Y, item3.L);
+                animation = new ImageSequenceAnimation(null);
+                animation.SetImageSequence(AoWHSSet.Current.ImageSequences.ImageSequences[22]);
+                var item3 = Path[0];
+                var item4 = Path[0];
+                var item5 = Path[0];
+                AoWHSMap.Current.PlaceHex(animation, item5.X, item4.Y, item3.MapLevel);
             }
 
             AoWHSMap.Current.DestroyCombat();
             AoWHSMap.Current.UnlockGameOverEvent();
-            FArmyHS = (ArmyHexSprite)GetMapF(FPath[FMoveIndex]).FindOwnedChild(131607);
-            if (FArmyHS != null && Set<CombatResult>.Of(Game.Combat.CombatResult.CannotInflictDamage, Game.Combat.CombatResult.Undecided, Game.Combat.CombatResult.CannotBreachWall, Game.Combat.CombatResult.Fled).Contains(CombatResult))
+            ArmyHexSprite = (ArmyHexSprite)GetMapField(Path[MoveIndex]).FindOwnedChild(131607);
+            if (ArmyHexSprite != null && Set<CombatResult>.Of(Game.Combat.CombatResult.CannotInflictDamage, Game.Combat.CombatResult.Undecided, Game.Combat.CombatResult.CannotBreachWall, Game.Combat.CombatResult.Fled).Contains(combatResult))
             {
                 FinishMove();
-                FArmyHS = null;
+                ArmyHexSprite = null;
             }
 
-            if (FArmyHS != null)
+            if (ArmyHexSprite != null)
             {
-                FArmyHS.CancelMove();
-                FArmyHS.FArmy.BeginUpdate();
-                ArmyHS = new ArmyHexSprite(null);
-                ArmyHS.FArmy.BeginUpdate();
-                ArmyHS.FArmy.AssignSettings(FArmyHS.FArmy);
-                ArmyHS.FDirection = FArmyHS.FDirection;
-                ArmyHS.FArmy.SetPlayer(FArmyHS.FArmy.FPlayer);
-                for (int I = FArmyHS.FArmy.Count - 1; I >= 0; I--)
+                ArmyHexSprite.CancelMove();
+                ArmyHexSprite.Army.BeginUpdate();
+                armyHexSprite = new ArmyHexSprite(null);
+                armyHexSprite.Army.BeginUpdate();
+                armyHexSprite.Army.AssignSettings(ArmyHexSprite.Army);
+                armyHexSprite.Direction = ArmyHexSprite.Direction;
+                armyHexSprite.Army.SetPlayer(ArmyHexSprite.Army.Player);
+                for (int I = ArmyHexSprite.Army.Count - 1; I >= 0; I--)
                 {
-                    if (FArmyHS.FArmy.GetUnit(I).FUnitStatus.Contains(UnitStatusElement.Moving))
+                    if (ArmyHexSprite.Army.GetUnit(I).UnitStatus.Contains(UnitStatusElement.Moving))
                     {
-                        var unit = FArmyHS.FArmy.GetUnit(I);
-                        FArmyHS.FArmy.GetUnit(I).FUnitStatus = unit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
-                        var fArmyUnit = FArmyHS.FArmy.GetUnit(I);
-                        ArmyHS.FArmy.AddUnit(fArmyUnit);
+                        var unit = ArmyHexSprite.Army.GetUnit(I);
+                        ArmyHexSprite.Army.GetUnit(I).UnitStatus = unit.UnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
+                        var fArmyUnit = ArmyHexSprite.Army.GetUnit(I);
+                        armyHexSprite.Army.AddUnit(fArmyUnit);
                     }
                 }
 
-                ArmyHS.FArmy.EndUpdate();
-                if (ArmyHS.FArmy.Count != 0)
+                armyHexSprite.Army.EndUpdate();
+                if (armyHexSprite.Army.Count != 0)
                 {
-                    var item3 = FPath[FMoveIndex];
-                    var item4 = FPath[FMoveIndex];
-                    var item5 = FPath[FMoveIndex];
-                    ArmyHS.PlacePrivate(AoWHSMap.Current.MapContainer, item5.X, item4.Y, item3.L);
-                    if (FArmyHS.GetSelected())
+                    var item3 = Path[MoveIndex];
+                    var item4 = Path[MoveIndex];
+                    var item5 = Path[MoveIndex];
+                    armyHexSprite.PlacePrivate(AoWHSMap.Current.MapContainer, item5.X, item4.Y, item3.MapLevel);
+                    if (ArmyHexSprite.GetSelected())
                     {
                         AoWHSMap.Current.Selection.UnselectLocation();
-                        AoWHSMap.Current.Selection.SelectLocationHS(ArmyHS);
+                        AoWHSMap.Current.Selection.SelectLocationHexSprite(armyHexSprite);
                     }
 
-                    FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
-                    FArmyHS.FArmy.EndUpdate();
-                    MovedArmyHS = ArmyHS;
-                    FArmyHS = MovedArmyHS;
-                    MovedArmyHS.FArmy.FMode = MovedArmyHS.FArmy.FMode + Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
-                    FSelection = 255;
-                    if (Set<CombatResult>.Of(Game.Combat.CombatResult.Victory, Game.Combat.CombatResult.NoDefenders).Contains(CombatResult) || base.CanMoveNext())
+                    ArmyHexSprite.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+                    ArmyHexSprite.Army.EndUpdate();
+                    movedArmyHexSprite = armyHexSprite;
+                    ArmyHexSprite = movedArmyHexSprite;
+                    movedArmyHexSprite.Army.Mode = movedArmyHexSprite.Army.Mode + Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+                    Selection = 255;
+                    if (Set<CombatResult>.Of(Game.Combat.CombatResult.Victory, Game.Combat.CombatResult.NoDefenders).Contains(combatResult) || base.CanMoveNext())
                     {
-                        var direction = GetDirection(FMoveIndex);
-                        FArmyHS.MoveFirst(direction, false);
-                        FArmyHS.SetMoveStatus(50);
+                        var direction = GetDirection(MoveIndex);
+                        ArmyHexSprite.MoveFirst(direction, false);
+                        ArmyHexSprite.SetMoveStatus(50);
                     }
                     else
                     {
                         FinishMove();
-                        FArmyHS = null;
+                        ArmyHexSprite = null;
                         return;
                     }
                 }
                 else
                 {
                     // { The original drops the empty new army without freeing it. }
-                    FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
-                    FArmyHS.FArmy.EndUpdate();
-                    FArmyHS = null;
+                    ArmyHexSprite.Army.Mode = ArmyHexSprite.Army.Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
+                    ArmyHexSprite.Army.EndUpdate();
+                    ArmyHexSprite = null;
                 }
             }
         }
         else
         {
             AoWHSMap.Current.UnlockGameOverEvent();
-            FArmyHS = null;
+            ArmyHexSprite = null;
             FinishMove();
         }
     }

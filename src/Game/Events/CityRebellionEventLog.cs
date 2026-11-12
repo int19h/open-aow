@@ -12,59 +12,59 @@ using Aow.Rtl;
 
 namespace Aow.Game.Events;
 
-// FXhx, FYhx, FLhx, FCityName
+// HexX, HexY, HexLevel, CityName
 public partial class CityRebellionEventLog : EventLog
 {
     public CityRebellionEventLog(ECustomNode owner) : base(owner)
     { }
 
     // City.pas:2675
-    public new const int ClassID = 131346;
+    public new const int ClassId = 131346;
 
-    public int FXhx;
-    public int FYhx;
-    public int FLhx;
-    public string FCityName = "";
+    public int HexX;
+    public int HexY;
+    public int HexLevel;
+    public string CityName = "";
 
     // City.pas:2680
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FXhx, 20);
-        Stream.rwInteger(ref FYhx, 21);
-        Stream.rwInteger(ref FLhx, 22);
-        Stream.rwString(ref FCityName, 23);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref HexX, 20);
+        stream.rwInteger(ref HexY, 21);
+        stream.rwInteger(ref HexLevel, 22);
+        stream.rwString(ref CityName, 23);
     }
 
     // City.pas:2689
-    public override string GetText() => RtlUnit.Format(AbilityRules.TranslateRStr(CityRebellionRStr), [FCityName]);
+    public override string GetText() => RtlUnit.Format(AbilityRules.TranslateResourceString(s_cityRebellionFormat), [CityName]);
 
     // City.pas:2699
-    public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done)
     {
-        bool Result = default;
-        bool ShowEvent;
-        ShowEvent = Trigger == ExecuteTrigger.User;
-        ShowEvent = ShowEvent || AoWHSMap.Current.FPlayMode == PlayMode.Turn && GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
-        ShowEvent = ShowEvent || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
-        if (ShowEvent)
+        bool result = default;
+        bool showEvent;
+        showEvent = trigger == ExecuteTrigger.User;
+        showEvent = showEvent || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
+        showEvent = showEvent || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
+        if (showEvent)
         {
-            Result = base.Execute(Mode, Trigger, Done);
+            result = base.Execute(mode, trigger, done);
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // City.pas:2694
     public override void ViewLocation()
     {
-        CenterViewTo((sbyte)FXhx, (sbyte)FYhx, (sbyte)FLhx);
+        CenterViewTo((sbyte)HexX, (sbyte)HexY, (sbyte)HexLevel);
     }
 
-    private static readonly string CityRebellionRStr = "%s rebelled";
+    private static readonly string s_cityRebellionFormat = "%s rebelled";
 
 }

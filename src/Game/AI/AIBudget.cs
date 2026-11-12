@@ -14,66 +14,66 @@ namespace Aow.Game.AI;
 public partial class AIBudget : EngineObject
 {
     // AI.pas:1653
-    public new const int ClassID = 131740;
+    public new const int ClassId = 131740;
 
     public AIBudget(ECustomNode owner) : base(owner)
     { }
 
-    public int FPriority;
-    public int FRequiredGold;
-    public int FRequiredMana;
-    public int FGoldUpkeep;
-    public int FManaUpkeep;
-    public int FDays;
-    public int FDayGoldMax;
-    public int FDayManaMax;
-    public int FDayGold;
-    public int FDayMana;
-    public int FGold;
-    public int FMana;
+    public int Priority;
+    public int RequiredGold;
+    public int RequiredMana;
+    public int GoldUpkeep;
+    public int ManaUpkeep;
+    public int Days;
+    public int DayGoldMax;
+    public int DayManaMax;
+    public int DayGold;
+    public int DayMana;
+    public int Gold;
+    public int Mana;
 
     // AI.pas:1658
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FPriority, 30);
-        Stream.rwInteger(ref FRequiredGold, 31);
-        Stream.rwInteger(ref FRequiredMana, 32);
-        Stream.rwInteger(ref FGoldUpkeep, 33);
-        Stream.rwInteger(ref FManaUpkeep, 34);
-        Stream.rwInteger(ref FGold, 35);
-        Stream.rwInteger(ref FMana, 36);
-        Stream.rwInteger(ref FDays, 37);
-        Stream.rwInteger(ref FDayGoldMax, 38);
-        Stream.rwInteger(ref FDayManaMax, 39);
-        Stream.rwInteger(ref FDayGold, 40);
-        Stream.rwInteger(ref FDayMana, 41);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Priority, 30);
+        stream.rwInteger(ref RequiredGold, 31);
+        stream.rwInteger(ref RequiredMana, 32);
+        stream.rwInteger(ref GoldUpkeep, 33);
+        stream.rwInteger(ref ManaUpkeep, 34);
+        stream.rwInteger(ref Gold, 35);
+        stream.rwInteger(ref Mana, 36);
+        stream.rwInteger(ref Days, 37);
+        stream.rwInteger(ref DayGoldMax, 38);
+        stream.rwInteger(ref DayManaMax, 39);
+        stream.rwInteger(ref DayGold, 40);
+        stream.rwInteger(ref DayMana, 41);
     }
 
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        persister.Int("Priority", ref FPriority);
-        persister.Int("RequiredGold", ref FRequiredGold);
-        persister.Int("RequiredMana", ref FRequiredMana);
-        persister.Int("GoldUpkeep", ref FGoldUpkeep);
-        persister.Int("ManaUpkeep", ref FManaUpkeep);
-        persister.Int("Gold", ref FGold);
-        persister.Int("Mana", ref FMana);
-        persister.Int("Days", ref FDays);
-        persister.Int("DayGoldMax", ref FDayGoldMax);
-        persister.Int("DayManaMax", ref FDayManaMax);
-        persister.Int("DayGold", ref FDayGold);
-        persister.Int("DayMana", ref FDayMana);
+        persister.Int32("Priority", ref Priority);
+        persister.Int32("RequiredGold", ref RequiredGold);
+        persister.Int32("RequiredMana", ref RequiredMana);
+        persister.Int32("GoldUpkeep", ref GoldUpkeep);
+        persister.Int32("ManaUpkeep", ref ManaUpkeep);
+        persister.Int32("Gold", ref Gold);
+        persister.Int32("Mana", ref Mana);
+        persister.Int32("Days", ref Days);
+        persister.Int32("DayGoldMax", ref DayGoldMax);
+        persister.Int32("DayManaMax", ref DayManaMax);
+        persister.Int32("DayGold", ref DayGold);
+        persister.Int32("DayMana", ref DayMana);
     }
 
     // AI.pas:1702
-    public virtual bool GetReady() => FRequiredGold == FGold && FRequiredMana == FMana;
+    public virtual bool GetReady() => RequiredGold == Gold && RequiredMana == Mana;
 
     // AI.pas:1678
     public virtual void OutputDebugInfo()
     {
-        GameTables.AoWEngine.OutputDebugMessage(AbilityRules.TMPDID, this.GetType().Name + " Gold:" + IntToStr(FGold) + "/" + IntToStr(FRequiredGold) + " Mana:" + IntToStr(FMana) + "/" + IntToStr(FRequiredMana));
+        GameTables.GameEngine.OutputDebugMessage(AbilityRules.s_temporaryDebugChannel, this.GetType().Name + " Gold:" + IntToStr(Gold) + "/" + IntToStr(RequiredGold) + " Mana:" + IntToStr(Mana) + "/" + IntToStr(RequiredMana));
     }
 
     // AI.pas:1675
@@ -84,28 +84,28 @@ public partial class AIBudget : EngineObject
     // AI.pas:1685
     public virtual void UpdateDayRequirements()
     {
-        FDayGold = FRequiredGold - FGold;
-        FDayMana = FRequiredMana - FMana;
-        if (FDays != 0)
+        DayGold = RequiredGold - Gold;
+        DayMana = RequiredMana - Mana;
+        if (Days != 0)
         {
-            if (FDays > 1)
+            if (Days > 1)
             {
-                FDays -= 1;
+                Days -= 1;
             }
 
-            FDayGold = Round((double)FDayGold / FDays);
-            FDayMana = Round((double)FDayMana / FDays);
+            DayGold = Round((double)DayGold / Days);
+            DayMana = Round((double)DayMana / Days);
         }
         else
         {
-            if (FDayGoldMax < FDayGold)
+            if (DayGoldMax < DayGold)
             {
-                FDayGold = FDayGoldMax;
+                DayGold = DayGoldMax;
             }
 
-            if (FDayManaMax < FDayMana)
+            if (DayManaMax < DayMana)
             {
-                FDayMana = FDayManaMax;
+                DayMana = DayManaMax;
             }
         }
     }

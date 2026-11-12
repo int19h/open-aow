@@ -11,50 +11,50 @@ namespace Aow.Game.Draw.Images;
 public partial class ImageLibraryFont : CustomImageLibrary
 {
 
-    internal int FCharacterDistance;
-    internal int FHeight;
-    internal EditCharCase FCharCase;
-    internal int FColor;
-    internal int FFontColorPaletteIndex;
+    internal int _characterDistance;
+    internal int _height;
+    internal EditCharCase _charCase;
+    internal int _color;
+    internal int _fontColorPaletteIndex;
 
     // ImageLib.pas:6266
-    internal void SetFontColorPaletteIndex(int Value)
+    internal void SetFontColorPaletteIndex(int value)
     {
-        if (Value > 255)
+        if (value > 255)
         {
-            Value = 255;
+            value = 255;
         }
 
-        if (Value < 0)
+        if (value < 0)
         {
-            Value = -1;
+            value = -1;
         }
 
-        FFontColorPaletteIndex = Value;
+        _fontColorPaletteIndex = value;
     }
 
     // ImageLib.pas:6258
     public ImageLibraryFont(Component owner) : base(owner)
     {
-        FCharacterDistance = 2;
-        FFontColorPaletteIndex = -1;
-        FCharCase = EditCharCase.Normal;
+        _characterDistance = 2;
+        _fontColorPaletteIndex = -1;
+        _charCase = EditCharCase.Normal;
     }
 
     // ImageLib.pas:6291
-    public override void LoadFromStream(Stream Stream)
+    public override void LoadFromStream(Stream stream)
     {
         int I;
-        base.LoadFromStream(Stream);
-        FHeight = 0;
+        base.LoadFromStream(stream);
+        _height = 0;
         I = 0;
-        while (I < FCount)
+        while (I < _count)
         {
             if (this[I] != null)
             {
-                if (this[I].Height > FHeight)
+                if (this[I].Height > _height)
                 {
-                    FHeight = this[I].Height;
+                    _height = this[I].Height;
                 }
             }
 
@@ -63,44 +63,44 @@ public partial class ImageLibraryFont : CustomImageLibrary
     }
 
     // ImageLib.pas:6367
-    public int GetTextWidth(string Text)
+    public int GetTextWidth(string text)
     {
-        int Result;
-        switch (FCharCase)
+        int result;
+        switch (_charCase)
         {
             case EditCharCase.Normal:
-                Result = TextWidth(Text);
+                result = TextWidth(text);
                 break;
             case EditCharCase.LowerCase:
-                Result = TextWidth(LowerCase(Text));
+                result = TextWidth(LowerCase(text));
                 break;
             case EditCharCase.UpperCase:
-                Result = TextWidth(UpperCase(Text));
+                result = TextWidth(UpperCase(text));
                 break;
             default:
-                Result = 0;
+                result = 0;
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // ImageLib.pas:6378
-    public int GetTextHeight(string Text)
+    public int GetTextHeight(string text)
     {
         int H;
         int C;
         string S;
-        switch (FCharCase)
+        switch (_charCase)
         {
             case EditCharCase.LowerCase:
-                S = LowerCase(Text);
+                S = LowerCase(text);
                 break;
             case EditCharCase.UpperCase:
-                S = UpperCase(Text);
+                S = UpperCase(text);
                 break;
             default:
-                S = Text;
+                S = text;
                 break;
         }
 
@@ -108,7 +108,7 @@ public partial class ImageLibraryFont : CustomImageLibrary
         for (int I = 1; I <= S.Length; I++)
         {
             C = Cp1252.Byte(S[I - 1]);
-            if (C < FCount && this[C] != null && this[C].Height > H)
+            if (C < _count && this[C] != null && this[C].Height > H)
             {
                 H = this[C].Height;
             }
@@ -118,64 +118,64 @@ public partial class ImageLibraryFont : CustomImageLibrary
     }
 
     // ImageLib.pas:6399
-    public void SetText(int X, int Y, string Text, in LockedSurface SD)
+    public void SetText(int X, int Y, string text, in LockedSurface lockedSurface)
     {
-        switch (FCharCase)
+        switch (_charCase)
         {
             case EditCharCase.Normal:
-                ShowText(X, Y, Text, SD);
+                ShowText(X, Y, text, lockedSurface);
                 break;
             case EditCharCase.LowerCase:
-                ShowText(X, Y, LowerCase(Text), SD);
+                ShowText(X, Y, LowerCase(text), lockedSurface);
                 break;
             case EditCharCase.UpperCase:
-                ShowText(X, Y, UpperCase(Text), SD);
+                ShowText(X, Y, UpperCase(text), lockedSurface);
                 break;
         }
     }
 
     // ImageLib.pas:6408
-    public void SetTextCentered(int X, int Y, string Text, in LockedSurface SD)
+    public void SetTextCentered(int X, int Y, string text, in LockedSurface lockedSurface)
     {
         string S;
-        switch (FCharCase)
+        switch (_charCase)
         {
             case EditCharCase.Normal:
-                X = X - (int)(((uint)TextWidth(Text)) >> 1);
-                ShowText(X, Y, Text, SD);
+                X = X - (int)(((uint)TextWidth(text)) >> 1);
+                ShowText(X, Y, text, lockedSurface);
                 break;
             case EditCharCase.LowerCase:
-                S = LowerCase(Text);
+                S = LowerCase(text);
                 X = X - (int)(((uint)TextWidth(S)) >> 1);
-                ShowText(X, Y, S, SD);
+                ShowText(X, Y, S, lockedSurface);
                 break;
             case EditCharCase.UpperCase:
-                S = UpperCase(Text);
+                S = UpperCase(text);
                 X = X - (int)(((uint)TextWidth(S)) >> 1);
-                ShowText(X, Y, S, SD);
+                ShowText(X, Y, S, lockedSurface);
                 break;
         }
     }
 
     // ImageLib.pas:6433
-    public void SetTextEx(int X, int Y, string Text, in LockedSurface SD, Set<SetTextModeElement> Mode, in ShowInfo ShowInfo)
+    public void SetText(int X, int Y, string text, in LockedSurface lockedSurface, Set<SetTextModeElement> mode, in ShowInfo showInfo)
     {
         int C;
         string S;
-        switch (FCharCase)
+        switch (_charCase)
         {
             case EditCharCase.LowerCase:
-                S = LowerCase(Text);
+                S = LowerCase(text);
                 break;
             case EditCharCase.UpperCase:
-                S = UpperCase(Text);
+                S = UpperCase(text);
                 break;
             default:
-                S = Text;
+                S = text;
                 break;
         }
 
-        if (Mode.Contains(SetTextModeElement.Center))
+        if (mode.Contains(SetTextModeElement.Center))
         {
             X = X - (int)(((uint)TextWidth(S)) >> 1);
         }
@@ -183,30 +183,30 @@ public partial class ImageLibraryFont : CustomImageLibrary
         for (int I = 1; I <= S.Length; I++)
         {
             C = Cp1252.Byte(S[I - 1]);
-            if (C < FCount && this[C] != null)
+            if (C < _count && this[C] != null)
             {
-                this[C].ShowEx(X, Y, SD, ShowInfo);
-                X += this[C].Width + FCharacterDistance;
+                this[C].Show(X, Y, lockedSurface, showInfo);
+                X += this[C].Width + _characterDistance;
             }
             else
             {
-                X += FCharacterDistance + 5;
+                X += _characterDistance + 5;
             }
         }
     }
 
-    public int Height { get => FHeight; }
+    public int Height { get => _height; }
 
     [Published]
-    public int CharacterDistance { get => FCharacterDistance; set => FCharacterDistance = value; }
+    public int CharacterDistance { get => _characterDistance; set => _characterDistance = value; }
 
     [Published]
-    public EditCharCase CharCase { get => FCharCase; set => FCharCase = value; }
+    public EditCharCase CharCase { get => _charCase; set => _charCase = value; }
 
     [Published]
-    public int Color { get => FColor; set => SetColor(value); }
+    public int Color { get => _color; set => SetColor(value); }
 
     [Published]
-    public int FontColorPaletteIndex { get => FFontColorPaletteIndex; set => SetFontColorPaletteIndex(value); }
+    public int FontColorPaletteIndex { get => _fontColorPaletteIndex; set => SetFontColorPaletteIndex(value); }
 
 }

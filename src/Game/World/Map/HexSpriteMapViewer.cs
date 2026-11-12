@@ -7,327 +7,327 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Map;
 
 // shows a map on a surface. FStaticSurface (the static scene, kept between frames),
-// FSceneWidth, FSceneHeight, FSceneX, FSceneY, FSceneL, FStaticSurfaceValid, FOnSceneChanged
+// _sceneWidth, _sceneHeight, _sceneX, _sceneY, _sceneL, _staticSurfaceValid, _onSceneChanged
 // (published), FHSMap. SetHSMap points the map's OnCenterView, OnChangeView and OnViewLevel at
 // CenterScene, ChangeScene and SetSceneL
 public partial class HexSpriteMapViewer : Component
 {
-    internal Surface FStaticSurface;
-    internal int FSceneWidth;
-    internal int FSceneHeight;
-    internal int FSceneX;
-    internal int FSceneY;
-    internal int FSceneL;
-    internal bool FStaticSurfaceValid;
-    internal NotifyEvent<object> FOnSceneChanged;
-    internal HSMap FHSMap;
+    internal Surface _staticSurface;
+    internal int _sceneWidth;
+    internal int _sceneHeight;
+    internal int _sceneX;
+    internal int _sceneY;
+    internal int _sceneL;
+    internal bool _staticSurfaceValid;
+    internal NotifyEvent<object> _onSceneChanged;
+    internal HSMap _hexSpriteMap;
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
-    internal Surface FCenteredSurface;
+    internal Surface _centeredSurface;
 
     // HSEngine.pas:4670
     public HexSpriteMapViewer(Component owner) : base(owner)
     {
-        FStaticSurfaceValid = false;
-        FOnSceneChanged = null;
+        _staticSurfaceValid = false;
+        _onSceneChanged = null;
     }
 
     // HSEngine.pas:4678
     // { Leaves the map's OnChangeView set (original slip). }
     public override void Dispose()
     {
-        if (FHSMap != null)
+        if (_hexSpriteMap != null)
         {
-            FHSMap.FOnCenterView = null;
-            FHSMap.FOnViewLevel = null;
+            _hexSpriteMap._onCenterView = null;
+            _hexSpriteMap._onViewLevel = null;
         }
 
-        FStaticSurface?.Dispose();
-        FCenteredSurface?.Dispose();
+        _staticSurface?.Dispose();
+        _centeredSurface?.Dispose();
         base.Dispose();
     }
 
     // HSEngine.pas:4718
-    public virtual void SetHSMap(HSMap Value)
+    public virtual void SetHexSpriteMap(HSMap value)
     {
-        FHSMap = Value;
-        if (FHSMap != null)
+        _hexSpriteMap = value;
+        if (_hexSpriteMap != null)
         {
             // { Install viewer callbacks on the assigned map. }
-            FHSMap.FOnCenterView = CenterScene;
-            FHSMap.FOnChangeView = ChangeScene;
-            FHSMap.FOnViewLevel = SetSceneL;
+            _hexSpriteMap._onCenterView = CenterScene;
+            _hexSpriteMap._onChangeView = ChangeScene;
+            _hexSpriteMap._onViewLevel = SetSceneL;
         }
     }
 
     // HSEngine.pas:4794
-    public virtual void VerifyStaticSurface(Surface Surface)
+    public virtual void VerifyStaticSurface(Surface surface)
     {
-        bool IsDDraw;
-        Set<DirectDrawSurfaceCreationFlagsElement> Flags;
-        IsDDraw = FStaticSurface is DirectDrawSurface;
-        if (FStaticSurface != null && (FStaticSurface.GetPixelFormatID() != Surface.GetPixelFormatID() || (Surface is DirectDrawSurface) ^ IsDDraw))
+        bool isDDraw;
+        Set<DirectDrawSurfaceCreationFlagsElement> flags;
+        isDDraw = _staticSurface is DirectDrawSurface;
+        if (_staticSurface != null && (_staticSurface.GetPixelFormatId() != surface.GetPixelFormatId() || (surface is DirectDrawSurface) ^ isDDraw))
         {
-            FStaticSurface?.Dispose();
-            FStaticSurface = null;
+            _staticSurface?.Dispose();
+            _staticSurface = null;
         }
 
-        if (FStaticSurface == null || FStaticSurface.GetWidth() != FSceneWidth || FStaticSurface.GetHeight() != FSceneHeight)
+        if (_staticSurface == null || _staticSurface.GetWidth() != _sceneWidth || _staticSurface.GetHeight() != _sceneHeight)
         {
-            if (FStaticSurface == null)
+            if (_staticSurface == null)
             {
-                if (Surface is DirectDrawSurface)
+                if (surface is DirectDrawSurface)
                 {
-                    if (((DirectDrawSurface)Surface).Status.Contains(DirectDrawSurfaceStatusElement.VideoMemory))
+                    if (((DirectDrawSurface)surface).Status.Contains(DirectDrawSurfaceStatusElement.VideoMemory))
                     {
-                        Flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.VideoMemory, DirectDrawSurfaceCreationFlagsElement.SystemMemory);
+                        flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.VideoMemory, DirectDrawSurfaceCreationFlagsElement.SystemMemory);
                     }
                     else
                     {
-                        Flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.SystemMemory);
+                        flags = Set<DirectDrawSurfaceCreationFlagsElement>.Of(DirectDrawSurfaceCreationFlagsElement.SystemMemory);
                     }
 
-                    FStaticSurface = new DirectDrawSurface();
-                    var pixelFormatID = Surface.GetPixelFormatID();
-                    ((DirectDrawSurface)FStaticSurface).CreateSurface(FSceneWidth, FSceneHeight, pixelFormatID, Flags);
+                    _staticSurface = new DirectDrawSurface();
+                    var pixelFormatId = surface.GetPixelFormatId();
+                    ((DirectDrawSurface)_staticSurface).CreateSurface(_sceneWidth, _sceneHeight, pixelFormatId, flags);
                 }
                 else
                 {
-                    var pixelFormatID = Surface.GetPixelFormatID();
-                    FStaticSurface = new DataSurface(FSceneWidth, FSceneHeight, pixelFormatID, null);
+                    var pixelFormatId = surface.GetPixelFormatId();
+                    _staticSurface = new DataSurface(_sceneWidth, _sceneHeight, pixelFormatId, null);
                 }
             }
             else
             {
-                FStaticSurface.Resize(FSceneWidth, FSceneHeight);
+                _staticSurface.Resize(_sceneWidth, _sceneHeight);
             }
 
-            IsDDraw = FStaticSurface is DirectDrawSurface;
-            FHSMap.FStaticSceneInvalid = true;
-            FStaticSurfaceValid = false;
+            isDDraw = _staticSurface is DirectDrawSurface;
+            _hexSpriteMap._staticSceneInvalid = true;
+            _staticSurfaceValid = false;
         }
 
-        if (IsDDraw && ((DirectDrawSurface)FStaticSurface).Lost())
+        if (isDDraw && ((DirectDrawSurface)_staticSurface).Lost())
         {
-            ((DirectDrawSurface)FStaticSurface).Restore();
-            FStaticSurfaceValid = false;
+            ((DirectDrawSurface)_staticSurface).Restore();
+            _staticSurfaceValid = false;
         }
     }
 
     // HSEngine.pas:4689
-    public void ChangeScene(int Xhp, int Yhp, int Lhp)
+    public void ChangeScene(int pixelX, int pixelY, int lHitPoints)
     {
-        if (FHSMap != null)
+        if (_hexSpriteMap != null)
         {
-            SetSceneX(Xhp);
-            SetSceneY(Yhp);
-            SetSceneL(Lhp);
-            if (FHSMap.SetViewPort(FSceneX, FSceneY, FSceneL, FSceneWidth, FSceneHeight) && FOnSceneChanged != null)
+            SetSceneX(pixelX);
+            SetSceneY(pixelY);
+            SetSceneL(lHitPoints);
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && _onSceneChanged != null)
             {
-                FOnSceneChanged(this);
+                _onSceneChanged(this);
             }
         }
     }
 
     // HSEngine.pas:4702
-    public void CenterScene(int Xhx, int Yhx, int Lhx)
+    public void CenterScene(int hexX, int hexY, int hexLevel)
     {
-        int Xhp = default;
-        int Yhp = default;
-        if (FHSMap != null)
+        int pixelX = default;
+        int pixelY = default;
+        if (_hexSpriteMap != null)
         {
-            HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
-            SetSceneX(Xhp + 16 - (int)(((uint)FSceneWidth) >> 1));
-            SetSceneY(Yhp + 16 - (int)(((uint)FSceneHeight) >> 1));
-            SetSceneL(Lhx);
-            if (FHSMap.SetViewPort(FSceneX, FSceneY, FSceneL, FSceneWidth, FSceneHeight) && FOnSceneChanged != null)
+            HexGeometry.HexToPixel(hexX, hexY, ref pixelX, ref pixelY);
+            SetSceneX(pixelX + 16 - (int)(((uint)_sceneWidth) >> 1));
+            SetSceneY(pixelY + 16 - (int)(((uint)_sceneHeight) >> 1));
+            SetSceneL(hexLevel);
+            if (_hexSpriteMap.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && _onSceneChanged != null)
             {
-                FOnSceneChanged(this);
+                _onSceneChanged(this);
             }
         }
     }
 
     // HSEngine.pas:4730
-    public void SetSceneL(int Value)
+    public void SetSceneL(int value)
     {
-        if (FHSMap != null)
+        if (_hexSpriteMap != null)
         {
-            if (Value < 0)
+            if (value < 0)
             {
-                Value = 0;
+                value = 0;
             }
 
-            if (Value >= FHSMap.FMapContainer.FLevelCount)
+            if (value >= _hexSpriteMap._mapContainer._levelCount)
             {
-                Value = FHSMap.FMapContainer.FLevelCount - 1;
+                value = _hexSpriteMap._mapContainer._levelCount - 1;
             }
 
-            FSceneL = Value;
+            _sceneL = value;
         }
     }
 
     // HSEngine.pas:4742
-    public void SetSceneX(int Value)
+    public void SetSceneX(int value)
     {
-        if (FHSMap != null)
+        if (_hexSpriteMap != null)
         {
-            if (Value < 16)
+            if (value < 16)
             {
-                Value = 16;
+                value = 16;
             }
 
-            if (this.FHSMap.GetMaxXhp() < FSceneWidth + Value + 16)
+            if (this._hexSpriteMap.GetMaxPixelX() < _sceneWidth + value + 16)
             {
-                this.FSceneX = this.FHSMap.GetMaxXhp() - FSceneWidth - 16;
+                this._sceneX = this._hexSpriteMap.GetMaxPixelX() - _sceneWidth - 16;
             }
             else
             {
-                this.FSceneX = Value;
+                this._sceneX = value;
             }
         }
     }
 
     // HSEngine.pas:4756
-    public void SetSceneY(int Value)
+    public void SetSceneY(int value)
     {
-        if (FHSMap != null)
+        if (_hexSpriteMap != null)
         {
-            if (Value < 16)
+            if (value < 16)
             {
-                Value = 16;
+                value = 16;
             }
 
-            if (this.FHSMap.GetMaxYhp() - 16 < FSceneHeight + Value)
+            if (this._hexSpriteMap.GetMaxPixelY() - 16 < _sceneHeight + value)
             {
-                this.FSceneY = this.FHSMap.GetMaxYhp() - FSceneHeight - 16;
+                this._sceneY = this._hexSpriteMap.GetMaxPixelY() - _sceneHeight - 16;
             }
             else
             {
-                this.FSceneY = Value;
+                this._sceneY = value;
             }
         }
     }
 
     // HSEngine.pas:4770
-    public void SetSceneWidth(int Value)
+    public void SetSceneWidth(int value)
     {
         HSMap M;
-        M = FHSMap;
-        if (M != null && Value > 0)
+        M = _hexSpriteMap;
+        if (M != null && value > 0)
         {
-            FSceneWidth = Value;
-            SetSceneX(FSceneX);
+            _sceneWidth = value;
+            SetSceneX(_sceneX);
         }
     }
 
     // HSEngine.pas:4782
-    public void SetSceneHeight(int Value)
+    public void SetSceneHeight(int value)
     {
         HSMap M;
-        M = FHSMap;
-        if (M != null && Value > 0)
+        M = _hexSpriteMap;
+        if (M != null && value > 0)
         {
-            FSceneHeight = Value;
-            SetSceneY(FSceneY);
+            _sceneHeight = value;
+            SetSceneY(_sceneY);
         }
     }
 
     // HSEngine.pas:4837
     public void ResetStaticSurface()
     {
-        FStaticSurface?.Dispose();
-        FStaticSurface = null;
+        _staticSurface?.Dispose();
+        _staticSurface = null;
     }
 
     // HSEngine.pas:4843
-    public void ShowScene(int X, int Y, Surface Surface)
+    public void ShowScene(int X, int Y, Surface surface)
     {
         HSMap M;
-        object MP;
-        LockedSurface SD = default;
+        object mp;
+        LockedSurface lockedSurface = default;
         Rect R = default;
-        Surface Target = Surface;
-        int TargetX = X;
-        int TargetY = Y;
+        Surface target = surface;
+        int targetX = X;
+        int targetY = Y;
         try
         {
-            MP = FHSMap;
-            if (MP != null)
+            mp = _hexSpriteMap;
+            if (mp != null)
             {
-                M = (HSMap)MP;
-                if (M.SetViewPort(FSceneX, FSceneY, FSceneL, FSceneWidth, FSceneHeight) && FOnSceneChanged != null)
+                M = (HSMap)mp;
+                if (M.SetViewPort(_sceneX, _sceneY, _sceneL, _sceneWidth, _sceneHeight) && _onSceneChanged != null)
                 {
-                    FOnSceneChanged(this);
+                    _onSceneChanged(this);
                 }
 
                 // Port extension: a scene larger than the map draws as the original does into
                 // FCenteredSurface, then ShowCenteredMap centers the map on Target and fills the rest black.
                 if (GetSceneExceedsMap())
                 {
-                    Surface = VerifyCenteredSurface(Target);
+                    surface = VerifyCenteredSurface(target);
                     X = 0;
                     Y = 0;
                 }
-                else if (FCenteredSurface != null)
+                else if (_centeredSurface != null)
                 {
-                    FCenteredSurface?.Dispose();
-                    FCenteredSurface = null;
+                    _centeredSurface?.Dispose();
+                    _centeredSurface = null;
                 }
 
-                VerifyStaticSurface(Surface);
+                VerifyStaticSurface(surface);
                 R.Left = X;
-                R.Right = FSceneWidth + X;
+                R.Right = _sceneWidth + X;
                 R.Top = Y;
-                R.Bottom = FSceneHeight + Y;
-                if (M.FStaticSceneInvalid)
+                R.Bottom = _sceneHeight + Y;
+                if (M._staticSceneInvalid)
                 {
                     M.UpdateStaticScene();
                     M.UpdateDynamicScene();
-                    if (Surface.LockEx(ref SD, R) >= 0)
+                    if (surface.Lock(ref lockedSurface, R) >= 0)
                     {
-                        M.DrawStaticScene(ref SD);
-                        M.DrawDynamicScene(ref SD);
-                        Surface.UnlockEx(SD);
+                        M.DrawStaticScene(ref lockedSurface);
+                        M.DrawDynamicScene(ref lockedSurface);
+                        surface.Unlock(lockedSurface);
                     }
 
-                    FStaticSurfaceValid = false;
+                    _staticSurfaceValid = false;
                 }
                 else
                 {
-                    if (FStaticSurfaceValid)
+                    if (_staticSurfaceValid)
                     {
-                        FStaticSurface.BltClipped(Surface, X, Y);
+                        _staticSurface.BlitClipped(surface, X, Y);
                         M.UpdateDynamicScene();
-                        if (Surface.LockEx(ref SD, R) >= 0)
+                        if (surface.Lock(ref lockedSurface, R) >= 0)
                         {
-                            M.DrawDynamicScene(ref SD);
-                            Surface.UnlockEx(SD);
+                            M.DrawDynamicScene(ref lockedSurface);
+                            surface.Unlock(lockedSurface);
                         }
                     }
                     else
                     {
                         M.UpdateStaticScene();
-                        if (FStaticSurface.Lock(ref SD) >= 0)
+                        if (_staticSurface.Lock(ref lockedSurface) >= 0)
                         {
-                            M.DrawStaticScene(ref SD);
-                            FStaticSurface.Unlock();
-                            FStaticSurfaceValid = true;
+                            M.DrawStaticScene(ref lockedSurface);
+                            _staticSurface.Unlock();
+                            _staticSurfaceValid = true;
                         }
 
-                        if (FStaticSurface.BltClipped(Surface, X, Y) >= 0)
+                        if (_staticSurface.BlitClipped(surface, X, Y) >= 0)
                         {
                             M.UpdateDynamicScene();
-                            if (Surface.LockEx(ref SD, R) >= 0)
+                            if (surface.Lock(ref lockedSurface, R) >= 0)
                             {
-                                M.DrawDynamicScene(ref SD);
-                                Surface.UnlockEx(SD);
+                                M.DrawDynamicScene(ref lockedSurface);
+                                surface.Unlock(lockedSurface);
                             }
                         }
                     }
                 }
 
-                if (Surface != Target)
+                if (surface != target)
                 {
-                    ShowCenteredMap(Target, TargetX, TargetY);
+                    ShowCenteredMap(target, targetX, targetY);
                 }
             }
         }
@@ -339,19 +339,19 @@ public partial class HexSpriteMapViewer : Component
 
     // Port extension: the original never showed a scene wider or taller than the map. SceneX and
     // SceneY keep the original clamp there, so the view port and the saved view stay the original's.
-    public bool GetSceneExceedsMap() => FHSMap != null && (FSceneWidth > FHSMap.GetMaxXhp() - 32 || FSceneHeight > FHSMap.GetMaxYhp() - 32);
+    public bool GetSceneExceedsMap() => _hexSpriteMap != null && (_sceneWidth > _hexSpriteMap.GetMaxPixelX() - 32 || _sceneHeight > _hexSpriteMap.GetMaxPixelY() - 32);
 
     // Port extension: the part of the scene that shows the map under the original clamp. On an axis
     // where the scene fits inside the map it spans the scene.
-    public Rect GetMapSceneRect()
+    public Rect GetMapSceneRectangle()
     {
         Rect R = default;
-        if (FHSMap != null)
+        if (_hexSpriteMap != null)
         {
-            R.Left = Math.Max(16 - FSceneX, 0);
-            R.Top = Math.Max(16 - FSceneY, 0);
-            R.Right = Math.Min(FHSMap.GetMaxXhp() - 16 - FSceneX, FSceneWidth);
-            R.Bottom = Math.Min(FHSMap.GetMaxYhp() - 16 - FSceneY, FSceneHeight);
+            R.Left = Math.Max(16 - _sceneX, 0);
+            R.Top = Math.Max(16 - _sceneY, 0);
+            R.Right = Math.Min(_hexSpriteMap.GetMaxPixelX() - 16 - _sceneX, _sceneWidth);
+            R.Bottom = Math.Min(_hexSpriteMap.GetMaxPixelY() - 16 - _sceneY, _sceneHeight);
         }
 
         return R;
@@ -359,15 +359,15 @@ public partial class HexSpriteMapViewer : Component
 
     // Port extension: where ShowScene shows the map, centered in the scene. It equals
     // GetMapSceneRect when the scene fits inside the map.
-    public Rect GetMapDisplayRect()
+    public Rect GetMapDisplayRectangle()
     {
-        Rect R = GetMapSceneRect();
-        int Width = R.Right - R.Left;
-        int Height = R.Bottom - R.Top;
-        R.Left = (FSceneWidth - Width) >> 1;
-        R.Top = (FSceneHeight - Height) >> 1;
-        R.Right = R.Left + Width;
-        R.Bottom = R.Top + Height;
+        Rect R = GetMapSceneRectangle();
+        int width = R.Right - R.Left;
+        int height = R.Bottom - R.Top;
+        R.Left = (_sceneWidth - width) >> 1;
+        R.Top = (_sceneHeight - height) >> 1;
+        R.Right = R.Left + width;
+        R.Bottom = R.Top + height;
         return R;
     }
 
@@ -375,80 +375,80 @@ public partial class HexSpriteMapViewer : Component
     // which the map mouse takes. A point outside the centered map gives false.
     public bool SceneToMapMouse(ref int X, ref int Y)
     {
-        Rect Shown;
-        Rect Source;
+        Rect shown;
+        Rect source;
         if (!GetSceneExceedsMap())
         {
             return true;
         }
 
-        Shown = GetMapDisplayRect();
-        if (X < Shown.Left || X >= Shown.Right || Y < Shown.Top || Y >= Shown.Bottom)
+        shown = GetMapDisplayRectangle();
+        if (X < shown.Left || X >= shown.Right || Y < shown.Top || Y >= shown.Bottom)
         {
             return false;
         }
 
-        Source = GetMapSceneRect();
-        X += Source.Left - Shown.Left;
-        Y += Source.Top - Shown.Top;
+        source = GetMapSceneRectangle();
+        X += source.Left - shown.Left;
+        Y += source.Top - shown.Top;
         return true;
     }
 
     // Port extension: the scene-sized surface that ShowScene draws on when the scene exceeds the map.
-    public Surface VerifyCenteredSurface(Surface Surface)
+    public Surface VerifyCenteredSurface(Surface surface)
     {
-        if (FCenteredSurface != null && FCenteredSurface.GetPixelFormatID() != Surface.GetPixelFormatID())
+        if (_centeredSurface != null && _centeredSurface.GetPixelFormatId() != surface.GetPixelFormatId())
         {
-            FCenteredSurface?.Dispose();
-            FCenteredSurface = null;
+            _centeredSurface?.Dispose();
+            _centeredSurface = null;
         }
 
-        if (FCenteredSurface == null)
+        if (_centeredSurface == null)
         {
-            FCenteredSurface = new DataSurface(FSceneWidth, FSceneHeight, Surface.GetPixelFormatID(), null);
+            _centeredSurface = new DataSurface(_sceneWidth, _sceneHeight, surface.GetPixelFormatId(), null);
         }
-        else if (FCenteredSurface.GetWidth() != FSceneWidth || FCenteredSurface.GetHeight() != FSceneHeight)
+        else if (_centeredSurface.GetWidth() != _sceneWidth || _centeredSurface.GetHeight() != _sceneHeight)
         {
-            FCenteredSurface.Resize(FSceneWidth, FSceneHeight);
+            _centeredSurface.Resize(_sceneWidth, _sceneHeight);
         }
 
-        return FCenteredSurface;
+        return _centeredSurface;
     }
 
     // Port extension: fills the scene outside the centered map black and copies the map part of
     // FCenteredSurface into the centered rectangle.
-    public void ShowCenteredMap(Surface Target, int X, int Y)
+    public void ShowCenteredMap(Surface target, int X, int Y)
     {
-        LockedSurface SD = default;
-        Rect Source = GetMapSceneRect();
-        Rect Shown = GetMapDisplayRect();
-        if (Target.LockEx(ref SD, new Rect(X, Y, X + FSceneWidth, Y + FSceneHeight)) >= 0)
+        LockedSurface lockedSurface = default;
+        Rect source = GetMapSceneRectangle();
+        Rect shown = GetMapDisplayRectangle();
+        if (target.Lock(ref lockedSurface, new Rect(X, Y, X + _sceneWidth, Y + _sceneHeight)) >= 0)
         {
-            FillOutsideRect(Shown, SD);
-            Target.UnlockEx(SD);
+            FillOutsideRectangle(shown, lockedSurface);
+            target.Unlock(lockedSurface);
         }
 
-        FCenteredSurface.BltClipped(Target, Source, X + Shown.Left, Y + Shown.Top);
+        _centeredSurface.BlitClipped(target, source, X + shown.Left, Y + shown.Top);
     }
 
     // Port extension: fills every pixel of SD outside Inside black.
-    public static void FillOutsideRect(Rect Inside, in LockedSurface SD)
+    public static void FillOutsideRectangle(Rect inside, in LockedSurface lockedSurface)
     {
-        PixelFormats.ColorFillSD(new Rect(0, 0, SD.Width, Inside.Top), 0, SD);
-        PixelFormats.ColorFillSD(new Rect(0, Inside.Bottom, SD.Width, SD.Height), 0, SD);
-        PixelFormats.ColorFillSD(new Rect(0, Inside.Top, Inside.Left, Inside.Bottom), 0, SD);
-        PixelFormats.ColorFillSD(new Rect(Inside.Right, Inside.Top, SD.Width, Inside.Bottom), 0, SD);
+        PixelFormats.ColorFillSurfaceDescription(new Rect(0, 0, lockedSurface.Width, inside.Top), 0, lockedSurface);
+        PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Bottom, lockedSurface.Width, lockedSurface.Height), 0, lockedSurface);
+        PixelFormats.ColorFillSurfaceDescription(new Rect(0, inside.Top, inside.Left, inside.Bottom), 0, lockedSurface);
+        PixelFormats.ColorFillSurfaceDescription(new Rect(inside.Right, inside.Top, lockedSurface.Width, inside.Bottom), 0, lockedSurface);
     }
 
-    public HSMap HSMap { get => FHSMap; set => SetHSMap(value); }
-    public Surface StaticSurface { get => FStaticSurface; }
-    public bool StaticSurfaceValid { get => FStaticSurfaceValid; set => FStaticSurfaceValid = value; }
-    public int SceneX { get => FSceneX; set => SetSceneX(value); }
-    public int SceneY { get => FSceneY; set => SetSceneY(value); }
-    public int SceneL { get => FSceneL; set => SetSceneL(value); }
-    public int SceneWidth { get => FSceneWidth; set => SetSceneWidth(value); }
-    public int SceneHeight { get => FSceneHeight; set => SetSceneHeight(value); }
+    public HSMap HexSpriteMap { get => _hexSpriteMap; set => SetHexSpriteMap(value); }
+    public Surface StaticSurface { get => _staticSurface; }
+    public bool StaticSurfaceValid { get => _staticSurfaceValid; set => _staticSurfaceValid = value; }
+    public int SceneX { get => _sceneX; set => SetSceneX(value); }
+    public int SceneY { get => _sceneY; set => SetSceneY(value); }
+    public int SceneL { get => _sceneL; set => SetSceneL(value); }
+    public int SceneWidth { get => _sceneWidth; set => SetSceneWidth(value); }
+    public int SceneHeight { get => _sceneHeight; set => SetSceneHeight(value); }
 
     [Published]
-    public NotifyEvent<object> OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
+    public NotifyEvent<object> OnSceneChanged { get => _onSceneChanged; set => _onSceneChanged = value; }
 }

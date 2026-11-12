@@ -46,8 +46,8 @@ public sealed class CombatMapConstructionTests
                     for (int route = 0; route < 4; route++)
                     {
                         using var fixture = new OrderingRecording.Fixture(typeof(CombatMap));
-                        var entry = fixture.Manager.FDiskList.AddILFile("TargHex.ILB");
-                        entry.FImageLibrary = new ImageLibrary(null!);
+                        var entry = fixture.Manager._diskList.AddImageLibraryFile("TargHex.ILB");
+                        entry._imageLibrary = new ImageLibrary(null!);
                         var set = AoWHSSet.Current;
                         if (failure == 2) AoWHSSet.Current = null!;
                         CombatMap.Current = null!;
@@ -82,7 +82,7 @@ public sealed class CombatMapConstructionTests
                             Assert.Same(value, published);
                             var mouse = Assert.IsType<CombatMapMouse>(value!.Mouse);
                             Assert.Equal(256, mouse.CursorMode);
-                            Assert.All(Enumerable.Range(0, 8), i => Assert.Equal(2, value.FPositionStatus[i]));
+                            Assert.All(Enumerable.Range(0, 8), i => Assert.Equal(2, value.PositionStatus[i]));
                             Assert.Contains("RectangleSelectEvent", record["FieldGraph"]!.ToJsonString());
                             value.SetOwner(null!);
                             value.Dispose();

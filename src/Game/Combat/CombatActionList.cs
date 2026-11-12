@@ -11,7 +11,7 @@ public partial class CombatActionList : EReferenceNode
     { }
 
     // Combat2.pas:729
-    public CombatAction GetCombatActions(int Index) => (CombatAction)FChildren.List[Index];
+    public CombatAction GetCombatActions(int index) => (CombatAction)_children.List[index];
 
     // Engine.pas:631
 

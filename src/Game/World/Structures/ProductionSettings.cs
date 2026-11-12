@@ -16,16 +16,16 @@ public partial class ProductionSettings : EngineObject
     public ProductionSettings(ECustomNode owner) : base(owner)
     { }
 
-    public int FGold;
-    public int FMana;
-    public sbyte FTurnsLeft;
-    public int FGoldUpkeep;
-    public int FManaUpkeep;
-    public sbyte FTurnsTotal;
-    public sbyte FPlayer;
-    public int FGroupID;
-    public Unit FUnit;
-    public int FUnitProductionIndex;
+    public int Gold;
+    public int Mana;
+    public sbyte TurnsLeft;
+    public int GoldUpkeep;
+    public int ManaUpkeep;
+    public sbyte TurnsTotal;
+    public sbyte Player;
+    public int GroupId;
+    public Unit Unit;
+    public int UnitProductionIndex;
 
     // Structur.PAS:114
     public override void Dispose()
@@ -35,37 +35,37 @@ public partial class ProductionSettings : EngineObject
     }
 
     // Structur.PAS:120
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FGold, 10);
-        Stream.rwInteger(ref FMana, 11);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FTurnsLeft), 12);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FTurnsTotal), 13);
-        Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 14);
-        Stream.rwInteger(ref FGroupID, 15);
-        Stream.rwInteger(ref FUnitProductionIndex, 16);
-        Stream.rwCreateEObject(ref FUnit, null, 17);
-        Stream.rwInteger(ref FGoldUpkeep, 18);
-        Stream.rwInteger(ref FManaUpkeep, 19);
+        base.ReadWrite(stream);
+        stream.rwInteger(ref Gold, 10);
+        stream.rwInteger(ref Mana, 11);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TurnsLeft), 12);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref TurnsTotal), 13);
+        stream.rwByte(ref Unsafe.As<sbyte, byte>(ref Player), 14);
+        stream.rwInteger(ref GroupId, 15);
+        stream.rwInteger(ref UnitProductionIndex, 16);
+        stream.rwCreateEObject(ref Unit, null, 17);
+        stream.rwInteger(ref GoldUpkeep, 18);
+        stream.rwInteger(ref ManaUpkeep, 19);
     }
 
     // Structur.PAS:135
     public override void Clear()
     {
         Troop U;
-        FTurnsLeft = 0;
-        FGold = 0;
-        FMana = 0;
-        FTurnsTotal = 0;
-        FPlayer = 0;
-        FGroupID = 0;
-        FUnitProductionIndex = -1;
-        U = FUnit;
+        TurnsLeft = 0;
+        Gold = 0;
+        Mana = 0;
+        TurnsTotal = 0;
+        Player = 0;
+        GroupId = 0;
+        UnitProductionIndex = -1;
+        U = Unit;
         if (U != null)
         {
             U.Release();
-            FUnit = null;
+            Unit = null;
         }
     }
 

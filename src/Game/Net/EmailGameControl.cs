@@ -23,41 +23,41 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2489
     public EmailGameControl(ECustomNode owner) : base(owner)
     {
-        FGames = new EmailGameList(null);
+        Games = new EmailGameList(null);
     }
 
-    public EmailGameList FGames;
+    public EmailGameList Games;
 
     // Diplomacy.pas:2495
     public override void Dispose()
     {
-        FGames?.Dispose();
+        Games?.Dispose();
         base.Dispose();
     }
 
     // Diplomacy.pas:2498
-    public int CreateUniqueLocalID()
+    public int CreateUniqueLocalId()
     {
-        int Result = 1;
-        while (FGames.IndexOfUniqueLocalID(Result) != -1)
+        int result = 1;
+        while (Games.IndexOfUniqueLocalId(result) != -1)
         {
-            Result += 1;
+            result += 1;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:2504
     public void Load()
     {
-        string FileName;
-        FGames.Clear();
-        FileName = GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
-        if (FileExists(FileName))
+        string fileName;
+        Games.Clear();
+        fileName = GameTables.GameEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
+        if (FileExists(fileName))
         {
-            if (GetFileCRC32(FileName) == GameTables.AoWEngine.FRegistry.GetEmailGamesCRC())
+            if (GetFileCrc32(fileName) == GameTables.GameEngine.Registry.GetEmailGamesCrc())
             {
-                GameTables.AoWEngine.ReadFromFile(FileName, FGames, null);
+                GameTables.GameEngine.ReadFromFile(fileName, Games, null);
             }
         }
     }
@@ -65,13 +65,13 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2514
     public void Save()
     {
-        string FileName;
+        string fileName;
         try
         {
-            FileName = GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
-            GameTables.AoWEngine.WriteToFile(GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs", FGames, null);
-            var fileCRC = GetFileCRC32(FileName);
-            GameTables.AoWEngine.FRegistry.SetEmailGamesCRC(fileCRC);
+            fileName = GameTables.GameEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
+            GameTables.GameEngine.WriteToFile(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + "egames.pfs", Games, null);
+            var fileCrc = GetFileCrc32(fileName);
+            GameTables.GameEngine.Registry.SetEmailGamesCrc(fileCrc);
         }
         catch
         {
@@ -79,200 +79,200 @@ public partial class EmailGameControl : EngineObject
     }
 
     // Diplomacy.pas:2525
-    public EmailGame FindEmailGame(EmailGame Game)
+    public EmailGame FindEmailGame(EmailGame game)
     {
-        EmailGame Result;
-        int Index;
-        Index = FGames.IndexOfUniqueLocalID(Game.FUniqueLocalID);
-        if (Index != -1 && Game.FUniqueID != 0 && FGames.GetEmailGames(Index).FUniqueID == Game.FUniqueID)
+        EmailGame result;
+        int index;
+        index = Games.IndexOfUniqueLocalId(game.UniqueLocalId);
+        if (index != -1 && game.UniqueId != 0 && Games.GetEmailGames(index).UniqueId == game.UniqueId)
         {
-            Result = FGames.GetEmailGames(Index);
+            result = Games.GetEmailGames(index);
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:2535
-    public bool EmailGameRestarted(EmailGame Game)
+    public bool EmailGameRestarted(EmailGame game)
     {
-        bool Result;
-        EmailGame LocalGame;
-        if (Game.FSecurityID != 0)
+        bool result;
+        EmailGame localGame;
+        if (game.SecurityId != 0)
         {
-            LocalGame = FindEmailGame(Game);
-            Result = LocalGame == null || Game.FSecurityID != LocalGame.FSecurityID;
+            localGame = FindEmailGame(game);
+            result = localGame == null || game.SecurityId != localGame.SecurityId;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:2546
-    public int GenerateSecurityID() => Random(PixelFormats.GetElapsedMilliSeconds() & 16777215) + 1;
+    public int GenerateSecurityId() => Random(PixelFormats.GetElapsedMilliseconds() & 16777215) + 1;
 
     // Diplomacy.pas:2549
-    public bool UpdateGame(EmailGame Game)
+    public bool UpdateGame(EmailGame game)
     {
-        bool Result;
-        EmailGame LocalGame;
-        LocalGame = FindEmailGame(Game);
-        if (LocalGame != null)
+        bool result;
+        EmailGame localGame;
+        localGame = FindEmailGame(game);
+        if (localGame != null)
         {
-            LocalGame.FLastDay = Game.FLastDay;
-            LocalGame.FSecurityID = GenerateSecurityID();
-            Game.FSecurityID = LocalGame.FSecurityID;
+            localGame.LastDay = game.LastDay;
+            localGame.SecurityId = GenerateSecurityId();
+            game.SecurityId = localGame.SecurityId;
             Save();
-            Result = true;
+            result = true;
         }
         else
         {
-            Result = false;
+            result = false;
         }
 
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:2564
-    public EmailGame CreateEmailGame(string Name, string EmailAddress)
+    public EmailGame CreateEmailGame(string name, string emailAddress)
     {
-        EmailGame Result = new EmailGame(null);
-        Result.FEmailAddress = EmailAddress;
-        Result.FUniqueLocalID = CreateUniqueLocalID();
-        Result.FUniqueID = Random(PixelFormats.GetElapsedMilliSeconds() & 16777215) + 1;
-        Result.FSecurityID = GenerateSecurityID();
-        Result.FName = Name;
-        Result.SetOwner(FGames);
+        EmailGame result = new EmailGame(null);
+        result.EmailAddress = emailAddress;
+        result.UniqueLocalId = CreateUniqueLocalId();
+        result.UniqueId = Random(PixelFormats.GetElapsedMilliseconds() & 16777215) + 1;
+        result.SecurityId = GenerateSecurityId();
+        result.Name = name;
+        result.SetOwner(Games);
         Save();
-        return Result;
+        return result;
     }
 
     // Diplomacy.pas:2576
-    public void ValidateIncommingGame(string FileName, ref string Destination)
+    public void ValidateIncomingGame(string fileName, ref string destination)
     {
-        AoWHSMap Map;
-        AoWHSMap PreviousMap;
-        EmailGame LocalGame;
-        bool Overwrite;
+        AoWHSMap map;
+        AoWHSMap previousMap;
+        EmailGame localGame;
+        bool overwrite;
         int I;
-        string Name = "";
+        string name = "";
         // { Addressability survives elimination of this assignment. }
         try
         {
-            Destination = "";
-            Overwrite = false;
-            Map = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(FileName, GameProfile.WorldMap);
-            bool condition = Map != null && Map.FConnectionType == PlayerConnectionType.Email && Map.FCurrentPlayer > 0;
+            destination = "";
+            overwrite = false;
+            map = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(fileName, GameProfile.WorldMap);
+            bool condition = map != null && map.ConnectionType == PlayerConnectionType.Email && map.CurrentPlayer > 0;
             if (condition)
             {
-                var count = Map.FPlayers.Count;
-                condition = Map.FCurrentPlayer < count;
+                var count = map.Players.Count;
+                condition = map.CurrentPlayer < count;
             }
 
-            if (condition && Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FStatus.Contains(PbemPlayerStatusElement.NewTurn))
+            if (condition && map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.Status.Contains(PbemPlayerStatusElement.NewTurn))
             {
-                var localEmailAddress = GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
-                if (CompareText(Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FEmailGame.FEmailAddress, localEmailAddress) == 0)
+                var localEmailAddress = GameTables.GameEngine.Registry.GetLocalEmailAddress();
+                if (CompareText(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.EmailAddress, localEmailAddress) == 0)
                 {
-                    LocalGame = FindEmailGame(Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FEmailGame);
-                    if (LocalGame != null)
+                    localGame = FindEmailGame(map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame);
+                    if (localGame != null)
                     {
-                        if (Map.FDay > LocalGame.FLastDay)
+                        if (map.Day > localGame.LastDay)
                         {
-                            Name = Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FEmailGame.FName;
-                            if (FileExists(GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg"))
+                            name = map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.Name;
+                            if (FileExists(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + ".asg"))
                             {
-                                PreviousMap = (AoWHSMap)GameTables.AoWEngine.CreatePreviewHSM(GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg", GameProfile.WorldMap);
-                                if (PreviousMap != null)
+                                previousMap = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + ".asg", GameProfile.WorldMap);
+                                if (previousMap != null)
                                 {
                                     // { Original bug: the previous map's player is checked against the new map's count. }
-                                    bool test = PreviousMap.FCurrentPlayer > 0;
+                                    bool test = previousMap.CurrentPlayer > 0;
                                     if (test)
                                     {
-                                        var count = Map.FPlayers.Count;
-                                        test = PreviousMap.FCurrentPlayer < count;
+                                        var count = map.Players.Count;
+                                        test = previousMap.CurrentPlayer < count;
                                     }
 
                                     if (test)
                                     {
-                                        var players = PreviousMap.FPlayers.GetPlayers(PreviousMap.FCurrentPlayer);
-                                        var fPlayersPlayers = Map.FPlayers.GetPlayers(Map.FCurrentPlayer);
-                                        bool passed = players.FPBEMSettings.FEmailGame.FUniqueLocalID == fPlayersPlayers.FPBEMSettings.FEmailGame.FUniqueLocalID;
+                                        var players = previousMap.Players.GetPlayers(previousMap.CurrentPlayer);
+                                        var fPlayersPlayers = map.Players.GetPlayers(map.CurrentPlayer);
+                                        bool passed = players.PbemSettings.EmailGame.UniqueLocalId == fPlayersPlayers.PbemSettings.EmailGame.UniqueLocalId;
                                         if (passed)
                                         {
-                                            var players2 = PreviousMap.FPlayers.GetPlayers(PreviousMap.FCurrentPlayer);
-                                            var players3 = Map.FPlayers.GetPlayers(Map.FCurrentPlayer);
-                                            passed = players2.FPBEMSettings.FEmailGame.FUniqueID == players3.FPBEMSettings.FEmailGame.FUniqueID;
+                                            var players2 = previousMap.Players.GetPlayers(previousMap.CurrentPlayer);
+                                            var players3 = map.Players.GetPlayers(map.CurrentPlayer);
+                                            passed = players2.PbemSettings.EmailGame.UniqueId == players3.PbemSettings.EmailGame.UniqueId;
                                         }
 
                                         if (passed)
                                         {
-                                            Overwrite = true;
+                                            overwrite = true;
                                         }
                                     }
 
-                                    PreviousMap?.Dispose();
+                                    previousMap?.Dispose();
                                 }
                             }
                         }
                     }
                     else
                     {
-                        Name = Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FEmailGame.FName;
+                        name = map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.Name;
                     }
 
-                    if (!IsEmpty(Name))
+                    if (!IsEmpty(name))
                     {
                         I = 0;
-                        Destination = GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg";
-                        while (!Overwrite && FileExists(Destination))
+                        destination = GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + ".asg";
+                        while (!overwrite && FileExists(destination))
                         {
                             I += 1;
-                            Destination = GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + IntToStr(I) + ".asg";
+                            destination = GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + IntToStr(I) + ".asg";
                         }
                     }
                 }
             }
 
-            Map?.Dispose();
+            map?.Dispose();
         }
         catch
         {
         }
     }
 
-    private static int GetFileCRC32(string FileName)
+    private static int GetFileCrc32(string fileName)
     {
         int result = 0;
-        MemoryStream val = new MemoryStream();
+        MemoryStream value = new MemoryStream();
         try
         {
-            Stream val2 = RtlUnit.OpenFile(FileName, 0);
+            Stream value2 = RtlUnit.OpenFile(fileName, 0);
             try
             {
-                StreamExtensions.LoadFromStream(val, val2);
-                int size = (int)((Stream)val).Length;
-                result = EngineServices.GetCRC32((ReadOnlySpan<byte>)(val.GetBuffer()), size);
+                StreamExtensions.LoadFromStream(value, value2);
+                int size = (int)((Stream)value).Length;
+                result = EngineServices.GetCrc32((ReadOnlySpan<byte>)(value.GetBuffer()), size);
             }
             finally
             {
-                if (val2 != null)
+                if (value2 != null)
                 {
-                    val2.Dispose();
+                    value2.Dispose();
                 }
             }
         }
         finally
         {
-            if (val != null)
+            if (value != null)
             {
-                ((Stream)val).Dispose();
+                ((Stream)value).Dispose();
             }
         }
         return result;

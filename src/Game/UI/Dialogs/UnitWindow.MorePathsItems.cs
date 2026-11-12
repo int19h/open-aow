@@ -13,10 +13,10 @@ public partial class UnitWindow
     // AoWUnitWindow.pas:773. The cursor belongs to the rewritten main form.
     public void Gnd1Change(CheckBox check)
     {
-        var hero = (Hero)DialogHosts.General.FSelectedUnit;
-        if (hero is null || AoWHSMap.Current.FPlayers.GetPlayers(hero.FPlayer).GetBusy() || !check.Checked) return;
-        FCursorImage = null;
-        var selected = SelectedItem;
+        var hero = (Hero)DialogHosts.General.SelectedUnit;
+        if (hero is null || AoWHSMap.Current.Players.GetPlayers(hero.Player).GetBusy() || !check.Checked) return;
+        CursorImage = null;
+        var selected = s_selectedItem;
         if (check != selected)
         {
             if (selected is not null)
@@ -47,23 +47,23 @@ public partial class UnitWindow
             }
             else if (check.Tag != -1)
             {
-                SelectedItem = check;
-                FHighlight = 50;
-                FHighlightStep = 10;
-                var item = hero.FInventory.FindItem(check.Tag) ?? hero.FHeroItems.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
+                s_selectedItem = check;
+                Highlight = 50;
+                HighlightStep = 10;
+                var item = hero.Inventory.FindItem(check.Tag) ?? hero.HeroItems.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
                 if (item is not null)
                 {
-                    FCursorImage = item.GetImage();
-                    FItemType = item.FItemType;
-                    ItemUseBtn.Visible = item.FItemType == ItemType.Scroll;
+                    CursorImage = item.GetImage();
+                    ItemType = item.ItemType;
+                    ItemUseBtn.Visible = item.ItemType == ItemType.Scroll;
                 }
                 else
                 {
-                    FItemType = ItemType.Use;
+                    ItemType = ItemType.Use;
                     ItemUseBtn.Visible = false;
                 }
-                FBlinkDelay = 2;
-                FItemVisible = true;
+                BlinkDelay = 2;
+                ItemVisible = true;
             }
             else check.Checked = false;
         }
@@ -72,15 +72,15 @@ public partial class UnitWindow
             selected.Checked = false;
             ClearItemSelection();
         }
-        GameHost.MainForm.FCursorImage = FCursorImage;
+        GameHost.MainForm.FCursorImage = CursorImage;
     }
 
     private void ClearItemSelection()
     {
-        SelectedItem = null;
+        s_selectedItem = null;
         UnitWin.Cursor = 0;
-        FItemType = ItemType.Use;
+        ItemType = ItemType.Use;
         ItemUseBtn.Visible = false;
-        FItemVisible = false;
+        ItemVisible = false;
     }
 }

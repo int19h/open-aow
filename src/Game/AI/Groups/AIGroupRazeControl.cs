@@ -22,45 +22,45 @@ public partial class AIGroupRazeControl : AIGroupTask
     public AIGroupRazeControl(ECustomNode owner) : base(owner)
     { }
 
-    public AIGroupControl FControl;
-    public Set<AIGroupRazeControlModeElement> FMode;
-    public Set<DamageType> FDamageTypes;
-    public float FStructureStrengthFactor;
-    public float FCityStrengthFactor;
+    public AIGroupControl Control;
+    public Set<AIGroupRazeControlModeElement> Mode;
+    public Set<DamageType> DamageTypes;
+    public float StructureStrengthFactor;
+    public float CityStrengthFactor;
 
     // AGCPlugins.pas:101
-    public override bool Activate(AIGroupControl Control)
+    public override bool Activate(AIGroupControl control)
     {
-        FState = 0;
-        FControl = Control;
+        State = 0;
+        Control = control;
         return true;
     }
 
     // AGCPlugins.pas:133
     public override bool Process()
     {
-        bool Result;
-        Structure Structure;
-        BattleFieldInfo Info = default;
-        if (FState == 0)
+        bool result;
+        Structure structure;
+        BattleFieldInfo info = default;
+        if (State == 0)
         {
-            Structure = (Structure)AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<MapCoordinate, int>(ref FControl.FLocation)).FindNoneTransparentHS(typeof(Structure));
-            if (Structure != null && Structure.GetRazeable())
+            structure = (Structure)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref Control.Location)).FindNoneTransparentHexSprite(typeof(Structure));
+            if (structure != null && structure.GetRazeable())
             {
-                BattleFieldInfo.SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), FDamageTypes);
-                AoWHSMap.Current.RetrieveBattleFieldInfo(FControl.FLocation.X, FControl.FLocation.Y, FControl.FLocation.L, 15, ref Info);
-                if (Structure is City)
+                BattleFieldInfo.SetupBattleFieldInfo(ref info, Control.Group.Player, Control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), DamageTypes);
+                AoWHSMap.Current.RetrieveBattleFieldInfo(Control.Location.X, Control.Location.Y, Control.Location.MapLevel, 15, ref info);
+                if (structure is City)
                 {
-                    Result = ValidateRazeCity((City)Structure, Info);
+                    result = ValidateRazeCity((City)structure, info);
                 }
                 else
                 {
-                    Result = ValidateRazeStructure(Structure, Info);
+                    result = ValidateRazeStructure(structure, info);
                 }
 
-                if (Result)
+                if (result)
                 {
-                    ExecuteRaze(Structure);
+                    ExecuteRaze(structure);
                 }
             }
 
@@ -77,68 +77,68 @@ public partial class AIGroupRazeControl : AIGroupTask
     // AGCPlugins.pas:90
     public void Reset()
     {
-        FDamageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
-        FMode = Set<AIGroupRazeControlModeElement>.Of(AIGroupRazeControlModeElement.CannotDefend);
-        FCityStrengthFactor = 2;
-        FStructureStrengthFactor = 2;
+        DamageTypes = AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        Mode = Set<AIGroupRazeControlModeElement>.Of(AIGroupRazeControlModeElement.CannotDefend);
+        CityStrengthFactor = 2;
+        StructureStrengthFactor = 2;
     }
 
     // AGCPlugins.pas:98
-    public bool Setup(AIGroupControl Control)
+    public bool Setup(AIGroupControl control)
     {
         Reset();
         return true;
     }
 
     // AGCPlugins.pas:108
-    public void ExecuteRaze(Structure Structure)
+    public void ExecuteRaze(Structure structure)
     {
-        Structure.Raze(FControl.FGroup.FPlayer);
+        structure.Raze(Control.Group.Player);
     }
 
     // AGCPlugins.pas:111
-    public bool ValidateRazeCity(City City, in BattleFieldInfo Info)
+    public bool ValidateRazeCity(City city, in BattleFieldInfo info)
     {
-        bool Result;
-        switch (AoWHSMap.Current.FRaces.GetRace(City.FRace).GetPlayerRelation(FControl.FGroup.FPlayer))
+        bool result;
+        switch (AoWHSMap.Current.Races.GetRace(city.Race).GetPlayerRelation(Control.Group.Player))
         {
-            case Status.Hostile:
-            case Status.Wary:
-                Result = FMode.Contains(AIGroupRazeControlModeElement.Always);
-                if (FMode.Contains(AIGroupRazeControlModeElement.OnMigrate))
+            case Session.Status.Hostile:
+            case Session.Status.Wary:
+                result = Mode.Contains(AIGroupRazeControlModeElement.Always);
+                if (Mode.Contains(AIGroupRazeControlModeElement.OnMigrate))
                 {
-                    Result = true;
+                    result = true;
                 }
 
-                if (FMode.Contains(AIGroupRazeControlModeElement.CannotDefend))
+                if (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend))
                 {
-                    Result = Result || Round((double)Info.FriendlyStrength * FCityStrengthFactor) < Info.Strength;
+                    result = result || Round((double)info.FriendlyStrength * CityStrengthFactor) < info.Strength;
                 }
 
                 break;
             default:
-                Result = FMode.Contains(AIGroupRazeControlModeElement.Always);
+                result = Mode.Contains(AIGroupRazeControlModeElement.Always);
                 break;
         }
 
-        return Result;
+        return result;
     }
 
     // AGCPlugins.pas:125
-    public bool ValidateRazeStructure(Structure Structure, in BattleFieldInfo Info)
+    public bool ValidateRazeStructure(Structure structure, in BattleFieldInfo info)
     {
-        bool Result = false;
-        if (FMode.Contains(AIGroupRazeControlModeElement.Always))
+        bool result = false;
+        if (Mode.Contains(AIGroupRazeControlModeElement.Always))
         {
-            Result = true;
+            result = true;
         }
 
-        if (FMode.Contains(AIGroupRazeControlModeElement.CannotDefend) && Round((double)Info.FriendlyStrength * FStructureStrengthFactor) < Info.Strength)
+        if (Mode.Contains(AIGroupRazeControlModeElement.CannotDefend) && Round((double)info.FriendlyStrength * StructureStrengthFactor) < info.Strength)
         {
-            Result = true;
+            result = true;
         }
 
-        return Result;
+        return result;
     }
 
     // intf_P5_07.inc:218

@@ -12,13 +12,13 @@ public partial class TransportAbility : MultiLevelAbility
     // AoWAb.PAS:939
     public TransportAbility(ECustomNode owner) : base(owner)
     {
-        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
-        FMaxLevel = 7;
-        FAbilityID = 50;
+        SelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
+        MaxLevel = 7;
+        AbilityId = 50;
     }
 
     // AoWAb.PAS:947
-    public override string GetLevelName(int Level) => AbilityRules.Format(AbilityRules.TranslateRStr(P4TransportUnitsRStr), [IntToStr(Level)]);
+    public override string GetLevelName(int level) => AbilityRules.Format(AbilityRules.TranslateResourceString(s_transportUnitsFormat), [IntToStr(level)]);
 
-    private static readonly string P4TransportUnitsRStr = "Transport (%s units)";
+    private static readonly string s_transportUnitsFormat = "Transport (%s units)";
 }

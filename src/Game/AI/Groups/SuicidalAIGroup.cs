@@ -7,13 +7,13 @@ namespace Aow.Game.AI.Groups;
 public partial class SuicidalAIGroup : AIGroup, IAIGroupClass
 {
     // MainAG.pas:729
-    public new const int ClassID = 136276;
+    public new const int ClassId = 136276;
 
     // MainAG.pas:722
     public SuicidalAIGroup(ECustomNode owner) : base(owner)
     {
-        FProcessPriority = 1;
-        FRecruitmentPriority = 2;
+        ProcessPriority = 1;
+        RecruitmentPriority = 2;
     }
 
     // MainAG.pas:735

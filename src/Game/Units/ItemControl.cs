@@ -17,104 +17,104 @@ public partial class ItemControl : EngineObject
     // Army.PAS:4639
     public ItemControl(ECustomNode owner) : base(owner)
     {
-        FItems = new List<Item>();
-        FOnChangedStore = new();
-        FOnItemChangedStore = new();
+        Items = new List<Item>();
+        _onChangedStore = new();
+        _onItemChangedStore = new();
     }
 
-    public List<Item> FItems;
+    public List<Item> Items;
 
-    internal EventStore<ItemControl> FOnChangedStore;
+    internal EventStore<ItemControl> _onChangedStore;
 
     public event NotifyEvent<ItemControl> FOnChanged
     {
-        add => FOnChangedStore.Add(value);
-        remove => FOnChangedStore.Remove(value);
+        add => _onChangedStore.Add(value);
+        remove => _onChangedStore.Remove(value);
     }
 
-    public int FUpdateLock;
+    public int UpdateLock;
 
-    internal EventStore<Item> FOnItemChangedStore;
+    internal EventStore<Item> _onItemChangedStore;
 
     public event NotifyEvent<Item> FOnItemChanged
     {
-        add => FOnItemChangedStore.Add(value);
-        remove => FOnItemChangedStore.Remove(value);
+        add => _onItemChangedStore.Add(value);
+        remove => _onItemChangedStore.Remove(value);
     }
 
-    public int FLastID;
-    public Set<StatusElement> FStatus;
+    public int LastId;
+    public Set<StatusElement> Status;
 
     // Army.PAS:4647
     public override void Dispose()
     {
         BeginUpdate();
-        for (int I = FItems.Count - 1; I >= 0; I--)
+        for (int I = Items.Count - 1; I >= 0; I--)
         {
-            UnRegisterItem(FItems[I]);
+            UnregisterItem(Items[I]);
         }
 
-        FItems.Clear();
+        Items.Clear();
         Changed();
-        FItems?.Clear();
-        FOnItemChangedStore.Clear();
-        FOnChangedStore.Clear();
+        Items?.Clear();
+        _onItemChangedStore.Clear();
+        _onChangedStore.Clear();
         base.Dispose();
     }
 
     // Army.PAS:4660
-    public override void ReadWrite(EStorageStream Stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        int ID;
+        int id;
         Item Item = default;
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FLastID, 9);
-        if (Stream.StorageMode().Contains(StorageModeElement.Compare))
+        base.ReadWrite(stream);
+        stream.rwInteger(ref LastId, 9);
+        if (stream.StorageMode().Contains(StorageModeElement.Compare))
         {
-            ID = 10;
-            for (int I = 0, last = FItems.Count - 1; I <= last; I++)
+            id = 10;
+            for (int I = 0, last = Items.Count - 1; I <= last; I++)
             {
-                Item = FItems[I];
+                Item = Items[I];
                 if (Item.Owner == null)
                 {
-                    Stream.rwCreateEObject(ref Item, null, ID);
-                    ID += 1;
+                    stream.rwCreateEObject(ref Item, null, id);
+                    id += 1;
                 }
             }
         }
         else
         {
-            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Preview, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
+            if ((stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Preview, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
             {
-                if (Stream.StorageMode().Contains(StorageModeElement.Read))
+                if (stream.StorageMode().Contains(StorageModeElement.Read))
                 {
-                    ID = 10;
+                    id = 10;
                     do
                     {
-                        Stream.rwCreateEObject(ref Item, null, ID);
+                        stream.rwCreateEObject(ref Item, null, id);
                         if (Item != null)
                         {
                             ValidateItem(Item);
-                            FItems.Add(Item);
-                            Item.FStatus = Item.FStatus + Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
+                            Items.Add(Item);
+                            Item.Status = Item.Status + Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
                         }
 
-                        ID += 1;
+                        id += 1;
                     }
                     while (!(Item == null));
                 }
 
-                if (Stream.StorageMode().Contains(StorageModeElement.TextOnly) || Stream.StorageMode().Contains(StorageModeElement.Write))
+                if (stream.StorageMode().Contains(StorageModeElement.TextOnly) || stream.StorageMode().Contains(StorageModeElement.Write))
                 {
-                    ID = 10;
-                    for (int I = 0, last = FItems.Count - 1; I <= last; I++)
+                    id = 10;
+                    for (int I = 0, last = Items.Count - 1; I <= last; I++)
                     {
-                        if (FItems[I].Owner == null)
+                        if (Items[I].Owner == null)
                         {
-                            Item item = FItems[I];
-                            Stream.rwCreateEObject(ref item, null, ID);
-                            FItems[I] = item;
-                            ID += 1;
+                            Item item = Items[I];
+                            stream.rwCreateEObject(ref item, null, id);
+                            Items[I] = item;
+                            id += 1;
                         }
                     }
                 }
@@ -123,22 +123,22 @@ public partial class ItemControl : EngineObject
     }
 
     // Army.PAS:4707
-    public Item GetItem(int Index) => FItems[Index];
+    public Item GetItem(int index) => Items[index];
 
     // Army.PAS:4712
-    public int GetCount() => FItems.Count;
+    public int GetCount() => Items.Count;
 
     // Army.PAS:4717
-    public Item FindItem(int ItemID)
+    public Item FindItem(int itemId)
     {
         int I;
-        I = FItems.Count;
+        I = Items.Count;
         while (I != 0)
         {
             I -= 1;
-            if ((FItems[I]).FItemID == ItemID)
+            if ((Items[I]).ItemId == itemId)
             {
-                return FItems[I];
+                return Items[I];
             }
         }
 
@@ -146,64 +146,64 @@ public partial class ItemControl : EngineObject
     }
 
     // Army.PAS:4733
-    public void ItemChanged(Item Item)
+    public void ItemChanged(Item item)
     {
-        FOnItemChangedStore.Raise(Item);
+        _onItemChangedStore.Raise(item);
     }
 
     // Army.PAS:4738
     public void Changed()
     {
-        if (FUpdateLock == 0)
+        if (UpdateLock == 0)
         {
-            FOnChangedStore.Raise(this);
+            _onChangedStore.Raise(this);
         }
     }
 
     // Army.PAS:4743
     public void BeginUpdate()
     {
-        FUpdateLock += 1;
+        UpdateLock += 1;
     }
 
     // Army.PAS:4748
     public void EndUpdate()
     {
-        FUpdateLock -= 1;
-        if (FUpdateLock == 0)
+        UpdateLock -= 1;
+        if (UpdateLock == 0)
         {
             Changed();
         }
     }
 
     // Army.PAS:4754
-    public int CreateUniqueID()
+    public int CreateUniqueId()
     {
         int I;
         do
         {
             I = 0;
-            FLastID += 1;
-            if (FLastID > 268435455)
+            LastId += 1;
+            if (LastId > 268435455)
             {
-                FLastID = 0;
+                LastId = 0;
             }
 
-            while (I != FItems.Count && (FItems[I]).FItemID != FLastID)
+            while (I != Items.Count && (Items[I]).ItemId != LastId)
             {
                 I += 1;
             }
         }
-        while (!(I == FItems.Count));
-        return FLastID;
+        while (!(I == Items.Count));
+        return LastId;
     }
 
     // Army.PAS:4766
-    public void ValidateItem(Item Item)
+    public void ValidateItem(Item item)
     {
-        if (FindItem(Item.FItemID) != null)
+        if (FindItem(item.ItemId) != null)
         {
-            Item.FItemID = CreateUniqueID();
+            item.ItemId = CreateUniqueId();
         }
     }
 
@@ -213,31 +213,31 @@ public partial class ItemControl : EngineObject
         BeginUpdate();
         for (int I = GetCount() - 1; I >= 0; I--)
         {
-            (FItems[I]).UpdateFromLibrary();
+            (Items[I]).UpdateFromLibrary();
         }
 
         EndUpdate();
     }
 
     // Army.PAS:4779
-    public void RegisterItem(Item Item)
+    public void RegisterItem(Item item)
     {
-        Item Existing;
-        if (!Item.FStatus.Contains(ItemStatusElement.Registered))
+        Item existing;
+        if (!item.Status.Contains(ItemStatusElement.Registered))
         {
-            Existing = FindItem(Item.FItemID);
-            if (Existing != null && Existing.Compare(Item, GameTables.AoWEngine) && Existing.FRefCount == 1)
+            existing = FindItem(item.ItemId);
+            if (existing != null && existing.Compare(item, GameTables.GameEngine) && existing.RefCount == 1)
             {
-                UnRegisterItem(Existing);
+                UnregisterItem(existing);
             }
 
-            ValidateItem(Item);
-            Item.FStatus = Item.FStatus + Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
-            FItems.Add(Item);
-            Item.AddRef();
-            if (FStatus.Contains(StatusElement.Activated) && !Item.FStatus.Contains(ItemStatusElement.Activated))
+            ValidateItem(item);
+            item.Status = item.Status + Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
+            Items.Add(item);
+            item.AddRef();
+            if (Status.Contains(StatusElement.Activated) && !item.Status.Contains(ItemStatusElement.Activated))
             {
-                Item.Activate();
+                item.Activate();
             }
 
             Changed();
@@ -245,124 +245,124 @@ public partial class ItemControl : EngineObject
     }
 
     // Army.PAS:4796
-    public void UnRegisterItem(Item Item)
+    public void UnregisterItem(Item item)
     {
-        if (Item.FStatus.Contains(ItemStatusElement.Registered))
+        if (item.Status.Contains(ItemStatusElement.Registered))
         {
-            FItems.Remove(Item);
-            Item.FStatus = Item.FStatus - Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
-            Item.Release();
+            Items.Remove(item);
+            item.Status = item.Status - Set<ItemStatusElement>.Of(ItemStatusElement.Registered);
+            item.Release();
             Changed();
         }
     }
 
     // Army.PAS:4807
-    public Item GenerateItem(Set<ItemType> Types, int MinValue, int MaxValue)
+    public Item GenerateItem(Set<ItemType> types, int minValue, int maxValue)
     {
-        Item Result;
-        DoubleItemList<Item> List;
-        int Value;
-        Item Item;
-        List = new DoubleItemList<Item>();
+        Item result;
+        DoubleItemList<Item> list;
+        int value;
+        Item item;
+        list = new DoubleItemList<Item>();
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            Item = FItems[I];
-            if (Item.FRefCount == 1 && Types.Contains(Item.FItemType))
+            item = Items[I];
+            if (item.RefCount == 1 && types.Contains(item.ItemType))
             {
-                Value = Item.GetObtainValue();
-                if (Value >= MinValue && Value <= MaxValue)
+                value = item.GetObtainValue();
+                if (value >= minValue && value <= maxValue)
                 {
-                    List.AddAB(Item, (int)Item.FAvailability);
+                    list.AddAbility(item, (int)item.Availability);
                 }
             }
         }
 
-        if (List.Count != 0)
+        if (list.Count != 0)
         {
-            Result = List[List.RandomChanceItemB(1)].A;
+            result = list[list.RandomChanceItemB(1)].First;
         }
         else
         {
-            Result = null;
+            result = null;
         }
 
-        List?.Dispose();
-        return Result;
+        list?.Dispose();
+        return result;
     }
 
     // Army.PAS:4826
-    public int GenerateItems(Set<ItemType> Types, ECustomNode Owner, int Value)
+    public int GenerateItems(Set<ItemType> types, ECustomNode owner, int value)
     {
-        DoubleItemList<Item> List;
-        int Difference;
-        int Attempts;
-        int ItemValue;
-        int Distance;
-        bool Done;
-        Item Item;
-        Item Candidate;
-        int Result = 0;
-        List = new DoubleItemList<Item>();
+        DoubleItemList<Item> list;
+        int difference;
+        int attempts;
+        int itemValue;
+        int distance;
+        bool done;
+        Item item;
+        Item candidate;
+        int result = 0;
+        list = new DoubleItemList<Item>();
         for (int I = 0, last = GetCount() - 1; I <= last; I++)
         {
-            Item = FItems[I];
-            if (Types.Contains(Item.FItemType) && Item.FRefCount == 1)
+            item = Items[I];
+            if (types.Contains(item.ItemType) && item.RefCount == 1)
             {
-                List.AddAB(Item, (int)Item.FAvailability);
+                list.AddAbility(item, (int)item.Availability);
             }
         }
 
-        Done = false;
-        while (!Done && List.Count != 0)
+        done = false;
+        while (!done && list.Count != 0)
         {
-            Candidate = List[List.RandomChanceItemB(1)].A;
-            ItemValue = Candidate.GetObtainValue();
-            if (ItemValue > Value)
+            candidate = list[list.RandomChanceItemB(1)].First;
+            itemValue = candidate.GetObtainValue();
+            if (itemValue > value)
             {
-                Attempts = 10;
-                Difference = Math.Abs(ItemValue - Value);
+                attempts = 10;
+                difference = Math.Abs(itemValue - value);
                 do
                 {
-                    Item = List[List.RandomChanceItemB(1)].A;
-                    Distance = Math.Abs(Item.GetObtainValue() - Value);
-                    if (Distance < Difference)
+                    item = list[list.RandomChanceItemB(1)].First;
+                    distance = Math.Abs(item.GetObtainValue() - value);
+                    if (distance < difference)
                     {
-                        Difference = Distance;
-                        Candidate = Item;
+                        difference = distance;
+                        candidate = item;
                     }
 
-                    Attempts -= 1;
+                    attempts -= 1;
                 }
-                while (!(Attempts == 0));
-                if (Value < Difference)
+                while (!(attempts == 0));
+                if (value < difference)
                 {
-                    Candidate = null;
-                    Done = true;
+                    candidate = null;
+                    done = true;
                 }
             }
 
-            if (Candidate != null)
+            if (candidate != null)
             {
-                Candidate.SetOwner(Owner);
-                List.Delete(List.IndexOfItemA(Candidate));
-                Value -= Candidate.GetObtainValue();
-                Result += 1;
+                candidate.SetOwner(owner);
+                list.Delete(list.IndexOfItemA(candidate));
+                value -= candidate.GetObtainValue();
+                result += 1;
             }
         }
 
-        List?.Dispose();
-        return Result;
+        list?.Dispose();
+        return result;
     }
 
     // Army.PAS:4877
     public void Activate()
     {
-        if (!FStatus.Contains(StatusElement.Activated))
+        if (!Status.Contains(StatusElement.Activated))
         {
-            FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Activated);
-            for (int I = FItems.Count - 1; I >= 0; I--)
+            Status = Status + Set<StatusElement>.Of(StatusElement.Activated);
+            for (int I = Items.Count - 1; I >= 0; I--)
             {
-                (FItems[I]).Activate();
+                (Items[I]).Activate();
             }
         }
     }
@@ -370,12 +370,12 @@ public partial class ItemControl : EngineObject
     // Army.PAS:4887
     public void Deactivate()
     {
-        if (FStatus.Contains(StatusElement.Activated))
+        if (Status.Contains(StatusElement.Activated))
         {
-            FStatus = FStatus - Set<StatusElement>.Of(StatusElement.Activated);
-            for (int I = FItems.Count - 1; I >= 0; I--)
+            Status = Status - Set<StatusElement>.Of(StatusElement.Activated);
+            for (int I = Items.Count - 1; I >= 0; I--)
             {
-                (FItems[I]).Deactivate();
+                (Items[I]).Deactivate();
             }
         }
     }

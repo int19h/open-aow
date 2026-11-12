@@ -8,120 +8,120 @@ namespace Aow.Engine.Nodes;
 
 internal static class StringSorting
 {
-    internal static void SortStrings(StringCollection Strings, StringsSortCompare Compare)
+    internal static void SortStrings(StringCollection strings, StringsSortCompare compare)
     {
-        SortStringsContext Ctx = default;
-        if (Strings.Count != 0)
+        SortStringsContext context = default;
+        if (strings.Count != 0)
         {
-            Ctx.Strings = Strings;
-            Ctx.Compare = Compare;
-            Ctx.ExchangeProc = null;
-            var count = Strings.Count;
-            SortStringsContext.QuickSortStrings(ref Ctx, 0, count - 1);
+            context.Strings = strings;
+            context.Compare = compare;
+            context.ExchangeProc = null;
+            var count = strings.Count;
+            SortStringsContext.QuickSortStrings(ref context, 0, count - 1);
         }
     }
 
-    internal static void SortStringsEx(StringCollection Strings, StringsSortCompare Compare, ReadOnlySpan<StringCollection> LinkedStrings)
+    internal static void SortStrings(StringCollection strings, StringsSortCompare compare, ReadOnlySpan<StringCollection> linkedStrings)
     {
-        DelphiList Lists = default;
-        SortStringsContext Ctx = default;
-        if (Strings.Count != 0)
+        DelphiList lists = default;
+        SortStringsContext context = default;
+        if (strings.Count != 0)
         {
-            Strings.BeginUpdate();
-            Ctx.Strings = Strings;
-            Ctx.Compare = Compare;
+            strings.BeginUpdate();
+            context.Strings = strings;
+            context.Compare = compare;
             // { Original unsigned test also takes an empty array. }
-            if ((uint)(LinkedStrings.Length - 1) >= 0)
+            if ((uint)(linkedStrings.Length - 1) >= 0)
             {
-                Lists = new DelphiList();
-                for (int I = 0, last = LinkedStrings.Length - 1; I <= last; I++)
+                lists = new DelphiList();
+                for (int I = 0, last = linkedStrings.Length - 1; I <= last; I++)
                 {
-                    LinkedStrings[I].BeginUpdate();
-                    Lists.Add(LinkedStrings[I]);
+                    linkedStrings[I].BeginUpdate();
+                    lists.Add(linkedStrings[I]);
                 }
 
-                Ctx.ExchangeProc = EngineServices.ExchangeLinkedStrings;
-                Ctx.ExchangeData = Lists;
+                context.ExchangeProc = EngineServices.ExchangeLinkedStrings;
+                context.ExchangeData = lists;
             }
             else
             {
-                Lists = null;
+                lists = null;
             }
 
-            var count = Strings.Count;
-            SortStringsContext.QuickSortStrings(ref Ctx, 0, count - 1);
-            if (Lists != null)
+            var count = strings.Count;
+            SortStringsContext.QuickSortStrings(ref context, 0, count - 1);
+            if (lists != null)
             {
-                for (int I = 0, last = LinkedStrings.Length - 1; I <= last; I++)
+                for (int I = 0, last = linkedStrings.Length - 1; I <= last; I++)
                 {
-                    LinkedStrings[I].EndUpdate();
+                    linkedStrings[I].EndUpdate();
                 }
 
-                Lists?.Dispose();
+                lists?.Dispose();
             }
 
-            Strings.EndUpdate();
+            strings.EndUpdate();
         }
     }
 
-    internal static void SortStringsAscending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
+    internal static void SortStringsAscending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings)
     {
-        SortStringsEx(Strings, CompareAscending, LinkedStrings);
+        SortStrings(strings, CompareAscending, linkedStrings);
     }
 
-    internal static void SortStringsDescending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
+    internal static void SortStringsDescending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings)
     {
-        SortStringsEx(Strings, CompareDescending, LinkedStrings);
+        SortStrings(strings, CompareDescending, linkedStrings);
     }
 
-    internal static void SortStringsNumericalAscending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
+    internal static void SortStringsNumericalAscending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings)
     {
-        SortStringsEx(Strings, CompareNumericalAscending, LinkedStrings);
+        SortStrings(strings, CompareNumericalAscending, linkedStrings);
     }
 
-    internal static void SortStringsNumericalDescending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
+    internal static void SortStringsNumericalDescending(StringCollection strings, ReadOnlySpan<StringCollection> linkedStrings)
     {
-        SortStringsEx(Strings, CompareNumericalDescending, LinkedStrings);
+        SortStrings(strings, CompareNumericalDescending, linkedStrings);
     }
 
-    internal static int CompareAscending(string S1, string S2, object O1, object O2)
+    internal static int CompareAscending(string s1, string s2, object o1, object o2)
     {
-        int Result = CompareText(S1, S2);
-        if (Result == 0)
+        int result = CompareText(s1, s2);
+        if (result == 0)
         {
-            Result = S1.Length - S2.Length;
+            result = s1.Length - s2.Length;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int CompareDescending(string S1, string S2, object O1, object O2)
+    internal static int CompareDescending(string s1, string s2, object o1, object o2)
     {
-        int Result = CompareText(S2, S1);
-        if (Result == 0)
+        int result = CompareText(s2, s1);
+        if (result == 0)
         {
-            Result = S2.Length - S1.Length;
+            result = s2.Length - s1.Length;
         }
 
-        return Result;
+        return result;
     }
 
-    internal static int CompareNumericalAscending(string S1, string S2, object O1, object O2)
+    internal static int CompareNumericalAscending(string s1, string s2, object o1, object o2)
     {
-        int V1;
-        int V2;
-        V1 = StrToIntDef(S1, -1);
-        V2 = StrToIntDef(S2, -1);
-        return V1 - V2;
+        int v1;
+        int v2;
+        v1 = StrToIntDef(s1, -1);
+        v2 = StrToIntDef(s2, -1);
+        return v1 - v2;
     }
 
-    internal static int CompareNumericalDescending(string S1, string S2, object O1, object O2)
+    internal static int CompareNumericalDescending(string s1, string s2, object o1, object o2)
     {
-        int V1;
-        int V2;
-        V1 = StrToIntDef(S1, -1);
-        V2 = StrToIntDef(S2, -1);
-        return V2 - V1;
+        int v1;
+        int v2;
+        v1 = StrToIntDef(s1, -1);
+        v2 = StrToIntDef(s2, -1);
+        return v2 - v1;
     }
 
 }

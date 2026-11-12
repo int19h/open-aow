@@ -16,9 +16,9 @@ public partial class Geyser : CombatSpell
     // CombatSpells.pas:1505
     public Geyser(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GeyserRStr);
-        FSpellID = 118;
-        ref var spellCombatInfo = ref FCombatInfo;
+        SpellName = AbilityRules.TranslateResourceString(s_geyserText);
+        SpellId = 118;
+        ref var spellCombatInfo = ref CombatInfo;
         spellCombatInfo.Attack = 9;
         spellCombatInfo.Damage = 5;
         spellCombatInfo.DamageTypes = Set<DamageType>.Of(DamageType.Physical);
@@ -28,27 +28,27 @@ public partial class Geyser : CombatSpell
     }
 
     // CombatSpells.pas:1522
-    public override CombatAction CreateCA(CombatObject Source, CombatObject Target, bool ChargeMana)
+    public override CombatAction CreateCombatAction(CombatObject source, CombatObject target, bool chargeMana)
     {
-        CombatSpellCombatAction Action;
-        Action = new CombatSpellCombatAction(null);
-        Action.FSpellID = FSpellID;
-        if (Target.GetAbilityEnabled(1) || Target.GetAbilityEnabled(59))
+        CombatSpellCombatAction action;
+        action = new CombatSpellCombatAction(null);
+        action.SpellId = SpellId;
+        if (target.GetAbilityEnabled(1) || target.GetAbilityEnabled(59))
         {
-            Action.Generate(Source, Target, FCombatInfo.Attack, (sbyte)(FCombatInfo.Damage / 2), FCombatInfo.DamageTypes);
+            action.Generate(source, target, CombatInfo.Attack, (sbyte)(CombatInfo.Damage / 2), CombatInfo.DamageTypes);
         }
         else
         {
-            Action.Generate(Source, Target, FCombatInfo.Attack, FCombatInfo.Damage, FCombatInfo.DamageTypes);
+            action.Generate(source, target, CombatInfo.Attack, CombatInfo.Damage, CombatInfo.DamageTypes);
         }
 
-        if (ChargeMana)
+        if (chargeMana)
         {
-            Action.FManaCost = ((Hero)((CombatUnit)Source).FUnit).CastingMana(this);
+            action.ManaCost = ((Hero)((CombatUnit)source).Troop).CastingMana(this);
         }
 
-        return Action;
+        return action;
     }
 
-    private static readonly string GeyserRStr = "Geyser";
+    private static readonly string s_geyserText = "Geyser";
 }

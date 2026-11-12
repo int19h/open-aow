@@ -9,18 +9,18 @@ namespace Aow.Game.Combat.Actions;
 
 public partial class DispelMagicAbilityCombatAction : DispelMagicCombatAction
 {
-    public new const int ClassID = 131775;
+    public new const int ClassId = 131775;
 
     public DispelMagicAbilityCombatAction(ECustomNode owner) : base(owner)
     { }
 
     // AoWAb.PAS:4018
-    public override void Execute(Battle Combat)
+    public override void Execute(Battle combat)
     {
-        CombatUnit Source;
-        base.Execute(Combat);
-        Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
-        ((DispelMagicAbility)AoWHSSet.Current.FAbilityControl.GetAbility(60)).SetEnabled(Source.FUnit, false);
+        CombatUnit source;
+        base.Execute(combat);
+        source = (CombatUnit)combat.CombatData.FindId(SourceId);
+        ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(60)).SetEnabled(source.Troop, false);
     }
 
     // intf_P4_02.inc:660

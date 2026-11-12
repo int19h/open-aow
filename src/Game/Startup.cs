@@ -32,7 +32,7 @@ public static class Startup
         new("AoWTitleScene", TitleCaptions.Initialize, null),
     ];
 
-    private static readonly bool[] initialized = new bool[Units.Length];
+    private static readonly bool[] s_initialized = new bool[Units.Length];
 
     public static void InitializeAll()
     {
@@ -46,12 +46,12 @@ public static class Startup
 
     public static void InitializeSelected(string[] selection)
     {
-        InitializeUnits(Units, initialized, selection);
+        InitializeUnits(Units, s_initialized, selection);
     }
 
     public static void FinalizeSelected(string[] selection)
     {
-        FinalizeUnits(Units, initialized, selection);
+        FinalizeUnits(Units, s_initialized, selection);
     }
 
     /// <summary>Runs the initialization of every selected unit not yet initialized, in table

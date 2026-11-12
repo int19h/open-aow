@@ -54,48 +54,48 @@ public partial class CastUnitSpellDialog : DataModule
     public Image DecoR;
     public Image SpellFr;
     public Image FaceFrame;
-    public Frame AoWFrame1;
+    public Frame Frame1;
     public Panel SelectionInfoPnl;
     public Label SelectionInfoLbl;
     public IvTranslator Translator;
-    public UnitSpellCaster FCaster;
+    public UnitSpellCaster Caster;
 
     // AoWCastUnitSpellDlg.pas:79
     public void ClearCaster()
     {
-        FCaster.Release();
-        FCaster = null;
+        Caster.Release();
+        Caster = null;
     }
 
     // AoWCastUnitSpellDlg.pas:85
-    public void DrawUnit(int Index, int X, int Y, ref LockedSurface Surface)
+    public void DrawUnit(int index, int X, int Y, ref LockedSurface surface)
     {
-        Units.Alignment Alignment;
-        UnitShowInfo Info;
-        Rect OldClip;
-        if (Index < FCaster.FTargetUnits.GetCount())
+        Units.Alignment alignment;
+        UnitShowInfo info;
+        Rect oldClip;
+        if (index < Caster.TargetUnits.GetCount())
         {
-            OldClip = Surface.ClipRect;
-            var rect = new Rect(X + 5, Y + 4, X + 46, Y + 56);
-            Surface.ClipRect = rect;
-            Alignment = FCaster.FTargetUnits.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
+            oldClip = surface.ClipRectangle;
+            var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
+            surface.ClipRectangle = rectangle;
+            alignment = Caster.TargetUnits.GetUnit(index).GetAlignment();
+            if ((int)alignment < DialogHosts.UIGraphics.UnitBGs.Count)
             {
-                var image = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
-                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, Surface);
+                var image = DialogHosts.UIGraphics.UnitBGs[(int)alignment];
+                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, surface);
             }
 
-            Info = default;
-            Info.Direction = 3;
-            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
-            FCaster.FTargetUnits.GetUnit(Index).ShowEx(X - 8, Y - 4, Surface, Info);
-            if ((((int)(((uint)FCaster.FValidSelection) >> Index)) & 1) == 0)
+            info = default;
+            info.Direction = 3;
+            info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
+            Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, surface, info);
+            if ((((int)(((uint)Caster.ValidSelection) >> index)) & 1) == 0)
             {
-                var image = DialogHosts.IntGfxMod.UnitBGs[7];
-                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, Surface);
+                var image = DialogHosts.UIGraphics.UnitBGs[7];
+                image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, surface);
             }
 
-            Surface.ClipRect = OldClip;
+            surface.ClipRectangle = oldClip;
         }
     }
 
@@ -109,25 +109,25 @@ public partial class CastUnitSpellDialog : DataModule
     // AoWCastUnitSpellDlg.pas:117
     public void CastButClick()
     {
-        string Reason = "";
+        string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (FCaster.CanCast(ref Reason))
+        if (Caster.CanCast(ref reason))
         {
-            FCaster.Cast();
+            Caster.Cast();
             Dlg.Visible = false;
         }
         else
         {
-            AoWHSMap.Current.ShowMessage(Reason);
+            AoWHSMap.Current.ShowMessage(reason);
         }
     }
 
     // AoWCastUnitSpellDlg.pas:163
-    public void FaceFramePreDraw(LockedSurface Surface)
+    public void FaceFramePreDraw(LockedSurface surface)
     {
         Troop U;
         Rect R = default;
-        U = AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FCasterSourceID);
+        U = AoWHSMap.Current.UnitControl.FindUnit(Caster.CasterSourceId);
         if (U != null)
         {
             if (U.GetFace() != null)
@@ -137,7 +137,7 @@ public partial class CastUnitSpellDialog : DataModule
                 R.Top = this.FaceFrame.WinTop + TopPnl.WinTop;
                 R.Bottom = R.Top + this.FaceFrame.WinHeight;
 
-                U.GetFace().ShowStretched(R, Surface);
+                U.GetFace().ShowStretched(R, surface);
             }
         }
     }
@@ -148,23 +148,23 @@ public partial class CastUnitSpellDialog : DataModule
     }
 
     // AoWCastUnitSpellDlg.pas:191
-    public void SpellFrPreDraw(LockedSurface Surface)
+    public void SpellFrPreDraw(LockedSurface surface)
     {
-        Spell Spell;
+        Spell spell;
         Rect R = default;
-        if (FCaster != null)
+        if (Caster != null)
         {
-            Spell = AoWHSSet.Current.FSpellControl.GetSpell(FCaster.FCasterSpellID);
-            if (Spell != null)
+            spell = AoWHSSet.Current.SpellControl.GetSpell(Caster.CasterSpellId);
+            if (spell != null)
             {
                 R.Left = this.SpellFr.WinLeft + TopPnl.WinLeft;
                 R.Right = R.Left + this.SpellFr.WinWidth;
                 R.Top = this.SpellFr.WinTop + TopPnl.WinTop;
                 R.Bottom = R.Top + this.SpellFr.WinHeight;
 
-                if (Spell.FCastImages.GetImageSequence(10) != null)
+                if (spell.CastImages.GetImageSequence(10) != null)
                 {
-                    Spell.FCastImages.Show(10, R.Left + 5, R.Top + 15, 0, Surface);
+                    spell.CastImages.Show(10, R.Left + 5, R.Top + 15, 0, surface);
                 }
             }
         }
@@ -179,9 +179,9 @@ public partial class CastUnitSpellDialog : DataModule
     // AoWCastUnitSpellDlg.pas:219
     public void DlgUpdate()
     {
-        if (Dlg.Visible && FCaster != null)
+        if (Dlg.Visible && Caster != null)
         {
-            if (!FCaster.Valid())
+            if (!Caster.Valid())
             {
                 Dlg.Visible = false;
             }
@@ -190,30 +190,30 @@ public partial class CastUnitSpellDialog : DataModule
 
     public void U1Change(CheckBox sender, int slot)
     {
-        byte oldSelection = FCaster.FSelectionMask;
+        byte oldSelection = Caster.SelectionMask;
         int bit = 1 << slot;
-        FCaster.SetSelection((byte)(sender.Checked
-            ? FCaster.FAllowMultipleTargets ? FCaster.FSelectionMask | bit : bit
-            : FCaster.FSelectionMask & ~bit));
+        Caster.SetSelection((byte)(sender.Checked
+            ? Caster.AllowMultipleTargets ? Caster.SelectionMask | bit : bit
+            : Caster.SelectionMask & ~bit));
         var checks = new[] { U1, U2, U3, U4, U5, U6, U7, U8 };
-        for (int i = 0; i < checks.Length; i++) checks[i].Checked = (FCaster.FSelectionMask & (1 << i)) != 0;
-        if (FCaster.FSelectionMask != oldSelection)
+        for (int i = 0; i < checks.Length; i++) checks[i].Checked = (Caster.SelectionMask & (1 << i)) != 0;
+        if (Caster.SelectionMask != oldSelection)
             DialogHosts.General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
-        if (FCaster.FSelectionMask == 0)
+        if (Caster.SelectionMask == 0)
         {
             SelectionInfoLbl.Text = "";
             return;
         }
         string reason = "";
-        SelectionInfoLbl.TextColor = FCaster.CanCast(ref reason) ? 0 : 149;
+        SelectionInfoLbl.TextColor = Caster.CanCast(ref reason) ? 0 : 149;
         // AoW.exe loads the two-byte separator
-        SelectionInfoLbl.Text = AbilityRules.TranslateRStr(RequiredManaRStr) +
-            ": " + IntToStr(FCaster.GetRequiredMana());
+        SelectionInfoLbl.Text = AbilityRules.TranslateResourceString(s_requiredManaText) +
+            ": " + IntToStr(Caster.GetRequiredMana());
     }
 
     // AoWCastUnitSpellDlg.pas:183
     public void U1PreDraw(CheckBox sender, LockedSurface surface, int slot) =>
         DrawUnit(slot, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref surface);
 
-    private static readonly string RequiredManaRStr = "Required Mana";
+    private static readonly string s_requiredManaText = "Required Mana";
 }

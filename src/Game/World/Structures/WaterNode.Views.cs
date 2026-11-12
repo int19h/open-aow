@@ -4,5 +4,5 @@ namespace Aow.Game.World.Structures;
 
 public partial class WaterNode
 {
-    public override string CombatMapName(CombatMapSite Site) => "NodeW000";
+    public override string CombatMapName(CombatMapSite site) => "NodeW000";
 }

@@ -18,61 +18,61 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
     // GlobalEnchantmentSpells.pas:571
     public EnchantedRoads(ECustomNode owner) : base(owner)
     {
-        FSpellName = AbilityRules.TranslateRStr(GameText.EnchantedRoadsRStr);
-        FSpellID = 44;
-        FSpellType = SpellType.Global;
-        FBaseManaCost = 1;
-        FSpellLevel = 3;
-        FMagicSphere = MagicSphere.Earth;
-        FCastDuration = 20;
-        FAIBasePriority = 750;
+        SpellName = AbilityRules.TranslateResourceString(GameText.s_enchantedRoadsText);
+        SpellId = 44;
+        SpellType = SpellType.Global;
+        BaseManaCost = 1;
+        SpellLevel = 3;
+        MagicSphere = MagicSphere.Earth;
+        CastDuration = 20;
+        AIBasePriority = 750;
     }
 
     // GlobalEnchantmentSpells.pas:613
-    public override bool ExecuteTE(SpellTokenEvent Event, Troop Source, int ExecuteCount)
+    public override bool ExecuteTokenEvent(SpellTokenEvent eventValue, Troop source, int executeCount)
     {
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        Animation Anim = default;
-        TwinkleAnimation Twinkle = default;
-        base.ExecuteTE(Event, Source, ExecuteCount);
-        Source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(Source.FPlayer, X, Y, L, 0);
-        Anim = new Animation(null);
-        Anim.FAnimationLevel = 27;
-        Anim.FOnShow = ShowAnimation;
-        Anim.FAnimationMap = AoWHSMap.Current;
-        Anim.Activate();
-        Twinkle = new TwinkleAnimation(null);
-        Twinkle.Setup(AoWHSSet.Current.FSpellControl.GetSpell(44).FCastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
-        AoWHSMap.Current.PlaceHX(Twinkle, X, Y, L);
-        FCastSounds.Play(0);
-        CastingDone(Source, Event.FEventMana);
+        Animation animation = default;
+        TwinkleAnimation twinkle = default;
+        base.ExecuteTokenEvent(eventValue, source, executeCount);
+        source.GetLocation(ref X, ref Y, ref L);
+        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        animation = new Animation(null);
+        animation.AnimationLevel = 27;
+        animation.OnShow = ShowAnimation;
+        animation.AnimationMap = AoWHSMap.Current;
+        animation.Activate();
+        twinkle = new TwinkleAnimation(null);
+        twinkle.Setup(AoWHSSet.Current.SpellControl.GetSpell(44).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
+        AoWHSMap.Current.PlaceHex(twinkle, X, Y, L);
+        CastSounds.Play(0);
+        CastingDone(source, eventValue.EventMana);
         return false;
     }
 
     // GlobalEnchantmentSpells.pas:636
     public override GlobalEnchantment CreateEnchantment() => new EnchantedRoadsEnchantment(null);
 
-    public void ShowAnimation(Animation anim, int xhpSurface, int yhpSurface, in LockedSurface surface)
+    public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {
         var map = AoWHSMap.Current;
         var level = map.MapContainer.GetMapLevel(map.ViewL);
-        int maxX = map.ViewXhx + map.ViewWidthHX - 1, maxY = map.ViewYhx + map.ViewHeightHX - 1;
-        for (int x = map.ViewXhx; x <= maxX; x++)
+        int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
+        for (int x = map.ViewHexX; x <= maxX; x++)
         {
-            int xhp = 0, yhp = 0;
-            HexGeometry.HXtoHP(x, map.ViewYhx, ref xhp, ref yhp);
-            xhp = xhp - xhpSurface + 16;
-            yhp = yhp - yhpSurface + 16;
-            for (int y = map.ViewYhx; y <= maxY; y++, yhp += 32)
+            int pixelX = 0, pixelY = 0;
+            HexGeometry.HexToPixel(x, map.ViewHexY, ref pixelX, ref pixelY);
+            pixelX = pixelX - pixelXSurface + 16;
+            pixelY = pixelY - pixelYSurface + 16;
+            for (int y = map.ViewHexY; y <= maxY; y++, pixelY += 32)
             {
                 var field = (AoWMapField)level.GetField(x, y);
-                if (field.OverlayType == 4 && map.FSeatedPlayer != -1 && field.GetExplored(map.FSeatedPlayer))
-                    FCastImages.Show(0, xhp, yhp, anim.FFrameCounter - ((field.Xhx + field.Yhx * 8 + ((field.FFieldFlags >> 16) & 255)) & 15), surface);
+                if (field.OverlayType == 4 && map.SeatedPlayer != -1 && field.GetExplored(map.SeatedPlayer))
+                    CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - ((field.HexX + field.HexY * 8 + ((field.FieldFlags >> 16) & 255)) & 15), surface);
             }
         }
-        if (anim.FFrameCounter == 50) anim.Dispose();
+        if (animation.FrameCounter == 50) animation.Dispose();
     }
 }
