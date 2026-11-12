@@ -1,8 +1,11 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+
+using Aow.Formats.Tree;
 
 using Aow.Game.Audio;
 
@@ -142,6 +145,28 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
                 stream.String(ref LibraryName, 22);
             }
         }
+    }
+
+    // The text-only branches of ReadWrite serve the text and translate streams. The tree has no such mode.
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _itemGraphicsIndex = persister.Int32("ItemGFXIndex", _itemGraphicsIndex);
+        OwnerName = persister.String("OwnerName", OwnerName);
+        Name = persister.String("Name", Name);
+        Availability = persister.Enum("Availability", Availability);
+        Attack = PersistSupport.UnsignedByte(persister, "Attack", Attack);
+        Defense = PersistSupport.UnsignedByte(persister, "Defense", Defense);
+        Damage = PersistSupport.UnsignedByte(persister, "Damage", Damage);
+        Resistance = PersistSupport.UnsignedByte(persister, "Resistance", Resistance);
+        ItemType = persister.Enum("ItemType", ItemType);
+        _hidden = persister.Boolean("Hidden", _hidden);
+        ItemId = persister.Int32("ItemID", ItemId);
+        PersistSupport.Lines(persister, "Description", _description);
+        _obtainValue = persister.Int32("ObtainValue", _obtainValue);
+        _spellId = persister.Int32("SpellID", _spellId);
+        LibraryId = persister.Int32("LibraryID", LibraryId, -1);
+        LibraryName = persister.String("LibraryName", LibraryName);
     }
 
     // Army.PAS:4229

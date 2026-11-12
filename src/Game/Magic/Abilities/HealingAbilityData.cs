@@ -2,6 +2,8 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
+using Aow.Formats.Tree;
+
 namespace Aow.Game.Magic.Abilities;
 
 // (enabled)
@@ -19,6 +21,12 @@ public partial class HealingAbilityData : AbilityData
     {
         base.ReadWrite(stream);
         stream.Boolean(ref Enabled, 10);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Enabled = persister.Boolean("Enabled", Enabled);
     }
 
     // AoWAb.PAS:3607

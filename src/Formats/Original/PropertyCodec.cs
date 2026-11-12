@@ -39,6 +39,25 @@ public abstract partial class PropertyCodec
         throw new InvalidOperationException(GetType().Name + " has no image reader.");
     }
 
+    /// <summary>
+    /// Writes the entries of a dynamic member, one per slot, into the object's table. The base
+    /// refuses the member. A keyed created member overrides it.
+    /// </summary>
+    internal virtual void WriteSlotsImage(Tree.TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame) =>
+        throw context.Fail(Codes.Type, "PE-3 still needs a dynamic member. The direct path does not store it.", null, frame.Path);
+
+    /// <summary>Reads the stored entries of a dynamic member, in data order. The base refuses the member.</summary>
+    internal virtual Tree.TreeValue ReadSlotsImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame) =>
+        throw context.Fail(Codes.Type, "PE-3 still needs a dynamic member. The direct path does not store it.", entries[0].Start, frame.Path);
+
+    /// <summary>Writes a dynamic member as its document array. The base refuses the member.</summary>
+    internal virtual JsonValue WriteSlotsTree(Tree.TreeValue value, Tree.DocumentSite site) =>
+        throw site.Fail(Codes.Type, "PE-1 does not store a dynamic member.");
+
+    /// <summary>Reads a dynamic member's document array. The base refuses the member.</summary>
+    internal virtual Tree.TreeValue ReadSlotsTree(JsonValue value, Tree.DocumentSite site) =>
+        throw site.Fail(Codes.Type, "PE-1 does not store a dynamic member.", value);
+
     /// <summary>The document value is a JSON array for this codec at this version.</summary>
     internal virtual bool AcceptsDocumentArray(int version) => AcceptsList(version);
 
@@ -147,6 +166,9 @@ public abstract partial class PropertyCodec
 
     protected static string Text(long value) => value.ToString(CultureInfo.InvariantCulture);
 }
+
+/// <summary>One stored entry of a dynamic member: its id and the bytes it occupies.</summary>
+internal readonly record struct SlotImage(int Id, int Start, int End);
 
 internal sealed partial class IntegerCodec(int width, bool signed, string? domain = null, bool raw = false) : PropertyCodec
 {
@@ -474,10 +496,76 @@ internal sealed class FloatCodec(int width) : PropertyCodec
 /// TIntegerList and TByteList streams: the default value, the 32-bit count, then the values
 /// where a default value is followed by a run length. The document holds the default and the
 /// decoded items. A run split the writer does not make is kept as a value-encoding part.
+/// The tree holds a <see cref="Tree.DefaultListNode"/>. The direct path writes the canonical runs,
+/// splitting a byte run longer than 255, and reads any run split the stream decodes.
 /// </summary>
 internal sealed class RunListCodec(int width) : PropertyCodec
 {
-    internal override string? ImageRefusal => "PE-2c still needs a run-length list. The direct path does not store it.";
+    private long Min => width == 1 ? 0 : int.MinValue;
+    private long Max => width == 1 ? 255 : int.MaxValue;
+
+    internal override void WriteImage(Tree.TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
+    {
+        string name = frame.Property?.Name ?? "The value";
+        if (value is not Tree.DefaultListNode node || node.Width != width)
+            throw context.Fail(Codes.Type, name + " is a list with a default.", null, frame.Path);
+        if (node.Items.Count > context.Limits.CollectionItems)
+            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, "at most " + context.Limits.CollectionItems + " items");
+        if (node.Default < Min || node.Default > Max)
+            throw context.Fail(Codes.Range, "A list value is outside its storage range.", null, frame.Path.Member("default"), Text(node.Default), Min + " to " + Max);
+        var items = new List<long>(node.Items.Count);
+        for (int i = 0; i < node.Items.Count; i++)
+        {
+            long item = node.Items[i];
+            if (item < Min || item > Max)
+                throw context.Fail(Codes.Range, "A list value is outside its storage range.", null, frame.Path.Member("items").Item(i), Text(item), Min + " to " + Max);
+            items.Add(item);
+        }
+        data.Bytes(Canonical(node.Default, items));
+    }
+
+    internal override Tree.TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
+    {
+        var items = Parse(context, start, end, frame.Value(context), out long defense);
+        return new Tree.DefaultListNode(width, defense, items);
+    }
+
+    internal override JsonValue? WriteTree(Tree.TreeValue value, Tree.DocumentSite site)
+    {
+        if (value is not Tree.DefaultListNode node || node.Width != width)
+            throw site.Mismatch($"{site.Property?.Name ?? "The value"} is {{ \"default\": ..., \"items\": [...] }}.");
+        if (node.Items.Count > site.Context.Limits.CollectionItems)
+            throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: $"at most {site.Context.Limits.CollectionItems} items");
+        if (node.Default < Min || node.Default > Max)
+            throw site.At(site.Path.Member("default"), element: false).Fail(Codes.Range, "A list value is outside its storage range.", value: Text(node.Default), constraint: $"{Min} to {Max}");
+        var array = new JsonArray();
+        for (int i = 0; i < node.Items.Count; i++)
+        {
+            long item = node.Items[i];
+            if (item < Min || item > Max)
+                throw site.At(site.Path.Member("items").Item(i), element: true).Fail(Codes.Range, "A list value is outside its storage range.", value: Text(item), constraint: $"{Min} to {Max}");
+            array.Add(new JsonInteger(item));
+        }
+        return new JsonObject().Add("default", new JsonInteger(node.Default)).Add("items", array);
+    }
+
+    internal override Tree.TreeValue? ReadTree(JsonValue value, Tree.DocumentSite site)
+    {
+        if (value is not JsonObject objectValue)
+            throw site.Mismatch($"{site.Property?.Name ?? "The value"} is {{ \"default\": ..., \"items\": [...] }}.", value);
+        foreach (var member in objectValue.Members)
+            if (member.Name is not ("default" or "items"))
+                throw site.At(site.Path.Member(member.Name), element: false).Fail(Codes.UnknownMember, $"Member \"{member.Name}\" is not allowed in a list.", member.Value, member.Name);
+        long Item(JsonValue? item, Tree.DocumentSite at) => item is JsonInteger n && n.Value >= Min && n.Value <= Max ? n.Value
+            : throw at.Fail(item is JsonInteger ? Codes.Range : Codes.Type, "A list value is outside its storage range.", item ?? objectValue, null, $"{Min} to {Max}");
+        long defense = Item(objectValue["default"], site.At(site.Path.Member("default"), element: false));
+        var array = objectValue["items"] as JsonArray ?? throw site.Fail(Codes.MissingMember, "items is an array.", objectValue);
+        if (array.Items.Count > site.Context.Limits.CollectionItems)
+            throw site.Fail(Codes.Limit, "A collection has too many items.", array, null, $"at most {site.Context.Limits.CollectionItems} items");
+        var items = new long[array.Items.Count];
+        for (int i = 0; i < items.Length; i++) items[i] = Item(array.Items[i], site.At(site.Path.Member("items").Item(i), element: true));
+        return new Tree.DefaultListNode(width, defense, items);
+    }
 
     private long Read(byte[] data, int at) => width == 1 ? data[at] : BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(at, 4));
 

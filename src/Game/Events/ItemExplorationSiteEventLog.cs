@@ -1,7 +1,10 @@
 // Translated from ItemExpS.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+
+using Aow.Formats.Tree;
 
 using Aow.Game.World.Map;
 
@@ -43,6 +46,14 @@ public partial class ItemExplorationSiteEventLog : EventLog
         stream.Payload(20, ItemIds.LoadFromStream, ItemIds.SaveToStream);
         stream.Lines(Messages, 21);
         stream.String(ref Title, 22);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Int32List(persister, "ItemIDs", ItemIds);
+        PersistSupport.Lines(persister, "Messages", Messages);
+        Title = persister.String("Title", Title);
     }
 
 }

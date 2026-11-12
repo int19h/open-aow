@@ -2,6 +2,8 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
+using Aow.Formats.Tree;
+
 namespace Aow.Game.Magic.Abilities;
 
 // (duration, player index, ability ID, unresolved Integer)
@@ -25,6 +27,15 @@ public partial class DurationAbilityData : AbilityData
         stream.UInt16(ref AbilityId, 12);
         stream.Byte(ref PlayerIndex, 13);
         stream.Int32(ref Source, 14);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Duration = persister.Byte("Duration", Duration);
+        AbilityId = persister.UInt16("AbilityID", AbilityId);
+        PlayerIndex = persister.Byte("PlayerIndex", PlayerIndex);
+        Source = persister.Int32("Source", Source);
     }
 
     // AoWAb.PAS:11

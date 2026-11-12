@@ -2,6 +2,8 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
+using Aow.Formats.Tree;
+
 namespace Aow.Game.Magic.Abilities;
 
 // (level, ability ID)
@@ -21,6 +23,13 @@ public partial class MultiLevelAbilityData : AbilityData
         base.ReadWrite(stream);
         stream.Byte(ref Level, 10);
         stream.UInt16(ref LevelAbilityId, 11);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        Level = persister.Byte("Level", Level);
+        LevelAbilityId = persister.UInt16("LevelAbilityID", LevelAbilityId);
     }
 
     // AoWAb.PAS:243

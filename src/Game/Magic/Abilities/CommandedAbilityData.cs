@@ -2,6 +2,8 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
+using Aow.Formats.Tree;
+
 namespace Aow.Game.Magic.Abilities;
 
 // (ability ID, commander ID, command ability ID, original combat player)
@@ -25,6 +27,15 @@ public partial class CommandedAbilityData : AbilityData
         stream.Int32(ref CommandAbilityId, 21);
         stream.Byte(ref SourceId, 22);
         stream.Byte(ref OriginalCombatPlayer, 23);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        AbilityId = persister.Int32("AbilityID", AbilityId);
+        CommandAbilityId = persister.Int32("CommandAbilityID", CommandAbilityId);
+        SourceId = persister.Byte("SourceID", SourceId);
+        OriginalCombatPlayer = persister.Byte("OriginalCombatPlayer", OriginalCombatPlayer);
     }
 
     // AoWAb.PAS:5001

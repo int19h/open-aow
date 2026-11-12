@@ -227,6 +227,56 @@ public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeV
     }
 }
 
+/// <summary>
+/// A list with a stored default (Delphi <c>TIntegerList</c> and <c>TByteList</c>). Width 4 holds
+/// signed 32-bit values and width 1 unsigned bytes. A read past the end of the list returns the
+/// default, so the default is state and is stored with the items.
+/// </summary>
+public sealed class DefaultListNode(int width, long defaultValue, IReadOnlyList<long> items) : TreeValue
+{
+    public int Width { get; } = width;
+    public long Default { get; } = defaultValue;
+    public IReadOnlyList<long> Items { get; } = items;
+}
+
+/// <summary>One slot of a keyed dynamic member: an object node or the stored null.</summary>
+public readonly record struct SlotEntry(int Slot, TreeValue Value);
+
+/// <summary>
+/// The created objects of a keyed dynamic member, in stored order. The slot is the stored id less
+/// the member's slot base, so it carries the object's identity. A slot holds an object node with a
+/// class name, or <see cref="NullNode"/> for a stored null.
+/// </summary>
+public sealed class SlotListNode : TreeValue
+{
+    private readonly List<SlotEntry> _entries = [];
+
+    public IReadOnlyList<SlotEntry> Entries => _entries;
+
+    internal void Add(int slot, TreeValue value) => _entries.Add(new SlotEntry(slot, value));
+
+    /// <summary>The value stored at <paramref name="slot"/>, or null when the slot is absent.</summary>
+    public TreeValue? Find(int slot)
+    {
+        foreach (var entry in _entries)
+            if (entry.Slot == slot) return entry.Value;
+        return null;
+    }
+
+    internal override void RejectVersion(int version, DocumentNodePath path)
+    {
+        for (int i = 0; i < _entries.Count; i++)
+            _entries[i].Value.RejectVersion(version, path.Item(i));
+    }
+
+    internal override IEnumerable<(string Path, int Key)> ReferencesIn(string domain, string path)
+    {
+        for (int i = 0; i < _entries.Count; i++)
+            foreach (var hit in _entries[i].Value.ReferencesIn(domain, path + "[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]"))
+                yield return hit;
+    }
+}
+
 /// <summary>A variable-length list. Version 1 refuses it. It is not the children of a node.</summary>
 public sealed class ListNode : TreeValue
 {

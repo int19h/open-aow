@@ -8,7 +8,7 @@ namespace Aow.Formats.Tree;
 /// <summary>
 /// Writes a tree value as an original property-table image and reads that image back.
 /// The codecs write the bytes. This class walks the schema property table.
-/// A mapped class and a dynamic member stay refused. Layout residue is not kept.
+/// A mapped class and a dynamic member without a slot base stay refused. Layout residue is not kept.
 /// </summary>
 internal static class ImageTree
 {
@@ -46,7 +46,12 @@ internal static class ImageTree
             if (value is null) continue;
             var memberPath = path.Member(prop.Name);
             if (prop.IsDynamic)
-                throw context.Fail(Codes.Type, "PE-3 still needs a dynamic member. The direct path does not store it.", null, memberPath);
+            {
+                var slots = new ImageFrame { Property = prop, Id = prop.DynamicMinimum!.Value, Path = memberPath, Parent = node };
+                prop.Codec.WriteSlotsImage(value, context, writer, slots);
+                seen.Add(prop.Name);
+                continue;
+            }
             if (prop.Codec.ImageRefusal is string reason)
                 throw context.Fail(Codes.Type, reason, null, memberPath);
             if (!prop.Codec.StoresImage(value))
@@ -113,7 +118,14 @@ internal static class ImageTree
             if (!byProperty.TryGetValue(prop, out var list)) continue;
             var memberPath = path.Member(prop.Name);
             if (prop.IsDynamic)
-                throw context.Fail(Codes.Type, "PE-3 still needs a dynamic member. The direct path does not store it.", list[0].Start, memberPath);
+            {
+                // The entries in data order, the order the converter lists them in the document.
+                var entries = list.OrderBy(item => item.Entry.Offset).ThenBy(item => item.Entry.Index)
+                    .Select(item => new SlotImage(item.Entry.Id, item.Start, item.End)).ToList();
+                var slots = new ImageFrame { Property = prop, Id = prop.DynamicMinimum!.Value, Path = memberPath, Parent = node };
+                node.Add(prop.Name, prop.Codec.ReadSlotsImage(context, entries, slots));
+                continue;
+            }
             if (prop.Codec.ImageRefusal is string reason)
                 throw context.Fail(Codes.Type, reason, list[0].Start, memberPath);
             if (prop.DataId is not null)

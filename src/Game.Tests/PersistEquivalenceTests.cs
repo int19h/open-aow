@@ -22,6 +22,7 @@ using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Session;
+using Aow.Game.UI.Controls;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
@@ -234,7 +235,7 @@ public sealed class PersistEquivalenceTests
         Check("UnitEnchantment", new UnitEnchantment(null!) { EnchantmentAbilityId = int.MinValue, UnitId = int.MaxValue, Source = 0, DispelResistance = 0, Upkeep = 0 });
         Check("CosmeticSurgeryEnchantment", new CosmeticSurgeryEnchantment(null!) { FaceIndex = int.MaxValue });
         Check("CosmeticSurgeryEnchantment", new CosmeticSurgeryEnchantment(null!) { FaceIndex = int.MinValue, EnchantmentId = 0, Upkeep = 0, Source = 0, DispelResistance = 0 });
-        RefuseAbilityData(new UnitEnchantmentAbilityData(null!));
+        Check("UnitEnchantmentAbilityData", new UnitEnchantmentAbilityData(null!));
         var absent = new UnitEnchantmentAbilityData(null!)
         {
             EnchantmentAbilityId = 0,
@@ -242,7 +243,7 @@ public sealed class PersistEquivalenceTests
             EnchantmentDuration = -1,
             Enchantment = null,
         };
-        RefuseAbilityData(absent);
+        Check("UnitEnchantmentAbilityData", absent);
         var present = new UnitEnchantmentAbilityData(null!)
         {
             EnchantmentAbilityId = 65535,
@@ -250,7 +251,7 @@ public sealed class PersistEquivalenceTests
             EnchantmentDuration = -128,
             Enchantment = new CosmeticSurgeryEnchantment(null!) { FaceIndex = 3, UnitId = int.MinValue },
         };
-        RefuseAbilityData(present);
+        Check("UnitEnchantmentAbilityData", present);
         var edge = new UnitEnchantmentAbilityData(null!)
         {
             EnchantmentAbilityId = 1,
@@ -258,7 +259,7 @@ public sealed class PersistEquivalenceTests
             EnchantmentDuration = 127,
             Enchantment = new UnitEnchantment(null!) { EnchantmentAbilityId = int.MaxValue },
         };
-        RefuseAbilityData(edge);
+        Check("UnitEnchantmentAbilityData", edge);
     }
 
     [Fact]
@@ -313,6 +314,213 @@ public sealed class PersistEquivalenceTests
         var harmony = new HarmonyEnchantment(null!) { DaysActive = int.MinValue };
         harmony.SetOwner(spheres.Enchantments);
         Check("GlobalMagicControl", spheres, converterRead: false);
+    }
+
+    [Fact]
+    public void IntegerRunListsMatchTheConverter()
+    {
+        Check("ItemExplorationSiteEventLog", ExplorationLog(defaultValue: 0));
+        Check("ItemExplorationSiteEventLog", ExplorationLog(defaultValue: 0, 0, 0, 0));
+        Check("ItemExplorationSiteEventLog", ExplorationLog(defaultValue: 0, 4, 0, 0, int.MinValue, int.MaxValue, 0, -1));
+        Check("ItemExplorationSiteEventLog", ExplorationLog(defaultValue: -1, -1, -1, 9, -1, 0));
+        Check("ItemExplorationSiteEventLog", ExplorationLog(defaultValue: int.MinValue, int.MinValue));
+        Check("ItemExplorationSiteEventLog", ExplorationLog(defaultValue: 7));
+        Check("TutorialControl", new TutorialControl(null!));
+    }
+
+    [Fact]
+    public void ByteRunListsMatchTheConverter()
+    {
+        Check("CommandAbilityData", Commanding(defaultValue: 0));
+        Check("CommandAbilityData", Commanding(defaultValue: 0, [.. Enumerable.Repeat((byte)0, 255)]));
+        Check("CommandAbilityData", Commanding(defaultValue: 0, [.. Enumerable.Repeat((byte)0, 256)]));
+        Check("CommandAbilityData", Commanding(defaultValue: 0, [.. Enumerable.Repeat((byte)0, 300), 1, .. Enumerable.Repeat((byte)0, 600)]));
+        Check("CommandAbilityData", Commanding(defaultValue: 255, [255, 254, 255, 255, 0]));
+        Check("CommandAbilityData", Commanding(defaultValue: 7, [.. Enumerable.Repeat((byte)7, 511)]));
+        // The relation list resets its default to Unknown after a load on both paths, so the
+        // loaded image differs from the converter's encode of the written document.
+        WithDestroyingMap(_ =>
+        {
+            var relations = new PlayerDiplomaticRelations(null!);
+            relations.SetDiplomaticRelation(3, DiplomaticRelation.War);
+            relations.SetDiplomaticRelation(1, DiplomaticRelation.Alliance);
+            Check("PlayerDiplomaticRelations", relations, converterRead: false);
+        });
+    }
+
+    [Fact]
+    public void AByteRunOver255SplitsAsTheWriterSplitsIt()
+    {
+        using var source = Commanding(defaultValue: 0, [.. Enumerable.Repeat((byte)0, 300)]);
+        var classValue = s_schema.Get("CommandAbilityData");
+        var image = OriginalBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, "game");
+        Assert.Equal(Image(source), image);
+        var stored = (JsonObject)PilotImage.Decode(image, "CommandAbilityData")["CommandedUnits"]!;
+        Assert.Equal(300, ((JsonArray)stored["items"]!).Items.Count);
+        // The default, the count 300, then a run of 255 and a run of 45.
+        byte[] runs = [0, 44, 1, 0, 0, 0, 255, 0, 45];
+        Assert.True(image.AsSpan().IndexOf(runs) >= 0);
+    }
+
+    [Fact]
+    public void AnAbsentRunListLeavesTheListAsItWas()
+    {
+        var classValue = s_schema.Get("ItemExplorationSiteEventLog");
+        var image = PilotImage.Encode(new JsonObject(), "ItemExplorationSiteEventLog");
+        using var viaReadWrite = ExplorationLog(defaultValue: 5, 5, 6, 5);
+        Load(viaReadWrite, image);
+        using var viaImage = ExplorationLog(defaultValue: 5, 5, 6, 5);
+        TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaImage, Factory);
+        using var viaDocument = ExplorationLog(defaultValue: 5, 5, 6, 5);
+        TreeReader.Read(DocumentBackend.Read(new JsonObject(), classValue, s_schema, "game"), viaDocument, Factory);
+        Assert.Equal(5, viaReadWrite.ItemIds.Default);
+        Assert.Equal(3, viaReadWrite.ItemIds.Count);
+        EqualBytes(Image(viaReadWrite), Image(viaImage), "absent list original read");
+        EqualBytes(Image(viaReadWrite), Image(viaDocument), "absent list document read");
+    }
+
+    [Fact]
+    public void AUnitIndexListKeepsItsStoredDefault()
+    {
+        var classValue = s_schema.Get("ItemExplorationSiteEventLog");
+        var source = new UnitIndexProbe();
+        source.Units.Add(4);
+        source.Units.Add(-1);
+        source.Units.Add(-1);
+        using var expected = ExplorationLog(defaultValue: -1, 4, -1, -1);
+        var image = OriginalBackend.Write(TreeWriter.Write(source, Factory), classValue, s_schema, "game");
+        EqualBytes(Image(expected), image, "unit index list original");
+        var loaded = new UnitIndexProbe();
+        loaded.Units.Default = 0;
+        TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), loaded, Factory);
+        Assert.Equal(-1, loaded.Units.Default);
+        Assert.Equal([4, -1, -1], loaded.Units.List.AsSpan(0, loaded.Units.Count).ToArray());
+        var other = new UnitIndexProbe();
+        other.Units.Default = 3;
+        other.Units.Add(3);
+        var otherImage = OriginalBackend.Write(TreeWriter.Write(other, Factory), classValue, s_schema, "game");
+        var reloaded = new UnitIndexProbe();
+        TreeReader.Read(OriginalBackend.Read(otherImage, classValue, s_schema, "game"), reloaded, Factory);
+        Assert.Equal(3, reloaded.Units.Default);
+        var untouched = new UnitIndexProbe();
+        untouched.Units.Add(8);
+        TreeReader.Read(new ObjectNode(null, null), untouched, Factory);
+        Assert.Equal(-1, untouched.Units.Default);
+        Assert.Equal(1, untouched.Units.Count);
+    }
+
+    [Fact]
+    public void AbilityDataMatchesTheConverter()
+    {
+        Check("Item", AbilityItem(withData: false));
+        Check("Item", AbilityItem(withData: true));
+    }
+
+    [Fact]
+    public void AbilityDataLoadsFollowTheStoredIds()
+    {
+        using var source = AbilityItem(withData: true);
+        var document = PilotImage.Decode(Image(source), "Item");
+        // IDs names slot 33 and an absent slot 99, and leaves the stored slot 47 unread.
+        var ids = (JsonArray)((JsonObject)document["IDs"]!)["items"]!;
+        ids.Items.Clear();
+        ids.Items.Add(new JsonInteger(33));
+        ids.Items.Add(new JsonInteger(99));
+        SameLoad("Item", document);
+        var noBits = PilotImage.Decode(Image(source), "Item");
+        // ReadWrite tests the ability bits (property 3), not the count.
+        Assert.True(noBits.Remove("AbilityCount"));
+        SameLoad("Item", noBits);
+    }
+
+    [Fact]
+    public void ItemControlMatchesTheConverter()
+    {
+        Check("ItemControl", new ItemControl(null!));
+        var control = new ItemControl(null!);
+        control.RegisterItem(PlainItem(itemId: 5, name: "Sword"));
+        control.RegisterItem(PlainItem(itemId: 9, name: "Shield"));
+        control.RegisterItem(AbilityItem(withData: true));
+        Check("ItemControl", control);
+    }
+
+    [Fact]
+    public void ItemControlLoadsStopAtTheFirstMissingItem()
+    {
+        using var control = new ItemControl(null!);
+        control.RegisterItem(PlainItem(itemId: 5, name: "Sword"));
+        control.RegisterItem(PlainItem(itemId: 9, name: "Shield"));
+        control.RegisterItem(PlainItem(itemId: 11, name: "Ring"));
+        var document = PilotImage.Decode(Image(control), "ItemControl");
+        var items = (JsonArray)document["Items"]!;
+        // Slots 0 and 2 stay. Both loads stop at the gap at slot 1.
+        items.Items.RemoveAt(1);
+        SameLoad("ItemControl", document);
+        var nil = PilotImage.Decode(Image(control), "ItemControl");
+        var first = (JsonArray)nil["Items"]!;
+        first.Items[0] = new JsonObject().Add("$class", new JsonNull()).Add("$slot", new JsonInteger(0));
+        SameLoad("ItemControl", nil);
+    }
+
+    private static ItemExplorationSiteEventLog ExplorationLog(int defaultValue, params int[] items)
+    {
+        var log = new ItemExplorationSiteEventLog(null!);
+        log.ItemIds.Default = defaultValue;
+        foreach (int item in items) log.ItemIds.Add(item);
+        return log;
+    }
+
+    private static CommandAbilityData Commanding(byte defaultValue, params byte[] items)
+    {
+        var data = new CommandAbilityData(null!) { AbilityId = 40 };
+        data.CommandedUnits.Default = defaultValue;
+        foreach (byte item in items) data.CommandedUnits.Add(item);
+        return data;
+    }
+
+    private static Item PlainItem(int itemId, string name) => new(null!) { ItemId = itemId, Name = name, Attack = -2, LibraryId = 3 };
+
+    // AddAbilityData puts each new item first, so the chain holds the reverse of this order.
+    private static Item AbilityItem(bool withData)
+    {
+        var item = new Item(null!) { ItemId = 12, Name = "Staff" };
+        item.SetAbilityCount(170);
+        if (!withData) return item;
+        item.AddAbilityData(new MultiLevelAbilityData(null!) { Level = 3, LevelAbilityId = 12 });
+        item.AddAbilityData(Commanding(defaultValue: 0, 1, 0, 0, 2));
+        item.AddAbilityData(new DurationAbilityData(null!) { AbilityId = 7, Duration = 2, PlayerIndex = 1, Source = -1 });
+        item.AddAbilityData(new UnitEnchantmentAbilityData(null!) { EnchantmentAbilityId = 9, Enchantment = new UnitEnchantment(null!) { UnitId = 4 } });
+        item.AddAbilityData(new LeadershipAbilityData(null!) { LevelAbilityId = 20, Level = 1, ExternalLevel = 1, ExternalSource = "banner" });
+        item.AddAbilityData(new HealingAbilityData(null!) { Enabled = true });
+        item.AddAbilityData(new DispelMagicAbilityData(null!) { Enabled = true, Level = 2 });
+        item.AddAbilityData(new PossessedAbilityData(null!) { SourceExperience = 300 });
+        item.AddAbilityData(new CommandedAbilityData(null!) { AbilityId = 33, CommandAbilityId = 40, SourceId = 2, OriginalCombatPlayer = 1 });
+        return item;
+    }
+
+    // The engine load, the original backend load and the document load of one document write the same image.
+    private static void SameLoad(string className, JsonObject document)
+    {
+        var classValue = s_schema.Get(className);
+        var image = PilotImage.Encode(document, className);
+        var viaReadWrite = Blank(className);
+        var viaImage = Blank(className);
+        var viaDocument = Blank(className);
+        try
+        {
+            Load(viaReadWrite, image);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), viaImage, Factory);
+            TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, "game"), viaDocument, Factory);
+            var expected = Image(viaReadWrite);
+            EqualBytes(expected, Image(viaImage), className + " original load");
+            EqualBytes(expected, Image(viaDocument), className + " document load");
+        }
+        finally
+        {
+            viaDocument.Dispose();
+            viaImage.Dispose();
+            viaReadWrite.Dispose();
+        }
     }
 
     [Fact]
@@ -906,19 +1114,6 @@ public sealed class PersistEquivalenceTests
         }
     }
 
-    private static void RefuseAbilityData(UnitEnchantmentAbilityData objectValue)
-    {
-        try
-        {
-            var error = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(objectValue, Factory));
-            Assert.Equal("Class AbilityData overrides ReadWrite and has no PersistFields.", error.Message);
-        }
-        finally
-        {
-            objectValue.Dispose();
-        }
-    }
-
     private static EngineObject Blank(string className)
     {
         foreach (var engineClass in EngineClass.All)
@@ -988,6 +1183,14 @@ public sealed class PersistEquivalenceTests
         public SetupPlayerBehavior Behavior { get; set; }
 
         public void Persist(IPersister persister) => Behavior = PersistSupport.Record(persister, "Behavior", Behavior);
+    }
+
+    // A unit index list stored under the integer list of ItemExplorationSiteEventLog.
+    private sealed class UnitIndexProbe : IPersistable
+    {
+        public UnitIndexList Units { get; } = new();
+
+        public void Persist(IPersister persister) => PersistSupport.UnitIndexList(persister, "ItemIDs", Units);
     }
 
     private static byte[] Image(EngineObject objectValue)

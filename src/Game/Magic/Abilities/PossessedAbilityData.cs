@@ -2,6 +2,8 @@
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
+using Aow.Formats.Tree;
+
 namespace Aow.Game.Magic.Abilities;
 
 // (source experience)
@@ -19,6 +21,12 @@ public partial class PossessedAbilityData : AbilityData
     {
         base.ReadWrite(stream);
         stream.Int32(ref SourceExperience, 30);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        SourceExperience = persister.Int32("SourceExperience", SourceExperience);
     }
 
     // AoWAb.PAS:2551
