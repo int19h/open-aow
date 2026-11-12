@@ -4,8 +4,16 @@ using Aow.Engine.Nodes;
 namespace Aow.Game.Audio;
 
 // the sound effects (TSFXSequence children) by ID
-public partial class SfxLibrary : ENode
+public partial class SfxLibrary : ENode, IChildList<SfxSequence>
 {
+    // The sequence in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a SfxSequence, so the cast never fails.
+    public SfxSequence this[int index] => (SfxSequence)this._children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is SfxSequence;
+
+    int IChildSink<SfxSequence>.AddChild(SfxSequence child) => AddChild(child);
+
     public new const int ClassId = 2162691;
 
     public SfxLibrary(ECustomNode owner) : base(owner)
@@ -17,7 +25,7 @@ public partial class SfxLibrary : ENode
         SfxSequence result;
         if (index >= 0 && index < this._children.Count)
         {
-            result = (SfxSequence)this._children.List[index];
+            result = this[index];
         }
         else
         {
@@ -71,9 +79,9 @@ public partial class SfxLibrary : ENode
         SfxSequence result = null;
         while (I != this._children.Count && result == null)
         {
-            if (((SfxSequence)this._children.List[I])._id == id)
+            if (this[I]._id == id)
             {
-                result = (SfxSequence)this._children.List[I];
+                result = this[I];
             }
 
             I += 1;
@@ -92,10 +100,10 @@ public partial class SfxLibrary : ENode
         int result = -1;
         while (result == -1 && I != Count)
         {
-            id = ((SfxSequence)this._children.List[I])._id;
+            id = this[I]._id;
             for (int J = I + 1, last = Count - 1; J <= last; J++)
             {
-                if (id == ((SfxSequence)this._children.List[J])._id)
+                if (id == this[J]._id)
                 {
                     result = id;
                 }

@@ -255,7 +255,7 @@ public partial class HSMap : ENode
 
         for (int I = _staticVisibleHexSprite._count - 1; I >= 0; I--)
         {
-            ((HexSprite)_staticVisibleHexSprite.Items[I].Child).Show(_viewPixelX, _viewPixelY, lockedSurface);
+            _staticVisibleHexSprite[I].Show(_viewPixelX, _viewPixelY, lockedSurface);
         }
     }
 
@@ -269,7 +269,7 @@ public partial class HSMap : ENode
 
         for (int I = _dynamicVisibleHexSprite._count - 1; I >= 0; I--)
         {
-            ((HexSprite)_dynamicVisibleHexSprite.Items[I].Child).Show(_viewPixelX, _viewPixelY, lockedSurface);
+            _dynamicVisibleHexSprite[I].Show(_viewPixelX, _viewPixelY, lockedSurface);
         }
     }
 
@@ -632,7 +632,7 @@ public partial class HSMap : ENode
 
         for (int X = 0, last = _staticFixedVisibleHexSprite._count - 1; X <= last; X++)
         {
-            ((HexSprite)_staticFixedVisibleHexSprite.Children[X]).MakeVisible(_staticVisibleHexSprite);
+            _staticFixedVisibleHexSprite[X].MakeVisible(_staticVisibleHexSprite);
         }
 
         _staticVisibleHexSprite.Sort();
@@ -659,7 +659,7 @@ public partial class HSMap : ENode
 
         for (int X = 0, last = _dynamicFixedVisibleHexSprite._count - 1; X <= last; X++)
         {
-            ((HexSprite)_dynamicFixedVisibleHexSprite.Children[X]).MakeVisible(_dynamicVisibleHexSprite);
+            _dynamicFixedVisibleHexSprite[X].MakeVisible(_dynamicVisibleHexSprite);
         }
 
         _dynamicVisibleHexSprite.Sort();
@@ -956,7 +956,7 @@ public partial class HSMap : ENode
         {
             for (int I = _staticVisibleHexSprite._count - 1; I >= 0; I--)
             {
-                ((HexSprite)_staticVisibleHexSprite.Items[I].Child).SetVisible(false);
+                _staticVisibleHexSprite[I].SetVisible(false);
             }
 
             _staticVisibleHexSprite.QuickClear();
@@ -975,7 +975,7 @@ public partial class HSMap : ENode
         {
             try
             {
-                ((HexSprite)_dynamicVisibleHexSprite.Items[I].Child).SetVisible(false);
+                _dynamicVisibleHexSprite[I].SetVisible(false);
             }
             catch
             {

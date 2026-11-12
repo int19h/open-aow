@@ -256,6 +256,14 @@ public partial class ENode : ECustomNode
         return _children.Count - 1;
     }
 
+    // Inserts the child at index after the check AddChild makes. TTokenEventList.Insert writes the
+    // list directly, and TokenEventList inserts through this instead.
+    public void InsertChild(int index, EngineObject child)
+    {
+        CheckChild(child);
+        _children.Insert(index, child);
+    }
+
     // Engine.pas:2998
     public override EngineObject FindChild(int classId)
     {

@@ -13,8 +13,23 @@ namespace Aow.Game.World.Map;
 // FLocationHS the sprites selected by location (clicking on a hexagon), FOnSelect, FOnDeselect
 // (triggered with the map as the sender), FEventHS the sprite of the last event. The owner is
 // the map
-public partial class HexSpriteSelection : EControlStyleNode
+public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprite>, IOwned<HSMap>, IOwnedSink<HSMap>
 {
+    // The sprite in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a sprite, so the cast never fails.
+    public HexSprite this[int index] => (HexSprite)_children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Draw.HexSprite;
+
+    int IChildSink<HexSprite>.AddChild(HexSprite child) => AddChild(child);
+
+    // The map the selection belongs to. AcceptsOwner admits only a map, so the cast never fails.
+    public new HSMap Owner { get => (HSMap)base.Owner; set => SetOwner(value); }
+
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is HSMap;
+
+    void IOwnedSink<HSMap>.SetOwner(HSMap owner) => SetOwner(owner);
+
     private List<HexSprite> _locationHexSprite;
 
     internal EventStore<ECustomNode> OnSelectStore { get; }
@@ -97,7 +112,7 @@ public partial class HexSpriteSelection : EControlStyleNode
     // HSEngine.pas:3727
     public void Select(HexSprite hexSprite)
     {
-        _children.Add(hexSprite);
+        AddChild(hexSprite);
         hexSprite.Select();
         TriggerSelectEvent(hexSprite);
     }
@@ -107,7 +122,7 @@ public partial class HexSpriteSelection : EControlStyleNode
     {
         while (_children.Count != 0)
         {
-            Unselect((HexSprite)_children.List[_children.Count - 1]);
+            Unselect(this[_children.Count - 1]);
         }
     }
 
@@ -120,10 +135,10 @@ public partial class HexSpriteSelection : EControlStyleNode
         I = 0;
         while (I != Count && result == null)
         {
-            hexSprite = (HexSprite)_children.List[I];
+            hexSprite = this[I];
             if (classValue.IsInstanceOfType(hexSprite))
             {
-                result = (HexSprite)_children.List[I];
+                result = this[I];
             }
 
             I += 1;
@@ -133,7 +148,7 @@ public partial class HexSpriteSelection : EControlStyleNode
     }
 
     // HSEngine.pas:3756
-    public HexSprite GetHexSprite(int index) => (HexSprite)_children.List[index];
+    public HexSprite GetHexSprite(int index) => this[index];
 
     // HSEngine.pas:3790
     public void SelectLocationHexSprite(HexSprite hexSprite)

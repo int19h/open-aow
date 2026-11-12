@@ -199,11 +199,11 @@ public sealed class ObjectCastCrashTests
         try
         {
             var list = new MapObjectResourceList(null!);
-            list._children.Add(new MapObjectResource(null!));
+            list.AddChild(new MapObjectResource(null!));
             var match = new TerrainMapObjectResource(null!);
             match._terrainType = 4;
             match._decorationType = 2;
-            list._children.Add(match);
+            list.AddChild(match);
 
             var resource = new TerrainMapObjectResource(null!);
             resource._terrainType = 4;
@@ -213,7 +213,7 @@ public sealed class ObjectCastCrashTests
             Assert.Same(match, finder.FindDecorationResource(2));
 
             var clearing = new MapObjectResourceList(null!);
-            clearing._children.Add(new MapObjectResource(null!));
+            clearing.AddChild(new MapObjectResource(null!));
             var wide = new TerrainMapObjectResource(null!);
             wide.TerrainList.SetTerrain(0, 1);
             wide.TerrainList.SetTerrain(1, 1);

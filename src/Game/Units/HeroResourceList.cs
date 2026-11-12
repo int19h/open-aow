@@ -11,8 +11,16 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Units;
 
-public partial class HeroResourceList : EResourceList
+public partial class HeroResourceList : EResourceList, IChildList<HeroResource>
 {
+    // The hero resource in slot index, read as the original reads the list, without a range check.
+    // AcceptsResource admits only a HeroResource, so the cast never fails.
+    public new HeroResource this[int index] => (HeroResource)_children.List[index];
+
+    protected sealed override bool AcceptsResource(EngineResource resource) => resource is HeroResource;
+
+    int IChildSink<HeroResource>.AddChild(HeroResource child) => AddChild(child);
+
     // Hero.PAS:2360
     public HeroResourceList(ECustomNode owner) : base(owner)
     {
@@ -25,7 +33,7 @@ public partial class HeroResourceList : EResourceList
         HeroResource result;
         if (index >= 0 && index < _children.Count)
         {
-            result = (HeroResource)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -43,7 +51,7 @@ public partial class HeroResourceList : EResourceList
         list = new StringList();
         for (int I = 0, last = _children.Count - 1; I <= last; I++)
         {
-            resource = (HeroResource)_children.List[I];
+            resource = this[I];
             if (resource != null && (GameTables.GameEngine.User.Contains(EngineUserElement.Designer) || !resource.Hidden) && heroTypes.Contains(resource.HeroType))
             {
                 list.AddObject(resource.Name, IntToObject(I));
@@ -62,7 +70,7 @@ public partial class HeroResourceList : EResourceList
         int result = -1;
         while (I < _children.Count && result == -1)
         {
-            resource = (HeroResource)_children.List[I];
+            resource = this[I];
             if (resource != null && race == resource.Race && heroType == resource.HeroType)
             {
                 result = I;

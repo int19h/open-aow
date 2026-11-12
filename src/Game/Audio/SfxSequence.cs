@@ -7,8 +7,16 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Audio;
 
 // FID. A sound effect: its children are TSFX, one of them plays (at random)
-public partial class SfxSequence : ENode
+public partial class SfxSequence : ENode, IChildList<Sfx>
 {
+    // The sound effect in slot index, read as the original reads the list, without a range check.
+    // AcceptsChild admits only a Sfx, so the cast never fails.
+    public Sfx this[int index] => (Sfx)this._children.List[index];
+
+    protected sealed override bool AcceptsChild(EngineObject child) => child is Sfx;
+
+    int IChildSink<Sfx>.AddChild(Sfx child) => AddChild(child);
+
     public new const int ClassId = 2162690;
 
     public SfxSequence(ECustomNode owner) : base(owner)
@@ -24,7 +32,7 @@ public partial class SfxSequence : ENode
     }
 
     // Sound.pas:1052
-    public Sfx GetSfx(int index) => (Sfx)this._children.List[index];
+    public Sfx GetSfx(int index) => this[index];
 
     // Sound.pas:1063
     public Sample Play()
@@ -33,7 +41,7 @@ public partial class SfxSequence : ENode
         if (this._children.Count != 0)
         {
             var random = Random(this._children.Count);
-            result = ((Sfx)this._children.List[random]).Play();
+            result = this[random].Play();
         }
         else
         {
@@ -50,7 +58,7 @@ public partial class SfxSequence : ENode
         if (this._children.Count != 0)
         {
             var random = Random(this._children.Count);
-            result = ((Sfx)this._children.List[random]).Play(volume, looped, delay, panning, callback);
+            result = this[random].Play(volume, looped, delay, panning, callback);
         }
         else
         {

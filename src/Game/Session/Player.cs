@@ -898,7 +898,7 @@ public partial class Player : EngineObject
     {
         if (_incomeSources._children.IndexOf(source) == -1)
         {
-            _incomeSources._children.Add(source);
+            _incomeSources.AddChild(source);
             if (_updateCount == 0)
             {
                 UpdateIncome();

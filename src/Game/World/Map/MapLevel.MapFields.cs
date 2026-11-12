@@ -63,7 +63,7 @@ public partial class MapLevel
             == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             Engine = stream.Engine;
-            _mapContainer = (MapContainer)Owner;
+            _mapContainer = Owner;
             _map = _mapContainer.Map;
         }
         byte width = (byte)_width, height = (byte)_height, level = (byte)_hexLevel;

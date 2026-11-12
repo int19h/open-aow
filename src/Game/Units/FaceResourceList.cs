@@ -9,8 +9,16 @@ using Aow.Rtl;
 
 namespace Aow.Game.Units;
 
-public partial class FaceResourceList : EResourceList
+public partial class FaceResourceList : EResourceList, IChildList<FaceResource>
 {
+    // The face in slot index, read as the original reads the list, without a range check.
+    // AcceptsResource admits only a FaceResource, so the cast never fails.
+    public new FaceResource this[int index] => (FaceResource)_children.List[index];
+
+    protected sealed override bool AcceptsResource(EngineResource resource) => resource is FaceResource;
+
+    int IChildSink<FaceResource>.AddChild(FaceResource child) => AddChild(child);
+
     // Ability.PAS:520
     public FaceResourceList(ECustomNode owner) : base(owner)
     {
@@ -25,7 +33,7 @@ public partial class FaceResourceList : EResourceList
         while (result != 0)
         {
             result -= 1;
-            face = (FaceResource)_children.List[result];
+            face = this[result];
             if (face != null && face.GetFaceImage() == image)
             {
                 return result;
@@ -41,7 +49,7 @@ public partial class FaceResourceList : EResourceList
         FaceResource result;
         if (index < _children.Count && index >= 0)
         {
-            result = (FaceResource)_children.List[index];
+            result = this[index];
         }
         else
         {
@@ -66,7 +74,7 @@ public partial class FaceResourceList : EResourceList
                 result = _children.Count - 1;
             }
         }
-        while (!(_children.List[result] != null && (developer || !((FaceResource)_children.List[result]).DeveloperOnly)));
+        while (!(_children.List[result] != null && (developer || !this[result].DeveloperOnly)));
         return result;
     }
 
@@ -85,7 +93,7 @@ public partial class FaceResourceList : EResourceList
                 result = 0;
             }
         }
-        while (!(_children.List[result] != null && (developer || !((FaceResource)_children.List[result]).DeveloperOnly)));
+        while (!(_children.List[result] != null && (developer || !this[result].DeveloperOnly)));
         return result;
     }
 

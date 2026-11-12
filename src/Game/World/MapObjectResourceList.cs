@@ -7,13 +7,21 @@ using Aow.Rtl;
 
 namespace Aow.Game.World;
 
-public partial class MapObjectResourceList : EResourceList
+public partial class MapObjectResourceList : EResourceList, IChildList<MapObjectResource>
 {
+    // The map object resource in slot index, read as the original reads the list, without a range check.
+    // AcceptsResource admits only a MapObjectResource, so the cast never fails.
+    public new MapObjectResource this[int index] => (MapObjectResource)_children.List[index];
+
+    protected sealed override bool AcceptsResource(EngineResource resource) => resource is MapObjectResource;
+
+    int IChildSink<MapObjectResource>.AddChild(MapObjectResource child) => AddChild(child);
+
     public MapObjectResourceList(ECustomNode owner) : base(owner)
     { }
 
     // MAPOBJ.PAS:641
-    public MapObjectResource GetMapObjectResource(int index) => (MapObjectResource)_children.List[index];
+    public MapObjectResource GetMapObjectResource(int index) => this[index];
 
     // MAPOBJ.PAS:646
     public bool FindMapObjectResource(int classId, TerrainList terrainList, Set<TerrainCompareModeElement> mode, ref DelphiList list)
@@ -27,7 +35,7 @@ public partial class MapObjectResourceList : EResourceList
         int last = _children.Count - 1;
         for (; I <= last; I += 1)
         {
-            R = (MapObjectResource)_children.List[I];
+            R = this[I];
             if (R.EngineClass.ClassId == classId)
             {
                 if (terrainList == null || R.TerrainList.CompareTerrain(terrainList, mode))

@@ -565,8 +565,14 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   setters, which the loader uses, check the declared type once (`AcceptsOwner`, `AcceptsChild`),
   so a wrong owner or child is refused where it enters and the typed reads need no check. The
   owner and the children still live in the untyped storage of `EngineObject` and of the node
-  classes. Unions of owners or children, units and armies, and the move from list inheritance to
-  owner-exposed collections come in later parts of that issue.
+  classes, and every write of a child goes through the checked adder, setter or `InsertChild`.
+  A node whose children are of a few unrelated kinds declares them as a C# union: the engine's
+  children are a `GameEngineChild` (its control node, its sprite set or a map), and a sprite set's
+  children are an `HSSetChild` (a resource list, a terrain control or a control object). The
+  children stay in one ordered list, so slots and stored order do not change. The resource lists
+  take resources only and narrow that to their own kind through `AcceptsResource`. Units and
+  armies, the reference lists' children and the move from list inheritance to owner-exposed
+  collections come in later parts of that issue.
 - Formats are free. Once the readers for the original formats exist as converting adapters, the
   port's own save and map formats can change, and the comparator (section 5) reads both. Nothing
   requires that the original loads a file the port wrote. Milestone 9.7 did this

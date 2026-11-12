@@ -15,6 +15,7 @@ public partial class EInverseSortNode : ESortNode
     {
         int result;
         int I;
+        CheckChild(child);
         if (_count >= Capacity)
         {
             Grow();

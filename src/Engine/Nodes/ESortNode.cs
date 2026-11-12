@@ -59,6 +59,7 @@ public partial class ESortNode : ECustomNode
     // Engine.pas:1493
     public override void SetChild(int index, EngineObject child)
     {
+        CheckChild(child);
         Items[index].Child = child;
     }
 
@@ -100,6 +101,7 @@ public partial class ESortNode : ECustomNode
     {
         int result;
         int I;
+        CheckChild(child);
         if (_count >= Capacity)
         {
             Grow();

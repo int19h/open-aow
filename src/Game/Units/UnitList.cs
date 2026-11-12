@@ -292,6 +292,7 @@ public partial class UnitList : EChangeNotifyNode
     // Unit.PAS:2287
     public void SetUnit(int index, Troop troop)
     {
+        CheckChild(troop);
         while (index >= Count)
         {
             _children.Add(null);
