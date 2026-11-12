@@ -3,9 +3,12 @@ using System.Runtime.InteropServices;
 
 using Aow.Engine.Buffers;
 
+using Aow.Rtl;
+
 namespace Aow.Game.World.Map;
 
 // { The header of an .hsm file (16 bytes) in front of the stored map, inside the compressed stream }
+[StoredLayout]
 [StructLayout(LayoutKind.Explicit, Size = 16)]
 public struct HsmHeader
 {

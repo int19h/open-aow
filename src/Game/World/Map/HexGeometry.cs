@@ -1,5 +1,4 @@
 using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 
 using Aow.Engine.Buffers;
 
@@ -211,7 +210,7 @@ public static class HexGeometry
         Assert(false, message, fileName, lineNumber);
     }
 
-    internal static ImmutableArray<ImmutableArray<XYTableEntry>> HexNumberWalkTable { get; } = [[new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }], [new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]];
+    internal static ImmutableArray<ImmutableArray<XYTableEntry>> HexNumberWalkTable { get; } = [[new XYTableEntry(1, 0), new XYTableEntry(0, 1), new XYTableEntry(-1, 0), new XYTableEntry(-1, -1), new XYTableEntry(0, -1), new XYTableEntry(1, -1), new XYTableEntry(0, 0), new XYTableEntry(0, 0)], [new XYTableEntry(1, 1), new XYTableEntry(0, 1), new XYTableEntry(-1, 1), new XYTableEntry(-1, 0), new XYTableEntry(0, -1), new XYTableEntry(1, 0), new XYTableEntry(0, 0), new XYTableEntry(0, 0)]];
 
     internal static int HexNumberToRadius(int hexNumber)
     {
@@ -278,7 +277,7 @@ public static class HexGeometry
         pixelX -= 8;
     }
 
-    internal static ImmutableArray<ImmutableArray<XYTableEntry>> HexNumberToXYTable { get; } = [[new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = -1, Y = -1 }, new XYTableEntry { X = 0, Y = 0 }], [new XYTableEntry { X = 0, Y = 0 }, new XYTableEntry { X = 0, Y = -1 }, new XYTableEntry { X = 1, Y = 0 }, new XYTableEntry { X = 1, Y = 1 }, new XYTableEntry { X = 0, Y = 1 }, new XYTableEntry { X = -1, Y = 1 }, new XYTableEntry { X = -1, Y = 0 }, new XYTableEntry { X = 0, Y = 0 }]];
+    internal static ImmutableArray<ImmutableArray<XYTableEntry>> HexNumberToXYTable { get; } = [[new XYTableEntry(0, 0), new XYTableEntry(0, -1), new XYTableEntry(1, -1), new XYTableEntry(1, 0), new XYTableEntry(0, 1), new XYTableEntry(-1, 0), new XYTableEntry(-1, -1), new XYTableEntry(0, 0)], [new XYTableEntry(0, 0), new XYTableEntry(0, -1), new XYTableEntry(1, 0), new XYTableEntry(1, 1), new XYTableEntry(0, 1), new XYTableEntry(-1, 1), new XYTableEntry(-1, 0), new XYTableEntry(0, 0)]];
 
     internal static ReadOnlySpan<byte> HexNumberToRadiusTable => [0, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3];
 
@@ -289,14 +288,6 @@ public static class HexGeometry
         int column = horizontal - 8 >> 5;
         x = column;
         y = vertical - (column & 1) * 16 >> 5;
-    }
-
-    internal static void PixelToHexes(int horizontal, int vertical, ref sbyte x, ref sbyte y)
-    {
-        int column = horizontal - 8 >> 5;
-        Unsafe.WriteUnaligned(ref Unsafe.As<sbyte, byte>(ref x), column);
-        int row = vertical - (column & 1) * 16 >> 5;
-        Unsafe.WriteUnaligned(ref Unsafe.As<sbyte, byte>(ref y), row);
     }
 
     internal static int PixelToHexNumber(int pixelX, int pixelY)

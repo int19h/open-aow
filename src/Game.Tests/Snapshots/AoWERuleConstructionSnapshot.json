@@ -668,20 +668,6 @@
           "$type": "Aow.Game.AI.AITargetData",
           "AITargetData.Cost": 0,
           "AITargetData.Priority": 0,
-          "AITargetData.Reserved0C": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "AITargetData.TargetType": 0
         },
         "AIGroupControlTarget.DataA": 0,
@@ -690,10 +676,7 @@
           "$type": "Aow.Game.AI.AITargetInfo",
           "AITargetInfo.IndependentRelation": 0,
           "AITargetInfo.Mode": 0,
-          "AITargetInfo.Player": 0,
-          "AITargetInfo.Reserved03": 0,
-          "AITargetInfo.Reserved04": 0,
-          "AITargetInfo.Reserved08": 0
+          "AITargetInfo.Player": 0
         },
         "AIGroupControlTarget.Location": {
           "$type": "Aow.Game.World.Map.MapCoordinate",
@@ -1893,10 +1876,7 @@
             "$type": "Aow.Game.AI.AITargetInfo",
             "AITargetInfo.IndependentRelation": 0,
             "AITargetInfo.Mode": 0,
-            "AITargetInfo.Player": 0,
-            "AITargetInfo.Reserved03": 0,
-            "AITargetInfo.Reserved04": 0,
-            "AITargetInfo.Reserved08": 0
+            "AITargetInfo.Player": 0
           },
           "AIMoveTargetSelector._targets": {
             "$type": "Aow.Game.World.Movement.MoveTargetList",
@@ -5952,10 +5932,7 @@
           "$type": "Aow.Game.AI.AITargetInfo",
           "AITargetInfo.IndependentRelation": 0,
           "AITargetInfo.Mode": 0,
-          "AITargetInfo.Player": 0,
-          "AITargetInfo.Reserved03": 0,
-          "AITargetInfo.Reserved04": 0,
-          "AITargetInfo.Reserved08": 0
+          "AITargetInfo.Player": 0
         },
         "AIMoveTargetSelector._targets": {
           "$type": "Aow.Game.World.Movement.MoveTargetList",
@@ -7135,10 +7112,7 @@
             "$type": "Aow.Game.AI.AITargetInfo",
             "AITargetInfo.IndependentRelation": 0,
             "AITargetInfo.Mode": 0,
-            "AITargetInfo.Player": 0,
-            "AITargetInfo.Reserved03": 0,
-            "AITargetInfo.Reserved04": 0,
-            "AITargetInfo.Reserved08": 0
+            "AITargetInfo.Player": 0
           },
           "AIMoveTargetSelector._targets": {
             "$type": "Aow.Game.World.Movement.MoveTargetList",
@@ -8226,10 +8200,7 @@
             "$type": "Aow.Game.AI.AITargetInfo",
             "AITargetInfo.IndependentRelation": 0,
             "AITargetInfo.Mode": 0,
-            "AITargetInfo.Player": 0,
-            "AITargetInfo.Reserved03": 0,
-            "AITargetInfo.Reserved04": 0,
-            "AITargetInfo.Reserved08": 0
+            "AITargetInfo.Player": 0
           },
           "AIMoveTargetSelector._targets": {
             "$type": "Aow.Game.World.Movement.MoveTargetList",
@@ -19438,7 +19409,7 @@
                     "$type": "Aow.Engine.Collections.BitList",
                     "BitList._capacity": 0,
                     "BitList._count": 0,
-                    "BitList._default": false,
+                    "BitList._default": 0,
                     "BitList.List": {
                       "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                       "Memory\u00601._index": 0,
@@ -20034,7 +20005,7 @@
                     "$type": "Aow.Engine.Collections.BitList",
                     "BitList._capacity": 0,
                     "BitList._count": 0,
-                    "BitList._default": false,
+                    "BitList._default": 0,
                     "BitList.List": {
                       "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                       "Memory\u00601._index": 0,
@@ -20630,7 +20601,7 @@
                     "$type": "Aow.Engine.Collections.BitList",
                     "BitList._capacity": 0,
                     "BitList._count": 0,
-                    "BitList._default": false,
+                    "BitList._default": 0,
                     "BitList.List": {
                       "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                       "Memory\u00601._index": 0,
@@ -23412,20 +23383,6 @@
           "$type": "Aow.Game.AI.AITargetData",
           "AITargetData.Cost": 0,
           "AITargetData.Priority": 0,
-          "AITargetData.Reserved0C": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
-          ],
           "AITargetData.TargetType": 0
         },
         "MoveTarget.Location": {
@@ -23704,7 +23661,7 @@
           "$type": "Aow.Engine.Collections.BitList",
           "BitList._capacity": 0,
           "BitList._count": 0,
-          "BitList._default": false,
+          "BitList._default": 0,
           "BitList.List": {
             "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
             "Memory\u00601._index": 0,
@@ -23834,7 +23791,7 @@
           "$type": "Aow.Engine.Collections.BitList",
           "BitList._capacity": 0,
           "BitList._count": 0,
-          "BitList._default": false,
+          "BitList._default": 0,
           "BitList.List": {
             "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
             "Memory\u00601._index": 0,
@@ -24501,7 +24458,7 @@
                 "$type": "Aow.Engine.Collections.BitList",
                 "BitList._capacity": 0,
                 "BitList._count": 0,
-                "BitList._default": false,
+                "BitList._default": 0,
                 "BitList.List": {
                   "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                   "Memory\u00601._index": 0,
@@ -25097,7 +25054,7 @@
                 "$type": "Aow.Engine.Collections.BitList",
                 "BitList._capacity": 0,
                 "BitList._count": 0,
-                "BitList._default": false,
+                "BitList._default": 0,
                 "BitList.List": {
                   "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                   "Memory\u00601._index": 0,
@@ -25693,7 +25650,7 @@
                 "$type": "Aow.Engine.Collections.BitList",
                 "BitList._capacity": 0,
                 "BitList._count": 0,
-                "BitList._default": false,
+                "BitList._default": 0,
                 "BitList.List": {
                   "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                   "Memory\u00601._index": 0,

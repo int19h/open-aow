@@ -1,8 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.InteropServices;
-
-using Aow.Engine.Buffers;
-
 using Aow.Game.Combat.Actions;
 
 using Aow.Game.Magic.Abilities;
@@ -554,19 +550,12 @@ public partial class MeleeRound : IDisposable
         return 0;
     }
 
-    [StructLayout(LayoutKind.Explicit, Size = 20)]
     public struct Strike
     {
-        [FieldOffset(0)]
         public int AttackBonus;
-        [FieldOffset(4)]
         public int DamageBonus;
-        [FieldOffset(8)]
         public int DamageValue;
-        [FieldOffset(12)]
         public CombatSideIndex Side;
-        [FieldOffset(13)]
-        public Array7<byte> Reserved0D;
     }
 
     // intf_P4_02.inc:123

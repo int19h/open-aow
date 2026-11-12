@@ -1,20 +1,12 @@
 // Translated from AoWE.pas.
-using System.Runtime.InteropServices;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Session;
 
-[StructLayout(LayoutKind.Explicit, Size = 4)]
-public struct RaceTerrainInfo
+// Each set keeps the 16-bit width of the Delphi set: a value is cut to its low 16 bits.
+public readonly record struct RaceTerrainInfo
 {
-    [FieldOffset(0)]
-    public ushort BonusImage;
+    public Set<byte> Bonus { get; init => field = Set<byte>.FromMask((ushort)value.Image); }
 
-    public Set<byte> Bonus { get => Set<byte>.FromMask(BonusImage); set => BonusImage = (ushort)value.Image; }
-
-    [FieldOffset(2)]
-    public ushort PenaltyImage;
-
-    public Set<byte> Penalty { get => Set<byte>.FromMask(PenaltyImage); set => PenaltyImage = (ushort)value.Image; }
+    public Set<byte> Penalty { get; init => field = Set<byte>.FromMask((ushort)value.Image); }
 }

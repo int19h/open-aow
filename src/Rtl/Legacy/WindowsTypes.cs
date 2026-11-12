@@ -29,22 +29,6 @@ public struct LongRec
     [FieldOffset(2)] public ushort Hi;
 }
 
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct WaveFormatEx
-{
-    public ushort wFormatTag, nChannels;
-    public int nSamplesPerSec, nAvgBytesPerSec;
-    public ushort nBlockAlign, wBitsPerSample, cbSize;
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 8)]
-public struct LargeInteger
-{
-    [FieldOffset(0)] public uint LowPart;
-    [FieldOffset(4)] public int HighPart;
-    [FieldOffset(0)] public long QuadPart;
-}
-
 public static partial class RtlUnit
 {
     public static bool Succeeded(int result) => result >= 0;

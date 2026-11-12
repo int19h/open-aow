@@ -3,12 +3,15 @@ using System.Runtime.InteropServices;
 
 using Aow.Engine.Buffers;
 
+using Aow.Rtl;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Map;
 
 // { The header of an .hss file (52 bytes): the set follows at Size, a CRC32 of everything before it
 //     closes the file }
+[StoredLayout]
 [StructLayout(LayoutKind.Explicit, Size = 52)]
 public struct HssHeader
 {

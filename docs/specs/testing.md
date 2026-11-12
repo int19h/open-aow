@@ -6,7 +6,8 @@ frame comparison, and how they fit together in one command. The tooling under `t
 `tests/` lives in the private repository (`../design.md` section 8). The xUnit projects under
 `src/` live with the product. Section 6, the strings checks of milestone 9.5, was added on
 2026-11-05 (brief 9.5-2). Section 3.2 gained the comparison through the converter of milestone
-9.7 on 2026-11-06 (brief 9.7-4).
+9.7 on 2026-11-06 (brief 9.7-4). Section 7, the layout check of issue #192, was added on
+2026-11-12.
 
 ## 1. Layers
 
@@ -18,6 +19,7 @@ frame comparison, and how they fit together in one command. The tooling under `t
 | headless oracle | the rules play the same game as the Delphi build | `tools/oracle/` | section 3 |
 | frame comparison | the renderer draws the same pixels | `tools/oracle/frames.py` | section 4 |
 | strings checks | text stays one code page 1252 char per byte, no game string is null, and no swallowed error goes unseen | `StringsRewrite --check`, the strict switch, the exception census, the sort dump | section 6 |
+| layout check | only transient I/O types carry a fixed or explicit layout, and every overlay that reads a value as another type is listed | `LayoutRuleTests`, `LayoutCensus --check` | section 7 |
 | play | a person plays a scenario | none | `../process.md` |
 
 `python tools/check.py` runs all 12 layers of the gate (`check_support.LAYERS` in the private
@@ -336,3 +338,15 @@ private repository: `data/rewrite/9.5-exceptions-base.json` holds the census of 
 count 0, and `data/rewrite/9.5-sorts-base.txt` the sort dump, 2,994 lines. The gate does not compare
 with them itself. After the 9.5-1 pass the gate's census holds every count at 0, and its
 `sorts.txt` equals the base dump byte for byte (`strings.md` section 8).
+
+## 7. The layout check
+
+Issue #192 holds the layout rule: only a transient type that reads or writes a format (a file
+record, a native interop record, a wire message) has a fixed or explicit layout, and it carries
+`[StoredLayout]` (`src/Rtl/Delphi/StoredLayoutAttribute.cs`). Game data uses natural layout and is
+mapped to such a type at the I/O boundary. Two checks hold it.
+
+| check | what it proves | where |
+|---|---|---|
+| layout rule test | every struct of the product assemblies with explicit layout, field offsets, a pack or a size carries `[StoredLayout]`, and no class and no unmarked struct holds a `[StoredLayout]` type in a field. Inline arrays are natural layout. Two allowlists name today's offenders, and a listed type that no longer offends fails the test, so the lists only shrink | `LayoutRuleTests` in `Aow.Game.Tests` |
+| layout check | the same rule for the layout types, and every overlay call site (`Unsafe.As`, `Unsafe.BitCast`, `MemoryMarshal`, `Bytes.Of`, `BitConverter`, the `Ptr<T>` views) outside a `[StoredLayout]` type is listed in the allowlist with its count per member | `LayoutCensus --check <product> --allow tools/rewrite/layout-census/allow.txt` in the private repository, a step of the `product` layer after the strings check. It prints a `Layout census:` line with the counts and `Layout check: N findings`, and the layer fails unless N is 0 |

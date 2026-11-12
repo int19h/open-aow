@@ -340,8 +340,8 @@ public partial class AIGroupRecruitControl : AIGroupTask
         Superiority = -1;
         RecruitStrength = 0;
         _damageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
-        // { Original bug: clears only the maximum strength, not the per-type array. }
-        FillBytes(Bytes.Of(ref RecruitStrength, 4), 0);
+        // { Original bug: a second FillChar clears only the maximum strength again, not the per-type
+        //   array. }
         _moveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
         _pathStrengthFactor = (float)0.8;
         Complete = false;

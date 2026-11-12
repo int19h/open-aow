@@ -593,16 +593,11 @@ public partial class QuadItemList : Persistent
         EngineServices.Fill(buffer, count, value2);
     }
 
-    [StructLayout(LayoutKind.Explicit, Size = 16)]
     public struct QuadInteger
     {
-        [FieldOffset(0)]
         public int First;
-        [FieldOffset(4)]
         public int Second;
-        [FieldOffset(8)]
         public int Third;
-        [FieldOffset(12)]
         public int Fourth;
     }
 

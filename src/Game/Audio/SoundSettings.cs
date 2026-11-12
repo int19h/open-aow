@@ -1,6 +1,4 @@
 // Translated from Sound.pas.
-using System.Runtime.InteropServices;
-
 using Aow.Rtl;
 
 namespace Aow.Game.Audio;
@@ -8,24 +6,15 @@ namespace Aow.Game.Audio;
 // { The settings a sound system is activated with (24 bytes): +0 OutputMode, +4 SampleRate, +8
 //     MusicEnabled, +9 UseDirectSound, +$C Window (the DirectSound window; the active window when
 //     0), +$10 SfxEnabled, +$14 SampleVoices. }
-[StructLayout(LayoutKind.Explicit, Size = 24)]
+// Each set keeps the width of its Delphi set: a value is cut to that width when it is assigned.
 public struct SoundSettings
 {
-    [FieldOffset(0)]
-    public byte OutputModeImage;
+    public Set<SoundOutputModeElement> OutputMode { get; set => field = Set<SoundOutputModeElement>.FromMask((byte)value.Image); }
 
-    public Set<SoundOutputModeElement> OutputMode { get => Set<SoundOutputModeElement>.FromMask(OutputModeImage); set => OutputModeImage = (byte)value.Image; }
-
-    [FieldOffset(4)]
     public int SampleRate;
-    [FieldOffset(8)]
     public bool MusicEnabled;
-    [FieldOffset(9)]
     public bool UseDirectSound;
-    [FieldOffset(12)]
     public int Window;
-    [FieldOffset(16)]
     public bool SfxEnabled;
-    [FieldOffset(20)]
     public int SampleVoices;
 }

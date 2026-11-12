@@ -1,5 +1,5 @@
+using System.Buffers.Binary;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
@@ -455,9 +455,11 @@ public sealed class AsmStubsProbeTests
                 AddNumber(lines, "HSEngine.HPtoHX_X_" + tag, x);
                 AddNumber(lines, "HSEngine.HPtoHX_Y_" + tag, y);
                 small.AsSpan().Fill(0xA5);
-                ref sbyte sx = ref Unsafe.As<byte, sbyte>(ref small[1]);
-                ref sbyte sy = ref Unsafe.As<byte, sbyte>(ref small[7]);
-                HexGeometry.PixelToHexes(i, j, ref sx, ref sy);
+                // HPtoHXs stores each result as a 32-bit integer through a Shortint var parameter,
+                // so the three bytes after each target change too. The port has no such routine
+                // (layout rule): the recording is reproduced from the values PixelToHex gives.
+                BinaryPrimitives.WriteInt32LittleEndian(small.AsSpan(1), x);
+                BinaryPrimitives.WriteInt32LittleEndian(small.AsSpan(7), y);
                 for (int k = 0; k < 12; k++)
                 {
                     AddHex(lines, "HSEngine.HPtoHXs_" + tag + "_" + Decrement(k), small[k]);
@@ -506,11 +508,8 @@ public sealed class AsmStubsProbeTests
         return lines;
     }
 
-    private static void FillLarge(DoubleItemList.DoubleItem[] items, int start, int count, DoubleItemList.DoubleItem value)
-    {
-        LargeInteger bits = Unsafe.As<DoubleItemList.DoubleItem, LargeInteger>(ref value);
-        EngineServices.FillLargeInteger(MemoryMarshal.Cast<DoubleItemList.DoubleItem, LargeInteger>(items.AsSpan(start)), count, bits);
-    }
+    private static void FillLarge(DoubleItemList.DoubleItem[] items, int start, int count, DoubleItemList.DoubleItem value) =>
+        EngineServices.Fill(items.AsSpan(start), count, value);
 
     private static void FillA5<T>(Span<T> items) where T : unmanaged => MemoryMarshal.AsBytes(items).Fill(0xA5);
 

@@ -11,17 +11,18 @@ public struct ShowInfo
     public BlendMode BlendMode { get; set; }
     public BlendValue Blend { get; set; }
 
-    // The file image: the mode bytes at 0 and 1, the padding at 2 and the percentage at 4. A
+    // The file image: the mode bytes at 0 and 1, two unknown bytes at 2 and the percentage at 4. A
     // table writes 0 where the original wrote its address, which no reader of a file uses, and
-    // reading always yields the percentage case.
-    private ushort _imagePadding;
+    // reading always yields the percentage case. The two unknown bytes are the padding of the
+    // original record: no code gives them a meaning, and they round trip unchanged.
+    private ushort _unknownBytes;
 
     private byte[] Image()
     {
         byte[] image = new byte[8];
         image[0] = (byte)ShowMode;
         image[1] = (byte)BlendMode;
-        BinaryPrimitives.WriteUInt16LittleEndian(image.AsSpan(2), _imagePadding);
+        BinaryPrimitives.WriteUInt16LittleEndian(image.AsSpan(2), _unknownBytes);
         BinaryPrimitives.WriteInt32LittleEndian(image.AsSpan(4), Blend.TryGetValue(out int percentage) ? percentage : 0);
         return image;
     }
@@ -32,7 +33,7 @@ public struct ShowInfo
         int count = stream.Read(image);
         ShowMode = (ShowMode)image[0];
         BlendMode = (BlendMode)image[1];
-        _imagePadding = BinaryPrimitives.ReadUInt16LittleEndian(image.AsSpan(2));
+        _unknownBytes = BinaryPrimitives.ReadUInt16LittleEndian(image.AsSpan(2));
         Blend = BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(4));
         if (exact && count != 8)
             throw new EndOfStreamException("Stream read error");

@@ -7210,7 +7210,7 @@
             "ProductionTokenEvent.MapLevel": 0,
             "ProductionTokenEvent.Player": 0,
             "ProductionTokenEvent.Queue": false,
-            "ProductionTokenEvent._reserved": 0,
+            "ProductionTokenEvent._unknownValue": 0,
             "ProductionTokenEvent.X": 0,
             "ProductionTokenEvent.Y": 0,
             "TokenEvent.RefCount": 1,
@@ -7244,7 +7244,7 @@
             "ProductionTokenEvent.MapLevel": 0,
             "ProductionTokenEvent.Player": 0,
             "ProductionTokenEvent.Queue": false,
-            "ProductionTokenEvent._reserved": 0,
+            "ProductionTokenEvent._unknownValue": 0,
             "ProductionTokenEvent.X": 0,
             "ProductionTokenEvent.Y": 0,
             "TokenEvent.RefCount": 1,
@@ -7265,7 +7265,7 @@
               "ProductionTokenEvent.MapLevel": 0,
               "ProductionTokenEvent.Player": 0,
               "ProductionTokenEvent.Queue": false,
-              "ProductionTokenEvent._reserved": 0,
+              "ProductionTokenEvent._unknownValue": 0,
               "ProductionTokenEvent.X": 0,
               "ProductionTokenEvent.Y": 0,
               "TokenEvent.RefCount": 0,
@@ -14507,7 +14507,7 @@
                       "$type": "Aow.Engine.Collections.BitList",
                       "BitList._capacity": 0,
                       "BitList._count": 0,
-                      "BitList._default": false,
+                      "BitList._default": 0,
                       "BitList.List": {
                         "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                         "Memory\u00601._index": 0,
@@ -15103,7 +15103,7 @@
                       "$type": "Aow.Engine.Collections.BitList",
                       "BitList._capacity": 0,
                       "BitList._count": 0,
-                      "BitList._default": false,
+                      "BitList._default": 0,
                       "BitList.List": {
                         "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                         "Memory\u00601._index": 0,
@@ -15699,7 +15699,7 @@
                       "$type": "Aow.Engine.Collections.BitList",
                       "BitList._capacity": 0,
                       "BitList._count": 0,
-                      "BitList._default": false,
+                      "BitList._default": 0,
                       "BitList.List": {
                         "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                         "Memory\u00601._index": 0,
@@ -18575,7 +18575,7 @@
                       "$type": "Aow.Engine.Collections.BitList",
                       "BitList._capacity": 0,
                       "BitList._count": 0,
-                      "BitList._default": false,
+                      "BitList._default": 0,
                       "BitList.List": {
                         "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                         "Memory\u00601._index": 0,
@@ -19171,7 +19171,7 @@
                       "$type": "Aow.Engine.Collections.BitList",
                       "BitList._capacity": 0,
                       "BitList._count": 0,
-                      "BitList._default": false,
+                      "BitList._default": 0,
                       "BitList.List": {
                         "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                         "Memory\u00601._index": 0,
@@ -19767,7 +19767,7 @@
                       "$type": "Aow.Engine.Collections.BitList",
                       "BitList._capacity": 0,
                       "BitList._count": 0,
-                      "BitList._default": false,
+                      "BitList._default": 0,
                       "BitList.List": {
                         "$type": "System.Memory\u00601[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
                         "Memory\u00601._index": 0,
@@ -22307,7 +22307,7 @@
                 },
                 "BitList._capacity": 32,
                 "BitList._count": 13,
-                "BitList._default": false
+                "BitList._default": 0
               }
             },
             "GamePack.RaceResources": "$ref:$.GamePack.FlagControl.FlagControl._raceResources",
@@ -23151,7 +23151,7 @@
                 },
                 "BitList._capacity": 32,
                 "BitList._count": 13,
-                "BitList._default": false
+                "BitList._default": 0
               }
             },
             "GamePack.RaceResources": "$ref:$.GamePack.FlagControl.FlagControl._raceResources",

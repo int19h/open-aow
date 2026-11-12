@@ -97,8 +97,6 @@ public static class EngineServices
         return ImmutableArray.Create(table);
     }
 
-    internal static void FillLargeInteger(Span<LargeInteger> buffer, int count, LargeInteger value) => Fill(buffer, count, value);
-
     internal static void Fill<T>(Span<T> buffer, int count, T value)
     {
         if (count < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative fill count");

@@ -28,7 +28,9 @@ public partial class ProductionTokenEvent : TokenEvent
     public ProductionItem Item;
     public bool Queue;
     public int Index;
-    private int _reserved;
+    // An integer of unknown meaning that the original stores at id 27 and never reads. It round
+    // trips unchanged.
+    private int _unknownValue;
 
     // Structur.PAS:155
     // { Original leaves the upkeep fields unchanged. }
@@ -54,7 +56,7 @@ public partial class ProductionTokenEvent : TokenEvent
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref Player), 24);
         stream.Created(ref Item, null, 25);
         stream.Int32(ref Index, 26);
-        stream.Int32(ref _reserved, 27);
+        stream.Int32(ref _unknownValue, 27);
         stream.Boolean(ref Queue, 28);
     }
 

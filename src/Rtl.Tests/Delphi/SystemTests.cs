@@ -157,6 +157,7 @@ public sealed class SystemTests
         Assert.Equal(pointer, StrScan(pointer, (byte)'a'));
     }
 
+    [StoredLayout]
     [StructLayout(LayoutKind.Explicit, Size = 8)]
     private struct PackedRecord
     {

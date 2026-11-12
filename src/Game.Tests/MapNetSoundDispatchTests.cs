@@ -115,14 +115,7 @@ public sealed class MapNetSoundDispatchTests
         }
     }
 
-    private static WaveFormatEx Format => new()
-    {
-        wFormatTag = 1,
-        nChannels = 1,
-        nSamplesPerSec = 8000,
-        nBlockAlign = 1,
-        wBitsPerSample = 8
-    };
+    private static WaveFormat Format => new(FormatTag: 1, Channels: 1, SamplesPerSecond: 8000, BlockAlign: 1, BitsPerSample: 8);
 
     [Theory]
     [InlineData(false)]

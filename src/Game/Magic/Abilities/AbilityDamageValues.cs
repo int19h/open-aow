@@ -1,6 +1,4 @@
 // Translated from AoWE.pas.
-using System.Runtime.InteropServices;
-
 using Aow.Game.Combat;
 
 using Aow.Rtl;
@@ -8,19 +6,13 @@ using Aow.Rtl;
 namespace Aow.Game.Magic.Abilities;
 
 // { Interface declaration run owned by P4. }
-[StructLayout(LayoutKind.Explicit, Size = 20)]
+// Each set keeps the width of its Delphi set: a value is cut to that width when it is assigned.
 public struct AbilityDamageValues
 {
-    [FieldOffset(0)]
     public int SourceDamage;
-    [FieldOffset(4)]
     public int SourceCost;
-    [FieldOffset(8)]
     public int TargetDamage;
-    [FieldOffset(12)]
     public int TargetCost;
-    [FieldOffset(16)]
-    public ushort DamageTypesImage;
 
-    public Set<DamageType> DamageTypes { get => Set<DamageType>.FromMask(DamageTypesImage); set => DamageTypesImage = (ushort)value.Image; }
+    public Set<DamageType> DamageTypes { get; set => field = Set<DamageType>.FromMask((ushort)value.Image); }
 }

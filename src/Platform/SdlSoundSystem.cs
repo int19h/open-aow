@@ -202,7 +202,7 @@ internal class SdlSampleData : SampleData
     public static new SdlSampleData Create(string name) =>
         ConstructionContext.Create(name, static (context, value) => new SdlSampleData(context, value));
 
-    public static new SdlSampleData Create(in WaveFormatEx format, object data, int size) =>
+    public static new SdlSampleData Create(in WaveFormat format, object data, int size) =>
         ConstructionContext.Create((format, data, size), static (context, value) =>
             new SdlSampleData(context, value.format, value.data, value.size));
 
@@ -212,7 +212,7 @@ internal class SdlSampleData : SampleData
         Wave = WaveData.Read(stream);
     }
 
-    private protected SdlSampleData(ConstructionContext context, in WaveFormatEx format, object data, int size) : base(context, format, data, size)
+    private protected SdlSampleData(ConstructionContext context, in WaveFormat format, object data, int size) : base(context, format, data, size)
     {
         Wave = WaveData.Decode(format, RtlUnit.BufferBytes(data)[..size]);
     }

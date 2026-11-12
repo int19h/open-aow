@@ -113,6 +113,7 @@ public sealed class FilesAndStreamsTests
         finally { Files = saved; }
     }
 
+    [StoredLayout]
     [StructLayout(LayoutKind.Explicit, Size = 8)]
     private struct Record
     {
