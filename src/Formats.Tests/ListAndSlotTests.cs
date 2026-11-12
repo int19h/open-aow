@@ -220,16 +220,19 @@ public sealed class ListAndSlotTests : FormatsTest
         Assert.Equal("root.Sprites", image.Diagnostic.Path);
     }
 
+    // A fixed dynamic member stores fixed objects, so a created object at its slot is refused. A
+    // document before version 5 stores no slot of such a member.
     [Fact]
-    public void FixedObjectSlotsStayRefused()
+    public void ACreatedObjectInAFixedSlotIsRefused()
     {
         var schema = Sample;
         var tree = TreeWriter.Write(new FixedSlots(), s_factory);
         var classValue = schema.Get("TFixedSlots");
         var document = Assert.Throws<ConversionException>(() => DocumentBackend.Write(tree, classValue, schema, "game"));
-        Assert.Equal("PE-1 does not store a dynamic member.", document.Diagnostic.Message);
+        Assert.Equal("Version 3 stores no slot of Fixed.", document.Diagnostic.Message);
         var image = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, classValue, schema, "game"));
-        Assert.Equal("PE-3 still needs a dynamic member. The direct path does not store it.", image.Diagnostic.Message);
+        Assert.Equal("An item of Fixed is a fixed object at its slot.", image.Diagnostic.Message);
+        Assert.Equal("root.Fixed[0]", image.Diagnostic.Path);
     }
 
     private static string Compact(JsonValue value) => Encoding.UTF8.GetString(JsonWriter.ToUtf8(value)).Replace(" ", "").Replace("\n", "");

@@ -100,6 +100,11 @@ public abstract partial class PropertyCodec
                 : new RecordCodec(source, schema, path),
             "bit-array" => new BitArrayCodec(CountName(source, path)),
             "float32" => new FloatCodec(4),
+            "single" => new SingleCodec(),
+            "terrain-list" => new TerrainListCodec(),
+            "terrain-grid" => new TerrainGridCodec(MemberName(source, "width", path), MemberName(source, "height", path)),
+            "ilb" => new ImageLibraryCodec(),
+            "image-sequences" => new ImageSequencesCodec(),
             "float64" => new FloatCodec(8),
             "int-list" => source["groups"] is JsonInteger groups
                 ? new GroupedListCodec(checked((int)groups.Value), Domain(source))
@@ -139,6 +144,9 @@ public abstract partial class PropertyCodec
 
     private static string CountName(JsonObject source, string path) =>
         (source["count"] as JsonString)?.Value ?? throw new InvalidOperationException(path + " bit array names its count property.");
+
+    private static string MemberName(JsonObject source, string key, string path) =>
+        (source[key] as JsonString)?.Value ?? throw new InvalidOperationException(path + " terrain grid names its " + key + " property.");
 
     private static int CheckedSize(JsonObject source, string path) =>
         source["size"] is JsonInteger size && size.Value > 0 ? (int)size.Value : throw new InvalidOperationException(path + " record needs a size.");
@@ -499,7 +507,11 @@ internal sealed partial class DataCodec(int? size) : PropertyCodec
     }
 }
 
-/// <summary>Floating-point fields keep their exact little-endian bits.</summary>
+/// <summary>
+/// Floating-point fields keep their exact little-endian bits as <c>{ "$bits": ... }</c>, the
+/// shape of versions 1 to 4. Version 5 stores the one single of the schema through
+/// <see cref="SingleCodec"/>.
+/// </summary>
 internal sealed class FloatCodec(int width) : PropertyCodec
 {
     internal override string? ImageRefusal => "The direct path does not store a float.";

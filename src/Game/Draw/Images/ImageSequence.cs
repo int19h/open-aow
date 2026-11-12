@@ -1,4 +1,5 @@
 // Translated from ImageLib.pas.
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
@@ -469,6 +470,68 @@ public partial class ImageSequence : IDisposable
         {
             _next = new ImageSequence(_owner);
             _next.LoadFromStream(stream);
+        }
+    }
+
+    /// <summary>The layers of this chain as <see cref="SaveToStream"/> writes them.</summary>
+    internal List<SequenceLayer> SaveLayers()
+    {
+        var layers = new List<SequenceLayer>();
+        for (var sequence = this; sequence != null; sequence = sequence._next)
+        {
+            FrameTable frames = null;
+            if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(sequence._sequenceMode))
+            {
+                frames = new FrameTable(Default: sequence._frameTable.DefaultValue, Items: sequence._frameTable.List.AsSpan(0, sequence._frameTable.Count).ToArray());
+            }
+
+            layers.Add(new SequenceLayer
+            {
+                Library = sequence._imageLibraryName,
+                Layer = sequence._layer,
+                Speed = sequence._sequenceSpeed,
+                Mode = (byte)sequence._sequenceMode,
+                ImageIndex = sequence._imageIndex,
+                OffsetX = sequence._offsetX,
+                OffsetY = sequence._offsetY,
+                Frames = frames,
+            });
+        }
+
+        return layers;
+    }
+
+    /// <summary>
+    /// <see cref="LoadFromStream"/> from the stored layer at <paramref name="index"/> and the
+    /// layers after it. A frame-table layer draws its image index from <c>Random</c> after its
+    /// frame table, before the next layer, as the stream load does.
+    /// </summary>
+    internal void LoadLayers(IReadOnlyList<SequenceLayer> layers, int index)
+    {
+        var stored = layers[index];
+        ReleaseImageLibrary();
+        _imageLibraryName = stored.Library;
+        _layer = stored.Layer;
+        _sequenceSpeed = stored.Speed;
+        _sequenceMode = (SequenceMode)stored.Mode;
+        _imageIndex = stored.ImageIndex;
+        _offsetX = stored.OffsetX;
+        _offsetY = stored.OffsetY;
+        if (Set<SequenceMode>.Of(SequenceMode.FrameTable, SequenceMode.RandomFrameTable).Contains(_sequenceMode))
+        {
+            if (_frameTable == null)
+            {
+                _frameTable = new FrameTableList();
+            }
+
+            _frameTable.LoadItems(stored.Frames.Default, stored.Frames.Items);
+            _imageIndex = Random(_frameTable.Count);
+        }
+
+        if (index + 1 < layers.Count)
+        {
+            _next = new ImageSequence(_owner);
+            _next.LoadLayers(layers, index + 1);
         }
     }
 

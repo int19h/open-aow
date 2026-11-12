@@ -1,6 +1,6 @@
 {
   "format": "OpenAoW-schema",
-  "version": 4,
+  "version": 5,
   "note": "Hand-owned from 9.7-1. Generated once from the 9.7-0 census, the class baseline, registration reachability and corpus order evidence.",
   "legacyShapes": [
     {
@@ -334,7 +334,7 @@
       "parent": "EngineObject",
       "id": 80,
       "properties": [
-        {"name": "DefenseStrengthMultiplier", "id": 10, "codec": "float32"}
+        {"name": "DefenseStrengthMultiplier", "id": 10, "codec": "single"}
       ]
     },
     {
@@ -383,7 +383,7 @@
         {"name": "Description", "id": 5, "codec": "strings"},
         {"name": "SkillPointCost", "id": 6, "codec": "i32"},
         {"name": "SFXLibrary", "id": 7, "codec": "object", "class": "SfxLibrary"},
-        {"name": "ImageSequences", "id": 8, "codec": "stream", "payload": "ImageSequenceList"},
+        {"name": "ImageSequences", "id": 8, "codec": "image-sequences"},
         {"name": "SelectionTypes", "id": 9, "codec": "set", "set": "AbilitySelectionType", "width": 2}
       ]
     },
@@ -895,7 +895,7 @@
         {"name": "AbilityControl", "id": 118, "codec": "object", "class": "AbilityControl"},
         {"name": "TextControl", "id": 119, "codec": "object", "class": "TextControl"},
         {"name": "HeroLibraries", "id": 17, "codec": "object", "class": "HeroLibraryManager"},
-        {"name": "ImageSequences", "id": 18, "codec": "stream", "payload": "ImageSequenceList"}
+        {"name": "ImageSequences", "id": 18, "codec": "image-sequences"}
       ]
     },
     {
@@ -3130,7 +3130,7 @@
       "properties": [
         {"name": "Width", "id": 20, "codec": "i32"},
         {"name": "Height", "id": 21, "codec": "i32"},
-        {"name": "OriginalTerrain", "id": 22, "codec": "data"}
+        {"name": "OriginalTerrain", "id": 22, "codec": "terrain-grid", "width": "Width", "height": "Height"}
       ]
     },
     {
@@ -4264,10 +4264,10 @@
         {"name": "ShowPriorityOffset", "id": 4, "codec": "i32"},
         {"name": "Level", "id": 5, "codec": "u8"},
         {"name": "Name", "id": 6, "codec": "string"},
-        {"name": "TerrainList", "id": 7, "codec": "stream", "payload": "TerrainList"},
-        {"name": "ImageLibrary", "id": 8, "codec": "stream", "payload": "ImageLibrary"},
+        {"name": "TerrainList", "id": 7, "codec": "terrain-list"},
+        {"name": "ImageLibrary", "id": 8, "codec": "ilb"},
         {"name": "Complex", "id": 9, "codec": "bool"},
-        {"name": "ImageSequenceList", "id": 10, "codec": "stream", "payload": "ImageSequenceList"}
+        {"name": "ImageSequenceList", "id": 10, "codec": "image-sequences"}
       ]
     },
     {
@@ -5792,7 +5792,7 @@
       "properties": [
         {"name": "SpellText", "id": 10, "codec": "strings"},
         {"name": "CastSounds", "id": 11, "codec": "object", "class": "SfxLibrary"},
-        {"name": "CastImages", "id": 12, "codec": "stream", "payload": "ImageSequenceList"},
+        {"name": "CastImages", "id": 12, "codec": "image-sequences"},
         {"name": "BaseManaCost", "id": 13, "codec": "i32"},
         {"name": "ManaUpkeep", "id": 14, "codec": "i32"},
         {"name": "ResearchCost", "id": 15, "codec": "i32"},
@@ -6611,7 +6611,7 @@
       "id": 131600,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "Sequences", "id": 5, "codec": "stream", "payload": "ImageSequenceList"},
+        {"name": "Sequences", "id": 5, "codec": "image-sequences"},
         {"name": "FaceImageLibraryName", "id": 6, "codec": "string"},
         {"name": "Name", "id": 7, "codec": "string"},
         {"name": "FaceIndex", "id": 8, "codec": "i32"},

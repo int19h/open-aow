@@ -75,10 +75,10 @@ public sealed class MigrationTests : FormatsTest
     [Fact]
     public void TheCurrentChainRewritesSymbolicValues()
     {
-        Assert.Equal(4, MigrationChain.Default.Current);
+        Assert.Equal(5, MigrationChain.Default.Current);
         var read = GameFiles.Read(Golden("hero-list-v1.json"), null, null, MigrationChain.Default);
-        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name, ListMigration.Name], read.Migrations);
+        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name, ListMigration.Name, ResourceMigration.Name], read.Migrations);
         Assert.Equal(1, read.DeclaredVersion);
-        Assert.Equal(4, ((JsonInteger)read.Document["$version"]!).Value);
+        Assert.Equal(5, ((JsonInteger)read.Document["$version"]!).Value);
     }
 }

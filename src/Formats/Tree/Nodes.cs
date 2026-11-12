@@ -119,10 +119,67 @@ public sealed class LinesWithValuesNode : TreeValue
     }
 }
 
-/// <summary>Exact bytes of an rwData value. Length zero is not stored.</summary>
+/// <summary>
+/// Exact bytes of an rwData value, of a flood terrain grid or of a whole payload such as an ILB
+/// library. Length zero of an rwData value is not stored.
+/// </summary>
 public sealed class BytesNode(byte[] data) : TreeValue
 {
     public byte[] Data { get; } = data;
+}
+
+/// <summary>
+/// A single-precision float (Delphi <c>Single</c>), kept as its exact bits so a NaN payload, an
+/// infinity and negative zero survive.
+/// </summary>
+public sealed class SingleNode(int bits) : TreeValue
+{
+    public int Bits { get; } = bits;
+
+    public float Value => BitConverter.Int32BitsToSingle(Bits);
+}
+
+/// <summary>Pairs of signed bytes in stored order (Delphi <c>TTerrainList</c>: terrain type and overlay type).</summary>
+public sealed class PairListNode(IReadOnlyList<(sbyte First, sbyte Second)> pairs) : TreeValue
+{
+    public IReadOnlyList<(sbyte First, sbyte Second)> Pairs { get; } = pairs;
+}
+
+/// <summary>
+/// The frame table of an image sequence layer (Delphi <c>TFrameTableList</c>): the stored default
+/// and the image indices. The image stores every item, with no runs.
+/// </summary>
+public sealed record FrameTable(int Default, IReadOnlyList<int> Items);
+
+/// <summary>
+/// One layer of an image sequence chain (Delphi <c>TImageSequence</c>). <see cref="Mode"/> is the
+/// stored <c>SequenceMode</c> byte. A layer of the modes 4 and 5 (<c>FrameTable</c> and
+/// <c>RandomFrameTable</c>) stores <see cref="Frames"/>, every other layer stores none. The game
+/// draws the image index of a frame-table layer at load and never reads the stored one, which the
+/// image keeps for G1.
+/// </summary>
+public sealed record SequenceLayer
+{
+    public string Library { get; init; } = "";
+    public byte Layer { get; init; }
+    public byte Speed { get; init; }
+    public byte Mode { get; init; }
+    public int ImageIndex { get; init; }
+    public int OffsetX { get; init; }
+    public int OffsetY { get; init; }
+    public FrameTable? Frames { get; init; }
+
+    /// <summary>True for the modes whose layer stores a frame table.</summary>
+    public static bool HasFrameTable(byte mode) => mode is 4 or 5;
+}
+
+/// <summary>
+/// An image sequence list (Delphi <c>TImageSequenceList</c>): one entry per index, null for an
+/// index without a sequence, otherwise the layers of its chain in stored order.
+/// </summary>
+public sealed class ImageSequenceListNode(IReadOnlyList<IReadOnlyList<SequenceLayer>?> entries) : TreeValue
+{
+    public IReadOnlyList<IReadOnlyList<SequenceLayer>?> Entries { get; } = entries;
 }
 
 /// <summary>A stored null, the class id 0 of rwCreateEObject.</summary>
@@ -232,7 +289,7 @@ public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeV
 /// <summary>
 /// A bit list (Delphi <c>TBitList</c>): the stored default byte, the count, the set bits in
 /// ascending order and the residue byte of the bits past the count. Since PE-2c-4 the backends
-/// store it. No serializer moves it yet.
+/// store it, and since PE-2c-5 <see cref="IPersister.BitList"/> moves it.
 /// </summary>
 public sealed class BitListNode(byte defaultValue, int count, int[] indices, byte residue) : TreeValue
 {
@@ -241,6 +298,13 @@ public sealed class BitListNode(byte defaultValue, int count, int[] indices, byt
     public IReadOnlyList<int> Indices { get; } = indices;
     public byte Residue { get; } = residue;
 }
+
+/// <summary>
+/// The image of a bit list (Delphi <c>TBitList</c>) as <c>SaveToStream</c> writes it: the default
+/// byte, the count, and the <c>(count + 7) &gt;&gt; 3</c> bit bytes, bit i in byte <c>i &gt;&gt; 3</c>
+/// at mask <c>1 &lt;&lt; (i and 7)</c>. Bits past the count in the last byte are kept.
+/// </summary>
+public sealed record BitListImage(byte Default, int Count, byte[] Bits);
 
 /// <summary>
 /// A list with a stored default (Delphi <c>TIntegerList</c> and <c>TByteList</c>). Width 4 holds
@@ -258,9 +322,11 @@ public sealed class DefaultListNode(int width, long defaultValue, IReadOnlyList<
 public readonly record struct SlotEntry(int Slot, TreeValue Value);
 
 /// <summary>
-/// The created objects of a keyed dynamic member, in stored order. The slot is the stored id less
-/// the member's slot base, so it carries the object's identity. A slot holds an object node with a
-/// class name, or <see cref="NullNode"/> for a stored null.
+/// The objects of a keyed dynamic member, in stored order. The slot is the stored id less the
+/// member's slot base, so it carries the object's identity. A slot of a created member holds an
+/// object node with a class name, or <see cref="NullNode"/> for a stored null. A slot of a fixed
+/// member (Delphi <c>TAbilityControl</c> and <c>TSpellControl</c>) holds an object node without a
+/// class name, whose class the schema fixes.
 /// </summary>
 public sealed class SlotListNode : TreeValue
 {

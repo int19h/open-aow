@@ -192,16 +192,27 @@ public static partial class Fixtures
             return Expect(Codes.Corrupt, () => GameFiles.Export(Parse(GameFiles.Write(d))), Located);
         });
 
-        // Floating point bits.
-        foreach (var bits in new[] { "00000080", "0000807f", "000080ff", "0100c07f", "ffffffff", "0000803f" })
+        // Floating point bits. From version 5 a single that a number carries exactly is that number,
+        // and only negative zero, the infinities and NaN keep $bits.
+        foreach (var (bits, number) in new[] { ("00000080", null), ("0000807f", null), ("000080ff", null), ("0100c07f", null), ("ffffffff", null), ("0000803f", "1"), ("cdcccc3d", "0.1"), ("acc52737", "1e-5") })
             yield return new("floats", "$bits " + bits, () =>
             {
                 var d = MapDocument();
                 var player = Object(Arr(Object(Root(d)["Players"])["Children"]).Items[1]);
                 Set(Object(player["AIControl"]), "DefenseStrengthMultiplier", new JsonObject().Add("$bits", new JsonString(bits)));
                 return OwnRoundTrip(d, (n, _) =>
-                    Object(Object(Object(Arr(Object(Root(n)["Players"])["Children"]).Items[1])["AIControl"])["DefenseStrengthMultiplier"])["$bits"] is JsonString { } s && s.Value == bits
-                        ? null : "the bits changed");
+                {
+                    var stored = Object(Object(Arr(Object(Root(n)["Players"])["Children"]).Items[1])["AIControl"])["DefenseStrengthMultiplier"];
+                    string? text = stored switch
+                    {
+                        JsonInteger integer => integer.Value.ToString(System.Globalization.CultureInfo.InvariantCulture),
+                        JsonNumber decimalText => decimalText.Text,
+                        _ => null,
+                    };
+                    if (number is null)
+                        return stored is JsonObject objectValue && objectValue["$bits"] is JsonString { } s && s.Value == bits ? null : "the bits changed";
+                    return text == number ? null : "the number is " + (text ?? stored?.KindName) + ", not " + number;
+                });
             });
 
         // Slots, families and dimensions.

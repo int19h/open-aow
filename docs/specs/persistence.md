@@ -278,15 +278,17 @@ still copies the bytes. Until the exit finishes, `ReadWrite`, the numeric `rw*` 
 
 Step 1 of that exit is implemented for the pilot classes named in `persistence-tree.md`. It adds
 `PersistFields` beside `ReadWrite` on those classes, a typed tree in `Aow.Formats.Tree`, and a
-direct document backend. Step 2 is implemented except for the PE-2c shapes. Version 2 stores
+direct document backend. Step 2 is implemented. Version 2 stores
 enum bytes, sets and fixed integer arrays as C# member names, name lists and integer lists.
 Version 3 stores a padded record as named fields, the ability bit array as ascending indices,
 and a primitive `rwData` value as a plain integer or boolean. The original backend writes the
-tree to the property-table image and back. `FloodControl.OriginalTerrain` (Delphi `TFloodControl`) and
-`DiplomaticAction.ActionType` (Delphi `TDiplomaticAction`) stay exact hex. The integer and byte lists and the
+tree to the property-table image and back. `DiplomaticAction.ActionType` (Delphi `TDiplomaticAction`)
+stays exact hex on its case mapping. The integer and byte lists and the
 keyed dynamic members are on the tree and the direct path since PE-2c-2, and the map fields, the
-sprites and the campaign map since PE-2c-4. Resource stream callbacks, the flood terrain, and bit
-lists and grouped lists on the tree stay for PE-2c. The C# record structs keep their explicit layout while `ReadWrite` still copies
+sprites and the campaign map since PE-2c-4. Version 5 (PE-2c-5) stores the resource stream
+callbacks, the flood terrain (Delphi `TFloodControl`), the single and the fixed dynamic items in
+readable shapes, and puts them, the grouped lists and a bit list member on the tree and the direct
+path. The C# record structs keep their explicit layout while `ReadWrite` still copies
 their bytes. The catalog names the fields. It does not replace the struct with a plain record.
 The game still loads and saves through `ReadWrite` and the converter. Step 3 is the switch.
 

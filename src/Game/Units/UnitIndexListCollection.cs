@@ -16,6 +16,9 @@ public partial class UnitIndexListCollection : IDisposable
     private readonly int _collectionSize;
     private readonly UnitIndexList _units;
 
+    /// <summary>The flat list the collection cuts into groups, which its stream stores.</summary>
+    internal UnitIndexList Units => _units;
+
     // Unit.PAS:2419
     public virtual void Dispose()
     {

@@ -428,6 +428,23 @@ public sealed class PersistEquivalenceTests
         Check("FloodEnchantment", new FloodEnchantment(null!) { Removed = false, RestoreDays = -128, DispelPlayer = -128, TurnsActive = int.MinValue });
     }
 
+    // The single stores its exact bits: the document holds a number, and $bits for negative zero, an
+    // infinity and a NaN with its payload.
+    [Fact]
+    public void TheSingleOfTheAIMatchesTheConverter()
+    {
+        foreach (int bits in new[] { 0, 0x3DCCCCCD, 0x3F800000, 0x3F000000, 0x3727C5AC, 0x7F7FFFFF, int.MinValue, 0x7F800000, unchecked((int)0xFF800000), 0x7FC00001 })
+            Check("AIPlayerControl", new AIPlayerControl(null!) { DefenseStrengthMultiplier = BitConverter.Int32BitsToSingle(bits) });
+    }
+
+    // The fixed objects of the controls persist in place at their slots. The empty controls store no member.
+    [Fact]
+    public void TheEmptyAbilityAndSpellControlsMatchTheConverter()
+    {
+        Check("AbilityControl", new AbilityControl(null!));
+        Check("SpellControl", new SpellControl(null!));
+    }
+
     [Fact]
     public void UnitEnchantmentMatchesTheConverter()
     {

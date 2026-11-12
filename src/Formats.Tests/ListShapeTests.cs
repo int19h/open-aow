@@ -134,8 +134,8 @@ public sealed class ListShapeTests : FormatsTest
                 .Add("default", new JsonInteger(0))
                 .Add("count", new JsonInteger(13))
                 .Add("bits", new JsonString("0590")))));
-        Assert.Equal([ListMigration.Name], read.Migrations);
-        Assert.Equal(4, ((JsonInteger)read.Document["$version"]!).Value);
+        Assert.Equal([ListMigration.Name, ResourceMigration.Name], read.Migrations);
+        Assert.Equal(5, ((JsonInteger)read.Document["$version"]!).Value);
         var root = (JsonObject)read.Document["root"]!;
         Assert.Equal("""{"default":"Unknown","items":["Alliance","Unknown"]}""", Compact(root["LegacyNewRelations"]!));
         Assert.Equal("""{"default":false,"count":13,"bits":[0,2,12],"$reserved":"80"}""", Compact(root["AIValidAttackPlayers"]!));

@@ -3,6 +3,7 @@ using System.Collections.Immutable;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 using Aow.Game.AI.Groups;
 using Aow.Game.Magic.Abilities;
 
@@ -72,6 +73,12 @@ public partial class AIPlayerControl : EngineObject
     {
         base.ReadWrite(stream);
         stream.Bytes(Bytes.Of(ref DefenseStrengthMultiplier, 4), 4, 10);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        DefenseStrengthMultiplier = persister.Single("DefenseStrengthMultiplier", value: DefenseStrengthMultiplier);
     }
 
     // AI.pas:114

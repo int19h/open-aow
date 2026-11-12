@@ -194,6 +194,98 @@ internal sealed partial class FixedObjectCodec
         if (value is not JsonObject objectValue) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is an object.", value);
         return DocumentBackend.ReadObject(objectValue, site.Schema.Get(ClassName), site, created: false, slotted: false);
     }
+
+    // A fixed dynamic member (TAbilityControl, TSpellControl) stores each object at its slot plus the
+    // slot base, as rwEObject stores one, with no class id. The object is never nil.
+    internal override void WriteSlotsImage(TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame)
+    {
+        string name = frame.Property.Name;
+        if (frame.Property.SlotBase is not int slotBase) throw context.Fail(Codes.Type, name + " has no slot base.", at: null, path: frame.Path);
+        if (value is not SlotListNode node) throw context.Fail(Codes.Type, name + " is fixed objects at slots.", at: null, path: frame.Path);
+        if (node.Entries.Count > context.Limits.CollectionItems)
+            throw context.Fail(Codes.Limit, "A collection has too many items.", at: null, path: frame.Path, value: null, constraint: "at most " + context.Limits.CollectionItems + " items");
+        var classValue = context.Schema.Get(ClassName);
+        var used = new HashSet<int>();
+        for (int i = 0; i < node.Entries.Count; i++)
+        {
+            var (slot, item) = node.Entries[i];
+            var itemPath = frame.Path.Item(i);
+            long id = (long)slot + slotBase;
+            if (slot < 0 || id < frame.Property.DynamicMinimum!.Value || id > int.MaxValue)
+                throw context.Fail(Codes.Range, "The $slot is outside the stored id range.", at: null, path: itemPath.Member("$slot"), value: Text(slot));
+            if (!used.Add(slot)) throw context.Fail(Codes.Slot, "Slot " + Text(slot) + " of " + name + " is declared twice.", at: null, path: itemPath);
+            if (item is not ObjectNode { ClassName: null } objectNode || objectNode.Slot is int stated && stated != slot)
+                throw context.Fail(Codes.Type, "An item of " + name + " is a fixed object at its slot.", at: null, path: itemPath);
+            writer.Begin((int)id, frame.Property, i);
+            ImageTree.WriteBody(objectNode, classValue, context, writer.Data, itemPath, allowIdentity: true);
+            writer.End();
+        }
+    }
+
+    internal override TreeValue ReadSlotsImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame)
+    {
+        if (frame.Property.SlotBase is not int slotBase) throw context.Fail(Codes.Type, frame.Property.Name + " has no slot base.", entries[0].Start, frame.Path);
+        context.CheckItems(entries.Count, entries[0].Start, frame.Path);
+        var classValue = context.Schema.Get(ClassName);
+        var node = new SlotListNode();
+        for (int i = 0; i < entries.Count; i++)
+        {
+            var (id, start, end) = entries[i];
+            node.Add(id - slotBase, ImageTree.ReadBody(context, start, end, classValue, frame.Path.Item(i), className: null, slot: id - slotBase));
+        }
+        return node;
+    }
+
+    internal override JsonValue WriteSlotsTree(TreeValue value, DocumentSite site)
+    {
+        string name = site.Property!.Name;
+        if (site.Schema.Version < SlotVersion || site.Property.SlotBase is not int slotBase)
+            throw site.Fail(Codes.Type, "Version " + site.Schema.Version + " stores no slot of " + name + ".");
+        if (value is not SlotListNode node) throw site.Mismatch(name + " is fixed objects at slots.");
+        if (node.Entries.Count > site.Context.Limits.CollectionItems)
+            throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: "at most " + site.Context.Limits.CollectionItems + " items");
+        var classValue = site.Schema.Get(ClassName);
+        var array = new JsonArray();
+        var used = new HashSet<int>();
+        for (int i = 0; i < node.Entries.Count; i++)
+        {
+            var (slot, item) = node.Entries[i];
+            var at = site.At(site.Path.Item(i), element: false);
+            long id = (long)slot + slotBase;
+            if (slot < 0 || id < site.Property.DynamicMinimum!.Value || id > int.MaxValue)
+                throw at.At(at.Path.Member("$slot"), element: false).Fail(Codes.Range, "The $slot is outside the stored id range.", value: Text(slot));
+            if (!used.Add(slot)) throw at.Fail(Codes.Slot, "Slot " + Text(slot) + " of " + name + " is declared twice.");
+            if (item is not ObjectNode { ClassName: null } objectNode || objectNode.Slot != slot)
+                throw at.Mismatch("An item of " + name + " is a fixed object at its slot.");
+            array.Add(DocumentBackend.WriteObject(objectNode, classValue, at, created: false, slotted: true));
+        }
+        return array;
+    }
+
+    internal override TreeValue ReadSlotsTree(JsonValue value, DocumentSite site)
+    {
+        string name = site.Property!.Name;
+        if (site.Schema.Version < SlotVersion || site.Property.SlotBase is not int slotBase)
+            throw site.Fail(Codes.Type, "Version " + site.Schema.Version + " stores no slot of " + name + ".", value);
+        if (value is not JsonArray array) throw site.Mismatch(name + " is an array.", value);
+        if (array.Items.Count > site.Context.Limits.CollectionItems)
+            throw site.Fail(Codes.Limit, "A collection has too many items.", array, value: null, constraint: "at most " + site.Context.Limits.CollectionItems + " items");
+        var classValue = site.Schema.Get(ClassName);
+        var node = new SlotListNode();
+        var used = new HashSet<long>();
+        for (int i = 0; i < array.Items.Count; i++)
+        {
+            var at = site.At(site.Path.Item(i), element: false);
+            if (array.Items[i] is not JsonObject item) throw at.Mismatch("An item of " + name + " is an object.", array.Items[i]);
+            if (item["$slot"] is not JsonInteger slot) throw at.Fail(Codes.MissingMember, "An item of " + name + " needs an integer $slot.", item);
+            long id = slot.Value + slotBase;
+            if (slot.Value < 0 || id < site.Property.DynamicMinimum!.Value || id > int.MaxValue)
+                throw at.At(at.Path.Member("$slot"), element: false).Fail(Codes.Range, "The $slot is outside the stored id range.", slot, Text(slot.Value));
+            if (!used.Add(slot.Value)) throw at.Fail(Codes.Slot, "Slot " + Text(slot.Value) + " of " + name + " is declared twice.", item);
+            node.Add((int)slot.Value, DocumentBackend.ReadObject(item, classValue, at, created: false, slotted: true));
+        }
+        return node;
+    }
 }
 
 internal sealed partial class CreatedObjectCodec
