@@ -131,11 +131,4 @@ public partial class PaletteManager : IDisposable
 
     public int Count { get => GetCount(); }
 
-    public sealed class PalettesAccessor(PaletteManager target)
-    {
-        public LibraryImagePalette this[int index] { get => target.GetPalette(index); }
-    }
-
-    public PalettesAccessor Palettes => new PalettesAccessor(this);
-
 }

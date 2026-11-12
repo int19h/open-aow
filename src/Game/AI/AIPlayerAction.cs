@@ -18,13 +18,11 @@ public partial class AIPlayerAction : EngineObject, IAIPlayerActionClass
     private int _processCycles;
 
     public AIPlayerControl Control { get; set; }
-    public AIPlayerProcessPhase Phase { get; private set; }
 
     // AI.pas:4
     public virtual bool Setup(AIPlayerControl control, AIPlayerProcessPhase phase)
     {
         Control = control;
-        Phase = phase;
         return ActionClass.SupportedPhases.Contains(phase);
     }
 

@@ -46,8 +46,6 @@ public partial class GameEngine : ENode
     private EngineObjectEditorList _editors;
     private EControlStyleNode _controlNode;
 
-    public EngineComponent Component { get; }
-
     private StringList _debugIds;
 
     internal EventStore<EngineDebugNotification> DebugEventsStore { get; set; }
@@ -766,8 +764,6 @@ public partial class GameEngine : ENode
         spells.UnregisterSpellId(4);
         spells.UnregisterSpellId(9);
     }
-
-    internal static GameEngine CopyEngine { get; }
 
     internal static void UnregisterMountain(GameEngine engine)
     {

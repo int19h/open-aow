@@ -9,15 +9,11 @@ namespace Aow.Game.Draw;
 // Info, Masks
 public partial class Dib16Surface : Surface
 {
-    internal int _handle;
     private int _width;
     private int _height;
     private byte[] _bits;
     private int _pitch;
     private int _pixelFormatId;
-
-    internal BitmapInfoHeader Info { get; }
-    internal Int32Array3 Masks { get; }
 
     // GFXE.pas:6991
     public override int GetWidth() => _width;

@@ -38,8 +38,6 @@ public partial class MapLevel : ECustomNode, IOwned<MapContainer>, IOwnedSink<Ma
     private int _mapFieldClassId;
     private int _fieldSize;
 
-    protected internal int FieldsSize { get; private set; }
-
     public Int32Array8By2 HexNumberOffsets;
 
     // HSEngine.pas:2925

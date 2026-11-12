@@ -29,8 +29,6 @@ public partial class AIGroupTargetFinder : AIGroupTask
     private int _targetRange;
     private int _step;
 
-    public Set<DamageType> DamageTypes { get; private set; }
-
     // AIGroup.pas:1895
     public override void Dispose()
     {
@@ -84,8 +82,6 @@ public partial class AIGroupTargetFinder : AIGroupTask
         this.Selector.OnTargetFound = TargetFoundEvent;
         this.Selector.MovePointsMax = 200;
         this.Selector.MovePointsMin = 150;
-
-        DamageTypes = AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         Range = 9;
         _targetRange = 9;
         _step = 4;

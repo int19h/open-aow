@@ -26,8 +26,6 @@ public partial class CombatTerrain : TerrainMapObject
     private CombatTerrainShadow _shadow;
     private int _hitPoints;
 
-    public bool Damaged { get; private set; }
-
     private int _defense;
 
     // CombatTerrain.pas:85
@@ -147,7 +145,6 @@ public partial class CombatTerrain : TerrainMapObject
                         SetHitPoints(_hitPoints - executeDamageRole10);
                         break;
                     case 200708:
-                        Damaged = message.Param[1].Int == 0;
                         AoWHSSet.Current.SpellControl.GetSpell(112).GetCombatInfo(message.Param[0].As<CombatUnit>().Troop, ref spellInfo);
                         RandSeed = AoWHSMap.Current.Random(16777215);
                         var executeDamageRole11 = AbilityRules.ExecuteDamageRole(spellInfo.Damage, spellInfo.Attack - _defense);
@@ -278,8 +275,6 @@ public partial class CombatTerrain : TerrainMapObject
     // CombatTerrain.pas:133
     public void SetHitPoints(int value)
     {
-        // { Original ignores Value and only marks the terrain damaged. }
-        Damaged = true;
     }
 
     // CombatTerrain.pas:138

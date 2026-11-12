@@ -133,9 +133,7 @@ public partial class ScenarioSetup : DataModule
     public CheckBox AlwaysViewTacticalCombatCheckBox;
     public Label AlwaysViewTacticalCombatLabel;
 
-    public int ValidateDelay { get; private set; }
     public SetupControl SetupControl { get; set; }
-    public int PingDelay { get; private set; }
     public bool ChatScrollPending { get; set; }
 
     // AoWScenSetup.pas:526
@@ -147,8 +145,6 @@ public partial class ScenarioSetup : DataModule
         ScenarioSetupPanel.Visible = true;
         ChatMemo.Items.Clear();
         ChatEdit.Text = "";
-        ValidateDelay = 100;
-        PingDelay = 15;
         var remote = SetupControl.GetRemote();
         ChatFogImage.Visible = !remote;
         var fSetupControlRemote = SetupControl.GetRemote();
@@ -611,8 +607,6 @@ public partial class ScenarioSetup : DataModule
         setup.ScenarioSetupPanel.Visible = true;
         setup.ChatMemo.Items.Clear();
         setup.ChatEdit.Text = "";
-        setup.ValidateDelay = 100;
-        setup.PingDelay = 15;
         var remote = setup.SetupControl.GetRemote();
         setup.ChatFogImage.Visible = !remote;
         var fSetupControlRemote = setup.SetupControl.GetRemote();

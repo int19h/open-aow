@@ -1,95 +1,4 @@
 {
-  "Aow.Engine.Nodes.EngineComponent.owner0": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Engine.Nodes.EngineComponent",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Component.Owner": null,
-            "Component.Tag": 0,
-            "Component.children": [],
-            "Component.freeNotifies": null,
-            "Component.name": "",
-            "EngineComponent._engine": null,
-            "EngineComponent._onRegisterClasses": null,
-            "EngineComponent._onUnregisterClasses": null
-          }
-        }
-      },
-      "owner:0",
-      "subscriptions:0:0"
-    ]
-  },
-  "Aow.Engine.Nodes.EngineComponent.owner1": {
-    "$lines": [
-      {
-        "$prefix": "success:",
-        "$value": {
-          "$jsonText": {
-            "$type": "Aow.Engine.Nodes.EngineComponent",
-            "Component.ComponentState": {
-              "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set\u00601.a": 0,
-              "Set\u00601.b": 0,
-              "Set\u00601.bounded": false,
-              "Set\u00601.c": 0,
-              "Set\u00601.d": 0,
-              "Set\u00601.high": 0,
-              "Set\u00601.low": 0
-            },
-            "Component.Owner": "$owner",
-            "Component.Tag": 0,
-            "Component.children": [],
-            "Component.freeNotifies": null,
-            "Component.name": "",
-            "EngineComponent._engine": null,
-            "EngineComponent._onRegisterClasses": null,
-            "EngineComponent._onUnregisterClasses": null
-          }
-        }
-      },
-      "owner:0",
-      {
-        "$jsonText": [
-          {
-            "$jsonText": {
-              "$type": "Aow.Engine.Nodes.EngineComponent",
-              "Component.ComponentState": {
-                "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set\u00601.a": 0,
-                "Set\u00601.b": 0,
-                "Set\u00601.bounded": false,
-                "Set\u00601.c": 0,
-                "Set\u00601.d": 0,
-                "Set\u00601.high": 0,
-                "Set\u00601.low": 0
-              },
-              "Component.Owner": "$owner",
-              "Component.Tag": 0,
-              "Component.children": [],
-              "Component.freeNotifies": null,
-              "Component.name": "",
-              "EngineComponent._engine": null,
-              "EngineComponent._onRegisterClasses": null,
-              "EngineComponent._onUnregisterClasses": null
-            }
-          }
-        ]
-      },
-      "subscriptions:0:0"
-    ]
-  },
   "Aow.Game.Draw.Images.InterfaceImageLibrary.owner0": {
     "$lines": [
       {
@@ -2188,16 +2097,6 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.ComboBox",
-            "ComboBox.DrawItem": 0,
-            "ComboBox.DrawItemRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
-            },
-            "ComboBox.MouseDownOnField": false,
-            "ComboBox.ScrollBarVisible": false,
             "ComboBox._firstShownItem": 0,
             "ComboBox._hoverItem": -1,
             "ComboBox._ileIndex": 0,
@@ -2350,16 +2249,6 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.UI.Controls.ComboBox",
-            "ComboBox.DrawItem": 0,
-            "ComboBox.DrawItemRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
-            },
-            "ComboBox.MouseDownOnField": false,
-            "ComboBox.ScrollBarVisible": false,
             "ComboBox._firstShownItem": 0,
             "ComboBox._hoverItem": -1,
             "ComboBox._ileIndex": 0,
@@ -2507,16 +2396,6 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.UI.Controls.ComboBox",
-              "ComboBox.DrawItem": 0,
-              "ComboBox.DrawItemRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
-              },
-              "ComboBox.MouseDownOnField": false,
-              "ComboBox.ScrollBarVisible": false,
               "ComboBox._firstShownItem": 0,
               "ComboBox._hoverItem": 0,
               "ComboBox._ileIndex": 0,
@@ -4027,7 +3906,6 @@
             "ScrollBar.ThumbStyle": 0,
             "ScrollBar.TrackClickTarget": 0,
             "ScrollBar.TrackLength": 0,
-            "ScrollBar.UnusedValue": 0,
             "ScrollBar._delay": 20,
             "ScrollBar._imageLibraryIDecrement": null,
             "ScrollBar._imageLibraryImageIncrement": null,
@@ -4172,7 +4050,6 @@
             "ScrollBar.ThumbStyle": 0,
             "ScrollBar.TrackClickTarget": 0,
             "ScrollBar.TrackLength": 0,
-            "ScrollBar.UnusedValue": 0,
             "ScrollBar._delay": 20,
             "ScrollBar._imageLibraryIDecrement": null,
             "ScrollBar._imageLibraryImageIncrement": null,
@@ -4303,7 +4180,6 @@
               "ScrollBar.ThumbStyle": 0,
               "ScrollBar.TrackClickTarget": 0,
               "ScrollBar.TrackLength": 0,
-              "ScrollBar.UnusedValue": 0,
               "ScrollBar._delay": 0,
               "ScrollBar._imageLibraryIDecrement": null,
               "ScrollBar._imageLibraryImageIncrement": null,
@@ -5077,8 +4953,6 @@
             "Control._window": null,
             "ListBox.FirstShownItem": 0,
             "ListBox.HoverItem": 0,
-            "ListBox.ScrollBarVisible": false,
-            "ListBox.UnusedPosition": 0,
             "ListBox.VisibleRows": 3,
             "ListBox._drawItem": 0,
             "ListBox._drawItemRectangle": {
@@ -5234,8 +5108,6 @@
             "Control._window": null,
             "ListBox.FirstShownItem": 0,
             "ListBox.HoverItem": 0,
-            "ListBox.ScrollBarVisible": false,
-            "ListBox.UnusedPosition": 0,
             "ListBox.VisibleRows": 3,
             "ListBox._drawItem": 0,
             "ListBox._drawItemRectangle": {
@@ -5377,8 +5249,6 @@
               "Control._window": null,
               "ListBox.FirstShownItem": 0,
               "ListBox.HoverItem": 0,
-              "ListBox.ScrollBarVisible": false,
-              "ListBox.UnusedPosition": 0,
               "ListBox.VisibleRows": 0,
               "ListBox._drawItem": 0,
               "ListBox._drawItemRectangle": {
@@ -5504,7 +5374,6 @@
             },
             "Control._window": null,
             "Memo.ColorList": [],
-            "Memo.DrawIndex": 0,
             "Memo.Lines": {
               "$type": "Aow.Rtl.StringList",
               "StringCollection.UpdateCount": 0,
@@ -5516,8 +5385,6 @@
               "StringList.sorted": false
             },
             "Memo.NoFrame": false,
-            "Memo.ScrollVisible": false,
-            "Memo.UnusedMouseUpValue": 0,
             "Memo._blink": false,
             "Memo._blinkCount": 0,
             "Memo._blinkDelay": 0,
@@ -5676,7 +5543,6 @@
             },
             "Control._window": null,
             "Memo.ColorList": [],
-            "Memo.DrawIndex": 0,
             "Memo.Lines": {
               "$type": "Aow.Rtl.StringList",
               "StringCollection.UpdateCount": 0,
@@ -5688,8 +5554,6 @@
               "StringList.sorted": false
             },
             "Memo.NoFrame": false,
-            "Memo.ScrollVisible": false,
-            "Memo.UnusedMouseUpValue": 0,
             "Memo._blink": false,
             "Memo._blinkCount": 0,
             "Memo._blinkDelay": 0,
@@ -5834,11 +5698,8 @@
               "Control._toolTipText": null,
               "Control._window": null,
               "Memo.ColorList": null,
-              "Memo.DrawIndex": 0,
               "Memo.Lines": null,
               "Memo.NoFrame": false,
-              "Memo.ScrollVisible": false,
-              "Memo.UnusedMouseUpValue": 0,
               "Memo._blink": false,
               "Memo._blinkCount": 0,
               "Memo._blinkDelay": 0,
@@ -6337,7 +6198,6 @@
             "ScrollBar.ThumbStyle": 0,
             "ScrollBar.TrackClickTarget": 0,
             "ScrollBar.TrackLength": 0,
-            "ScrollBar.UnusedValue": 0,
             "ScrollBar._delay": 20,
             "ScrollBar._imageLibraryIDecrement": null,
             "ScrollBar._imageLibraryImageIncrement": null,
@@ -6482,7 +6342,6 @@
             "ScrollBar.ThumbStyle": 0,
             "ScrollBar.TrackClickTarget": 0,
             "ScrollBar.TrackLength": 0,
-            "ScrollBar.UnusedValue": 0,
             "ScrollBar._delay": 20,
             "ScrollBar._imageLibraryIDecrement": null,
             "ScrollBar._imageLibraryImageIncrement": null,
@@ -6613,7 +6472,6 @@
               "ScrollBar.ThumbStyle": 0,
               "ScrollBar.TrackClickTarget": 0,
               "ScrollBar.TrackLength": 0,
-              "ScrollBar.UnusedValue": 0,
               "ScrollBar._delay": 0,
               "ScrollBar._imageLibraryIDecrement": null,
               "ScrollBar._imageLibraryImageIncrement": null,
@@ -7701,7 +7559,6 @@
             "ScrollBar.ThumbStyle": 0,
             "ScrollBar.TrackClickTarget": 0,
             "ScrollBar.TrackLength": 0,
-            "ScrollBar.UnusedValue": 0,
             "ScrollBar._delay": 20,
             "ScrollBar._imageLibraryIDecrement": null,
             "ScrollBar._imageLibraryImageIncrement": null,
@@ -7846,7 +7703,6 @@
             "ScrollBar.ThumbStyle": 0,
             "ScrollBar.TrackClickTarget": 0,
             "ScrollBar.TrackLength": 0,
-            "ScrollBar.UnusedValue": 0,
             "ScrollBar._delay": 20,
             "ScrollBar._imageLibraryIDecrement": null,
             "ScrollBar._imageLibraryImageIncrement": null,
@@ -7977,7 +7833,6 @@
               "ScrollBar.ThumbStyle": 0,
               "ScrollBar.TrackClickTarget": 0,
               "ScrollBar.TrackLength": 0,
-              "ScrollBar.UnusedValue": 0,
               "ScrollBar._delay": 0,
               "ScrollBar._imageLibraryIDecrement": null,
               "ScrollBar._imageLibraryImageIncrement": null,
@@ -8177,8 +8032,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -8329,8 +8182,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -8458,8 +8309,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,
@@ -13572,10 +13421,6 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "IntroScene.BufferSize": 0,
-            "IntroScene.DirectSound": null,
-            "IntroScene.SoundBuffer": null,
-            "IntroScene.StreamPosition": 0,
             "IntroScene.Window": null
           }
         }
@@ -13606,10 +13451,6 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "IntroScene.BufferSize": 0,
-            "IntroScene.DirectSound": null,
-            "IntroScene.SoundBuffer": null,
-            "IntroScene.StreamPosition": 0,
             "IntroScene.Window": null
           }
         }
@@ -13635,10 +13476,6 @@
               "Component.children": [],
               "Component.freeNotifies": null,
               "Component.name": "",
-              "IntroScene.BufferSize": 0,
-              "IntroScene.DirectSound": null,
-              "IntroScene.SoundBuffer": null,
-              "IntroScene.StreamPosition": 0,
               "IntroScene.Window": null
             }
           }
@@ -15405,7 +15242,6 @@
             "Pop3Dialog.ExitPanel": null,
             "Pop3Dialog.FoundEmailGamesList": null,
             "Pop3Dialog.LocalEmailAddressEdit": null,
-            "Pop3Dialog.Searching": false,
             "Pop3Dialog.StartExitPanel": null,
             "Pop3Dialog.Window": null,
             "Pop3Dialog._checkDelay": 0
@@ -15442,7 +15278,6 @@
             "Pop3Dialog.ExitPanel": null,
             "Pop3Dialog.FoundEmailGamesList": null,
             "Pop3Dialog.LocalEmailAddressEdit": null,
-            "Pop3Dialog.Searching": false,
             "Pop3Dialog.StartExitPanel": null,
             "Pop3Dialog.Window": null,
             "Pop3Dialog._checkDelay": 0
@@ -15474,7 +15309,6 @@
               "Pop3Dialog.ExitPanel": null,
               "Pop3Dialog.FoundEmailGamesList": null,
               "Pop3Dialog.LocalEmailAddressEdit": null,
-              "Pop3Dialog.Searching": false,
               "Pop3Dialog.StartExitPanel": null,
               "Pop3Dialog.Window": null,
               "Pop3Dialog._checkDelay": 0
@@ -16849,7 +16683,6 @@
             "ResultsWindow.StrengthCheckBox": null,
             "ResultsWindow.StructuresCheckBox": null,
             "ResultsWindow.TurnLabel": null,
-            "ResultsWindow.UnusedMaximum": 0,
             "ResultsWindow._maxArmies": 0,
             "ResultsWindow._maxGold": 0,
             "ResultsWindow._maxHeroes": 0,
@@ -16916,7 +16749,6 @@
             "ResultsWindow.StrengthCheckBox": null,
             "ResultsWindow.StructuresCheckBox": null,
             "ResultsWindow.TurnLabel": null,
-            "ResultsWindow.UnusedMaximum": 0,
             "ResultsWindow._maxArmies": 0,
             "ResultsWindow._maxGold": 0,
             "ResultsWindow._maxHeroes": 0,
@@ -16978,7 +16810,6 @@
               "ResultsWindow.StrengthCheckBox": null,
               "ResultsWindow.StructuresCheckBox": null,
               "ResultsWindow.TurnLabel": null,
-              "ResultsWindow.UnusedMaximum": 0,
               "ResultsWindow._maxArmies": 0,
               "ResultsWindow._maxGold": 0,
               "ResultsWindow._maxHeroes": 0,
@@ -17136,7 +16967,6 @@
             "ScenarioSetup.LeadersOnMapCheckBox": null,
             "ScenarioSetup.MakeHostButton": null,
             "ScenarioSetup.PickScenarioButton": null,
-            "ScenarioSetup.PingDelay": 0,
             "ScenarioSetup.PingList": null,
             "ScenarioSetup.PlayModeComboBox": null,
             "ScenarioSetup.PlayerList": null,
@@ -17228,8 +17058,7 @@
             "ScenarioSetup.TurnTimeSlider": null,
             "ScenarioSetup.TurnTimeValueLabel": null,
             "ScenarioSetup.TurnsSlider": null,
-            "ScenarioSetup.TurnsValueLabel": null,
-            "ScenarioSetup.ValidateDelay": 0
+            "ScenarioSetup.TurnsValueLabel": null
           }
         }
       },
@@ -17277,7 +17106,6 @@
             "ScenarioSetup.LeadersOnMapCheckBox": null,
             "ScenarioSetup.MakeHostButton": null,
             "ScenarioSetup.PickScenarioButton": null,
-            "ScenarioSetup.PingDelay": 0,
             "ScenarioSetup.PingList": null,
             "ScenarioSetup.PlayModeComboBox": null,
             "ScenarioSetup.PlayerList": null,
@@ -17369,8 +17197,7 @@
             "ScenarioSetup.TurnTimeSlider": null,
             "ScenarioSetup.TurnTimeValueLabel": null,
             "ScenarioSetup.TurnsSlider": null,
-            "ScenarioSetup.TurnsValueLabel": null,
-            "ScenarioSetup.ValidateDelay": 0
+            "ScenarioSetup.TurnsValueLabel": null
           }
         }
       },
@@ -17413,7 +17240,6 @@
               "ScenarioSetup.LeadersOnMapCheckBox": null,
               "ScenarioSetup.MakeHostButton": null,
               "ScenarioSetup.PickScenarioButton": null,
-              "ScenarioSetup.PingDelay": 0,
               "ScenarioSetup.PingList": null,
               "ScenarioSetup.PlayModeComboBox": null,
               "ScenarioSetup.PlayerList": null,
@@ -17505,8 +17331,7 @@
               "ScenarioSetup.TurnTimeSlider": null,
               "ScenarioSetup.TurnTimeValueLabel": null,
               "ScenarioSetup.TurnsSlider": null,
-              "ScenarioSetup.TurnsValueLabel": null,
-              "ScenarioSetup.ValidateDelay": 0
+              "ScenarioSetup.TurnsValueLabel": null
             }
           }
         ]
@@ -17733,7 +17558,6 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "SmtpDialog.Done": null,
             "SmtpDialog.ExitButton": null,
             "SmtpDialog.FailedPanel": null,
             "SmtpDialog.MailMessage": null,
@@ -17745,8 +17569,7 @@
             "SmtpDialog.Window": null,
             "SmtpDialog._event": null,
             "SmtpDialog._finished": false,
-            "SmtpDialog._progress": 0,
-            "SmtpDialog._thread": null
+            "SmtpDialog._progress": 0
           }
         }
       },
@@ -17776,7 +17599,6 @@
             "Component.children": [],
             "Component.freeNotifies": null,
             "Component.name": "",
-            "SmtpDialog.Done": null,
             "SmtpDialog.ExitButton": null,
             "SmtpDialog.FailedPanel": null,
             "SmtpDialog.MailMessage": null,
@@ -17788,8 +17610,7 @@
             "SmtpDialog.Window": null,
             "SmtpDialog._event": null,
             "SmtpDialog._finished": false,
-            "SmtpDialog._progress": 0,
-            "SmtpDialog._thread": null
+            "SmtpDialog._progress": 0
           }
         }
       },
@@ -17814,7 +17635,6 @@
               "Component.children": [],
               "Component.freeNotifies": null,
               "Component.name": "",
-              "SmtpDialog.Done": null,
               "SmtpDialog.ExitButton": null,
               "SmtpDialog.FailedPanel": null,
               "SmtpDialog.MailMessage": null,
@@ -17826,8 +17646,7 @@
               "SmtpDialog.Window": null,
               "SmtpDialog._event": null,
               "SmtpDialog._finished": false,
-              "SmtpDialog._progress": 0,
-              "SmtpDialog._thread": null
+              "SmtpDialog._progress": 0
             }
           }
         ]
@@ -18874,12 +18693,7 @@
             "TitleScene.LayoutOnCreate": null,
             "TitleScene.LayoutOnDestroy": null,
             "TitleScene.LegalNoticeMemo": null,
-            "TitleScene.MouseButton": 0,
             "TitleScene.NameLabel": null,
-            "TitleScene.Padding": {
-              "$type": "Aow.Engine.Buffers.ByteArray3",
-              "ByteArray3._element0": 0
-            },
             "TitleScene.TitleSceneImages": null,
             "TitleScene.VersionLabel": null,
             "TitleScene.Window": null,
@@ -18939,12 +18753,7 @@
             "TitleScene.LayoutOnCreate": null,
             "TitleScene.LayoutOnDestroy": null,
             "TitleScene.LegalNoticeMemo": null,
-            "TitleScene.MouseButton": 0,
             "TitleScene.NameLabel": null,
-            "TitleScene.Padding": {
-              "$type": "Aow.Engine.Buffers.ByteArray3",
-              "ByteArray3._element0": 0
-            },
             "TitleScene.TitleSceneImages": null,
             "TitleScene.VersionLabel": null,
             "TitleScene.Window": null,
@@ -18999,12 +18808,7 @@
               "TitleScene.LayoutOnCreate": null,
               "TitleScene.LayoutOnDestroy": null,
               "TitleScene.LegalNoticeMemo": null,
-              "TitleScene.MouseButton": 0,
               "TitleScene.NameLabel": null,
-              "TitleScene.Padding": {
-                "$type": "Aow.Engine.Buffers.ByteArray3",
-                "ByteArray3._element0": 0
-              },
               "TitleScene.TitleSceneImages": null,
               "TitleScene.VersionLabel": null,
               "TitleScene.Window": null,
@@ -19063,7 +18867,6 @@
             "TitleWindow.DemoImages": null,
             "TitleWindow.MainWindow": null,
             "TitleWindow.SplashPanel": null,
-            "TitleWindow.SplashStage": 0,
             "TitleWindow.TitlePanel": null,
             "TitleWindow._splashTimer": 0
           }
@@ -19098,7 +18901,6 @@
             "TitleWindow.DemoImages": null,
             "TitleWindow.MainWindow": null,
             "TitleWindow.SplashPanel": null,
-            "TitleWindow.SplashStage": 0,
             "TitleWindow.TitlePanel": null,
             "TitleWindow._splashTimer": 0
           }
@@ -19128,7 +18930,6 @@
               "TitleWindow.DemoImages": null,
               "TitleWindow.MainWindow": null,
               "TitleWindow.SplashPanel": null,
-              "TitleWindow.SplashStage": 0,
               "TitleWindow.TitlePanel": null,
               "TitleWindow._splashTimer": 0
             }
@@ -21816,8 +21617,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -21973,8 +21772,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -22107,8 +21904,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,
@@ -22335,8 +22130,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -22563,8 +22356,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -22704,8 +22495,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,
@@ -22861,8 +22650,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -23018,8 +22805,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -23152,8 +22937,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,
@@ -23390,8 +23173,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -23628,8 +23409,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -23776,8 +23555,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,
@@ -23850,7 +23627,6 @@
             "Menu.Highlighted": -1,
             "Menu.MenuLeft": 0,
             "Menu.MenuTop": 0,
-            "Menu.PopupOwner": null,
             "Menu.SelectedItem": -1,
             "Menu.ShowPending": false,
             "Menu.SubMenus": [],
@@ -23971,8 +23747,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -24045,7 +23819,6 @@
             "Menu.Highlighted": -1,
             "Menu.MenuLeft": 0,
             "Menu.MenuTop": 0,
-            "Menu.PopupOwner": null,
             "Menu.SelectedItem": -1,
             "Menu.ShowPending": false,
             "Menu.SubMenus": [],
@@ -24166,8 +23939,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -24235,7 +24006,6 @@
               "Menu.Highlighted": 0,
               "Menu.MenuLeft": 0,
               "Menu.MenuTop": 0,
-              "Menu.PopupOwner": null,
               "Menu.SelectedItem": 0,
               "Menu.ShowPending": false,
               "Menu.SubMenus": null,
@@ -24327,8 +24097,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,
@@ -24488,8 +24256,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -24649,8 +24415,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -24787,8 +24551,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,
@@ -24861,7 +24623,6 @@
             "Menu.Highlighted": -1,
             "Menu.MenuLeft": 0,
             "Menu.MenuTop": 0,
-            "Menu.PopupOwner": null,
             "Menu.SelectedItem": -1,
             "Menu.ShowPending": false,
             "Menu.SubMenus": [],
@@ -24983,8 +24744,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -25057,7 +24816,6 @@
             "Menu.Highlighted": -1,
             "Menu.MenuLeft": 0,
             "Menu.MenuTop": 0,
-            "Menu.PopupOwner": null,
             "Menu.SelectedItem": -1,
             "Menu.ShowPending": false,
             "Menu.SubMenus": [],
@@ -25179,8 +24937,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -25248,7 +25004,6 @@
               "Menu.Highlighted": 0,
               "Menu.MenuLeft": 0,
               "Menu.MenuTop": 0,
-              "Menu.PopupOwner": null,
               "Menu.SelectedItem": 0,
               "Menu.ShowPending": false,
               "Menu.SubMenus": null,
@@ -25341,8 +25096,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,
@@ -25411,15 +25164,6 @@
               "Rect.Right": 0,
               "Rect.Top": 0
             },
-            "ToolTip.ItemIndex": 0,
-            "ToolTip.ItemRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
-            },
-            "ToolTip.Showing": false,
             "ToolTip._itemHeight": 10,
             "ToolTip._items": {
               "$type": "Aow.Rtl.StringList",
@@ -25541,8 +25285,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -25611,15 +25353,6 @@
               "Rect.Right": 0,
               "Rect.Top": 0
             },
-            "ToolTip.ItemIndex": 0,
-            "ToolTip.ItemRectangle": {
-              "$type": "Aow.Rtl.Rect",
-              "Rect.Bottom": 0,
-              "Rect.Left": 0,
-              "Rect.Right": 0,
-              "Rect.Top": 0
-            },
-            "ToolTip.Showing": false,
             "ToolTip._itemHeight": 10,
             "ToolTip._items": {
               "$type": "Aow.Rtl.StringList",
@@ -25741,8 +25474,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -25806,15 +25537,6 @@
                 "Rect.Right": 0,
                 "Rect.Top": 0
               },
-              "ToolTip.ItemIndex": 0,
-              "ToolTip.ItemRectangle": {
-                "$type": "Aow.Rtl.Rect",
-                "Rect.Bottom": 0,
-                "Rect.Left": 0,
-                "Rect.Right": 0,
-                "Rect.Top": 0
-              },
-              "ToolTip.Showing": false,
               "ToolTip._itemHeight": 0,
               "ToolTip._items": null,
               "ToolTip._lines": null,
@@ -25898,8 +25620,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,
@@ -26056,8 +25776,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -26214,8 +25932,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -26349,8 +26065,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,
@@ -26506,8 +26220,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -26663,8 +26375,6 @@
             "WindowControl.OldCursor": -2,
             "WindowControl.ResizingX": 0,
             "WindowControl.ResizingY": 0,
-            "WindowControl.UnusedBackValue": 0,
-            "WindowControl.UnusedBackValue2": 0,
             "WindowControl.WindowCursor": -2,
             "WindowControl.WindowStyle": 0,
             "WindowControl._dockable": false,
@@ -26797,8 +26507,6 @@
               "WindowControl.OldCursor": 0,
               "WindowControl.ResizingX": 0,
               "WindowControl.ResizingY": 0,
-              "WindowControl.UnusedBackValue": 0,
-              "WindowControl.UnusedBackValue2": 0,
               "WindowControl.WindowCursor": 0,
               "WindowControl.WindowStyle": 0,
               "WindowControl._dockable": false,

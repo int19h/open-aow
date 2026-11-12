@@ -3,7 +3,6 @@ namespace Aow.Game.Combat;
 
 internal static class CombatPlacement
 {
-    internal static byte ClimbFlag { get; } = 1;
 
     internal static int CombatXLocation { get; set; }
 

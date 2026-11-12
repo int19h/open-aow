@@ -131,7 +131,6 @@ public sealed class ImageClassTests
         using var classes = new ImageFileClassList();
         classes.Add(descriptor);
         Assert.Same(descriptor, classes.FindClass(".bmp"));
-        Assert.Same(descriptor, classes.Classes[0]);
         Assert.Null(classes.FindClass("png"));
     }
 

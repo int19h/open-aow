@@ -22,7 +22,6 @@ public partial class MapLevel
         _height = height;
         _count = width * height;
         _fieldSize = type.InstanceSize;
-        FieldsSize = _fieldSize * _count;
         _fields = new MapField[_count];
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
@@ -44,7 +43,6 @@ public partial class MapLevel
     public void DestroyMapFieldList()
     {
         _fields = [];
-        FieldsSize = 0;
     }
 
     public override void Dispose()

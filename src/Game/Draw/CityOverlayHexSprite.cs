@@ -16,7 +16,6 @@ public partial class CityOverlayHexSprite : SingleHexSprite
     { }
 
     public City City { get; set; }
-    public int ModeStartFrame { get; private set; }
     public OverlayMode Mode { get; private set; }
 
     private ShellAnimationPhase _shellAnimation;
@@ -154,7 +153,6 @@ public partial class CityOverlayHexSprite : SingleHexSprite
     {
         if (mode != Mode)
         {
-            ModeStartFrame = AoWHSMap.Current.Frame;
             Mode = mode;
         }
     }

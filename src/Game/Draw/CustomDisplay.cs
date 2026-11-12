@@ -12,13 +12,10 @@ namespace Aow.Game.Draw;
 // show), _pauseCount, _mouseAboveSurface, _primaryDisplayController, _secondaryDisplayController, _activeDisplayController
 public partial class CustomDisplay : WinControl
 {
-
-    private DirectDrawFullScreenWindowControl _fullScreenWindowControl;
     private NotifyEvent<object> _onBlitSurface;
     private UpdateFrameEvent _onUpdateFrame;
     private SurfaceDataLostEvent _onSurfaceDataLost;
     private NotifyEvent<object> _onResize;
-    private ErrorEvent _onError;
     private DCNotifyEvent _onActivateDisplayController;
     private DCNotifyEvent _onDeactivateDisplayController;
     private NotifyEvent<object> _onHide;
@@ -32,8 +29,6 @@ public partial class CustomDisplay : WinControl
     private int _currentFrameRate;
 
     public int CurrentFrameRate { get => _currentFrameRate; internal set => _currentFrameRate = value; }
-
-    internal UpdateFrameThread UpdateFrameThread { get; }
     public Set<DisplayStatusElement> Status { get; private set; }
 
     private Set<OptionsElement> _options;
@@ -110,24 +105,6 @@ public partial class CustomDisplay : WinControl
         if (value >= 0)
         {
             ResizeBackSurfaces(_backSurfaceWidth, value);
-        }
-    }
-
-    // DisplayC.pas:1552
-    internal void CMWantSpecialKey(ref WMKey message)
-    {
-        if (message.CharCode == 37 || message.CharCode == 39 || message.CharCode == 38 || message.CharCode == 40)
-        {
-            message.Result = 1;
-        }
-    }
-
-    // DisplayC.pas:1560
-    internal void CMKeyUP(ref WMKey message)
-    {
-        if (message.CharCode == 37 || message.CharCode == 39 || message.CharCode == 38 || message.CharCode == 40)
-        {
-            message.Result = 0;
         }
     }
 
@@ -467,7 +444,6 @@ public partial class CustomDisplay : WinControl
 
     public new int Cursor { get => GetCursor(); set => SetCursor(value); }
     public CustomDisplayController ActiveDisplayController { get => _activeDisplayController; }
-    public DirectDrawFullScreenWindowControl FullScreenWindowControl { get => _fullScreenWindowControl; }
     protected internal Set<OptionsElement> Options { get => _options; set => _options = value; }
     protected internal BufferingScheme BufferingScheme { get => _bufferingScheme; set => SetBufferingScheme(value); }
     protected internal BackSurfaceControlMode BackSurfaceControlMode { get => _backSurfaceControlMode; set => _backSurfaceControlMode = value; }
@@ -484,7 +460,6 @@ public partial class CustomDisplay : WinControl
     protected internal UpdateFrameEvent OnUpdateFrame { get => _onUpdateFrame; set => _onUpdateFrame = value; }
     protected internal NotifyEvent<object> OnHide { get => _onHide; set => _onHide = value; }
     protected internal NotifyEvent<object> OnShow { get => _onShow; set => _onShow = value; }
-    protected internal ErrorEvent OnError { get => _onError; set => _onError = value; }
     protected internal SurfaceDataLostEvent OnSurfaceDataLost { get => _onSurfaceDataLost; set => _onSurfaceDataLost = value; }
     protected internal ResizeBackSurfaceEvent OnResizeBackSurface { get => _onResizeBackSurface; set => _onResizeBackSurface = value; }
     protected internal SwapDCEvent OnSwapDisplayController { get => _onSwapDisplayController; set => _onSwapDisplayController = value; }
@@ -510,8 +485,6 @@ public partial class CustomDisplay : WinControl
 
     public delegate void UpdateFrameEvent(object Sender, CustomDisplayController DC, int SurfaceType);
     public delegate void DCNotifyEvent(object Sender, CustomDisplayController DC);
-
-    public delegate void ErrorEvent(string ErrorStr, int Error);
     public delegate void SurfaceDataLostEvent(CustomDisplayController DC, int SurfaceType);
 
     public delegate void ResizeBackSurfaceEvent(CustomDisplayController DC, int Width, int Height);

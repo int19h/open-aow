@@ -42,7 +42,6 @@ public partial class AIMoveTargetSelector : EngineObject
     private MoveTargetList _bufferedTargets;
 
     public MoveTargetFoundEvent OnTargetFound { get; set; }
-    public int ProcessCycles { get; private set; }
 
     private SByteArray16By16 _transportMovePointTable;
     public MapCoordinate SourceLocation;
@@ -92,7 +91,6 @@ public partial class AIMoveTargetSelector : EngineObject
         _state = 0;
         Status = AIMoveTargetSelectorStatus.Idle;
         OnTargetFound = null;
-        ProcessCycles = 0;
         FillBytes(Bytes.Of(ref MovePointTable, 256), -1);
         TargetInfo = default;
         TargetInfo.Player = -1;
@@ -470,8 +468,6 @@ public partial class AIMoveTargetSelector : EngineObject
             {
                 _state = 10;
             }
-
-            ProcessCycles = 0;
             _control = control;
             Status = AIMoveTargetSelectorStatus.Searching;
             result = true;

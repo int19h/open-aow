@@ -1,18 +1,10 @@
 namespace Aow.Rtl;
 
-public class IUnknown
-{
-}
-
 public class Canvas
 {
 }
 
 public class PopupMenu
-{
-}
-
-public class Text
 {
 }
 

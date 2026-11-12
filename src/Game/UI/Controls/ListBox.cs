@@ -24,13 +24,9 @@ public partial class ListBox : Control
 
     private int _selected;
 
-    public int UnusedPosition { get; private set; }
-
     private AoWOnDrawItemEvent<ListBox> _onPreDrawItem;
     private AoWOnDrawItemEvent<ListBox> _onDrawItem;
     private int _scrollWidth;
-
-    public bool ScrollBarVisible { get; private set; }
 
     private InterfaceImageLibrary _imageLibraryFrame;
     private InterfaceImageLibrary _imageLibraryTextureNormal;
@@ -170,11 +166,8 @@ public partial class ListBox : Control
         {
             FirstShownItem = 0;
         }
-
-        ScrollBarVisible = false;
         if (_verticalScrollBar != null)
         {
-            UnusedPosition = -1;
             if (_verticalScrollBar.Window != Window)
             {
                 _verticalScrollBar.SetWindow(Window);
@@ -201,7 +194,6 @@ public partial class ListBox : Control
             _verticalScrollBar.Sized = false;
             _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
             _verticalScrollBar.WinTop = WinTop;
-            ScrollBarVisible = _verticalScrollBar.Visible;
         }
 
         base.SetSize();

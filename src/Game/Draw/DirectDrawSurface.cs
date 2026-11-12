@@ -14,10 +14,6 @@ public partial class DirectDrawSurface : Surface
     private Set<DirectDrawSurfaceCreationFlagsElement> _creationFlags;
     private Set<DirectDrawSurfaceStatusElement> _status;
 
-    protected internal int LockCount { get; }
-    protected internal int RectangleLockCount { get; }
-    protected internal LockedSurface LockedSurface { get; }
-
     // GFXE.pas:9279
     public override int GetPixelFormatId() => _pixelFormatId;
 

@@ -115,11 +115,4 @@ public partial class SfxLibrary : ENode, IChildList<SfxSequence>
         return result;
     }
 
-    public sealed class SfxSequencesAccessor(SfxLibrary target)
-    {
-        public SfxSequence this[int index] { get => target.GetSfxSequence(index); }
-    }
-
-    public SfxSequencesAccessor SfxSequences => new SfxSequencesAccessor(this);
-
 }

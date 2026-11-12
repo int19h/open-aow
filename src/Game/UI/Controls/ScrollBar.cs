@@ -46,7 +46,6 @@ public partial class ScrollBar : Control
 
     private int _numberVisible;
 
-    public int UnusedValue { get; }
     public Style ScrollType { get; private set; }
     public ScrollBarThumbStyle ThumbStyle { get; private set; }
 

@@ -72,8 +72,6 @@ public partial class AIGroupTargetSelector : AIGroupTask
 
     private int _targetLimit;
 
-    public bool AllowTransport { get; private set; }
-
     private int _validTargetLimit;
 
     public PrioritySettings Priorities { get; }
@@ -845,7 +843,6 @@ public partial class AIGroupTargetSelector : AIGroupTask
         _validTargetLimit = 5;
         PathStrengthFactor = 1;
         CurrentPathStrengthFactor = (float)0.8;
-        AllowTransport = false;
         _targetLimit = 100;
         this.Priorities.TargetFactor = 1;
         this.Priorities.ImmediateBonus = 500;

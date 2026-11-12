@@ -283,7 +283,6 @@
           "$jsonText": {
             "$type": "Aow.Game.AI.CityAIPlayerAction",
             "AIPlayerAction.Control": null,
-            "AIPlayerAction.Phase": 0,
             "AIPlayerAction._processCycles": 0,
             "CityAIPlayerAction._cityCount": 0,
             "CityAIPlayerAction._maxProductionLevel": 0,
@@ -291,7 +290,6 @@
               "$type": "Aow.Engine.Buffers.Int32Array4",
               "Int32Array4._element0": 0
             },
-            "CityAIPlayerAction.ProductionRatio": 0,
             "EngineObject._owner": null
           }
         }
@@ -316,7 +314,6 @@
           "$jsonText": {
             "$type": "Aow.Game.AI.CityAIPlayerAction",
             "AIPlayerAction.Control": null,
-            "AIPlayerAction.Phase": 0,
             "AIPlayerAction._processCycles": 0,
             "CityAIPlayerAction._cityCount": 0,
             "CityAIPlayerAction._maxProductionLevel": 0,
@@ -324,7 +321,6 @@
               "$type": "Aow.Engine.Buffers.Int32Array4",
               "Int32Array4._element0": 0
             },
-            "CityAIPlayerAction.ProductionRatio": 0,
             "EngineObject._owner": "$owner"
           }
         }
@@ -336,7 +332,6 @@
             "$jsonText": {
               "$type": "Aow.Game.AI.CityAIPlayerAction",
               "AIPlayerAction.Control": null,
-              "AIPlayerAction.Phase": 0,
               "AIPlayerAction._processCycles": 0,
               "CityAIPlayerAction._cityCount": 0,
               "CityAIPlayerAction._maxProductionLevel": 0,
@@ -344,7 +339,6 @@
                 "$type": "Aow.Engine.Buffers.Int32Array4",
                 "Int32Array4._element0": 0
               },
-              "CityAIPlayerAction.ProductionRatio": 0,
               "EngineObject._owner": "$owner"
             }
           }
@@ -438,7 +432,6 @@
               "AIMoveTargetSelector.MovePointsMax": 0,
               "AIMoveTargetSelector.MovePointsMin": 0,
               "AIMoveTargetSelector.OnTargetFound": null,
-              "AIMoveTargetSelector.ProcessCycles": 0,
               "AIMoveTargetSelector._settings": {
                 "$type": "Aow.Game.World.Movement.MoveControlSettings",
                 "EngineObject._owner": null,
@@ -680,7 +673,6 @@
               "AIMoveTargetSelector.MovePointsMax": 0,
               "AIMoveTargetSelector.MovePointsMin": 0,
               "AIMoveTargetSelector.OnTargetFound": null,
-              "AIMoveTargetSelector.ProcessCycles": 0,
               "AIMoveTargetSelector._settings": {
                 "$type": "Aow.Game.World.Movement.MoveControlSettings",
                 "EngineObject._owner": null,
@@ -1084,16 +1076,6 @@
               "Set`1.low": 0
             },
             "AIGroupWanderControl._control": null,
-            "AIGroupWanderControl.Mode": {
-              "$type": "Aow.Rtl.Set`1[[Aow.Game.AI.Groups.AIGroupWanderControl+ModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set`1.a": 0,
-              "Set`1.b": 0,
-              "Set`1.bounded": false,
-              "Set`1.c": 0,
-              "Set`1.d": 0,
-              "Set`1.high": 0,
-              "Set`1.low": 0
-            },
             "AIGroupWanderControl.MovePointsMax": 0,
             "AIGroupWanderControl._moveSettings": {
               "$type": "Aow.Game.World.Movement.MoveControlSettings",
@@ -1222,16 +1204,6 @@
               "Set`1.low": 0
             },
             "AIGroupWanderControl._control": null,
-            "AIGroupWanderControl.Mode": {
-              "$type": "Aow.Rtl.Set`1[[Aow.Game.AI.Groups.AIGroupWanderControl+ModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set`1.a": 0,
-              "Set`1.b": 0,
-              "Set`1.bounded": false,
-              "Set`1.c": 0,
-              "Set`1.d": 0,
-              "Set`1.high": 0,
-              "Set`1.low": 0
-            },
             "AIGroupWanderControl.MovePointsMax": 0,
             "AIGroupWanderControl._moveSettings": {
               "$type": "Aow.Game.World.Movement.MoveControlSettings",
@@ -1347,16 +1319,6 @@
                 "Set`1.low": 0
               },
               "AIGroupWanderControl._control": null,
-              "AIGroupWanderControl.Mode": {
-                "$type": "Aow.Rtl.Set`1[[Aow.Game.AI.Groups.AIGroupWanderControl+ModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set`1.a": 0,
-                "Set`1.b": 0,
-                "Set`1.bounded": false,
-                "Set`1.c": 0,
-                "Set`1.d": 0,
-                "Set`1.high": 0,
-                "Set`1.low": 0
-              },
               "AIGroupWanderControl.MovePointsMax": 0,
               "AIGroupWanderControl._moveSettings": null,
               "EngineObject._owner": "$owner"
@@ -1704,7 +1666,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -2126,7 +2087,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -2803,7 +2763,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -3225,7 +3184,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -3902,7 +3860,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -4324,7 +4281,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -5001,7 +4957,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -5423,7 +5378,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -6112,7 +6066,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -6545,7 +6498,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -8319,7 +8271,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -8741,7 +8692,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -11598,7 +11548,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -12020,7 +11969,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -13227,7 +13175,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -13649,7 +13596,6 @@
                 "Set`1.high": 0,
                 "Set`1.low": 0
               },
-              "AIGroupTargetSelector.AllowTransport": false,
               "AIGroupTargetSelector.BattleFieldFactor": 0,
               "AIGroupTargetSelector._battleFieldMoveFactor": 0,
               "AIGroupTargetSelector._battleFieldRadius": 0,

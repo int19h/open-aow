@@ -49,7 +49,6 @@ public partial class PlayerMagicControl : EngineObject
         ResearchPointsLeft = 0;
         ResearchSpellId = 0;
         ResearchPercentage = 50;
-        Spheres = Set<MagicSphere>.Of().WithRange(MagicSphere.Cosmos, MagicSphere.Secret);
         _nextEnchantmentId = 1;
     }
 
@@ -63,8 +62,6 @@ public partial class PlayerMagicControl : EngineObject
     public int ExternalPower;
     private ExternalPowerSource _externalPowerSource;
     public int Mana;
-
-    public Set<MagicSphere> Spheres { get; private set; }
 
     public int ResearchPercentage;
 
@@ -442,7 +439,6 @@ public partial class PlayerMagicControl : EngineObject
     {
         if ((value & Set<MagicSphere>.Of(MagicSphere.Earth, MagicSphere.Air)) != Set<MagicSphere>.Of(MagicSphere.Earth, MagicSphere.Air) && (value & Set<MagicSphere>.Of(MagicSphere.Fire, MagicSphere.Water)) != Set<MagicSphere>.Of(MagicSphere.Fire, MagicSphere.Water) && (value & Set<MagicSphere>.Of(MagicSphere.Life, MagicSphere.Death)) != Set<MagicSphere>.Of(MagicSphere.Life, MagicSphere.Death))
         {
-            Spheres = value;
         }
     }
 

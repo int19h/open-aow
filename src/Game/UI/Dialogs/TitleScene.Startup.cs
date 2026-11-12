@@ -46,7 +46,6 @@ public partial class TitleScene
     {
         _mouseX = x;
         _mouseY = y;
-        MouseButton = button;
         if (HitTest() == _pressedButton)
         {
             _selectedButton = _pressedButton;

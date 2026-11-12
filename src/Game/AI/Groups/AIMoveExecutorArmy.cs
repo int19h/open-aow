@@ -26,7 +26,6 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
     public MapCoordinate TransportDestination;
 
     public sbyte Player { get; private set; }
-    public bool Grouped { get; private set; }
 
     // AIGroup.pas:4527
     public void Setup(AIMoveExecutorUnit transporter)
@@ -39,7 +38,6 @@ public partial class AIMoveExecutorArmy : AIMoveExecutorUnitList
         _destination.Y = transporter.Destination.Y;
         _destination.MapLevel = transporter.Destination.MapLevel;
         _destination.Tag = 0;
-        Grouped = false;
         Player = transporter.Troop.Player;
         TransportStatus = transporter.TransportStatus;
         BoardingPoint = transporter.BoardingPoint;

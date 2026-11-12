@@ -357,9 +357,7 @@ public partial class AoWHSMap : GameMap
     public TokenManager TokenManager { get; set; }
     public PlayerCommunicator PlayerCommunicator { get; }
     public PlayerControl PlayerControl { get; private set; }
-    public bool UseTurnTimer { get; }
     public bool ShowUnitShadows { get; }
-    public Text TokenEventLog { get; }
     public bool TokenEventLogging { get; private set; }
 
     // AoWHSMap.PAS:1336
@@ -666,7 +664,6 @@ public partial class AoWHSMap : GameMap
         FixedLeaders = true;
         AlliedVictory = false;
         CurrentPlayer = 0;
-        UseTurnTimer = true;
         _executeEventLogBuffer = new EventLogList(null);
         DebugSave = false;
         TutorialControl = new TutorialControl(null);

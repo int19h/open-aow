@@ -509,44 +509,10 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
         return result;
     }
 
-    // Army.PAS:4501
-    public void EditDropMessage(ref DropMessage message)
-    {
-        int X = default;
-        int Y = default;
-        int L;
-        L = message.MapLevel;
-        HexGeometry.PixelToHex(message.PixelX, message.PixelY, ref X, ref Y);
-        if (!PlaceOnMap(AoWHSMap.Current, (sbyte)X, (sbyte)Y, (sbyte)L))
-        {
-            message.Result = -1;
-        }
-        else
-        {
-            message.Result = 0;
-        }
-    }
-
     private static readonly string s_itemSpellResearchedFormat = "%s researched";
     private static readonly string s_itemSpellAlreadyResearchedFormat = "%s already researched";
     private static readonly string s_itemNotUsableText = "This is not an usable item";
     private static readonly string s_itemSystemLibraryText = "System";
-
-    // { Interface declaration run owned by P2. }
-    // The editor drop message carries screen X/Y, level, and result.
-    public struct DropMessage
-    {
-        public int MessageId { get; }
-        public int Sequence { get; }
-        public EngineObject Sender { get; }
-        public Int32Array3 Param { get; }
-        public int PixelX { get; }
-        public int PixelY { get; }
-        public int MapLevel { get; }
-        public int Reserved0 { get; }
-        public int Reserved1 { get; }
-        public int Result { get; set; }
-    }
 
     // intf_P2_04.inc:84
 

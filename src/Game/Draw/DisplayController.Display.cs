@@ -13,7 +13,6 @@ public partial class DisplayController
         double target = _lastVerticalBlank + _display.FrameTime;
         clock.WaitUntil(target);
         _lastVerticalBlank = clock.ElapsedMilliseconds;
-        LastVerticalBlankTime = (int)_lastVerticalBlank;
         return 0;
     }
 

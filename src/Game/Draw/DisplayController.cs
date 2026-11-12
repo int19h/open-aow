@@ -20,9 +20,6 @@ public partial class DisplayController : CustomDisplayController
 
     private Matrix _inverseMatrix;
 
-    internal bool RealizePaletteValue { get; private set; }
-    internal int LastVerticalBlankTime { get; private set; }
-
     public DisplayController(Component owner) : base(owner)
     {
         _inverseMatrix = new Matrix(4, 4);
@@ -191,7 +188,6 @@ public partial class DisplayController : CustomDisplayController
     {
         if (_display.Status.Contains(DisplayStatusElement.FrameLoopActive))
         {
-            RealizePaletteValue = true;
         }
         else
         {

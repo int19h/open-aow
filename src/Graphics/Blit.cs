@@ -63,59 +63,9 @@ public static partial class Blit
         for (int i = 0; i < tail; i++) { byte value = source[si + offset]; destination[di + offset++] = value; }
     }
 
-    // The MMX and floating point copies align the source to 8 when the row is 31 bytes or more,
-    // move blocks of 32 bytes (all four quadwords read before the first is written, the floating
-    // point version writing them last to first), then dwords and bytes. The rows run in a
-    // do-while loop, so a zero or negative height with a short row runs until it leaves the
-    // block, which the original's order reproduces.
-    private static void CopyRows(SurfaceView s, SurfaceView d, int w, int h, bool floating)
-    {
-        if (w == 0 || (w >= 31 && h == 0)) return;
-        int head = w >= 31 ? (-s.Start) & 7 : 0;
-        int blocks = w >= 31 ? (w - head) >> 5 : 0;
-        int words = (w - head - blocks * 32) >> 2, tail = (w - head) & 3;
-        bool whole = w > 0 && h > 0;
-        bool shared = s.Memory.Overlaps(d.Memory, out int shift);
-        int y = 0;
-        do
-        {
-            int si = s.RowIndex(y), di = d.RowIndex(y);
-            if (whole && Plain(s, si, d, di, w, shared, shift)) s.Memory.Slice(si, w).CopyTo(d.Memory.Slice(di, w));
-            else CopyRow(s.Memory, si, d.Memory, di, head, blocks, words, tail, floating);
-        } while (++y != h);
-    }
-
-    private static void CopyRow(Span<byte> src, int si, Span<byte> dst, int di, int head, int blocks, int words, int tail, bool floating)
-    {
-        int offset = 0;
-        for (int i = 0; i < head; i++) { byte value = src[si + offset]; dst[di + offset++] = value; }
-        for (int i = 0; i < blocks; i++)
-        {
-            int at = si + offset, to = di + offset;
-            ulong a = UInt64(src, at), b = UInt64(src, at + 8), c = UInt64(src, at + 16), e = UInt64(src, at + 24);
-            if (floating)
-            {
-                UInt64(dst, to + 24, e); UInt64(dst, to + 16, c);
-                UInt64(dst, to + 8, b); UInt64(dst, to, a);
-            }
-            else
-            {
-                UInt64(dst, to, a); UInt64(dst, to + 8, b);
-                UInt64(dst, to + 16, c); UInt64(dst, to + 24, e);
-            }
-            offset += 32;
-        }
-        for (int i = 0; i < words; i++) { uint value = Dword(src, si + offset); Dword(dst, di + offset, value); offset += 4; }
-        for (int i = 0; i < tail; i++) { byte value = src[si + offset]; dst[di + offset++] = value; }
-    }
-
     private static ulong UInt64(Span<byte> s, int offset) => BinaryPrimitives.ReadUInt64LittleEndian(s.Slice(offset, 8));
 
     private static void UInt64(Span<byte> d, int offset, ulong value) => BinaryPrimitives.WriteUInt64LittleEndian(d.Slice(offset, 8), value);
-
-    public static void FPBltRect(SurfaceView s, SurfaceView d, int w, int h) => CopyRows(s, d, w, h, true);
-
-    public static void MMXBltRect(SurfaceView s, SurfaceView d, int w, int h) => CopyRows(s, d, w, h, false);
 
     // `rep movsd` with the bytes before and after: a row shorter than 4 bytes is copied byte by
     // byte, a longer one as the bytes that align its end, the dwords and the tail bytes. A

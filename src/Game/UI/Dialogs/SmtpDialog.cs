@@ -25,9 +25,6 @@ public partial class SmtpDialog : DataModule
     public Panel FailedPanel;
     public MailMessage MailMessage;
     public SmtpSender SmtpSender;
-    private IMSSendThread _thread;
-
-    public ExecuteDoneEvent Done { get; private set; }
 
     private SmtpEventLog _event;
     private int _progress;
@@ -58,17 +55,6 @@ public partial class SmtpDialog : DataModule
     {
         /* TODO: Implement Classes.Create in the platform or editor service. */
         throw new NotImplementedException();
-    }
-
-    // AoWSMTPDlg.pas:154
-    public void ImsThreadTerminatedEvent()
-    {
-        _event.Success = _thread.FSuccess;
-        _finished = true;
-        if (_event.Success)
-        {
-            _progress = 100;
-        }
     }
 
     // AoWSMTPDlg.pas:161
@@ -153,7 +139,6 @@ public partial class SmtpDialog : DataModule
     internal static void ShowSmtpEvent(SmtpDialog dialog, SmtpEventLog eventValue, ExecuteDoneEvent done)
     {
         dialog.ResetProgress();
-        dialog.Done = done;
         dialog._event = eventValue;
         var smtpEventLog = dialog._event;
         smtpEventLog.AddRef();

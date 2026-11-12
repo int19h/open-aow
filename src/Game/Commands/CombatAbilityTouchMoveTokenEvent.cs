@@ -38,8 +38,6 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
     private BattleEffectType _effectType;
     private bool _successful;
 
-    public int Damage { get; private set; }
-
     private CityWall _wall;
 
     // CombatTE.pas:627
@@ -200,7 +198,6 @@ public partial class CombatAbilityTouchMoveTokenEvent : CombatMoveTokenEvent
                                 {
                                     case 117:
                                         Step = TokenStep.End;
-                                        Damage = 0;
                                         RandSeed = AoWHSMap.Current.Random(16777215);
                                         var defense = _wall.GetDefense();
                                         var executeDamageRole = AbilityRules.ExecuteDamageRole(TacticalTables.s_tacticalBattleDamage[0], TacticalTables.s_tacticalBattleAttack[0] - defense);

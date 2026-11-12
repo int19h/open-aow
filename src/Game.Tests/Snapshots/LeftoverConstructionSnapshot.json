@@ -11246,16 +11246,6 @@
               "Int32List._default": 0,
               "Int32List._list": []
             },
-            "PlayerMagicControl.Spheres": {
-              "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set`1.a": 255,
-              "Set`1.b": 0,
-              "Set`1.bounded": true,
-              "Set`1.c": 0,
-              "Set`1.d": 0,
-              "Set`1.high": 8,
-              "Set`1.low": 0
-            },
             "PlayerMagicControl._updateCount": 0
           }
         }
@@ -11349,16 +11339,6 @@
               "Int32List._default": 0,
               "Int32List._list": []
             },
-            "PlayerMagicControl.Spheres": {
-              "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Set`1.a": 255,
-              "Set`1.b": 0,
-              "Set`1.bounded": true,
-              "Set`1.c": 0,
-              "Set`1.d": 0,
-              "Set`1.high": 8,
-              "Set`1.low": 0
-            },
             "PlayerMagicControl._updateCount": 0
           }
         }
@@ -11404,16 +11384,6 @@
               "PlayerMagicControl.ResearchPointsLeft": 0,
               "PlayerMagicControl.ResearchSpellId": 0,
               "PlayerMagicControl.Spells": null,
-              "PlayerMagicControl.Spheres": {
-                "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Set`1.a": 0,
-                "Set`1.b": 0,
-                "Set`1.bounded": false,
-                "Set`1.c": 0,
-                "Set`1.d": 0,
-                "Set`1.high": 0,
-                "Set`1.low": 0
-              },
               "PlayerMagicControl._updateCount": 0
             }
           }
@@ -13713,16 +13683,6 @@
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.AoWHSMap.Players.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                       },
-                      "PlayerMagicControl.Spheres": {
-                        "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "Set`1.a": 255,
-                        "Set`1.b": 0,
-                        "Set`1.bounded": true,
-                        "Set`1.c": 0,
-                        "Set`1.d": 0,
-                        "Set`1.high": 8,
-                        "Set`1.low": 0
-                      },
                       "PlayerMagicControl._updateCount": 0
                     },
                     "Player._magicUpkeep": 0,
@@ -14310,16 +14270,6 @@
                         "Int32List._count": 0,
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.AoWHSMap.Players.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
-                      },
-                      "PlayerMagicControl.Spheres": {
-                        "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "Set`1.a": 255,
-                        "Set`1.b": 0,
-                        "Set`1.bounded": true,
-                        "Set`1.c": 0,
-                        "Set`1.d": 0,
-                        "Set`1.high": 8,
-                        "Set`1.low": 0
                       },
                       "PlayerMagicControl._updateCount": 0
                     },
@@ -14909,16 +14859,6 @@
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.AoWHSMap.Players.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                       },
-                      "PlayerMagicControl.Spheres": {
-                        "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "Set`1.a": 255,
-                        "Set`1.b": 0,
-                        "Set`1.bounded": true,
-                        "Set`1.c": 0,
-                        "Set`1.d": 0,
-                        "Set`1.high": 8,
-                        "Set`1.low": 0
-                      },
                       "PlayerMagicControl._updateCount": 0
                     },
                     "Player._magicUpkeep": 0,
@@ -15346,7 +15286,6 @@
               "EventStore`1._count": 0,
               "EventStore`1._items": null
             },
-            "AoWHSMap.TokenEventLog": null,
             "AoWHSMap.TokenEventLogging": false,
             "AoWHSMap.TokenManager": {
               "$type": "Aow.Game.Net.AoWTokenManager",
@@ -15507,7 +15446,6 @@
               "EventStore`1._items": null
             },
             "AoWHSMap._updateVisibilityLockCount": 0,
-            "AoWHSMap.UseTurnTimer": true,
             "AoWHSMap.VictoryCondition": 0,
             "AoWHSMap.VictoryGold": 5000,
             "AoWHSMap.VictoryMana": 5000,
@@ -17231,16 +17169,6 @@
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.AoWHSMap.Players.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                       },
-                      "PlayerMagicControl.Spheres": {
-                        "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "Set`1.a": 255,
-                        "Set`1.b": 0,
-                        "Set`1.bounded": true,
-                        "Set`1.c": 0,
-                        "Set`1.d": 0,
-                        "Set`1.high": 8,
-                        "Set`1.low": 0
-                      },
                       "PlayerMagicControl._updateCount": 0
                     },
                     "Player._magicUpkeep": 0,
@@ -17828,16 +17756,6 @@
                         "Int32List._count": 0,
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.AoWHSMap.Players.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
-                      },
-                      "PlayerMagicControl.Spheres": {
-                        "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "Set`1.a": 255,
-                        "Set`1.b": 0,
-                        "Set`1.bounded": true,
-                        "Set`1.c": 0,
-                        "Set`1.d": 0,
-                        "Set`1.high": 8,
-                        "Set`1.low": 0
                       },
                       "PlayerMagicControl._updateCount": 0
                     },
@@ -18427,16 +18345,6 @@
                         "Int32List._default": 0,
                         "Int32List._list": "$ref:$.AoWHSMap.Players.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                       },
-                      "PlayerMagicControl.Spheres": {
-                        "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                        "Set`1.a": 255,
-                        "Set`1.b": 0,
-                        "Set`1.bounded": true,
-                        "Set`1.c": 0,
-                        "Set`1.d": 0,
-                        "Set`1.high": 8,
-                        "Set`1.low": 0
-                      },
                       "PlayerMagicControl._updateCount": 0
                     },
                     "Player._magicUpkeep": 0,
@@ -18864,7 +18772,6 @@
               "EventStore`1._count": 0,
               "EventStore`1._items": null
             },
-            "AoWHSMap.TokenEventLog": null,
             "AoWHSMap.TokenEventLogging": false,
             "AoWHSMap.TokenManager": {
               "$type": "Aow.Game.Net.AoWTokenManager",
@@ -19025,7 +18932,6 @@
               "EventStore`1._items": null
             },
             "AoWHSMap._updateVisibilityLockCount": 0,
-            "AoWHSMap.UseTurnTimer": true,
             "AoWHSMap.VictoryCondition": 0,
             "AoWHSMap.VictoryGold": 5000,
             "AoWHSMap.VictoryMana": 5000,
@@ -19414,7 +19320,6 @@
               "AoWHSMap.TargetSelection": null,
               "AoWHSMap.TextControl": null,
               "AoWHSMap._tokenControlActivatedEventsStore": null,
-              "AoWHSMap.TokenEventLog": null,
               "AoWHSMap.TokenEventLogging": false,
               "AoWHSMap.TokenManager": null,
               "AoWHSMap.TurnOrder": null,
@@ -19431,7 +19336,6 @@
               "AoWHSMap.UnlimitedMoves": false,
               "AoWHSMap._updateVisibilityEventsStore": null,
               "AoWHSMap._updateVisibilityLockCount": 0,
-              "AoWHSMap.UseTurnTimer": false,
               "AoWHSMap.VictoryCondition": 0,
               "AoWHSMap.VictoryGold": 0,
               "AoWHSMap.VictoryMana": 0,
@@ -20185,7 +20089,6 @@
             "MapLevel._count": 0,
             "MapLevel.Engine": null,
             "MapLevel._fieldSize": 0,
-            "MapLevel.FieldsSize": 0,
             "MapLevel.HexNumberOffsets": {
               "$type": "Aow.Engine.Buffers.Int32Array8By2",
               "Int32Array8By2._element0": {
@@ -20226,7 +20129,6 @@
             "MapLevel._count": 0,
             "MapLevel.Engine": null,
             "MapLevel._fieldSize": 0,
-            "MapLevel.FieldsSize": 0,
             "MapLevel.HexNumberOffsets": {
               "$type": "Aow.Engine.Buffers.Int32Array8By2",
               "Int32Array8By2._element0": {
@@ -20254,7 +20156,6 @@
               "MapLevel._count": 0,
               "MapLevel.Engine": null,
               "MapLevel._fieldSize": 0,
-              "MapLevel.FieldsSize": 0,
               "MapLevel.HexNumberOffsets": {
                 "$type": "Aow.Engine.Buffers.Int32Array8By2",
                 "Int32Array8By2._element0": {

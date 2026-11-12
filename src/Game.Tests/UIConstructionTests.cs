@@ -199,7 +199,6 @@ public sealed class UIConstructionTests
         "Aow.Game.UI.Dialogs.WorldMap",
         "Aow.Game.UI.Windows.UserWindow",
         "Aow.Game.UI.Grids.CombatMapControl",
-        "Aow.Engine.Nodes.EngineComponent",
         "Aow.Game.UI.Dialogs.FastBattleWindow",
         "Aow.Game.UI.Dialogs.UIFonts",
         "Aow.Game.World.Map.HexSpriteMapViewer",

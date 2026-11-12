@@ -38,8 +38,6 @@ public partial class TitleScene : DataModule
     private int _frame;
     private int _totalFrame;
 
-    public MouseButton MouseButton { get; private set; }
-
     private int _mouseX;
     private int _mouseY;
     private int _selectedButton;
@@ -52,8 +50,6 @@ public partial class TitleScene : DataModule
     private int _creditPage;
     private int _creditFrame;
     private bool _showIntro;
-
-    public ByteArray3 Padding { get; }
 
     private int _introFrame;
     private ImageLibraryFont _font;
@@ -628,7 +624,6 @@ public partial class TitleScene : DataModule
     {
         _mouseX = X;
         _mouseY = Y;
-        MouseButton = button;
         _pressedButton = HitTest();
     }
 

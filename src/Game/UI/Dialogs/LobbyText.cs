@@ -2,7 +2,6 @@ namespace Aow.Game.UI.Dialogs;
 
 internal static class LobbyText
 {
-    internal static string ConnectionLostText { get; } = "Connection Lost!";
 
     internal static string ChooseFactionText { get; } = "Choose a Faction";
 

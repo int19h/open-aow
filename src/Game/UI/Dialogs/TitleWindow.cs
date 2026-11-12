@@ -19,8 +19,6 @@ public partial class TitleWindow : DataModule
     public InterfaceImageLibrary DemoImages;
     private int _splashTimer;
 
-    public int SplashStage { get; private set; }
-
     // AOWTitleWindow.pas:66
     public void HideSplash()
     {
@@ -41,7 +39,6 @@ public partial class TitleWindow : DataModule
         SplashPanel.ImageLibraryIndexTexture = 0;
         SplashPanel.Visible = true;
         _splashTimer = 450;
-        SplashStage = 0;
     }
 
     // AOWTitleWindow.pas:97
@@ -49,7 +46,6 @@ public partial class TitleWindow : DataModule
     {
         InitializeSplash();
         SplashPanel.ImageLibraryIndexTexture = 2;
-        SplashStage = 10;
         _splashTimer = 300;
     }
 
@@ -134,7 +130,6 @@ public partial class TitleWindow : DataModule
     {
         ShowSplash(dialog);
         dialog.SplashPanel.ImageLibraryIndexTexture = 2;
-        dialog.SplashStage = 10;
         dialog._splashTimer = 300;
     }
 
@@ -149,7 +144,6 @@ public partial class TitleWindow : DataModule
         dialog.SplashPanel.ImageLibraryIndexTexture = 0;
         dialog.SplashPanel.Visible = true;
         dialog._splashTimer = 450;
-        dialog.SplashStage = 0;
     }
 
 }

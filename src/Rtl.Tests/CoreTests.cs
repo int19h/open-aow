@@ -155,13 +155,12 @@ public sealed class CoreTests
         var box = new PtrBox<int>(pointer);
         Assert.Equal(pointer, box.Pointer);
         Assert.Equal(pointer, Ptr<int>.Unbox((object)box));
-        IntOrRef slot = new(box);
-        Assert.Equal(pointer, Ptr<int>.Unbox(slot.Ref));
-        Ptr<int>.Unbox(slot.Ref).Value = 42;
+        object slot = box;
+        Assert.Equal(pointer, Ptr<int>.Unbox(slot));
+        Ptr<int>.Unbox(slot).Value = 42;
         Assert.Equal(42, pointer.Value);
         Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox((object?)null));
         Assert.Throws<InvalidCastException>(() => Ptr<byte>.Unbox(box));
-        Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox(((IntOrRef)3).Ref));
         string[] words = ["a", "b", "c"];
         var managed = Ptr<string>.To(words, 0);
         Ptr<string>.Copy(managed, managed + 1, 2);
@@ -170,34 +169,9 @@ public sealed class CoreTests
         Assert.Equal(new[] { "a", "z", "z" }, words);
         var cell = new SampleRecord[1];
         var recordPointer = Ptr<SampleRecord>.To(cell, 0);
-        IntOrRef payload = new(new PtrBox<SampleRecord>(recordPointer));
-        Ptr<SampleRecord>.Unbox(payload.Ref).Value.Value = 91;
+        object payload = new PtrBox<SampleRecord>(recordPointer);
+        Ptr<SampleRecord>.Unbox(payload).Value.Value = 91;
         Assert.Equal(91, cell[0].Value);
-    }
-
-    [Fact]
-    public void IntegerOrRefKeepsTagsAndIdentity()
-    {
-        IntOrRef zero = default;
-        Assert.Null(zero.Ref);
-        Assert.Equal(0, zero.Value);
-        IntOrRef number = -123;
-        Assert.Equal(-123, number.Value);
-        Assert.Null(number.As<object>());
-        var objectValue = new object();
-        IntOrRef reference = new(objectValue);
-        Assert.Same(objectValue, reference.Ref);
-        Assert.Same(objectValue, reference.As<object>());
-        Assert.Equal(RuntimeHelpers.GetHashCode(objectValue) & int.MaxValue, reference.Value);
-        string literal = "abc";
-        IntOrRef text = literal;
-        Assert.Equal(RuntimeHelpers.GetHashCode(literal), text.Value);
-        Assert.Equal("abc", text.As<string>());
-        var copy = text;
-        Assert.Equal(text.Value, copy.Value);
-        IntOrRef nil = new((object?)null);
-        Assert.Null(nil.Ref);
-        Assert.Equal(0, nil.Value);
     }
 
     private enum WideFlag : byte { Low = 0, High = 63 }

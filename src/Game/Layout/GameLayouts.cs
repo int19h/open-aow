@@ -119,7 +119,6 @@ public static class GameLayouts
         session.Load(module53, module => DialogHosts.CastUnitSpellDialog = module);
         var module54 = new DisjunctionDialog(null);
         session.Load(module54, module => DialogHosts.DisjunctionDialog = module);
-        DisjunctionDialog = module54;
         var module55 = new HeroJoinDialog(null);
         session.Load(module55, module => HeroJoinDialog = module);
         var module56 = new ResultsWindow(null);
@@ -137,7 +136,7 @@ public static class GameLayouts
         var module62 = new TitleScene(null);
         session.Load(module62, module => DialogHosts.TitleScene = module);
         var module63 = new IntroScene(null);
-        session.Load(module63, module => IntroScene = module);
+        session.Load(module63, static _ => { });
         DialogHosts.IntroScene = module63;
         var module64 = new SendEmailGameDialog(null);
         session.Load(module64, module => SendEmailGameDialog = module);
@@ -168,7 +167,6 @@ public static class GameLayouts
         session.Complete();
     }
 
-    public static IntroScene IntroScene { get; private set; }
     public static TutorialWindow TutorialWindow { get; private set; }
     public static SendEmailGameDialog SendEmailGameDialog { get; private set; }
     public static PasswordDialog PasswordDialog { get; private set; }
@@ -187,5 +185,4 @@ public static class GameLayouts
     public static NewTurnDialog NewTurnDialog { get; private set; }
     public static CombatChoice TacticalBattleFastBattleDialog { get; private set; }
     public static ArmyInfoDialog ArmyInfoDialog { get; private set; }
-    public static DisjunctionDialog DisjunctionDialog { get; private set; }
 }

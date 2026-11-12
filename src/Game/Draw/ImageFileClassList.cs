@@ -40,11 +40,4 @@ public partial class ImageFileClassList : DelphiList<ImageFileClass>
 
         return result;
     }
-
-    public sealed class ClassesAccessor(ImageFileClassList target)
-    {
-        public ImageFileClass this[int index] { get => target.GetClasses(index); }
-    }
-
-    public ClassesAccessor Classes => new ClassesAccessor(this);
 }

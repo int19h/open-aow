@@ -20,7 +20,6 @@ namespace Aow.Game.UI.Controls;
 // OnDrawItem runs)
 public partial class ComboBox : Control
 {
-    public bool MouseDownOnField { get; private set; }
 
     private bool _open;
     private StringList _items;
@@ -37,8 +36,6 @@ public partial class ComboBox : Control
     private NotifyEvent<ComboBox> _onDrawItem;
     private int _scrollBarWidth;
 
-    public bool ScrollBarVisible { get; private set; }
-
     private InterfaceImageLibrary _imageLibraryEdit;
     private InterfaceImageLibrary _imageLibraryFrame;
     private InterfaceImageLibrary _imageLibraryTextureNormal;
@@ -50,9 +47,6 @@ public partial class ComboBox : Control
     private int _ilfIndex;
     private int _imageLibraryTnIndex;
     private int _imageLibraryTsIndex;
-
-    public int DrawItem { get; private set; }
-    public Rect DrawItemRectangle { get; private set; }
 
     // AoWComboBox.pas:114
     public ComboBox(Component owner) : base(owner)
@@ -154,7 +148,6 @@ public partial class ComboBox : Control
             _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
             var imageLibraryEditHeight = _imageLibraryEdit[0];
             _verticalScrollBar.WinTop = imageLibraryEditHeight.Height + WinTop;
-            ScrollBarVisible = _verticalScrollBar.Visible;
         }
 
         base.SetSize();
@@ -269,15 +262,12 @@ public partial class ComboBox : Control
                             {
                                 _font.Color = Color;
                             }
-
-                            DrawItem = _firstShownItem + I;
                             var imageLibraryEdit3 = _imageLibraryEdit[_ileIndex + 1];
                             var imageLibraryFrame6 = _imageLibraryFrame[_ilfIndex + 1];
                             var imageLibraryEdit4 = _imageLibraryEdit[_ileIndex + 1];
                             var imageLibraryFrame7 = _imageLibraryFrame[_ilfIndex + 1];
                             var imageLibraryFrame8 = _imageLibraryFrame[_ilfIndex + 3];
                             var imageLibraryFrame9 = _imageLibraryFrame[_ilfIndex + 3];
-                            DrawItemRectangle = new Rect(Window.WinLeft + WinLeft + imageLibraryFrame9.Width, Window.WinTop + WinTop + imageLibraryEdit4.Height + imageLibraryFrame7.Height + _itemHeight * I, Window.WinLeft + WinLeft + imageLibraryFrame8.Width + WinWidth, Window.WinTop + WinTop + imageLibraryEdit3.Height + imageLibraryFrame6.Height + (I + 1) * _itemHeight);
                             if (_onDrawItem != null)
                             {
                                 _onDrawItem(this);
@@ -320,7 +310,6 @@ public partial class ComboBox : Control
             if (button == MouseButton.Left)
             {
                 MouseDown = true;
-                MouseDownOnField = true;
                 if (Valid == true && Visible == true)
                 {
                     if (_open)
@@ -367,7 +356,6 @@ public partial class ComboBox : Control
 
                         Drawn = false;
                         _scrollBarWidth = _imageLibraryFrame[_ilfIndex + 4].Width;
-                        ScrollBarVisible = false;
                         if (_verticalScrollBar != null && _openListRows > 0)
                         {
                             if (Priority + 1 != _verticalScrollBar.Priority)
@@ -391,8 +379,6 @@ public partial class ComboBox : Control
                             {
                                 _scrollBarWidth = _verticalScrollBar.WinWidth;
                             }
-
-                            ScrollBarVisible = _verticalScrollBar.Visible;
                             _verticalScrollBar.Sized = false;
                             _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
                             var imageLibraryEdit = _imageLibraryEdit[_ileIndex];
@@ -473,7 +459,6 @@ public partial class ComboBox : Control
         int I = default;
         Handled = false;
         MouseDown = false;
-        MouseDownOnField = false;
         Redraw = false;
         bool condition = X > Window.WinLeft + WinLeft - 1 && X < Window.WinLeft + WinLeft + WinWidth && Y > Window.WinTop + WinTop - 1;
         if (condition)

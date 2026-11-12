@@ -133,6 +133,4 @@ internal static class AlignmentTables
 
     internal static Set<Alignment> PureEvilAlignments { get; } = Set<Alignment>.FromMask(112UL);
 
-    internal static string NoneText { get; } = "None";
-
 }

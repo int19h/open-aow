@@ -10,7 +10,6 @@ public partial class Memo
     {
         Handled = false;
         MouseDown = false;
-        UnusedMouseUpValue = 0;
         bool old = Redraw;
         Redraw = false;
         if (_editable && _items.Count == 0)
