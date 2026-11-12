@@ -189,8 +189,9 @@ when the codec was missing.
 5. The directories the game uses: `Release\` (`RELEASE.HSS`, `GENERAL.PFS`), `Scenario\Custom\`,
    `Scenario\Campaign\`, `TCMaps`, `Save\` (saves and autosaves, user layer), `User\` (`.ahl` hero
    and `.ail` item lists, user layer), `EmailIn\` and `EmailOut\` (play by e-mail, user layer),
-   `Images\`, `Int\`, `Dict\`, `Sfx\`, `Songs\`, `DEBUG\` (sync logs when enabled, user layer),
-   `PLUGINS` (section 9). `.hsm` maps and `.hss` sets are listed by a recursive scan
+   `Images\`, `Int\`, `Dict\`, `Sfx\`, `Songs\`, `DEBUG\` (sync logs when enabled, user layer).
+   The port does not scan the original's `PLUGINS` directory (section 9). `.hsm` maps and `.hss`
+   sets are listed by a recursive scan
    (`HSEngine.pas:4968`) that reads each candidate's header, so every `.hsm` under the scenario
    directories is found regardless of name.
 6. Mobile later: the root layer is a zip the user supplies (`../design.md`), read through the same
@@ -253,10 +254,16 @@ result comparisons. The headless host answers the default button and logs.
 Plug-ins. `LoadExternalPlugIns(StartupDirectory + 'PLUGINS')` scans for `.DPL` packages and loads
 them with `LoadPackage`. The shipped game has no `PLUGINS` directory, and `AbilityP.dpl` in the game
 root is loaded by neither executable (`data/initialization-order.json` lists 21 statically loaded
-packages, AbilityP not among them). The port's `LoadExternalPlugIns` scans and finds nothing; the
-`Plugin` (Delphi `TPlugIn`) registry stays as transpiled engine code with the one built-in plug-in
-(`AbilityPlugin` (Delphi `TAbilityPlugIn`) created by `AoWEngine` (Delphi `TAoWEngine`)), and `AbilityP` and `Adcpack` are outside the transpile
-set. Code mods (`../design.md` section 6) get their own entry point later.
+packages, AbilityP not among them). Native Delphi packages never load in the port, so it has no
+package loader (#199): the startup scan of `PLUGINS`, `LoadExternalPlugIns`, the matching unload and
+the package list are gone. The `Plugin` (Delphi `TPlugIn`) registry stays as engine code with the one
+built-in plug-in, `AbilityPlugin` (Delphi `TAbilityPlugIn`, named "Abilities") created by
+`GameTables` at startup. `PluginControl` (Delphi `TPlugInControl`, slot 7 of a scenario set) keeps
+reading and writing the names of the plug-ins a set uses, initializes and finalizes them per engine,
+and raises `PluginMissingException` for a name that no registered plug-in has, as the original did
+for a set that names a package the install lacks. `AbilityP` and `Adcpack` are outside the transpile
+set. External plug-ins wait for the mod specification, which decides what replaces them (code mods,
+`../design.md` section 6, data mods, or both) and how stored plug-in names map onto its modules.
 
 Networking. The engine's transport hook is small: `RemotePlayerCommunicationControl.OnSendData(Data, Size, SystemID)` sends
 a package and `ReceiveDataPackage` takes one in; `aowSetupEvents` wires both to `GDPlay` (Delphi `TGDPlay`)

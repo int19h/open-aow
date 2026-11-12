@@ -50,13 +50,11 @@ public sealed partial class EngineFixture
                     if (!field.IsLiteral && !field.IsInitOnly) _globals.Add(field, field.GetValue(null));
                 }
             Directory.CreateDirectory(_root);
-            foreach (string directory in new[] { "IMAGES", "SFX", "PLUGINS", "Dict" }) Directory.CreateDirectory(Path.Combine(_root, directory));
+            foreach (string directory in new[] { "IMAGES", "SFX", "Dict" }) Directory.CreateDirectory(Path.Combine(_root, directory));
             if (fault == "dictionary") File.WriteAllBytes(Path.Combine(_root, "Dict", "ResStr.mld"), [0]);
-            if (fault == "plugin") File.WriteAllBytes(Path.Combine(_root, "PLUGINS", "X.DPL"), []);
             _files.SetCurrentDirectory(_root);
             EngineHost.Engines = new List<GameEngine>();
             EngineHost.Plugins = new List<Engine.Plugin>();
-            EngineHost.Packages = new StringList();
             EngineHost.VerifyEngineObjectEnabled = true;
             GameTables.GameEngine = null!;
             AoWHSSet.Current = null!;
@@ -160,7 +158,7 @@ public sealed partial class EngineFixture
                 partial.Dictionary?.Dispose();
                 partial.EmailGames?.Dispose();
             }
-            EngineHost.Engines?.Clear(); EngineHost.Plugins?.Clear(); EngineHost.Packages?.Dispose();
+            EngineHost.Engines?.Clear(); EngineHost.Plugins?.Clear();
             foreach (var pair in _globals) pair.Key.SetValue(null, pair.Value);
             LocalizationRuntime.StartupDirectory = _previousLocalization;
             RestoreServices();

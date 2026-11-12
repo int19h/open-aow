@@ -143,7 +143,6 @@ public partial class GameEngine : ENode
         AbilityRules.TemporaryDebugChannel = RegisterDebugId("TMP");
         MagicDebugChannel = RegisterDebugId("MAGIC");
         Editors.RegisterClass(EditorClass.Of<MapObjectEditor>());
-        LoadExternalPlugIns(StartupDirectory + "PLUGINS");
         EmailGames.Load();
         _fullInstance = true;
     }
@@ -766,22 +765,6 @@ public partial class GameEngine : ENode
         spells.UnregisterSpellId(7);
         spells.UnregisterSpellId(4);
         spells.UnregisterSpellId(9);
-    }
-
-    internal static void InitializePlugins(GameEngine engine)
-    {
-        for (int I = 0, last = EngineHost.Plugins.Count - 1; I <= last; I++)
-        {
-            (EngineHost.Plugins[I]).Initialize(engine);
-        }
-    }
-
-    internal static void FinalizePlugins(GameEngine engine)
-    {
-        for (int I = 0, last = EngineHost.Plugins.Count - 1; I <= last; I++)
-        {
-            (EngineHost.Plugins[I]).Finalize(engine);
-        }
     }
 
     internal static GameEngine CopyEngine { get; }
