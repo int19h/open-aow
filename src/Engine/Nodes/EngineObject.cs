@@ -103,8 +103,8 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
     }
 
     /// <summary>
-    /// A class that stores through MainReadWrite or ReadWriteChildren needs the same MainPersist.
-    /// A class that stores through ReadWrite needs its own PersistFields.
+    /// A class that stores through MainReadWrite needs the same MainPersist, through
+    /// ReadWriteChildren the same PersistChildren, and through ReadWrite its own PersistFields.
     /// The name is the class that is missing it. Null means the closure can use the tree.
     /// </summary>
     public static string TreePersistenceRefusal(Type type)
@@ -112,17 +112,16 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         const BindingFlags Declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
         for (var current = type; current is not null && current != typeof(object); current = current.BaseType)
         {
-            bool image = current.GetMethod(nameof(MainReadWrite), Declared) is not null
-                || current.GetMethod("ReadWriteChildren", Declared) is not null;
-            bool tree = current.GetMethod(nameof(MainPersist), Declared) is not null;
-            if (image && !tree)
-                return "Class " + current.Name + " overrides MainReadWrite or ReadWriteChildren and has no MainPersist.";
-            bool fields = current.GetMethod(nameof(ReadWrite), Declared) is not null;
-            bool persisted = current.GetMethod(nameof(PersistFields), Declared) is not null;
-            if (fields && !persisted)
+            if (Declares(current, nameof(MainReadWrite)) && !Declares(current, nameof(MainPersist)))
+                return "Class " + current.Name + " overrides MainReadWrite and has no MainPersist.";
+            if (Declares(current, nameof(ECustomNode.ReadWriteChildren)) && !Declares(current, nameof(ECustomNode.PersistChildren)))
+                return "Class " + current.Name + " overrides ReadWriteChildren and has no PersistChildren.";
+            if (Declares(current, nameof(ReadWrite)) && !Declares(current, nameof(PersistFields)))
                 return "Class " + current.Name + " overrides ReadWrite and has no PersistFields.";
         }
         return null;
+
+        static bool Declares(Type declaring, string name) => declaring.GetMethod(name, Declared) is not null;
     }
 
     public virtual void MainPersist(IPersister persister)

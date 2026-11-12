@@ -125,11 +125,18 @@ public partial class ItemControl : EngineObject
     }
 
     // ReadWrite reads ids 10 and on until the first absent or nil item, and writes the items
-    // that have no owner at ids 10 and on. The slot is the id less 10.
+    // that have no owner at ids 10 and on. The slot is the id less 10. A preview reads and writes
+    // no item and leaves a stored one unread.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         _lastId = persister.Int32("LastID", _lastId);
+        if (persister.Preview)
+        {
+            persister.Skip("Items");
+            return;
+        }
+
         if (persister.Loading)
         {
             int slot = 0;

@@ -70,6 +70,7 @@ public partial class CustomAbilityList : EngineObject
         if (persister.Loading) SetAbilityCount(count);
         int length = (int)(((uint)(AbilityCount + 7)) >> 3);
         persister.BitArray("AbilityCount", AbilityCount, AbilityBits.AsSpan(0, length));
+        if (persister.Preview) return;
         for (int index = 0; index < AbilityCount; index++)
         {
             if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl.GetAbility(index) == null)

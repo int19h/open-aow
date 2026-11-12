@@ -1,5 +1,6 @@
 // Translated from Engine.pas.
 using Aow.Engine.Storage;
+using Aow.Formats.Tree;
 
 namespace Aow.Engine.Nodes;
 
@@ -137,6 +138,11 @@ public partial class ESortNode : ECustomNode
 
     // Engine.pas:1565
     public override void ReadWrite(StorageStream stream)
+    {
+        throw new NotSupportedException("Read/Write not supported (TESortNode)");
+    }
+
+    public override void PersistFields(IPersister persister)
     {
         throw new NotSupportedException("Read/Write not supported (TESortNode)");
     }

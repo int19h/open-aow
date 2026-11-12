@@ -28,7 +28,8 @@ public sealed class PersistCorpusTests
     // behavior groups are absent from those files. Items prove the bit array of
     // TCustomAbilityList, the ability-id list and the keyed ability data, item controls the keyed
     // items, the relation and tutorial lists the byte and integer lists with a stored default, and
-    // race resources the unit index lists.
+    // race resources the unit index lists, diplomatic action lists the reference children of
+    // EReferenceNode.
     // Class id 80 is shared with TEObject, so a created object is not named TAbilityList.
     // TSetupSettings is not a member of a map, campaign, hero list or save. Storm and animation
     // sprites are absent from these files.
@@ -37,6 +38,7 @@ public sealed class PersistCorpusTests
         "GuardAIGroup", "PassiveAIGroup", "FortifyAIGroup", "NormalAIGroup", "SkirmishAIGroup",
         "AIBudgetManager", "ResourceEditSettings", "GlobalMagicControl",
         "Item", "ItemControl", "PlayerDiplomaticRelations", "TutorialControl", "RaceResource",
+        "DiplomaticActionList",
     ];
 
     private static readonly string[] s_watched =
@@ -51,6 +53,7 @@ public sealed class PersistCorpusTests
         "Item", "ItemControl", "PlayerDiplomaticRelations", "TutorialControl",
         "CommandAbilityData", "CommandedAbilityData", "PossessedAbilityData", "ItemExplorationSiteEventLog",
         "RaceResource", "AIPlayerControl", "AbilityControl", "SpellControl",
+        "DiplomaticActionList", "PlayerList", "EResourceList",
     ];
 
     private readonly ITestOutputHelper _output;

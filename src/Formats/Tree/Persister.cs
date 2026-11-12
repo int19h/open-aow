@@ -105,6 +105,12 @@ public interface IPersister
 {
     bool Loading { get; }
 
+    /// <summary>
+    /// True when the load or save is a preview (Delphi <c>smPreview</c>, set by the partial storage
+    /// reader and writer). A serializer skips the work <c>ReadWrite</c> skips on a preview.
+    /// </summary>
+    bool Preview { get; }
+
     IPersistableFactory Factory { get; }
 
     /// <summary>True on load when the member is present. False on save.</summary>

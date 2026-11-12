@@ -1,6 +1,6 @@
 // Translated from Engine.pas.
 using Aow.Engine.Storage;
-
+using Aow.Formats.Tree;
 using Aow.Rtl;
 
 using static Aow.Rtl.RtlUnit;
@@ -34,6 +34,12 @@ public partial class EControlStyleNode : ENode
     {
         base.ReadWrite(stream);
         TransferSet(ref _controlStyle, 1, 2, stream.Bytes, 0);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        _controlStyle = persister.Set("ControlStyle", value: _controlStyle);
     }
 
 }
