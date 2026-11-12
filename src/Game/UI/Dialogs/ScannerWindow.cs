@@ -6,9 +6,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class ScannerWindow : DataModule
+public partial class ScannerWindow : UIModule
 {
-    public ScannerWindow(Component owner) : base(owner)
+    public ScannerWindow(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -48,11 +48,11 @@ public partial class ScannerWindow : DataModule
         Scanner.SetArmies(ArmyCheckBox.Checked);
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -62,11 +62,11 @@ public partial class ScannerWindow : DataModule
         Scanner.SetBuildings(BuildingCheckBox.Checked);
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -76,11 +76,11 @@ public partial class ScannerWindow : DataModule
         Scanner.SetNaturals(NaturalCheckBox.Checked);
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -94,33 +94,33 @@ public partial class ScannerWindow : DataModule
     // AoWSWindow.pas:88
     public void SMinIconClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
     }
 
     // AoWSWindow.pas:94
     public void ScannerChangeTileBox()
     {
-        DialogHosts.MapWindow.MapViewer.SceneX = (DialogHosts.ScannerWindow.Scanner.TLeft + 6) * 33;
-        DialogHosts.MapWindow.MapViewer.SceneY = (DialogHosts.ScannerWindow.Scanner.TTop + 6) * 33;
+        UI.MapWindow.MapViewer.SceneX = (UI.ScannerWindow.Scanner.TLeft + 6) * 33;
+        UI.MapWindow.MapViewer.SceneY = (UI.ScannerWindow.Scanner.TTop + 6) * 33;
         if (StrategicMap.Current.SeatedPlayer != -1)
         {
-            DialogHosts.ScannerWindow.Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
-            DialogHosts.ScannerWindow.Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);
-            DialogHosts.ScannerWindow.Scanner.SetTLeft(DialogHosts.MapWindow.MapViewer.SceneX / 32 - 6);
-            DialogHosts.ScannerWindow.Scanner.SetTTop(DialogHosts.MapWindow.MapViewer.SceneY / 32 - 6);
+            UI.ScannerWindow.Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
+            UI.ScannerWindow.Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);
+            UI.ScannerWindow.Scanner.SetTLeft(UI.MapWindow.MapViewer.SceneX / 32 - 6);
+            UI.ScannerWindow.Scanner.SetTTop(UI.MapWindow.MapViewer.SceneY / 32 - 6);
         }
     }
 
     // AoWSWindow.pas:107
     public void ScannerTabMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWSWindow.pas:110
     public void HelpClick()
     {
-        HelpWindow.ShowHelp(501);
+        UI.HelpWindow.ShowHelp(501);
     }
 }

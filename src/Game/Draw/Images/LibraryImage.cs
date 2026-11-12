@@ -570,9 +570,6 @@ public partial class LibraryImage : Persistent, ILibraryImageClass
     // ImageLib.pas:1903
     public virtual bool SupportGrabPixelFormat(int pixelFormatId) => false;
 
-    // ImageLib.pas:1908
-    public virtual Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
-
     // ImageLib.pas:1914
     public virtual bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo) => false;
 

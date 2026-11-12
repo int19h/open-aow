@@ -9,9 +9,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, retained event
-public partial class TutorialWindow : DataModule
+public partial class TutorialWindow : UIModule
 {
-    public TutorialWindow(Component owner) : base(owner)
+    public TutorialWindow(UIContext ui) : base(ui)
     { }
 
     public Window Window;

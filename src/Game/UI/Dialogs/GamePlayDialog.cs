@@ -14,9 +14,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // pending password
-public partial class GamePlayDialog : DataModule
+public partial class GamePlayDialog : UIModule
 {
-    public GamePlayDialog(Component owner) : base(owner)
+    public GamePlayDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -75,12 +75,12 @@ public partial class GamePlayDialog : DataModule
         }
         else
         {
-            MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
-            DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+            MessageDialog.ResetMessageDialog(UI.MessageDialog);
+            UI.MessageDialog.MessageMemo.Items.Add("");
             var confirmationFailed = AbilityRules.TranslateResourceString(s_confirmationFailedText);
-            DialogHosts.MessageDialog.MessageMemo.Items.Add(confirmationFailed);
-            DialogHosts.MessageDialog.OKPanel.Visible = true;
-            DialogHosts.MessageDialog.Window.Visible = true;
+            UI.MessageDialog.MessageMemo.Items.Add(confirmationFailed);
+            UI.MessageDialog.OKPanel.Visible = true;
+            UI.MessageDialog.Window.Visible = true;
         }
     }
 
@@ -157,7 +157,7 @@ public partial class GamePlayDialog : DataModule
     {
         string error = "";
         Set<WindowPopupEvent> events;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Settings != PasswordEdit.Text)
         {
             if (StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
@@ -168,12 +168,12 @@ public partial class GamePlayDialog : DataModule
             {
                 if (!StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref error))
                 {
-                    MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
-                    DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+                    MessageDialog.ResetMessageDialog(UI.MessageDialog);
+                    UI.MessageDialog.MessageMemo.Items.Add("");
                     var couldNotChangePassword = AbilityRules.TranslateResourceString(s_couldNotChangePasswordText);
-                    DialogHosts.MessageDialog.MessageMemo.Items.Add(couldNotChangePassword);
-                    DialogHosts.MessageDialog.OKPanel.Visible = true;
-                    DialogHosts.MessageDialog.Window.Visible = true;
+                    UI.MessageDialog.MessageMemo.Items.Add(couldNotChangePassword);
+                    UI.MessageDialog.OKPanel.Visible = true;
+                    UI.MessageDialog.Window.Visible = true;
                 }
             }
         }
@@ -273,7 +273,7 @@ public partial class GamePlayDialog : DataModule
     // AoWGamePlayDlg.pas:194
     public void CancelClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 

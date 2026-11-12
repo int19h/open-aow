@@ -17,9 +17,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // completion callback. army event. frame. visible unit indices
-public partial class ArmyEventDialog : DataModule
+public partial class ArmyEventDialog : UIModule
 {
-    public ArmyEventDialog(Component owner) : base(owner)
+    public ArmyEventDialog(UIContext ui) : base(ui)
     { }
 
     public Window ArmyEventWindow;
@@ -119,7 +119,7 @@ public partial class ArmyEventDialog : DataModule
         ArmyEventLog eventValue;
         ExecuteDoneEvent notify;
         int resource = default;
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
         for (int I = 0, last = _units.Count - 1; I <= last; I++)
         {
             var unit = _units[I];
@@ -160,7 +160,7 @@ public partial class ArmyEventDialog : DataModule
     // AoWArmyEventDlg.pas:181
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         ArmyEventWindow.Visible = false;
     }
 

@@ -127,9 +127,6 @@ public partial class BitMask : LibraryImage, ILibraryImageClass
     // ImageLib.pas:4746
     public override Images.GrabInfo CreateGrabInfo() => new GrabInfo();
 
-    // ImageLib.pas:4751
-    public override Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
-
     // ImageLib.pas:4759
     // { GrabImage sets a bit for every pixel that differs from the transparent pixel value. With an
     //   inverse grab info no bit is added at all (an original bug: the mask stays empty). }

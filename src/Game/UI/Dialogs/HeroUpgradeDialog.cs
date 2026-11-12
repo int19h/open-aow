@@ -18,9 +18,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // close callback, referenced hero, list sort orders, live hero, editable copy
-public partial class HeroUpgradeDialog : DataModule
+public partial class HeroUpgradeDialog : UIModule
 {
-    public HeroUpgradeDialog(Component owner) : base(owner)
+    public HeroUpgradeDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -264,7 +264,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:302
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -284,7 +284,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:323
     public void AttUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         _editedHero.SetUnitAttack((sbyte)(_editedHero.UnitAttack + 1));
         RefreshStatistics();
     }
@@ -292,7 +292,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:330
     public void AttDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_editedHero.UnitAttack != _hero.UnitAttack)
         {
             _editedHero.SetUnitAttack((sbyte)(_editedHero.UnitAttack - 1));
@@ -304,7 +304,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:338
     public void DefUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         _editedHero.SetUnitDefense((sbyte)(_editedHero.UnitDefense + 1));
         RefreshStatistics();
     }
@@ -312,7 +312,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:345
     public void DefDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_editedHero.UnitDefense != _hero.UnitDefense)
         {
             _editedHero.SetUnitDefense((sbyte)(_editedHero.UnitDefense - 1));
@@ -324,7 +324,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:353
     public void DamUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         _editedHero.SetUnitDamage((sbyte)(_editedHero.UnitDamage + 1));
         RefreshStatistics();
     }
@@ -332,7 +332,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:360
     public void DamDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_editedHero.UnitDamage != _hero.UnitDamage)
         {
             _editedHero.SetUnitDamage((sbyte)(_editedHero.UnitDamage - 1));
@@ -344,7 +344,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:368
     public void ResUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         _editedHero.SetUnitResistance((sbyte)(_editedHero.UnitResistance + 1));
         RefreshStatistics();
     }
@@ -352,7 +352,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:375
     public void ResDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_editedHero.UnitResistance != _hero.UnitResistance)
         {
             _editedHero.SetUnitResistance((sbyte)(_editedHero.UnitResistance - 1));
@@ -364,7 +364,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:383
     public void HitUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         _editedHero.SetUnitHits((sbyte)(_editedHero.UnitHits + 1));
         RefreshStatistics();
     }
@@ -372,7 +372,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:390
     public void HitDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_editedHero.UnitHits != _hero.UnitHits)
         {
             _editedHero.SetUnitHits((sbyte)(_editedHero.UnitHits - 1));
@@ -384,7 +384,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:398
     public void MovUpClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         _editedHero.SetUnitMoves((sbyte)(_editedHero.UnitMoves + 1));
         RefreshStatistics();
     }
@@ -392,7 +392,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:405
     public void MovDnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_editedHero.UnitMoves != _hero.UnitMoves)
         {
             _editedHero.SetUnitMoves((sbyte)(_editedHero.UnitMoves - 1));
@@ -445,7 +445,7 @@ public partial class HeroUpgradeDialog : DataModule
         ListBox list;
         int index;
         int abilityId;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         list = AvailableAbilitiesList;
         index = list.Selected;
         if (index != -1)
@@ -466,7 +466,7 @@ public partial class HeroUpgradeDialog : DataModule
         ListBox list;
         int index;
         int abilityId;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         list = SelectedAbilitiesList;
         index = list.Selected;
         if (index != -1)
@@ -489,7 +489,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:485
     public void SelectedAbilitiesSortClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_selectedSort == 0)
         {
             _selectedSort = 1;
@@ -505,7 +505,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:493
     public void SelectedAbilitiesCostSortClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_selectedSort == 2)
         {
             _selectedSort = 3;
@@ -521,7 +521,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:501
     public void AvailableAbilitiesSortClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_availableSort == 0)
         {
             _availableSort = 1;
@@ -537,7 +537,7 @@ public partial class HeroUpgradeDialog : DataModule
     // AoWHeroUpgradeDlg.pas:509
     public void AvailableAbilityCostSortClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_availableSort == 2)
         {
             _availableSort = 3;
@@ -591,7 +591,7 @@ public partial class HeroUpgradeDialog : DataModule
             if (ability != null)
             {
                 var name = ability.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, ability.Description);
+                InfoBanner.SetInfoBanner(UI.InfoBanner, name, ability.Description);
             }
         }
     }
@@ -607,7 +607,7 @@ public partial class HeroUpgradeDialog : DataModule
             if (ability != null)
             {
                 var name = ability.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, ability.Description);
+                InfoBanner.SetInfoBanner(UI.InfoBanner, name, ability.Description);
             }
         }
     }

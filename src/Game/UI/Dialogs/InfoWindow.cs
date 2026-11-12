@@ -14,9 +14,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // item bag
-public partial class InfoWindow : DataModule
+public partial class InfoWindow : UIModule
 {
-    public InfoWindow(Component owner) : base(owner)
+    public InfoWindow(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -92,16 +92,16 @@ public partial class InfoWindow : DataModule
     // AoWInfoWin.pas:146
     public void MinClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
     }
 
     // AoWInfoWin.pas:152
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
-        DialogHosts.TaskBar.StructureButton.Visible = false;
+        UI.TaskBar.StructureButton.Visible = false;
     }
 
     // AoWInfoWin.pas:159
@@ -117,7 +117,7 @@ public partial class InfoWindow : DataModule
     // AoWInfoWin.pas:165
     public void CenterClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (ItemBag != null)
         {
             var itemHexSprite = ItemBag;
@@ -131,12 +131,12 @@ public partial class InfoWindow : DataModule
         }
         else
         {
-            var hexY = DialogHosts.General.Structure.HexY;
-            var hexX = DialogHosts.General.Structure.HexX;
-            StrategicMap.Current.CenterViewTo(hexX, hexY, DialogHosts.General.Structure.HexLevel);
-            var fStructureHexY = DialogHosts.General.Structure.HexY;
-            var fStructureHexX = DialogHosts.General.Structure.HexX;
-            StrategicMap.Current.PlayCenterAnimation(fStructureHexX, fStructureHexY, DialogHosts.General.Structure.HexLevel);
+            var hexY = UI.General.Structure.HexY;
+            var hexX = UI.General.Structure.HexX;
+            StrategicMap.Current.CenterViewTo(hexX, hexY, UI.General.Structure.HexLevel);
+            var fStructureHexY = UI.General.Structure.HexY;
+            var fStructureHexX = UI.General.Structure.HexX;
+            StrategicMap.Current.PlayCenterAnimation(fStructureHexX, fStructureHexY, UI.General.Structure.HexLevel);
         }
     }
 
@@ -144,12 +144,12 @@ public partial class InfoWindow : DataModule
     public void RazeBtnClick()
     {
         string reason = "";
-        DialogHosts.General.PlayButtonSound(0);
-        if (DialogHosts.General.Structure != null)
+        UI.General.PlayButtonSound(0);
+        if (UI.General.Structure != null)
         {
-            if (DialogHosts.General.Structure.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
+            if (UI.General.Structure.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
             {
-                DialogHosts.General.Structure.Raze(StrategicMap.Current.SeatedPlayer);
+                UI.General.Structure.Raze(StrategicMap.Current.SeatedPlayer);
             }
             else
             {
@@ -162,10 +162,10 @@ public partial class InfoWindow : DataModule
     public void MainBtnClick()
     {
         ArmyHexSprite army;
-        DialogHosts.General.PlayButtonSound(0);
-        if (DialogHosts.General.Structure != null)
+        UI.General.PlayButtonSound(0);
+        if (UI.General.Structure != null)
         {
-            var structure = DialogHosts.General.Structure;
+            var structure = UI.General.Structure;
             if (StructureButtons.TryGet(structure.InfoButton(StrategicMap.Current.SeatedPlayer), out var open))
             {
                 open(this, structure);
@@ -181,9 +181,9 @@ public partial class InfoWindow : DataModule
                     if (army.Army.Hero(255, RosterTables.AllHeroTypes) != null)
                     {
                         var hero = army.Army.Hero(255, RosterTables.AllHeroTypes);
-                        DialogHosts.General.SelectedUnit = hero;
-                        DialogHosts.UnitWindow.ShowUnit();
-                        DialogHosts.UnitWindow.UnitTabs.Selected = 2;
+                        UI.General.SelectedUnit = hero;
+                        UI.UnitWindow.ShowUnit();
+                        UI.UnitWindow.UnitTabs.Selected = 2;
                     }
                 }
             }
@@ -206,7 +206,7 @@ public partial class InfoWindow : DataModule
     // AoWInfoWin.pas:233
     public void HelpClick()
     {
-        HelpWindow.ShowHelp(504);
+        UI.HelpWindow.ShowHelp(504);
     }
 
     // AoWInfoWin.pas:236
@@ -289,7 +289,7 @@ public partial class InfoWindow : DataModule
     {
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
-        DialogHosts.General.Sign = structure;
+        dialog.UI.General.Sign = structure;
         dialog.SignPanel.Visible = true;
         dialog.SignTextMemo.Items.Assign(structure.Text);
     }
@@ -299,7 +299,7 @@ public partial class InfoWindow : DataModule
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.SingleButtonPanel.Visible = true;
-        var description = DialogHosts.General.Structure.GetDescription();
+        var description = dialog.UI.General.Structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
         dialog.SingleButtonMemo.Sized = false;
         var canTeleport = structure.CanTeleport(StrategicMap.Current.SeatedPlayer);
@@ -372,7 +372,7 @@ public partial class InfoWindow : DataModule
         MapEvents.ResetStructureInfo(dialog);
         SetStructureHeader(dialog, structure);
         dialog.ExplorationSitePanel.Visible = true;
-        var description = DialogHosts.General.Structure.GetDescription();
+        var description = dialog.UI.General.Structure.GetDescription();
         dialog.ExplorationSiteMemo.Items.Assign(description);
         var status = AbilityRules.TranslateResourceString(CityScreen.StatusText);
         dialog.ExplorationSiteLabel.Text = status + ":";
@@ -387,7 +387,7 @@ public partial class InfoWindow : DataModule
             dialog.ExplorationSiteStatusLabel.Text = unexplored;
         }
 
-        var canSearch = ((ExplorationSite)DialogHosts.General.Structure).CanSearch(StrategicMap.Current.SeatedPlayer);
+        var canSearch = ((ExplorationSite)dialog.UI.General.Structure).CanSearch(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canSearch;
         var search = AbilityRules.TranslateResourceString(GameText.SearchText);
         dialog.MainButton.Text = search;
@@ -445,13 +445,13 @@ public partial class InfoWindow : DataModule
         var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
         dialog.MainButton.Text = enter;
         dialog.MainButton.Visible = true;
-        DialogHosts.General.City = structure;
+        dialog.UI.General.City = structure;
         dialog.CityPanel.Visible = true;
         dialog.ProductionWarningLabel.Visible = false;
         dialog.ActiveCityActionMemo.Items.Clear();
-        var name = DialogHosts.General.City.GetName();
+        var name = dialog.UI.General.City.GetName();
         dialog.StructureNameLabel.Text = name;
-        var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[DialogHosts.General.City.Race]);
+        var raceNames = AbilityRules.TranslateResourceString(GameTables.RaceNames[dialog.UI.General.City.Race]);
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.RaceFormat), [raceNames]);
         dialog.CityRaceLabel.Text = format;
         dialog.CityLevelLabel.Text = IntToStr(structure.UpgradeLevel);
@@ -508,9 +508,9 @@ public partial class InfoWindow : DataModule
         var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
         dialog.MainButton.Text = enter;
         dialog.MainButton.Visible = true;
-        DialogHosts.General.ProductionPlace = (ProductionPlace)DialogHosts.General.Structure;
+        dialog.UI.General.ProductionPlace = (ProductionPlace)dialog.UI.General.Structure;
         dialog.ProductionPlacePanel.Visible = true;
-        DialogHosts.General.ProductionControl = DialogHosts.General.ProductionPlace.ProductionControl;
+        dialog.UI.General.ProductionControl = dialog.UI.General.ProductionPlace.ProductionControl;
         dialog.CurrentActivityWarningLabel.Visible = false;
         dialog.ActiveActionMemo.Items.Clear();
         dialog.IncomeLabel.Visible = true;

@@ -13,9 +13,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // sound quality, sound settings (rate, music, DirectSound, window, Sfx, voices)
-public partial class SoundDialog : DataModule
+public partial class SoundDialog : UIModule
 {
-    public SoundDialog(Component owner) : base(owner)
+    public SoundDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -45,7 +45,7 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:108
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -64,7 +64,7 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:124
     public void RemoveBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         AudioHost.SongPlayer.Songs.Delete(PlayList.Selected);
         if (AudioHost.SongPlayer.CurrentIndex == -1)
         {
@@ -126,7 +126,7 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:165
     public void PlayBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         PlayList.Drawn = false;
         AudioHost.SongPlayer.Play(PlayList.Selected);
     }
@@ -184,7 +184,7 @@ public partial class SoundDialog : DataModule
     // AoWSoundDlg.pas:211
     public void AddBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         var songFile = s_songFiles[SongList.Selected];
         AudioHost.SongPlayer.Songs.Add(songFile);
         SoundSetup();
@@ -226,11 +226,11 @@ public partial class SoundDialog : DataModule
 
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -256,11 +256,11 @@ public partial class SoundDialog : DataModule
 
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -286,11 +286,11 @@ public partial class SoundDialog : DataModule
 
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -316,11 +316,11 @@ public partial class SoundDialog : DataModule
 
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -329,7 +329,7 @@ public partial class SoundDialog : DataModule
     {
         if (AudioHost.SongPlayer.CurrentIndex == index)
         {
-            DialogHosts.UIGraphics.SoundWindow[2].ShowClipped(R.Left, R.Top, lockedSurface);
+            UI.Graphics.SoundWindow[2].ShowClipped(R.Left, R.Top, lockedSurface);
         }
     }
 
@@ -345,11 +345,11 @@ public partial class SoundDialog : DataModule
 
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -360,11 +360,11 @@ public partial class SoundDialog : DataModule
         SetSfxEnabled(Settings.SfxEnabled);
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
@@ -379,18 +379,18 @@ public partial class SoundDialog : DataModule
 
         if (sender.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
     }
 
     // AoWSoundDlg.pas:347
     public void SoundTabChange()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWSoundDlg.pas:352

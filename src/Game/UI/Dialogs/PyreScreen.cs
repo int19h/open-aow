@@ -19,9 +19,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // game-over event, animation frame
-public partial class PyreScreen : DataModule
+public partial class PyreScreen : UIModule
 {
-    public PyreScreen(Component owner) : base(owner)
+    public PyreScreen(UIContext ui) : base(ui)
     { }
 
     public Panel DeadPanel;
@@ -60,9 +60,9 @@ public partial class PyreScreen : DataModule
     public void FinishScreen()
     {
         ClearFire();
-        DialogHosts.UIGraphics.PyreFrames.ReleaseDiscardableImageData();
-        DialogHosts.PyreScreen.DeadPanel.Visible = false;
-        ShowResults(DialogHosts.ResultsWindow);
+        UI.Graphics.PyreFrames.ReleaseDiscardableImageData();
+        UI.PyreScreen.DeadPanel.Visible = false;
+        ShowResults(UI.ResultsWindow);
     }
 
     // AOWPyreScrn.pas:127
@@ -74,7 +74,7 @@ public partial class PyreScreen : DataModule
         Done = done;
         SavedSongStatus = AudioPlayback.BackupSongStatus();
         AudioPlayback.FadeMusicVolume(0, 1);
-        DialogHosts.General.Manager.OverlayPriority = 249;
+        UI.General.Manager.OverlayPriority = 249;
         switch (StrategicMap.Current.Players.GetPlayers(eventValue._player).GameOverStatus)
         {
             case GameOverStatus.Lost:
@@ -86,13 +86,13 @@ public partial class PyreScreen : DataModule
                 break;
         }
 
-        DialogHosts.UIGraphics.PyreFrames.LoadDiscardableImageData();
-        DialogHosts.TitleWindow.TitlePanel.Visible = false;
-        DialogHosts.PyreScreen.DeadPanel.Visible = true;
-        DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
-        DialogHosts.VideoDialog.ApplyMode();
-        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        UI.Graphics.PyreFrames.LoadDiscardableImageData();
+        UI.TitleWindow.TitlePanel.Visible = false;
+        UI.PyreScreen.DeadPanel.Visible = true;
+        UI.VideoDialog.SetSceneSize(640, 480);
+        VideoDialog.SetVideoMode(UI.VideoDialog, VideoDialog.ScreenMode.Title);
+        UI.VideoDialog.ApplyMode();
+        UI.TitleWindow.MainWindow.Visible = true;
         SetCurrentDir(ExtractFileDir(RtlUnit.Application.ExeName));
     }
 
@@ -163,14 +163,14 @@ public partial class PyreScreen : DataModule
                     frame = 0;
                 }
 
-                DialogHosts.UIGraphics.PyreFrames[frame].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop + PyreAnimationView.WinTop, lockedSurface);
+                UI.Graphics.PyreFrames[frame].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop + PyreAnimationView.WinTop, lockedSurface);
                 text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + AbilityRules.TranslateResourceString(s_yourReignHasEndedText);
-                DialogHosts.UIFonts.Age15BlackOnBrown.SetTextCentered(X, Y, text, lockedSurface);
+                UI.Fonts.Age15BlackOnBrown.SetTextCentered(X, Y, text, lockedSurface);
                 break;
             case GameOverStatus.Won:
-                DialogHosts.UIGraphics.VictoryFrames[0].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop, lockedSurface);
+                UI.Graphics.VictoryFrames[0].Show(DeadPanel.WinLeft + PyreAnimationView.WinLeft, DeadPanel.WinTop, lockedSurface);
                 text = StrategicMap.Current.Players.GetPlayers(GameOverEvent._player).GetNameWithRace() + ", " + AbilityRules.TranslateResourceString(s_youWereVictoriousText);
-                DialogHosts.UIFonts.Age15WhiteOnGrey.SetTextCentered(X, Y, text, lockedSurface);
+                UI.Fonts.Age15WhiteOnGrey.SetTextCentered(X, Y, text, lockedSurface);
                 break;
         }
     }
@@ -207,7 +207,7 @@ public partial class PyreScreen : DataModule
         }
 
         AudioPlayback.SetMusicVolume(0);
-        AudioPlayback.FadeMusicVolume(DialogHosts.SoundDialog.MusicVolumeSlider.Position, 1);
+        AudioPlayback.FadeMusicVolume(window.UI.SoundDialog.MusicVolumeSlider.Position, 1);
         window.Players.Clear();
         for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
@@ -237,7 +237,7 @@ public partial class PyreScreen : DataModule
             window.ExitButton.Visible = false;
         }
 
-        DialogHosts.ResultsWindow.ResultsPanel.Visible = true;
+        window.UI.ResultsWindow.ResultsPanel.Visible = true;
     }
 
     internal static void ClearPyre(PyreScreen dialog)

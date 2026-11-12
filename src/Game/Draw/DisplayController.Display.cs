@@ -16,7 +16,5 @@ public partial class DisplayController
         return 0;
     }
 
-    public virtual int Handle() => 0;
-    public virtual WinControl OutputWindow() => _display;
     public virtual void ShowError(string message) => RtlUnit.ShowMessage(message);
 }

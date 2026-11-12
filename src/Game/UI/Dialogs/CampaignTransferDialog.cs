@@ -14,9 +14,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // hero scroll. unit scroll. item scroll. left selection kind/index. right selection kind/index
-public partial class CampaignTransferDialog : DataModule
+public partial class CampaignTransferDialog : UIModule
 {
-    public CampaignTransferDialog(Component owner) : base(owner)
+    public CampaignTransferDialog(UIContext ui) : base(ui)
     { }
 
     public CheckBox AvailableHero1CheckBox;
@@ -167,9 +167,9 @@ public partial class CampaignTransferDialog : DataModule
     {
         Book.Visible = false;
         AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
-        var campaign = DialogHosts.WorldMap.GetCampaign();
+        var campaign = UI.WorldMap.GetCampaign();
         campaign.State += 1;
-        DialogHosts.WorldMap.UpdateCampaignState();
+        UI.WorldMap.UpdateCampaignState();
     }
 
     // AoWCampaignTransferDlg.pas:181
@@ -178,8 +178,8 @@ public partial class CampaignTransferDialog : DataModule
         Book.Visible = false;
         GameTables.GameEngine.Campaign.ResetNextScenario();
         AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
-        DialogHosts.WorldMap.GetCampaign().State = 1;
-        DialogHosts.WorldMap.UpdateCampaignState();
+        UI.WorldMap.GetCampaign().State = 1;
+        UI.WorldMap.UpdateCampaignState();
     }
 
     // AoWCampaignTransferDlg.pas:190
@@ -362,18 +362,18 @@ public partial class CampaignTransferDialog : DataModule
             R.Left -= 1;
             if (S.SelectedHeroes.IndexOf(_leftHero + slot) != -1)
             {
-                DialogHosts.UIGraphics.CityWindow[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
+                UI.Graphics.CityWindow[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
             }
 
             if (sender.Lit)
             {
-                DialogHosts.UIGraphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
             }
 
-            DialogHosts.UIGraphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
-            DialogHosts.UIFonts.Age8.Color = 16777215;
+            UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+            UI.Fonts.Age8.Color = 16777215;
             var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-            DialogHosts.UIFonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+            UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
         }
     }
 
@@ -398,13 +398,13 @@ public partial class CampaignTransferDialog : DataModule
                 R.Left -= 1;
                 if (sender.Lit)
                 {
-                    DialogHosts.UIGraphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                    UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
                 }
 
-                DialogHosts.UIGraphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
-                DialogHosts.UIFonts.Age8.Color = 16777215;
+                UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+                UI.Fonts.Age8.Color = 16777215;
                 var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                DialogHosts.UIFonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
             }
         }
     }
@@ -426,7 +426,7 @@ public partial class CampaignTransferDialog : DataModule
                 var checkBox = sender;
                 R = new Rect(AvailableUnitPanel.WinLeft + checkBox.WinLeft + 1, AvailableUnitPanel.WinTop + checkBox.WinTop + 2, AvailableUnitPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, AvailableUnitPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-                DialogHosts.UIGraphics.CityWindow[4].Show(R.Left + 1, R.Top, lockedSurface);
+                UI.Graphics.CityWindow[4].Show(R.Left + 1, R.Top, lockedSurface);
                 info.Direction = 3;
                 info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
                 info.Animation = UnitAnimation.StandStill;
@@ -435,18 +435,18 @@ public partial class CampaignTransferDialog : DataModule
                 objectValue.Show(R.Left - 8, R.Top, lockedSurface, info);
                 if (S.SelectedUnits.IndexOf(_leftUnit + slot) != -1)
                 {
-                    DialogHosts.UIGraphics.CityWindow[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
+                    UI.Graphics.CityWindow[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
                 }
 
                 if (sender.Lit)
                 {
-                    DialogHosts.UIGraphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                    UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
                 }
 
-                DialogHosts.UIGraphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
-                DialogHosts.UIFonts.Age8.Color = 16777215;
+                UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+                UI.Fonts.Age8.Color = 16777215;
                 var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                DialogHosts.UIFonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
             }
         }
     }
@@ -468,7 +468,7 @@ public partial class CampaignTransferDialog : DataModule
                 var checkBox = sender;
                 R = new Rect(TransferUnitPanel.WinLeft + checkBox.WinLeft + 1, TransferUnitPanel.WinTop + checkBox.WinTop + 2, TransferUnitPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 2, TransferUnitPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-                DialogHosts.UIGraphics.CityWindow[4].Show(R.Left + 1, R.Top, lockedSurface);
+                UI.Graphics.CityWindow[4].Show(R.Left + 1, R.Top, lockedSurface);
                 info.Direction = 3;
                 info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.Rank);
                 info.Animation = UnitAnimation.StandStill;
@@ -477,13 +477,13 @@ public partial class CampaignTransferDialog : DataModule
                 objectValue.Show(R.Left - 8, R.Top, lockedSurface, info);
                 if (sender.Lit)
                 {
-                    DialogHosts.UIGraphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                    UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
                 }
 
-                DialogHosts.UIGraphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
-                DialogHosts.UIFonts.Age8.Color = 16777215;
+                UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+                UI.Fonts.Age8.Color = 16777215;
                 var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                DialogHosts.UIFonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
             }
         }
     }
@@ -501,22 +501,22 @@ public partial class CampaignTransferDialog : DataModule
             var checkBox = sender;
             R = new Rect(AvailableItemPanel.WinLeft + checkBox.WinLeft + 2, AvailableItemPanel.WinTop + checkBox.WinTop + 2, AvailableItemPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, AvailableItemPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-            DialogHosts.UIGraphics.CityWindow[4].Show(R.Left, R.Top, lockedSurface);
+            UI.Graphics.CityWindow[4].Show(R.Left, R.Top, lockedSurface);
             objectValue.Show(R.Left + 5, R.Top + 10, lockedSurface);
             if (S.SelectedItems.IndexOf(_leftItem + slot) != -1)
             {
-                DialogHosts.UIGraphics.CityWindow[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
+                UI.Graphics.CityWindow[5].ShowBlended(R.Left, R.Top, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[65]);
             }
 
             if (sender.Lit)
             {
-                DialogHosts.UIGraphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
             }
 
-            DialogHosts.UIGraphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
-            DialogHosts.UIFonts.Age8.Color = 16777215;
+            UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+            UI.Fonts.Age8.Color = 16777215;
             var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-            DialogHosts.UIFonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+            UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
         }
     }
 
@@ -536,17 +536,17 @@ public partial class CampaignTransferDialog : DataModule
                 var checkBox = sender;
                 R = new Rect(TransferItemPanel.WinLeft + checkBox.WinLeft + 2, TransferItemPanel.WinTop + checkBox.WinTop + 2, TransferItemPanel.WinLeft + checkBox.WinLeft + checkBox.WinWidth - 4, TransferItemPanel.WinTop + checkBox.WinTop + checkBox.WinHeight - 2);
 
-                DialogHosts.UIGraphics.CityWindow[4].Show(R.Left, R.Top, lockedSurface);
+                UI.Graphics.CityWindow[4].Show(R.Left, R.Top, lockedSurface);
                 objectValue.Show(R.Left + 5, R.Top + 10, lockedSurface);
                 if (sender.Lit)
                 {
-                    DialogHosts.UIGraphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
+                    UI.Graphics.CampaignTransfer[20].ShowBlended(R.Left - 1, R.Top - 2, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[50]);
                 }
 
-                DialogHosts.UIGraphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
-                DialogHosts.UIFonts.Age8.Color = 16777215;
+                UI.Graphics.CampaignTransfer[31].Show(R.Left + 10, R.Top + 55, lockedSurface);
+                UI.Fonts.Age8.Color = 16777215;
                 var campaignTransferPoints = objectValue.GetCampaignTransferPoints();
-                DialogHosts.UIFonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(R.Left + 24, R.Top + 56, IntToStr(campaignTransferPoints), lockedSurface);
             }
         }
     }

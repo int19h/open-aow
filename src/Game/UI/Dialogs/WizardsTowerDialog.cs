@@ -16,9 +16,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // completion callback. tower-entry event
-public partial class WizardsTowerDialog : DataModule
+public partial class WizardsTowerDialog : UIModule
 {
-    public WizardsTowerDialog(Component owner) : base(owner)
+    public WizardsTowerDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -56,7 +56,7 @@ public partial class WizardsTowerDialog : DataModule
     // AoWWizardsTowerDlg.pas:67
     public void CancelBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -64,7 +64,7 @@ public partial class WizardsTowerDialog : DataModule
     public void BuyBtnClick()
     {
         string reason = "";
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (!_event.Tower.Buy(StrategicMap.Current.SeatedPlayer, out reason))
         {
             StrategicMap.Current.ShowWarning(reason);

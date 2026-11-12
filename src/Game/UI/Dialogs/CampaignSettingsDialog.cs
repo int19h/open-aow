@@ -11,9 +11,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CampaignSettingsDialog : DataModule
+public partial class CampaignSettingsDialog : UIModule
 {
-    public CampaignSettingsDialog(Component owner) : base(owner)
+    public CampaignSettingsDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;

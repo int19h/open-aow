@@ -21,9 +21,9 @@ namespace Aow.Game.UI.Dialogs;
 
 // mode, page kind, spell type, spells, page, hero, activation, researched spell, callback,
 // event, saved player pages
-public partial class SpellBook : DataModule
+public partial class SpellBook : UIModule
 {
-    public SpellBook(Component owner) : base(owner)
+    public SpellBook(UIContext ui) : base(ui)
     { }
 
     public Label LeftHeaderLabel;
@@ -169,9 +169,9 @@ public partial class SpellBook : DataModule
             eventValue.Release();
         }
 
-        DialogHosts.General.Manager.OverlayPriority = 0;
-        DialogHosts.General.Manager.DrawOverlay = true;
-        DialogHosts.MagicWindow.Window.Drawn = false;
+        UI.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.DrawOverlay = true;
+        UI.MagicWindow.Window.Drawn = false;
     }
 
     // AoWSpellBook.pas:405
@@ -966,12 +966,12 @@ public partial class SpellBook : DataModule
     // AoWSpellBook.pas:214
     public void CancelClick()
     {
-        if (StrategicMap.Current.CombatMap != null && DialogHosts.General.CombatUnit != null)
+        if (StrategicMap.Current.CombatMap != null && UI.General.CombatUnit != null)
         {
-            DialogHosts.General.CombatUnit.SelectAbility(-1);
+            UI.General.CombatUnit.SelectAbility(-1);
         }
 
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Book.Visible = false;
     }
 
@@ -1093,7 +1093,7 @@ public partial class SpellBook : DataModule
     public void CastingBtnClick()
     {
         string reason = "";
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (ValidateHero())
         {
             switch (Mode)
@@ -1119,7 +1119,7 @@ public partial class SpellBook : DataModule
     // AoWSpellBook.pas:309
     public void CancelCastingBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (ValidateHero())
         {
             _hero.CancelCasting();
@@ -1177,7 +1177,7 @@ public partial class SpellBook : DataModule
     public void CancelResearchBtnClick()
     {
         PlayerMagicControl control;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (ValidateHero())
         {
             control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
@@ -1195,7 +1195,7 @@ public partial class SpellBook : DataModule
     // AoWSpellBook.pas:363
     public void Sel1Click()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWSpellBook.pas:366
@@ -1221,9 +1221,9 @@ public partial class SpellBook : DataModule
     {
         if (key == 27)
         {
-            if (StrategicMap.Current.CombatMap != null && DialogHosts.General.CombatUnit != null)
+            if (StrategicMap.Current.CombatMap != null && UI.General.CombatUnit != null)
             {
-                DialogHosts.General.CombatUnit.SelectAbility(-1);
+                UI.General.CombatUnit.SelectAbility(-1);
             }
 
             Book.Visible = false;
@@ -1233,7 +1233,7 @@ public partial class SpellBook : DataModule
     // AoWSpellBook.pas:385. The host surfaces reside in system memory.
     public void ShowBook()
     {
-        DialogHosts.General.Manager.OverlayPriority = 49;
+        UI.General.Manager.OverlayPriority = 49;
         Book.Visible = true;
     }
 

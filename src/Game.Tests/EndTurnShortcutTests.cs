@@ -77,9 +77,9 @@ public sealed class EndTurnShortcutTests
     {
         private readonly StrategicMap _previousMap = StrategicMap.Current;
         private readonly CombatMap _previousCombat = CombatMap.Current;
-        private readonly TaskBar _previousWindow = DialogHosts.TaskBar;
         private CombatMap? _combat;
 
+        internal UIContext UI { get; } = new();
         internal StrategicMap Map { get; }
         internal MapWindow Window { get; }
         internal TurnButton Button { get; }
@@ -101,19 +101,18 @@ public sealed class EndTurnShortcutTests
             Map.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
             playerCommunicationControl.Release();
             Map.TokenManager.Initialize(Map.PlayerCommunicator);
-            Window = new MapWindow(null!);
+            Window = new MapWindow(UI);
             Window.MainWindow = new Window(null!);
             Window.MainWindow.SetVisibleWithoutUpdate(true);
             Window.MainWindow.OnKeyDown += Window.MapWindowKeyDown;
             Window.MapViewer = new HexSpriteMapViewer(null!);
-            TaskBar bar = new TaskBar(null!);
+            TaskBar bar = UI.Add(new TaskBar(UI));
             Button = new TurnButton(null!);
             bar.WorldTurnButton = Button;
             Button.OnChange += _ => bar.TurnButtonChange();
-            DialogHosts.TaskBar = bar;
         }
 
-        private TaskBar Bar => DialogHosts.TaskBar;
+        private TaskBar Bar => UI.TaskBar;
 
         public void Press(ushort key)
         {
@@ -157,7 +156,6 @@ public sealed class EndTurnShortcutTests
             Window.Dispose();
             Button.Dispose();
             Bar.Dispose();
-            DialogHosts.TaskBar = _previousWindow;
             StrategicMap.Current = _previousMap;
             Map.Dispose();
         }

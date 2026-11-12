@@ -263,9 +263,6 @@ public partial class RleSprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:3073
     public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB24 || pixelFormatId == PixelFormats.pfPAL8;
 
-    // ImageLib.pas:3079
-    public override Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
-
     // ImageLib.pas:3090
     // The sprites take their transparent color from TGrabInfo (declared Reserved in the core),
     // not from TransparentColor (+4, the color GetSurfaceRectangles separates the images with).

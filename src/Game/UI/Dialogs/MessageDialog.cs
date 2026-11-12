@@ -10,9 +10,9 @@ using Aow.Rtl.Localize;
 namespace Aow.Game.UI.Dialogs;
 
 // completion event, retained message event
-public partial class MessageDialog : DataModule
+public partial class MessageDialog : UIModule
 {
-    public MessageDialog(Component owner) : base(owner)
+    public MessageDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -106,14 +106,14 @@ public partial class MessageDialog : DataModule
         }
     }
 
-    internal static void ShowDemoMessage()
+    internal void ShowDemoMessage()
     {
-        ResetMessageDialog(DialogHosts.MessageDialog);
-        DialogHosts.MessageDialog.MessageMemo.Items.Add("");
+        ResetMessageDialog(UI.MessageDialog);
+        UI.MessageDialog.MessageMemo.Items.Add("");
         var demoVersionMessage = AbilityRules.TranslateResourceString(GameText.DemoVersionMessageText);
-        DialogHosts.MessageDialog.MessageMemo.Items.Add(demoVersionMessage);
-        DialogHosts.MessageDialog.OKPanel.Visible = true;
-        DialogHosts.MessageDialog.Window.Visible = true;
+        UI.MessageDialog.MessageMemo.Items.Add(demoVersionMessage);
+        UI.MessageDialog.OKPanel.Visible = true;
+        UI.MessageDialog.Window.Visible = true;
     }
 
     internal static void ResetMessageDialog(MessageDialog dialog)

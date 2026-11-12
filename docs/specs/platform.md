@@ -39,8 +39,10 @@ as read on 2026-10-25. Section 7 gained the replacement primitive and the file l
 ## 2. Startup and the main form
 
 `AoW.dpr` (`ui-layout.md` 4.1) is transcribed as `Program.Main`: set the title, create the 77 data
-modules in order, create the main form, run. `MainForm` (Delphi `TMainForm`) is the host object. Its handlers are
-transcribed, with the Windows parts replaced:
+modules in order, create the main form, run. `MainForm` (Delphi `TMainForm`) is the host object. It
+owns the UI context (`MainForm.UI`) that holds the 77 modules (issue 196), creates it before the
+modules load and disposes it last on exit. Its handlers are transcribed, with the Windows parts
+replaced:
 
 | handler | what it does | host replacement |
 |---|---|---|

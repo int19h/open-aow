@@ -116,7 +116,6 @@ public sealed class FileDialogSortTests
         var previousDirectories = FileDialogWindow.Directories;
         var previousFiles = FileDialogWindow.Files;
         var previousDrives = FileDialogWindow.Drives;
-        var previousWindow = DialogHosts.FileDialogWindow;
         FileDialogWindow? dialog = null;
         try
         {
@@ -156,7 +155,6 @@ public sealed class FileDialogSortTests
             FileDialogWindow.Directories = previousDirectories;
             FileDialogWindow.Files = previousFiles;
             FileDialogWindow.Drives = previousDrives;
-            DialogHosts.FileDialogWindow = previousWindow;
             if (Directory.Exists(directory)) Directory.Delete(directory, true);
         }
     }
@@ -183,7 +181,8 @@ public sealed class FileDialogSortTests
 
     private static FileDialogWindow Dialog()
     {
-        var dialog = new FileDialogWindow(null);
+        var ui = new UIContext();
+        var dialog = ui.Add(new FileDialogWindow(ui));
         dialog.Mode = 0;
         dialog.FileList = new ListBox<FileTime>(null);
         dialog.SaveList = new ListBox<FileTime>(null);

@@ -24,29 +24,15 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
     public sealed class Host : IDisposable
     {
         private readonly Action<string> _previousMessage = Runtime.MessageHandler;
-        private readonly UIGraphics? _previousGraphics = DialogHosts.UIGraphics;
-        private readonly UIFonts? _previousFont = DialogHosts.UIFonts;
-        private readonly General? _previousGeneral = DialogHosts.General;
-        private readonly TitleWindow? _previousTitle = DialogHosts.TitleWindow;
-        private readonly SpellBook? _previousSpell = DialogHosts.SpellBook;
-        private readonly WorldMap? _previousWorld = DialogHosts.WorldMap;
-        private readonly FileDialogWindow? _previousFiles = DialogHosts.FileDialogWindow;
-        private readonly RealmWindow? _previousRealm = DialogHosts.RealmWindow;
-        private readonly UnitBanner? _previousBanner = DialogHosts.UnitBanner;
         private readonly StringList? _previousDirectories = FileDialogWindow.Directories;
         private readonly StringList<FileTime>? _previousFileList = FileDialogWindow.Files;
         private readonly StringList? _previousDrives = FileDialogWindow.Drives;
 
+        internal UIContext UI { get; } = new();
         internal SpellBook Spell { get; } = null!;
         internal WorldMap World { get; } = null!;
         internal FileDialogWindow Files { get; } = null!;
         internal RealmWindow Realm { get; } = null!;
-
-        private readonly UIGraphics _graphics = null!;
-        private readonly UIFonts _font = null!;
-        private readonly General _general = null!;
-        private readonly TitleWindow _title = null!;
-        private readonly UnitBanner _banner = null!;
 
         public Host()
         {
@@ -54,15 +40,15 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             try
             {
                 var session = new LayoutSession();
-                _graphics = Load(session, new UIGraphics(null), module => DialogHosts.UIGraphics = module);
-                _font = Load(session, new UIFonts(null), module => DialogHosts.UIFonts = module);
-                _general = Load(session, new General(null), module => DialogHosts.General = module);
-                _title = Load(session, new TitleWindow(null), module => DialogHosts.TitleWindow = module);
-                _banner = Load(session, new UnitBanner(null), module => DialogHosts.UnitBanner = module);
-                Spell = Load(session, new SpellBook(null), module => DialogHosts.SpellBook = module);
-                World = Load(session, new WorldMap(null), module => DialogHosts.WorldMap = module);
-                Files = Load(session, new FileDialogWindow(null), module => DialogHosts.FileDialogWindow = module);
-                Realm = Load(session, new RealmWindow(null), module => DialogHosts.RealmWindow = module);
+                UI.Load(session, module: new UIGraphics());
+                UI.Load(session, module: new UIFonts());
+                UI.Load(session, module: new General(UI));
+                UI.Load(session, module: new TitleWindow(UI));
+                UI.Load(session, module: new UnitBanner(UI));
+                Spell = UI.Load(session, module: new SpellBook(UI));
+                World = UI.Load(session, module: new WorldMap(UI));
+                Files = UI.Load(session, module: new FileDialogWindow(UI));
+                Realm = UI.Load(session, module: new RealmWindow(UI));
             }
             catch
             {
@@ -75,38 +61,21 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
             }
         }
 
-        // Load destroys a module whose layout throws, so the field is set only after Load returns.
-        private static T Load<T>(LayoutSession session, T module, Action<T?> publish) where T : Component, ILayoutModule
-        {
-            session.Load(module, publish);
-            return module;
-        }
-
         public void Dispose()
         {
             try
             {
-                Spell?.Dispose();
-                World?.Dispose();
-                Files?.Dispose();
-                Realm?.Dispose();
-                _title?.Dispose();
-                _banner?.Dispose();
-                _general?.Dispose();
-                _font?.Dispose();
-                _graphics?.Dispose();
+                UI.SpellBook?.Dispose();
+                UI.WorldMap?.Dispose();
+                UI.FileDialogWindow?.Dispose();
+                UI.RealmWindow?.Dispose();
+                UI.TitleWindow?.Dispose();
+                UI.UnitBanner?.Dispose();
+                UI.General?.Dispose();
+                UI.Dispose();
             }
             finally
             {
-                DialogHosts.UIGraphics = _previousGraphics;
-                DialogHosts.UIFonts = _previousFont;
-                DialogHosts.General = _previousGeneral;
-                DialogHosts.TitleWindow = _previousTitle;
-                DialogHosts.SpellBook = _previousSpell;
-                DialogHosts.WorldMap = _previousWorld;
-                DialogHosts.FileDialogWindow = _previousFiles;
-                DialogHosts.RealmWindow = _previousRealm;
-                DialogHosts.UnitBanner = _previousBanner;
                 FileDialogWindow.Directories = _previousDirectories;
                 FileDialogWindow.Files = _previousFileList;
                 FileDialogWindow.Drives = _previousDrives;
@@ -121,7 +90,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         _host.World.Book.SetVisibleWithoutUpdate(false);
         _host.Files.Window.SetVisibleWithoutUpdate(false);
         _host.Realm.Window.SetVisibleWithoutUpdate(false);
-        DialogHosts.TitleWindow.MainWindow.SetVisibleWithoutUpdate(false);
+        _host.UI.TitleWindow.MainWindow.SetVisibleWithoutUpdate(false);
         window.SetVisibleWithoutUpdate(true);
     }
 
@@ -144,9 +113,9 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         int y = book.Book.WinTop + 200;
         Set<ShiftState> shift = default;
 
-        Assert.True(DialogHosts.General.Manager.CheckMouseWheel(-5, shift, x, y));
+        Assert.True(_host.UI.General.Manager.CheckMouseWheel(-5, shift, x, y));
         Assert.Equal(1, book.Page);
-        Assert.True(DialogHosts.General.Manager.CheckMouseWheel(-1, shift, x, y));
+        Assert.True(_host.UI.General.Manager.CheckMouseWheel(-1, shift, x, y));
         Assert.Equal(2, book.Page);
         book.NextButton.SetVisibleWithoutUpdate(false);
         Assert.False(book.Book.CheckMouseWheel(-1, shift, x, y));

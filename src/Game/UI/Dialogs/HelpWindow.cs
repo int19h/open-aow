@@ -8,9 +8,9 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, help event
-public partial class HelpWindow : DataModule
+public partial class HelpWindow : UIModule
 {
-    public HelpWindow(Component owner) : base(owner)
+    public HelpWindow(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -101,37 +101,37 @@ public partial class HelpWindow : DataModule
         this.MainWindow.Alignment.AlignWidth = AlignWidth.Left;
     }
 
-    internal static void ShowHelp(int helpId)
+    internal void ShowHelp(int helpId)
     {
         StringList lines;
-        if (DialogHosts.HelpWindow.MainWindow.Visible)
+        if (UI.HelpWindow.MainWindow.Visible)
         {
-            DialogHosts.HelpWindow.FinishDialog();
+            UI.HelpWindow.FinishDialog();
         }
 
         lines = new StringList();
         GamePack.Current.TextControl.RetrieveText(helpId, lines);
-        DialogHosts.HelpWindow.HelpScrollBar.Position = 0;
-        DialogHosts.HelpWindow.HeaderMemo.Items.Clear();
+        UI.HelpWindow.HelpScrollBar.Position = 0;
+        UI.HelpWindow.HeaderMemo.Items.Clear();
         if (lines.Count > 0)
         {
             var line = lines[0];
-            DialogHosts.HelpWindow.HeaderMemo.Items.Add(line);
+            UI.HelpWindow.HeaderMemo.Items.Add(line);
         }
 
-        DialogHosts.HelpWindow.HelpMemo.Items.Clear();
-        DialogHosts.HelpWindow.HelpMemo.Items.AddStrings(lines);
-        if (DialogHosts.HelpWindow.HelpMemo.Items.Count > 0)
+        UI.HelpWindow.HelpMemo.Items.Clear();
+        UI.HelpWindow.HelpMemo.Items.AddStrings(lines);
+        if (UI.HelpWindow.HelpMemo.Items.Count > 0)
         {
-            DialogHosts.HelpWindow.HelpMemo.Items.Delete(0);
+            UI.HelpWindow.HelpMemo.Items.Delete(0);
         }
 
-        if (DialogHosts.HelpWindow.HelpMemo.Items.Count > 0 && RtlUnit.IsEmpty(DialogHosts.HelpWindow.HelpMemo.Items[0]))
+        if (UI.HelpWindow.HelpMemo.Items.Count > 0 && RtlUnit.IsEmpty(UI.HelpWindow.HelpMemo.Items[0]))
         {
-            DialogHosts.HelpWindow.HelpMemo.Items.Delete(0);
+            UI.HelpWindow.HelpMemo.Items.Delete(0);
         }
 
-        DialogHosts.HelpWindow.MainWindow.Visible = true;
+        UI.HelpWindow.MainWindow.Visible = true;
         lines?.Dispose();
     }
 

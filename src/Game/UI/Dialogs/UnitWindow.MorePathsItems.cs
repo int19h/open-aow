@@ -13,7 +13,7 @@ public partial class UnitWindow
     // AoWUnitWindow.pas:773. The cursor belongs to the rewritten main form.
     public void Gnd1Change(CheckBox check)
     {
-        var hero = (Hero)DialogHosts.General.SelectedUnit;
+        var hero = (Hero)UI.General.SelectedUnit;
         if (hero is null || StrategicMap.Current.Players.GetPlayers(hero.Player).GetBusy() || !check.Checked) return;
         _cursorImage = null;
         var selected = s_selectedItem;

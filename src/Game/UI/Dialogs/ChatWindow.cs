@@ -11,9 +11,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // pending scroll to the newest message
-public partial class ChatWindow : DataModule
+public partial class ChatWindow : UIModule
 {
-    public ChatWindow(Component owner) : base(owner)
+    public ChatWindow(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -27,7 +27,7 @@ public partial class ChatWindow : DataModule
     // AOWChatWin.pas:47
     public void MinClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
     }
 
@@ -52,14 +52,14 @@ public partial class ChatWindow : DataModule
     // AOWChatWin.pas:79
     public void ChatWinShow()
     {
-        DialogHosts.General.RegisterDialog(MainWindow);
+        UI.General.RegisterDialog(MainWindow);
         ScrollPending = true;
     }
 
     // AOWChatWin.pas:85
     public void ChatWinHide()
     {
-        DialogHosts.General.UnregisterDialog(MainWindow);
+        UI.General.UnregisterDialog(MainWindow);
     }
 
     // AOWChatWin.pas:88

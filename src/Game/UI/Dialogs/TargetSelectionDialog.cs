@@ -5,9 +5,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class TargetSelectionDialog : DataModule
+public partial class TargetSelectionDialog : UIModule
 {
-    public TargetSelectionDialog(Component owner) : base(owner)
+    public TargetSelectionDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -20,7 +20,7 @@ public partial class TargetSelectionDialog : DataModule
     // AoWTargetSelection.pas:45
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         StrategicMap.Current.TargetSelection.Deactivate();
     }
 

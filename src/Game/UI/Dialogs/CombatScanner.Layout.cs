@@ -233,18 +233,18 @@ public partial class CombatScanner : ILayoutModule
         sMinIcon.Loaded();
         translator.Loaded();
         session.Resolve(this);
-        CombatScannerWindow.WindowManager = DialogHosts.General.Manager;
-        CombatScannerWindow.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        CombatScannerWindow.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        scannerFr.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        Scanner.TilesImageLibrary = DialogHosts.UIGraphics.ScannerTiles;
-        Scanner.HighlightsImageLibrary = DialogHosts.UIGraphics.ScannerHighlights;
-        Scanner.FogImageLibrary = DialogHosts.UIGraphics.ScannerFog;
-        Scanner.ImageLibraryObjects = DialogHosts.UIGraphics.ScannerObjects;
-        Scanner.ImageLibraryFrame = DialogHosts.UIGraphics.ScannerWindow;
-        sTitleIcon.ImageLibrary = DialogHosts.UIGraphics.TitleIcons;
-        sTitleLabel.Font = DialogHosts.UIFonts.Age10;
-        sMinIcon.ToolTip = DialogHosts.General.ToolTip;
-        sMinIcon.ImageLibraryIcon = DialogHosts.UIGraphics.GenericIcons;
+        CombatScannerWindow.WindowManager = UI.General.Manager;
+        CombatScannerWindow.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        CombatScannerWindow.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        scannerFr.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        Scanner.TilesImageLibrary = UI.Graphics.ScannerTiles;
+        Scanner.HighlightsImageLibrary = UI.Graphics.ScannerHighlights;
+        Scanner.FogImageLibrary = UI.Graphics.ScannerFog;
+        Scanner.ImageLibraryObjects = UI.Graphics.ScannerObjects;
+        Scanner.ImageLibraryFrame = UI.Graphics.ScannerWindow;
+        sTitleIcon.ImageLibrary = UI.Graphics.TitleIcons;
+        sTitleLabel.Font = UI.Fonts.Age10;
+        sMinIcon.ToolTip = UI.General.ToolTip;
+        sMinIcon.ImageLibraryIcon = UI.Graphics.GenericIcons;
     }
 }

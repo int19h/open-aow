@@ -6,7 +6,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class UIFonts : ILayoutModule
+public sealed partial class UIFonts : ILayoutModule
 {
     public void InitializeComponent()
     {

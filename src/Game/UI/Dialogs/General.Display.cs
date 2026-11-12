@@ -12,21 +12,21 @@ public partial class General
 
     public void ManagerUpdate()
     {
-        var unit = DialogHosts.UnitBanner.BannerMenu;
+        var unit = UI.UnitBanner.BannerMenu;
         if (unit.ShowPending && !unit.Visible)
         {
             unit.WinLeft = unit.MenuLeft;
             unit.WinTop = unit.MenuTop;
             unit.Visible = true;
         }
-        var info = DialogHosts.InfoBanner.BannerMenu;
+        var info = UI.InfoBanner.BannerMenu;
         if (info.ShowPending && !info.Visible)
         {
             info.WinLeft = info.MenuLeft;
             info.WinTop = info.MenuTop;
             info.Visible = true;
         }
-        DialogHosts.MapWindow.MainWindow.DoubleBuffered = Manager.OverlayPriority > DialogHosts.MapWindow.MainWindow.Priority;
+        UI.MapWindow.MainWindow.DoubleBuffered = Manager.OverlayPriority > UI.MapWindow.MainWindow.Priority;
         if (GameHost.MainForm is { FCursorChanged: true } form)
         {
             var rectangle = form.FLastCursorRectangle;
@@ -36,7 +36,7 @@ public partial class General
 
     public void MapProgress(string message, int progression)
     {
-        var progress = DialogHosts.ProgressDialog;
+        var progress = UI.ProgressDialog;
         progress.StatusLabel.Text = message;
         progress.ProgressBar.Position = progression;
         progress.Window.SurfaceValid = false;

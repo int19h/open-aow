@@ -13,9 +13,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // done callback, army event, unit-details flag
-public partial class HeroInfoDialog : DataModule
+public partial class HeroInfoDialog : UIModule
 {
-    public HeroInfoDialog(Component owner) : base(owner)
+    public HeroInfoDialog(UIContext ui) : base(ui)
     { }
 
     public Panel UnitPanel;
@@ -36,8 +36,8 @@ public partial class HeroInfoDialog : DataModule
         if (_detailsOpen)
         {
             _detailsOpen = false;
-            DialogHosts.UnitWindow.MainWindow.Priority = DialogHosts.ControlWindow.MainWindow.Priority;
-            DialogHosts.UnitWindow.MainWindow.Visible = false;
+            UI.UnitWindow.MainWindow.Priority = UI.ControlWindow.MainWindow.Priority;
+            UI.UnitWindow.MainWindow.Visible = false;
         }
 
         done = Done;
@@ -70,9 +70,9 @@ public partial class HeroInfoDialog : DataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             alignment = _armyInfo.ArmyView.GetUnit(index).GetAlignment();
-            if ((int)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
+            if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                var image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
+                var image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
             }
 
@@ -82,7 +82,7 @@ public partial class HeroInfoDialog : DataModule
             _armyInfo.ArmyView.GetUnit(index).Show(X - 33, Y - 35, surface, info);
             if ((((int)(((uint)_armyInfo.Selection) >> index)) & 1) == 0)
             {
-                var image = DialogHosts.UIGraphics.UnitBackgrounds[7];
+                var image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, surface);
             }
 
@@ -93,7 +93,7 @@ public partial class HeroInfoDialog : DataModule
     // AoWHeroInfoDlg.pas:146
     public void CloseBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -147,12 +147,12 @@ public partial class HeroInfoDialog : DataModule
         if (slot < count)
         {
             var troop = _armyInfo.ArmyView.GetUnit(slot);
-            DialogHosts.General.SelectedUnit = troop;
+            UI.General.SelectedUnit = troop;
             if (button == MouseButton.Left)
             {
                 _detailsOpen = true;
-                DialogHosts.UnitWindow.ShowUnit();
-                DialogHosts.UnitWindow.MainWindow.Priority = Window.Priority + 1;
+                UI.UnitWindow.ShowUnit();
+                UI.UnitWindow.MainWindow.Priority = Window.Priority + 1;
             }
         }
     }

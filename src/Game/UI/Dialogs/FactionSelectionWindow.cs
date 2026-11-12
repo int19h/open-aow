@@ -11,9 +11,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class FactionSelectionWindow : DataModule
+public partial class FactionSelectionWindow : UIModule
 {
-    public FactionSelectionWindow(Component owner) : base(owner)
+    public FactionSelectionWindow(UIContext ui) : base(ui)
     { }
 
     public Panel FactionPanel;
@@ -40,9 +40,9 @@ public partial class FactionSelectionWindow : DataModule
     // AoWSelFactionWin.pas:63
     public void CloseSelection()
     {
-        DialogHosts.UIGraphics.FactionWindow.ReleaseDiscardableImageData();
-        DialogHosts.TitleWindow.MainWindow.Visible = false;
-        WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
+        UI.Graphics.FactionWindow.ReleaseDiscardableImageData();
+        UI.TitleWindow.MainWindow.Visible = false;
+        WindowActions.ShowTitleScene(UI.TitleScene, true);
         FactionPanel.Visible = false;
         Fade = 0;
     }
@@ -50,11 +50,11 @@ public partial class FactionSelectionWindow : DataModule
     // AoWSelFactionWin.pas:72
     public void LStartClick(int side)
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.UIGraphics.FactionWindow.ReleaseDiscardableImageData();
+        UI.General.PlayButtonSound(0);
+        UI.Graphics.FactionWindow.ReleaseDiscardableImageData();
         FactionPanel.Visible = false;
         Fade = 0;
-        StartCampaignJoin(DialogHosts.CampaignJoinDialog, side);
+        StartCampaignJoin(UI.CampaignJoinDialog, side);
     }
 
     // AoWSelFactionWin.pas:82
@@ -98,7 +98,7 @@ public partial class FactionSelectionWindow : DataModule
     // AoWSelFactionWin.pas:118
     public void LBackClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         LightBackButton.CaptureInput = false;
         LightStartButton.CaptureInput = false;
         Fade = 100;
@@ -109,7 +109,7 @@ public partial class FactionSelectionWindow : DataModule
     // AoWSelFactionWin.pas:128
     public void DBackClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         DarkBackButton.CaptureInput = false;
         DarkStartButton.CaptureInput = false;
         Fade = 100;
@@ -156,7 +156,7 @@ public partial class FactionSelectionWindow : DataModule
     // AoWSelFactionWin.pas:168
     public void AbortButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         CloseSelection();
     }
 
@@ -164,9 +164,9 @@ public partial class FactionSelectionWindow : DataModule
     public void FactionPnlUpdate()
     {
         Rect R;
-        if (DialogHosts.FactionSelectionWindow.Fade >= 0)
+        if (UI.FactionSelectionWindow.Fade >= 0)
         {
-            DialogHosts.FactionSelectionWindow.Fade -= 6;
+            UI.FactionSelectionWindow.Fade -= 6;
             if (Fade < 6)
             {
                 if (LightStartButton.Visible && !LightStartButton.CaptureInput)
@@ -200,7 +200,7 @@ public partial class FactionSelectionWindow : DataModule
 
             R = new Rect(this.FactionPanel.WinLeft, this.FactionPanel.WinTop, this.FactionPanel.WinLeft + this.FactionPanel.WinWidth, FactionPanel.WinTop + this.FactionPanel.WinHeight);
 
-            DialogHosts.TitleWindow.MainWindow.AddBlitRectangle(ref R, null);
+            UI.TitleWindow.MainWindow.AddBlitRectangle(ref R, null);
         }
     }
 
@@ -224,21 +224,21 @@ public partial class FactionSelectionWindow : DataModule
         switch (dialog.Faction)
         {
             case 0:
-                LoadWorldCampaign(DialogHosts.WorldMap, "Keepers.cam");
+                LoadWorldCampaign(dialog.UI.WorldMap, "Keepers.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 10;
                 GamePack.Current.TextControl.RetrieveText(10, (StringCollection)(object)value);
                 break;
             case 1:
-                LoadWorldCampaign(DialogHosts.WorldMap, "Storm.cam");
+                LoadWorldCampaign(dialog.UI.WorldMap, "Storm.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 11;
                 GamePack.Current.TextControl.RetrieveText(11, (StringCollection)(object)value);
                 break;
         }
-        ParseFontText(((StringCollection)value).Text, (StringCollection)(object)dialog.ScrollText, DialogHosts.UIFonts.Age15WhiteOnGrey, 300);
-        WorldMapCampaign campaign = DialogHosts.WorldMap.GetCampaign();
+        ParseFontText(((StringCollection)value).Text, (StringCollection)(object)dialog.ScrollText, dialog.UI.Fonts.Age15WhiteOnGrey, 300);
+        WorldMapCampaign campaign = dialog.UI.WorldMap.GetCampaign();
         int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
         int index = campaign.Scenarios.IndexOfId(id);
-        WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(DialogHosts.WorldMap.GetCampaign(), index);
+        WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(dialog.UI.WorldMap.GetCampaign(), index);
         StrategicMap hexSpriteMap = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FileName), GameProfile.WorldMap);
         int i;
         for (i = 0; i < hexSpriteMap.Count && hexSpriteMap.Players.GetPlayers(i).PlayerType != PlayerType.Human; i++)

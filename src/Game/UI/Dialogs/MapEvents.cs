@@ -20,9 +20,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // map control
-public partial class MapEvents : DataModule
+public partial class MapEvents : UIModule
 {
-    public MapEvents(Component owner) : base(owner)
+    public MapEvents(UIContext ui) : base(ui)
     { }
 
     // Renderers of the DoubleClick keys of the structures (Structure.Views.cs). ClassRegistry adds
@@ -39,19 +39,19 @@ public partial class MapEvents : DataModule
     {
         if (request.AbilityId == 52)
         {
-            DialogHosts.SpellBook.ShowCasting(request);
+            UI.SpellBook.ShowCasting(request);
         }
         else
         {
             if (request.AbilityId == 125)
             {
-                DialogHosts.ConstructDialog.Execute(request);
+                UI.ConstructDialog.Execute(request);
             }
             else
             {
                 if (request is UnitSelectionActivation)
                 {
-                    DialogHosts.UnitSelectionDialog.Execute((UnitSelectionActivation)request);
+                    UI.UnitSelectionDialog.Execute((UnitSelectionActivation)request);
                 }
             }
         }
@@ -62,30 +62,30 @@ public partial class MapEvents : DataModule
     {
         if (army != null)
         {
-            if (army == DialogHosts.General.UnitList)
+            if (army == UI.General.UnitList)
             {
                 TheMapArmySelected(army);
-                if (DialogHosts.UnitWindow.MainWindow.Visible)
+                if (UI.UnitWindow.MainWindow.Visible)
                 {
-                    DialogHosts.UnitWindow.ShowUnit();
+                    UI.UnitWindow.ShowUnit();
                 }
 
-                if (DialogHosts.UnitBanner.BannerMenu.Visible)
+                if (UI.UnitBanner.BannerMenu.Visible)
                 {
-                    DialogHosts.UnitBanner.BannerPopupShow();
+                    UI.UnitBanner.BannerPopupShow();
                 }
             }
 
-            if (StrategicMap.Current.SeatedPlayer == army.Player && DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 3)
+            if (StrategicMap.Current.SeatedPlayer == army.Player && UI.RealmWindow.Window.Visible && UI.RealmWindow.HeaderTabs.Selected == 3)
             {
-                DialogHosts.RealmWindow.UpdateOverview();
+                UI.RealmWindow.UpdateOverview();
             }
         }
         else
         {
-            if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 3)
+            if (UI.RealmWindow.Window.Visible && UI.RealmWindow.HeaderTabs.Selected == 3)
             {
-                DialogHosts.RealmWindow.UpdateOverview();
+                UI.RealmWindow.UpdateOverview();
             }
         }
     }
@@ -93,45 +93,45 @@ public partial class MapEvents : DataModule
     // aowMapEvents.pas:117
     public void TheMapArmyDeselected()
     {
-        DialogHosts.General.Abilities.Clear();
-        DialogHosts.General.UnitList = null;
-        DialogHosts.ControlWindow.MovesLabel.Text = "";
-        DialogHosts.ControlWindow.MoveIcon.Visible = false;
-        DialogHosts.ControlWindow.EmptySlot1Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptyCheck1Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptySlot2Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptyCheck2Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptySlot3Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptyCheck3Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptySlot4Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptyCheck4Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptySlot5Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptyCheck5Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptySlot6Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptyCheck6Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptySlot7Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptyCheck7Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptySlot8Frame.Visible = true;
-        DialogHosts.ControlWindow.EmptyCheck8Frame.Visible = true;
-        DialogHosts.ControlWindow.MainWindow.Visible = false;
-        DialogHosts.TaskBar.PartyButton.Visible = false;
-        if (DialogHosts.UnitWindow.MainWindow.Visible)
+        UI.General.Abilities.Clear();
+        UI.General.UnitList = null;
+        UI.ControlWindow.MovesLabel.Text = "";
+        UI.ControlWindow.MoveIcon.Visible = false;
+        UI.ControlWindow.EmptySlot1Frame.Visible = true;
+        UI.ControlWindow.EmptyCheck1Frame.Visible = true;
+        UI.ControlWindow.EmptySlot2Frame.Visible = true;
+        UI.ControlWindow.EmptyCheck2Frame.Visible = true;
+        UI.ControlWindow.EmptySlot3Frame.Visible = true;
+        UI.ControlWindow.EmptyCheck3Frame.Visible = true;
+        UI.ControlWindow.EmptySlot4Frame.Visible = true;
+        UI.ControlWindow.EmptyCheck4Frame.Visible = true;
+        UI.ControlWindow.EmptySlot5Frame.Visible = true;
+        UI.ControlWindow.EmptyCheck5Frame.Visible = true;
+        UI.ControlWindow.EmptySlot6Frame.Visible = true;
+        UI.ControlWindow.EmptyCheck6Frame.Visible = true;
+        UI.ControlWindow.EmptySlot7Frame.Visible = true;
+        UI.ControlWindow.EmptyCheck7Frame.Visible = true;
+        UI.ControlWindow.EmptySlot8Frame.Visible = true;
+        UI.ControlWindow.EmptyCheck8Frame.Visible = true;
+        UI.ControlWindow.MainWindow.Visible = false;
+        UI.TaskBar.PartyButton.Visible = false;
+        if (UI.UnitWindow.MainWindow.Visible)
         {
-            DialogHosts.UnitWindow.MainWindow.Visible = false;
+            UI.UnitWindow.MainWindow.Visible = false;
         }
     }
 
     // aowMapEvents.pas:144
     public void TheMapArmyDestroyed(Army army)
     {
-        if (army != null && army == DialogHosts.General.UnitList)
+        if (army != null && army == UI.General.UnitList)
         {
             TheMapArmyDeselected();
         }
 
-        if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 3)
+        if (UI.RealmWindow.Window.Visible && UI.RealmWindow.HeaderTabs.Selected == 3)
         {
-            DialogHosts.RealmWindow.UpdateOverview();
+            UI.RealmWindow.UpdateOverview();
         }
     }
 
@@ -142,20 +142,20 @@ public partial class MapEvents : DataModule
         count = 0;
         for (int I = 0; I <= 7; I++)
         {
-            DialogHosts.General.SelectedUnits[I] = -1;
+            UI.General.SelectedUnits[I] = -1;
         }
 
         for (int I = 0, last = army.GetCount() - 1; I <= last; I++)
         {
             if (!army.GetUnitConcealedForPlayer(I, StrategicMap.Current.SeatedPlayer))
             {
-                DialogHosts.General.SelectedUnits[count] = I;
+                UI.General.SelectedUnits[count] = I;
                 count += 1;
             }
         }
 
-        DialogHosts.General.UnitList = army;
-        DialogHosts.ControlWindow.UpdateArmy();
+        UI.General.UnitList = army;
+        UI.ControlWindow.UpdateArmy();
         if (StrategicMap.Current.SeatedPlayer == army.Player)
         {
             StrategicMap.Current.TutorialControl.ShowMessage(63, true, true);
@@ -167,16 +167,16 @@ public partial class MapEvents : DataModule
     {
         if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            DialogHosts.TaskBar.WorldTurnButton.LastPlayer = -1;
+            UI.TaskBar.WorldTurnButton.LastPlayer = -1;
         }
 
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_dayFormat), [day]);
-        DialogHosts.PlayerInfoWindow.TurnLabel.Text = format;
-        DialogHosts.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
-        DialogHosts.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
-        if (DialogHosts.RealmWindow.Window.Visible)
+        UI.PlayerInfoWindow.TurnLabel.Text = format;
+        UI.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
+        UI.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
+        if (UI.RealmWindow.Window.Visible)
         {
-            DialogHosts.RealmWindow.UpdateOverview();
+            UI.RealmWindow.UpdateOverview();
         }
     }
 
@@ -187,16 +187,16 @@ public partial class MapEvents : DataModule
         {
             if (cancelled)
             {
-                DialogHosts.TaskBar.WorldTurnButton.Drawn = false;
-                DialogHosts.TaskBar.WorldTurnButton.ButtonChecked = false;
+                UI.TaskBar.WorldTurnButton.Drawn = false;
+                UI.TaskBar.WorldTurnButton.ButtonChecked = false;
             }
             else
             {
-                DialogHosts.General.HideTransientWindows();
+                UI.General.HideTransientWindows();
             }
         }
 
-        DialogHosts.TaskBar.PlayerIndicatorFrame.Drawn = false;
+        UI.TaskBar.PlayerIndicatorFrame.Drawn = false;
     }
 
     // aowMapEvents.pas:198
@@ -204,7 +204,7 @@ public partial class MapEvents : DataModule
     {
         if (!mode)
         {
-            DialogHosts.General.HideTransientWindows();
+            UI.General.HideTransientWindows();
         }
 
         // None has no renderer: nothing shows and the event is not reported done.
@@ -256,30 +256,30 @@ public partial class MapEvents : DataModule
             if (!update)
             {
                 // { The original clears both income signs when the gold display is cleared. }
-                DialogHosts.TaskBar.WorldGoldTotalLabel.Text = "";
-                DialogHosts.TaskBar.WorldGoldSignLabel.Text = "";
-                DialogHosts.TaskBar.WorldManaSignLabel.Text = "";
+                UI.TaskBar.WorldGoldTotalLabel.Text = "";
+                UI.TaskBar.WorldGoldSignLabel.Text = "";
+                UI.TaskBar.WorldManaSignLabel.Text = "";
             }
             else
             {
                 var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-                DialogHosts.TaskBar.WorldGoldTotalLabel.Text = IntToStr(playerLocal.Gems);
-                if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 0)
+                UI.TaskBar.WorldGoldTotalLabel.Text = IntToStr(playerLocal.Gems);
+                if (UI.RealmWindow.Window.Visible && UI.RealmWindow.HeaderTabs.Selected == 0)
                 {
-                    DialogHosts.RealmWindow.UpdateOverview();
+                    UI.RealmWindow.UpdateOverview();
                 }
             }
 
-            DialogHosts.TaskBar.CombatGoldTotalLabel.Text = DialogHosts.TaskBar.WorldGoldTotalLabel.Text;
-            DialogHosts.TaskBar.CombatGoldSignLabel.Text = DialogHosts.TaskBar.WorldGoldSignLabel.Text;
-            DialogHosts.TaskBar.CombatManaSignLabel.Text = DialogHosts.TaskBar.WorldManaSignLabel.Text;
+            UI.TaskBar.CombatGoldTotalLabel.Text = UI.TaskBar.WorldGoldTotalLabel.Text;
+            UI.TaskBar.CombatGoldSignLabel.Text = UI.TaskBar.WorldGoldSignLabel.Text;
+            UI.TaskBar.CombatManaSignLabel.Text = UI.TaskBar.WorldManaSignLabel.Text;
         }
     }
 
     // aowMapEvents.pas:320
     public void TheMapGlobalMagicChanged()
     {
-        GlobalMagicChanged(DialogHosts.MagicWindow);
+        GlobalMagicChanged(UI.MagicWindow);
     }
 
     // aowMapEvents.pas:323
@@ -319,7 +319,7 @@ public partial class MapEvents : DataModule
 
             if (!update)
             {
-                DialogHosts.TaskBar.WorldGoldIncomeLabel.Text = "";
+                UI.TaskBar.WorldGoldIncomeLabel.Text = "";
             }
             else
             {
@@ -327,46 +327,46 @@ public partial class MapEvents : DataModule
                 netIncome = StrategicMap.Current.Players.GetPlayers(player).Income - upkeep;
                 if (netIncome >= 0)
                 {
-                    DialogHosts.TaskBar.WorldGoldSignLabel.Text = "+";
-                    DialogHosts.TaskBar.WorldGoldSignLabel.TextColor = 7864183;
-                    DialogHosts.TaskBar.WorldGoldIncomeLabel.TextColor = 7864183;
+                    UI.TaskBar.WorldGoldSignLabel.Text = "+";
+                    UI.TaskBar.WorldGoldSignLabel.TextColor = 7864183;
+                    UI.TaskBar.WorldGoldIncomeLabel.TextColor = 7864183;
                 }
                 else
                 {
-                    DialogHosts.TaskBar.WorldGoldSignLabel.Text = "-";
-                    DialogHosts.TaskBar.WorldGoldSignLabel.TextColor = 119;
-                    DialogHosts.TaskBar.WorldGoldIncomeLabel.TextColor = 119;
+                    UI.TaskBar.WorldGoldSignLabel.Text = "-";
+                    UI.TaskBar.WorldGoldSignLabel.TextColor = 119;
+                    UI.TaskBar.WorldGoldIncomeLabel.TextColor = 119;
                 }
 
-                DialogHosts.TaskBar.WorldGoldIncomeLabel.Text = IntToStr(Math.Abs(netIncome));
-                if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 0)
+                UI.TaskBar.WorldGoldIncomeLabel.Text = IntToStr(Math.Abs(netIncome));
+                if (UI.RealmWindow.Window.Visible && UI.RealmWindow.HeaderTabs.Selected == 0)
                 {
-                    DialogHosts.RealmWindow.UpdateOverview();
+                    UI.RealmWindow.UpdateOverview();
                 }
             }
 
-            DialogHosts.TaskBar.CombatGoldIncomeLabel.Text = DialogHosts.TaskBar.WorldGoldIncomeLabel.Text;
-            DialogHosts.TaskBar.CombatGoldSignLabel.Text = DialogHosts.TaskBar.WorldGoldSignLabel.Text;
-            DialogHosts.TaskBar.CombatGoldSignLabel.TextColor = DialogHosts.TaskBar.WorldGoldSignLabel.TextColor;
-            DialogHosts.TaskBar.CombatGoldIncomeLabel.TextColor = DialogHosts.TaskBar.WorldGoldIncomeLabel.TextColor;
+            UI.TaskBar.CombatGoldIncomeLabel.Text = UI.TaskBar.WorldGoldIncomeLabel.Text;
+            UI.TaskBar.CombatGoldSignLabel.Text = UI.TaskBar.WorldGoldSignLabel.Text;
+            UI.TaskBar.CombatGoldSignLabel.TextColor = UI.TaskBar.WorldGoldSignLabel.TextColor;
+            UI.TaskBar.CombatGoldIncomeLabel.TextColor = UI.TaskBar.WorldGoldIncomeLabel.TextColor;
         }
     }
 
     // aowMapEvents.pas:362
     public void TheMapMapChanged(ref MapChangedInfo info)
     {
-        if (info.MapLevel == DialogHosts.ScannerWindow.Scanner.Level)
+        if (info.MapLevel == UI.ScannerWindow.Scanner.Level)
         {
-            DialogHosts.ScannerWindow.Scanner.DrawMap(info.Bounds.Left - 6, info.Bounds.Top - 6, info.Bounds.Right - info.Bounds.Left, info.Bounds.Bottom - info.Bounds.Top);
+            UI.ScannerWindow.Scanner.DrawMap(info.Bounds.Left - 6, info.Bounds.Top - 6, info.Bounds.Right - info.Bounds.Left, info.Bounds.Bottom - info.Bounds.Top);
         }
     }
 
     // aowMapEvents.pas:370
     public void TheMapScannerIconsChanged(ref MapChangedInfo info)
     {
-        if (info.MapLevel == DialogHosts.ScannerWindow.Scanner.Level)
+        if (info.MapLevel == UI.ScannerWindow.Scanner.Level)
         {
-            DialogHosts.ScannerWindow.Scanner.SetObDrawn(false);
+            UI.ScannerWindow.Scanner.SetObDrawn(false);
         }
     }
 
@@ -375,8 +375,8 @@ public partial class MapEvents : DataModule
     {
         bool update;
         int netIncome;
-        MagicPlayerChanged(DialogHosts.MagicWindow, player);
-        DialogHosts.SpellBook.PlayerChanged(player);
+        MagicPlayerChanged(UI.MagicWindow, player);
+        UI.SpellBook.PlayerChanged(player);
         update = false;
         if (StrategicMap.Current.SeatedPlayer == player)
         {
@@ -409,35 +409,35 @@ public partial class MapEvents : DataModule
 
             if (!update)
             {
-                DialogHosts.TaskBar.WorldManaTotalLabel.Text = "";
-                DialogHosts.TaskBar.WorldManaIncomeLabel.Text = "";
+                UI.TaskBar.WorldManaTotalLabel.Text = "";
+                UI.TaskBar.WorldManaIncomeLabel.Text = "";
             }
             else
             {
                 var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
-                DialogHosts.TaskBar.WorldManaTotalLabel.Text = IntToStr(playerLocal.MagicControl.Mana);
+                UI.TaskBar.WorldManaTotalLabel.Text = IntToStr(playerLocal.MagicControl.Mana);
                 netIncome = StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaIncome() - StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaUpkeep();
                 if (netIncome >= 0)
                 {
-                    DialogHosts.TaskBar.WorldManaSignLabel.Text = "+";
-                    DialogHosts.TaskBar.WorldManaSignLabel.TextColor = 7864183;
-                    DialogHosts.TaskBar.WorldManaIncomeLabel.TextColor = 7864183;
+                    UI.TaskBar.WorldManaSignLabel.Text = "+";
+                    UI.TaskBar.WorldManaSignLabel.TextColor = 7864183;
+                    UI.TaskBar.WorldManaIncomeLabel.TextColor = 7864183;
                 }
                 else
                 {
-                    DialogHosts.TaskBar.WorldManaSignLabel.Text = "-";
-                    DialogHosts.TaskBar.WorldManaSignLabel.TextColor = 119;
-                    DialogHosts.TaskBar.WorldManaIncomeLabel.TextColor = 119;
+                    UI.TaskBar.WorldManaSignLabel.Text = "-";
+                    UI.TaskBar.WorldManaSignLabel.TextColor = 119;
+                    UI.TaskBar.WorldManaIncomeLabel.TextColor = 119;
                 }
 
-                DialogHosts.TaskBar.WorldManaIncomeLabel.Text = IntToStr(Math.Abs(netIncome));
+                UI.TaskBar.WorldManaIncomeLabel.Text = IntToStr(Math.Abs(netIncome));
             }
 
-            DialogHosts.TaskBar.CombatManaTotalLabel.Text = DialogHosts.TaskBar.WorldManaTotalLabel.Text;
-            DialogHosts.TaskBar.CombatManaIncomeLabel.Text = DialogHosts.TaskBar.WorldManaIncomeLabel.Text;
-            DialogHosts.TaskBar.CombatManaSignLabel.Text = DialogHosts.TaskBar.WorldManaSignLabel.Text;
-            DialogHosts.TaskBar.CombatManaSignLabel.TextColor = DialogHosts.TaskBar.WorldManaSignLabel.TextColor;
-            DialogHosts.TaskBar.CombatManaIncomeLabel.TextColor = DialogHosts.TaskBar.WorldManaIncomeLabel.TextColor;
+            UI.TaskBar.CombatManaTotalLabel.Text = UI.TaskBar.WorldManaTotalLabel.Text;
+            UI.TaskBar.CombatManaIncomeLabel.Text = UI.TaskBar.WorldManaIncomeLabel.Text;
+            UI.TaskBar.CombatManaSignLabel.Text = UI.TaskBar.WorldManaSignLabel.Text;
+            UI.TaskBar.CombatManaSignLabel.TextColor = UI.TaskBar.WorldManaSignLabel.TextColor;
+            UI.TaskBar.CombatManaIncomeLabel.TextColor = UI.TaskBar.WorldManaIncomeLabel.TextColor;
         }
     }
 
@@ -446,14 +446,14 @@ public partial class MapEvents : DataModule
     {
         if (player == StrategicMap.Current.SeatedPlayer)
         {
-            DialogHosts.PlayerInfoWindow.UpdateEvents();
+            UI.PlayerInfoWindow.UpdateEvents();
         }
     }
 
     // aowMapEvents.pas:1026
     public void TheMapPlayerTerminated(sbyte player)
     {
-        DialogHosts.TaskBar.UpdatePlayerIndicator();
+        UI.TaskBar.UpdatePlayerIndicator();
         if (StrategicMap.Current != null)
             if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
                 if (player == StrategicMap.Current.SeatedPlayer)
@@ -468,18 +468,18 @@ public partial class MapEvents : DataModule
     {
         if (player == -1)
         {
-            DialogHosts.General.HideWindows();
-            DialogHosts.General.Manager.OverlayPriority = 0;
-            DialogHosts.TaskBar.CurrentPlayerImage.Visible = false;
-            DialogHosts.TaskBar.WorldClockDelay = 0;
-            DialogHosts.TaskBar.WorldTurnButton.CurrentPlayer = 12;
-            DialogHosts.TaskBar.WorldTurnButton.LastPlayer = DialogHosts.TaskBar.WorldTurnButton.CurrentPlayer;
-            DialogHosts.TaskBar.WorldTurnButton.AnimationFrame = DialogHosts.TaskBar.WorldTurnButton.CurrentPlayer * 7;
+            UI.General.HideWindows();
+            UI.General.Manager.OverlayPriority = 0;
+            UI.TaskBar.CurrentPlayerImage.Visible = false;
+            UI.TaskBar.WorldClockDelay = 0;
+            UI.TaskBar.WorldTurnButton.CurrentPlayer = 12;
+            UI.TaskBar.WorldTurnButton.LastPlayer = UI.TaskBar.WorldTurnButton.CurrentPlayer;
+            UI.TaskBar.WorldTurnButton.AnimationFrame = UI.TaskBar.WorldTurnButton.CurrentPlayer * 7;
         }
         else
         {
-            DialogHosts.General.ShowWindows();
-            var turnButton = DialogHosts.TaskBar.WorldTurnButton;
+            UI.General.ShowWindows();
+            var turnButton = UI.TaskBar.WorldTurnButton;
             if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated) && !turnButton.Animating)
             {
                 if (player > -1)
@@ -499,76 +499,76 @@ public partial class MapEvents : DataModule
                 turnButton.LastPlayer = -1;
             }
 
-            DialogHosts.TaskBar.CurrentPlayerImage.Visible = StrategicMap.Current.PlayMode == PlayMode.Turn;
-            DialogHosts.PlayerInfoWindow.UpdatePlayer();
-            if (DialogHosts.RealmWindow.Window.Visible)
+            UI.TaskBar.CurrentPlayerImage.Visible = StrategicMap.Current.PlayMode == PlayMode.Turn;
+            UI.PlayerInfoWindow.UpdatePlayer();
+            if (UI.RealmWindow.Window.Visible)
             {
-                DialogHosts.RealmWindow.UpdateOverview();
+                UI.RealmWindow.UpdateOverview();
             }
         }
 
         TheMapGemsChanged(player);
         TheMapIncomeChanged(player);
         TheMapPlayerMagicChanged(player);
-        DialogHosts.TaskBar.PlayerIndicatorFrame.Drawn = false;
-        DialogHosts.PlayerInfoWindow.UpdateEvents();
+        UI.TaskBar.PlayerIndicatorFrame.Drawn = false;
+        UI.PlayerInfoWindow.UpdateEvents();
     }
 
     // aowMapEvents.pas:440
     public void TheMapShowMessage(ref ShowMessageInfo info)
     {
-        DialogHosts.TaskBar.WorldMessageEdit.TextColor = info.Color;
-        DialogHosts.TaskBar.WorldMessageEdit.Text = info.Text;
+        UI.TaskBar.WorldMessageEdit.TextColor = info.Color;
+        UI.TaskBar.WorldMessageEdit.Text = info.Text;
     }
 
     // aowMapEvents.pas:446
     public void TheMapStructureChanged(Structure structure)
     {
-        UpdateStructureInfo(DialogHosts.InfoWindow, structure);
+        UpdateStructureInfo(UI.InfoWindow, structure);
         if (structure != null)
         {
-            DialogHosts.CityScreen.CityChanged(structure);
-            DialogHosts.ProductionScreen.PlaceChanged(structure);
+            UI.CityScreen.CityChanged(structure);
+            UI.ProductionScreen.PlaceChanged(structure);
         }
 
-        if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected < 3)
+        if (UI.RealmWindow.Window.Visible && UI.RealmWindow.HeaderTabs.Selected < 3)
         {
-            DialogHosts.RealmWindow.UpdateOverview();
+            UI.RealmWindow.UpdateOverview();
         }
     }
 
     // aowMapEvents.pas:457
     public void TheMapStructureDeselected()
     {
-        if (DialogHosts.General.Sign != null)
+        if (UI.General.Sign != null)
         {
-            DialogHosts.General.Sign.ChangeText(StrategicMap.Current.SeatedPlayer, DialogHosts.InfoWindow.SignTextMemo.Items);
+            UI.General.Sign.ChangeText(StrategicMap.Current.SeatedPlayer, UI.InfoWindow.SignTextMemo.Items);
         }
 
-        DialogHosts.General.Structure = null;
-        DialogHosts.General.City = null;
-        DialogHosts.General.ProductionPlace = null;
-        DialogHosts.General.ProductionControl = null;
-        DialogHosts.General.Sign = null;
-        DialogHosts.InfoWindow.StructureNameLabel.Text = "";
-        DialogHosts.InfoWindow.StructureLine.Visible = false;
-        DialogHosts.InfoWindow.MainWindow.Visible = false;
-        DialogHosts.TaskBar.StructureButton.Visible = false;
+        UI.General.Structure = null;
+        UI.General.City = null;
+        UI.General.ProductionPlace = null;
+        UI.General.ProductionControl = null;
+        UI.General.Sign = null;
+        UI.InfoWindow.StructureNameLabel.Text = "";
+        UI.InfoWindow.StructureLine.Visible = false;
+        UI.InfoWindow.MainWindow.Visible = false;
+        UI.TaskBar.StructureButton.Visible = false;
     }
 
     // aowMapEvents.pas:467
     public void TheMapStructureDestroyed(Structure structure)
     {
-        if (structure != null && structure == DialogHosts.General.Structure)
+        if (structure != null && structure == UI.General.Structure)
         {
             TheMapStructureDeselected();
         }
 
-        if (DialogHosts.RealmWindow.Window.Visible)
+        if (UI.RealmWindow.Window.Visible)
         {
-            if (DialogHosts.RealmWindow.HeaderTabs.Selected == 2 || DialogHosts.RealmWindow.HeaderTabs.Selected == 1)
+            if (UI.RealmWindow.HeaderTabs.Selected == 2 || UI.RealmWindow.HeaderTabs.Selected == 1)
             {
-                DialogHosts.RealmWindow.UpdateOverview();
+                UI.RealmWindow.UpdateOverview();
             }
         }
     }
@@ -576,47 +576,47 @@ public partial class MapEvents : DataModule
     // aowMapEvents.pas:473
     public void TheMapStructureSelected(Structure structure)
     {
-        DialogHosts.General.PreviousStructure = DialogHosts.General.Structure;
-        DialogHosts.General.Structure = structure;
-        DialogHosts.General.ProductionControl = null;
-        ShowStructureInfo(DialogHosts.InfoWindow, structure);
+        UI.General.PreviousStructure = UI.General.Structure;
+        UI.General.Structure = structure;
+        UI.General.ProductionControl = null;
+        ShowStructureInfo(UI.InfoWindow, structure);
     }
 
     // aowMapEvents.pas:481
     public void TheMapItemsDeselected()
     {
-        HideItemSelection(DialogHosts.InfoWindow);
+        HideItemSelection(UI.InfoWindow);
     }
 
     // aowMapEvents.pas:484
     public void TheMapItemsSelected(ItemHexSprite items)
     {
-        ShowItemSelection(DialogHosts.InfoWindow, items);
+        ShowItemSelection(UI.InfoWindow, items);
     }
 
     // aowMapEvents.pas:487
     public void TheMapTargetSelectionChange(TargetSelectionControl control, TargetSelectionChange change)
     {
-        ShowTargetSelection(DialogHosts.TargetSelectionDialog, control, change);
+        ShowTargetSelection(UI.TargetSelectionDialog, control, change);
     }
 
     // aowMapEvents.pas:490
     public void TheMapUnitChanged(Troop U)
     {
-        if (U == DialogHosts.General.SelectedUnit)
+        if (U == UI.General.SelectedUnit)
         {
-            if (DialogHosts.UnitWindow.MainWindow.Visible)
+            if (UI.UnitWindow.MainWindow.Visible)
             {
-                DialogHosts.UnitWindow.ShowUnit();
+                UI.UnitWindow.ShowUnit();
             }
 
-            if (DialogHosts.UnitBanner.BannerMenu.Visible)
+            if (UI.UnitBanner.BannerMenu.Visible)
             {
-                DialogHosts.UnitBanner.BannerPopupShow();
+                UI.UnitBanner.BannerPopupShow();
             }
         }
 
-        DialogHosts.SpellBook.UnitChanged(U);
+        UI.SpellBook.UnitChanged(U);
     }
 
     // aowMapEvents.pas:500
@@ -624,19 +624,19 @@ public partial class MapEvents : DataModule
     {
         if (caster is UnitSpellCaster)
         {
-            ShowUnitSpellCaster(DialogHosts.CastUnitSpellDialog, (UnitSpellCaster)caster);
+            ShowUnitSpellCaster(UI.CastUnitSpellDialog, (UnitSpellCaster)caster);
         }
         else
         {
             if (caster is DisjunctionSpellCaster)
             {
-                DialogHosts.DisjunctionDialog.Execute((DisjunctionSpellCaster)caster);
+                UI.DisjunctionDialog.Execute((DisjunctionSpellCaster)caster);
             }
             else
             {
                 if (caster is CosmeticSurgerySpellCaster)
                 {
-                    DialogHosts.DeformFaceDialog.Execute((CosmeticSurgerySpellCaster)caster);
+                    UI.DeformFaceDialog.Execute((CosmeticSurgerySpellCaster)caster);
                 }
             }
         }
@@ -647,26 +647,26 @@ public partial class MapEvents : DataModule
     {
         if (hexSprite is ItemHexSprite)
         {
-            UpdateItemSelection(DialogHosts.InfoWindow, (ItemHexSprite)hexSprite);
+            UpdateItemSelection(UI.InfoWindow, (ItemHexSprite)hexSprite);
         }
     }
 
     // aowMapEvents.pas:512
     public void TheMapRelationsChanged()
     {
-        RefreshRelations(DialogHosts.RelationWindow);
+        RefreshRelations(UI.RelationWindow);
     }
 
     // aowMapEvents.pas:515
     public void TheMapDiplomaticChange()
     {
-        RefreshRelations(DialogHosts.RelationWindow);
+        RefreshRelations(UI.RelationWindow);
     }
 
     // aowMapEvents.pas:518
     public void TheMapStructureDoubleClick(Structure structure)
     {
-        if (structure == DialogHosts.General.Structure && structure != null)
+        if (structure == UI.General.Structure && structure != null)
         {
             if (StructureScreens.TryGet(structure.DoubleClick(StrategicMap.Current.SeatedPlayer), out var open))
             {
@@ -680,10 +680,10 @@ public partial class MapEvents : DataModule
     {
         try
         {
-            DialogHosts.General.SaveLayout();
-            DialogHosts.General.HideWindows();
-            DialogHosts.MapWindow.MapViewer.HexSpriteMap = null;
-            if (DialogHosts.SetupEvents.LobbyGame)
+            UI.General.SaveLayout();
+            UI.General.HideWindows();
+            UI.MapWindow.MapViewer.HexSpriteMap = null;
+            if (UI.SetupEvents.LobbyGame)
                 GameHost.MainForm.CloseRequested();
         }
         catch
@@ -703,11 +703,11 @@ public partial class MapEvents : DataModule
     private static void ShowStructureInfo(InfoWindow dialog, Structure structure)
     {
         InfoWindow.StructurePanels[structure.InfoPanel(StrategicMap.Current.SeatedPlayer)].Invoke(dialog, structure);
-        if (!DialogHosts.TaskBar.StructureButton.Visible)
+        if (!dialog.UI.TaskBar.StructureButton.Visible)
         {
-            DialogHosts.InfoWindow.MainWindow.Visible = true;
+            dialog.UI.InfoWindow.MainWindow.Visible = true;
         }
-        DialogHosts.TaskBar.StructureButton.Visible = true;
+        dialog.UI.TaskBar.StructureButton.Visible = true;
     }
 
     private static void UpdateStructureInfo(InfoWindow dialog, Structure structure)
@@ -718,7 +718,7 @@ public partial class MapEvents : DataModule
         }
         if (structure == null)
         {
-            structure = DialogHosts.General.Structure;
+            structure = dialog.UI.General.Structure;
             if (structure != null && !structure.Selected)
             {
                 structure = null;
@@ -739,11 +739,11 @@ public partial class MapEvents : DataModule
         dialog.ItemPanel.Visible = true;
         dialog.MainWindow.Visible = true;
         dialog.StructureNameLabel.Text = "";
-        LibraryImage imageTop = DialogHosts.UIGraphics.MiscArt[35];
+        LibraryImage imageTop = dialog.UI.Graphics.MiscArt[35];
         dialog.StructureLine.ImageTop = imageTop;
-        LibraryImage imageMiddle = DialogHosts.UIGraphics.MiscArt[36];
+        LibraryImage imageMiddle = dialog.UI.Graphics.MiscArt[36];
         dialog.StructureLine.ImageMiddle = imageMiddle;
-        LibraryImage imageBottom = DialogHosts.UIGraphics.MiscArt[37];
+        LibraryImage imageBottom = dialog.UI.Graphics.MiscArt[37];
         dialog.StructureLine.ImageBottom = imageBottom;
         ArmyHexSprite armyHexSprite = items.Owner.GetArmyHexSprite();
         if (armyHexSprite != null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
@@ -833,19 +833,19 @@ public partial class MapEvents : DataModule
                     dialog.BorderLine.ImageTop = control.SourceImage;
                     dialog.BorderLine.ImageMiddle = control.ValidTargetImage;
                     dialog.BorderLine.ImageBottom = control.InvalidTargetImage;
-                    DialogHosts.General.Manager.OverlayPriority = 49;
-                    Window mapWindow = DialogHosts.MapWindow.MainWindow;
+                    dialog.UI.General.Manager.OverlayPriority = 49;
+                    Window mapWindow = dialog.UI.MapWindow.MainWindow;
                     mapWindow._modal = true;
                     mapWindow.Priority = 500;
-                    DialogHosts.ScannerWindow.MainWindow.Priority = dialog.Window.Priority;
+                    dialog.UI.ScannerWindow.MainWindow.Priority = dialog.Window.Priority;
                     break;
                 }
             case TargetSelectionChange.Deactivated:
                 dialog.Window.Visible = false;
-                DialogHosts.MapWindow.MainWindow.Priority = 0;
-                DialogHosts.MapWindow.MainWindow._modal = false;
-                DialogHosts.ScannerWindow.MainWindow.Priority = 10;
-                DialogHosts.General.Manager.OverlayPriority = 0;
+                dialog.UI.MapWindow.MainWindow.Priority = 0;
+                dialog.UI.MapWindow.MainWindow._modal = false;
+                dialog.UI.ScannerWindow.MainWindow.Priority = 10;
+                dialog.UI.General.Manager.OverlayPriority = 0;
                 break;
         }
     }

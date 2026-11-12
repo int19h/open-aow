@@ -206,9 +206,6 @@ public partial class RleSprite08 : Image08, ILibraryImageClass
     // ImageLib.pas:7643
     public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfPAL8;
 
-    // ImageLib.pas:7648
-    public override Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
-
     // ImageLib.pas:7659
     // { GrabImage encodes the rows of the smallest rectangle holding the opaque pixels: per row a
     //   length dword (only its low word is written), the opaque pixels, and the runs of transparent

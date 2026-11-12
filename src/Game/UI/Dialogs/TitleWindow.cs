@@ -8,9 +8,9 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // splash timer, splash stage
-public partial class TitleWindow : DataModule
+public partial class TitleWindow : UIModule
 {
-    public TitleWindow(Component owner) : base(owner)
+    public TitleWindow(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -30,9 +30,9 @@ public partial class TitleWindow : DataModule
     // AOWTitleWindow.pas:73
     public void InitializeSplash()
     {
-        DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
-        DialogHosts.VideoDialog.ApplyMode();
+        UI.VideoDialog.SetSceneSize(640, 480);
+        VideoDialog.SetVideoMode(UI.VideoDialog, VideoDialog.ScreenMode.Title);
+        UI.VideoDialog.ApplyMode();
         MainWindow.Visible = true;
         TitlePanel.Visible = false;
         SplashPanel.ImageLibraryTexture = DemoImages;
@@ -71,16 +71,16 @@ public partial class TitleWindow : DataModule
     public void TitleWinDrawSurface(Surface surface, int X, int Y)
     {
         LockedSurface lockedSurface = default;
-        if (DialogHosts.FactionSelectionWindow.FactionPanel.Visible && DialogHosts.FactionSelectionWindow.Fade >= 0)
+        if (UI.FactionSelectionWindow.FactionPanel.Visible && UI.FactionSelectionWindow.Fade >= 0)
         {
             surface.Lock(ref lockedSurface);
-            if (DialogHosts.FactionSelectionWindow.FadeDirection == 0)
+            if (UI.FactionSelectionWindow.FadeDirection == 0)
             {
-                DialogHosts.UIGraphics.FactionWindow[DialogHosts.FactionSelectionWindow.FadeImage].ShowBlended(DialogHosts.FactionSelectionWindow.FactionPanel.WinLeft, DialogHosts.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[100 - DialogHosts.FactionSelectionWindow.Fade]);
+                UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.WinLeft, UI.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[100 - UI.FactionSelectionWindow.Fade]);
             }
             else
             {
-                DialogHosts.UIGraphics.FactionWindow[DialogHosts.FactionSelectionWindow.FadeImage].ShowBlended(DialogHosts.FactionSelectionWindow.FactionPanel.WinLeft, DialogHosts.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[DialogHosts.FactionSelectionWindow.Fade]);
+                UI.Graphics.FactionWindow[UI.FactionSelectionWindow.FadeImage].ShowBlended(UI.FactionSelectionWindow.FactionPanel.WinLeft, UI.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[UI.FactionSelectionWindow.Fade]);
             }
 
             surface.Unlock();
@@ -90,7 +90,7 @@ public partial class TitleWindow : DataModule
     // AOWTitleWindow.pas:61
     public void TitlePnlDrawBack(LockedSurface lockedSurface)
     {
-        DialogHosts.UIGraphics.FactionWindow[0].Show(DialogHosts.FactionSelectionWindow.FactionPanel.WinLeft, DialogHosts.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface);
+        UI.Graphics.FactionWindow[0].Show(UI.FactionSelectionWindow.FactionPanel.WinLeft, UI.FactionSelectionWindow.FactionPanel.WinTop, lockedSurface);
     }
 
     // AOWTitleWindow.pas:115
@@ -109,7 +109,7 @@ public partial class TitleWindow : DataModule
         if (key == 27)
         {
             HideSplash();
-            WindowActions.ShowTitleScene(DialogHosts.TitleScene, false);
+            WindowActions.ShowTitleScene(UI.TitleScene, false);
         }
         else
         {
@@ -135,9 +135,9 @@ public partial class TitleWindow : DataModule
 
     internal static void ShowSplash(TitleWindow dialog)
     {
-        VideoDialog.SetVideoSize(DialogHosts.VideoDialog, 640, 480);
-        VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
-        DialogHosts.VideoDialog.ApplyBtnClick();
+        VideoDialog.SetVideoSize(dialog.UI.VideoDialog, 640, 480);
+        VideoDialog.SetVideoMode(dialog.UI.VideoDialog, VideoDialog.ScreenMode.Title);
+        dialog.UI.VideoDialog.ApplyBtnClick();
         dialog.MainWindow.Visible = true;
         dialog.TitlePanel.Visible = false;
         dialog.SplashPanel.ImageLibraryTexture = dialog.DemoImages;

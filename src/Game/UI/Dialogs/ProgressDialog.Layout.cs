@@ -301,18 +301,18 @@ public partial class ProgressDialog : ILayoutModule
         image2.Loaded();
         translator.Loaded();
         session.Resolve(this);
-        TitleLabel.Font = DialogHosts.UIFonts.Age10;
-        tCeltLineL.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
-        bCeltL.ImageLibraryLine = DialogHosts.UIGraphics.CelticDecorations;
-        StatusLabel.Font = DialogHosts.UIFonts.Age10Shadow;
-        Window.WindowManager = DialogHosts.General.Manager;
-        Window.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        Window.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        ProgressBar.ImageLibraryFrame = DialogHosts.UIGraphics.CelticDecorations;
-        ProgressBar.ImageLibraryTextureNormal = DialogHosts.UIGraphics.GenericTextures;
-        ProgressBar.ImageLibraryTextureSelected = DialogHosts.UIGraphics.GenericTextures;
-        tCeltL.ImageLibraryLine = DialogHosts.UIGraphics.CelticDecorations;
-        image1.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
-        image2.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
+        TitleLabel.Font = UI.Fonts.Age10;
+        tCeltLineL.ImageLibrary = UI.Graphics.CelticDecorations;
+        bCeltL.ImageLibraryLine = UI.Graphics.CelticDecorations;
+        StatusLabel.Font = UI.Fonts.Age10Shadow;
+        Window.WindowManager = UI.General.Manager;
+        Window.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        Window.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        ProgressBar.ImageLibraryFrame = UI.Graphics.CelticDecorations;
+        ProgressBar.ImageLibraryTextureNormal = UI.Graphics.GenericTextures;
+        ProgressBar.ImageLibraryTextureSelected = UI.Graphics.GenericTextures;
+        tCeltL.ImageLibraryLine = UI.Graphics.CelticDecorations;
+        image1.ImageLibrary = UI.Graphics.CelticDecorations;
+        image2.ImageLibrary = UI.Graphics.CelticDecorations;
     }
 }

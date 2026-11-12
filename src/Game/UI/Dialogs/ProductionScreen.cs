@@ -18,9 +18,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // view, place, production, queue, mode, preview, images
-public partial class ProductionScreen : DataModule
+public partial class ProductionScreen : UIModule
 {
-    public ProductionScreen(Component owner) : base(owner)
+    public ProductionScreen(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -166,7 +166,7 @@ public partial class ProductionScreen : DataModule
     {
         Reset();
         _place = null;
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
     }
 
     // AoWProdScreen.pas:659
@@ -287,7 +287,7 @@ public partial class ProductionScreen : DataModule
                     var moves = U.GetMoves();
                     UnitMovesLabel.Text = IntToStr(moves);
                     var moveTypes = U.GetMoveTypes();
-                    var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
+                    var moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
                     UnitMovesIcon.CurrentImage = moveTypesToInt32;
                     var alignment = U.GetAlignment();
                     var alignmentText = AbilityRules.TranslateResourceString(GameText.AlignmentTexts[(int)alignment]);
@@ -440,7 +440,7 @@ public partial class ProductionScreen : DataModule
                 IncomePictureFrame.ImageLibraryIndexTexture = 65;
             }
 
-            PlacePictureFrame.ImageLibraryTexture = DialogHosts.UIGraphics.CityWindow;
+            PlacePictureFrame.ImageLibraryTexture = UI.Graphics.CityWindow;
             if (_place is Shipyard)
             {
                 PlacePictureFrame.ImageLibraryIndexTexture = 67;
@@ -612,7 +612,7 @@ public partial class ProductionScreen : DataModule
             _viewY = 800;
         }
 
-        DialogHosts.General.Manager.OverlayPriority = 49;
+        UI.General.Manager.OverlayPriority = 49;
         Window.Visible = true;
     }
 
@@ -631,7 +631,7 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:231
     public void ActivityChange(CheckBox sender, int slot)
     {
-        DialogHosts.General.PlayButtonSound(1);
+        UI.General.PlayButtonSound(1);
         if (sender.Checked)
         {
             ResetChecks();
@@ -669,7 +669,7 @@ public partial class ProductionScreen : DataModule
                     info.Looped = false;
                     if (!_place.ProductionControl.UnitProductions.GetItem(slot).Researched)
                     {
-                        DialogHosts.UIGraphics.CityWindow[5].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                        UI.Graphics.CityWindow[5].Show(R.Left + 2, R.Top + 2, lockedSurface);
                         info.Direction = 5;
                         if (U != null)
                         {
@@ -677,11 +677,11 @@ public partial class ProductionScreen : DataModule
                         }
 
                         var lookupTable = GraphicsState.AlphaBlendTable.GetLookupTables(45);
-                        DialogHosts.UIGraphics.CityWindow[5].ShowBlended(R.Left + 2, R.Top + 2, lockedSurface, lookupTable);
+                        UI.Graphics.CityWindow[5].ShowBlended(R.Left + 2, R.Top + 2, lockedSurface, lookupTable);
                     }
                     else
                     {
-                        DialogHosts.UIGraphics.CityWindow[4].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                        UI.Graphics.CityWindow[4].Show(R.Left + 2, R.Top + 2, lockedSurface);
                         if (U != null)
                         {
                             U.Show(R.Left - 4, R.Top, lockedSurface, info);
@@ -692,7 +692,7 @@ public partial class ProductionScreen : DataModule
                 }
                 else
                 {
-                    DialogHosts.UIGraphics.CityWindow[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                    UI.Graphics.CityWindow[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 }
 
                 break;
@@ -700,16 +700,16 @@ public partial class ProductionScreen : DataModule
                 if (_place.GetBaseIncome() != 0)
                 {
                     var activityImage = new Trade(0).ActivityImage(_place);
-                    DialogHosts.UIGraphics.CityWindow[activityImage].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                    UI.Graphics.CityWindow[activityImage].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 }
                 else
                 {
-                    DialogHosts.UIGraphics.CityWindow[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                    UI.Graphics.CityWindow[62].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 }
 
                 break;
             case 5:
-                DialogHosts.UIGraphics.CityWindow[46].Show(R.Left + 2, R.Top + 2, lockedSurface);
+                UI.Graphics.CityWindow[46].Show(R.Left + 2, R.Top + 2, lockedSurface);
                 break;
         }
     }
@@ -859,7 +859,7 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:383
     public void MainBtn3Click()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_mode == 0)
         {
             Window.Visible = false;
@@ -1090,7 +1090,7 @@ public partial class ProductionScreen : DataModule
             if (A != null)
             {
                 var name = A.GetName(null);
-                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, A.Description);
+                InfoBanner.SetInfoBanner(UI.InfoBanner, name, A.Description);
             }
         }
     }

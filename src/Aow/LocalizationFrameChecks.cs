@@ -11,7 +11,7 @@ namespace Aow;
 
 internal static class LocalizationFrameChecks
 {
-    public static void Run(string root, string output, LayoutSession layouts)
+    public static void Run(string root, string output, LayoutSession layouts, UIContext ui)
     {
         int language = LocalizationRuntime.ReadLanguage(RtlUnit.Settings);
         var germanBytes = new SortedSet<byte>();
@@ -28,9 +28,9 @@ internal static class LocalizationFrameChecks
             dictionary.Close();
         }
         var coverage = new List<object>();
-        var fonts = new[] { DialogHosts.UIFonts.Age8, DialogHosts.UIFonts.Age10, DialogHosts.UIFonts.Age16Shadow,
-            DialogHosts.UIFonts.Age10Shadow, DialogHosts.UIFonts.Age8Shadow, DialogHosts.UIFonts.Age14Gold, DialogHosts.UIFonts.Age15WhiteOnGrey,
-            DialogHosts.UIFonts.Age15BlackOnBrown, DialogHosts.UIFonts.Age10List, DialogHosts.UIFonts.Age10Bold, DialogHosts.UIFonts.Age10BoldShadow };
+        var fonts = new[] { ui.Fonts.Age8, ui.Fonts.Age10, ui.Fonts.Age16Shadow,
+            ui.Fonts.Age10Shadow, ui.Fonts.Age8Shadow, ui.Fonts.Age14Gold, ui.Fonts.Age15WhiteOnGrey,
+            ui.Fonts.Age15BlackOnBrown, ui.Fonts.Age10List, ui.Fonts.Age10Bold, ui.Fonts.Age10BoldShadow };
         foreach (var font in fonts)
         {
             byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
@@ -38,12 +38,12 @@ internal static class LocalizationFrameChecks
         }
         string undead = AbilityRules.TranslateResourceString("Undead(plural)");
         bool undeadEqual = language != 1 || undead == "Undead";
-        string mapCaption = DialogHosts.ScannerWindow.TitleLabel.Text;
+        string mapCaption = ui.ScannerWindow.TitleLabel.Text;
         string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";
         if (mapCaption != expectedMapCaption) throw new InvalidOperationException("The startup form translation was not applied");
         // The file dialog title holds the one German text with a byte from 128 to 159 (ResStr.mld,
         // "Spiel speichern unter" and the ellipsis 0x85), shown by the languages-de-save fixture.
-        var dialogTitle = DialogHosts.FileDialogWindow?.TitleLabel?.Text ?? "";
+        var dialogTitle = ui.FileDialogWindow?.TitleLabel?.Text ?? "";
         var required = new SortedSet<string>(StringComparer.Ordinal);
         // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
         // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.
@@ -110,8 +110,8 @@ internal static class LocalizationFrameChecks
                 right.Lock(ref r);
                 try
                 {
-                    DialogHosts.UIFonts.Age8.SetText(0, 0, undead, l);
-                    DialogHosts.UIFonts.Age8.SetText(0, 0, "Undead", r);
+                    ui.Fonts.Age8.SetText(0, 0, undead, l);
+                    ui.Fonts.Age8.SetText(0, 0, "Undead", r);
                     var pixels = l.Data.AsSpan(l.DataIndex, l.Pitch * 40);
                     if (!pixels.SequenceEqual(r.Data.AsSpan(r.DataIndex, r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
                         throw new InvalidOperationException("English Undead rendering differs");

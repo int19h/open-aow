@@ -11,9 +11,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // callback, send event
-public partial class SendEmailGameDialog : DataModule
+public partial class SendEmailGameDialog : UIModule
 {
-    public SendEmailGameDialog(Component owner) : base(owner)
+    public SendEmailGameDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;

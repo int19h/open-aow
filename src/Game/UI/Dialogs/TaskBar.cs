@@ -13,9 +13,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // indicator frame/step, world/combat clock delays, chat flash countdown
-public partial class TaskBar : DataModule
+public partial class TaskBar : UIModule
 {
-    public TaskBar(Component owner) : base(owner)
+    public TaskBar(UIContext ui) : base(ui)
     { }
 
     public Window TaskWindow;
@@ -74,80 +74,80 @@ public partial class TaskBar : DataModule
     // AoWTBWindow.pas:128
     public void WMButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.ScannerWindow.MainWindow.Visible = !DialogHosts.ScannerWindow.MainWindow.Visible;
+        UI.General.PlayButtonSound(0);
+        UI.ScannerWindow.MainWindow.Visible = !UI.ScannerWindow.MainWindow.Visible;
     }
 
     // AoWTBWindow.pas:134
     public void OVButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.RealmWindow.Window.Visible = !DialogHosts.RealmWindow.Window.Visible;
-        if (DialogHosts.RealmWindow.Window.Visible)
+        UI.General.PlayButtonSound(0);
+        UI.RealmWindow.Window.Visible = !UI.RealmWindow.Window.Visible;
+        if (UI.RealmWindow.Window.Visible)
         {
-            DialogHosts.RealmWindow.UpdateOverview();
+            UI.RealmWindow.UpdateOverview();
         }
     }
 
     // AoWTBWindow.pas:141
     public void ConButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.ControlWindow.MainWindow.Visible = !DialogHosts.ControlWindow.MainWindow.Visible;
+        UI.General.PlayButtonSound(0);
+        UI.ControlWindow.MainWindow.Visible = !UI.ControlWindow.MainWindow.Visible;
     }
 
     // AoWTBWindow.pas:147
     public void StructButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.InfoWindow.MainWindow.Visible = !DialogHosts.InfoWindow.MainWindow.Visible;
+        UI.General.PlayButtonSound(0);
+        UI.InfoWindow.MainWindow.Visible = !UI.InfoWindow.MainWindow.Visible;
     }
 
     // AoWTBWindow.pas:153
     public void TBNextButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         StrategicMap.Current.SelectNextArmy();
     }
 
     // AoWTBWindow.pas:159
     public void UnitButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.UnitWindow.MainWindow.Visible = true;
+        UI.General.PlayButtonSound(0);
+        UI.UnitWindow.MainWindow.Visible = true;
     }
 
     // AoWTBWindow.pas:165
     public void InfoBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        if (DialogHosts.PlayerInfoWindow.MainWindow.Visible)
+        UI.General.PlayButtonSound(0);
+        if (UI.PlayerInfoWindow.MainWindow.Visible)
         {
-            DialogHosts.PlayerInfoWindow.MainWindow.Visible = false;
+            UI.PlayerInfoWindow.MainWindow.Visible = false;
         }
         else
         {
-            DialogHosts.PlayerInfoWindow.UpdatePlayer();
+            UI.PlayerInfoWindow.UpdatePlayer();
         }
     }
 
     // AoWTBWindow.pas:172
     public void ProdButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWTBWindow.pas:177
     public void COButtonClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWTBWindow.pas:182
     public void ChatBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.ChatWindow.MainWindow.Visible = !DialogHosts.ChatWindow.MainWindow.Visible;
+        UI.General.PlayButtonSound(0);
+        UI.ChatWindow.MainWindow.Visible = !UI.ChatWindow.MainWindow.Visible;
     }
 
     // AoWTBWindow.pas:188
@@ -183,7 +183,7 @@ public partial class TaskBar : DataModule
                         race = 12;
                     }
 
-                    DialogHosts.UIGraphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + position * 5, PlayerIndicatorFrame.WinTop + 2, surface);
+                    UI.Graphics.TaskBar[race + 32].ShowClipped(PlayerIndicatorFrame.WinLeft + 3 + position * 5, PlayerIndicatorFrame.WinTop + 2, surface);
                     if (StrategicMap.Current.PlayMode == PlayMode.Turn)
                     {
                         if (I == StrategicMap.Current.CurrentPlayer)
@@ -196,7 +196,7 @@ public partial class TaskBar : DataModule
                     {
                         if (StrategicMap.Current.Players.GetPlayers(I).SingleProcessCycle)
                         {
-                            DialogHosts.UIGraphics.TaskBar[50].ShowClipped(PlayerIndicatorFrame.WinLeft + 2 + position * 5, PlayerIndicatorFrame.WinTop + 11, surface);
+                            UI.Graphics.TaskBar[50].ShowClipped(PlayerIndicatorFrame.WinLeft + 2 + position * 5, PlayerIndicatorFrame.WinTop + 11, surface);
                         }
                     }
 
@@ -241,7 +241,7 @@ public partial class TaskBar : DataModule
     // AoWTBWindow.pas:237
     public void CombatTurnButtonAnimationDone()
     {
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
         CombatTurnButton.Checked = false;
         CombatMap.Current.EndTurnPending = true;
     }
@@ -262,7 +262,7 @@ public partial class TaskBar : DataModule
                 race = 12;
             }
 
-            DialogHosts.UIGraphics.TaskBar[race + 32].ShowClipped(CombatPlayerIndicatorFrame.WinLeft + 3 + position * 5, CombatPlayerIndicatorFrame.WinTop + 2, surface);
+            UI.Graphics.TaskBar[race + 32].ShowClipped(CombatPlayerIndicatorFrame.WinLeft + 3 + position * 5, CombatPlayerIndicatorFrame.WinTop + 2, surface);
             if (CombatMap.Current.Combat.CombatData.TurnOrder[I] == CombatMap.Current.CurrentCombatPlayer)
             {
                 CombatCurrentPlayerImage.WinLeft = CombatPlayerIndicatorFrame.WinLeft + 2 + position * 5;
@@ -294,14 +294,14 @@ public partial class TaskBar : DataModule
     // AoWTBWindow.pas:273
     public void TCScannerBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.CombatScanner.CombatScannerWindow.Visible = !DialogHosts.CombatScanner.CombatScannerWindow.Visible;
+        UI.General.PlayButtonSound(0);
+        UI.CombatScanner.CombatScannerWindow.Visible = !UI.CombatScanner.CombatScannerWindow.Visible;
     }
 
     // AoWTBWindow.pas:279
     public void TCNextBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         CombatMap.Current.SelectNextUnit(true);
     }
 
@@ -403,42 +403,42 @@ public partial class TaskBar : DataModule
     // AoWTBWindow.pas:337
     public void OV2BtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        if (DialogHosts.MagicWindow.Window.Visible)
+        UI.General.PlayButtonSound(0);
+        if (UI.MagicWindow.Window.Visible)
         {
-            MagicWindow.HideMagic(DialogHosts.MagicWindow);
+            MagicWindow.HideMagic(UI.MagicWindow);
         }
         else
         {
-            ShowMagicWindow(DialogHosts.MagicWindow);
+            ShowMagicWindow(UI.MagicWindow);
         }
     }
 
     // AoWTBWindow.pas:344
     public void TCUnitBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        DialogHosts.CombatUnitInfo.MainWindow.Visible = !DialogHosts.CombatUnitInfo.MainWindow.Visible;
+        UI.General.PlayButtonSound(0);
+        UI.CombatUnitInfo.MainWindow.Visible = !UI.CombatUnitInfo.MainWindow.Visible;
     }
 
     // AoWTBWindow.pas:350
     public void StartMenuBarChange()
     {
-        DialogHosts.General.PlayButtonSound(3);
+        UI.General.PlayButtonSound(3);
     }
 
     // AoWTBWindow.pas:355
     public void RelationsBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
-        var relationWindow = DialogHosts.RelationWindow;
+        UI.General.PlayButtonSound(0);
+        var relationWindow = UI.RelationWindow;
         if (relationWindow.MainWindow.Visible)
         {
             relationWindow.MainWindow.Visible = false;
         }
         else
         {
-            DialogHosts.RelationWindow.ShowRelations(StrategicMap.Current.SeatedPlayer);
+            UI.RelationWindow.ShowRelations(StrategicMap.Current.SeatedPlayer);
         }
     }
 

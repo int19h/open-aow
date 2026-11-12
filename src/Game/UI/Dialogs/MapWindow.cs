@@ -13,9 +13,9 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // saved map rectangle, saved alignment
-public partial class MapWindow : DataModule
+public partial class MapWindow : UIModule
 {
-    public MapWindow(Component owner) : base(owner)
+    public MapWindow(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -34,8 +34,8 @@ public partial class MapWindow : DataModule
     // AOWMWindow.pas:53
     public void MWindowCreate()
     {
-        MainWindow.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        MainWindow.WindowManager = DialogHosts.General.Manager;
+        MainWindow.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        MainWindow.WindowManager = UI.General.Manager;
         MapAlignWidth = AlignWidth.Both;
         MapAlignHeight = AlignHeight.Both;
     }
@@ -103,25 +103,25 @@ public partial class MapWindow : DataModule
     {
         if (StrategicMap.Current.SeatedPlayer != -1)
         {
-            DialogHosts.ScannerWindow.Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
-            DialogHosts.ScannerWindow.Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);
-            DialogHosts.ScannerWindow.Scanner.SetTLeft(MapViewer.SceneX / 32 - 6);
-            DialogHosts.ScannerWindow.Scanner.SetTTop(MapViewer.SceneY / 32 - 6);
-            DialogHosts.CombatScanner.Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
-            DialogHosts.CombatScanner.Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);
-            DialogHosts.CombatScanner.Scanner.SetTLeft(DialogHosts.MapWindow.MapViewer.SceneX / 32 - 6);
-            DialogHosts.CombatScanner.Scanner.SetTTop(DialogHosts.MapWindow.MapViewer.SceneY / 32 - 6);
+            UI.ScannerWindow.Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
+            UI.ScannerWindow.Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);
+            UI.ScannerWindow.Scanner.SetTLeft(MapViewer.SceneX / 32 - 6);
+            UI.ScannerWindow.Scanner.SetTTop(MapViewer.SceneY / 32 - 6);
+            UI.CombatScanner.Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
+            UI.CombatScanner.Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);
+            UI.CombatScanner.Scanner.SetTLeft(UI.MapWindow.MapViewer.SceneX / 32 - 6);
+            UI.CombatScanner.Scanner.SetTTop(UI.MapWindow.MapViewer.SceneY / 32 - 6);
         }
 
         if (StrategicMap.Current.CombatMap == null)
         {
-            if (StrategicMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL) != DialogHosts.ScannerWindow.Scanner.Level)
+            if (StrategicMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL) != UI.ScannerWindow.Scanner.Level)
             {
-                var scanner = DialogHosts.ScannerWindow.Scanner;
+                var scanner = UI.ScannerWindow.Scanner;
                 scanner.UpdateStep = -1;
                 scanner.SetLevel(StrategicMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL));
 
-                DialogHosts.ScannerWindow.ScannerTabs.SetIndex(MapViewer.SceneL);
+                UI.ScannerWindow.ScannerTabs.SetIndex(MapViewer.SceneL);
             }
         }
 
@@ -216,26 +216,26 @@ public partial class MapWindow : DataModule
             switch (K)
             {
                 case 37:
-                    DialogHosts.MapWindow.MapViewer.SceneX = DialogHosts.MapWindow.MapViewer.SceneX - 32;
+                    UI.MapWindow.MapViewer.SceneX = UI.MapWindow.MapViewer.SceneX - 32;
                     sender.Handled = true;
                     break;
                 case 39:
-                    DialogHosts.MapWindow.MapViewer.SceneX = DialogHosts.MapWindow.MapViewer.SceneX + 32;
+                    UI.MapWindow.MapViewer.SceneX = UI.MapWindow.MapViewer.SceneX + 32;
                     sender.Handled = true;
                     break;
                 case 38:
-                    DialogHosts.MapWindow.MapViewer.SceneY = DialogHosts.MapWindow.MapViewer.SceneY - 32;
+                    UI.MapWindow.MapViewer.SceneY = UI.MapWindow.MapViewer.SceneY - 32;
                     sender.Handled = true;
                     break;
                 case 40:
-                    DialogHosts.MapWindow.MapViewer.SceneY = DialogHosts.MapWindow.MapViewer.SceneY + 32;
+                    UI.MapWindow.MapViewer.SceneY = UI.MapWindow.MapViewer.SceneY + 32;
                     sender.Handled = true;
                     break;
                 case 33:
-                    DialogHosts.MapWindow.MapViewer.SceneL = DialogHosts.MapWindow.MapViewer.SceneL - 1;
+                    UI.MapWindow.MapViewer.SceneL = UI.MapWindow.MapViewer.SceneL - 1;
                     break;
                 case 34:
-                    DialogHosts.MapWindow.MapViewer.SceneL = DialogHosts.MapWindow.MapViewer.SceneL + 1;
+                    UI.MapWindow.MapViewer.SceneL = UI.MapWindow.MapViewer.SceneL + 1;
                     break;
                 case 77:
                     if (CombatMap.Current != null)
@@ -274,8 +274,8 @@ public partial class MapWindow : DataModule
                 case 114:
                     if (CombatMap.Current == null && (K == 114 || shift.Contains(ShiftState.Ctrl)))
                     {
-                        DialogHosts.FileDialogWindow.Mode = 0;
-                        DialogHosts.FileDialogWindow.Window.Visible = true;
+                        UI.FileDialogWindow.Mode = 0;
+                        UI.FileDialogWindow.Window.Visible = true;
                     }
 
                     break;
@@ -283,8 +283,8 @@ public partial class MapWindow : DataModule
                 case 115:
                     if (CombatMap.Current == null && (K == 115 || shift.Contains(ShiftState.Ctrl)))
                     {
-                        DialogHosts.FileDialogWindow.Mode = 1;
-                        DialogHosts.FileDialogWindow.Window.Visible = true;
+                        UI.FileDialogWindow.Mode = 1;
+                        UI.FileDialogWindow.Window.Visible = true;
                     }
 
                     break;

@@ -16,12 +16,12 @@ public partial class MultiWindow
             songs.Songs.Add("SONGS\\TITLE.IT");
             songs.Play(0);
         }
-        DialogHosts.VideoDialog.SetSceneSize(640, 480);
+        UI.VideoDialog.SetSceneSize(640, 480);
         _pendingMap = mapName;
-        var directPlay = DialogHosts.SetupEvents.DirectPlay;
+        var directPlay = UI.SetupEvents.DirectPlay;
         if (directPlay.Connected) directPlay.DisConnect();
-        DialogHosts.TitleWindow.MainWindow.Visible = true;
-        DialogHosts.TitleWindow.TitlePanel.Visible = false;
+        UI.TitleWindow.MainWindow.Visible = true;
+        UI.TitleWindow.TitlePanel.Visible = false;
         MultiPanel.Visible = GamePanel.Visible = true;
         TcpPanel.Visible = LanPanel.Visible = JoinPanel.Visible = TcpButton.Visible = IpxButton.Visible = EmailPanel.Visible = false;
         // A provider button shows only when DirectPlay lists that provider. The offline component

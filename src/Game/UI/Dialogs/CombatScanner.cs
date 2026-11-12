@@ -6,9 +6,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CombatScanner : DataModule
+public partial class CombatScanner : UIModule
 {
-    public CombatScanner(Component owner) : base(owner)
+    public CombatScanner(UIContext ui) : base(ui)
     { }
 
     public Window CombatScannerWindow;
@@ -17,14 +17,14 @@ public partial class CombatScanner : DataModule
     // AoWTCScanner.pas:38
     public void ScannerChangeTileBox()
     {
-        DialogHosts.MapWindow.MapViewer.SceneX = (Scanner.TLeft + 6) * 33;
-        DialogHosts.MapWindow.MapViewer.SceneY = (Scanner.TTop + 6) * 33;
+        UI.MapWindow.MapViewer.SceneX = (Scanner.TLeft + 6) * 33;
+        UI.MapWindow.MapViewer.SceneY = (Scanner.TTop + 6) * 33;
         if (StrategicMap.Current.SeatedPlayer != -1)
         {
-            Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
-            Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);
-            Scanner.SetTLeft(DialogHosts.MapWindow.MapViewer.SceneX / 32 - 6);
-            Scanner.SetTTop(DialogHosts.MapWindow.MapViewer.SceneY / 32 - 6);
+            Scanner.SetTWidth(UI.MapWindow.MapViewer.SceneWidth / 32);
+            Scanner.SetTHeight(UI.MapWindow.MapViewer.SceneHeight / 32);
+            Scanner.SetTLeft(UI.MapWindow.MapViewer.SceneX / 32 - 6);
+            Scanner.SetTTop(UI.MapWindow.MapViewer.SceneY / 32 - 6);
         }
     }
 
@@ -38,7 +38,7 @@ public partial class CombatScanner : DataModule
     // AoWTCScanner.pas:60
     public void SMinIconClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         CombatScannerWindow.Visible = false;
     }
 }

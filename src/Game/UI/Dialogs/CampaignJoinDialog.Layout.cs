@@ -286,19 +286,19 @@ public partial class CampaignJoinDialog : ILayoutModule
         ScrollTextView.Loaded();
         translator.Loaded();
         session.Resolve(this);
-        CharacterGenerationPanel.Window = DialogHosts.TitleWindow.MainWindow;
-        CharacterGenerationPanel.ImageLibraryTexture = DialogHosts.UIGraphics.FactionWindow;
-        LeaderTypePanel.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        LeaderTypePanel.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        customBtn.Font = DialogHosts.UIFonts.Age10;
-        customBtn.ImageLibraryButton = DialogHosts.UIGraphics.GenericButtons;
-        defaultBtn.Font = DialogHosts.UIFonts.Age10;
-        defaultBtn.ImageLibraryButton = DialogHosts.UIGraphics.GenericButtons;
-        leaderTypeMsg.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
-        DefaultFacePanel.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        DefaultFacePanel.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        customFacePnl.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        customFacePnl.ImageLibraryTexture = DialogHosts.UIGraphics.FactionWindow;
+        CharacterGenerationPanel.Window = UI.TitleWindow.MainWindow;
+        CharacterGenerationPanel.ImageLibraryTexture = UI.Graphics.FactionWindow;
+        LeaderTypePanel.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        LeaderTypePanel.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        customBtn.Font = UI.Fonts.Age10;
+        customBtn.ImageLibraryButton = UI.Graphics.GenericButtons;
+        defaultBtn.Font = UI.Fonts.Age10;
+        defaultBtn.ImageLibraryButton = UI.Graphics.GenericButtons;
+        leaderTypeMsg.Font = UI.Fonts.Age15WhiteOnGrey;
+        DefaultFacePanel.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        DefaultFacePanel.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        customFacePnl.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        customFacePnl.ImageLibraryTexture = UI.Graphics.FactionWindow;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
     }

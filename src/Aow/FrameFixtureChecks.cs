@@ -52,7 +52,6 @@ internal static class FrameFixtureChecks
         Check(FrameFixture.FileStampUtc(displayedFileTime, TimeSpan.FromHours(-8)) ==
             new DateTime(2000, 1, 1, 21, 0, 0, DateTimeKind.Utc), "standard file stamp preserves captured 1 PM text");
 
-        var oldWindow = DialogHosts.MapWindow;
         var oldMap = StrategicMap.Current;
         GameEngine oldEngine = GameTables.GameEngine;
         var oldSettings = RtlUnit.Settings;
@@ -60,7 +59,8 @@ internal static class FrameFixtureChecks
         {
             var mapWindow = new Window(null) { _modal = true };
             mapWindow.SetVisibleWithoutUpdate(true);
-            DialogHosts.MapWindow = new(null) { MainWindow = mapWindow };
+            var ui = new UIContext();
+            ui.Add(new MapWindow(ui) { MainWindow = mapWindow });
             var menu = new StartMenu(null) { _modal = false };
             menu.SetVisibleWithoutUpdate(true);
             var hidden = new Window(null) { _modal = true };
@@ -69,7 +69,7 @@ internal static class FrameFixtureChecks
             manager.Children.Add(mapWindow);
             manager.Children.Add(menu);
             manager.Children.Add(hidden);
-            var controller = new General(null) { Manager = manager };
+            var controller = new General(ui) { Manager = manager };
             Check(!General.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
             menu._modal = true;
             Check(General.HasModalWindow(controller), "modal sibling menu blocks input");
@@ -84,7 +84,7 @@ internal static class FrameFixtureChecks
             players.AddChild(new Player(null!) { Status = PlayerStatus.Playing });
             StrategicMap.Current = new StrategicMap(null!);
             StrategicMap.Current.Players = players;
-            TaskBar bar = new TaskBar(null)
+            TaskBar bar = new TaskBar(ui)
             {
                 PlayerIndicatorFrame = new(null) { Aligned = true },
                 WorldMessageEdit = new(null) { Aligned = true }
@@ -103,7 +103,7 @@ internal static class FrameFixtureChecks
             GameTables.GameEngine = oldEngine;
             GameTables.GameEngine.Registry.SetMovementSpeed(GameSettings.MovementSpeed.Normal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
-            var world = new MapWindow(null) { MainWindow = mapWindow };
+            var world = new MapWindow(ui) { MainWindow = mapWindow };
             world.MapWindowUpdate();
             Check(StrategicMap.Current.FPS == 9, "captured FPS reaches the strategic movement input");
             var army = new MovementArmy { MoveStep = -1, UnitGraphicsResource = new(null) { MoveAnimationSpeed = 2 } };
@@ -123,7 +123,6 @@ internal static class FrameFixtureChecks
         }
         finally
         {
-            DialogHosts.MapWindow = oldWindow;
             StrategicMap.Current = oldMap;
             GameTables.GameEngine = oldEngine;
             RtlUnit.Settings = oldSettings;

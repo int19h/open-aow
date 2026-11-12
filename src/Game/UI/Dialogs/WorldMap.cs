@@ -26,9 +26,9 @@ namespace Aow.Game.UI.Dialogs;
 
 // star image, brightness, path animation, pawn timing, hover, context, completion event, book
 // action
-public partial class WorldMap : DataModule
+public partial class WorldMap : UIModule
 {
-    public WorldMap(Component owner) : base(owner)
+    public WorldMap(UIContext ui) : base(ui)
     { }
 
     public Memo LeftPageMemo;
@@ -154,8 +154,8 @@ public partial class WorldMap : DataModule
                             var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign13.CurrentScenarioId);
                             var campaign14 = GetCampaign();
                             var campaignPage4 = GetCampaignPage(campaignScenario6.OutroPages, campaign14.Page);
-                            DialogHosts.UIGraphics.BookLeftPage.LoadFromFile(campaignPage4.ImageLibrary);
-                            LeftPagePicture.ImageLibrary = DialogHosts.UIGraphics.BookLeftPage;
+                            UI.Graphics.BookLeftPage.LoadFromFile(campaignPage4.ImageLibrary);
+                            LeftPagePicture.ImageLibrary = UI.Graphics.BookLeftPage;
                             var campaign15 = GetCampaign();
                             var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign15.CurrentScenarioId);
                             var campaign16 = GetCampaign();
@@ -179,8 +179,8 @@ public partial class WorldMap : DataModule
                             var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign13.CurrentScenarioId);
                             var campaign14 = GetCampaign();
                             var campaignPage4 = GetCampaignPage(campaignScenario6.OutroPages, campaign14.Page + 1);
-                            DialogHosts.UIGraphics.BookRightPage.LoadFromFile(campaignPage4.ImageLibrary);
-                            RightPagePicture.ImageLibrary = DialogHosts.UIGraphics.BookRightPage;
+                            UI.Graphics.BookRightPage.LoadFromFile(campaignPage4.ImageLibrary);
+                            RightPagePicture.ImageLibrary = UI.Graphics.BookRightPage;
                             var campaign15 = GetCampaign();
                             var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign15.CurrentScenarioId);
                             var campaign16 = GetCampaign();
@@ -228,9 +228,9 @@ public partial class WorldMap : DataModule
                             Book.BackSurface.Clear(Book._maskColor);
                         }
 
-                        if (DialogHosts.TitleWindow.MainWindow.Visible)
+                        if (UI.TitleWindow.MainWindow.Visible)
                         {
-                            DialogHosts.General.Manager.OverlayPriority = 249;
+                            UI.General.Manager.OverlayPriority = 249;
                         }
                     }
                     else
@@ -337,15 +337,15 @@ public partial class WorldMap : DataModule
 
                     if (!Path1Image.Visible && !Path2Image.Visible && !Path3Image.Visible)
                     {
-                        DialogHosts.TitleWindow.TitlePanel.Visible = false;
-                        DialogHosts.TitleWindow.TitlePanel.Redraw = false;
-                        DialogHosts.TitleWindow.MainWindow.Visible = false;
-                        DialogHosts.TaskBar.TaskWindow.Visible = false;
+                        UI.TitleWindow.TitlePanel.Visible = false;
+                        UI.TitleWindow.TitlePanel.Redraw = false;
+                        UI.TitleWindow.MainWindow.Visible = false;
+                        UI.TaskBar.TaskWindow.Visible = false;
                         WorldPanel.Visible = false;
                         Book.Visible = false;
                         GameTables.GameEngine.CloseCampaign();
-                        DialogHosts.TitleScene.ResetScene();
-                        WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
+                        UI.TitleScene.ResetScene();
+                        WindowActions.ShowTitleScene(UI.TitleScene, true);
                     }
 
                     break;
@@ -379,7 +379,7 @@ public partial class WorldMap : DataModule
 
                     break;
                 case 3:
-                    DialogHosts.CampaignTransferDialog.Execute();
+                    UI.CampaignTransferDialog.Execute();
                     SetButton.Visible = false;
                     ShowButton.Visible = false;
                     QuitButton.Visible = false;
@@ -423,16 +423,16 @@ public partial class WorldMap : DataModule
                         SetCurrentDir(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\");
                         var campaign4 = GetCampaign();
                         var campaignScenario = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign4.CurrentScenarioId);
-                        General.LoadGame(DialogHosts.General, FileBoundary.ReadName(campaignScenario.FileName));
-                        DialogHosts.TitleWindow.TitlePanel.Visible = true;
+                        General.LoadGame(UI.General, FileBoundary.ReadName(campaignScenario.FileName));
+                        UI.TitleWindow.TitlePanel.Visible = true;
                         WorldPanel.Visible = false;
                         GetCampaign().SetupScenario();
-                        General.StartGame(DialogHosts.General);
-                        DialogHosts.WorldMap.DescriptionLabel.Text = "";
+                        General.StartGame(UI.General);
+                        UI.WorldMap.DescriptionLabel.Text = "";
                     }
                     else
                     {
-                        DialogHosts.WorldMap.DescriptionLabel.Text = "";
+                        UI.WorldMap.DescriptionLabel.Text = "";
                         GetCampaign().State = 0;
                         UpdateCampaignState();
                     }
@@ -478,8 +478,8 @@ public partial class WorldMap : DataModule
             var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign6 = GetCampaign();
             var campaignPage4 = GetCampaignPage(campaignScenario6.IntroPages, campaign6.Page);
-            DialogHosts.UIGraphics.BookLeftPage.LoadFromFile(campaignPage4.ImageLibrary);
-            LeftPagePicture.ImageLibrary = DialogHosts.UIGraphics.BookLeftPage;
+            UI.Graphics.BookLeftPage.LoadFromFile(campaignPage4.ImageLibrary);
+            LeftPagePicture.ImageLibrary = UI.Graphics.BookLeftPage;
             var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign7 = GetCampaign();
             var campaignPage5 = GetCampaignPage(campaignScenario7.IntroPages, campaign7.Page);
@@ -500,8 +500,8 @@ public partial class WorldMap : DataModule
             var campaignScenario6 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign6 = GetCampaign();
             var campaignPage4 = GetCampaignPage(campaignScenario6.IntroPages, campaign6.Page + 1);
-            DialogHosts.UIGraphics.BookRightPage.LoadFromFile(campaignPage4.ImageLibrary);
-            RightPagePicture.ImageLibrary = DialogHosts.UIGraphics.BookRightPage;
+            UI.Graphics.BookRightPage.LoadFromFile(campaignPage4.ImageLibrary);
+            RightPagePicture.ImageLibrary = UI.Graphics.BookRightPage;
             var campaignScenario7 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), index);
             var campaign7 = GetCampaign();
             var campaignPage5 = GetCampaignPage(campaignScenario7.IntroPages, campaign7.Page + 1);
@@ -544,9 +544,9 @@ public partial class WorldMap : DataModule
             Book.BackSurface.Clear(Book._maskColor);
         }
 
-        if (DialogHosts.TitleWindow.MainWindow.Visible)
+        if (UI.TitleWindow.MainWindow.Visible)
         {
-            DialogHosts.General.Manager.OverlayPriority = 249;
+            UI.General.Manager.OverlayPriority = 249;
         }
     }
 
@@ -563,17 +563,17 @@ public partial class WorldMap : DataModule
         control.Leader.SetSpherePicksMax((byte)(picks + 2));
         control.OriginalLeader.Assign(control.Leader, GameTables.GameEngine);
         control.Mode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres);
-        DialogHosts.LeaderSetupWindow.Execute(control);
-        DialogHosts.LeaderSetupWindow.ClearButton.Visible = false;
-        DialogHosts.LeaderSetupWindow.DefaultButton.Visible = false;
-        DialogHosts.LeaderSetupWindow.PreviousButton.Visible = false;
-        DialogHosts.LeaderSetupWindow.SetFixedSpheres(picks);
+        UI.LeaderSetupWindow.Execute(control);
+        UI.LeaderSetupWindow.ClearButton.Visible = false;
+        UI.LeaderSetupWindow.DefaultButton.Visible = false;
+        UI.LeaderSetupWindow.PreviousButton.Visible = false;
+        UI.LeaderSetupWindow.SetFixedSpheres(picks);
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_assignNewSpheresFormat), [IntToStr(2)]);
-        DialogHosts.LeaderSetupWindow.Phase3Header.Text = format;
+        UI.LeaderSetupWindow.Phase3Header.Text = format;
         control.OnDone += SpheresDone;
         control.Release();
-        DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = DialogHosts.UIGraphics.WorldMap;
-        DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = 0;
+        UI.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = UI.Graphics.WorldMap;
+        UI.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = 0;
     }
 
     // AoWWorldMap.pas:386
@@ -616,7 +616,7 @@ public partial class WorldMap : DataModule
             context.Release();
         }
 
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
     }
 
     // AoWWorldMap.pas:146
@@ -1040,7 +1040,7 @@ public partial class WorldMap : DataModule
         AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
         if (!WorldPanel.Visible)
         {
-            DialogHosts.General.Manager.OverlayPriority = 0;
+            UI.General.Manager.OverlayPriority = 0;
         }
 
         if (WorldPanel.Visible)
@@ -1098,7 +1098,7 @@ public partial class WorldMap : DataModule
         if (BookStartButton.Visible != s_bookStartVisible)
         {
             R = new Rect(Book.WinLeft + BookStartButton.WinLeft, Book.WinTop + BookStartButton.WinTop, Book.WinLeft + BookStartButton.WinLeft + BookStartButton.WinWidth, Book.WinTop + BookStartButton.WinTop + BookStartButton.WinHeight);
-            DialogHosts.General.Manager.AddDrawRectangle(ref R, Book);
+            UI.General.Manager.AddDrawRectangle(ref R, Book);
             s_bookStartVisible = BookStartButton.Visible;
         }
     }
@@ -1133,14 +1133,14 @@ public partial class WorldMap : DataModule
     {
         var quitCampaign = AbilityRules.TranslateResourceString(s_quitCampaignText);
         var confirm = AbilityRules.TranslateResourceString(LobbyText.ConfirmText);
-        DialogHosts.ConfirmationDialog.Confirm(confirm, text: quitCampaign, onConfirmed: QuitCampaign);
+        UI.ConfirmationDialog.Confirm(confirm, text: quitCampaign, onConfirmed: QuitCampaign);
     }
 
     // AOWDialogWin.pas:73, action 5.
-    private static void QuitCampaign()
+    private void QuitCampaign()
     {
-        DialogHosts.WorldMap.WorldPanel.Visible = false;
-        DialogHosts.General.ReturnToTitle();
+        UI.WorldMap.WorldPanel.Visible = false;
+        UI.General.ReturnToTitle();
     }
 
     // AoWWorldMap.pas:791
@@ -1163,7 +1163,7 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:800
     public void StarImgDraw(LockedSurface surface)
     {
-        DialogHosts.UIGraphics.WorldMap[_starImageValue].ShowBlended(WorldPanel.WinLeft + StarImage.WinLeft, WorldPanel.WinTop + StarImage.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_starIntensity]);
+        UI.Graphics.WorldMap[_starImageValue].ShowBlended(WorldPanel.WinLeft + StarImage.WinLeft, WorldPanel.WinTop + StarImage.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_starIntensity]);
     }
 
     // AoWWorldMap.pas:806
@@ -1216,7 +1216,7 @@ public partial class WorldMap : DataModule
     // AoWWorldMap.pas:854
     public void SetBtnClick()
     {
-        DialogHosts.CampaignSettingsDialog.Window.Visible = true;
+        UI.CampaignSettingsDialog.Window.Visible = true;
     }
 
     // AoWWorldMap.pas:859
@@ -1265,13 +1265,13 @@ public partial class WorldMap : DataModule
         string song = "";
         dialog.ResetCampaign();
         GameTables.GameEngine.CloseHsm(null);
-        DialogHosts.TitleWindow.MainWindow.Visible = true;
-        DialogHosts.TitleWindow.TitlePanel.Visible = false;
+        dialog.UI.TitleWindow.MainWindow.Visible = true;
+        dialog.UI.TitleWindow.TitlePanel.Visible = false;
         dialog.WorldPanel.Visible = true;
         dialog._pathFrame = 0;
         dialog._pathDelay = 5;
         dialog.DescriptionLabel.Text = "";
-        DialogHosts.General.Manager.OverlayPriority = 249;
+        dialog.UI.General.Manager.OverlayPriority = 249;
         AudioHost.SongPlayer.Stop(false);
         SetCurrentDir(GameTables.GameEngine.StartupDirectory);
         var campaign = dialog.GetCampaign();

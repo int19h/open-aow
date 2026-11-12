@@ -145,13 +145,13 @@ internal sealed class FrameFixture
         {
             using MainForm form = MainForm.Create(display, argument);
             if (saveDirectory is not null)
-                DialogHosts.FileDialogWindow.Directory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
+                form.UI.FileDialogWindow.Directory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
             FrameFixtureInputs.TacticalInitialized = () =>
             {
                 if (StrategicMap.Current?.CombatMap is not CombatMap combat) return;
                 combat.PlaySounds = true;
                 combat.SetSeatedCombatPlayer(0);
-                DialogHosts.ChatWindow.MinClick();
+                form.UI.ChatWindow.MinClick();
                 tacticalReady = true;
             };
             bool AtTarget()
@@ -194,7 +194,7 @@ internal sealed class FrameFixture
             {
                 if (pendingSnapshot is { } snapshot)
                 {
-                    diagnostics?.Snapshot(snapshot.Name);
+                    diagnostics?.Snapshot(snapshot.Name, ui: form.UI);
                     StrategicMap.Current.PlayerControl.AutoSave();
                     File.Copy(Path.Combine(output, "user", "Save", "autosave.asg"), Path.Combine(output, "snapshot-" + snapshot.Name + ".asg"), true);
                     capturedSnapshots.Add(snapshot.Name);
@@ -222,11 +222,11 @@ internal sealed class FrameFixture
                             foreach (string saved in Directory.EnumerateFiles(Path.Combine(output, "user", saveDirectory)))
                                 if (fileStampUtc is DateTime stamp) File.SetLastWriteTimeUtc(saved, stamp);
                                 else File.SetLastWriteTime(saved, now);
-                        var manager = DialogHosts.General.Manager;
+                        var manager = form.UI.General.Manager;
                         int inputX = click.X, inputY = click.Y;
                         if (click.Hex is int hex && click.Hy is int hy)
                         {
-                            var mapWindow = DialogHosts.MapWindow;
+                            var mapWindow = form.UI.MapWindow;
                             HexGeometry.HexToPixel(hex, hy, out inputX, out inputY);
                             inputX += 28 + mapWindow.MainWindow.WinLeft - mapWindow.MapViewer.SceneX;
                             inputY += 28 + mapWindow.MainWindow.WinTop - mapWindow.MapViewer.SceneY;
@@ -261,7 +261,7 @@ internal sealed class FrameFixture
                             click.Repeat,
                             click.Clock,
                             click.Day,
-                            selected_combat_unit = DialogHosts.General.CombatUnit?.Unit.Id
+                            selected_combat_unit = form.UI.General.CombatUnit?.Unit.Id
                         }));
                         applied++;
                     }
@@ -273,9 +273,9 @@ internal sealed class FrameFixture
             if (!complete || applied != clicks.Count) throw new InvalidOperationException("Fixture ended before all inputs and the target frame");
             if (!capturedCheckpoints.SetEquals(checkpoints)) throw new InvalidOperationException("Fixture missed an intermediate checkpoint");
             if (!capturedSnapshots.SetEquals(snapshots.Select(s => s.Name))) throw new InvalidOperationException("Fixture missed a state snapshot");
-            if (fixture._values.GetValueOrDefault("language_checks") == "true") LocalizationFrameChecks.Run(gameRoot, output, form.Layouts);
-            TaskBar taskbar = DialogHosts.TaskBar;
-            var controls = DialogHosts.ControlWindow;
+            if (fixture._values.GetValueOrDefault("language_checks") == "true") LocalizationFrameChecks.Run(gameRoot, output, form.Layouts, ui: form.UI);
+            TaskBar taskbar = form.UI.TaskBar;
+            var controls = form.UI.ControlWindow;
             File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1CheckBox.Text, controls.Unit2CheckBox.Text, controls.MovesLabel.Text }) + "\n");
             var selected = StrategicMap.Current?.SelectedArmy?.GetArmyHexSprite();
             if (StrategicMap.Current is { } world)
@@ -330,7 +330,7 @@ internal sealed class FrameFixture
             }
             if (StrategicMap.Current?.CombatMap is CombatMap combatMap)
             {
-                var viewer = DialogHosts.MapWindow.MapViewer;
+                var viewer = form.UI.MapWindow.MapViewer;
                 var units = new List<object>();
                 var data = combatMap.Combat.CombatData;
                 for (int i = 0; i < data.GetCount(); i++)

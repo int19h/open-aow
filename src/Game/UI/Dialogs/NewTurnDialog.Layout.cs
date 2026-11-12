@@ -401,21 +401,21 @@ public partial class NewTurnDialog : ILayoutModule
         tCeltLineR.Loaded();
         faceFrame.Loaded();
         session.Resolve(this);
-        Window.WindowManager = DialogHosts.General.Manager;
-        Window.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        Window.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        tCeltB.ImageLibraryLine = DialogHosts.UIGraphics.CelticDecorations;
-        ClickMessageLabel.Font = DialogHosts.UIFonts.Age10Shadow;
-        LeftShield.ImageLibrary = DialogHosts.UIGraphics.Shields;
-        PlayerNameLabel.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
-        TurnMessageLabel.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
-        PlayerRaceLabel.Font = DialogHosts.UIFonts.Age10Shadow;
-        TurnLabel.Font = DialogHosts.UIFonts.Age10Shadow;
-        RightShield.ImageLibrary = DialogHosts.UIGraphics.Shields;
-        blueFr.ImageLibraryFrame = DialogHosts.UIGraphics.CelticDecorations;
-        blueFr.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        tCeltLineL.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
-        tCeltLineR.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
-        faceFrame.ImageLibrary = DialogHosts.UIGraphics.GenericFrames;
+        Window.WindowManager = UI.General.Manager;
+        Window.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        Window.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        tCeltB.ImageLibraryLine = UI.Graphics.CelticDecorations;
+        ClickMessageLabel.Font = UI.Fonts.Age10Shadow;
+        LeftShield.ImageLibrary = UI.Graphics.Shields;
+        PlayerNameLabel.Font = UI.Fonts.Age15WhiteOnGrey;
+        TurnMessageLabel.Font = UI.Fonts.Age15WhiteOnGrey;
+        PlayerRaceLabel.Font = UI.Fonts.Age10Shadow;
+        TurnLabel.Font = UI.Fonts.Age10Shadow;
+        RightShield.ImageLibrary = UI.Graphics.Shields;
+        blueFr.ImageLibraryFrame = UI.Graphics.CelticDecorations;
+        blueFr.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        tCeltLineL.ImageLibrary = UI.Graphics.CelticDecorations;
+        tCeltLineR.ImageLibrary = UI.Graphics.CelticDecorations;
+        faceFrame.ImageLibrary = UI.Graphics.GenericFrames;
     }
 }

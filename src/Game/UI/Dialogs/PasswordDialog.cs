@@ -7,9 +7,9 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class PasswordDialog : DataModule
+public partial class PasswordDialog : UIModule
 {
-    public PasswordDialog(Component owner) : base(owner)
+    public PasswordDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;

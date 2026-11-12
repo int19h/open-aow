@@ -6,9 +6,9 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class Pop3Dialog : DataModule
+public partial class Pop3Dialog : UIModule
 {
-    public Pop3Dialog(Component owner) : base(owner)
+    public Pop3Dialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -111,8 +111,8 @@ public partial class Pop3Dialog : DataModule
         if (FoundEmailGamesList.Selected != -1)
         {
             var item = FoundEmailGamesList.Items[FoundEmailGamesList.Selected];
-            General.LoadGame(DialogHosts.General, GameTables.GameEngine.StartupDirectory + "EmailIn\\" + item);
-            General.StartGame(DialogHosts.General);
+            General.LoadGame(UI.General, GameTables.GameEngine.StartupDirectory + "EmailIn\\" + item);
+            General.StartGame(UI.General);
         }
     }
 

@@ -78,6 +78,6 @@ public partial class IntroScene : ILayoutModule
         Window.Loaded();
         videoPlayer.Loaded();
         session.Resolve(this);
-        Window.WindowManager = DialogHosts.General.Manager;
+        Window.WindowManager = UI.General.Manager;
     }
 }

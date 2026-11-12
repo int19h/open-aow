@@ -29,10 +29,6 @@ public struct LongRec
     [FieldOffset(2)] public ushort Hi;
 }
 
-public struct Message { public int Msg, WParam, LParam, Result; }
-
-public struct CreateParams { public readonly int Style, ExStyle, X, Y, Width, Height, WndParent, Param; }
-
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct WaveFormatEx
 {

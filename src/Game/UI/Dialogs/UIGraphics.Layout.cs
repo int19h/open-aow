@@ -5,7 +5,7 @@ using Aow.Game.Layout;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class UIGraphics : ILayoutModule
+public sealed partial class UIGraphics : ILayoutModule
 {
     public void InitializeComponent()
     {

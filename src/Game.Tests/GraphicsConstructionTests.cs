@@ -83,8 +83,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(1, owner.ComponentCount);
         if (value is CustomDisplay display)
         {
-            Assert.Equal(100, display.Width);
-            Assert.Equal(100, display.Height);
+            Assert.Equal(0, display.Color);
             Assert.Equal(640, Field(display, "_backSurfaceWidth"));
             Assert.Equal(480, Field(display, "_backSurfaceHeight"));
             Assert.Equal(30, Field(display, "_frameRate"));

@@ -342,19 +342,19 @@ public partial class PasswordDialog : ILayoutModule
         PasswordEdit.Loaded();
         translator.Loaded();
         session.Resolve(this);
-        Window.WindowManager = DialogHosts.General.Manager;
-        Window.ImageLibraryFrame = DialogHosts.UIGraphics.GenericFrames;
-        Window.ImageLibraryTexture = DialogHosts.UIGraphics.GenericTextures;
-        TitleLabel.Font = DialogHosts.UIFonts.Age10;
-        bCeltL.ImageLibraryLine = DialogHosts.UIGraphics.CelticDecorations;
-        tCeltL.ImageLibraryLine = DialogHosts.UIGraphics.CelticDecorations;
-        tCeltLineL.ImageLibrary = DialogHosts.UIGraphics.CelticDecorations;
-        okBtn.Font = DialogHosts.UIFonts.Age10;
-        okBtn.ImageLibraryButton = DialogHosts.UIGraphics.GenericButtons;
-        cancelBtn.Font = DialogHosts.UIFonts.Age10;
-        cancelBtn.ImageLibraryButton = DialogHosts.UIGraphics.GenericButtons;
-        PasswordLabel.Font = DialogHosts.UIFonts.Age15WhiteOnGrey;
-        PasswordEdit.Font = DialogHosts.UIFonts.Age10Shadow;
-        PasswordEdit.ImageLibraryEdit = DialogHosts.UIGraphics.GenericEdits;
+        Window.WindowManager = UI.General.Manager;
+        Window.ImageLibraryFrame = UI.Graphics.GenericFrames;
+        Window.ImageLibraryTexture = UI.Graphics.GenericTextures;
+        TitleLabel.Font = UI.Fonts.Age10;
+        bCeltL.ImageLibraryLine = UI.Graphics.CelticDecorations;
+        tCeltL.ImageLibraryLine = UI.Graphics.CelticDecorations;
+        tCeltLineL.ImageLibrary = UI.Graphics.CelticDecorations;
+        okBtn.Font = UI.Fonts.Age10;
+        okBtn.ImageLibraryButton = UI.Graphics.GenericButtons;
+        cancelBtn.Font = UI.Fonts.Age10;
+        cancelBtn.ImageLibraryButton = UI.Graphics.GenericButtons;
+        PasswordLabel.Font = UI.Fonts.Age15WhiteOnGrey;
+        PasswordEdit.Font = UI.Fonts.Age10Shadow;
+        PasswordEdit.ImageLibraryEdit = UI.Graphics.GenericEdits;
     }
 }

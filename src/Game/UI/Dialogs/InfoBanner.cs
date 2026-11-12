@@ -4,9 +4,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class InfoBanner : DataModule
+public partial class InfoBanner : UIModule
 {
-    public InfoBanner(Component owner) : base(owner)
+    public InfoBanner(UIContext ui) : base(ui)
     { }
 
     public Label HeaderLabel;

@@ -15,9 +15,9 @@ namespace Aow.Game.UI.Dialogs;
 
 // phase, phase frame, animation frame, and shield indices/opacities, combat viewer, completion
 // event, retained event
-public partial class FastBattleWindow : DataModule
+public partial class FastBattleWindow : UIModule
 {
-    public FastBattleWindow(Component owner) : base(owner)
+    public FastBattleWindow(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -360,7 +360,7 @@ public partial class FastBattleWindow : DataModule
         ExecuteDoneEvent done;
         EventLog log;
         _viewer.Finalize();
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
         done = Done;
         log = _event;
         Done = null;
@@ -398,7 +398,7 @@ public partial class FastBattleWindow : DataModule
     // FastCombatWin.pas:399
     public void CloseButClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
     }
 
@@ -538,7 +538,7 @@ public partial class FastBattleWindow : DataModule
     public void InitialViewClick()
     {
         CombatViewer viewer;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         viewer = _viewer;
         if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
@@ -551,7 +551,7 @@ public partial class FastBattleWindow : DataModule
     public void FinalViewClick()
     {
         CombatViewer viewer;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         viewer = _viewer;
         if (viewer != null && viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
@@ -563,7 +563,7 @@ public partial class FastBattleWindow : DataModule
     // FastCombatWin.pas:492
     public void PauseBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_viewer != null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             _viewer.Pause();
@@ -573,7 +573,7 @@ public partial class FastBattleWindow : DataModule
     // FastCombatWin.pas:498
     public void PlayBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_viewer != null && _viewer.Status.Contains(CombatViewerStatusElement.Initialized))
         {
             _viewer.Play();
@@ -606,11 +606,11 @@ public partial class FastBattleWindow : DataModule
     {
         if (_leftOpacity == 100)
         {
-            DialogHosts.UIGraphics.Shields[_leftShield].Show(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface);
+            UI.Graphics.Shields[_leftShield].Show(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface);
         }
         else
         {
-            DialogHosts.UIGraphics.Shields[_leftShield].ShowBlended(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_leftOpacity]);
+            UI.Graphics.Shields[_leftShield].ShowBlended(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_leftOpacity]);
         }
     }
 
@@ -619,11 +619,11 @@ public partial class FastBattleWindow : DataModule
     {
         if (_rightOpacity == 100)
         {
-            DialogHosts.UIGraphics.Shields[_rightShield].Show(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface);
+            UI.Graphics.Shields[_rightShield].Show(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface);
         }
         else
         {
-            DialogHosts.UIGraphics.Shields[_rightShield].ShowBlended(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_rightOpacity]);
+            UI.Graphics.Shields[_rightShield].ShowBlended(MainWindow.WinLeft + sender.WinLeft, MainWindow.WinTop + sender.WinTop, surface, GraphicsState.AlphaBlendTable.LookupTables[_rightOpacity]);
         }
     }
 
@@ -645,7 +645,7 @@ public partial class FastBattleWindow : DataModule
     internal static void ShowCombatEvent(FastBattleWindow dialog, CombatEventLog eventValue, ExecuteDoneEvent done)
     {
         Assert(dialog._event == null, "", "FastCombatWin.pas", 159);
-        DialogHosts.General.Manager.OverlayPriority = 49;
+        dialog.UI.General.Manager.OverlayPriority = 49;
         dialog._event = eventValue;
         dialog._event.AddRef();
         dialog.Done = done;

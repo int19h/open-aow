@@ -11,9 +11,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // activation request
-public partial class ConstructDialog : DataModule
+public partial class ConstructDialog : UIModule
 {
-    public ConstructDialog(Component owner) : base(owner)
+    public ConstructDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -106,7 +106,7 @@ public partial class ConstructDialog : DataModule
     // AoWConstructDlg.pas:62
     public void CancelBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -134,7 +134,7 @@ public partial class ConstructDialog : DataModule
         string reason = "";
         ConstructionControl control;
         Troop U;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         bool condition = ConstructionList.Selected >= 0;
         if (condition)
         {
@@ -163,19 +163,19 @@ public partial class ConstructDialog : DataModule
     // AoWConstructDlg.pas:96
     public void SortConstructionsBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWConstructDlg.pas:99
     public void SortConstructionCostBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWConstructDlg.pas:102
     public void SortConstructionTurnsBtnClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
     }
 
     // AoWConstructDlg.pas:105

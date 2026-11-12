@@ -11,9 +11,9 @@ using Aow.Rtl.Localize;
 namespace Aow.Game.UI.Dialogs;
 
 // stage, faction, leader, scroll delay, scroll position, text
-public partial class CampaignJoinDialog : DataModule
+public partial class CampaignJoinDialog : UIModule
 {
-    public CampaignJoinDialog(Component owner) : base(owner)
+    public CampaignJoinDialog(UIContext ui) : base(ui)
     { }
 
     public Panel CharacterGenerationPanel;
@@ -60,11 +60,11 @@ public partial class CampaignJoinDialog : DataModule
                 break;
         }
 
-        DialogHosts.LeaderSetupWindow.Execute(control);
+        UI.LeaderSetupWindow.Execute(control);
         control.OnDone += LeaderCustomized;
         control.Release();
-        DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = DialogHosts.UIGraphics.FactionWindow;
-        DialogHosts.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = Faction + 10;
+        UI.LeaderSetupWindow.LeaderPanel.ImageLibraryTexture = UI.Graphics.FactionWindow;
+        UI.LeaderSetupWindow.LeaderPanel.ImageLibraryIndexTexture = Faction + 10;
     }
 
     // AoWCampaignJoin.pas:145
@@ -75,7 +75,7 @@ public partial class CampaignJoinDialog : DataModule
         if (leaderSetupControl.Status == LeaderSetupControl.LeaderSetupStatus.Done)
         {
             leader = (Leader)leaderSetupControl.OriginalLeader.Copy(GameTables.GameEngine);
-            DialogHosts.WorldMap.GetCampaign().TransferSettings.SetLeader(leader);
+            UI.WorldMap.GetCampaign().TransferSettings.SetLeader(leader);
             leader.Release();
             FinishSelection();
         }
@@ -90,7 +90,7 @@ public partial class CampaignJoinDialog : DataModule
     {
         CharacterGenerationPanel.Visible = true;
         LeaderTypePanel.Visible = false;
-        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        UI.TitleWindow.MainWindow.Visible = true;
         ScrollTextView.Visible = true;
         _scrollDelay = 0;
         _scrollPosition = 0;
@@ -101,7 +101,7 @@ public partial class CampaignJoinDialog : DataModule
     public void FinishSelection()
     {
         CharacterGenerationPanel.Visible = false;
-        WorldMap.ShowCampaignMap(DialogHosts.WorldMap);
+        WorldMap.ShowCampaignMap(UI.WorldMap);
     }
 
     // AoWCampaignJoin.pas:137
@@ -153,7 +153,7 @@ public partial class CampaignJoinDialog : DataModule
     // AoWCampaignJoin.pas:91
     public void DefaultBtnClick()
     {
-        DialogHosts.WorldMap.GetCampaign().TransferSettings.SetLeader(Leader);
+        UI.WorldMap.GetCampaign().TransferSettings.SetLeader(Leader);
         FinishSelection();
     }
 
@@ -194,7 +194,7 @@ public partial class CampaignJoinDialog : DataModule
         for (int I = 0, last = ScrollText.Count - 1; I <= last; I++)
         {
             var scrollText = ScrollText[I];
-            DialogHosts.UIFonts.Age15WhiteOnGrey.SetTextCentered(X, Y, scrollText, lockedSurface);
+            UI.Fonts.Age15WhiteOnGrey.SetTextCentered(X, Y, scrollText, lockedSurface);
             Y += 20;
         }
     }
@@ -208,7 +208,7 @@ public partial class CampaignJoinDialog : DataModule
     {
         dialog.CharacterGenerationPanel.Visible = true;
         dialog.LeaderTypePanel.Visible = false;
-        DialogHosts.TitleWindow.MainWindow.Visible = true;
+        dialog.UI.TitleWindow.MainWindow.Visible = true;
         dialog.ScrollTextView.Visible = true;
         dialog._scrollDelay = 0;
         dialog._scrollPosition = 0;

@@ -6,8 +6,8 @@ namespace Aow.Game.UI.Dialogs;
 
 // The debug message window of the DWin form (AOWDialogWin.pas): the frame rate and the last 100
 // debug messages of the window manager. The form lays it out beside the confirmation dialog, and
-// the layout hands its components to this type.
-public sealed class DebugWindow(Window window, Label frameRateLabel, Memo memo, VerticalScrollBar memoScrollBar)
+// the layout hands its components and its UI context to this type.
+public sealed class DebugWindow(UIContext ui, Window window, Label frameRateLabel, Memo memo, VerticalScrollBar memoScrollBar)
 {
     public void Show() => window.Visible = true;
 
@@ -29,7 +29,7 @@ public sealed class DebugWindow(Window window, Label frameRateLabel, Memo memo, 
     // AOWDialogWin.pas:67, the Close button.
     public void Close()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        ui.General.PlayButtonSound(0);
         window.Visible = false;
     }
 }

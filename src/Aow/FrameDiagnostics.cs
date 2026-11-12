@@ -81,11 +81,11 @@ internal sealed class FrameDiagnostics : IDisposable
         }));
     }
 
-    public void Snapshot(string name)
+    public void Snapshot(string name, UIContext ui)
     {
         if (StrategicMap.Current is not { } map) return;
-        var viewer = DialogHosts.MapWindow.MapViewer;
-        var window = DialogHosts.MapWindow.MainWindow;
+        var viewer = ui.MapWindow.MapViewer;
+        var window = ui.MapWindow.MainWindow;
         var level = map.MapContainer.GetMapLevel(viewer.SceneL);
         var objects = new List<object>();
         for (int y = 0; y < level.Height; y++)

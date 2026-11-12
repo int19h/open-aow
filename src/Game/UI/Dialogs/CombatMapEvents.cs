@@ -16,9 +16,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class CombatMapEvents : DataModule
+public partial class CombatMapEvents : UIModule
 {
-    public CombatMapEvents(Component owner) : base(owner)
+    public CombatMapEvents(UIContext ui) : base(ui)
     { }
 
     private int _chatHeight;
@@ -28,66 +28,66 @@ public partial class CombatMapEvents : DataModule
     {
         StopSong();
         AudioHost.SongPlayer.Resume();
-        DialogHosts.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
-        DialogHosts.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
-        DialogHosts.ScannerWindow.Scanner.PreviousWidth = 0;
-        DialogHosts.ScannerWindow.Scanner.Incremental = false;
-        DialogHosts.ScannerWindow.Scanner.Sized = false;
-        DialogHosts.ScannerWindow.Scanner.UpdateStep = -1;
+        UI.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
+        UI.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
+        UI.ScannerWindow.Scanner.PreviousWidth = 0;
+        UI.ScannerWindow.Scanner.Incremental = false;
+        UI.ScannerWindow.Scanner.Sized = false;
+        UI.ScannerWindow.Scanner.UpdateStep = -1;
 
         if (_chatHeight > 0)
         {
-            DialogHosts.ChatWindow.MainWindow.WinHeight = _chatHeight;
+            UI.ChatWindow.MainWindow.WinHeight = _chatHeight;
         }
 
-        var chatWindow = DialogHosts.ChatWindow;
+        var chatWindow = UI.ChatWindow;
         chatWindow.MainWindow.Alignment.AlignHeight = AlignHeight.Bottom;
         chatWindow.MainWindow.Visible = false;
 
-        DialogHosts.ChatWindow.ScrollPending = true;
-        DialogHosts.MapWindow.MapAlignWidth = DialogHosts.MapWindow.MainWindow.Alignment.AlignWidth;
-        DialogHosts.MapWindow.MapAlignHeight = DialogHosts.MapWindow.MainWindow.Alignment.AlignHeight;
-        DialogHosts.MapWindow.MapRectangle.Left = DialogHosts.MapWindow.MainWindow.Alignment.LeftOffset;
-        DialogHosts.MapWindow.MapRectangle.Top = DialogHosts.MapWindow.MainWindow.Alignment.TopOffset;
-        if (DialogHosts.MapWindow.MapAlignWidth == AlignWidth.Both)
+        UI.ChatWindow.ScrollPending = true;
+        UI.MapWindow.MapAlignWidth = UI.MapWindow.MainWindow.Alignment.AlignWidth;
+        UI.MapWindow.MapAlignHeight = UI.MapWindow.MainWindow.Alignment.AlignHeight;
+        UI.MapWindow.MapRectangle.Left = UI.MapWindow.MainWindow.Alignment.LeftOffset;
+        UI.MapWindow.MapRectangle.Top = UI.MapWindow.MainWindow.Alignment.TopOffset;
+        if (UI.MapWindow.MapAlignWidth == AlignWidth.Both)
         {
-            DialogHosts.MapWindow.MapRectangle.Right = DialogHosts.MapWindow.MainWindow.Alignment.RightOffset;
+            UI.MapWindow.MapRectangle.Right = UI.MapWindow.MainWindow.Alignment.RightOffset;
         }
         else
         {
-            DialogHosts.MapWindow.MapRectangle.Right = DialogHosts.MapWindow.MainWindow.WinWidth;
+            UI.MapWindow.MapRectangle.Right = UI.MapWindow.MainWindow.WinWidth;
         }
 
-        if (DialogHosts.MapWindow.MapAlignHeight == AlignHeight.Both)
+        if (UI.MapWindow.MapAlignHeight == AlignHeight.Both)
         {
-            DialogHosts.MapWindow.MapRectangle.Bottom = DialogHosts.MapWindow.MainWindow.Alignment.BottomOffset;
+            UI.MapWindow.MapRectangle.Bottom = UI.MapWindow.MainWindow.Alignment.BottomOffset;
         }
         else
         {
-            DialogHosts.MapWindow.MapRectangle.Bottom = DialogHosts.MapWindow.MainWindow.WinHeight;
+            UI.MapWindow.MapRectangle.Bottom = UI.MapWindow.MainWindow.WinHeight;
         }
 
-        DialogHosts.MapWindow.MainWindow.Alignment.LeftOffset = DialogHosts.MapWindow.WorldRectangle.Left;
-        DialogHosts.MapWindow.MainWindow.Alignment.TopOffset = DialogHosts.MapWindow.WorldRectangle.Top;
-        DialogHosts.MapWindow.MainWindow.Alignment.RightOffset = DialogHosts.MapWindow.WorldRectangle.Right;
-        DialogHosts.MapWindow.MainWindow.Alignment.BottomOffset = DialogHosts.MapWindow.WorldRectangle.Bottom;
-        DialogHosts.MapWindow.MainWindow.WinWidth = DialogHosts.MapWindow.WorldRectangle.Right;
-        DialogHosts.MapWindow.MainWindow.WinHeight = DialogHosts.MapWindow.WorldRectangle.Bottom;
-        DialogHosts.MapWindow.MainWindow.Alignment.AlignWidth = DialogHosts.MapWindow.WorldAlignWidth;
-        DialogHosts.MapWindow.MainWindow.Alignment.AlignHeight = DialogHosts.MapWindow.WorldAlignHeight;
-        DialogHosts.General.ShowWindows();
-        DialogHosts.General.Manager.Aligned = false;
-        DialogHosts.TaskBar.WorldPanel.Visible = true;
-        DialogHosts.TaskBar.CombatPanel.Visible = false;
+        UI.MapWindow.MainWindow.Alignment.LeftOffset = UI.MapWindow.WorldRectangle.Left;
+        UI.MapWindow.MainWindow.Alignment.TopOffset = UI.MapWindow.WorldRectangle.Top;
+        UI.MapWindow.MainWindow.Alignment.RightOffset = UI.MapWindow.WorldRectangle.Right;
+        UI.MapWindow.MainWindow.Alignment.BottomOffset = UI.MapWindow.WorldRectangle.Bottom;
+        UI.MapWindow.MainWindow.WinWidth = UI.MapWindow.WorldRectangle.Right;
+        UI.MapWindow.MainWindow.WinHeight = UI.MapWindow.WorldRectangle.Bottom;
+        UI.MapWindow.MainWindow.Alignment.AlignWidth = UI.MapWindow.WorldAlignWidth;
+        UI.MapWindow.MainWindow.Alignment.AlignHeight = UI.MapWindow.WorldAlignHeight;
+        UI.General.ShowWindows();
+        UI.General.Manager.Aligned = false;
+        UI.TaskBar.WorldPanel.Visible = true;
+        UI.TaskBar.CombatPanel.Visible = false;
         var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
-        DialogHosts.TaskBar.WorldTurnButton.ButtonChecked = player.SingleProcessCycle;
-        DialogHosts.CombatScanner.CombatScannerWindow.Visible = false;
-        DialogHosts.CombatUnitInfo.MainWindow.Visible = false;
-        DialogHosts.CombatScanner.Scanner.SetMap(null);
-        DialogHosts.General.Manager.OverlayPriority = 0;
-        DialogHosts.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
-        DialogHosts.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
-        DialogHosts.MapEvents.TheMapPlayerMagicChanged(StrategicMap.Current.SeatedPlayer);
+        UI.TaskBar.WorldTurnButton.ButtonChecked = player.SingleProcessCycle;
+        UI.CombatScanner.CombatScannerWindow.Visible = false;
+        UI.CombatUnitInfo.MainWindow.Visible = false;
+        UI.CombatScanner.Scanner.SetMap(null);
+        UI.General.Manager.OverlayPriority = 0;
+        UI.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
+        UI.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
+        UI.MapEvents.TheMapPlayerMagicChanged(StrategicMap.Current.SeatedPlayer);
     }
 
     // aowTCMapEvents.pas:157
@@ -95,53 +95,53 @@ public partial class CombatMapEvents : DataModule
     {
         if (hexSprite is TacticalBattleUnitHexSprite)
         {
-            DialogHosts.General.CombatUnit = null;
-            DialogHosts.General.SelectedUnit = null;
-            DialogHosts.UnitWindow.MainWindow.Visible = false;
-            DialogHosts.TaskBar.CombatUnitButton.Visible = false;
-            DialogHosts.CombatUnitInfo.MainWindow.Visible = false;
+            UI.General.CombatUnit = null;
+            UI.General.SelectedUnit = null;
+            UI.UnitWindow.MainWindow.Visible = false;
+            UI.TaskBar.CombatUnitButton.Visible = false;
+            UI.CombatUnitInfo.MainWindow.Visible = false;
         }
     }
 
     // aowTCMapEvents.pas:169
     public void CombatMapMapChanged(in MapChangedInfo R)
     {
-        DialogHosts.CombatScanner.Scanner.DrawMap(R.Bounds.Left - 8, R.Bounds.Top - 6, R.Bounds.Right - R.Bounds.Left, R.Bounds.Bottom - R.Bounds.Top);
+        UI.CombatScanner.Scanner.DrawMap(R.Bounds.Left - 8, R.Bounds.Top - 6, R.Bounds.Right - R.Bounds.Left, R.Bounds.Bottom - R.Bounds.Top);
     }
 
     // aowTCMapEvents.pas:174
     public void CombatMapMouseOverTarget(HexSprite hexSprite)
     {
         Troop U;
-        if (DialogHosts.CombatUnitInfo.MainWindow.Visible)
+        if (UI.CombatUnitInfo.MainWindow.Visible)
         {
-            DialogHosts.CombatUnitInfo.TargetSelectPanel.Visible = hexSprite != null;
-            DialogHosts.CombatUnitInfo.NoTargetPanel.Visible = hexSprite == null;
+            UI.CombatUnitInfo.TargetSelectPanel.Visible = hexSprite != null;
+            UI.CombatUnitInfo.NoTargetPanel.Visible = hexSprite == null;
             if (hexSprite != null)
             {
                 if (hexSprite is TacticalBattleUnitHexSprite)
                 {
                     U = ((TacticalBattleUnitHexSprite)hexSprite).Unit.Troop;
                     var name = U.GetName();
-                    DialogHosts.CombatUnitInfo.TargetUnitLabel.Text = name;
+                    UI.CombatUnitInfo.TargetUnitLabel.Text = name;
                     var hitPoints = U.GetHitPoints();
                     var hits = U.GetHits();
-                    DialogHosts.CombatUnitInfo.TargetHitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
+                    UI.CombatUnitInfo.TargetHitsLabel.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
                     var movePoints = U.GetMovePoints();
                     var moves = U.GetMoves();
-                    DialogHosts.CombatUnitInfo.TargetMovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
+                    UI.CombatUnitInfo.TargetMovesLabel.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
                     var attack = U.GetAttack();
-                    DialogHosts.CombatUnitInfo.TargetAttackLabel.Text = IntToStr(attack);
+                    UI.CombatUnitInfo.TargetAttackLabel.Text = IntToStr(attack);
                     var damage = U.GetDamage();
-                    DialogHosts.CombatUnitInfo.TargetDamageLabel.Text = IntToStr(damage);
+                    UI.CombatUnitInfo.TargetDamageLabel.Text = IntToStr(damage);
                     var defense = U.GetDefense();
-                    DialogHosts.CombatUnitInfo.TargetDefenseLabel.Text = IntToStr(defense);
+                    UI.CombatUnitInfo.TargetDefenseLabel.Text = IntToStr(defense);
                     var resistance = U.GetResistance();
-                    DialogHosts.CombatUnitInfo.TargetResistanceLabel.Text = IntToStr(resistance);
+                    UI.CombatUnitInfo.TargetResistanceLabel.Text = IntToStr(resistance);
                     var moveTypes = U.GetMoveTypes();
-                    var moveTypesToInt32 = DialogHosts.General.MoveTypesToInt32(moveTypes);
-                    DialogHosts.CombatUnitInfo.TargetMovesIcon.SetCurrent(moveTypesToInt32);
-                    U.ListAbilities(DialogHosts.CombatUnitInfo.TargetAbilityList.Items);
+                    var moveTypesToInt32 = UI.General.MoveTypesToInt32(moveTypes);
+                    UI.CombatUnitInfo.TargetMovesIcon.SetCurrent(moveTypesToInt32);
+                    U.ListAbilities(UI.CombatUnitInfo.TargetAbilityList.Items);
                 }
             }
         }
@@ -150,21 +150,21 @@ public partial class CombatMapEvents : DataModule
     // aowTCMapEvents.pas:199
     public void CombatMapSeatedPlayerChanged(sbyte player)
     {
-        DialogHosts.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
-        DialogHosts.CombatScanner.CombatScannerWindow.Visible = CombatMap.Current.PlaySounds;
+        UI.MapWindow.MainWindow.Visible = CombatMap.Current.PlaySounds;
+        UI.CombatScanner.CombatScannerWindow.Visible = CombatMap.Current.PlaySounds;
         if (CombatMap.Current.SeatedCombatPlayer == -1)
         {
-            DialogHosts.TaskBar.AutoCombatCheckBox.Checked = false;
+            UI.TaskBar.AutoCombatCheckBox.Checked = false;
         }
         else
         {
             var playerLocal = CombatMap.Current.Players.GetPlayers(CombatMap.Current.SeatedCombatPlayer);
-            DialogHosts.TaskBar.AutoCombatCheckBox.Checked = playerLocal.Auto;
+            UI.TaskBar.AutoCombatCheckBox.Checked = playerLocal.Auto;
         }
 
-        DialogHosts.MapEvents.TheMapGemsChanged(player);
-        DialogHosts.MapEvents.TheMapIncomeChanged(player);
-        DialogHosts.MapEvents.TheMapPlayerMagicChanged(player);
+        UI.MapEvents.TheMapGemsChanged(player);
+        UI.MapEvents.TheMapIncomeChanged(player);
+        UI.MapEvents.TheMapPlayerMagicChanged(player);
     }
 
     // aowTCMapEvents.pas:210
@@ -172,32 +172,32 @@ public partial class CombatMapEvents : DataModule
     {
         if (hexSprite is TacticalBattleUnitHexSprite)
         {
-            DialogHosts.General.CombatUnit = (TacticalBattleUnitHexSprite)hexSprite;
-            RefreshCombatUnit(DialogHosts.CombatUnitInfo);
+            UI.General.CombatUnit = (TacticalBattleUnitHexSprite)hexSprite;
+            RefreshCombatUnit(UI.CombatUnitInfo);
         }
     }
 
     // aowTCMapEvents.pas:219
     public void CombatMapShowMessage(in ShowMessageInfo info)
     {
-        DialogHosts.TaskBar.CombatMessageEdit.TextColor = info.Color;
-        DialogHosts.TaskBar.CombatMessageEdit.Text = info.Text;
+        UI.TaskBar.CombatMessageEdit.TextColor = info.Color;
+        UI.TaskBar.CombatMessageEdit.Text = info.Text;
     }
 
     // aowTCMapEvents.pas:225
     public void CombatMapUnitChanged(TacticalBattleUnitHexSprite hexSprite)
     {
-        if (hexSprite == DialogHosts.General.CombatUnit && hexSprite != null)
+        if (hexSprite == UI.General.CombatUnit && hexSprite != null)
         {
-            RefreshCombatUnit(DialogHosts.CombatUnitInfo);
+            RefreshCombatUnit(UI.CombatUnitInfo);
         }
     }
 
     // aowTCMapEvents.pas:230
     public void CombatMapCastSpell(CombatSpellCaster caster)
     {
-        var selectSpell = DialogHosts.General.CombatUnit.SelectSpell(caster.CombatCasterSpellId);
-        DialogHosts.CombatUnitInfo.UnitAbilityList.Selected = selectSpell;
+        var selectSpell = UI.General.CombatUnit.SelectSpell(caster.CombatCasterSpellId);
+        UI.CombatUnitInfo.UnitAbilityList.Selected = selectSpell;
     }
 
     // aowTCMapEvents.pas:235
@@ -205,7 +205,7 @@ public partial class CombatMapEvents : DataModule
     {
         if (info.AbilityId == 52)
         {
-            DialogHosts.SpellBook.ShowCombatCasting(info);
+            UI.SpellBook.ShowCombatCasting(info);
         }
     }
 
@@ -213,16 +213,16 @@ public partial class CombatMapEvents : DataModule
     public void CombatMapTurnChanged()
     {
         var player = StrategicMap.Current.Players.GetPlayers(CombatMap.Current.CurrentPlayer);
-        DialogHosts.TaskBar.CombatTurnButton.CurrentPlayer = player.PlayerRace;
-        if (DialogHosts.TaskBar.CombatTurnButton.CurrentPlayer == -1)
+        UI.TaskBar.CombatTurnButton.CurrentPlayer = player.PlayerRace;
+        if (UI.TaskBar.CombatTurnButton.CurrentPlayer == -1)
         {
-            DialogHosts.TaskBar.CombatTurnButton.CurrentPlayer = 12;
+            UI.TaskBar.CombatTurnButton.CurrentPlayer = 12;
         }
 
-        DialogHosts.TaskBar.CombatTurnButton.LastPlayer = -1;
+        UI.TaskBar.CombatTurnButton.LastPlayer = -1;
 
-        DialogHosts.General.Manager.OverlayPriority = 49;
-        DialogHosts.TaskBar.CombatPlayerIndicatorFrame.Drawn = false;
+        UI.General.Manager.OverlayPriority = 49;
+        UI.TaskBar.CombatPlayerIndicatorFrame.Drawn = false;
     }
 
     private static readonly string s_coldText = "Cold";
@@ -238,14 +238,14 @@ public partial class CombatMapEvents : DataModule
     {
         AbilityCombatInfo Info = default(AbilityCombatInfo);
         SpellCombatInfo info = default(SpellCombatInfo);
-        if (DialogHosts.General.CombatUnit != null)
+        if (window.UI.General.CombatUnit != null)
         {
-            Troop fTroop = DialogHosts.General.CombatUnit.Unit.Troop;
+            Troop fTroop = window.UI.General.CombatUnit.Unit.Troop;
             Hero hero = ((!(fTroop is Hero)) ? null : ((Hero)fTroop));
             if (!window.MainWindow.Visible)
             {
                 window.UnitManaGauge.Visible = false;
-                DialogHosts.TaskBar.CombatUnitButton.Visible = true;
+                window.UI.TaskBar.CombatUnitButton.Visible = true;
             }
             if (hero != null)
             {
@@ -270,7 +270,7 @@ public partial class CombatMapEvents : DataModule
             window.UnitFramePanel.Aligned = false;
             if (fTroop != null)
             {
-                if (DialogHosts.General.CombatUnit.SelectedAbility == -1)
+                if (window.UI.General.CombatUnit.SelectedAbility == -1)
                 {
                     window.CombatUnitPanel.Visible = true;
                     window.CombatAbilityPanel.Visible = false;
@@ -279,7 +279,7 @@ public partial class CombatMapEvents : DataModule
                     sbyte hits = fTroop.GetHits();
                     window.UnitHitsLabel.Text = RtlUnit.IntToStr((int)hitPoints) + "/" + RtlUnit.IntToStr((int)hits);
                     sbyte moves = fTroop.GetMoves();
-                    window.UnitMovesLabel.Text = RtlUnit.IntToStr(DialogHosts.General.CombatUnit.Unit.MovePoints) + "/" + RtlUnit.IntToStr((int)moves);
+                    window.UnitMovesLabel.Text = RtlUnit.IntToStr(window.UI.General.CombatUnit.Unit.MovePoints) + "/" + RtlUnit.IntToStr((int)moves);
                     sbyte attack = fTroop.GetAttack();
                     window.UnitAttackLabel.Text = RtlUnit.IntToStr((int)attack);
                     sbyte damage = fTroop.GetDamage();
@@ -289,20 +289,20 @@ public partial class CombatMapEvents : DataModule
                     sbyte resistance = fTroop.GetResistance();
                     window.UnitResistanceLabel.Text = RtlUnit.IntToStr((int)resistance);
                     Set<MoveType> moveTypes = fTroop.GetMoveTypes();
-                    int current = DialogHosts.General.MoveTypesToInt32(moveTypes);
+                    int current = window.UI.General.MoveTypesToInt32(moveTypes);
                     window.UnitMovesIcon.SetCurrent(current);
-                    DialogHosts.General.CombatUnit.ListAbilities((StringCollection)(object)window.UnitAbilityList.Items, null, null);
+                    window.UI.General.CombatUnit.ListAbilities((StringCollection)(object)window.UnitAbilityList.Items, null, null);
                     window.UnitAbilityList.Selected = -1;
                     window.UnitAbilityList.HoverItem = -1;
                     window.UnitAbilityList.ListOffset = 0;
                 }
-                else if (DialogHosts.General.CombatUnit.SelectedAbility == 52 && DialogHosts.General.CombatUnit.SelectedSpell > -1)
+                else if (window.UI.General.CombatUnit.SelectedAbility == 52 && window.UI.General.CombatUnit.SelectedSpell > -1)
                 {
                     window.CombatUnitPanel.Visible = false;
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
-                    GamePack.Current.SpellControl.GetSpell(DialogHosts.General.CombatUnit.SelectedSpell).GetCombatInfo(DialogHosts.General.CombatUnit.Unit.Troop, ref info);
-                    Spell spell = GamePack.Current.SpellControl.GetSpell(DialogHosts.General.CombatUnit.SelectedSpell);
+                    GamePack.Current.SpellControl.GetSpell(window.UI.General.CombatUnit.SelectedSpell).GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref info);
+                    Spell spell = GamePack.Current.SpellControl.GetSpell(window.UI.General.CombatUnit.SelectedSpell);
                     window.AbilityNameLabel.Text = spell.SpellName;
                     if (info.Attack > 0)
                     {
@@ -381,8 +381,8 @@ public partial class CombatMapEvents : DataModule
                     window.CombatUnitPanel.Visible = false;
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
-                    GamePack.Current.AbilityControl.GetAbility(DialogHosts.General.CombatUnit.SelectedAbility).GetCombatInfo(DialogHosts.General.CombatUnit.Unit.Troop, ref Info);
-                    string name = GamePack.Current.AbilityControl.GetAbility(DialogHosts.General.CombatUnit.SelectedAbility).GetName(DialogHosts.General.CombatUnit.Unit.Troop);
+                    GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetCombatInfo(window.UI.General.CombatUnit.Unit.Troop, ref Info);
+                    string name = GamePack.Current.AbilityControl.GetAbility(window.UI.General.CombatUnit.SelectedAbility).GetName(window.UI.General.CombatUnit.Unit.Troop);
                     window.AbilityNameLabel.Text = name;
                     if (Info.Attack > 0)
                     {
@@ -465,7 +465,7 @@ public partial class CombatMapEvents : DataModule
                 window.UnitHitsGauge.Position = hitPoints2;
             }
         }
-        DialogHosts.CombatUnitInfo.MainWindow.Visible = true;
+        window.UI.CombatUnitInfo.MainWindow.Visible = true;
     }
 
     private static bool StopSong()

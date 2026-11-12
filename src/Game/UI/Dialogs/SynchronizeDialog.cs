@@ -11,9 +11,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
 
-public partial class SynchronizeDialog : DataModule
+public partial class SynchronizeDialog : UIModule
 {
-    public SynchronizeDialog(Component owner) : base(owner)
+    public SynchronizeDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -28,10 +28,10 @@ public partial class SynchronizeDialog : DataModule
     {
         PlayerSetupSettings result;
         int index;
-        index = DialogHosts.SetupEvents.SetupControl.Settings.IndexOfRemoteId(DialogHosts.SetupEvents.SetupControl.RemotePlayer.RemoteId);
+        index = UI.SetupEvents.SetupControl.Settings.IndexOfRemoteId(UI.SetupEvents.SetupControl.RemotePlayer.RemoteId);
         if (index != -1)
         {
-            result = DialogHosts.SetupEvents.SetupControl.Settings.GetSettings(index);
+            result = UI.SetupEvents.SetupControl.Settings.GetSettings(index);
         }
         else
         {
@@ -63,12 +63,12 @@ public partial class SynchronizeDialog : DataModule
         settings = GetPlayerSetup();
         if (settings != null)
         {
-            if (!DialogHosts.SetupEvents.SetupControl.Settings.CustomizeLeaders)
+            if (!UI.SetupEvents.SetupControl.Settings.CustomizeLeaders)
             {
-                I = DialogHosts.SetupEvents.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(DialogHosts.SetupEvents.SetupControl.RemotePlayer.RemoteId);
+                I = UI.SetupEvents.SetupControl.Settings.RemotePlayers.IndexOfRemoteId(UI.SetupEvents.SetupControl.RemotePlayer.RemoteId);
                 if (I != -1)
                 {
-                    var player = DialogHosts.SetupEvents.SetupControl.Settings.RemotePlayers.GetPlayers(I);
+                    var player = UI.SetupEvents.SetupControl.Settings.RemotePlayers.GetPlayers(I);
                     PlayerNameLabel.Text = player.Name;
                 }
                 else

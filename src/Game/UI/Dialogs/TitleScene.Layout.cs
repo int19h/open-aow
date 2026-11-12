@@ -224,12 +224,12 @@ public partial class TitleScene : ILayoutModule
         copyright.Loaded();
         VersionLabel.Loaded();
         session.Resolve(this);
-        Window.WindowManager = DialogHosts.General.Manager;
-        LegalNoticeMemo.Font = DialogHosts.UIFonts.Age8;
-        DemoNoticeLabel.Font = DialogHosts.UIFonts.Age8;
-        NameLabel.Font = DialogHosts.UIFonts.Age16Shadow;
-        copyright.Font = DialogHosts.UIFonts.Age10Shadow;
-        VersionLabel.Font = DialogHosts.UIFonts.Age8Shadow;
+        Window.WindowManager = UI.General.Manager;
+        LegalNoticeMemo.Font = UI.Fonts.Age8;
+        DemoNoticeLabel.Font = UI.Fonts.Age8;
+        NameLabel.Font = UI.Fonts.Age16Shadow;
+        copyright.Font = UI.Fonts.Age10Shadow;
+        VersionLabel.Font = UI.Fonts.Age8Shadow;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
     }

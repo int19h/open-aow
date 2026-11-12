@@ -444,9 +444,6 @@ public partial class Sprite16 : Image16, ILibraryImageClass
     // ImageLib.pas:4548
     public override bool SupportGrabPixelFormat(int pixelFormatId) => pixelFormatId == PixelFormats.pfRGB565 || pixelFormatId == PixelFormats.pfRGB555 || pixelFormatId == PixelFormats.pfRGB24 || pixelFormatId == PixelFormats.pfPAL8;
 
-    // ImageLib.pas:4554
-    public override Form CreateGrabForm(Component owner, in LockedSurface lockedSurface, ImagesGrabbedEvent onImagesGrabbed) => null;
-
     // ImageLib.pas:4561
     // { GrabImage locks the conversion surface and never unlocks it (an original bug) }
     public override bool GrabImage(in LockedSurface lockedSurface, in Rect R, GrabInfo grabInfo)

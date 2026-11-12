@@ -14,9 +14,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // retained unit spell caster
-public partial class CastUnitSpellDialog : DataModule
+public partial class CastUnitSpellDialog : UIModule
 {
-    public CastUnitSpellDialog(Component owner) : base(owner)
+    public CastUnitSpellDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -61,9 +61,9 @@ public partial class CastUnitSpellDialog : DataModule
             var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             surface.ClipRectangle = rectangle;
             alignment = Caster.TargetUnits.GetUnit(index).GetAlignment();
-            if ((int)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
+            if ((int)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                var image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
+                var image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, surface);
             }
 
@@ -73,7 +73,7 @@ public partial class CastUnitSpellDialog : DataModule
             Caster.TargetUnits.GetUnit(index).Show(X - 8, Y - 4, surface, info);
             if ((((int)(((uint)Caster.ValidSelection) >> index)) & 1) == 0)
             {
-                var image = DialogHosts.UIGraphics.UnitBackgrounds[7];
+                var image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, surface);
             }
 
@@ -84,7 +84,7 @@ public partial class CastUnitSpellDialog : DataModule
     // AoWCastUnitSpellDlg.pas:111
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -92,7 +92,7 @@ public partial class CastUnitSpellDialog : DataModule
     public void CastButClick()
     {
         string reason = "";
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (Caster.CanCast(ref reason))
         {
             Caster.Cast();
@@ -180,7 +180,7 @@ public partial class CastUnitSpellDialog : DataModule
         var checks = new[] { Unit1CheckBox, Unit2CheckBox, Unit3CheckBox, Unit4CheckBox, Unit5CheckBox, Unit6CheckBox, Unit7CheckBox, Unit8CheckBox };
         for (int i = 0; i < checks.Length; i++) checks[i].Checked = (Caster.SelectionMask & (1 << i)) != 0;
         if (Caster.SelectionMask != oldSelection)
-            DialogHosts.General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
+            UI.General.PlayButtonSound((byte)(sender.Checked ? 1 : 2));
         if (Caster.SelectionMask == 0)
         {
             SelectionInfoLabel.Text = "";

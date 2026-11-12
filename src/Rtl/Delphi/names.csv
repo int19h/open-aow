@@ -74,7 +74,6 @@ type,DeclareWarToY,Aow.Game.Session.Player.SuggestWarDeclaration
 type,DecodeContext,Aow.Formats.Original.DecodeContext
 type,DefenseRequirementsQuery,Aow.Game.World.Structures.DefenseRequirementsQuery
 type,DetectedFormat,Aow.Formats.DetectedFormat
-type,DialogHosts,Aow.Game.UI.Dialogs.DialogHosts
 type,DialogRequest,Aow.Rtl.Host.DialogRequest
 type,DictionaryEnumCatalog,Aow.Formats.DictionaryEnumCatalog
 type,DictionaryRecordCatalog,Aow.Formats.Tree.DictionaryRecordCatalog
@@ -870,7 +869,6 @@ type,TConstructDlg,Aow.Game.UI.Dialogs.ConstructDialog
 type,TConstructStructureTE,Aow.Game.Commands.ConstructStructureTokenEvent
 type,TConstructionControl,Aow.Game.World.Structures.ConstructionControl
 type,TConstructionControlList,Aow.Game.World.Structures.ConstructionControlList
-type,TControl,Aow.Rtl.Control
 type,TControlModeElement,Aow.Game.World.Map.ControlModeElement
 type,TControlWin,Aow.Game.UI.Dialogs.ControlWindow
 type,TCosmeticSurgery,Aow.Game.Magic.Spells.CosmeticSurgery
@@ -878,7 +876,6 @@ type,TCosmeticSurgeryAbility,Aow.Game.Magic.Abilities.CosmeticSurgeryAbility
 type,TCosmeticSurgeryEnchantment,Aow.Game.Magic.CosmeticSurgeryEnchantment
 type,TCosmeticSurgerySpellCaster,Aow.Game.Magic.Spells.CosmeticSurgerySpellCaster
 type,TCreateMoveModeElement,Aow.Game.World.Movement.CreateMoveModeElement
-type,TCreateParams,Aow.Rtl.CreateParams
 type,TCrop,Aow.Game.World.Terrain.Crop
 type,TCropResource,Aow.Game.World.Terrain.Crop.Resource
 type,TCrusade,Aow.Game.Magic.Spells.Crusade
@@ -894,9 +891,6 @@ type,TCustomImageLibrary,Aow.Game.Draw.Images.CustomImageLibrary
 type,TCustomizeLeaderControl,Aow.Game.Session.CustomizeLeaderControl
 type,TCustomizeLeaderEvent,Aow.Game.Session.SetupControl.CustomizeLeaderEvent
 type,TDCNotifyEvent,Aow.Game.Draw.CustomDisplay.DCNotifyEvent
-type,TDDSCreationFlagsElement,Aow.Game.Draw.DirectDrawSurfaceCreationFlagsElement
-type,TDDrawSurface,Aow.Game.Draw.DirectDrawSurface
-type,TDDrawSurfaceStatusElement,Aow.Game.Draw.DirectDrawSurfaceStatusElement
 type,TDIB16Surface,Aow.Game.Draw.Dib16Surface
 type,TDWin,Aow.Game.UI.Dialogs.ConfirmationDialog
 type,TDamageCA,Aow.Game.Combat.Actions.DamageCombatAction
@@ -1112,7 +1106,6 @@ type,TFloodControl,Aow.Game.Magic.Spells.FloodControl
 type,TFloodEnchantment,Aow.Game.Magic.Spells.FloodEnchantment
 type,TFogExplorationChangedElement,Aow.Game.World.Map.FogExplorationChangedElement
 type,TFontModule,Aow.Game.UI.Dialogs.UIFonts
-type,TForm,Aow.Rtl.Form
 type,TFortifyAG,Aow.Game.AI.Groups.FortifyAIGroup
 type,TFortifyAGC,Aow.Game.AI.Groups.FortifyAIGroupControl
 type,TFountainOfLife,Aow.Game.Magic.Spells.FountainOfLife
@@ -1288,7 +1281,6 @@ type,TImageNode,Aow.Game.Draw.Images.ImageNode
 type,TImageSequence,Aow.Game.Draw.Images.ImageSequence
 type,TImageSequenceAnimation,Aow.Game.Draw.Animations.ImageSequenceAnimation
 type,TImageSequenceList,Aow.Game.Draw.Images.ImageSequenceList
-type,TImagesGrabbedEvent,Aow.Game.Draw.Images.ImagesGrabbedEvent
 type,TImmunityAbility,Aow.Game.Magic.Abilities.Passive.ImmunityAbility
 type,TIncomeSource,Aow.Game.World.Structures.IncomeSource
 type,TIncomeSourceList,Aow.Game.World.Structures.IncomeSourceList
@@ -1403,7 +1395,6 @@ type,TMarksmanshipAbility,Aow.Game.Magic.Abilities.Passive.MarksmanshipAbility
 type,TMatrix,Aow.Game.Draw.Matrix
 type,TMeleeRound,Aow.Game.Combat.MeleeRound
 type,TMeleeStrike,Aow.Game.Combat.MeleeRound.Strike
-type,TMessage,Aow.Rtl.Message
 type,TMessageDlg,Aow.Game.UI.Dialogs.MessageDialog
 type,TMessageEventLog,Aow.Game.Events.MessageEventLog
 type,TMessageEventLogButtons,Aow.Game.Events.MessageEventLogButtons
@@ -2020,7 +2011,6 @@ type,TWaveFormatEx,Aow.Rtl.WaveFormatEx
 type,TWebAbility,Aow.Game.Magic.Abilities.WebAbility
 type,TWebCA,Aow.Game.Combat.Actions.WebCombatAction
 type,TWebbedAbility,Aow.Game.Magic.Abilities.Passive.WebbedAbility
-type,TWinControl,Aow.Rtl.WinControl
 type,TWindWalking,Aow.Game.Magic.Spells.WindWalking
 type,TWindWalkingEnchantment,Aow.Game.Magic.Abilities.Passive.WindWalkingEnchantment
 type,TWindowPopupEvent,Aow.Game.WindowPopupEvent
@@ -2291,14 +2281,10 @@ type,CompressStream.CompressLevel,Aow.Engine.Storage.CompressStream.Level
 type,ConcealAreaHS,Aow.Game.Draw.ConcealAreaHexSprite
 type,ConstructDlg,Aow.Game.UI.Dialogs.ConstructDialog
 type,ConstructStructureTE,Aow.Game.Commands.ConstructStructureTokenEvent
-type,Control,Aow.Rtl.Control
 type,ControlWin,Aow.Game.UI.Dialogs.ControlWindow
 type,CustomDisplay.DisplayOptionsElement,Aow.Game.Draw.CustomDisplay.OptionsElement
 type,CustomFixedVisibleHS,Aow.Game.Draw.CustomFixedVisibleHexSprite
 type,CustomFixedVisibleHS.OnShowHSEvent,Aow.Game.Draw.CustomFixedVisibleHexSprite.OnShowHSEvent
-type,DDSCreationFlagsElement,Aow.Game.Draw.DirectDrawSurfaceCreationFlagsElement
-type,DDrawSurface,Aow.Game.Draw.DirectDrawSurface
-type,DDrawSurfaceStatusElement,Aow.Game.Draw.DirectDrawSurfaceStatusElement
 type,DIB16Surface,Aow.Game.Draw.Dib16Surface
 type,DWin,Aow.Game.UI.Dialogs.ConfirmationDialog
 type,DamageCA,Aow.Game.Combat.Actions.DamageCombatAction
@@ -3128,13 +3114,6 @@ member,TControlModeElement.cmShowSelectionSelf,Aow.Game.World.Map.ControlModeEle
 member,TCreateMoveModeElement.cmmDontQueue,Aow.Game.World.Movement.CreateMoveModeElement.DoNotQueue
 member,TCreateMoveModeElement.cmmSurround,Aow.Game.World.Movement.CreateMoveModeElement.Surround
 member,TCreateMoveModeElement.cmmSurroundEx,Aow.Game.World.Movement.CreateMoveModeElement.SurroundNearest
-member,TDDSCreationFlagsElement.cfSystemMemory,Aow.Game.Draw.DirectDrawSurfaceCreationFlagsElement.SystemMemory
-member,TDDSCreationFlagsElement.cfVideoMemory,Aow.Game.Draw.DirectDrawSurfaceCreationFlagsElement.VideoMemory
-member,TDDrawSurfaceStatusElement.ssComplex,Aow.Game.Draw.DirectDrawSurfaceStatusElement.Complex
-member,TDDrawSurfaceStatusElement.ssCreated,Aow.Game.Draw.DirectDrawSurfaceStatusElement.Created
-member,TDDrawSurfaceStatusElement.ssLocked,Aow.Game.Draw.DirectDrawSurfaceStatusElement.Locked
-member,TDDrawSurfaceStatusElement.ssPrimary,Aow.Game.Draw.DirectDrawSurfaceStatusElement.Primary
-member,TDDrawSurfaceStatusElement.ssVideoMemory,Aow.Game.Draw.DirectDrawSurfaceStatusElement.VideoMemory
 member,TDamageType.dtCold,Aow.Game.Combat.DamageType.Cold
 member,TDamageType.dtDeath,Aow.Game.Combat.DamageType.Death
 member,TDamageType.dtFire,Aow.Game.Combat.DamageType.Fire

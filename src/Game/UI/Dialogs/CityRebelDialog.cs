@@ -9,9 +9,9 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // completion callback. city-rebellion event
-public partial class CityRebelDialog : DataModule
+public partial class CityRebelDialog : UIModule
 {
-    public CityRebelDialog(Component owner) : base(owner)
+    public CityRebelDialog(UIContext ui) : base(ui)
     { }
 
     public Window RebelWindow;
@@ -42,14 +42,14 @@ public partial class CityRebelDialog : DataModule
     // AoWCityRebelDlg.pas:60
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         RebelWindow.Visible = false;
     }
 
     // AoWCityRebelDlg.pas:66
     public void CenterButClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         var cityRebellionEventLog = _event;
         StrategicMap.Current.CenterViewTo(cityRebellionEventLog.HexX, cityRebellionEventLog.HexY, cityRebellionEventLog.HexLevel);
     }

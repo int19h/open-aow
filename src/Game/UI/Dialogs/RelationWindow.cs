@@ -19,9 +19,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // diplomatic actions, player indices, race indices, controls
-public partial class RelationWindow : DataModule
+public partial class RelationWindow : UIModule
 {
-    public RelationWindow(Component owner) : base(owner)
+    public RelationWindow(UIContext ui) : base(ui)
     { }
 
     public Window MainWindow;
@@ -191,7 +191,7 @@ public partial class RelationWindow : DataModule
         int index;
         ClearActions();
         ResetChecks();
-        DialogHosts.General.Manager.OverlayPriority = 49;
+        UI.General.Manager.OverlayPriority = 49;
         Races.Clear();
         for (int I = 0, last = StrategicMap.Current.Races.GetCount() - 1; I <= last; I++)
         {
@@ -337,7 +337,7 @@ public partial class RelationWindow : DataModule
 
         var name = StrategicMap.Current.Players.GetPlayers(player).GetName();
         PlayerNameLabel.Text = name;
-        OfTheLabel.Text = DialogHosts.PlayerInfoWindow.OfTheLabel.Text;
+        OfTheLabel.Text = UI.PlayerInfoWindow.OfTheLabel.Text;
         var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
         var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerLocal.PlayerRace]);
         PlayerRaceLabel.Text = raceNamesPlural;
@@ -632,7 +632,7 @@ public partial class RelationWindow : DataModule
     public void FinishDialog()
     {
         SetAction(null);
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
         FinishEvent();
         StrategicMap.Current.TutorialControl.ShowMessage(71, true, true);
     }
@@ -685,7 +685,7 @@ public partial class RelationWindow : DataModule
     // AoWRelations.pas:604
     public void ExitClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         MainWindow.Visible = false;
     }
 
@@ -695,11 +695,11 @@ public partial class RelationWindow : DataModule
         // The original SetChecked call on an image is undefined, so skipped. An image has FChecked and no SetChecked. The action branch runs only for a check box.
         if (sender._checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
 
         RelationPanel.Aligned = false;
@@ -724,11 +724,11 @@ public partial class RelationWindow : DataModule
         check = sender;
         if (check.Checked)
         {
-            DialogHosts.General.PlayButtonSound(1);
+            UI.General.PlayButtonSound(1);
         }
         else
         {
-            DialogHosts.General.PlayButtonSound(2);
+            UI.General.PlayButtonSound(2);
         }
 
         RelationPanel.Aligned = false;
@@ -756,7 +756,7 @@ public partial class RelationWindow : DataModule
             Player = (sbyte)Players[slot];
             if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen(Player) == -1)
             {
-                DialogHosts.UIGraphics.RelationWindow[28].ShowClipped(component.WinLeft, component.WinTop, surface);
+                UI.Graphics.RelationWindow[28].ShowClipped(component.WinLeft, component.WinTop, surface);
             }
             else
             {
@@ -768,7 +768,7 @@ public partial class RelationWindow : DataModule
             }
 
             var player = StrategicMap.Current.Players.GetPlayers(Player);
-            DialogHosts.UIGraphics.RelationWindow[player.PlayerRace + 16].ShowClipped(component.WinLeft, component.WinTop, surface);
+            UI.Graphics.RelationWindow[player.PlayerRace + 16].ShowClipped(component.WinLeft, component.WinTop, surface);
         }
     }
 
@@ -797,8 +797,8 @@ public partial class RelationWindow : DataModule
                 modifier = action.GetRelationModifier(StrategicMap.Current.SeatedPlayer, race);
                 if (modifier != 0)
                 {
-                    DialogHosts.UIFonts.Age10.Color = 16777215;
-                    DialogHosts.UIFonts.Age10.SetTextCentered(R.Left + (R.Right - R.Left) / 2, R.Top + 50, IntToStr(modifier), surface);
+                    UI.Fonts.Age10.Color = 16777215;
+                    UI.Fonts.Age10.SetTextCentered(R.Left + (R.Right - R.Left) / 2, R.Top + 50, IntToStr(modifier), surface);
                 }
             }
         }
@@ -832,7 +832,7 @@ public partial class RelationWindow : DataModule
                                 image = 50;
                             }
 
-                            DialogHosts.UIGraphics.RelationWindow[image].Show(component.WinLeft, component.WinTop + 8, surface);
+                            UI.Graphics.RelationWindow[image].Show(component.WinLeft, component.WinTop + 8, surface);
                         }
                     }
                 }
@@ -842,7 +842,7 @@ public partial class RelationWindow : DataModule
                 if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                 {
                     var playerRelation = StrategicMap.Current.Races.GetRace(SelectedRace).GetPlayerRelation((sbyte)player);
-                    DialogHosts.UIGraphics.RelationWindow[(int)playerRelation + 11].ShowClipped(component.WinLeft, component.WinTop + 8, surface);
+                    UI.Graphics.RelationWindow[(int)playerRelation + 11].ShowClipped(component.WinLeft, component.WinTop + 8, surface);
                 }
             }
         }
@@ -860,7 +860,7 @@ public partial class RelationWindow : DataModule
             {
                 raceIndex = Races[slot - 20];
                 var playerRelation = StrategicMap.Current.Races.GetRace(raceIndex).GetPlayerRelation(SelectedPlayer);
-                DialogHosts.UIGraphics.RelationWindow[(int)playerRelation + 11].ShowClipped(S.WinLeft, S.WinTop + 15, surface);
+                UI.Graphics.RelationWindow[(int)playerRelation + 11].ShowClipped(S.WinLeft, S.WinTop + 15, surface);
             }
         }
     }
@@ -870,7 +870,7 @@ public partial class RelationWindow : DataModule
     {
         string reason = "";
         DiplomaticAction action;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         action = _action;
         if (action != null)
         {
@@ -891,7 +891,7 @@ public partial class RelationWindow : DataModule
     {
         string reason = "";
         DiplomaticAction action;
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         action = _action;
         if (action != null)
         {
@@ -937,7 +937,7 @@ public partial class RelationWindow : DataModule
     // AoWRelations.pas:763
     public void PlyrGlowDraw(LockedSurface surface)
     {
-        DialogHosts.UIGraphics.RelationWindow[44].ShowBlended(PlayerGlow.WinLeft, PlayerGlow.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_glowIntensity]);
+        UI.Graphics.RelationWindow[44].ShowBlended(PlayerGlow.WinLeft, PlayerGlow.WinTop, surface, GraphicsState.IntensityBlendTable.LookupTables[_glowIntensity]);
     }
 
     // AoWRelations.pas:768

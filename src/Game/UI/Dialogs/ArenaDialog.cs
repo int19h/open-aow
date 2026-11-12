@@ -15,9 +15,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.UI.Dialogs;
 
 // arena event. completion callback
-public partial class ArenaDialog : DataModule
+public partial class ArenaDialog : UIModule
 {
-    public ArenaDialog(Component owner) : base(owner)
+    public ArenaDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -50,9 +50,9 @@ public partial class ArenaDialog : DataModule
             var rectangle = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             lockedSurface.ClipRectangle = rectangle;
             alignment = U.GetAlignment();
-            if ((byte)alignment < DialogHosts.UIGraphics.UnitBackgrounds.Count)
+            if ((byte)alignment < UI.Graphics.UnitBackgrounds.Count)
             {
-                image = DialogHosts.UIGraphics.UnitBackgrounds[(int)alignment];
+                image = UI.Graphics.UnitBackgrounds[(int)alignment];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
@@ -62,16 +62,16 @@ public partial class ArenaDialog : DataModule
             U.Show(X - 8, Y - 5, lockedSurface, info);
             if ((((int)(((uint)_event.Trainable) >> index)) & 1) == 0)
             {
-                image = DialogHosts.UIGraphics.UnitBackgrounds[7];
+                image = UI.Graphics.UnitBackgrounds[7];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, lockedSurface);
             }
 
             lockedSurface.ClipRectangle = saveRectangle;
             if ((((int)(((uint)_event.Trainable) >> index)) & 1) != 0)
             {
-                DialogHosts.UIFonts.Age8.Color = 0;
+                UI.Fonts.Age8.Color = 0;
                 var unitTrainCost = _event.Arena.UnitTrainCost(U);
-                DialogHosts.UIFonts.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), lockedSurface);
+                UI.Fonts.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), lockedSurface);
             }
         }
     }
@@ -81,7 +81,7 @@ public partial class ArenaDialog : DataModule
     {
         EnterArenaEventLog eventValue;
         ExecuteDoneEvent notify;
-        DialogHosts.General.Manager.OverlayPriority = 0;
+        UI.General.Manager.OverlayPriority = 0;
         notify = OnClose;
         eventValue = _event;
         OnClose = null;
@@ -100,7 +100,7 @@ public partial class ArenaDialog : DataModule
     // AoWArenaDlg.pas:152
     public void CloseClick()
     {
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         Window.Visible = false;
     }
 
@@ -108,7 +108,7 @@ public partial class ArenaDialog : DataModule
     public void SelectBtnClick()
     {
         string reason = "";
-        DialogHosts.General.PlayButtonSound(0);
+        UI.General.PlayButtonSound(0);
         if (_event.Train(out reason))
         {
             Window.Visible = false;
@@ -144,11 +144,11 @@ public partial class ArenaDialog : DataModule
         {
             if (sender.Checked)
             {
-                DialogHosts.General.PlayButtonSound(1);
+                UI.General.PlayButtonSound(1);
             }
             else
             {
-                DialogHosts.General.PlayButtonSound(2);
+                UI.General.PlayButtonSound(2);
             }
         }
 
@@ -246,7 +246,7 @@ public partial class ArenaDialog : DataModule
         dialog.OnClose = done;
         dialog._event = eventValue;
         dialog._event.AddRef();
-        DialogHosts.General.Manager.OverlayPriority = 49;
+        dialog.UI.General.Manager.OverlayPriority = 49;
         dialog.Window.Visible = true;
     }
 

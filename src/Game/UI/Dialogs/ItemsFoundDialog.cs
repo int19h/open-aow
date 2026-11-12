@@ -17,9 +17,9 @@ using Aow.Rtl;
 namespace Aow.Game.UI.Dialogs;
 
 // item offset, completion event, item event
-public partial class ItemsFoundDialog : DataModule
+public partial class ItemsFoundDialog : UIModule
 {
-    public ItemsFoundDialog(Component owner) : base(owner)
+    public ItemsFoundDialog(UIContext ui) : base(ui)
     { }
 
     public Window Window;
@@ -119,9 +119,9 @@ public partial class ItemsFoundDialog : DataModule
         hero = GetHero();
         if (hero != null)
         {
-            DialogHosts.General.SelectedUnit = hero;
-            DialogHosts.UnitWindow.ShowUnit();
-            DialogHosts.UnitWindow.UnitTabs.Selected = 2;
+            UI.General.SelectedUnit = hero;
+            UI.UnitWindow.ShowUnit();
+            UI.UnitWindow.UnitTabs.Selected = 2;
             if (StrategicMap.Current.GameType == GameType.Tutorial)
             {
                 eventValue = new TutorialMessageEventLog(null);
@@ -155,7 +155,7 @@ public partial class ItemsFoundDialog : DataModule
                 item = StrategicMap.Current.ItemControl.FindItem(itemId);
                 if (item != null)
                 {
-                    box.PopupMenu = DialogHosts.ItemBanner.BannerMenu;
+                    box.PopupMenu = UI.ItemBanner.BannerMenu;
                     ItemBanner.ItemId = item.ItemId;
                 }
             }
