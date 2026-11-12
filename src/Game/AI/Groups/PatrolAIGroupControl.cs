@@ -193,7 +193,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
         DoubleItemList<AoWMapField> newList = default;
         PatrolAIGroup group = default;
         MoveControlSettings settings = default;
-        DelphiList fields = default;
+        DelphiList<AoWMapField> fields = default;
         var lists = new DoubleItemList<AoWMapField>[HexDirectionSlotCount];
         MapFieldMessage message = default;
         int J = default;
@@ -232,7 +232,7 @@ public partial class PatrolAIGroupControl : AIGroupControl
             // { Original samples every fourth processed field. }
             if ((I & 3) == 3)
             {
-                mapField = (AoWMapField)fields.List[I];
+                mapField = fields.List[I];
                 heading = HexGeometry.DeltaHexToHexDirection(X, Y, mapField.HexX, mapField.HexY);
                 var movePoints = settings.GetMovePoints(mapField.HexX, mapField.HexY, mapField.HexLevel);
                 lists[heading].AddAbility(mapField, movePoints);

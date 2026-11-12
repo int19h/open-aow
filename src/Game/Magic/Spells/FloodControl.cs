@@ -154,7 +154,7 @@ public partial class FloodControl : EngineObject
     public void Restore()
     {
         MapObjectResourceList resources;
-        DelphiList candidates;
+        DelphiList<MapObjectResource> candidates;
         int index;
         MapField mapField;
         MapLevel mapLevel;
@@ -182,7 +182,7 @@ public partial class FloodControl : EngineObject
         }
 
         resources = AoWHSSet.Current.MapObjectResourceList;
-        candidates = new DelphiList();
+        candidates = new DelphiList<MapObjectResource>();
         for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
         {
             index = (Width * Y + 1) * 2;
@@ -210,7 +210,7 @@ public partial class FloodControl : EngineObject
 
                         if (candidates.Count != 0)
                         {
-                            ((MapObjectResource)candidates[AoWHSMap.Current.Random(candidates.Count)]).PlaceResourceUser(AoWHSMap.Current, (sbyte)X, (sbyte)Y, 0);
+                            candidates[AoWHSMap.Current.Random(candidates.Count)].PlaceResourceUser(AoWHSMap.Current, (sbyte)X, (sbyte)Y, 0);
                         }
                     }
                 }

@@ -201,15 +201,10 @@ public sealed class EngineStartupTests
         {
             if (!seen.Add(value)) return;
             result[path] = new JsonObject { ["Type"] = value.GetType().FullName };
-            if (value is DelphiList list)
+            if (DelphiItems(value) is { } list)
             {
-                for (int index = 0; index < list.Count; index++)
+                for (int index = 0; index < list.Length; index++)
                     if (list[index] is object element && LegacyRoots.Contains(element.GetType())) Visit(element, path + $"[{index}]");
-            }
-            else if (value is EngineObjectList children)
-            {
-                for (int index = 0; index < children.Count; index++)
-                    if (children[index] is object element && LegacyRoots.Contains(element.GetType())) Visit(element, path + $"[{index}]");
             }
             else if (IsGenericList(value) && value is System.Collections.IList items)
             {
@@ -228,6 +223,19 @@ public sealed class EngineStartupTests
         }
         Visit(root, "Engine");
         return result;
+    }
+
+    // The live slots of a DelphiList of any element type, or null for another value.
+    private static object?[]? DelphiItems(object value)
+    {
+        for (Type? type = value.GetType(); type is not null; type = type.BaseType)
+        {
+            if (!type.IsGenericType || type.GetGenericTypeDefinition() != typeof(DelphiList<>)) continue;
+            var items = (Array)type.GetProperty("List")!.GetValue(value)!;
+            int count = (int)type.GetProperty("Count")!.GetValue(value)!;
+            return [.. items.Cast<object?>().Take(count)];
+        }
+        return null;
     }
 
     private static JsonObject Snapshot(GameEngine engine, EngineFixture.RecordingHost fixture) => new()

@@ -596,9 +596,9 @@
         "CombatUnitSelectionControl._cursorImage": 0,
         "CombatUnitSelectionControl.MouseOverTarget": null,
         "CombatUnitSelectionControl.Obstacles": {
-          "$type": "Aow.Rtl.DelphiList",
-          "DelphiList.count": 0,
-          "DelphiList.items": []
+          "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.Combat.RangedObstacle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": []
         },
         "CombatUnitSelectionControl._pathInvalid": {
           "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -1031,9 +1031,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -1336,54 +1336,54 @@
         "ETimerNode._tick": 0,
         "ETimerNode._timerLists": [
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           }
         ]
       },
@@ -2001,9 +2001,9 @@
         "CombatUnitSelectionControl._cursorImage": 0,
         "CombatUnitSelectionControl.MouseOverTarget": null,
         "CombatUnitSelectionControl.Obstacles": {
-          "$type": "Aow.Rtl.DelphiList",
-          "DelphiList.count": 0,
-          "DelphiList.items": []
+          "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.Combat.RangedObstacle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": []
         },
         "CombatUnitSelectionControl._pathInvalid": {
           "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -2436,9 +2436,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -2741,54 +2741,54 @@
         "ETimerNode._tick": 0,
         "ETimerNode._timerLists": [
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           }
         ]
       },
@@ -3406,9 +3406,9 @@
         "CombatUnitSelectionControl._cursorImage": 0,
         "CombatUnitSelectionControl.MouseOverTarget": null,
         "CombatUnitSelectionControl.Obstacles": {
-          "$type": "Aow.Rtl.DelphiList",
-          "DelphiList.count": 0,
-          "DelphiList.items": []
+          "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.Combat.RangedObstacle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": []
         },
         "CombatUnitSelectionControl._pathInvalid": {
           "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -3841,9 +3841,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -4146,54 +4146,54 @@
         "ETimerNode._tick": 0,
         "ETimerNode._timerLists": [
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           }
         ]
       },
@@ -4811,9 +4811,9 @@
         "CombatUnitSelectionControl._cursorImage": 0,
         "CombatUnitSelectionControl.MouseOverTarget": null,
         "CombatUnitSelectionControl.Obstacles": {
-          "$type": "Aow.Rtl.DelphiList",
-          "DelphiList.count": 0,
-          "DelphiList.items": []
+          "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.Combat.RangedObstacle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": []
         },
         "CombatUnitSelectionControl._pathInvalid": {
           "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -5246,9 +5246,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -5551,54 +5551,54 @@
         "ETimerNode._tick": 0,
         "ETimerNode._timerLists": [
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           }
         ]
       },
@@ -6218,9 +6218,9 @@
         "CombatUnitSelectionControl._cursorImage": 0,
         "CombatUnitSelectionControl.MouseOverTarget": null,
         "CombatUnitSelectionControl.Obstacles": {
-          "$type": "Aow.Rtl.DelphiList",
-          "DelphiList.count": 0,
-          "DelphiList.items": []
+          "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.Combat.RangedObstacle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": []
         },
         "CombatUnitSelectionControl._pathInvalid": {
           "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -6653,9 +6653,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -6958,54 +6958,54 @@
         "ETimerNode._tick": 0,
         "ETimerNode._timerLists": [
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           }
         ]
       },
@@ -7625,9 +7625,9 @@
         "CombatUnitSelectionControl._cursorImage": 0,
         "CombatUnitSelectionControl.MouseOverTarget": null,
         "CombatUnitSelectionControl.Obstacles": {
-          "$type": "Aow.Rtl.DelphiList",
-          "DelphiList.count": 0,
-          "DelphiList.items": []
+          "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.Combat.RangedObstacle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": []
         },
         "CombatUnitSelectionControl._pathInvalid": {
           "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -8060,9 +8060,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -8365,54 +8365,54 @@
         "ETimerNode._tick": 0,
         "ETimerNode._timerLists": [
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           }
         ]
       },
@@ -9032,9 +9032,9 @@
         "CombatUnitSelectionControl._cursorImage": 0,
         "CombatUnitSelectionControl.MouseOverTarget": null,
         "CombatUnitSelectionControl.Obstacles": {
-          "$type": "Aow.Rtl.DelphiList",
-          "DelphiList.count": 0,
-          "DelphiList.items": []
+          "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.Combat.RangedObstacle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": []
         },
         "CombatUnitSelectionControl._pathInvalid": {
           "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -9467,9 +9467,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -9772,54 +9772,54 @@
         "ETimerNode._tick": 0,
         "ETimerNode._timerLists": [
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           }
         ]
       },
@@ -10439,9 +10439,9 @@
         "CombatUnitSelectionControl._cursorImage": 0,
         "CombatUnitSelectionControl.MouseOverTarget": null,
         "CombatUnitSelectionControl.Obstacles": {
-          "$type": "Aow.Rtl.DelphiList",
-          "DelphiList.count": 0,
-          "DelphiList.items": []
+          "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.Combat.RangedObstacle, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DelphiList`1.count": 0,
+          "DelphiList`1.items": []
         },
         "CombatUnitSelectionControl._pathInvalid": {
           "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
@@ -10874,9 +10874,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -11179,54 +11179,54 @@
         "ETimerNode._tick": 0,
         "ETimerNode._timerLists": [
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           },
           {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": "$ref:$.CombatMap.UnitSelection.CombatUnitSelectionControl.Obstacles.DelphiList.items"
+            "$type": "Aow.Rtl.DelphiList`1[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList`1.count": 0,
+            "DelphiList`1.items": "$ref:$.CombatMap.UnitSelection.MoveSelector.MoveControlSettings.MoveControlSettings.SubMoves.ENode._children.DelphiList`1.items"
           }
         ]
       },

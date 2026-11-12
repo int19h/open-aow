@@ -90,11 +90,11 @@ public partial class Tornado : GlobalTargetSpell
         HexNumberWalkData walk = default;
         MapLevel mapLevel;
         MapField mapField;
-        DelphiList locations;
+        DelphiList<MapField> locations;
         bool found;
         int index;
         int X;
-        locations = new DelphiList();
+        locations = new DelphiList<MapField>();
         army.Army.CreateMovePointTable(selection, Bytes.Of(ref table));
         var hexY = army.HexY;
         var hexX = army.HexX;
@@ -120,7 +120,7 @@ public partial class Tornado : GlobalTargetSpell
         while (locations.Count != 0 && !found)
         {
             index = Random(locations.Count);
-            mapField = (MapField)locations[index];
+            mapField = locations[index];
             if (ValidWarpLocation(army, mapField.HexX, mapField.HexY, mapField.HexLevel))
             {
                 found = true;

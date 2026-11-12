@@ -93,9 +93,9 @@ public partial class General : DataModule
             MapVisible = DialogHosts.MapWindow.MainWindow.Visible;
             for (int I = 0, last = DialogHosts.General.Manager.Children.Count - 1; I <= last; I++)
             {
-                if ((UIComponent)DialogHosts.General.Manager.Children[I] != DialogHosts.TaskBar.TaskWindow)
+                if (DialogHosts.General.Manager.Children[I] != DialogHosts.TaskBar.TaskWindow)
                 {
-                    ((UIComponent)DialogHosts.General.Manager.Children[I]).Visible = false;
+                    DialogHosts.General.Manager.Children[I].Visible = false;
                 }
             }
         }
@@ -223,14 +223,14 @@ public partial class General : DataModule
     }
 
     // AoWWinMan.pas:123
-    public void SortLists(ref DelphiList lists, byte order)
+    public void SortLists(ref DelphiList<ListBox> lists, byte order)
     {
         ListBox L;
         int J;
         int insertAt;
         int valueI;
         int valueJ;
-        L = (ListBox)lists[0];
+        L = lists[0];
         for (int I = 1, last = L.Items.Count - 1; I <= last; I++)
         {
             J = I - 1;
@@ -296,14 +296,14 @@ public partial class General : DataModule
                 int limit = lists.Count - 1;
                 for (; J <= limit; J += 1)
                 {
-                    ((ListBox)lists[J]).Items.Move(I, insertAt);
+                    lists[J].Items.Move(I, insertAt);
                 }
             }
         }
 
         for (int I = 0, last = lists.Count - 1; I <= last; I++)
         {
-            L = (ListBox)lists[I];
+            L = lists[I];
             L.ListOffset = 0;
             L.Selected = -1;
             L.Sized = false;
@@ -739,7 +739,7 @@ public partial class General : DataModule
             {
                 if (DialogHosts.General.Manager.Children[I] != DialogHosts.TaskBar.TaskWindow)
                 {
-                    ((UIComponent)DialogHosts.General.Manager.Children[I]).Visible = false;
+                    DialogHosts.General.Manager.Children[I].Visible = false;
                 }
             }
         }

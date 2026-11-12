@@ -61,18 +61,18 @@ public partial class UnitProductionList : ENode, IChildList<UnitProduction>
     // Structur.PAS:55
     public void SortOnLevel()
     {
-        SortChildren(CompareUnitProductionLevel);
+        SortChildren<UnitProduction>(CompareUnitProductionLevel);
     }
 
-    private static int CompareUnitProductionLevel(object item1, object item2)
+    private static int CompareUnitProductionLevel(UnitProduction item1, UnitProduction item2)
     {
-        UnitProduction unitProduction = (UnitProduction)item1;
+        UnitProduction unitProduction = item1;
         int number = ((AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex) != null) ? (AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level * 2) : 0);
-        int number2 = ((AoWHSSet.Current.UnitResources.GetUnitResource(((UnitProduction)item2).UnitIndex) != null) ? (AoWHSSet.Current.UnitResources.GetUnitResource(((UnitProduction)item2).UnitIndex).Level * 2) : 0);
+        int number2 = ((AoWHSSet.Current.UnitResources.GetUnitResource(item2.UnitIndex) != null) ? (AoWHSSet.Current.UnitResources.GetUnitResource(item2.UnitIndex).Level * 2) : 0);
         int number3 = number - number2;
         if (number3 == 0)
         {
-            number3 = ((UnitProduction)item1).UnitIndex - ((UnitProduction)item2).UnitIndex;
+            number3 = item1.UnitIndex - item2.UnitIndex;
         }
         return number3;
     }

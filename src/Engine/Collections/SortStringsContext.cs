@@ -8,7 +8,7 @@ public struct SortStringsContext
     public StringCollection Strings { get; set; }
     public StringsSortCompare Compare { get; set; }
     public ExchangeProc ExchangeProc { get; set; }
-    public DelphiList ExchangeData { get; set; }
+    public DelphiList<StringCollection> ExchangeData { get; set; }
 
     internal static void QuickSortStrings(ref SortStringsContext context, int L, int R)
     {

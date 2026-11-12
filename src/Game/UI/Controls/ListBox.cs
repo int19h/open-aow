@@ -48,9 +48,14 @@ public partial class ListBox : Control
     public int HoverItem { get; set; }
 
     // AoWListBox.pas:107
-    public ListBox(Component owner) : base(owner)
+    public ListBox(Component owner) : this(owner, items: new StringList())
     {
-        _items = new StringList();
+    }
+
+    // A list box whose items carry typed objects passes its own string list.
+    protected ListBox(Component owner, StringList items) : base(owner)
+    {
+        _items = items;
         _items.OnChange = OnChangeText;
         VisibleRows = 3;
         _itemHeight = 10;

@@ -205,7 +205,7 @@ public sealed class EngineLeafConstructionTests
                 case EngineObjectList children:
                     Assert.Equal(0, children.Count); Assert.Equal(0, children.Capacity); Assert.Empty(children.List);
                     break;
-                case DelphiList list:
+                case EngineObjectClassList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity);
                     break;
                 default: Assert.Fail("Missing helper assertion"); break;

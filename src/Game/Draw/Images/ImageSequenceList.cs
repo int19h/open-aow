@@ -7,7 +7,7 @@ namespace Aow.Game.Draw.Images;
 // the image sequences of the indices, each the first layer of a chain (nil for none). FLinked
 // (the sequences are linked to their libraries), FILManager, FImageLibrary (the library of the
 // sequences without a library name)
-public partial class ImageSequenceList : DelphiList
+public partial class ImageSequenceList : DelphiList<ImageSequence>
 {
     private bool _linked;
     // { HSEngine's TMapObjectResource.MsgProc writes FILManager directly }
@@ -69,7 +69,7 @@ public partial class ImageSequenceList : DelphiList
         ImageSequence result;
         if (index < Count)
         {
-            result = (ImageSequence)List[index];
+            result = List[index];
         }
         else
         {
@@ -140,7 +140,7 @@ public partial class ImageSequenceList : DelphiList
             stream.Write(Bytes.Of(ref isNil, 1));
             if (!isNil)
             {
-                ((ImageSequence)List[I]).SaveToStream(stream);
+                List[I].SaveToStream(stream);
             }
         }
     }
@@ -165,7 +165,7 @@ public partial class ImageSequenceList : DelphiList
         ImageSequence result;
         if (index >= 0 && index < Count)
         {
-            result = (ImageSequence)List[index];
+            result = List[index];
         }
         else
         {
@@ -198,7 +198,7 @@ public partial class ImageSequenceList : DelphiList
         int result = 0;
         if (index < Count)
         {
-            sequence = (ImageSequence)List[index];
+            sequence = List[index];
         }
         else
         {
@@ -222,7 +222,7 @@ public partial class ImageSequenceList : DelphiList
         int result = 0;
         if (index < Count)
         {
-            S = (ImageSequence)List[index];
+            S = List[index];
         }
         else
         {
@@ -251,7 +251,7 @@ public partial class ImageSequenceList : DelphiList
         I = 0;
         if (index < Count)
         {
-            result = (ImageSequence)List[index];
+            result = List[index];
         }
         else
         {
@@ -276,7 +276,7 @@ public partial class ImageSequenceList : DelphiList
         ImageSequence previous;
         if (index < Count)
         {
-            S = (ImageSequence)List[index];
+            S = List[index];
         }
         else
         {
@@ -323,7 +323,7 @@ public partial class ImageSequenceList : DelphiList
         if (index < Count)
         {
             previous = null;
-            S = (ImageSequence)List[index];
+            S = List[index];
             while (S != null && S != sequence)
             {
                 previous = S;
@@ -355,7 +355,7 @@ public partial class ImageSequenceList : DelphiList
             _linked = true;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                sequence = (ImageSequence)List[I];
+                sequence = List[I];
                 while (sequence != null)
                 {
                     sequence.LinkToImageLibrary();
@@ -374,7 +374,7 @@ public partial class ImageSequenceList : DelphiList
             _linked = false;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                sequence = (ImageSequence)List[I];
+                sequence = List[I];
                 while (sequence != null)
                 {
                     sequence.ReleaseImageLibrary();
@@ -393,7 +393,7 @@ public partial class ImageSequenceList : DelphiList
         I = 0;
         while (I != Count && !result)
         {
-            sequence = (ImageSequence)List[I];
+            sequence = List[I];
             while (sequence != null && !result)
             {
                 result = sequence._sequenceMode != SequenceMode.None;
@@ -415,7 +415,7 @@ public partial class ImageSequenceList : DelphiList
         I = 0;
         while (I != Count && result == null)
         {
-            sequence = (ImageSequence)List[I];
+            sequence = List[I];
             while (sequence != null && result == null)
             {
                 result = sequence.GetPreviewImage();
@@ -439,7 +439,7 @@ public partial class ImageSequenceList : DelphiList
         R.Bottom = 0;
         if (index < Count && index >= 0)
         {
-            sequence = (ImageSequence)List[index];
+            sequence = List[index];
             while (sequence != null)
             {
                 sequence.GetDimensions(ref sr);
@@ -459,7 +459,7 @@ public partial class ImageSequenceList : DelphiList
         bool result = false;
         if (index < Count)
         {
-            sequence = (ImageSequence)List[index];
+            sequence = List[index];
             while (sequence != null)
             {
                 I = sequence.GetUnloopedFrameIndex(frame);
@@ -487,7 +487,7 @@ public partial class ImageSequenceList : DelphiList
         int result = 0;
         if (index < Count)
         {
-            sequence = (ImageSequence)List[index];
+            sequence = List[index];
             while (sequence != null)
             {
                 N = sequence.GetTotalSequenceFrames();
@@ -510,7 +510,7 @@ public partial class ImageSequenceList : DelphiList
         int I;
         if (index < Count)
         {
-            sequence = (ImageSequence)List[index];
+            sequence = List[index];
             while (sequence != null)
             {
                 I = sequence.GetFrameIndex(frame, 0);
@@ -534,7 +534,7 @@ public partial class ImageSequenceList : DelphiList
         int I;
         if (index < Count)
         {
-            sequence = (ImageSequence)List[index];
+            sequence = List[index];
             while (sequence != null)
             {
                 I = sequence.GetFrameIndex(frame, offset);

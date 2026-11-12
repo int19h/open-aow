@@ -3,6 +3,7 @@
 using Aow.Game.Layout;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Game.Units;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -3604,7 +3605,7 @@ public partial class CityScreen : ILayoutModule
         migTurnsFr.MinWidth = 0;
         migTurnsFr.MinHeight = 0;
         session.EndRead(migTurnsFr);
-        MigrationRaceList = new ListBox(this);
+        MigrationRaceList = new ListBox<MigrationItem>(this);
         session.BeginRead(MigrationRaceList);
         MigrationRaceList.Name = "MigrationRaceLB";
         MigrationRaceList.Priority = 5;

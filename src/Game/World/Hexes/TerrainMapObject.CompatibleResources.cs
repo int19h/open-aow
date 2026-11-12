@@ -9,7 +9,7 @@ public partial class TerrainMapObject
 {
     public virtual TerrainMapObjectResource FindTerrainResource(byte terrainType)
     {
-        var candidates = new DelphiList();
+        var candidates = new DelphiList<TerrainMapObjectResource>();
         var resources = GetResourceList(_resource.Engine);
         for (int i = 0; i < resources.Count; i++)
         {
@@ -22,14 +22,14 @@ public partial class TerrainMapObject
                     Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 candidates.Add(resource);
         }
-        TerrainMapObjectResource result = candidates.Count == 0 ? null : (TerrainMapObjectResource)candidates[RtlUnit.Random(candidates.Count)];
+        TerrainMapObjectResource result = candidates.Count == 0 ? null : candidates[RtlUnit.Random(candidates.Count)];
         candidates?.Dispose();
         return result;
     }
 
     public TerrainMapObjectResource FindCompatibleResource(byte terrainType, sbyte overlayType, int decorationType)
     {
-        var candidates = new DelphiList();
+        var candidates = new DelphiList<TerrainMapObjectResource>();
         var resources = GetResourceList(_resource.Engine);
         for (int i = 0; i < resources.Count; i++)
         {
@@ -49,7 +49,7 @@ public partial class TerrainMapObject
             }
             if (compatible) candidates.Add(resource);
         }
-        TerrainMapObjectResource result = candidates.Count == 0 ? null : (TerrainMapObjectResource)candidates[RtlUnit.Random(candidates.Count)];
+        TerrainMapObjectResource result = candidates.Count == 0 ? null : candidates[RtlUnit.Random(candidates.Count)];
         candidates?.Dispose();
         return result;
     }

@@ -1844,9 +1844,9 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "MoveControlSettings._refCount": 1,
             "MoveControlSettings._rowOffsets": [],
@@ -3254,9 +3254,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": []
+            "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList\u00601.count": 0,
+            "DelphiList\u00601.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -4757,9 +4757,9 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "MoveControlSettings._refCount": 1,
             "MoveControlSettings._rowOffsets": [],
@@ -5903,9 +5903,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": []
+            "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList\u00601.count": 0,
+            "DelphiList\u00601.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -7086,9 +7086,9 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "MoveControlSettings._refCount": 1,
             "MoveControlSettings._rowOffsets": [],
@@ -8177,9 +8177,9 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "MoveControlSettings._refCount": 1,
             "MoveControlSettings._rowOffsets": [],
@@ -8624,8 +8624,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -9537,9 +9537,9 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "MoveControlSettings._refCount": 1,
             "MoveControlSettings._rowOffsets": [],
@@ -9909,8 +9909,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -10891,8 +10891,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -11017,8 +11017,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -11205,8 +11205,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -11324,8 +11324,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -11778,8 +11778,8 @@
     "$value": {
       "$jsonText": {
         "$type": "Aow.Game.Combat.CombatObjectList",
-        "DelphiList.count": 0,
-        "DelphiList.items": []
+        "DelphiList\u00601.count": 0,
+        "DelphiList\u00601.items": []
       }
     }
   },
@@ -12576,8 +12576,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -12737,8 +12737,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -12869,8 +12869,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -13030,8 +13030,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -13838,9 +13838,9 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "MoveControlSettings._refCount": 1,
             "MoveControlSettings._rowOffsets": [],
@@ -14277,8 +14277,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -14492,8 +14492,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -14611,8 +14611,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -14729,8 +14729,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -14947,8 +14947,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -15065,8 +15065,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -16052,8 +16052,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -16347,8 +16347,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -17311,8 +17311,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -17961,8 +17961,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -21665,9 +21665,9 @@
               },
               "MoveControlSettings.Player": -1,
               "MoveControlSettings.ProcessedMapFields": {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": []
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": []
               },
               "MoveControlSettings._refCount": 1,
               "MoveControlSettings._rowOffsets": "$ref:$.MoveControl.Map.AoWHSMap.Players.ENode._children.DelphiList\u00601.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list",
@@ -22281,54 +22281,54 @@
             "ETimerNode._tick": 0,
             "ETimerNode._timerLists": [
               {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.MoveControl.Map.AoWHSMap.SelectedArmy.MoveSelector.MoveControlSettings.MoveControlSettings.ProcessedMapFields.DelphiList.items"
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": "$ref:$.MoveControl.Map.AoWHSMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
               },
               {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.MoveControl.Map.AoWHSMap.SelectedArmy.MoveSelector.MoveControlSettings.MoveControlSettings.ProcessedMapFields.DelphiList.items"
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": "$ref:$.MoveControl.Map.AoWHSMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
               },
               {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.MoveControl.Map.AoWHSMap.SelectedArmy.MoveSelector.MoveControlSettings.MoveControlSettings.ProcessedMapFields.DelphiList.items"
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": "$ref:$.MoveControl.Map.AoWHSMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
               },
               {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.MoveControl.Map.AoWHSMap.SelectedArmy.MoveSelector.MoveControlSettings.MoveControlSettings.ProcessedMapFields.DelphiList.items"
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": "$ref:$.MoveControl.Map.AoWHSMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
               },
               {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.MoveControl.Map.AoWHSMap.SelectedArmy.MoveSelector.MoveControlSettings.MoveControlSettings.ProcessedMapFields.DelphiList.items"
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": "$ref:$.MoveControl.Map.AoWHSMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
               },
               {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.MoveControl.Map.AoWHSMap.SelectedArmy.MoveSelector.MoveControlSettings.MoveControlSettings.ProcessedMapFields.DelphiList.items"
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": "$ref:$.MoveControl.Map.AoWHSMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
               },
               {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.MoveControl.Map.AoWHSMap.SelectedArmy.MoveSelector.MoveControlSettings.MoveControlSettings.ProcessedMapFields.DelphiList.items"
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": "$ref:$.MoveControl.Map.AoWHSMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
               },
               {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.MoveControl.Map.AoWHSMap.SelectedArmy.MoveSelector.MoveControlSettings.MoveControlSettings.ProcessedMapFields.DelphiList.items"
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": "$ref:$.MoveControl.Map.AoWHSMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
               },
               {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.MoveControl.Map.AoWHSMap.SelectedArmy.MoveSelector.MoveControlSettings.MoveControlSettings.ProcessedMapFields.DelphiList.items"
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": "$ref:$.MoveControl.Map.AoWHSMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
               },
               {
-                "$type": "Aow.Rtl.DelphiList",
-                "DelphiList.count": 0,
-                "DelphiList.items": "$ref:$.MoveControl.Map.AoWHSMap.SelectedArmy.MoveSelector.MoveControlSettings.MoveControlSettings.ProcessedMapFields.DelphiList.items"
+                "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Engine.Nodes.EngineObject, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "DelphiList\u00601.count": 0,
+                "DelphiList\u00601.items": "$ref:$.MoveControl.Map.AoWHSMap.AIGroupManager.ENode._children.DelphiList\u00601.items"
               }
             ]
           },
@@ -23048,9 +23048,9 @@
         },
         "MoveControlSettings.Player": -1,
         "MoveControlSettings.ProcessedMapFields": {
-          "$type": "Aow.Rtl.DelphiList",
-          "DelphiList.count": 0,
-          "DelphiList.items": []
+          "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": []
         },
         "MoveControlSettings._refCount": 1,
         "MoveControlSettings._rowOffsets": [],
@@ -23441,9 +23441,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": []
+            "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList\u00601.count": 0,
+            "DelphiList\u00601.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": [],
@@ -23630,8 +23630,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -26508,8 +26508,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -26649,8 +26649,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -27088,8 +27088,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -27267,8 +27267,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -27385,8 +27385,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -27504,8 +27504,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -27960,9 +27960,9 @@
           },
           "MoveControlSettings.Player": -1,
           "MoveControlSettings.ProcessedMapFields": {
-            "$type": "Aow.Rtl.DelphiList",
-            "DelphiList.count": 0,
-            "DelphiList.items": []
+            "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "DelphiList\u00601.count": 0,
+            "DelphiList\u00601.items": []
           },
           "MoveControlSettings._refCount": 1,
           "MoveControlSettings._rowOffsets": "$ref:$.SelectedArmy._selectedUnitGraphics.Int32List._list",
@@ -28045,8 +28045,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -28232,8 +28232,8 @@
         "Spell.CastDuration": 0,
         "Spell.CastImages": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -28391,8 +28391,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -28547,8 +28547,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -28741,8 +28741,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -29100,8 +29100,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -29218,8 +29218,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -29975,9 +29975,9 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList",
-              "DelphiList.count": 0,
-              "DelphiList.items": []
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "DelphiList\u00601.count": 0,
+              "DelphiList\u00601.items": []
             },
             "MoveControlSettings._refCount": 1,
             "MoveControlSettings._rowOffsets": [],
@@ -30390,8 +30390,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -30595,8 +30595,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -30806,8 +30806,8 @@
         ],
         "UnitGraphicsResource.Sequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": null,
           "ImageSequenceList._imageLibrary": null,
           "ImageSequenceList._linked": false
@@ -31106,8 +31106,8 @@
         "Spell.CastDuration": 0,
         "Spell.CastImages": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -31311,8 +31311,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {
@@ -31429,8 +31429,8 @@
         },
         "Ability.ImageSequences": {
           "$type": "Aow.Game.Draw.Images.ImageSequenceList",
-          "DelphiList.count": 0,
-          "DelphiList.items": [],
+          "DelphiList\u00601.count": 0,
+          "DelphiList\u00601.items": [],
           "ImageSequenceList._imageLibraryManager": {
             "$type": "Aow.Game.Draw.Images.ImageLibraryManager",
             "Component.ComponentState": {

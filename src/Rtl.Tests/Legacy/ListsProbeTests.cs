@@ -16,7 +16,7 @@ public sealed class ListsProbeTests
     public void ListsFixture()
     {
         var p = new ProbeLines("lists");
-        var l = new DelphiList();
+        var l = new DelphiList<Item>();
         Item[] items = Enumerable.Range(0, 257).Select(i => new Item(i, i % 3)).ToArray();
         void State(string tag)
         {
@@ -31,15 +31,15 @@ public sealed class ListsProbeTests
         l.Exchange(0, l.Count - 1); State("exchange"); l.Delete(2); State("delete_middle"); l.Delete(0); State("delete_first"); l.Delete(l.Count - 1); State("delete_last");
         l.Add(null); l.Insert(1, null); l.Add(items[1]); State("nil_entries"); p.Fact("indexof_nil", l.IndexOf(null)); l.Pack(); State("pack");
         p.Fact("remove_present", l.Remove(items[1])); State("remove"); p.Fact("remove_absent", l.Remove(items[99])); l.Move(0, l.Count - 1); State("move");
-        p.Fact("first_identity", ((Item)l.First()!).Id); p.Fact("last_identity", ((Item)l.Last()!).Id);
+        p.Fact("first_identity", l.First()!.Id); p.Fact("last_identity", l.Last()!.Id);
         l.Capacity = l.Count; State("capacity_exact"); l.Expand(); State("expand_full"); l.Expand(); State("expand_spare");
         p.Fact("delete_outside", p.Thrown(() => l.Delete(l.Count))); p.Fact("insert_outside", p.Thrown(() => l.Insert(-1, null)));
         foreach (int capacity in new[] { 8, 64 }) { l.Clear(); l.Capacity = capacity; for (int i = 0; i < capacity; i++) l.Add(items[i]); l.Expand(); State($"expand_capacity{capacity}"); }
         for (int pattern = 0; pattern <= 2; pattern++) foreach (int n in new[] { 0, 1, 2, 3, 4, 5, 7, 8, 9, 16, 17, 32, 64, 65, 100, 257 })
         {
             l.Clear(); for (int i = 0; i < n; i++) { items[i].Key = pattern switch { 0 => 0, 1 => i % 3, _ => (n - i) % 5 }; l.Add(items[i]); }
-            l.Sort((a, b) => ((Item)a!).Key - ((Item)b!).Key);
-            for (int i = 0; i < n; i++) { p.Fact($"sort_{pattern}_{n}_id_{i}", ((Item)l[i]!).Id); p.Fact($"sort_{pattern}_{n}_key_{i}", ((Item)l[i]!).Key); }
+            l.Sort((a, b) => a!.Key - b!.Key);
+            for (int i = 0; i < n; i++) { p.Fact($"sort_{pattern}_{n}_id_{i}", l[i]!.Id); p.Fact($"sort_{pattern}_{n}_key_{i}", l[i]!.Key); }
             p.Fact($"sort_{pattern}_{n}_count", l.Count);
         }
         var sl = new StringList();

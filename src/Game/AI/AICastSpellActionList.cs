@@ -23,12 +23,12 @@ public partial class AICastSpellActionList : ENode, IChildList<AICastSpellAction
     // Spells.PAS:1539
     public void SortOnPriority()
     {
-        SortChildren(CompareCastSpellPriority);
+        SortChildren<AICastSpellAction>(CompareCastSpellPriority);
     }
 
-    private static int CompareCastSpellPriority(object item1, object item2)
+    private static int CompareCastSpellPriority(AICastSpellAction item1, AICastSpellAction item2)
     {
-        return ((AICastSpellAction)item2).Priority - ((AICastSpellAction)item1).Priority;
+        return item2.Priority - item1.Priority;
     }
 
     // Engine.pas:631

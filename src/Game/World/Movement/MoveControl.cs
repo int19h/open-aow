@@ -50,7 +50,7 @@ public partial class MoveControl : IDisposable
     public int MovePointsLimit { get; set; }
 
     public MovePointTable MovePointTable;
-    private DelphiList _processedMapFields;
+    private DelphiList<AoWMapField> _processedMapFields;
 
     public ArmyHexSprite ArmyHexSprite { get; private set; }
     public int Selection { get; private set; }

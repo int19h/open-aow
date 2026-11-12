@@ -688,7 +688,7 @@ public partial class BattleAI : IDisposable
     {
         int result;
         Point3DList Path;
-        DelphiList obstacles;
+        DelphiList<RangedObstacle> obstacles;
         int X = default;
         int Y = default;
         int V = default;
@@ -715,7 +715,7 @@ public partial class BattleAI : IDisposable
             case BattleEffectType.Ray:
             case BattleEffectType.AltArrow:
                 Path = new Point3DList();
-                obstacles = new DelphiList();
+                obstacles = new DelphiList<RangedObstacle>();
                 if (effect == BattleEffectType.Breath)
                 {
                     TacticalTables.MakeRangedPath(U.GetSide(), 50, 20, 50, (short)x1, (short)y1, (short)x2, (short)y2, 0, 0, false, ref Path, ref obstacles);
@@ -732,22 +732,22 @@ public partial class BattleAI : IDisposable
                     for (int I = 0, last = obstacles.Count - 1; I <= last; I++)
                     {
                         var obstacle = obstacles[I];
-                        var path = Path[((RangedObstacle)obstacle).PathIndex];
+                        var path = Path[obstacle.PathIndex];
                         var obstacle2 = obstacles[I];
-                        HexGeometry.PixelToHex(Path[((RangedObstacle)obstacle2).PathIndex].X, path.Y, ref X, ref Y);
+                        HexGeometry.PixelToHex(Path[obstacle2.PathIndex].X, path.Y, ref X, ref Y);
                         V = 0;
                         EvalHex(ignore, ability, spell, X, Y, ref V, hitWalls, true, U, ignoreWall);
                         try
                         {
                             var obstacle3 = obstacles[I];
-                            total = total + V * chance / 100 * ((RangedObstacle)obstacle3).Chance / 100;
+                            total = total + V * chance / 100 * obstacle3.Chance / 100;
                         }
                         catch
                         {
-                            total = total + ((RangedObstacle)obstacles[I]).Chance * (V / 100 * chance / 100);
+                            total = total + obstacles[I].Chance * (V / 100 * chance / 100);
                         }
 
-                        chance = (100 - ((RangedObstacle)obstacles[I]).Chance) * chance / 100;
+                        chance = (100 - obstacles[I].Chance) * chance / 100;
                     }
                 }
 
@@ -810,7 +810,7 @@ public partial class BattleAI : IDisposable
     }
 
     // AoWTC.pas:1149
-    public void CheckUnit(int X, int Y, int hits, int hitPoints, CombatMoveControlSettings settings, TacticalBattleUnit U, CombatObject target, DelphiList abilities, object wall)
+    public void CheckUnit(int X, int Y, int hits, int hitPoints, CombatMoveControlSettings settings, TacticalBattleUnit U, CombatObject target, DelphiList<CombatAbilityRef> abilities, object wall)
     {
         int safeValue;
         int I;
@@ -989,7 +989,7 @@ public partial class BattleAI : IDisposable
                     Path.Add(basePath[I]);
                 }
 
-                ability = ((CombatAbilityRef)abilities[abilityIndex]).Ability;
+                ability = abilities[abilityIndex].Ability;
                 spell = 0;
                 X = originalX;
                 Y = originalY;
@@ -1001,7 +1001,7 @@ public partial class BattleAI : IDisposable
                         {
                             if (!(target is CombatWall) || !CombatMap.Current.Combat.CombatData.WallBreached)
                             {
-                                spell = ((CombatAbilityRef)abilities[abilityIndex]).Spell;
+                                spell = abilities[abilityIndex].Spell;
                                 switch (TacticalTables.SpellTypes[spell])
                                 {
                                     case BattleEffectType.Arrow:
@@ -1967,10 +1967,10 @@ public partial class BattleAI : IDisposable
         bool moved;
         bool found;
         bool visible;
-        DelphiList abilities;
+        DelphiList<CombatAbilityRef> abilities;
         int terrainCost = default;
         int pathCost;
-        DelphiList bonuses;
+        List<int> bonuses;
         string reason = "";
         MapCoordinateList Path = default;
         AbilityCombatInfo aiInfo = default;
@@ -2206,7 +2206,7 @@ public partial class BattleAI : IDisposable
                             U = (TacticalBattleUnit)_units[_unitIndex];
                             if (!U.GetLocked())
                             {
-                                abilities = new DelphiList();
+                                abilities = new DelphiList<CombatAbilityRef>();
                                 try
                                 {
                                     J = 0;
@@ -2242,8 +2242,8 @@ public partial class BattleAI : IDisposable
                                                         if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
                                                         {
                                                             abilities.Add(new CombatAbilityRef());
-                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
-                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Spell = K;
+                                                            abilities[abilities.Count - 1].Ability = J;
+                                                            abilities[abilities.Count - 1].Spell = K;
                                                         }
                                                     }
                                                 }
@@ -2256,7 +2256,7 @@ public partial class BattleAI : IDisposable
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
                                                     {
                                                         abilities.Add(new CombatAbilityRef());
-                                                        ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
+                                                        abilities[abilities.Count - 1].Ability = J;
                                                     }
                                                 }
                                             }
@@ -2331,8 +2331,8 @@ public partial class BattleAI : IDisposable
                                                         if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                                                         {
                                                             abilities.Add(new CombatAbilityRef());
-                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
-                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Spell = K;
+                                                            abilities[abilities.Count - 1].Ability = J;
+                                                            abilities[abilities.Count - 1].Spell = K;
                                                         }
                                                     }
                                                 }
@@ -2345,7 +2345,7 @@ public partial class BattleAI : IDisposable
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 1) != 0)
                                                     {
                                                         abilities.Add(new CombatAbilityRef());
-                                                        ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
+                                                        abilities[abilities.Count - 1].Ability = J;
                                                     }
                                                 }
                                             }
@@ -2464,7 +2464,7 @@ public partial class BattleAI : IDisposable
                             U = (TacticalBattleUnit)_units[_unitIndex];
                             if (!U.GetLocked())
                             {
-                                abilities = new DelphiList();
+                                abilities = new DelphiList<CombatAbilityRef>();
                                 J = 0;
                                 for (; J <= 169; J += 1)
                                 {
@@ -2501,8 +2501,8 @@ public partial class BattleAI : IDisposable
                                                         {
                                                             _flee = false;
                                                             abilities.Add(new CombatAbilityRef());
-                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
-                                                            ((CombatAbilityRef)abilities[abilities.Count - 1]).Spell = K;
+                                                            abilities[abilities.Count - 1].Ability = J;
+                                                            abilities[abilities.Count - 1].Spell = K;
                                                         }
                                                     }
                                                 }
@@ -2517,7 +2517,7 @@ public partial class BattleAI : IDisposable
                                                 {
                                                     _flee = false;
                                                     abilities.Add(new CombatAbilityRef());
-                                                    ((CombatAbilityRef)abilities[abilities.Count - 1]).Ability = J;
+                                                    abilities[abilities.Count - 1].Ability = J;
                                                 }
                                             }
                                         }
@@ -2617,12 +2617,12 @@ public partial class BattleAI : IDisposable
                 case 3:
                     try
                     {
-                        bonuses = new DelphiList();
+                        bonuses = new List<int>();
                         I = 0;
                         int last = _units.Count - 1;
                         for (; I <= last; I += 1)
                         {
-                            bonuses.Add(null);
+                            bonuses.Add(0);
                         }
 
                         while (_unitIndex < _moves.Count && _unitLimit < 50)
@@ -2634,7 +2634,7 @@ public partial class BattleAI : IDisposable
                                 int limit = _units.Count - 1;
                                 for (; J <= limit; J += 1)
                                 {
-                                    bonuses[J] = null;
+                                    bonuses[J] = 0;
                                 }
 
                                 J = 0;
@@ -2652,9 +2652,9 @@ public partial class BattleAI : IDisposable
 
                                         L = otherMove.UnitHexSprite.Unit.GetMoves() * (otherMove.Value / (K * 10));
                                         K = _units.IndexOf(otherMove.UnitHexSprite.Unit);
-                                        if (ObjectToInt((object)bonuses[K]) < L)
+                                        if (bonuses[K] < L)
                                         {
-                                            bonuses[K] = IntToObject(L);
+                                            bonuses[K] = L;
                                         }
                                     }
                                 }
@@ -2666,7 +2666,7 @@ public partial class BattleAI : IDisposable
                                     if (move.GroupValue > -1000000 && move.GroupValue < 1000000)
                                     {
                                         var bonus = bonuses[J];
-                                        move.GroupValue += ObjectToInt((object)bonus);
+                                        move.GroupValue += bonus;
                                     }
                                 }
                             }
@@ -2681,7 +2681,6 @@ public partial class BattleAI : IDisposable
                         }
 
                         _unitLimit = 0;
-                        bonuses?.Dispose();
                     }
                     catch
                     {

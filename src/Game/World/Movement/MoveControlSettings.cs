@@ -27,7 +27,7 @@ public partial class MoveControlSettings : EngineObject
     public MoveControlSettings(ECustomNode owner) : base(owner)
     {
         _refCount = 1;
-        ProcessedMapFields = new DelphiList();
+        ProcessedMapFields = new DelphiList<AoWMapField>();
         Path = new MovePath();
         SubMoves = new SubMoveList(null);
         Units = new UnitUserList(null);
@@ -39,7 +39,7 @@ public partial class MoveControlSettings : EngineObject
     public int MovePointsLimit { get; set; }
     public SubMoveList SubMoves { get; }
     public int SubMoveIndex { get; set; }
-    public DelphiList ProcessedMapFields { get; }
+    public DelphiList<AoWMapField> ProcessedMapFields { get; }
 
     private int[] _rowOffsets = [];
     private int[][] _levelData = [];

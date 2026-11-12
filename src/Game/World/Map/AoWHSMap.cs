@@ -2708,13 +2708,13 @@ public partial class AoWHSMap : GameMap
     public void PlaceTerrain(sbyte X, sbyte Y, sbyte L, sbyte terrainType, sbyte overlayType)
     {
         MapObjectResourceList resources;
-        DelphiList candidates;
+        DelphiList<MapObjectResource> candidates;
         MapObjectResource resource;
         RandSeed = Current.Random(16777215);
         resources = AoWHSSet.Current.MapObjectResourceList;
         if (!Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)overlayType))
         {
-            candidates = new DelphiList();
+            candidates = new DelphiList<MapObjectResource>();
             candidates.Clear();
             for (int I = 0, last = resources.Count - 1; I <= last; I++)
             {
@@ -2727,7 +2727,7 @@ public partial class AoWHSMap : GameMap
 
             if (candidates.Count != 0)
             {
-                ((MapObjectResource)candidates[Random(candidates.Count)]).PlaceResourceUser(Current, X, Y, L);
+                candidates[Random(candidates.Count)].PlaceResourceUser(Current, X, Y, L);
             }
 
             candidates?.Dispose();

@@ -39,7 +39,7 @@ public partial class MultiWindow : DataModule
         int result = 0;
         while (I < DialogHosts.SetupEvents.DirectPlay.ConnectionItems.Count)
         {
-            if (((GDConnection)DialogHosts.SetupEvents.DirectPlay.ConnectionItems[I]).FType == kind)
+            if (DialogHosts.SetupEvents.DirectPlay.ConnectionItems[I].FType == kind)
             {
                 found = I;
                 I = DialogHosts.SetupEvents.DirectPlay.ConnectionItems.Count;

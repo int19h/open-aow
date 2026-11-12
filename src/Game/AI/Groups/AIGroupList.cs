@@ -70,15 +70,15 @@ public partial class AIGroupList : ENode, IChildList<AIGroup>
     // AIGroup.pas:559
     public void SortOnProcessPriority()
     {
-        SortChildren(CompareAIGroupProcessPriority);
+        SortChildren<AIGroup>(CompareAIGroupProcessPriority);
     }
 
-    private static int CompareAIGroupProcessPriority(object item1, object item2)
+    private static int CompareAIGroupProcessPriority(AIGroup item1, AIGroup item2)
     {
-        int number = ((AIGroup)item2).GetProcessPriority() - ((AIGroup)item1).GetProcessPriority();
+        int number = item2.GetProcessPriority() - item1.GetProcessPriority();
         if (number == 0)
         {
-            number = ((AIGroup)item2).GroupId - ((AIGroup)item1).GroupId;
+            number = item2.GroupId - item1.GroupId;
         }
         return number;
     }

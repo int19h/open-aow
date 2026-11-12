@@ -110,7 +110,8 @@ internal static class LegacyRoots
         typeof(CityRegistrar),
         typeof(FireControl),
         typeof(Canvas),
-        typeof(DelphiList),
+        // Untyped DelphiList until issue 150 gave every list its element type.
+        typeof(DelphiList<>),
         // A DelphiList until issue 158 typed the node's child slots.
         typeof(EngineObjectList),
         typeof(Filer),

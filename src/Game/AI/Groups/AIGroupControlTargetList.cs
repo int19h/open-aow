@@ -33,13 +33,13 @@ public partial class AIGroupControlTargetList : EReferenceNode, IChildList<AIGro
     // AIGroup.pas:696
     public void SortOnPriority()
     {
-        SortChildren(CompareAIGroupTargetPriority);
+        SortChildren<AIGroupControlTarget>(CompareAIGroupTargetPriority);
     }
 
     // AIGroup.pas:706
     public void SortOnDataB()
     {
-        SortChildren(CompareAIGroupTargetDataB);
+        SortChildren<AIGroupControlTarget>(CompareAIGroupTargetDataB);
     }
 
     // AIGroup.pas:711
@@ -90,14 +90,14 @@ public partial class AIGroupControlTargetList : EReferenceNode, IChildList<AIGro
         return -1;
     }
 
-    private static int CompareAIGroupTargetPriority(object item1, object item2)
+    private static int CompareAIGroupTargetPriority(AIGroupControlTarget item1, AIGroupControlTarget item2)
     {
-        return ((AIGroupControlTarget)item2).Data.Priority - ((AIGroupControlTarget)item1).Data.Priority;
+        return item2.Data.Priority - item1.Data.Priority;
     }
 
-    private static int CompareAIGroupTargetDataB(object item1, object item2)
+    private static int CompareAIGroupTargetDataB(AIGroupControlTarget item1, AIGroupControlTarget item2)
     {
-        return ((AIGroupControlTarget)item2).DataB - ((AIGroupControlTarget)item1).DataB;
+        return item2.DataB - item1.DataB;
     }
 
     // Engine.pas:631

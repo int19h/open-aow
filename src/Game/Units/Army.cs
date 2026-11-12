@@ -2149,11 +2149,11 @@ public partial class Army : UnitList
     public AddUnitsResult CanAddUnitSelection(UnitList units, byte selection)
     {
         AddUnitsResult result;
-        DelphiList list;
+        DelphiList<Troop> list;
         int I;
         int transportCount;
         Troop transport;
-        list = new DelphiList();
+        list = new DelphiList<Troop>();
         I = 0;
         int last = units.GetCount() - 1;
         for (; I <= last; I += 1)
@@ -2171,7 +2171,7 @@ public partial class Army : UnitList
         int limit = list.Count - 1;
         for (; I <= limit; I += 1)
         {
-            if (((Troop)list[I]).GetTransporter())
+            if (list[I].GetTransporter())
             {
                 transportCount += 1;
             }
@@ -2193,9 +2193,9 @@ public partial class Army : UnitList
                     int last2 = list.Count - 1;
                     for (; I <= last2; I += 1)
                     {
-                        if (((Troop)list[I]).GetTransporter())
+                        if (list[I].GetTransporter())
                         {
-                            transport = (Troop)list[I];
+                            transport = list[I];
                         }
                     }
                 }
@@ -2217,7 +2217,7 @@ public partial class Army : UnitList
                 if (list.Count + count <= 8)
                 {
                     I = 0;
-                    while (I != list.Count && CanAddUnit((Troop)list[I]))
+                    while (I != list.Count && CanAddUnit(list[I]))
                     {
                         I += 1;
                     }
@@ -2315,8 +2315,8 @@ public partial class Army : UnitList
         sbyte L;
         Army goodArmy;
         Army evilArmy;
-        DelphiList races;
-        DelphiList units;
+        DelphiList<Army> races;
+        DelphiList<Troop> units;
         int Race;
         Troop troop;
         Alignment alignment;
@@ -2360,8 +2360,8 @@ public partial class Army : UnitList
         BeginUpdate();
         goodArmy = null;
         evilArmy = null;
-        races = new DelphiList();
-        units = new DelphiList();
+        races = new DelphiList<Army>();
+        units = new DelphiList<Troop>();
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             if ((selection & 1) != 0)
@@ -2374,7 +2374,7 @@ public partial class Army : UnitList
 
         for (int I = units.Count - 1; I >= 0; I--)
         {
-            troop = (Troop)units.List[I];
+            troop = units.List[I];
             if (troop.GetRace() != -1 && !troop.GetAbilityEnabled(107))
             {
                 if (troop.GetRace() >= races.Count)
@@ -2391,14 +2391,14 @@ public partial class Army : UnitList
                 }
 
                 var race2 = troop.GetRace();
-                ((UnitList)races.List[race2]).AddUnit(troop);
+                races.List[race2].AddUnit(troop);
                 units.Delete(I);
             }
         }
 
         for (int I = units.Count - 1; I >= 0; I--)
         {
-            troop = (Troop)units.List[I];
+            troop = units.List[I];
             alignment = troop.GetAlignment();
             Race = -1;
             for (int J = races.Count - 1; J >= 0; J--)
@@ -2406,7 +2406,7 @@ public partial class Army : UnitList
                 if (races.List[J] != null && AoWHSSet.Current.RaceResources.GetRaceResource(J).Alignments.Contains(alignment))
                 {
                     // { Original chooses the largest compatible race group. }
-                    if (Race == -1 || ((ECustomNode)races.List[Race]).GetCount() <= ((ECustomNode)races.List[J]).GetCount())
+                    if (Race == -1 || races.List[Race].GetCount() <= races.List[J].GetCount())
                     {
                         Race = J;
                     }
@@ -2415,7 +2415,7 @@ public partial class Army : UnitList
 
             if (Race != -1)
             {
-                ((UnitList)races.List[Race]).AddUnit(troop);
+                races.List[Race].AddUnit(troop);
                 units.Delete(I);
             }
             else
@@ -2451,13 +2451,13 @@ public partial class Army : UnitList
         {
             if (races.List[I] != null)
             {
-                armyHexSprite = PlaceIndependentArmy(X, Y, L, (Army)races.List[I]);
+                armyHexSprite = PlaceIndependentArmy(X, Y, L, races.List[I]);
                 if (armies != null && armyHexSprite != null)
                 {
                     armies.AddChild(armyHexSprite);
                 }
 
-                ((Army)races.List[I])?.Dispose();
+                races.List[I]?.Dispose();
                 races.List[I] = null;
             }
         }
@@ -2621,7 +2621,7 @@ public partial class Army : UnitList
     // Army.PAS:2091
     public void Desert(byte selection)
     {
-        DelphiList units;
+        DelphiList<Troop> units;
         sbyte player;
         ArmyHSList armies;
         int count;
@@ -2629,7 +2629,7 @@ public partial class Army : UnitList
         ArmyInfoEventLog log;
         Troop troop;
         AoWHSMap.Current.LockGameOverEvent();
-        units = new DelphiList();
+        units = new DelphiList<Troop>();
         count = SelectionCount(selection);
         log = new ArmyInfoEventLog(null);
         log.ArmyView.Setup(this, 255);
@@ -2721,7 +2721,7 @@ public partial class Army : UnitList
         MakeIndependent(selection, ref armies);
         while (units.Count != 0)
         {
-            troop = (Troop)units[0];
+            troop = units[0];
             troop.AddRef();
             troop.Killed();
             troop.SetOwner(null);

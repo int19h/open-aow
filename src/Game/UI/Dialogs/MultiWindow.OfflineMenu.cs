@@ -29,7 +29,7 @@ public partial class MultiWindow
         // shows and IPX stays hidden.
         if (directPlay.GetConnections() == 0)
             for (int i = 0; i < directPlay.ConnectionItems.Count; i++)
-                switch (((GDConnection)directPlay.ConnectionItems[i]!).FType)
+                switch (directPlay.ConnectionItems[i]!.FType)
                 {
                     case ConnectionType.TCP: TcpButton.Visible = true; break;
                     case ConnectionType.IPX: IpxButton.Visible = true; break;

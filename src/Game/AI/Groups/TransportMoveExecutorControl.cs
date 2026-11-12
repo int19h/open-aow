@@ -466,8 +466,8 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         MoveControlSettings settings;
         byte selection = default;
         ArmyHexSprite armyHexSprite = default;
-        DelphiList fields;
-        DelphiList otherFields;
+        DelphiList<AoWMapField> fields;
+        DelphiList<AoWMapField> otherFields;
         int I;
         AoWMapField field;
         bool found;
@@ -501,7 +501,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             field = null;
             while (!found && I != fields.Count)
             {
-                field = (AoWMapField)fields.List[I];
+                field = fields.List[I];
                 if (army.Location.X != field.HexX || army.Location.Y != field.HexY || army.Location.MapLevel != field.HexLevel)
                 {
                     found = CanMoveTo(army, transporting, field.HexX, field.HexY, field.HexLevel) == transporting;
@@ -548,7 +548,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             I = 0;
             while (!found && I != otherFields.Count)
             {
-                field = (AoWMapField)otherFields.List[I];
+                field = otherFields.List[I];
                 if (army.Location.X != field.HexX || army.Location.Y != field.HexY || army.Location.MapLevel != field.HexLevel)
                 {
                     found = CanMoveTo(army, others, field.HexX, field.HexY, field.HexLevel) == others;

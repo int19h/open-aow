@@ -195,7 +195,7 @@ public partial class Panel : BaseWindow
 
                 for (int I = 0, last = Children.Count - 1; I <= last; I++)
                 {
-                    ((UIComponent)Children[I]).Setup();
+                    Children[I].Setup();
                 }
 
                 SetWinLeftWithoutInvalidate(_savedLeft);
@@ -233,7 +233,7 @@ public partial class Panel : BaseWindow
 
             for (int I = 0, last = Children.Count - 1; I <= last; I++)
             {
-                ((UIComponent)Children[I]).Update();
+                Children[I].Update();
             }
 
             SetWinLeftWithoutInvalidate(_savedLeft);
@@ -307,7 +307,7 @@ public partial class Panel : BaseWindow
         SetWinTopWithoutInvalidate(WinTop + (OwnerComponent.WinTop));
         for (int I = index, last = Children.Count - 1; I <= last; I++)
         {
-            C = (UIComponent)Children[I];
+            C = Children[I];
             if (C.Visible)
             {
                 if (((WinLeft + C.WinLeft >= rectangle.Left && WinLeft + C.WinLeft <= rectangle.Right) || (WinLeft + C.WinLeft <= rectangle.Left && rectangle.Left <= WinLeft + C.WinLeft + C.WinWidth)) && ((WinTop + C.WinTop >= rectangle.Top && WinTop + C.WinTop <= rectangle.Bottom) || (WinTop + C.WinTop <= rectangle.Top && rectangle.Top <= WinTop + C.WinTop + C.WinHeight)) && C != sender)
@@ -519,7 +519,7 @@ public partial class Panel : BaseWindow
                 Drawn = SurfaceValid;
                 for (int I = 0, lastI = Children.Count - 1; I <= lastI; I++)
                 {
-                    C = (UIComponent)Children[I];
+                    C = Children[I];
                     if (C.Valid && C.Visible && (!Drawn || !C.Drawn))
                     {
                         C.Drawn = false;
@@ -590,7 +590,7 @@ public partial class Panel : BaseWindow
 
             for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 C.Handled = false;
                 if ((!Handled || C.Redraw) && C.Visible == true && C.CaptureInput)
                 {
@@ -645,7 +645,7 @@ public partial class Panel : BaseWindow
 
             for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 C.Handled = false;
                 if ((!Handled || C.Redraw == true) && C.Visible == true && C.CaptureInput)
                 {
@@ -694,7 +694,7 @@ public partial class Panel : BaseWindow
 
             for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 C.Handled = false;
                 if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C.Visible == true && C.CaptureInput)
                 {

@@ -8,7 +8,7 @@ namespace Aow.Game.Draw.Images;
 
 // library file names (upper case, relative to the search path) with their TILManagerObject.
 // FHashTable (the objects by name), FOwner
-public partial class ImageLibraryManagerList : StringList
+public partial class ImageLibraryManagerList : StringList<ImageLibraryManagerObject>
 {
     internal Dictionary<string, ImageLibraryManagerObject> HashTable { get; }
 
@@ -30,7 +30,7 @@ public partial class ImageLibraryManagerList : StringList
     }
 
     // ImageLib.pas:8108
-    public CustomImageLibrary GetImageLibrary(int index) => ((ImageLibraryManagerObject)Objects[index]).ImageLibrary;
+    public CustomImageLibrary GetImageLibrary(int index) => Objects[index].ImageLibrary;
 
     // ImageLib.pas:8113
     public void UnloadImageLibrary()
@@ -38,7 +38,7 @@ public partial class ImageLibraryManagerList : StringList
         ImageLibraryManagerObject objectValue;
         for (int I = Count - 1; I >= 0; I--)
         {
-            objectValue = (ImageLibraryManagerObject)Objects[I];
+            objectValue = Objects[I];
             if (objectValue != null && objectValue.ImageLibrary != null)
             {
                 objectValue.ImageLibrary.ReleaseDiscardableImageData();
@@ -76,7 +76,7 @@ public partial class ImageLibraryManagerList : StringList
     public override void Delete(int index)
     {
         ImageLibraryManagerObject objectValue;
-        objectValue = (ImageLibraryManagerObject)Objects[index];
+        objectValue = Objects[index];
         if (objectValue != null)
         {
             objectValue.ImageLibrary?.Dispose();
@@ -94,7 +94,7 @@ public partial class ImageLibraryManagerList : StringList
         HashTable.Clear();
         for (int I = Count - 1; I >= 0; I--)
         {
-            objectValue = (ImageLibraryManagerObject)Objects[I];
+            objectValue = Objects[I];
             if (objectValue != null)
             {
                 objectValue.ImageLibrary?.Dispose();
@@ -192,7 +192,7 @@ public partial class ImageLibraryManagerList : StringList
         for (; I <= last; I += 1)
         {
             LibraryDrawing.WriteStringToStream(Strings[I], stream);
-            ((ImageLibraryManagerObject)Objects[I]).ImageLibrary.SaveToStream(stream);
+            Objects[I].ImageLibrary.SaveToStream(stream);
         }
     }
 

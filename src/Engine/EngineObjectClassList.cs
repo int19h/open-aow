@@ -6,10 +6,10 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Engine;
 
 // a TList of class references
-public partial class EngineObjectClassList : DelphiList
+public partial class EngineObjectClassList : DelphiList<EngineClass>
 {
     // Engine.pas:8296
-    protected internal EngineClass GetEngineClass(int index) => (EngineClass)this[index];
+    protected internal EngineClass GetEngineClass(int index) => this[index];
 
     // Engine.pas:8301
     public EngineClass FindClass(int classId)
@@ -21,13 +21,13 @@ public partial class EngineObjectClassList : DelphiList
         found = false;
         while (!found && I < Count)
         {
-            found = classId == ((EngineClass)this[I]).ClassId;
+            found = classId == this[I].ClassId;
             I += 1;
         }
 
         if (found)
         {
-            result = (EngineClass)this[I - 1];
+            result = this[I - 1];
         }
         else
         {
@@ -47,7 +47,7 @@ public partial class EngineObjectClassList : DelphiList
         found = false;
         while (!found && I < Count)
         {
-            found = classId == ((EngineClass)this[I]).ClassId;
+            found = classId == this[I].ClassId;
             I += 1;
         }
 

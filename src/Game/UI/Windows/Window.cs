@@ -356,7 +356,7 @@ public partial class Window : GenericWindow
 
             for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 C.Handled = false;
                 if ((!Handled || C.Redraw) && C.Visible == true && C.CaptureInput)
                 {
@@ -498,7 +498,7 @@ public partial class Window : GenericWindow
             Dragging = 0;
             for (int I = Children.Count - 1; I >= 0; I--)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 C.Handled = false;
                 if ((!Handled || C.Redraw == true) && C.Visible == true && C.CaptureInput)
                 {
@@ -716,7 +716,7 @@ public partial class Window : GenericWindow
             I = Children.Count - 1;
             for (; I >= 0; I -= 1)
             {
-                C = (UIComponent)Children[I];
+                C = Children[I];
                 C.Handled = false;
                 if ((!Handled || C.Redraw == true || C.ToolTipCount > 0) && C.Visible == true && C.CaptureInput)
                 {

@@ -47,7 +47,7 @@ public static class AudioPlayback
         {
             if (AudioHost.SoundSystems.Count != 0)
             {
-                C = (SoundSystemClass)AudioHost.SoundSystems[0];
+                C = AudioHost.SoundSystems[0];
             }
             else
             {

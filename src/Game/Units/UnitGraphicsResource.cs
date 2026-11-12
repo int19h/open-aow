@@ -219,7 +219,7 @@ public partial class UnitGraphicsResource : EngineResource
         ImageSequence sequence;
         int index;
         AddRef();
-        sequence = (ImageSequence)Sequences.List[direction - 1];
+        sequence = Sequences.List[direction - 1];
         while (sequence != null)
         {
             index = sequence.GetFrameIndex(1, 0);

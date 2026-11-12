@@ -29,12 +29,12 @@ public partial class RoundAttackAbility : TouchAbility
         int count;
         StrikeCombatAction action;
         Combat.Battle combat;
-        DelphiList targets;
+        DelphiList<CombatObject> targets;
         CombatObject target;
         CombatObject other;
         MoveWallCombatAction moveAction;
         combat = source.Combat;
-        targets = new DelphiList();
+        targets = new DelphiList<CombatObject>();
         damageTypes = CombatObject.MeleeDamageTypes(source);
         target = command.Target;
         FastBattleValidateMoveOutsideWall(source, target);
@@ -71,7 +71,7 @@ public partial class RoundAttackAbility : TouchAbility
         count = AoWHSMap.Current.Random(2) + 1;
         while (count != 0 && targets.Count != 0)
         {
-            other = (CombatObject)targets[AoWHSMap.Current.Random(targets.Count)];
+            other = targets[AoWHSMap.Current.Random(targets.Count)];
             action = CombatObject.CreateStrikeCombatAction(source, other, false);
             if (action != null)
             {

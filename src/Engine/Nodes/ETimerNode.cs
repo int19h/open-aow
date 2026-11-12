@@ -47,7 +47,7 @@ public partial class ETimerNode : ECustomNode
         _count = 0;
         for (int I = 1; I <= 10; I++)
         {
-            var list = new DelphiList();
+            var list = new DelphiList<EngineObject>();
             _timerLists[I - 1] = list;
         }
     }
@@ -69,7 +69,7 @@ public partial class ETimerNode : ECustomNode
     public override int GetCount() => _count;
 
     // Engine.pas:1851
-    public DelphiList GetTimerList(sbyte timer) => _timerLists[timer - 1];
+    public DelphiList<EngineObject> GetTimerList(sbyte timer) => _timerLists[timer - 1];
 
     // Engine.pas:1871
     public override int RemoveChild(EngineObject child)
@@ -106,7 +106,7 @@ public partial class ETimerNode : ECustomNode
     {
         int I;
         int total;
-        DelphiList L;
+        DelphiList<EngineObject> L;
         I = 1;
         L = _timerLists[1 - 1];
         total = L.Count;
@@ -119,7 +119,7 @@ public partial class ETimerNode : ECustomNode
 
         L = _timerLists[I - 1];
         total -= L.Count;
-        return (EngineObject)L.List[index - total];
+        return L.List[index - total];
     }
 
     // Engine.pas:1910
@@ -153,7 +153,7 @@ public partial class ETimerNode : ECustomNode
     {
         for (int I = 0, last = _timerLists[timer - 1].Count - 1; I <= last; I++)
         {
-            ((EngineObject)_timerLists[timer - 1].List[I]).TimerEvent(_tick, this);
+            _timerLists[timer - 1].List[I].TimerEvent(_tick, this);
         }
     }
 

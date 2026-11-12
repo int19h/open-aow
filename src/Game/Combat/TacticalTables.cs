@@ -97,7 +97,7 @@ internal static class TacticalTables
 
     internal static ReadOnlySpan<int> WallMaxHitPoints => [7, 13];
 
-    internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, short x1, short y1, short x2, short y2, ref Point3DList path, ref DelphiList obstacles)
+    internal static void MakeAbilityPath(CombatSideIndex side, short ability, short spell, short x1, short y1, short x2, short y2, ref Point3DList path, ref DelphiList<RangedObstacle> obstacles)
     {
         int X = default;
         int Y = default;
@@ -185,7 +185,7 @@ internal static class TacticalTables
         }
     }
 
-    internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, ref Point3DList path, ref DelphiList obstacles)
+    internal static void MakeRangedPath(CombatSideIndex side, short speed, short arc, short unusedHeight, short x1, short y1, short x2, short y2, short offsetX, short offsetY, bool includeUnits, ref Point3DList path, ref DelphiList<RangedObstacle> obstacles)
     {
         int I;
         int A;
@@ -411,7 +411,7 @@ internal static class TacticalTables
                         }
                         else
                         {
-                            obstacle = (RangedObstacle)obstacles[obstacles.Count - 1];
+                            obstacle = obstacles[obstacles.Count - 1];
                             if (steps == 2 && obstacle.Chance < A)
                             {
                                 obstacle.Chance = A;

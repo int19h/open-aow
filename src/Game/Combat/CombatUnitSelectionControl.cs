@@ -24,7 +24,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
     public CombatUnitSelectionControl() : base()
     {
         RangedPath = new Point3DList();
-        Obstacles = new DelphiList();
+        Obstacles = new DelphiList<RangedObstacle>();
         RangedPathHexSprite = new RangedPathHexSprite(null);
         RangedPathHexSprite.Activate();
         TargetImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TargHex.ILB");
@@ -43,7 +43,7 @@ public partial class CombatUnitSelectionControl : MoveSelector
     public HexSprite MouseOverTarget { get; private set; }
 
     public Point3DList RangedPath;
-    public DelphiList Obstacles;
+    public DelphiList<RangedObstacle> Obstacles;
 
     // AoWTC.pas:2733
     public override void Dispose()
@@ -287,10 +287,10 @@ public partial class CombatUnitSelectionControl : MoveSelector
     public override void CalculateMovePath(int index, sbyte X, sbyte Y, sbyte L)
     {
         TacticalBattleUnitHexSprite unitHexSprite;
-        DelphiList temporary;
+        DelphiList<MovementHexSprite> temporary;
         MovementHexSprite movement;
         var moveSettings = MoveSettingsList.GetMoveSettings(index);
-        temporary = new DelphiList();
+        temporary = new DelphiList<MovementHexSprite>();
         if (MoveSettingsList.GetCount() > 0)
         {
             for (int I = 0, last = MoveSettingsList.GetCount() - 1; I <= last; I++)
@@ -708,9 +708,9 @@ public partial class CombatUnitSelectionControl : MoveSelector
         TacticalBattleUnitHexSprite unitHexSprite;
         MapField field;
         MapLevel level;
-        DelphiList units;
+        DelphiList<TacticalBattleUnitHexSprite> units;
         Rect R;
-        units = new DelphiList();
+        units = new DelphiList<TacticalBattleUnitHexSprite>();
         R = sender.SelectionRectangle;
         level = CombatMap.Current.MapContainer.MapLevels[CombatMap.Current.ViewL];
         HexGeometry.PixelToHex(R.Left, R.Top, ref x1, ref y1);
@@ -740,9 +740,9 @@ public partial class CombatUnitSelectionControl : MoveSelector
             CombatMap.Current.Selection.UnselectLocation();
             for (int I = 0, last = units.Count - 1; I <= last; I++)
             {
-                AddUnit((TacticalBattleUnitHexSprite)units[I]);
+                AddUnit(units[I]);
                 var unit = units[I];
-                CombatMap.Current.Selection.SelectLocationHexSprite((HexSprite)unit);
+                CombatMap.Current.Selection.SelectLocationHexSprite(unit);
             }
 
             if (units.Count == 1)

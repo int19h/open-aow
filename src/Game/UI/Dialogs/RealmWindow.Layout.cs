@@ -1,8 +1,11 @@
 // Layout translated from recovered Delphi forms.
 #nullable disable
 using Aow.Game.Layout;
+using Aow.Game.Magic.Abilities;
 using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Structures;
 using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
@@ -381,7 +384,7 @@ public partial class RealmWindow : ILayoutModule
         PartyListPanel.MinWidth = 0;
         PartyListPanel.MinHeight = 0;
         session.EndRead(PartyListPanel);
-        CityNameList = new ListBox(this);
+        CityNameList = new ListBox<City>(this);
         session.BeginRead(CityNameList);
         CityNameList.Name = "T2NameLB";
         CityNameList.OnMouseDown = CityListMouseDown;
@@ -1132,7 +1135,7 @@ public partial class RealmWindow : ILayoutModule
         CityScrollBar.ImageLibraryIndexBack = 101;
         CityScrollBar.ThumbImageIndex = 98;
         session.EndRead(CityScrollBar);
-        PlaceNameList = new ListBox(this);
+        PlaceNameList = new ListBox<PlayerStructure>(this);
         session.BeginRead(PlaceNameList);
         PlaceNameList.Name = "T3Name";
         PlaceNameList.OnMouseDown = PlacesListMouseDown;
@@ -1757,7 +1760,7 @@ public partial class RealmWindow : ILayoutModule
         t5MainPnl.MinWidth = 0;
         t5MainPnl.MinHeight = 0;
         session.EndRead(t5MainPnl);
-        HeroNameList = new ListBox(this);
+        HeroNameList = new ListBox<Army>(this);
         session.BeginRead(HeroNameList);
         HeroNameList.Name = "T5Name";
         HeroNameList.OnMouseDown = HeroListMouseDown;
@@ -1793,7 +1796,7 @@ public partial class RealmWindow : ILayoutModule
         HeroNameList.ItemHeight = 17;
         HeroNameList.TextAlign = TextAlignment.Left;
         session.EndRead(HeroNameList);
-        HeroHealthList = new ListBox(this);
+        HeroHealthList = new ListBox<Hero>(this);
         session.BeginRead(HeroHealthList);
         HeroHealthList.Name = "T5Health";
         HeroHealthList.OnMouseDown = HeroListMouseDown;

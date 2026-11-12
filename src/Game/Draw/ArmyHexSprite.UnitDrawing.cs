@@ -48,22 +48,22 @@ public partial class ArmyHexSprite
                 {
                     if (Direction == 0)
                     {
-                        sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[9];
+                        sequence = UnitGraphicsResource.Sequences.List[9];
                     }
                     else
                     {
-                        sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction + 5];
+                        sequence = UnitGraphicsResource.Sequences.List[Direction + 5];
                     }
                 }
                 else
                 {
                     if (Direction == 0)
                     {
-                        sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[3];
+                        sequence = UnitGraphicsResource.Sequences.List[3];
                     }
                     else
                     {
-                        sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction - 1];
+                        sequence = UnitGraphicsResource.Sequences.List[Direction - 1];
                     }
                 }
             }
@@ -71,11 +71,11 @@ public partial class ArmyHexSprite
             {
                 if (Direction == 0)
                 {
-                    sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[3];
+                    sequence = UnitGraphicsResource.Sequences.List[3];
                 }
                 else
                 {
-                    sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction - 1];
+                    sequence = UnitGraphicsResource.Sequences.List[Direction - 1];
                 }
             }
 
@@ -257,11 +257,11 @@ public partial class ArmyHexSprite
         {
             if (Direction == 0)
             {
-                sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[9];
+                sequence = UnitGraphicsResource.Sequences.List[9];
             }
             else
             {
-                sequence = (ImageSequence)UnitGraphicsResource.Sequences.List[Direction + 5];
+                sequence = UnitGraphicsResource.Sequences.List[Direction + 5];
             }
 
             if (sequence != null)

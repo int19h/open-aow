@@ -132,7 +132,7 @@ Two Delphi features need a design, not a mapping:
 
 Issue 161 fixed the port's names.
 
-A type is `Foo`. An interface is `IFoo`. A generic parameter is the only name that keeps a `T` prefix, written `TFoo`. An exception type is `FooException`. An enum member carries no type prefix. A digit stays in the member when the digit is the meaning, as in `Bits8` and `Rgb555`. The `Delphi` prefix marks a type that is not fully ported. `DelphiList` is the only such type.
+A type is `Foo`. An interface is `IFoo`. A generic parameter is the only name that keeps a `T` prefix, written `TFoo`. An exception type is `FooException`. An enum member carries no type prefix. A digit stays in the member when the digit is the meaning, as in `Bits8` and `Rgb555`. The `Delphi` prefix marks a type that is not fully ported. `DelphiList<T>` is the only such type.
 
 A name that clashes with a .NET type is a reason to use the .NET type. A distinct class keeps a short name only when every use refers to the port's type. `Object` and `List` are out of that set. `Component` stays, because the port does not use `System.ComponentModel.Component`.
 
@@ -249,7 +249,7 @@ translator components did. The internet suite (ims) is used only by the play-by-
 (`SmtpSender` (Delphi `TmsSMTP`), `MailMessage` (Delphi `TmsMessage`), the POP3 and SMTP dialogs), see open question 7. Toolbar97 and SpinEdit
 are editor only.
 
-A Delphi RTL shim library in C# provides what the rules code expects: `DelphiList` (Delphi `TList`), `StringList` (Delphi `TStringList`),
+A Delphi RTL shim library in C# provides what the rules code expects: `DelphiList<T>` (Delphi `TList`), `StringList` (Delphi `TStringList`),
 `TStream` and `TMemoryStream`, the string routines, `Random` and exceptions. It also provides the
 small set of VCL calls the rules make (`ShowMessage`, `MessageBox`). Those route to the game UI.
 

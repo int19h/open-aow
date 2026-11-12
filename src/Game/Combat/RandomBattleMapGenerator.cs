@@ -840,7 +840,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         int I;
         int J = default;
         int temporary = default;
-        DelphiList units;
+        DelphiList<CombatObject> units;
         TacticalBattleUnit U;
         TacticalBattleUnit other;
         int direction;
@@ -848,7 +848,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         TacticalBattleItemHexSprite itemHexSprite;
         direction = 32;
         _homePosition = -1;
-        units = new DelphiList();
+        units = new DelphiList<CombatObject>();
         position = 0;
         for (; position <= 7; position += 1)
         {

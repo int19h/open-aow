@@ -283,7 +283,7 @@ public partial class AIMoveTargetSelector : EngineObject
                 while (I > 0 && !found)
                 {
                     I -= 1;
-                    field = (AoWMapField)settings.ProcessedMapFields.List[I];
+                    field = settings.ProcessedMapFields.List[I];
                     if ((field.FieldFlags & 134217728) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();
@@ -389,7 +389,7 @@ public partial class AIMoveTargetSelector : EngineObject
                 while (I > 0 && !found)
                 {
                     I -= 1;
-                    field = (AoWMapField)settings.ProcessedMapFields.List[I];
+                    field = settings.ProcessedMapFields.List[I];
                     if ((field.FieldFlags & 134217728) != 0)
                     {
                         var mapCoordinate = field.GetMapCoordinate();

@@ -70,11 +70,11 @@ public static class EngineServices
     internal static GameEngine GetEngine(int index)
     {
         GameEngine result;
-        object P;
+        GameEngine P;
         if (EngineHost.Engines != null && index >= 0 && index < EngineHost.Engines.Count)
         {
             P = EngineHost.Engines[index];
-            result = (GameEngine)P;
+            result = P;
         }
         else
         {
@@ -122,11 +122,11 @@ public static class EngineServices
         stream.Write(Cp1252.Encode(S).AsSpan().Slice(0, length));
     }
 
-    internal static void ExchangeLinkedStrings(DelphiList lists, int I, int J)
+    internal static void ExchangeLinkedStrings(DelphiList<StringCollection> lists, int I, int J)
     {
         for (int K = lists.Count - 1; K >= 0; K--)
         {
-            ((StringCollection)lists.List[K]).Exchange(I, J);
+            lists.List[K].Exchange(I, J);
         }
     }
 

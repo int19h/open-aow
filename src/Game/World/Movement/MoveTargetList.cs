@@ -56,12 +56,12 @@ public partial class MoveTargetList : EReferenceNode, IChildList<MoveTarget>
     // AIGroup.pas:4275
     public void SortOnMovePoints()
     {
-        SortChildren(CompareMoveTargets);
+        SortChildren<MoveTarget>(CompareMoveTargets);
     }
 
-    private static int CompareMoveTargets(object item1, object item2)
+    private static int CompareMoveTargets(MoveTarget item1, MoveTarget item2)
     {
-        return ((MoveTarget)item1).MovePoints - ((MoveTarget)item2).MovePoints;
+        return item1.MovePoints - item2.MovePoints;
     }
 
     // Engine.pas:631

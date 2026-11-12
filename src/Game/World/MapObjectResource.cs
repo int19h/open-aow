@@ -248,7 +248,7 @@ public partial class MapObjectResource : EngineResource
         int frame;
         if (index < _imageSequenceList.Count)
         {
-            sequence = (ImageSequence)_imageSequenceList.List[index];
+            sequence = _imageSequenceList.List[index];
         }
         else
         {

@@ -22,7 +22,7 @@ public partial class Troop
         AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).AddRef();
         if (info.Animation != UnitAnimation.None)
         {
-            sequence = (ImageSequence)AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Sequences.List[(int)info.Animation * 6 + info.Direction - 1];
+            sequence = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(resourceIndex).Sequences.List[(int)info.Animation * 6 + info.Direction - 1];
             if (sequence != null)
             {
                 if (!info.Looped)

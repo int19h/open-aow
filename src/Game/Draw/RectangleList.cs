@@ -4,10 +4,10 @@ using Aow.Rtl;
 namespace Aow.Game.Draw;
 
 // a TList of TRectangle, owning them
-public partial class RectangleList : DelphiList
+public partial class RectangleList : DelphiList<Rectangle>
 {
     // GFXE.pas:2458
-    internal Rectangle GetRectangle(int index) => (Rectangle)List[index];
+    internal Rectangle GetRectangle(int index) => List[index];
 
     // GFXE.pas:2447
     public override void Dispose()

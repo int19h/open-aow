@@ -356,14 +356,14 @@ public partial class PlayerCropStructure : PlayerStructure
         MapField field;
         int X = default;
         int Y = default;
-        DelphiList crops;
+        DelphiList<Crop> crops;
         Crop crop;
         UInt16List locations;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && !_changingCrops)
         {
             _changingCrops = true;
             mapLevel = Owner.Owner;
-            crops = new DelphiList();
+            crops = new DelphiList<Crop>();
             locations = new UInt16List();
             locations.Assign(((PlayerCropStructureResource)_resource).CropLocations);
             I = locations.Count - 1;

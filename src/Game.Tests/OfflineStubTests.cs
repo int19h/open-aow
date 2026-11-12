@@ -301,7 +301,7 @@ public sealed class OfflineStubTests
         SetField(sequence, "_imageLibrary", library);
         sequence.SequenceMode = SequenceMode.Up;
         var cast = new ImageSequenceList(null!, null!);
-        ((DelphiList)cast).Add(sequence);
+        cast.Add(sequence);
         var spell = new EarthMastery(null!);
         spell.CastImages?.Dispose();
         spell.CastImages = cast;

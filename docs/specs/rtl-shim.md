@@ -454,9 +454,13 @@ algorithms. The reasons are in the notes per class.
 
 ### 4.1 DelphiList
 
-Fields `List` (a `object[]`, exposed because the generated code reads `FList^[I]` 224 times),
-`Count`, `Capacity`. Methods `Add`, `Insert`, `Delete`, `Remove`, `IndexOf`, `Exchange`, `Move`,
-`First`, `Last`, `Clear`, `Pack`, `Expand`, `Sort(ListSortCompare)`, `Error`. `Grow` adds a quarter of
+`DelphiList<T>` is `TList` with the element type the list holds. Since issue 150 there is no
+untyped list: every list, field, local and parameter names its element class, and a list of
+integers that the original kept as `TObject` boxes is a `List<int>`. Fields `List` (a `T?[]`,
+exposed because the generated code reads `FList^[I]` 224 times), `Count`, `Capacity`. Methods
+`Add`, `Insert`, `Delete`, `Remove`, `IndexOf`, `Exchange`, `Move`, `First`, `Last`, `Clear`,
+`Pack`, `Expand`, `Sort(ListSortCompare<T>)`, `SortStable`. `TList.Error` is
+`DelphiListCore.Error`. `Grow` adds a quarter of
 `Capacity` when `Capacity > 64`, 16 when `Capacity > 8`, and 4 otherwise, so 8 grows to 12 and 64
 to 80 (probe `lists`). `Sort` is the `QuickSort` of `CLASSES.PAS`: pivot at
 `(L + R) shr 1`, scan from both ends with the comparator, swap while `I <= J`, recurse on the left
@@ -465,11 +469,14 @@ part and loop on the right. The AI sorts candidate lists with its own comparator
 equal elements after this exact algorithm decides which candidate wins, so the algorithm is ported
 as written and probe `lists` checks it on arrays with many equal keys.
 
-`DelphiList` of the shim is also the base of the engine's `EngineObjectClassList` (Delphi
+`DelphiList<EngineClass>` is the base of the engine's `EngineObjectClassList` (Delphi
 `TEObjectClassList`). The engine's `EngineObjectList` (Delphi `TEObjectList`), the child slots of
 a node, is a `DelphiList<EngineObject>`: the same storage, spare slot and sorts, typed to engine
-objects. `DelphiList<T>.TraceSort` sees each sort of a list of that element type, and the
-headless host's random trace hooks it for the node lists.
+objects. `Sort<TItem>` and `SortStable<TItem>` take a comparer of a class derived from `T`, for a
+list whose owner admits only that class, so a typed child list (`SortChildren<Troop>` on a unit
+list) sorts with a comparer of its child type and the same quicksort. `DelphiList<T>.TraceSort`
+sees each sort of a list of that element type with the comparer it was given, and the headless
+host's random trace hooks it for the node lists.
 
 ### 4.2 StringCollection and StringList
 
@@ -484,6 +491,12 @@ both), `CommaText`, `LoadFromFile`, `LoadFromStream`, `SaveToFile`, `SaveToStrea
 `dupAccept`), `OnChange`, `OnChanging`. `Add` on a sorted list uses `Find` and the `Duplicates`
 rule. `Sort` is the `QuickSort` of `CLASSES.PAS` with `AnsiCompareText`. `IndexOf` on a sorted list
 uses `Find`.
+
+`StringList<T>` is a `StringList` whose object slots hold a `T` each. Its `Objects`, `AddObject`,
+`InsertObject` and `IndexOfObject` take and give `T`, and a write of another class through the
+untyped members of the base throws `ArgumentException`. A list box whose items carry objects is a
+`ListBox<T>` with `Items` of `StringList<T>`, so a screen reads its selected city or enchantment
+without a cast.
 
 ### 4.3 Streams
 

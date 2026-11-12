@@ -31,7 +31,7 @@ public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecru
     // AIGroup.pas:811
     public void SortOnMovePoints()
     {
-        SortChildren(CompareAIRecruitmentGroupMovePoints);
+        SortChildren<AIRecruitmentGroup>(CompareAIRecruitmentGroupMovePoints);
     }
 
     // AIGroup.pas:816
@@ -113,9 +113,9 @@ public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecru
         return result;
     }
 
-    private static int CompareAIRecruitmentGroupMovePoints(object item1, object item2)
+    private static int CompareAIRecruitmentGroupMovePoints(AIRecruitmentGroup item1, AIRecruitmentGroup item2)
     {
-        return ((AIRecruitmentGroup)item2).MovePoints - ((AIRecruitmentGroup)item1).MovePoints;
+        return item2.MovePoints - item1.MovePoints;
     }
 
     // Engine.pas:631

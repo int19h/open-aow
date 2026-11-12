@@ -68,7 +68,7 @@ public partial class TextControl : ENode, IChildList<TextControlItem>
     // Structur.PAS:4458
     public void Sort()
     {
-        SortChildrenStable(CompareTextControlItems);
+        SortChildrenStable<TextControlItem>(CompareTextControlItems);
     }
 
     // Structur.PAS:4463
@@ -86,12 +86,12 @@ public partial class TextControl : ENode, IChildList<TextControlItem>
         }
     }
 
-    public static int CompareTextControlItems(object item1, object item2)
+    public static int CompareTextControlItems(TextControlItem item1, TextControlItem item2)
     {
-        int number = ((TextControlItem)item1).Id - ((TextControlItem)item2).Id;
+        int number = item1.Id - item2.Id;
         if (number == 0)
         {
-            number = ((TextControlItem)item1).Text.Count - ((TextControlItem)item2).Text.Count;
+            number = item1.Text.Count - item2.Text.Count;
         }
         return number;
     }

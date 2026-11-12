@@ -29,7 +29,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
         path = Enumerable.Range(0, move.Path.Count).Select(i => unchecked((uint)move.Path.List[i].Packed))
     }));
 
-    public void Sort(DelphiList<EngineObject> list, ListSortCompare<EngineObject> compare)
+    public void Sort(DelphiList<EngineObject> list, Delegate compare)
     {
         if (compare.Method.Name is not ("CompareAIGroupTargetPriority" or "CompareTargetSetupPriority")) return;
         _writer.WriteLine(JsonSerializer.Serialize(new

@@ -5,7 +5,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Audio;
 
 // the registered sound system classes
-public partial class SoundSystemList : DelphiList
+public partial class SoundSystemList : DelphiList<SoundSystemClass>
 {
     // Sound.pas:1293
     public SoundSystemClass Find(string name)
@@ -13,14 +13,14 @@ public partial class SoundSystemList : DelphiList
         SoundSystemClass result;
         int I;
         I = 0;
-        while (I != Count && CompareText(name, ((SoundSystemClass)List[I]).Name) != 0)
+        while (I != Count && CompareText(name, List[I].Name) != 0)
         {
             I += 1;
         }
 
         if (I != Count)
         {
-            result = (SoundSystemClass)List[I];
+            result = List[I];
         }
         else
         {

@@ -51,7 +51,7 @@ public partial class SpellControl : EngineObject
     public Spell GetSpell(int index)
     {
         Spell result;
-        object P;
+        Spell P;
         if (index < 0)
         {
             // { Preserve the original assertion diagnostic. }
@@ -61,7 +61,7 @@ public partial class SpellControl : EngineObject
         if (index < RegisteredSpells.Count)
         {
             P = RegisteredSpells[index];
-            result = (Spell)P;
+            result = P;
         }
         else
         {

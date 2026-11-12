@@ -17,7 +17,7 @@ public partial class ConstructDialog : DataModule
     { }
 
     public Window Window;
-    public ListBox ConstructionList;
+    public ListBox<ConstructionControl> ConstructionList;
     public ListBox ConstructionCostList;
     public ListBox ConstructionTurnsList;
     private AbilityActivation _request;
@@ -145,7 +145,7 @@ public partial class ConstructDialog : DataModule
         if (condition)
         {
             U = AoWHSMap.Current.UnitControl.FindUnit(_request.UnitId);
-            control = (ConstructionControl)ConstructionList.Items.Objects[ConstructionList.Selected];
+            control = ConstructionList.Items.Objects[ConstructionList.Selected];
             if (control.CanConstruct(U, ref reason))
             {
                 if (control.Construct(U))

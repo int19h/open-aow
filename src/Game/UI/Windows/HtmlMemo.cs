@@ -14,8 +14,6 @@ namespace Aow.Game.UI.Windows;
 // (the size of the back surface)
 public partial class HtmlMemo : BaseWindow
 {
-    private DelphiList _unusedList;
-
     public List<ChangeInfo> Changes { get; }
 
     private StringList _lines;
@@ -38,7 +36,6 @@ public partial class HtmlMemo : BaseWindow
         _items = new StringList();
         _items.OnChange = OnChangeText;
         Changes = new List<ChangeInfo>();
-        _unusedList = new DelphiList();
         _fonts = new List<ImageLibraryFont>();
         _images = new InterfaceImageLibrary(this);
     }
@@ -48,7 +45,6 @@ public partial class HtmlMemo : BaseWindow
     {
         _lines.Dispose();
         _items.Dispose();
-        _unusedList?.Dispose();
         for (int I = 0, last = Changes.Count - 1; I <= last; I++)
         {
         }

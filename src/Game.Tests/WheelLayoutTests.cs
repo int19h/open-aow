@@ -34,7 +34,7 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         private readonly RealmWindow? _previousRealm = DialogHosts.RealmWindow;
         private readonly UnitBanner? _previousBanner = DialogHosts.UnitBanner;
         private readonly StringList? _previousDirectories = FileDialogWindow.Directories;
-        private readonly StringList? _previousFileList = FileDialogWindow.Files;
+        private readonly StringList<FileTime>? _previousFileList = FileDialogWindow.Files;
         private readonly StringList? _previousDrives = FileDialogWindow.Drives;
 
         internal SpellBook Spell { get; } = null!;

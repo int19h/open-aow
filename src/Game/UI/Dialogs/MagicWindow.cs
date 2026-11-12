@@ -28,11 +28,11 @@ public partial class MagicWindow : DataModule
 
     public Window Window;
     public Label ResearchPointsLabel;
-    public ListBox EnchantmentList;
+    public ListBox<Enchantment> EnchantmentList;
     public ListBox UpkeepList;
     public ListBox BindingList;
     public Label NetManaLabel;
-    public ListBox GlobalEnchantmentList;
+    public ListBox<GlobalEnchantment> GlobalEnchantmentList;
     public ListBox GlobalUpkeepList;
     public ListBox GlobalNameList;
     public Label SpellNameLabel;
@@ -44,7 +44,7 @@ public partial class MagicWindow : DataModule
     public Label SpellCostLabel;
     public Label PowerLabel;
     public ListBox PowerValueList;
-    public ListBox PowerSourceList;
+    public ListBox<PowerSource> PowerSourceList;
     public VerticalScrollBar EnchantmentScrollBar;
     public VerticalScrollBar GlobalEnchantmentScrollBar;
     public VerticalScrollBar PowerScrollBar;
@@ -81,7 +81,7 @@ public partial class MagicWindow : DataModule
         GlobalUpkeepList.Selected = index;
         if (index != -1)
         {
-            enchantment = (GlobalEnchantment)GlobalEnchantmentList.Items.Objects[index];
+            enchantment = GlobalEnchantmentList.Items.Objects[index];
             var canRemove = enchantment.CanRemove(AoWHSMap.Current.SeatedPlayer, ref reason);
             GlobalDispelButton.Visible = canRemove;
         }
@@ -187,7 +187,7 @@ public partial class MagicWindow : DataModule
 
         if (condition)
         {
-            ((Enchantment)EnchantmentList.Items.Objects[EnchantmentList.Selected]).Select();
+            EnchantmentList.Items.Objects[EnchantmentList.Selected].Select();
         }
     }
 
@@ -205,7 +205,7 @@ public partial class MagicWindow : DataModule
 
             if (condition)
             {
-                ((Enchantment)EnchantmentList.Items.Objects[EnchantmentList.Selected]).CenterToLocation();
+                EnchantmentList.Items.Objects[EnchantmentList.Selected].CenterToLocation();
             }
         }
     }
@@ -224,7 +224,7 @@ public partial class MagicWindow : DataModule
         if (condition)
         {
             var enchantment = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.DispelEnchantment((Enchantment)enchantment);
+            AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.DispelEnchantment(enchantment);
         }
     }
 
@@ -260,7 +260,7 @@ public partial class MagicWindow : DataModule
         if (condition)
         {
             var globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-            AoWHSMap.Current.GlobalMagicControl.RemoveEnchantment(AoWHSMap.Current.SeatedPlayer, (GlobalEnchantment)globalEnchantment);
+            AoWHSMap.Current.GlobalMagicControl.RemoveEnchantment(AoWHSMap.Current.SeatedPlayer, globalEnchantment);
         }
     }
 
@@ -343,7 +343,7 @@ public partial class MagicWindow : DataModule
 
         if (condition)
         {
-            ((PowerSource)PowerSourceList.Items.Objects[PowerSourceList.Selected]).Select();
+            PowerSourceList.Items.Objects[PowerSourceList.Selected].Select();
         }
     }
 
@@ -357,7 +357,7 @@ public partial class MagicWindow : DataModule
                 var count = PowerSourceList.Items.Count;
                 if (PowerSourceList.Selected < count)
                 {
-                    ((PowerSource)PowerSourceList.Items.Objects[PowerSourceList.Selected]).CenterToLocation();
+                    PowerSourceList.Items.Objects[PowerSourceList.Selected].CenterToLocation();
                 }
             }
         }
@@ -570,7 +570,7 @@ public partial class MagicWindow : DataModule
 
             if (condition)
             {
-                ((GlobalEnchantment)GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected]).CenterToLocation();
+                GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected].CenterToLocation();
             }
         }
     }
