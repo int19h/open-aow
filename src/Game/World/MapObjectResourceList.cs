@@ -49,11 +49,11 @@ public partial class MapObjectResourceList : EResourceList, IChildList<MapObject
         return result;
     }
 
-    public new sealed class ResourcesAccessor(MapObjectResourceList target)
+    public sealed class ResourcesAccessor(MapObjectResourceList target)
     {
         public MapObjectResource this[int index] { get => target.GetMapObjectResource(index); }
     }
 
-    public new ResourcesAccessor Resources => new ResourcesAccessor(this);
+    public ResourcesAccessor Resources => new ResourcesAccessor(this);
 
 }

@@ -70,11 +70,4 @@ public partial class SfxSequence : ENode, IChildList<Sfx>
 
     public int Id { get => _id; set => _id = value; }
 
-    public sealed class SfxAccessor(SfxSequence target)
-    {
-        public Sfx this[int index] { get => target.GetSfx(index); }
-    }
-
-    public SfxAccessor Sfx => new SfxAccessor(this);
-
 }

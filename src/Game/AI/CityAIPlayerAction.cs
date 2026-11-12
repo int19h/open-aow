@@ -23,8 +23,6 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
     private Int32Array4 _productionLevelCounts;
     private int _maxProductionLevel;
 
-    public float ProductionRatio { get; private set; }
-
     // City.pas:3130
     public override bool Process()
     {
@@ -587,12 +585,9 @@ public partial class CityAIPlayerAction : AIPlayerAction, IAIPlayerActionClass
 
         if (_cityCount != 0)
         {
-            // { Original rounds the fraction before storing it. }
-            ProductionRatio = Round((double)available / (available + busy));
         }
         else
         {
-            ProductionRatio = 0;
         }
     }
 

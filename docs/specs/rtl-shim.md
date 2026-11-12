@@ -186,11 +186,11 @@ use `RtlUnit.ReallocArray`, `MoveElements` and `ClearElements` (section 2.4).
 
 ### 1.5 IntOrRef and MsgArg
 
-`struct IntOrRef { int Value; object Ref; }` (`src/Rtl/Legacy/IntOrRef.cs`) with implicit conversions from `int`,
+`IntOrRef` was `struct IntOrRef { int Value; object Ref; }` (`src/Rtl/Legacy/IntOrRef.cs`) with implicit conversions from `int`,
 from `TObject` (a `PtrBox<T>` among them) and from `string`, and `T As<T>()`, which reads `""` for
 a string slot that holds no string. `Value` of an object is `IdentityHash.Of`, the identity hash masked to a non-negative int. `Value` of a string is the unmasked identity hash of that string. `Value` of null is 0. `Ref` of an integer is `null`. The first stage used it wherever the
-source overlays a reference and an integer (`transpiler.md` 4.3). Since issue 150 it remains
-only in `Ptr<T>.Unbox(IntOrRef)`. The hash lists (Delphi `THashList`, `TStringHashList`) became
+source overlays a reference and an integer (`transpiler.md` 4.3). Issue 150 removed its last
+product use and issue 201 removed the type. The hash lists (Delphi `THashList`, `TStringHashList`) became
 `Dictionary<TKey, TValue>` with typed keys. The message slots took `MsgArg` and the blend
 slot of `ShowInfo` (Delphi `TShowInfo`) took the union `BlendValue` of the units (`unions-and-kinds.md` 3.3).
 

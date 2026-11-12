@@ -53,8 +53,6 @@ public partial class ResultsWindow : DataModule
     private int _maxMana;
     private int _maxArmies;
 
-    public int UnusedMaximum { get; private set; }
-
     private int _maxHeroes;
     private int _maxStructures;
     private int _maxStrength;
@@ -70,7 +68,6 @@ public partial class ResultsWindow : DataModule
         _maxGold = 1;
         _maxMana = 1;
         _maxArmies = 1;
-        UnusedMaximum = 1;
         _maxHeroes = 1;
         _maxStructures = 1;
         _maxStrength = 1;

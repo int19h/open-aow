@@ -180,7 +180,7 @@ public sealed class OwnershipUnionTests
             Assert.Throws<ArgumentException>(() => list.SetChild(1, stranger));
             Assert.Same(first, list[0]);
             Assert.Same(second, list[1]);
-            Assert.Equal(4, list.SortValue[0]);
+            Assert.Equal(4, list.GetSortValue(0));
             Assert.Throws<ArgumentException>(() => map.Selection.AddChild(stranger));
             Assert.Equal(0, map.Selection.Count);
         }

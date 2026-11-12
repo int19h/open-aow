@@ -18,7 +18,7 @@ public partial class StructureAIPlayerAction : AIPlayerAction
         _structureIds = new Int32List();
     }
 
-    public new int Phase { get; protected set; }
+    public int Phase { get; protected set; }
 
     private Int32List _structureIds;
 

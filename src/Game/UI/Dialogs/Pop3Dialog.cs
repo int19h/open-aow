@@ -18,15 +18,12 @@ public partial class Pop3Dialog : DataModule
     public Edit LocalEmailAddressEdit;
     public Label AttachmentDirectoryLabel;
 
-    public bool Searching { get; private set; }
-
     private int _checkDelay;
 
     // AoWPOP3Dlg.pas:64
     public void ResetSearch()
     {
         _checkDelay = 30;
-        Searching = false;
         FoundEmailGamesList.Items.Clear();
         ExitPanel.Visible = true;
         StartExitPanel.Visible = false;

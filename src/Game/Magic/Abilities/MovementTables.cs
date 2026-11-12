@@ -15,47 +15,6 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class MovementTables
 {
-    internal static MoveControl_SetupMove__TOriginalAssertText TMoveControl_SetupMove__OriginalAssertFile { get; } = new MoveControl_SetupMove__TOriginalAssertText
-    {
-        RefCount = -1,
-        Len = 28,
-        Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 77, 111, 118, 101, 84, 46, 80, 65, 83, 0])
-    };
-
-    internal static MoveControl_SetupMove__TOriginalAssertText TMoveControl_SetupMove__OriginalAssertMessage { get; } = new MoveControl_SetupMove__TOriginalAssertText
-    {
-        RefCount = -1,
-        Len = 31,
-        Text = ByteArray128.From([73, 110, 118, 97, 108, 105, 100, 32, 115, 101, 116, 116, 105, 110, 103, 115, 32, 40, 84, 77, 111, 118, 101, 67, 111, 110, 116, 114, 111, 108, 41, 0])
-    };
-
-    internal static MoveControl_CalculatePathEx__TOriginalAssertText TMoveControl_CalculatePathEx__OriginalAssertFile { get; } = new MoveControl_CalculatePathEx__TOriginalAssertText
-    {
-        RefCount = -1,
-        Len = 28,
-        Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 77, 111, 118, 101, 84, 46, 80, 65, 83, 0])
-    };
-
-    internal static MoveControl_CalculatePathEx__TOriginalAssertText TMoveControl_CalculatePathEx__OriginalAssertMessage { get; } = new MoveControl_CalculatePathEx__TOriginalAssertText
-    {
-        RefCount = -1,
-        Len = 17,
-        Text = ByteArray128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
-    };
-
-    internal static MoveControl_Activate__TOriginalAssertText TMoveControl_Activate__OriginalAssertFile { get; } = new MoveControl_Activate__TOriginalAssertText
-    {
-        RefCount = -1,
-        Len = 28,
-        Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 77, 111, 118, 101, 84, 46, 80, 65, 83, 0])
-    };
-
-    internal static MoveControl_Activate__TOriginalAssertText TMoveControl_Activate__OriginalAssertMessage { get; } = new MoveControl_Activate__TOriginalAssertText
-    {
-        RefCount = -1,
-        Len = 17,
-        Text = ByteArray128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
-    };
 
     internal static MoveArmyTokenEvent MoveArmyMapCoordinate(sbyte player, ArmyHexSprite army, byte selection, sbyte X, sbyte Y, sbyte L, MoveAction action, bool force)
     {

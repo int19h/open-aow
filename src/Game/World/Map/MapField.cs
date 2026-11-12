@@ -406,13 +406,6 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     public sbyte TerrainType { get => _terrainType; set => _terrainType = value; }
     public sbyte OverlayType { get => _overlayType; set => _overlayType = value; }
 
-    public sealed class HexNumberAccessor(MapField target)
-    {
-        public byte this[int index] { get => target.GetHexNumber(index); set => target.SetHexNumber(index, value); }
-    }
-
-    public HexNumberAccessor HexNumber => new HexNumberAccessor(this);
-
     public override void SendMessage(ref EngineMessage message, EngineObject sender)
     {
         if ((message.MessageId & 0x10000000) != 0)

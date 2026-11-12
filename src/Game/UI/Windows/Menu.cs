@@ -21,7 +21,6 @@ namespace Aow.Game.UI.Windows;
 // FDrawItem, FDrawItemRect (the item drawn last, for OnDrawItem)
 public partial class Menu : GenericWindow
 {
-    public UIComponent PopupOwner { get; private set; }
 
     private int _imageLibraryIndexTSelected;
 
@@ -953,7 +952,6 @@ public partial class Menu : GenericWindow
     // AOWMenu.pas:458
     public void SetPopupOwner(UIComponent value)
     {
-        PopupOwner = value;
     }
 
     [Published]

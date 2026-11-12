@@ -22,10 +22,7 @@ public partial class ToolTip : GenericWindow
     private int _showDuration;
     private int _itemHeight;
 
-    public bool Showing { get; private set; }
     public Rect ControlRectangle { get; set; }
-    public int ItemIndex { get; private set; }
-    public Rect ItemRectangle { get; private set; }
 
     private StringList _lines;
 
@@ -318,11 +315,9 @@ public partial class ToolTip : GenericWindow
                             var imageLibraryFrame6 = _imageLibraryFrame[_imageLibraryIndexFrame];
                             var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
                             _font.SetText(WinLeft + _borderWidth + imageLibraryFrame7.Width, WinTop + _borderHeight + imageLibraryFrame6.Height + _itemHeight * I, line, lockedSurface);
-                            ItemIndex = I;
                             var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                             var imageLibraryFrame9 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                             var libraryImage = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                            ItemRectangle = new Rect(WinLeft + libraryImage.Width, WinTop + imageLibraryFrame9.Height + _itemHeight * I, WinLeft + WinWidth, WinTop + imageLibraryFrame8.Height + (I + 1) * _itemHeight);
                             if (_onDrawItem != null)
                             {
                                 _onDrawItem(this);
@@ -348,7 +343,6 @@ public partial class ToolTip : GenericWindow
     // AOWToolTip.pas:266
     public override void CheckMouseDown(MouseButton button, Set<ShiftState> shift, int X, int Y)
     {
-        Showing = false;
         SetVisible(false);
     }
 

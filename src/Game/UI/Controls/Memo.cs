@@ -19,7 +19,6 @@ namespace Aow.Game.UI.Controls;
 // while it is set
 public partial class Memo : Control
 {
-    public int UnusedMouseUpValue { get; private set; }
 
     private StringList _items;
 
@@ -31,8 +30,6 @@ public partial class Memo : Control
     private bool _scrollSet;
     private NotifyEvent<Memo> _onDrawItem;
     private int _scrollWidth;
-
-    public bool ScrollVisible { get; private set; }
 
     private byte _cursorChar;
     private bool _blink;
@@ -53,8 +50,6 @@ public partial class Memo : Control
 
     private int _imageLibraryIndexFrame;
     private int _imageLibraryIndexTexture;
-
-    public int DrawIndex { get; private set; }
 
     private Rect _itemRectangle;
 
@@ -269,8 +264,6 @@ public partial class Memo : Control
             {
                 _scrollWidth = 0;
             }
-
-            ScrollVisible = false;
             if (_verticalScrollBar != null)
             {
                 _scrollSet = true;
@@ -300,7 +293,6 @@ public partial class Memo : Control
                 _verticalScrollBar.Sized = false;
                 _verticalScrollBar.WinLeft = WinLeft + WinWidth - _verticalScrollBar.WinWidth;
                 _verticalScrollBar.WinTop = WinTop;
-                ScrollVisible = _verticalScrollBar.Visible;
             }
         }
 
@@ -472,8 +464,6 @@ public partial class Memo : Control
                                 _font.SetText(X + W / 2 - fontTextWidth / 2, _borderHeight + Y + _itemHeight * I, line5, lockedSurface);
                                 break;
                         }
-
-                        DrawIndex = _topItem + I;
                         _itemRectangle = new Rect(X, Y + _itemHeight * I, X + W, Y + (I + 1) * _itemHeight);
                         if (_itemRectangle.Bottom > lockedSurface.ClipRectangle.Bottom)
                         {

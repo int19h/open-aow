@@ -2,14 +2,6 @@ using System.Runtime.InteropServices;
 
 namespace Aow.Rtl;
 
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct BitmapInfoHeader
-{
-    public int biSize, biWidth, biHeight;
-    public ushort biPlanes, biBitCount;
-    public int biCompression, biSizeImage, biXPelsPerMeter, biYPelsPerMeter, biClrUsed, biClrImportant;
-}
-
 public struct GUID
 {
     public int D1;
@@ -38,8 +30,6 @@ public struct LongRec
 }
 
 public struct Message { public int Msg, WParam, LParam, Result; }
-
-public struct WMKey { public int Msg; public ushort CharCode, Unused; public int KeyData, Result; }
 
 public struct CreateParams { public int Style, ExStyle, X, Y, Width, Height, WndParent, Param; }
 

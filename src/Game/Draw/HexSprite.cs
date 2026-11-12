@@ -857,20 +857,7 @@ public partial class HexSprite : EngineObject, IOwned<MapField>, IOwnedSink<MapF
         }
     }
 
-    public sealed class TerrainAccessor(HexSprite target)
-    {
-        public sbyte this[int hexNumber] { get => target.GetTerrain(hexNumber); set => target.SetTerrain(hexNumber, value); }
-    }
-
-    public TerrainAccessor Terrain => new TerrainAccessor(this);
     public int TerrainCount { get => GetTerrainCount(); }
-
-    public sealed class OverlayAccessor(HexSprite target)
-    {
-        public sbyte this[int hexNumber] { get => target.GetOverlay(hexNumber); set => target.SetOverlay(hexNumber, value); }
-    }
-
-    public OverlayAccessor Overlay => new OverlayAccessor(this);
     public int OverlayCount { get => GetOverlayCount(); }
     public byte Level { get => GetLevel(); }
     public bool Visible { get => GetVisible(); set => SetVisible(value); }

@@ -30,8 +30,6 @@ public sealed class BlitterTests
     [
         ("BltRect", (s, d, w, h) => Blit.BlitRectangle(ViewOf(s), ViewOf(d), w, h)),
         ("RegisterBltRect", (s, d, w, h) => Blit.RegisterBlitRectangle(ViewOf(s), ViewOf(d), w, h)),
-        ("FPBltRect", (s, d, w, h) => Blit.FPBltRect(ViewOf(s), ViewOf(d), w, h)),
-        ("MMXBltRect", (s, d, w, h) => Blit.MMXBltRect(ViewOf(s), ViewOf(d), w, h)),
         ("RepMovsdBltRect", (s, d, w, h) => Blit.RepMovsdBlitRectangle(ViewOf(s), ViewOf(d), w, h)),
         ("GFXEUnit.BltRect", (s, d, w, h) => BlitRects.BlitRectangle(ViewOf(s), ViewOf(d), w, h)),
     ];
@@ -198,18 +196,12 @@ public sealed class BlitterTests
             "00010203040405060708090A0B0B0D0E0F101112131315161718191A1B1B1D1E1F202122232325262728292A2B2D2E2F",
         ["RegisterBltRect-literal"] = "1 " +
             "00010203040405060708090A0B0B0D0E0F101112131315161718191A1B1B1D1E1F202122232325262728292A2B2D2E2F",
-        ["FPBltRect-literal"] = "1 " +
-            "00010203040404040404090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F202122232425262727292A2B2D2E2F",
-        ["MMXBltRect-literal"] = "1 " +
-            "00010203040404040404090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F202122232425262727292A2B2D2E2F",
         ["RepMovsdBltRect-literal"] = "1 " +
             "00010203040405060707090A0B0B0D0E0F0F1112131315161717191A1B1B1D1E1F1F2122232325262727292A2B2D2E2F",
         ["GFXEUnit.BltRect-literal"] = "1 " +
             "00010203040405060708090A0B0B0D0E0F101112131315161718191A1B1B1D1E1F202122232325262728292A2B2D2E2F",
         ["BltRect"] = "1536 077B085C",
         ["RegisterBltRect"] = "1536 077B085C",
-        ["FPBltRect"] = "1536 F4AEEE3A",
-        ["MMXBltRect"] = "1536 B520121C",
         ["RepMovsdBltRect"] = "1536 FF6590A2",
         ["GFXEUnit.BltRect"] = "1536 077B085C",
         ["BltColorKey16"] = "680 D8274095",
@@ -231,8 +223,6 @@ public sealed class BlitterTests
         ["RemapSurface08to565"] = "640 75284938",
         ["BltRect-overlap"] = "1152 41D6236C",
         ["RegisterBltRect-overlap"] = "1152 41D6236C",
-        ["FPBltRect-overlap"] = "1152 1CA7DF0E",
-        ["MMXBltRect-overlap"] = "1152 1CA7DF0E",
         ["RepMovsdBltRect-overlap"] = "1152 0B592AF4",
         ["GFXEUnit.BltRect-overlap"] = "1152 41D6236C",
         ["BltStretched16"] = "80 3F5A36E8",

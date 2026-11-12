@@ -44,7 +44,6 @@ public partial class AIMoveControlSettings : EngineObject
     public Set<MoveModeElement> MoveMode { get; set; }
     public ArmyHexSprite ArmyHexSprite { get; private set; }
     public int Selection { get; private set; }
-    public int ProcessCycles { get; private set; }
     public AIMoveControlStatus Status { get; set; }
     public int MovePoints { get; set; }
     public MovePath TransportPath { get; }
@@ -98,7 +97,6 @@ public partial class AIMoveControlSettings : EngineObject
         DestinationY = -1;
         DestinationL = -1;
         Selection = 0;
-        ProcessCycles = 0;
     }
 
     // AIGroup.pas:3887

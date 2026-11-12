@@ -175,12 +175,6 @@ public partial class HexSpriteSelection : EControlStyleNode, IChildList<HexSprit
         }
     }
 
-    public sealed class HexSpriteAccessor(HexSpriteSelection target)
-    {
-        public HexSprite this[int index] { get => target.GetHexSprite(index); }
-    }
-
-    public HexSpriteAccessor HexSprite => new HexSpriteAccessor(this);
     public List<HexSprite> LocationHexSprite { get => _locationHexSprite; }
 
     public event NotifyEvent<ECustomNode> OnSelect

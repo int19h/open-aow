@@ -59,11 +59,8 @@ public partial class WindowControl : UIComponent
     public bool _useVideoMemory;
 
     public Surface BackSurface { get; protected set; }
-    public int UnusedBackValue { get; }
 
     public Rect BackRectangle;
-
-    public int UnusedBackValue2 { get; }
 
     public AoWOnDrawBackEvent<WindowControl> _onDrawBack;
     public NotifyEvent<WindowControl> _onEnter;

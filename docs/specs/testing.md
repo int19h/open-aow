@@ -167,8 +167,9 @@ The port is driven by calls, not by a debugger. `tools/oracle/run.py` does, for 
      `OpenSelectedGame`, `FileDialogWindow.LoadSelectedGame` (Delphi `TFileDlgWindow`), `LoadGame`, `StartGame` and
      `AoWHSMap.Activate`. The frame loop is synchronous: the main form sets `UpdateFrameMode =
      umSynchrone` and `FrameRate` 30, so `CustomDisplay.StartUpdateFrameLoop` (Delphi `TCustomDisplay`) calls `UpdateFrame`
-     and `Application.ProcessMessages` in the main thread. No thread or timer is involved;
-     `UpdateFrameThread` (Delphi `TUpdateFrameThread`) serves only the editor's asynchronous mode.
+     and `Application.ProcessMessages` in the main thread. No thread or timer is involved. The
+     port has no `UpdateFrameThread` (Delphi `TUpdateFrameThread`), which served only the editor's
+     asynchronous mode.
    - `AoWHSMap.Activate` with `Day = 0` runs `StartNewMap`, `TurnPlayerControl.StartNewMap`,
      `NewDay` (day 1, which calls `Randomize` and stores `RandSeed` in `InitialRandomSeed` for
      local games), `NewTurn` of the first player and `FAIExecuter.ActivatePlayer` for a CPU player.

@@ -69,7 +69,6 @@ internal static class LegacyRoots
         typeof(Matrix),
         typeof(Rectangle),
         typeof(Surface),
-        typeof(UpdateFrameThread),
         typeof(Point3D),
         typeof(Point3DList),
         typeof(DefenseRequirementsQuery),
@@ -97,7 +96,6 @@ internal static class LegacyRoots
         typeof(ColorChange),
         typeof(FileTime),
         typeof(DirtyRectangle),
-        typeof(IMSSendThread),
         typeof(PageTurnControl),
         typeof(HtmlMemo.ChangeInfo),
         typeof(UnitIndexListCollection),
@@ -120,14 +118,12 @@ internal static class LegacyRoots
         typeof(GDFile),
         typeof(GDMessage),
         typeof(IToolServices),
-        typeof(IUnknown),
         typeof(IniFile),
         typeof(Persistent),
         typeof(PopupMenu),
         typeof(PtrBox<>),
         typeof(Registry),
         typeof(Runtime.IntegerObject),
-        typeof(Text),
     };
 
     internal static bool Contains(Type type)

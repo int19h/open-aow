@@ -152,12 +152,6 @@ public partial class ESortNode : ECustomNode
         _sorted = true;
     }
 
-    public sealed class SortValueAccessor(ESortNode target)
-    {
-        public int this[int index] { get => target.GetSortValue(index); set => target.SetSortValue(index, value); }
-    }
-
-    public SortValueAccessor SortValue => new SortValueAccessor(this);
     public bool Sorted { get => _sorted; protected internal set => _sorted = value; }
 
     private static void SortItems(Span<SortItem> sortList, int L, int R)

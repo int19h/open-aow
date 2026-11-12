@@ -551,8 +551,8 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
     production id or a diplomatic kind remains outside the kind classes, apart from the city
     screen's button table, which selects a button's panel and handler and stays until milestone 10
     gives a mod's new city action its button.
-  - `IntOrRef` remains only in `Ptr<T>.Unbox(IntOrRef)`. The hash lists (Delphi `THashList`
-    and `TStringHashList`) became `Dictionary<TKey, TValue>` with typed keys in issue 150.
+  - `IntOrRef` is gone (issue 201). The hash lists (Delphi `THashList` and `TStringHashList`)
+    became `Dictionary<TKey, TValue>` with typed keys in issue 150.
 - The engine objects form an ownership tree (issue 158). An object owns its children, disposes
   them, routes messages to them and saves them as part of itself. `IOwned` and `IOwner` in
   `src/Engine/Nodes` are the general view of that tree: the owner of an object and the children of

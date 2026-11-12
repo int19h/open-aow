@@ -272,13 +272,6 @@ public partial class TerrainList : IDisposable
 
     public OverlayAccessor Overlay => new OverlayAccessor(this);
 
-    public sealed class TerrainAndOverlayAccessor(TerrainList target)
-    {
-        public ushort this[int index] { get => target.GetTandO(index); set => target.SetTandO(index, value); }
-    }
-
-    public TerrainAndOverlayAccessor TandO => new TerrainAndOverlayAccessor(this);
-
     public sealed class UsedAccessor(TerrainList target)
     {
         public bool this[int index] { get => target.GetUsed(index); }

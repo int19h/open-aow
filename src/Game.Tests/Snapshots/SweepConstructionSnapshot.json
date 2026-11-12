@@ -10,7 +10,6 @@
             "MapLevel._count": 0,
             "MapLevel.Engine": null,
             "MapLevel._fieldSize": 0,
-            "MapLevel.FieldsSize": 0,
             "MapLevel.HexNumberOffsets": {
               "$type": "Aow.Engine.Buffers.Int32Array8By2",
               "Int32Array8By2._element0": {
@@ -42,7 +41,6 @@
             "MapLevel._count": 0,
             "MapLevel.Engine": null,
             "MapLevel._fieldSize": 0,
-            "MapLevel.FieldsSize": 0,
             "MapLevel.HexNumberOffsets": {
               "$type": "Aow.Engine.Buffers.Int32Array8By2",
               "Int32Array8By2._element0": {
@@ -70,7 +68,6 @@
               "MapLevel._count": 0,
               "MapLevel.Engine": null,
               "MapLevel._fieldSize": 0,
-              "MapLevel.FieldsSize": 0,
               "MapLevel.HexNumberOffsets": {
                 "$type": "Aow.Engine.Buffers.Int32Array8By2",
                 "Int32Array8By2._element0": {
@@ -513,7 +510,6 @@
             "$type": "Aow.Game.Commands.CombatAbilityTouchMoveTokenEvent",
             "CombatAbilityTouchMoveTokenEvent.AbilityId": 0,
             "CombatAbilityTouchMoveTokenEvent._commandAction": null,
-            "CombatAbilityTouchMoveTokenEvent.Damage": 0,
             "CombatAbilityTouchMoveTokenEvent._deathAction": null,
             "CombatAbilityTouchMoveTokenEvent._dispelAction": null,
             "CombatAbilityTouchMoveTokenEvent._effect": null,
@@ -568,7 +564,6 @@
             "$type": "Aow.Game.Commands.CombatAbilityTouchMoveTokenEvent",
             "CombatAbilityTouchMoveTokenEvent.AbilityId": 0,
             "CombatAbilityTouchMoveTokenEvent._commandAction": null,
-            "CombatAbilityTouchMoveTokenEvent.Damage": 0,
             "CombatAbilityTouchMoveTokenEvent._deathAction": null,
             "CombatAbilityTouchMoveTokenEvent._dispelAction": null,
             "CombatAbilityTouchMoveTokenEvent._effect": null,
@@ -619,7 +614,6 @@
               "$type": "Aow.Game.Commands.CombatAbilityTouchMoveTokenEvent",
               "CombatAbilityTouchMoveTokenEvent.AbilityId": 0,
               "CombatAbilityTouchMoveTokenEvent._commandAction": null,
-              "CombatAbilityTouchMoveTokenEvent.Damage": 0,
               "CombatAbilityTouchMoveTokenEvent._deathAction": null,
               "CombatAbilityTouchMoveTokenEvent._dispelAction": null,
               "CombatAbilityTouchMoveTokenEvent._effect": null,
@@ -3657,7 +3651,6 @@
             "$type": "Aow.Game.Draw.CityOverlayHexSprite",
             "CityOverlayHexSprite.City": null,
             "CityOverlayHexSprite.Mode": 0,
-            "CityOverlayHexSprite.ModeStartFrame": 0,
             "CityOverlayHexSprite._shellAnimation": 0,
             "CityOverlayHexSprite._shellEndFrame": 0,
             "EngineObject._owner": null,
@@ -3677,7 +3670,6 @@
             "$type": "Aow.Game.Draw.CityOverlayHexSprite",
             "CityOverlayHexSprite.City": null,
             "CityOverlayHexSprite.Mode": 0,
-            "CityOverlayHexSprite.ModeStartFrame": 0,
             "CityOverlayHexSprite._shellAnimation": 0,
             "CityOverlayHexSprite._shellEndFrame": 0,
             "EngineObject._owner": "$owner",
@@ -3693,7 +3685,6 @@
               "$type": "Aow.Game.Draw.CityOverlayHexSprite",
               "CityOverlayHexSprite.City": null,
               "CityOverlayHexSprite.Mode": 0,
-              "CityOverlayHexSprite.ModeStartFrame": 0,
               "CityOverlayHexSprite._shellAnimation": 0,
               "CityOverlayHexSprite._shellEndFrame": 0,
               "EngineObject._owner": "$owner",
@@ -9485,7 +9476,6 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.World.Hexes.CombatTerrain",
-            "CombatTerrain.Damaged": false,
             "CombatTerrain._defense": 0,
             "CombatTerrain._hitPoints": 0,
             "CombatTerrain._shadow": null,
@@ -9517,7 +9507,6 @@
         "$value": {
           "$jsonText": {
             "$type": "Aow.Game.World.Hexes.CombatTerrain",
-            "CombatTerrain.Damaged": false,
             "CombatTerrain._defense": 0,
             "CombatTerrain._hitPoints": 0,
             "CombatTerrain._shadow": null,
@@ -9545,7 +9534,6 @@
           {
             "$jsonText": {
               "$type": "Aow.Game.World.Hexes.CombatTerrain",
-              "CombatTerrain.Damaged": false,
               "CombatTerrain._defense": 0,
               "CombatTerrain._hitPoints": 0,
               "CombatTerrain._shadow": null,
@@ -13157,7 +13145,6 @@
             "MapLevel._count": 0,
             "MapLevel.Engine": null,
             "MapLevel._fieldSize": 0,
-            "MapLevel.FieldsSize": 0,
             "MapLevel.HexNumberOffsets": {
               "$type": "Aow.Engine.Buffers.Int32Array8By2",
               "Int32Array8By2._element0": {
@@ -13189,7 +13176,6 @@
             "MapLevel._count": 0,
             "MapLevel.Engine": null,
             "MapLevel._fieldSize": 0,
-            "MapLevel.FieldsSize": 0,
             "MapLevel.HexNumberOffsets": {
               "$type": "Aow.Engine.Buffers.Int32Array8By2",
               "Int32Array8By2._element0": {
@@ -13217,7 +13203,6 @@
               "MapLevel._count": 0,
               "MapLevel.Engine": null,
               "MapLevel._fieldSize": 0,
-              "MapLevel.FieldsSize": 0,
               "MapLevel.HexNumberOffsets": {
                 "$type": "Aow.Engine.Buffers.Int32Array8By2",
                 "Int32Array8By2._element0": {
@@ -20335,7 +20320,6 @@
               "$type": "Aow.Game.Draw.CityOverlayHexSprite",
               "CityOverlayHexSprite.City": "$ref:$",
               "CityOverlayHexSprite.Mode": 0,
-              "CityOverlayHexSprite.ModeStartFrame": 0,
               "CityOverlayHexSprite._shellAnimation": 0,
               "CityOverlayHexSprite._shellEndFrame": 0,
               "EngineObject._owner": null,
@@ -20485,7 +20469,6 @@
               "$type": "Aow.Game.Draw.CityOverlayHexSprite",
               "CityOverlayHexSprite.City": "$ref:$",
               "CityOverlayHexSprite.Mode": 0,
-              "CityOverlayHexSprite.ModeStartFrame": 0,
               "CityOverlayHexSprite._shellAnimation": 0,
               "CityOverlayHexSprite._shellEndFrame": 0,
               "EngineObject._owner": null,
@@ -39316,8 +39299,7 @@
             },
             "MapObject._unlinkedResourceId": 0,
             "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
-            "Pad.PadActive": true
+            "MultiHexMapObject._hexY": 0
           }
         }
       },
@@ -39347,8 +39329,7 @@
             },
             "MapObject._unlinkedResourceId": 0,
             "MultiHexMapObject._hexX": 0,
-            "MultiHexMapObject._hexY": 0,
-            "Pad.PadActive": true
+            "MultiHexMapObject._hexY": 0
           }
         }
       },
@@ -39374,8 +39355,7 @@
               },
               "MapObject._unlinkedResourceId": 0,
               "MultiHexMapObject._hexX": 0,
-              "MultiHexMapObject._hexY": 0,
-              "Pad.PadActive": false
+              "MultiHexMapObject._hexY": 0
             }
           }
         ]

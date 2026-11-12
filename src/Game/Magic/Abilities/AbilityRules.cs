@@ -28,33 +28,6 @@ namespace Aow.Game.Magic.Abilities;
 
 public static class AbilityRules
 {
-    internal static AIGroup_Deactivate__TOriginalAssertText TAIGroup_Deactivate__OriginalAssertFile { get; } = new AIGroup_Deactivate__TOriginalAssertText
-    {
-        RefCount = -1,
-        Len = 30,
-        Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 73, 71, 114, 111, 117, 112, 46, 112, 97, 115, 0])
-    };
-
-    internal static AIGroup_Deactivate__TOriginalAssertText TAIGroup_Deactivate__OriginalAssertMessage { get; } = new AIGroup_Deactivate__TOriginalAssertText
-    {
-        RefCount = -1,
-        Len = 17,
-        Text = ByteArray128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
-    };
-
-    internal static SpellControl_GetSpell__TOriginalAssertText TSpellControl_GetSpell__OriginalAssertFile { get; } = new SpellControl_GetSpell__TOriginalAssertText
-    {
-        RefCount = -1,
-        Len = 29,
-        Text = ByteArray128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 83, 112, 101, 108, 108, 115, 46, 80, 65, 83, 0])
-    };
-
-    internal static SpellControl_GetSpell__TOriginalAssertText TSpellControl_GetSpell__OriginalAssertMessage { get; } = new SpellControl_GetSpell__TOriginalAssertText
-    {
-        RefCount = -1,
-        Len = 15,
-        Text = ByteArray128.From([73, 110, 118, 97, 108, 105, 100, 32, 83, 112, 101, 108, 108, 73, 68, 0])
-    };
 
     internal static Set<DamageType> AllDamageTypesForWallImmunity { get; } = Set<DamageType>.FromMask(1023UL);
 
@@ -802,27 +775,13 @@ public static class AbilityRules
 
     internal static StringArray2 s_explosionSfx = StringArray2.From(["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"]);
 
-    internal static Set<AbilitySelectionType> astAll { get; } = Set<AbilitySelectionType>.Of().WithRange(AbilitySelectionType.Unit, AbilitySelectionType.Editor);
-
-    internal static Set<MagicSphere> MillisecondsAll { get; } = Set<MagicSphere>.Of().WithRange(MagicSphere.Cosmos, MagicSphere.None);
-
     internal static int AiDebugChannel { get; set; }
-
-    internal static RaceTerrainArray12 RaceTerrain { get; } = RaceTerrainArray12.From([new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Desert), Disliked = Set<TerrainType>.Of(TerrainType.Snow, TerrainType.Ice, TerrainType.UndergroundIce) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Water), Disliked = Set<TerrainType>.Of(TerrainType.Desert, TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Snow, TerrainType.Ice, TerrainType.UndergroundIce), Disliked = Set<TerrainType>.Of(TerrainType.Desert) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Grass), Disliked = Set<TerrainType>.Of(TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Grass), Disliked = Set<TerrainType>.Of(TerrainType.Wasteland) }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Dirt), Disliked = Set<TerrainType>.Of() }, new RaceTerrain { Preferred = Set<TerrainType>.Of(TerrainType.Wasteland), Disliked = Set<TerrainType>.Of(TerrainType.Grass) }]);
-
-    internal static StringArray5 AbilityTypeNames { get; } = StringArray5.From(["Enhancement", "Handicap", "Movement", "Combat", "Enchantment"]);
 
     internal static ByteArray9 ArmySelectionMasks = ByteArray9.From([0, 1, 3, 7, 15, 31, 63, 127, 255]);
 
     internal static int TemporaryDebugChannel { get; set; }
 
-    internal static EngineClass DurationDataClass { get; } = EngineClass.Of<DurationAbilityData>();
-
     internal static EngineClass MultiLevelDataClass { get; } = EngineClass.Of<MultiLevelAbilityData>();
-
-    internal static EngineClass CastSpellActionClass { get; } = EngineClass.Of<AICastSpellAction>();
-
-    internal static EngineClass ImageAnimationClass { get; } = EngineClass.Of<ImageSequenceAnimation>();
 
     internal static int LimitedDamage(int attack, int defense, int damage)
     {

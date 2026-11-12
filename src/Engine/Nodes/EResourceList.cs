@@ -98,11 +98,4 @@ public partial class EResourceList : ECustomOwner, IChildList<EngineResource>
         }
     }
 
-    public sealed class ResourcesAccessor(EResourceList target)
-    {
-        public EngineResource this[int index] { get => target.GetResource(index); }
-    }
-
-    public ResourcesAccessor Resources => new ResourcesAccessor(this);
-
 }

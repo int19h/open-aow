@@ -10,13 +10,10 @@ public partial class Pad : FixedImageLibraryTerrainMapObject
 {
     public Pad(ECustomNode owner) : base(owner)
     {
-        PadActive = true;
     }
 
     // Pad.pas:52
     public new const int ClassId = 131334;
-
-    public bool PadActive { get; }
 
     // Pad.pas:46
 

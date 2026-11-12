@@ -14,7 +14,6 @@ namespace Aow.Game.AI.Groups;
 // mode, move limit, move settings, control
 public partial class AIGroupWanderControl : AIGroupTask
 {
-    public Set<ModeElement> Mode { get; private set; }
     public int MovePointsMax { get; set; }
 
     private MoveControlSettings _moveSettings;
@@ -185,7 +184,6 @@ public partial class AIGroupWanderControl : AIGroupTask
     // AGCPlugins.pas:309
     public void Reset()
     {
-        Mode = Set<ModeElement>.Of();
         MovePointsMax = 75;
         _moveSettings.Reset();
     }

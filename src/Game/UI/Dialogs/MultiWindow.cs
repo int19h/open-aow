@@ -158,7 +158,6 @@ public partial class MultiWindow : DataModule
         if (ConnectProvider(ConnectionType.TCP) == 0)
         {
             DialogHosts.SetupEvents.DirectPlay.PlayerName = TcpNameEdit.Text;
-            SessionRefreshDelay = 0;
             TcpPanel.Visible = false;
             JoinPanel.Visible = true;
             GamesList.Items.Clear();
@@ -315,8 +314,6 @@ public partial class MultiWindow : DataModule
     private static readonly string s_pleaseSetupEmailSettingsFirstText = "Please setup email settings first!";
 
     private static readonly string s_playerGameFormat = "%s's Game";
-
-    internal static int SessionRefreshDelay { get; private set; }
 
     internal const string NetworkPlayNotAvailableText = "Network play is not available in this version.";
 

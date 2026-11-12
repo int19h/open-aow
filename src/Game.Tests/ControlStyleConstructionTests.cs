@@ -86,18 +86,13 @@ public sealed class ControlStyleConstructionTests
     private sealed class Converted : ControlStyleObject
     {
         private int _calls;
-        private int _marker;
 
-        internal int ObservedMarker { get; private set; }
-        internal Set<ControlStyleElement> ObservedStyle { get; private set; }
-
-        internal Converted(ECustomNode owner) : base(owner) { _marker = 77; }
+        internal Converted(ECustomNode owner) : base(owner) { }
 
         public override void SetOwner(ECustomNode owner)
         {
             _calls++;
-            ObservedMarker = _marker;
-            ObservedStyle = GetControlStyle();
+            GetControlStyle();
             base.SetOwner(owner);
         }
     }

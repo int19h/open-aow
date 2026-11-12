@@ -26,8 +26,8 @@ public sealed class PointerViewTests
     public void ExplicitBoxViewsKeepTheOriginalStorageAndOffset()
     {
         var pair = Ptr<Pair>.Alloc(1);
-        IntOrRef payload = new(new PtrBox<Pair>(pair));
-        var words = ((IPointerBox)payload.Ref!).As<int>();
+        object payload = new PtrBox<Pair>(pair);
+        var words = ((IPointerBox)payload).As<int>();
         words[1] = 73;
         Assert.Equal(73, pair.Value.Second);
         var bytes = ((IPointerBox)new PtrBox<int>(words + 1)).As<byte>();

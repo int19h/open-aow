@@ -16,6 +16,4 @@ internal static class LayerText
 
     internal static string DepthsText { get; } = "Depths";
 
-    internal static string FactionText { get; } = "Choose a Faction";
-
 }

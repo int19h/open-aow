@@ -787,16 +787,6 @@
           "Set`1.low": 0
         },
         "AIGroupTargetFinder._control": null,
-        "AIGroupTargetFinder.DamageTypes": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set`1.a": 0,
-          "Set`1.b": 0,
-          "Set`1.bounded": false,
-          "Set`1.c": 0,
-          "Set`1.d": 0,
-          "Set`1.high": 0,
-          "Set`1.low": 0
-        },
         "AIGroupTargetFinder.Mode": {
           "$type": "Aow.Rtl.Set`1[[Aow.Game.AI.Groups.AIGroupTargetFinderModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
           "Set`1.a": 0,
@@ -840,7 +830,6 @@
           "AIMoveTargetSelector.MovePointsMax": 0,
           "AIMoveTargetSelector.MovePointsMin": 0,
           "AIMoveTargetSelector.OnTargetFound": null,
-          "AIMoveTargetSelector.ProcessCycles": 0,
           "AIMoveTargetSelector._settings": {
             "$type": "Aow.Game.World.Movement.MoveControlSettings",
             "EngineObject._owner": null,
@@ -1026,7 +1015,6 @@
           "Set`1.high": 0,
           "Set`1.low": 0
         },
-        "AIGroupTargetSelector.AllowTransport": false,
         "AIGroupTargetSelector.BattleFieldFactor": 0,
         "AIGroupTargetSelector._battleFieldMoveFactor": 0,
         "AIGroupTargetSelector._battleFieldRadius": 0,
@@ -1495,7 +1483,6 @@
         "AIMoveControlSettings.MovePointsMax": 175,
         "AIMoveControlSettings.OnDone": null,
         "AIMoveControlSettings.Player": 0,
-        "AIMoveControlSettings.ProcessCycles": 0,
         "AIMoveControlSettings.QuickMovePointsMax": 300,
         "AIMoveControlSettings.RefCount": 1,
         "AIMoveControlSettings.Selection": 0,
@@ -1634,7 +1621,6 @@
           "MapCoordinate.XY": 0,
           "MapCoordinate.Y": 0
         },
-        "AIMoveExecutorArmy.Grouped": false,
         "AIMoveExecutorArmy.Location": {
           "$type": "Aow.Game.World.Map.MapCoordinate",
           "MapCoordinate.Tag": 0,
@@ -1989,7 +1975,6 @@
         "AIMoveTargetSelector.MovePointsMax": 0,
         "AIMoveTargetSelector.MovePointsMin": 0,
         "AIMoveTargetSelector.OnTargetFound": null,
-        "AIMoveTargetSelector.ProcessCycles": 0,
         "AIMoveTargetSelector._settings": {
           "$type": "Aow.Game.World.Movement.MoveControlSettings",
           "EngineObject._owner": null,
@@ -2136,7 +2121,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.AIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner"
       }
@@ -2313,7 +2297,6 @@
           "AIMoveTargetSelector.MovePointsMax": 0,
           "AIMoveTargetSelector.MovePointsMin": 0,
           "AIMoveTargetSelector.OnTargetFound": null,
-          "AIMoveTargetSelector.ProcessCycles": 0,
           "AIMoveTargetSelector._settings": {
             "$type": "Aow.Game.World.Movement.MoveControlSettings",
             "EngineObject._owner": null,
@@ -2544,7 +2527,6 @@
           "AIMoveTargetSelector.MovePointsMax": 0,
           "AIMoveTargetSelector.MovePointsMin": 0,
           "AIMoveTargetSelector.OnTargetFound": null,
-          "AIMoveTargetSelector.ProcessCycles": 0,
           "AIMoveTargetSelector._settings": {
             "$type": "Aow.Game.World.Movement.MoveControlSettings",
             "EngineObject._owner": null,
@@ -3786,7 +3768,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.AutoProduceAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "AutoProduceAIPlayerAction._goldUpkeep": 0,
         "AutoProduceAIPlayerAction._manaUpkeep": 0,
@@ -4379,7 +4360,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.BudgetManagerAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner"
       }
@@ -4400,7 +4380,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.CastSpellAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "CastSpellAIPlayerAction._castSpellActions": {
           "$type": "Aow.Game.AI.AICastSpellActionList",
@@ -6527,7 +6506,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.DiplomacyAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "DiplomacyAIPlayerAction._nextPlayer": 0,
         "EngineObject._owner": "$owner"
@@ -7272,7 +7250,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.EndTurnAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner"
       }
@@ -8624,7 +8601,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.GroupControlAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner",
         "GroupControlAIPlayerAction._groupControl": null,
@@ -8638,7 +8614,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.GroupControlLoopAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner",
         "GroupControlLoopAIPlayerAction._groupControl": null,
@@ -9309,7 +9284,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.InitializeAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner"
       }
@@ -11621,16 +11595,6 @@
                       "Int32List._default": 0,
                       "Int32List._list": "$ref:$.MoveControl.Map.AoWHSMap.Players.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                     },
-                    "PlayerMagicControl.Spheres": {
-                      "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Set`1.a": 255,
-                      "Set`1.b": 0,
-                      "Set`1.bounded": true,
-                      "Set`1.c": 0,
-                      "Set`1.d": 0,
-                      "Set`1.high": 8,
-                      "Set`1.low": 0
-                    },
                     "PlayerMagicControl._updateCount": 0
                   },
                   "Player._magicUpkeep": 0,
@@ -12218,16 +12182,6 @@
                       "Int32List._count": 0,
                       "Int32List._default": 0,
                       "Int32List._list": "$ref:$.MoveControl.Map.AoWHSMap.Players.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
-                    },
-                    "PlayerMagicControl.Spheres": {
-                      "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Set`1.a": 255,
-                      "Set`1.b": 0,
-                      "Set`1.bounded": true,
-                      "Set`1.c": 0,
-                      "Set`1.d": 0,
-                      "Set`1.high": 8,
-                      "Set`1.low": 0
                     },
                     "PlayerMagicControl._updateCount": 0
                   },
@@ -12817,16 +12771,6 @@
                       "Int32List._default": 0,
                       "Int32List._list": "$ref:$.MoveControl.Map.AoWHSMap.Players.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                     },
-                    "PlayerMagicControl.Spheres": {
-                      "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Set`1.a": 255,
-                      "Set`1.b": 0,
-                      "Set`1.bounded": true,
-                      "Set`1.c": 0,
-                      "Set`1.d": 0,
-                      "Set`1.high": 8,
-                      "Set`1.low": 0
-                    },
                     "PlayerMagicControl._updateCount": 0
                   },
                   "Player._magicUpkeep": 0,
@@ -13254,7 +13198,6 @@
             "EventStore`1._count": 0,
             "EventStore`1._items": null
           },
-          "AoWHSMap.TokenEventLog": null,
           "AoWHSMap.TokenEventLogging": false,
           "AoWHSMap.TokenManager": {
             "$type": "Aow.Game.Net.AoWTokenManager",
@@ -13415,7 +13358,6 @@
             "EventStore`1._items": null
           },
           "AoWHSMap._updateVisibilityLockCount": 0,
-          "AoWHSMap.UseTurnTimer": true,
           "AoWHSMap.VictoryCondition": 0,
           "AoWHSMap.VictoryGold": 5000,
           "AoWHSMap.VictoryMana": 5000,
@@ -14788,16 +14730,6 @@
             "Int32List._default": 0,
             "Int32List._list": "$ref:$.Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
           },
-          "PlayerMagicControl.Spheres": {
-            "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "Set`1.a": 255,
-            "Set`1.b": 0,
-            "Set`1.bounded": true,
-            "Set`1.c": 0,
-            "Set`1.d": 0,
-            "Set`1.high": 8,
-            "Set`1.low": 0
-          },
           "PlayerMagicControl._updateCount": 0
         },
         "Player._magicUpkeep": 0,
@@ -15457,16 +15389,6 @@
                   "Int32List._default": 0,
                   "Int32List._list": "$ref:$.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                 },
-                "PlayerMagicControl.Spheres": {
-                  "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set`1.a": 255,
-                  "Set`1.b": 0,
-                  "Set`1.bounded": true,
-                  "Set`1.c": 0,
-                  "Set`1.d": 0,
-                  "Set`1.high": 8,
-                  "Set`1.low": 0
-                },
                 "PlayerMagicControl._updateCount": 0
               },
               "Player._magicUpkeep": 0,
@@ -16054,16 +15976,6 @@
                   "Int32List._count": 0,
                   "Int32List._default": 0,
                   "Int32List._list": "$ref:$.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
-                },
-                "PlayerMagicControl.Spheres": {
-                  "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set`1.a": 255,
-                  "Set`1.b": 0,
-                  "Set`1.bounded": true,
-                  "Set`1.c": 0,
-                  "Set`1.d": 0,
-                  "Set`1.high": 8,
-                  "Set`1.low": 0
                 },
                 "PlayerMagicControl._updateCount": 0
               },
@@ -16653,16 +16565,6 @@
                   "Int32List._default": 0,
                   "Int32List._list": "$ref:$.ENode._children.DelphiList`1.items[0].Player.AIControl.AIPlayerControl.MoveExecutor.AIMoveExecutor.ControlQueue.Int32List._list"
                 },
-                "PlayerMagicControl.Spheres": {
-                  "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                  "Set`1.a": 255,
-                  "Set`1.b": 0,
-                  "Set`1.bounded": true,
-                  "Set`1.c": 0,
-                  "Set`1.d": 0,
-                  "Set`1.high": 8,
-                  "Set`1.low": 0
-                },
                 "PlayerMagicControl._updateCount": 0
               },
               "Player._magicUpkeep": 0,
@@ -16880,16 +16782,6 @@
           "Int32List._count": 0,
           "Int32List._default": 0,
           "Int32List._list": []
-        },
-        "PlayerMagicControl.Spheres": {
-          "$type": "Aow.Rtl.Set`1[[Aow.Game.Magic.MagicSphere, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set`1.a": 255,
-          "Set`1.b": 0,
-          "Set`1.bounded": true,
-          "Set`1.c": 0,
-          "Set`1.d": 0,
-          "Set`1.high": 8,
-          "Set`1.low": 0
         },
         "PlayerMagicControl._updateCount": 0
       }
@@ -17255,7 +17147,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.ProcessEventLogAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner",
         "ProcessEventLogAIPlayerAction._logIndex": -1
@@ -17711,7 +17602,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.ResearchSpellAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner"
       }
@@ -19020,7 +18910,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.StructureAIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner",
         "StructureAIPlayerAction.Phase": 0,
@@ -19069,7 +18958,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.StructurePhase1AIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner",
         "StructureAIPlayerAction.Phase": 1,
@@ -19089,7 +18977,6 @@
       "$jsonText": {
         "$type": "Aow.Game.AI.StructurePhase2AIPlayerAction",
         "AIPlayerAction.Control": null,
-        "AIPlayerAction.Phase": 0,
         "AIPlayerAction._processCycles": 0,
         "EngineObject._owner": "$owner",
         "StructureAIPlayerAction.Phase": 2,

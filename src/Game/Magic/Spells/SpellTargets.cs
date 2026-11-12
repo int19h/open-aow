@@ -10,12 +10,6 @@ namespace Aow.Game.Magic.Spells;
 internal static class SpellTargets
 {
 
-    internal static Type SpellStructureClass { get; } = typeof(Structure);
-
-    internal static string SpellCancelText { get; } = "Cancel";
-
-    internal static string SpellCastFormat { get; } = "%s cast";
-
     internal static void NotifySpellSphere(sbyte player, MagicSphere sphere)
     {
         EngineMessage message = default;

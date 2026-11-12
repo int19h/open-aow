@@ -49,7 +49,6 @@ type,ChildListNode,Aow.Formats.Tree.ChildListNode
 type,ChildrenAccessor,Aow.Engine.Nodes.ECustomNode.ChildrenAccessor
 type,ChildrenCodec,Aow.Formats.Original.ChildrenCodec
 type,ClassRegistry,Aow.Game.ClassRegistry
-type,ClassesAccessor,Aow.Game.Draw.ImageFileClassList.ClassesAccessor
 type,Classification,Aow.Formats.Classification
 type,Click,Aow.FrameFixture.Click
 type,Codes,Aow.Formats.Codes
@@ -137,7 +136,6 @@ type,FileLogRecord,Aow.Game.Saves.FileLogRecord
 type,FileProfile,Aow.Formats.Original.FileProfile
 type,FixedArrayCodec,Aow.Formats.Original.FixedArrayCodec
 type,FixedArray_Aow_Rtl_TList_10,Aow.Engine.Buffers.ListArray10
-type,FixedArray_Aow_Rtl_TList_286,Aow.Engine.Buffers.ListArray286
 type,FixedArray_Aow_Units_AoWE_TAbilityOwner_3,Aow.Game.Magic.Abilities.AbilityOwnerArray3
 type,FixedArray_Aow_Units_AoWE_TAbilityTypeList_5,Aow.Game.Magic.Abilities.AbilityTypeListArray5
 type,FixedArray_Aow_Units_AoWE_TAbility_1,Aow.Game.Magic.Abilities.AbilityArray1
@@ -148,7 +146,6 @@ type,FixedArray_Aow_Units_AoWE_TGroupBehavior_10,Aow.Game.AI.Groups.GroupBehavio
 type,FixedArray_Aow_Units_AoWE_THeroItemPosition_7,Aow.Game.Units.HeroItemPositionArray7
 type,FixedArray_Aow_Units_AoWE_TItemType_6,Aow.Game.Units.ItemTypeArray6
 type,FixedArray_Aow_Units_AoWE_TP2HeroLevel_6,Aow.Game.Units.HeroLevelArray6
-type,FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12,Aow.Game.World.Map.RaceTerrainArray12
 type,FixedArray_Aow_Units_AoWE_TStatus_12,Aow.Game.Session.StatusArray12
 type,FixedArray_Aow_Units_AoWTC_TfxType_131,Aow.Game.Combat.BattleEffectTypeArray131
 type,FixedArray_Aow_Units_AoWTC_TfxType_170,Aow.Game.Combat.BattleEffectTypeArray170
@@ -257,8 +254,6 @@ type,GameText,Aow.Game.Magic.Abilities.GameText
 type,GateSwitches,Aow.Rtl.Host.GateSwitches
 type,GfxState,Aow.Game.Draw.GraphicsState
 type,GrabInfoClass,Aow.Game.Draw.Images.GrabInfoClass
-type,HNAccessor,Aow.Game.World.Map.MapField.HexNumberAccessor
-type,HSAccessor,Aow.Game.World.Map.HexSpriteSelection.HexSpriteAccessor
 type,HeadlessDisplayHost,Aow.Platform.HeadlessDisplayHost
 type,HeadlessHooks,Aow.Game.Host.HeadlessHooks
 type,HeadlessHost,Aow.Headless.HeadlessHost
@@ -273,8 +268,6 @@ type,ICaseUnit,Aow.Formats.ICaseUnit
 type,IChildCollection,Aow.Formats.Tree.IChildCollection
 type,IClock,Aow.Rtl.Host.IClock
 type,IDialogService,Aow.Rtl.Host.IDialogService
-type,IDirectSound,Aow.Game.Audio.IDirectSound
-type,IDirectSoundBuffer,Aow.Game.Audio.IDirectSoundBuffer
 type,IDisplayEvents,Aow.Game.Host.IDisplayEvents
 type,IDisplayHost,Aow.Game.Host.IDisplayHost
 type,IDocumentValidator,Aow.Formats.IDocumentValidator
@@ -294,7 +287,6 @@ type,IRecordCatalog,Aow.Formats.Tree.IRecordCatalog
 type,IRtlHost,Aow.Rtl.Host.IRtlHost
 type,ISettingsStore,Aow.Rtl.Host.ISettingsStore
 type,IShellService,Aow.Rtl.Host.IShellService
-type,IUnknown,Aow.Rtl.IUnknown
 type,ImageFileClass,Aow.Game.Draw.ImageFileClass
 type,ImageFrame,Aow.Formats.Original.ImageFrame
 type,ImageLibraries,Aow.Game.Draw.Images.ImageLibraries
@@ -306,7 +298,6 @@ type,ImportResult,Aow.Formats.ImportResult
 type,ImportSession,Aow.Formats.Original.ImportSession
 type,IndexedProperty`2,Aow.Rtl.IndexedProperty`2
 type,InputMapper,Aow.Platform.InputMapper
-type,IntOrRef,Aow.Rtl.IntOrRef
 type,IntegerBytes,Aow.Formats.Original.IntegerBytes
 type,IntegerCodec,Aow.Formats.Original.IntegerCodec
 type,IntegerMove`1,Aow.Formats.Tree.IntegerRecordField.IntegerMove`1
@@ -402,12 +393,10 @@ type,OpenMptModule,Aow.Platform.TrackerSong
 type,Options,Aow.Convert.Options
 type,OriginalBackend,Aow.Formats.Tree.OriginalBackend
 type,Outcome,Aow.Convert.Fixtures.Outcome
-type,OverlayAccessor,Aow.Game.Draw.HexSprite.OverlayAccessor
 type,OverlayAccessor,Aow.Game.World.Map.TerrainList.OverlayAccessor
 type,OwnFormat,Aow.Formats.OwnFormat
 type,PacingVerification,Aow.PacingVerification
 type,PackageDataAccessor,Aow.Game.Net.PackageDataList.PackageDataAccessor
-type,PalettesAccessor,Aow.Game.Draw.Images.PaletteManager.PalettesAccessor
 type,PassiveAbilities,Aow.Game.Magic.Abilities.Passive.PassiveAbilities
 type,PersistSupport,Aow.Engine.PersistSupport
 type,PilotImage,Aow.Formats.Original.PilotImage
@@ -464,7 +453,6 @@ type,RefusingShell,Aow.Rtl.Host.RefusingShell
 type,RequiredChild,Aow.Game.Saves.RequiredChild
 type,ResearchSpell,Aow.Game.World.Structures.ResearchSpell
 type,Reserved,Aow.Formats.Original.Reserved
-type,ResourcesAccessor,Aow.Engine.Nodes.EResourceList.ResourcesAccessor
 type,Restorer,Aow.Rtl.NameTable.Restorer
 type,RleBlend,Aow.Graphics.Blit.RleBlend
 type,RosterTables,Aow.Game.Magic.Abilities.RosterTables
@@ -475,8 +463,6 @@ type,RtlUnit,Aow.Rtl.RtlUnit
 type,RunFiles,Aow.Headless.RunFiles
 type,RunListCodec,Aow.Formats.Original.RunListCodec
 type,RwData,Aow.Rtl.RwData
-type,SFXAccessor,Aow.Game.Audio.SfxSequence.SfxAccessor
-type,SFXSequencesAccessor,Aow.Game.Audio.SfxLibrary.SfxSequencesAccessor
 type,SafeOutput,Aow.Convert.SafeOutput
 type,SampleClass,Aow.Game.Audio.SampleClass
 type,SampleDataClass,Aow.Game.Audio.SampleDataClass
@@ -510,7 +496,6 @@ type,SmtpProgress`1,Aow.Game.Layout.SmtpProgress`1
 type,Snapshot,Aow.FrameFixture.Snapshot
 type,Snapshot,Aow.Rtl.Catalog`2.Snapshot
 type,SongState,Aow.Platform.SdlSoundSystem.SongState
-type,SortValueAccessor,Aow.Engine.Nodes.ESortNode.SortValueAccessor
 type,SoundSystemClass,Aow.Game.Audio.SoundSystemClass
 type,SpellTargets,Aow.Game.Magic.Spells.SpellTargets
 type,Startup,Aow.Game.Startup
@@ -578,7 +563,6 @@ type,TAIGroupUnitProduction,Aow.Game.AI.Groups.AIGroupUnitProduction
 type,TAIGroupUnitProductionList,Aow.Game.AI.Groups.AIGroupUnitProductionList
 type,TAIGroupWanderControl,Aow.Game.AI.Groups.AIGroupWanderControl
 type,TAIGroupWanderModeElement,Aow.Game.AI.Groups.AIGroupWanderControl.ModeElement
-type,TAIGroup_Deactivate__TOriginalAssertText,Aow.Game.AI.Groups.AIGroup_Deactivate__TOriginalAssertText
 type,TAIMoveControl,Aow.Game.AI.Groups.AIMoveControl
 type,TAIMoveControlMode,Aow.Game.AI.Groups.AIMoveControlMode
 type,TAIMoveControlSettings,Aow.Game.AI.Groups.AIMoveControlSettings
@@ -659,7 +643,6 @@ type,TAbilityTypeList,Aow.Game.Magic.Abilities.AbilityTypeList
 type,TAbstractAoWCombatMap,Aow.Game.Combat.CustomCombatMap
 type,TAbstractAoWHSMap,Aow.Game.World.Map.GameMap
 type,TAbstractAoWHSMapMouse,Aow.Game.World.Map.GameMapMouse
-type,TAbstractAoWHSMap_UnFogExploreArea__TAssertText,Aow.Game.World.Map.AbstractAoWHSMap_UnFogExploreArea__TAssertText
 type,TAbstractBehaviorAG,Aow.Game.AI.Groups.BehaviorAIGroup
 type,TAbstractBehaviorAGC,Aow.Game.AI.Groups.BehaviorAIGroupControl
 type,TAbstractBorderHexagon,Aow.Game.World.Map.AbstractBorderHexagon
@@ -790,7 +773,6 @@ type,TBirdsViewHS,Aow.Game.Draw.BirdsViewHexSprite
 type,TBitList,Aow.Engine.Collections.BitList
 type,TBitMask,Aow.Game.Draw.Images.BitMask
 type,TBitMaskGrabInfo,Aow.Game.Draw.Images.BitMask.GrabInfo
-type,TBitmapInfoHeader,Aow.Rtl.BitmapInfoHeader
 type,TBlastStorm,Aow.Game.Draw.Animations.BlastStorm
 type,TBlendMode,Aow.Game.Draw.Images.BlendMode
 type,TBlendTable,Aow.Game.Draw.BlendTable
@@ -931,7 +913,6 @@ type,TCombatPredictorSide,Aow.Game.Combat.CombatPredictorSide
 type,TCombatPredictorUnit,Aow.Game.Combat.CombatPredictorUnit
 type,TCombatPredictorUnitList,Aow.Game.Combat.CombatPredictorUnitList
 type,TCombatPredictorUnitStatusElement,Aow.Game.Combat.CombatPredictorUnitStatusElement
-type,TCombatPredictor_AddWall__TOriginalAssertText,Aow.Game.Combat.CombatPredictor_AddWall__TOriginalAssertText
 type,TCombatRange,Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange
 type,TCombatResolveMode,Aow.Game.GameSettings.CombatResolveMode
 type,TCombatResult,Aow.Game.Combat.CombatResult
@@ -1002,7 +983,6 @@ type,TCustomizeLeaderControl,Aow.Game.Session.CustomizeLeaderControl
 type,TCustomizeLeaderEvent,Aow.Game.Session.SetupControl.CustomizeLeaderEvent
 type,TDCNotifyEvent,Aow.Game.Draw.CustomDisplay.DCNotifyEvent
 type,TDDSCreationFlagsElement,Aow.Game.Draw.DirectDrawSurfaceCreationFlagsElement
-type,TDDrawFSWinControl,Aow.Game.Draw.DirectDrawFullScreenWindowControl
 type,TDDrawSurface,Aow.Game.Draw.DirectDrawSurface
 type,TDDrawSurfaceStatusElement,Aow.Game.Draw.DirectDrawSurfaceStatusElement
 type,TDIB16Surface,Aow.Game.Draw.Dib16Surface
@@ -1084,7 +1064,6 @@ type,TDynamicIsometricHexagon,Aow.Game.Draw.DynamicIsometricHex
 type,TEBufferStream,Aow.Engine.Storage.BufferStream
 type,TEChangeNotifyEventList,Aow.Engine.Nodes.EChangeNotifyEventList
 type,TEChangeNotifyNode,Aow.Engine.Nodes.EChangeNotifyNode
-type,TEComponent,Aow.Engine.Nodes.EngineComponent
 type,TEControlStyleElement,Aow.Engine.Nodes.ControlStyleElement
 type,TEControlStyleInverseSortNode,Aow.Engine.Nodes.EControlStyleInverseSortNode
 type,TEControlStyleNode,Aow.Engine.Nodes.EControlStyleNode
@@ -1148,7 +1127,6 @@ type,TEntangledAbility,Aow.Game.Magic.Abilities.Passive.EntangledAbility
 type,TEnterArenaEventLog,Aow.Game.Events.EnterArenaEventLog
 type,TEnterCaveEventLog,Aow.Game.Events.EnterCaveEventLog
 type,TEnterWizardsTowerEventLog,Aow.Game.Events.EnterWizardsTowerEventLog
-type,TErrorEvent,Aow.Game.Draw.CustomDisplay.ErrorEvent
 type,TEventLog,Aow.Game.Events.EventLog
 type,TEventLogList,Aow.Game.Events.EventLogList
 type,TEventLogbook,Aow.Game.Events.EventLogbook
@@ -1383,7 +1361,6 @@ type,TILManagerList,Aow.Game.Draw.Images.ImageLibraryManagerList
 type,TILManagerObject,Aow.Game.Draw.Images.ImageLibraryManagerObject
 type,TILTerrainMO,Aow.Game.World.Terrain.ImageLibraryTerrainMapObject
 type,TILTerrainMOR,Aow.Game.World.Terrain.ImageLibraryTerrainMapObjectResource
-type,TIMSSendThread,Aow.Game.UI.Dialogs.IMSSendThread
 type,TIToolServices,Aow.Rtl.IToolServices
 type,TIWindow,Aow.Game.UI.Dialogs.InfoWindow
 type,TIceShards,Aow.Game.Magic.Spells.IceShards
@@ -1428,7 +1405,6 @@ type,TItemAvailability,Aow.Game.Magic.Abilities.ItemAvailability
 type,TItemBanner,Aow.Game.UI.Dialogs.ItemBanner
 type,TItemControl,Aow.Game.Units.ItemControl
 type,TItemControlStatusElement,Aow.Game.Units.ItemControl.StatusElement
-type,TItemDropMsg,Aow.Game.Magic.Abilities.Item.DropMessage
 type,TItemExplorationSite,Aow.Game.World.Structures.ItemExplorationSite
 type,TItemExplorationSiteEventLog,Aow.Game.Events.ItemExplorationSiteEventLog
 type,TItemExplorationSiteResource,Aow.Game.World.Structures.ItemExplorationSiteResource
@@ -1546,9 +1522,6 @@ type,TMoveControl,Aow.Game.World.Movement.MoveControl
 type,TMoveControlSettings,Aow.Game.World.Movement.MoveControlSettings
 type,TMoveControlSettingsStatus,Aow.Game.World.Movement.MoveControlSettingsStatus
 type,TMoveControlStatusElement,Aow.Game.World.Movement.MoveControl.StatusElement
-type,TMoveControl_Activate__TOriginalAssertText,Aow.Game.World.Movement.MoveControl_Activate__TOriginalAssertText
-type,TMoveControl_CalculatePathEx__TOriginalAssertText,Aow.Game.World.Movement.MoveControl_CalculatePathEx__TOriginalAssertText
-type,TMoveControl_SetupMove__TOriginalAssertText,Aow.Game.World.Movement.MoveControl_SetupMove__TOriginalAssertText
 type,TMoveModeElement,Aow.Game.World.Movement.MoveModeElement
 type,TMoveOnMovePointProc,Aow.Game.World.Movement.MoveControl.MoveOnMovePointProc
 type,TMoveOutOfCitySelectionElement,Aow.Game.World.Structures.City.MoveOutOfCitySelectionElement
@@ -1603,7 +1576,6 @@ type,TOverlayObject,Aow.Game.World.Terrain.OverlayObject
 type,TOverlayObjectResource,Aow.Game.World.Terrain.OverlayObject.Resource
 type,TOverviewUnitHS,Aow.Game.Draw.OverviewUnitHexSprite
 type,TP2HeroLevel,Aow.Game.Units.HeroLevel
-type,TP2RaceTerrain,Aow.Game.World.Map.RaceTerrain
 type,TP2UnitShowInfo,Aow.Game.Units.UnitShowInfo
 type,TP3PackedDamageTypes,Aow.Game.Combat.PackedDamageTypes
 type,TPBEMPlayerControl,Aow.Game.Session.PbemPlayerControl
@@ -1889,7 +1861,6 @@ type,TSpellCastingAbility,Aow.Game.Magic.Abilities.SpellCastingAbility
 type,TSpellCombatInfo,Aow.Game.Magic.Spells.SpellCombatInfo
 type,TSpellControl,Aow.Game.Magic.Spells.SpellControl
 type,TSpellControlTypeElement,Aow.Game.Magic.Spells.SpellControlTypeElement
-type,TSpellControl_GetSpell__TOriginalAssertText,Aow.Game.Magic.Spells.SpellControl_GetSpell__TOriginalAssertText
 type,TSpellList,Aow.Game.Magic.Spells.SpellList
 type,TSpellMoveTable,Aow.Game.Magic.Spells.SpellMoveTable
 type,TSpellTE,Aow.Game.Commands.SpellTokenEvent
@@ -2059,7 +2030,6 @@ type,TUnitControl,Aow.Game.Units.UnitControl
 type,TUnitEnchantment,Aow.Game.Units.UnitEnchantment
 type,TUnitEnchantmentAbility,Aow.Game.Magic.Abilities.UnitEnchantmentAbility
 type,TUnitEnchantmentAbilityData,Aow.Game.Magic.Abilities.UnitEnchantmentAbilityData
-type,TUnitEnchantmentAbility_Expand__TOriginalAssertText,Aow.Game.Units.UnitEnchantmentAbility_Expand__TOriginalAssertText
 type,TUnitGFXResource,Aow.Game.Units.UnitGraphicsResource
 type,TUnitGFXResourceList,Aow.Game.Units.UnitGFXResourceList
 type,TUnitGender,Aow.Game.Units.UnitGender
@@ -2093,7 +2063,6 @@ type,TUnitUserList,Aow.Game.Units.UnitUserList
 type,TUnitWindow,Aow.Game.UI.Dialogs.UnitWindow
 type,TUpdateFrameEvent,Aow.Game.Draw.CustomDisplay.UpdateFrameEvent
 type,TUpdateFrameMode,Aow.Game.Draw.UpdateFrameMode
-type,TUpdateFrameThread,Aow.Game.Draw.UpdateFrameThread
 type,TUpdateHeaderCA,Aow.Game.Combat.Actions.UpdateHeaderCombatAction
 type,TUpdateSignTE,Aow.Game.Commands.UpdateSignTokenEvent
 type,TUpperIsometricHexagon,Aow.Game.World.Hexes.UpperIsometricHex
@@ -2117,7 +2086,6 @@ type,TWMCampaign,Aow.Game.Session.WorldMapCampaign
 type,TWMCampaignScenario,Aow.Game.Session.WorldMapCampaignScenario
 type,TWMCampaignScenarioPage,Aow.Game.UI.Dialogs.CampaignScenarioPage
 type,TWMCampaignScenarioPageList,Aow.Game.UI.Dialogs.WMCampaignScenarioPageList
-type,TWMKey,Aow.Rtl.WMKey
 type,TWalkAroundRouteCallBack,Aow.Game.World.Movement.WalkAroundRouteCallBack
 type,TWallClimbingAbility,Aow.Game.Magic.Abilities.Passive.WallClimbingAbility
 type,TWallCombatFeaturesElement,Aow.Game.Combat.WallCombatFeaturesElement
@@ -2172,19 +2140,16 @@ type,TacticalTables,Aow.Game.Combat.TacticalTables
 type,TaiMove,Aow.Game.Combat.BattleAIMove
 type,TaiMoveType,Aow.Game.Combat.BattleAIMoveType
 type,TaiStatus,Aow.Game.Combat.BattleAI.AIStatus
-type,TandOAccessor,Aow.Game.World.Map.TerrainList.TerrainAndOverlayAccessor
 type,TaowHTMLMemo,Aow.Game.UI.Windows.HtmlMemo
 type,TaowRect,Aow.Game.UI.Controls.DirtyRectangle
 type,TaowScrollType,Aow.Game.UI.Controls.ScrollBar.Style
 type,TaowTabType,Aow.Game.UI.Controls.ScrollBarThumbStyle
 type,TaowTextAlign,Aow.Game.UI.Controls.TextAlignment
 type,TaowUserDrawBox,Aow.Game.UI.Controls.UserDrawBox
-type,TerrainAccessor,Aow.Game.Draw.HexSprite.TerrainAccessor
 type,TerrainAccessor,Aow.Game.World.Map.TerrainList.TerrainAccessor
 type,TerrainChangedNotification,Aow.Game.World.Map.TerrainChangedNotification
 type,TestDisplay,Aow.FrameVerification.TestDisplay
 type,TestHost,Aow.FrameVerification.TestHost
-type,Text,Aow.Rtl.Text
 type,TextCodec,Aow.Formats.Original.TextCodec
 type,TextProblem,Aow.Formats.Original.TextCodec.TextProblem
 type,TextSpan,Aow.Formats.TextSpan
@@ -2425,7 +2390,6 @@ type,CustomDisplay.DisplayOptionsElement,Aow.Game.Draw.CustomDisplay.OptionsElem
 type,CustomFixedVisibleHS,Aow.Game.Draw.CustomFixedVisibleHexSprite
 type,CustomFixedVisibleHS.OnShowHSEvent,Aow.Game.Draw.CustomFixedVisibleHexSprite.OnShowHSEvent
 type,DDSCreationFlagsElement,Aow.Game.Draw.DirectDrawSurfaceCreationFlagsElement
-type,DDrawFSWinControl,Aow.Game.Draw.DirectDrawFullScreenWindowControl
 type,DDrawSurface,Aow.Game.Draw.DirectDrawSurface
 type,DDrawSurfaceStatusElement,Aow.Game.Draw.DirectDrawSurfaceStatusElement
 type,DIB16Surface,Aow.Game.Draw.Dib16Surface
@@ -2449,7 +2413,6 @@ type,DisplayCtrlStatusElement,Aow.Game.Draw.DisplayControllerStatusElement
 type,DoublePrioriyIDException,Aow.Engine.DoublePriorityIdException
 type,DynamicIsometricHexagon,Aow.Game.Draw.DynamicIsometricHex
 type,EBufferStream,Aow.Engine.Storage.BufferStream
-type,EComponent,Aow.Engine.Nodes.EngineComponent
 type,EControlStyleElement,Aow.Engine.Nodes.ControlStyleElement
 type,EControlStyleObject,Aow.Engine.Nodes.ControlStyleObject
 type,EMsg,Aow.Engine.Nodes.EngineMessage
@@ -2535,10 +2498,7 @@ type,HexagonBridge,Aow.Game.World.Hexes.HexBridge
 type,HexagonBridge.Resource,Aow.Game.World.Hexes.HexBridge.Resource
 type,HexagonControl,Aow.Game.World.Map.HexControl
 type,HexagonSprite,Aow.Game.Draw.HexSprite
-type,HexagonSprite.OverlayAccessor,Aow.Game.Draw.HexSprite.OverlayAccessor
-type,HexagonSprite.TerrainAccessor,Aow.Game.Draw.HexSprite.TerrainAccessor
 type,HexagonSpriteSelection,Aow.Game.World.Map.HexSpriteSelection
-type,HexagonSpriteSelection.HSAccessor,Aow.Game.World.Map.HexSpriteSelection.HexSpriteAccessor
 type,HolyGroundSpellTE,Aow.Game.Commands.HolyGroundSpellTokenEvent
 type,HuntAG,Aow.Game.AI.Groups.HuntAIGroup
 type,HuntAGC,Aow.Game.AI.Groups.HuntAIGroupControl
@@ -2561,7 +2521,6 @@ type,IsometricCombatHexagon,Aow.Game.World.Hexes.IsometricCombatHex
 type,IsometricCombatHexagon.Resource,Aow.Game.World.Hexes.IsometricCombatHex.Resource
 type,IsometricHexagon,Aow.Game.World.Hexes.IsometricHex
 type,IsometricHexagonResource,Aow.Game.World.Hexes.IsometricHexResource
-type,Item.DropMsg,Aow.Game.Magic.Abilities.Item.DropMessage
 type,ItemGFX,Aow.Game.Units.ItemGraphics
 type,ItemHS,Aow.Game.Draw.ItemHexSprite
 type,ItemHS.ItemGenerateMode,Aow.Game.Draw.ItemHexSpriteGenerateMode
@@ -2587,7 +2546,6 @@ type,MWindow,Aow.Game.UI.Dialogs.MapWindow
 type,MagicSanctuaryOverlayHS,Aow.Game.Draw.MagicSanctuaryOverlayHexSprite
 type,MagicWin,Aow.Game.UI.Dialogs.MagicWindow
 type,MainRegistrator,Aow.Game.AI.Groups.MainRegistrar
-type,MapField.HNAccessor,Aow.Game.World.Map.MapField.HexNumberAccessor
 type,MapFieldMsg,Aow.Game.World.Map.MapFieldMessage
 type,MapFieldMsgParams,Aow.Game.World.Map.MapFieldMessageParameters
 type,MapObjectResourceList.MORsAccessor,Aow.Game.World.MapObjectResourceList.ResourcesAccessor
@@ -2621,7 +2579,6 @@ type,OpenMptModule.ErrorCallback,Aow.Platform.TrackerSong.ErrorCallback
 type,OpenMptModule.LogCallback,Aow.Platform.TrackerSong.LogCallback
 type,OverviewUnitHS,Aow.Game.Draw.OverviewUnitHexSprite
 type,P2HeroLevel,Aow.Game.Units.HeroLevel
-type,P2RaceTerrain,Aow.Game.World.Map.RaceTerrain
 type,P2UnitShowInfo,Aow.Game.Units.UnitShowInfo
 type,P3PackedDamageTypes,Aow.Game.Combat.PackedDamageTypes
 type,PBEMPlayerControl,Aow.Game.Session.PbemPlayerControl
@@ -2668,11 +2625,9 @@ type,ResultsWin,Aow.Game.UI.Dialogs.ResultsWindow
 type,RndTacHsm,Aow.Game.Combat.RandomBattleMapGenerator
 type,SFX,Aow.Game.Audio.Sfx
 type,SFXLibrary,Aow.Game.Audio.SfxLibrary
-type,SFXLibrary.SFXSequencesAccessor,Aow.Game.Audio.SfxLibrary.SfxSequencesAccessor
 type,SFXList,Aow.Game.Audio.SfxList
 type,SFXManager,Aow.Game.Audio.SfxManager
 type,SFXSequence,Aow.Game.Audio.SfxSequence
-type,SFXSequence.SFXAccessor,Aow.Game.Audio.SfxSequence.SfxAccessor
 type,SMTPDlg,Aow.Game.UI.Dialogs.SmtpDialog
 type,SMTPEventLog,Aow.Game.Events.SmtpEventLog
 type,SWindow,Aow.Game.UI.Dialogs.ScannerWindow
@@ -2728,7 +2683,6 @@ type,TaowHTMLMemo.ChangeInfo,Aow.Game.UI.Windows.HtmlMemo.ChangeInfo
 type,TargetSelectionDlg,Aow.Game.UI.Dialogs.TargetSelectionDialog
 type,TerminateCombatTE,Aow.Game.Commands.TerminateCombatTokenEvent
 type,TerminatePlayerTE,Aow.Game.Commands.TerminatePlayerTokenEvent
-type,TerrainList.TandOAccessor,Aow.Game.World.Map.TerrainList.TerrainAndOverlayAccessor
 type,TerrainMO,Aow.Game.World.Hexes.TerrainMapObject
 type,TerrainMOR,Aow.Game.World.Hexes.TerrainMapObjectResource
 type,TokenExecuter,Aow.Game.Net.TokenExecutor
