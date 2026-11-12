@@ -215,10 +215,10 @@ public partial class CombatSpell : Spell
             }
 
             // { Original shifts Random(4) by two, so this adds no random extra targets. }
-            count = (int)(((uint)AoWHSMap.Current.Random(4)) >> 2) + CombatInfo.Radius;
+            count = (int)(((uint)StrategicMap.Current.Random(4)) >> 2) + CombatInfo.Radius;
             while (count != 0 && targets.Count != 0)
             {
-                other = targets[AoWHSMap.Current.Random(targets.Count)];
+                other = targets[StrategicMap.Current.Random(targets.Count)];
                 for (int J = 0, last = CombatInfo.RepeatCount - 1; J <= last; J++)
                 {
                     if (!other.Status.Contains(CombatObjectStatusElement.Destroyed))

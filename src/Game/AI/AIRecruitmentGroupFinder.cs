@@ -93,7 +93,7 @@ public partial class AIRecruitmentGroupFinder : AIGroupTask
         ArmyHexSprite armyHexSprite;
         Troop troop;
         AIRecruitmentGroup group;
-        armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel)).GetArmyHexSprite();
+        armyHexSprite = StrategicMap.Current.MapContainer.GetField(target.Location.X, target.Location.Y, target.Location.MapLevel).GetArmyHexSprite();
         if (armyHexSprite != null)
         {
             for (int I = armyHexSprite.Army.Count - 1; I >= 0; I--)

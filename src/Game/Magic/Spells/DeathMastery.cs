@@ -38,12 +38,12 @@ public partial class DeathMastery : GlobalEnchantmentSpell
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Death);
         source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         var animation = new Animation(null);
         animation.AnimationLevel = 28;
         animation.OnShow = ShowAnimation;
-        animation.AnimationMap = AoWHSMap.Current;
-        animation.Tag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
+        animation.AnimationMap = StrategicMap.Current;
+        animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
         animation.Activate();
 
         CastSounds.Play(0);
@@ -63,7 +63,7 @@ public partial class DeathMastery : GlobalEnchantmentSpell
         int speed;
         int D;
         int image;
-        RandSeed = AoWHSMap.Current.Frame - animation.FrameCounter;
+        RandSeed = StrategicMap.Current.Frame - animation.FrameCounter;
         switch (GameTables.GameEngine.AnimationDetail)
         {
             case 0:

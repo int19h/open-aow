@@ -93,7 +93,7 @@ public partial class GlobalEnchantmentSpell : Spell
         bool result = base.CanActivate(source, ref messageText);
         if (result)
         {
-            if (!AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
+            if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
                 enchantment = CreateEnchantment();
                 if (enchantment != null)
@@ -119,13 +119,13 @@ public partial class GlobalEnchantmentSpell : Spell
         bool result;
         GlobalEnchantmentSpellTokenEvent eventValue;
         string reason = "";
-        if (CanActivate(source, ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new GlobalEnchantmentSpellTokenEvent(null);
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             eventValue.Enchantment = CreateEnchantment();
             SetupEnchantment(source, eventValue.Enchantment);
-            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }

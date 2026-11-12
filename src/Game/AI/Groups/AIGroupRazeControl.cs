@@ -6,7 +6,7 @@ using Aow.Engine.Nodes;
 using Aow.Game.Combat;
 
 using Aow.Game.Magic.Abilities;
-using Aow.Game.Session;
+
 using Aow.Game.World.Map;
 
 using Aow.Game.World.Structures;
@@ -47,11 +47,11 @@ public partial class AIGroupRazeControl : AIGroupTask
         BattleFieldInfo info = default;
         if (State == 0)
         {
-            structure = (Structure)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref _control.Location)).FindNoneTransparentHexSprite(typeof(Structure));
+            structure = (Structure)StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref _control.Location)).FindNoneTransparentHexSprite(typeof(Structure));
             if (structure != null && structure.GetRazeable())
             {
                 BattleFieldInfo.SetupBattleFieldInfo(ref info, _control.Group.Player, _control.Group.IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), _damageTypes);
-                AoWHSMap.Current.RetrieveBattleFieldInfo(_control.Location.X, _control.Location.Y, _control.Location.MapLevel, 15, ref info);
+                StrategicMap.Current.RetrieveBattleFieldInfo(_control.Location.X, _control.Location.Y, _control.Location.MapLevel, 15, ref info);
                 if (structure is City)
                 {
                     result = ValidateRazeCity((City)structure, info);
@@ -103,7 +103,7 @@ public partial class AIGroupRazeControl : AIGroupTask
     public bool ValidateRazeCity(City city, in BattleFieldInfo info)
     {
         bool result;
-        switch (AoWHSMap.Current.Races.GetRace(city.Race).GetPlayerRelation(_control.Group.Player))
+        switch (StrategicMap.Current.Races.GetRace(city.Race).GetPlayerRelation(_control.Group.Player))
         {
             case Session.Status.Hostile:
             case Session.Status.Wary:

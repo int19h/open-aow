@@ -29,7 +29,7 @@ public partial class SingleCombatHex : AbstractHexagon
     }
 
     // SingleCombatHex.pas:44
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
     public new partial class Resource : AbstractHexagonResource
     {

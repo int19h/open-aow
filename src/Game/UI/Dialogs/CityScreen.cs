@@ -1,6 +1,6 @@
 // Translated from AoWCityScreen.pas.
 using System.Collections.Immutable;
-using Aow.Engine.Buffers;
+
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.Combat;
@@ -15,7 +15,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -137,7 +137,7 @@ public partial class CityScreen : DataModule
         for (int I = _images.Count - 1; I >= 0; I--)
         {
             var image = _images[I];
-            AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
+            GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
         }
 
         _images.Clear();
@@ -147,8 +147,8 @@ public partial class CityScreen : DataModule
     public void LoadUnitImages(int index)
     {
         int graphics;
-        graphics = AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
-        AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
+        graphics = GamePack.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
+        GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
         _images.Add(graphics);
     }
 
@@ -374,7 +374,7 @@ public partial class CityScreen : DataModule
             if (P.Researched)
             {
                 SelectAction(CityAction.Produce);
-                AoWHSMap.Current.TutorialControl.ShowMessage(58, true, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(58, true, true);
             }
             else
             {
@@ -577,7 +577,7 @@ public partial class CityScreen : DataModule
                 if (GameTables.GameEngine.Debug)
                 {
                     var unitIndexAIPriority = RosterTables.GetUnitIndexAIPriority(U.UnitResource.UnitResourceIndex(), _city.Player, 0);
-                    AoWHSMap.Current.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
+                    StrategicMap.Current.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
                 }
 
                 UnitAbilitiesList.Items.Clear();
@@ -666,7 +666,7 @@ public partial class CityScreen : DataModule
         _migrations = _city.CreateMigrationSelection();
         var raceNamesPluralText = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[_city.Race]);
         CurrentRaceLabel.Text = raceNamesPluralText;
-        var playerRelation = AoWHSMap.Current.Races.GetRace(_city.Race).GetPlayerRelation(_city.Player);
+        var playerRelation = StrategicMap.Current.Races.GetRace(_city.Race).GetPlayerRelation(_city.Player);
         var statusText = AbilityRules.TranslateResourceString(GameTables.StatusTexts[(int)playerRelation]);
         CurrentRelationLabel.Text = statusText;
         MigrationRaceList.Items.Clear();
@@ -785,7 +785,7 @@ public partial class CityScreen : DataModule
     {
         if (Window.Visible && sender == _city)
         {
-            if (_city.Player == AoWHSMap.Current.SeatedPlayer)
+            if (_city.Player == StrategicMap.Current.SeatedPlayer)
             {
                 UpdateInfo();
             }
@@ -849,7 +849,7 @@ public partial class CityScreen : DataModule
             _viewY = 800;
         }
 
-        AoWHSMap.Current.TutorialControl.ShowMessage(56, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(56, true, true);
         DialogHosts.General.Manager.OverlayPriority = 49;
         Window.Visible = true;
     }
@@ -936,7 +936,7 @@ public partial class CityScreen : DataModule
             case 0:
                 SetMode(1);
                 SelectDefaultAction();
-                AoWHSMap.Current.TutorialControl.ShowMessage(57, true, true);
+                StrategicMap.Current.TutorialControl.ShowMessage(57, true, true);
                 break;
             case 1:
                 switch (_action)
@@ -949,7 +949,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -961,19 +961,19 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
                     case CityAction.Raze:
-                        if (_city.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
+                        if (_city.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
                         {
-                            _city.Raze(AoWHSMap.Current.SeatedPlayer);
+                            _city.Raze(StrategicMap.Current.SeatedPlayer);
                             Window.Visible = false;
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -985,7 +985,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -997,20 +997,20 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
                     case CityAction.Produce:
                         if (_city.CanProduce(_productionIndex, false, ref reason))
                         {
-                            AoWHSMap.Current.TutorialControl.ShowMessage(59, true, true);
+                            StrategicMap.Current.TutorialControl.ShowMessage(59, true, true);
                             _city.Produce(_productionIndex, false);
                             SetMode(0);
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -1022,7 +1022,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -1030,7 +1030,7 @@ public partial class CityScreen : DataModule
                         race = MigrationRaceList.Items.Objects[MigrationRaceList.Selected].Race;
                         if (_city.CanMigrate(race, ref reason))
                         {
-                            AoWHSMap.Current.TutorialControl.ShowMessage(66, true, true);
+                            StrategicMap.Current.TutorialControl.ShowMessage(66, true, true);
                             _city.Migrate(race);
                             SetMode(0);
                         }
@@ -1065,7 +1065,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -1076,7 +1076,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -1087,7 +1087,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -1098,7 +1098,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -1109,7 +1109,7 @@ public partial class CityScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -1125,7 +1125,7 @@ public partial class CityScreen : DataModule
                     }
                     else
                     {
-                        AoWHSMap.Current.ShowWarning(reason);
+                        StrategicMap.Current.ShowWarning(reason);
                     }
                 }
 
@@ -1146,7 +1146,7 @@ public partial class CityScreen : DataModule
             SetMode(0);
         }
 
-        AoWHSMap.Current.TutorialControl.ShowMessage(60, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(60, true, true);
     }
 
     // AoWCityScreen.pas:472
@@ -1384,7 +1384,7 @@ public partial class CityScreen : DataModule
     {
         Rect R;
         R = new Rect(PopulationPanel.WinLeft + sender.WinLeft, PopulationPanel.WinTop + sender.WinTop, PopulationPanel.WinLeft + sender.WinLeft + sender.WinWidth, PopulationPanel.WinTop + sender.WinTop + sender.WinHeight);
-        AoWHSSet.Current.RaceResources.GetRaceResource(_city.Race).GetFace().ShowStretched(R, lockedSurface);
+        GamePack.Current.RaceResources.GetRaceResource(_city.Race).GetFace().ShowStretched(R, lockedSurface);
     }
 
     // AoWCityScreen.pas:641
@@ -1471,7 +1471,7 @@ public partial class CityScreen : DataModule
             preview.NewFrame();
         }
 
-        MapView.Drawn = MapView.Drawn && (AoWHSMap.Current.Frame & 1) != 0;
+        MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
     }
 
     // AoWCityScreen.pas:688
@@ -1487,7 +1487,7 @@ public partial class CityScreen : DataModule
         if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {
             var objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
-            A = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            A = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {
                 var name = A.GetName(null);
@@ -1502,17 +1502,17 @@ public partial class CityScreen : DataModule
         int start;
         int index;
         PlayerStructure S;
-        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(_city);
+        start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_city);
         index = start;
         index -= 1;
         if (index < 0)
         {
-            index = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount() - 1;
+            index = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1;
         }
 
         while (index != start)
         {
-            S = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetStructure(index);
+            S = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
             if (S is City)
             {
                 index = start + 1;
@@ -1522,7 +1522,7 @@ public partial class CityScreen : DataModule
             index += -1;
             if (index < 0)
             {
-                index = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount() - 1;
+                index = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1;
             }
         }
     }
@@ -1533,16 +1533,16 @@ public partial class CityScreen : DataModule
         int start;
         int index;
         PlayerStructure S;
-        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(_city);
+        start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_city);
         index = start + 1;
-        if (index >= AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount())
+        if (index >= StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount())
         {
             index = 0;
         }
 
         while (index != start)
         {
-            S = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetStructure(index);
+            S = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
             if (S is City)
             {
                 index = start - 1;
@@ -1550,7 +1550,7 @@ public partial class CityScreen : DataModule
             }
 
             index += 1;
-            if (index >= AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount())
+            if (index >= StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount())
             {
                 index = 0;
             }

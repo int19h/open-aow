@@ -56,7 +56,7 @@ public partial class CenterViewLocation : MapObject
     public override bool CanSelect(int pixelX, int pixelY) => true;
 
     // CenterViewLoc.pas:49
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
     // CenterViewLoc.pas:52
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;

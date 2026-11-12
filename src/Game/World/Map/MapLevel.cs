@@ -1,6 +1,5 @@
-// Translated from HSEngine.pas.
+// Translated from HSEngine.pas and AoWE.pas.
 using Aow.Engine;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 
@@ -18,8 +17,8 @@ public partial class MapLevel : ECustomNode, IOwned<MapContainer>, IOwnedSink<Ma
 
     void IOwnedSink<MapContainer>.SetOwner(MapContainer owner) => SetOwner(owner);
 
-    // HSEngine.pas:2837
-    public new const int ClassId = 65794;
+    // AoWHSMap.PAS (TAoWMapLevel). HSEngine.pas:2837 gives the engine level 65794.
+    public new const int ClassId = 131091;
 
     public MapLevel(ECustomNode owner) : base(owner)
     {
@@ -31,7 +30,7 @@ public partial class MapLevel : ECustomNode, IOwned<MapContainer>, IOwnedSink<Ma
     private int _height;
     private int _count;
     private MapContainer _mapContainer;
-    private HSMap _map;
+    private GameMap _map;
 
     protected internal GameEngine Engine { get; private set; }
 
@@ -101,14 +100,14 @@ public partial class MapLevel : ECustomNode, IOwned<MapContainer>, IOwnedSink<Ma
         }
     }
 
-    // HSEngine.pas:2842
+    // AoWHSMap.PAS:231. HSEngine.pas:2842 names the engine field class, which the fold made the same class.
     public virtual EngineClass MapFieldClass() => EngineClass.Of<MapField>();
 
     public int HexLevel { get => _hexLevel; set => _hexLevel = value; }
     public int Width { get => _width; }
     public int Height { get => _height; }
     public MapContainer MapContainer { get => _mapContainer; }
-    public HSMap Map { get => _map; }
+    public GameMap Map { get => _map; }
     public int MapFieldClassId { get => _mapFieldClassId; set => _mapFieldClassId = value; }
     public int FieldSize { get => _fieldSize; }
     public ReadOnlySpan<MapField> Fields => _fields;
@@ -119,5 +118,4 @@ public partial class MapLevel : ECustomNode, IOwned<MapContainer>, IOwnedSink<Ma
     }
 
     public FieldAccessor Field => new FieldAccessor(this);
-
 }

@@ -30,7 +30,7 @@ public sealed partial record Upgrade : ProductionOrder
             return base.CanExecute(control, ref reason);
         }
 
-        if (AoWHSMap.Current.Players.GetPlayers(control.GetPlayer()).Gems >= city.UpgradeCost())
+        if (StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).Gems >= city.UpgradeCost())
         {
             return true;
         }
@@ -51,8 +51,8 @@ public sealed partial record Upgrade : ProductionOrder
         control.Settings.TurnsLeft = control.Settings.TurnsTotal;
         control.Settings.Player = control.GetPlayer();
         control.Settings.Gold = city.UpgradeCost();
-        var player = AoWHSMap.Current.Players.GetPlayers(control.GetPlayer());
-        AoWHSMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(player.Gems - control.Settings.Gold);
+        var player = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
+        StrategicMap.Current.Players.GetPlayers(control.GetPlayer()).SetGems(player.Gems - control.Settings.Gold);
         control.Status = ProductionControlStatus.Producing;
     }
 

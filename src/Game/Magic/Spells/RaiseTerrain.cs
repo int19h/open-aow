@@ -47,7 +47,7 @@ public partial class RaiseTerrain : GlobalTargetSpell
         eventValue = new RaiseTerrainTokenEvent(null);
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         eventValue.Release();
         return true;
     }
@@ -60,7 +60,7 @@ public partial class RaiseTerrain : GlobalTargetSpell
         valid = base.ValidTargetSelectionMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null;
         if (valid)
         {
-            army = ((AoWMapField)field).GetArmyHexSprite();
+            army = field.GetArmyHexSprite();
             if (army != null)
             {
                 valid = !army.VisibleForSeatedPlayer();
@@ -71,7 +71,7 @@ public partial class RaiseTerrain : GlobalTargetSpell
     }
 
     // Mountain.pas:338
-    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHexSprite() == null;
+    public override bool ValidTargetMapField(MapField field) => base.ValidTargetMapField(field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)field.OverlayType) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
 
     private static readonly string s_raiseTerrainText = "Raise Terrain";
 

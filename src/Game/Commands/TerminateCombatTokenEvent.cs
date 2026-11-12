@@ -19,7 +19,7 @@ public partial class TerminateCombatTokenEvent : TokenEvent
     // CombatTE.pas:152
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        AoWHSMap.Current.DestroyCombat();
+        StrategicMap.Current.DestroyCombat();
         return ExecuteResult.Done;
     }
 

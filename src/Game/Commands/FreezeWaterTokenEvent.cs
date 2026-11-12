@@ -24,22 +24,22 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
     {
         TwinkleAnimation twinkle = default;
         base.Process(source, value);
-        AoWHSMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2);
-        if (AoWHSMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
+        StrategicMap.Current.ValidateTerrainObservation(source.Player, (sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2);
+        if (StrategicMap.Current.TerrainVisible((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
             twinkle = new TwinkleAnimation(null);
-            twinkle.Setup(AoWHSSet.Current.SpellControl.GetSpell(10).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand), 100, 64, 50, 30);
-            AoWHSMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
+            twinkle.Setup(GamePack.Current.SpellControl.GetSpell(10).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand), 100, 64, 50, 30);
+            StrategicMap.Current.PlaceHex(twinkle, Location.X, Location.Y, Location.MapLevel);
         }
 
         // Use the map's seated player.
-        if (AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.WatchingTerrain((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
+        if (StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.WatchingTerrain((sbyte)(byte)Location.X, (sbyte)(byte)Location.Y, (sbyte)(byte)Location.MapLevel, 2))
         {
-            AoWHSSet.Current.SpellControl.GetSpell(10).CastSounds.Play(0);
+            GamePack.Current.SpellControl.GetSpell(10).CastSounds.Play(0);
         }
 
-        AoWHSMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, TerrainChanged);
-        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+        StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, TerrainChanged);
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         // The original event result is zero.
         return false;
     }
@@ -48,7 +48,7 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
     public void ChangeTerrain(MapField mapField, ref sbyte terrainType, ref sbyte overlayType)
     {
         FrozenWaterHexSprite ice;
-        if (((AoWMapField)mapField).GetArmyHexSprite() == null)
+        if (mapField.GetArmyHexSprite() == null)
         {
             if (terrainType == (int)World.Map.TerrainType.Water)
             {
@@ -67,7 +67,7 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
                         ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
                         if (ice != null)
                         {
-                            ice.DaysRemaining = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
+                            ice.DaysRemaining = (sbyte)((StrategicMap.Current.Random(11) - 5) / 5 + 3);
                             ice.CasterPlayer = (sbyte)EventPlayerIndex;
                         }
                     }
@@ -86,10 +86,10 @@ public partial class FreezeWaterTokenEvent : GlobalTargetSpellTokenEvent
             if (ice == null)
             {
                 ice = new FrozenWaterHexSprite(null);
-                AoWHSMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
+                StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 
-            ice.DaysRemaining = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
+            ice.DaysRemaining = (sbyte)((StrategicMap.Current.Random(11) - 5) / 5 + 3);
             ice.CasterPlayer = (sbyte)EventPlayerIndex;
         }
     }

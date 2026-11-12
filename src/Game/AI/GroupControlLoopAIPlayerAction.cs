@@ -54,7 +54,7 @@ public partial class GroupControlLoopAIPlayerAction : AIPlayerAction, IAIPlayerA
         {
             busy = false;
             done = false;
-            while (!done && !busy && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
+            while (!done && !busy && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
             {
                 if (_groupControl == null)
                 {

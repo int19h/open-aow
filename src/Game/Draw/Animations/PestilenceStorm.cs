@@ -72,7 +72,7 @@ public partial class PestilenceStorm : Storm
         // { Original adds to the map selection without clearing its existing hexes. }
         for (int I = 0, last = HexGeometry.RadiusToHexNumber(3) - 1; I <= last; I++)
         {
-            AoWHSMap.Current.TargetSelection.HexNumbers.Add(0);
+            StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
         }
     }
 
@@ -80,20 +80,20 @@ public partial class PestilenceStorm : Storm
     public override void InitializeStorm(sbyte player, sbyte X, sbyte Y, sbyte L)
     {
         Rect R = default;
-        _cloudResource = (PoisonCloud.Resource)AoWHSSet.Current.MapObjectResourceList.FindChild(135744);
+        _cloudResource = (PoisonCloud.Resource)GamePack.Current.MapObjectResourceList.FindChild(135744);
         base.InitializeStorm(player, X, Y, L);
         R.Left = -80;
         R.Right = 96;
         R.Top = -80;
         R.Bottom = 96;
         SetDimensions(R);
-        AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.CurrentPlayer, X, Y, L, 2);
-        if (AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.TerrainVisible(X, Y, L, 2))
+        StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
+        if (StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.TerrainVisible(X, Y, L, 2))
         {
-            AoWHSSet.Current.SpellControl.GetSpell(9).CastSounds.Play(0);
+            GamePack.Current.SpellControl.GetSpell(9).CastSounds.Play(0);
         }
 
-        PlaceHex(AoWHSMap.Current.MapContainer, X, Y, L);
+        PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:690
@@ -116,11 +116,11 @@ public partial class PestilenceStorm : Storm
         {
             cloud = (PoisonCloud)_cloudResource.CreateResourceUser();
             cloud.TurnsRemaining = 3;
-            cloud.Player = AoWHSMap.Current.CurrentPlayer;
+            cloud.Player = StrategicMap.Current.CurrentPlayer;
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
             var hexX = GetHexX();
-            if (AoWHSMap.Current.PlaceHex(cloud, hexX, hexY, hexLevel))
+            if (StrategicMap.Current.PlaceHex(cloud, hexX, hexY, hexLevel))
             {
                 cloud.TriggerDamage();
             }

@@ -28,11 +28,11 @@ public sealed class MapNetSoundConstructionTests
 
     public static IEnumerable<object[]> EngineCases()
     {
-        Type[] types = [typeof(MapField), typeof(MapContainer), typeof(VisibilityList), typeof(HSMap),
+        Type[] types = [typeof(MapField), typeof(MapContainer), typeof(VisibilityList), typeof(GameMap),
             typeof(HexSprite), typeof(MapObject), typeof(AbstractHexagon), typeof(AbstractBorderHexagon), typeof(AbstractRoad),
             typeof(Sfx), typeof(SfxSequence), typeof(MapObjectResource), typeof(MapObjectResourceList), typeof(MapLevel),
             typeof(HexSpriteSelection), typeof(MapObjectResourceTerrainControl), typeof(HexControl),
-            typeof(RoadControl), typeof(HSSet), typeof(CustomFixedVisibleHexSprite), typeof(MultiHexMapObjectResource), typeof(AbstractHexagonResource),
+            typeof(RoadControl), typeof(CustomFixedVisibleHexSprite), typeof(MultiHexMapObjectResource), typeof(AbstractHexagonResource),
             typeof(PlayerCommunicator), typeof(TokenEvent), typeof(TokenEventList), typeof(DataPackage),
             typeof(PlayerCommunicationSettings), typeof(PlayerCommunicationSettingsList),
             typeof(TokenPackage), typeof(PassTokenTokenEvent), typeof(SyncTokenEvent), typeof(SongList), typeof(SfxLibrary)];
@@ -47,7 +47,7 @@ public sealed class MapNetSoundConstructionTests
         if (EngineHost.Engines is null) EngineHost.Initialize();
         GameEngine engine = new GameEngine(null!);
         var owner = new MapOwner();
-        ECustomNode argument = owned ? type == typeof(MapContainer) ? new HSMap(null!) : EngineFixture.OwnerFor(type, owner) : null!;
+        ECustomNode argument = owned ? type == typeof(MapContainer) ? new GameMap(null!) : EngineFixture.OwnerFor(type, owner) : null!;
         var meta = EngineClass.Of(type);
         if (engine.ClassTable.TryGetValue(meta.ClassId, out EngineClass? previous) && previous is not null)
             engine.UnregisterEngineClasses([previous]);
@@ -69,7 +69,7 @@ public sealed class MapNetSoundConstructionTests
         finally
         {
             foreach (var value in values) value.Dispose();
-            if (argument is HSMap mapOwner) mapOwner.Dispose();
+            if (argument is GameMap mapOwner) mapOwner.Dispose();
             engine.Dispose();
         }
         Assert.Empty(owner.Members);
@@ -84,13 +84,15 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Equal(-1, field.OverlayType);
                 Assert.Equal(3, field.Capacity);
                 Assert.Equal(0, field.Count);
-                Assert.Equal(24, field.EngineClass.InstanceSize);
+                // Issue 200: the field is the game field (TAoWMapField, 28 bytes).
+                Assert.Equal(28, field.EngineClass.InstanceSize);
                 break;
             case MapContainer container:
                 Assert.Equal(0, container.Count);
                 break;
-            case HSMap map:
-                Assert.IsType<HexSpriteMapMouse>(map.Mouse);
+            case GameMap map:
+                // Issue 200: the map is the game map, which makes the game mouse.
+                Assert.IsType<GameMapMouse>(map.Mouse);
                 Assert.Same(map, map.Mouse.HexSpriteMap);
                 Assert.Same(map, map.Selection.Owner);
                 Assert.Same(map, map.Timer.Owner);
@@ -117,7 +119,8 @@ public sealed class MapNetSoundConstructionTests
             case MapLevel level:
                 Assert.Equal(65793, level.MapFieldClassId);
                 Assert.Equal(0, level.Fields.Length);
-                Assert.Equal(124, level.EngineClass.InstanceSize);
+                // Issue 200: the level is the game level (TAoWMapLevel, 128 bytes).
+                Assert.Equal(128, level.EngineClass.InstanceSize);
                 break;
             case HexSpriteSelection selection:
                 Assert.Empty(selection.LocationHexSprite);
@@ -128,18 +131,6 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Equal(typeof(MapObject), control.MapObjectClass);
                 Assert.Equal(5, control.Tries);
                 Assert.Empty(control.Resources);
-                break;
-            case HSSet set:
-                Assert.NotNull(set.PluginControl);
-                Assert.Equal(0, set.TerrainTypes.Count);
-                Assert.Equal(0, set.OverlayTypes.Count);
-                Assert.Equal(0, set.DecorationTypes.Count);
-                Assert.Same(set, set.HexControl.Owner);
-                Assert.Same(set, set.RoadControl.Owner);
-                Assert.NotNull(set.MapObjectResourceList);
-                Assert.NotNull(set.ResourceEditSettings);
-                Assert.NotNull(set.ImageLibraryManager);
-                Assert.Equal(0, set.SfxManager.Sfx.Count);
                 break;
             case MapObject sprite:
                 Assert.Null(sprite._resource);

@@ -49,7 +49,7 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
         int X = default;
         int Y = default;
         int delay;
-        if (AoWHSMap.Current.ViewL == _layer)
+        if (StrategicMap.Current.ViewL == _layer)
         {
             _frame += 1;
             intensity = 100 - _frame * 2;
@@ -61,10 +61,10 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
                 HexGeometry.HexNumberToPixel(_hexes[I], ref hex, ref hy);
                 hex += pixelX;
                 hy += pixelY;
-                AoWHSSet.Current.GeneralImages[5].ShowBlended(hex, hy, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[intensity]);
+                GamePack.Current.GeneralImages[5].ShowBlended(hex, hy, lockedSurface, GraphicsState.AlphaBlendTable.LookupTables[intensity]);
             }
 
-            RandSeed = AoWHSMap.Current.InitialRandomSeed;
+            RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int I = 0; I <= 200; I++)
             {
                 radius = Random(448);
@@ -73,7 +73,7 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
                 if (_frame - delay >= 0)
                 {
                     AbilityRules.PolarToCartesian(direction, radius, ref X, ref Y);
-                    AoWHSSet.Current.SpellControl.GetSpell(57).CastImages.Show(0, pixelX + X, pixelY + Y, _frame - delay, lockedSurface);
+                    GamePack.Current.SpellControl.GetSpell(57).CastImages.Show(0, pixelX + X, pixelY + Y, _frame - delay, lockedSurface);
                 }
             }
 
@@ -93,14 +93,14 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
         this._y = Y;
         _layer = layer;
         _frame = 0;
-        AoWHSSet.Current.SpellControl.GetSpell(2).CastSounds.Play(0);
+        GamePack.Current.SpellControl.GetSpell(2).CastSounds.Play(0);
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
-        level = AoWHSMap.Current.MapContainer.MapLevels[layer];
+        level = StrategicMap.Current.MapContainer.MapLevels[layer];
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                if (!((AoWMapField)level.GetField(walk.X, walk.Y)).GetExplored(AoWHSMap.Current.SeatedPlayer))
+                if (!level.GetField(walk.X, walk.Y).GetExplored(StrategicMap.Current.SeatedPlayer))
                 {
                     _hexes.Add(walk.HexNumber);
                 }
@@ -109,14 +109,14 @@ public partial class BirdsViewHexSprite : FixedVisibleHexSprite
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        AoWHSMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
+        StrategicMap.Current.DynamicFixedVisibleHexSprite.AddChild(this);
     }
 
     // GlobalSpells.pas:444
     public void StopAnimation()
     {
-        AoWHSMap.Current.DynamicFixedVisibleHexSprite.RemoveChild(this);
-        AoWHSMap.Current.DynamicVisibleHexSprite.RemoveChild(this);
+        StrategicMap.Current.DynamicFixedVisibleHexSprite.RemoveChild(this);
+        StrategicMap.Current.DynamicVisibleHexSprite.RemoveChild(this);
         Dispose();
     }
 

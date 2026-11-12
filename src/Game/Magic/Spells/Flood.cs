@@ -35,10 +35,10 @@ public partial class Flood : GlobalEnchantmentSpell
         TwinkleAnimation twinkle;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         twinkle = new TwinkleAnimation(null);
-        twinkle.Setup(AoWHSSet.Current.SpellControl.GetSpell(50).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
-        AoWHSMap.Current.PlaceHex(twinkle, X, Y, L);
+        twinkle.Setup(GamePack.Current.SpellControl.GetSpell(50).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
+        StrategicMap.Current.PlaceHex(twinkle, X, Y, L);
         CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;

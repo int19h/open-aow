@@ -73,9 +73,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         }
 
         base.Dispose();
-        if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (StrategicMap.Current != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            AoWHSMap.Current.StructureDestroyed(this);
+            StrategicMap.Current.StructureDestroyed(this);
         }
     }
 
@@ -274,7 +274,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                                             {
                                                 if (message.MessageId == 4364 && message.HexNumber == 0)
                                                 {
-                                                    if (_resource.TerrainList.Terrain[message.HexNumber] >= 0 && (!AoWHSMap.Current.FogEnabled || !Fogged))
+                                                    if (_resource.TerrainList.Terrain[message.HexNumber] >= 0 && (!StrategicMap.Current.FogEnabled || !Fogged))
                                                     {
                                                         message.Param[0] = message.Param[0].Int + 3584;
                                                     }
@@ -295,8 +295,8 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public override void Activate()
     {
         base.Activate();
-        AoWHSMap.Current.StructureControl.Register(this);
-        if (AoWHSMap.Current.ShowUnitShadows && ((StructureResource)_resource).CastsShadow && !GetEditMode())
+        StrategicMap.Current.StructureControl.Register(this);
+        if (StrategicMap.Current.ShowUnitShadows && ((StructureResource)_resource).CastsShadow && !GetEditMode())
         {
             CreateShadow();
         }
@@ -305,7 +305,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     // Structur.PAS:1593
     public override void Deactivate()
     {
-        AoWHSMap.Current.StructureControl.Unregister(this);
+        StrategicMap.Current.StructureControl.Unregister(this);
         base.Deactivate();
     }
 
@@ -314,7 +314,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     {
         if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 134217728;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 134217728;
         }
     }
 
@@ -325,7 +325,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         int X = default;
         int Y = default;
         int hexNumber;
-        if (!AoWHSMap.Current.FogEnabled || !Fogged)
+        if (!StrategicMap.Current.FogEnabled || !Fogged)
         {
             HexGeometry.PixelToHex(pixelX, pixelY, ref X, ref Y);
             hexNumber = HexGeometry.DeltaHexToHexNumber(Owner.HexX, Owner.HexY, X, Y);
@@ -350,7 +350,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     public override void Select()
     {
         base.Select();
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             PlaySelectSample();
         }
@@ -368,7 +368,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         bool result;
         if (((StructureResource)_resource).TerrainBound)
         {
-            result = AoWHSSet.Current.PadControl.CanPlacePad(hexX, hexY, hexLevel, ((StructureResource)_resource).FlagType);
+            result = GamePack.Current.PadControl.CanPlacePad(hexX, hexY, hexLevel, ((StructureResource)_resource).FlagType);
         }
         else
         {
@@ -389,7 +389,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             {
                 if (!GetEditMode())
                 {
-                    pad = AoWHSSet.Current.PadControl.PlacePad(hexX, hexY, hexLevel, ((StructureResource)_resource).FlagType);
+                    pad = GamePack.Current.PadControl.PlacePad(hexX, hexY, hexLevel, ((StructureResource)_resource).FlagType);
                 }
                 else
                 {
@@ -424,7 +424,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1292
-    public override bool ValidTerrainType(int terrainType) => ((StructureResource)_resource).TerrainBound && AoWHSSet.Current.PadControl.TerrainTypes[terrainType] || base.ValidTerrainType(terrainType);
+    public override bool ValidTerrainType(int terrainType) => ((StructureResource)_resource).TerrainBound && GamePack.Current.PadControl.TerrainTypes[terrainType] || base.ValidTerrainType(terrainType);
 
     // Structur.PAS:1053
     public override int GetTerrainTypeImage(int terrainType)
@@ -591,13 +591,13 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         bool result;
         string reason = "";
         StructureTokenEvent eventValue;
-        if (CanRaze(player, ref reason) && !AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
+        if (CanRaze(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
             eventValue = CreateTokenEvent();
             SetupTokenEvent(eventValue);
             eventValue.Action = -1;
             eventValue.Param = player;
-            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -614,7 +614,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     {
         HuntAIGroup group;
         var unitsToIndependentRelation = UnitList.UnitsToIndependentRelation(defenders, 5);
-        group = (HuntAIGroup)AoWHSMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
+        group = (HuntAIGroup)StrategicMap.Current.AIGroupManager.CreateGroup(0, unitsToIndependentRelation, GroupBehavior.Hunt);
         group.AddUnits(defenders);
         for (int I = attackers.Count - 1; I >= 0; I--)
         {
@@ -660,7 +660,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             if (tokenEvent.Action == -2)
             {
-                troop = AoWHSMap.Current.UnitControl.FindUnit(tokenEvent.Param);
+                troop = StrategicMap.Current.UnitControl.FindUnit(tokenEvent.Param);
                 if (troop != null && ExecuteRebuild(troop))
                 {
                     troop.Killed();
@@ -815,8 +815,8 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         if (CanRebuild(troop, ref reason))
         {
             GetRebuildInfo(ref cost, ref time);
-            var players = AoWHSMap.Current.Players.GetPlayers(troop.Player);
-            AoWHSMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - cost);
+            var players = StrategicMap.Current.Players.GetPlayers(troop.Player);
+            StrategicMap.Current.Players.GetPlayers(troop.Player).SetGems(players.Gems - cost);
             BuildingDays = (byte)time;
             BuildingPlayer = troop.Player;
             ValidateObservation(troop.Player);
@@ -848,7 +848,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         UnitIndexList indexes;
         var hexX = GetHexX();
         var hexY = GetHexY();
-        RandSeed = hexX + AoWHSMap.Current.InitialRandomSeed + hexY;
+        RandSeed = hexX + StrategicMap.Current.InitialRandomSeed + hexY;
         collection = ((StructureResource)_resource).Defenders.GetRandomCollection();
         if (collection != -1)
         {
@@ -940,7 +940,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 var hexLevel3 = GetHexLevel();
                 var hexY3 = GetHexY();
                 var hexX = GetHexX();
-                AoWHSMap.Current.PlaceHex(animation, hexX, hexY3, hexLevel3);
+                StrategicMap.Current.PlaceHex(animation, hexX, hexY3, hexLevel3);
             }
 
             if (_resource.ImageSequenceList.GetImageSequence(21) != null)
@@ -954,7 +954,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 var hexLevel3 = GetHexLevel();
                 var hexY3 = GetHexY();
                 var hexX = GetHexX();
-                AoWHSMap.Current.PlaceHex(animation, hexX, hexY3, hexLevel3);
+                StrategicMap.Current.PlaceHex(animation, hexX, hexY3, hexLevel3);
             }
 
             ValidateObservation(player);
@@ -1013,7 +1013,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     {
         if (UpdateCount == 0)
         {
-            AoWHSMap.Current.StructureChanged(this);
+            StrategicMap.Current.StructureChanged(this);
         }
     }
 
@@ -1033,7 +1033,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 if (_resource.TerrainList.Used[walk.HexNumber])
                 {
                     var hexLevel = GetHexLevel();
-                    result = AoWHSMap.Current.VisibleForPlayer(walk.X, walk.Y, hexLevel, player);
+                    result = StrategicMap.Current.VisibleForPlayer(walk.X, walk.Y, hexLevel, player);
                 }
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -1061,7 +1061,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         {
             if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                army = ((AoWMapField)level.GetField(walk.X, walk.Y)).GetArmyHexSprite();
+                army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                 if (army != null)
                 {
                     list.AddUnits(army.Army);
@@ -1124,7 +1124,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             if (!GetBuilding())
             {
                 GetRebuildInfo(ref cost, ref time);
-                if (AoWHSMap.Current.Players.GetPlayers(troop.Player).Gems >= cost)
+                if (StrategicMap.Current.Players.GetPlayers(troop.Player).Gems >= cost)
                 {
                     result = true;
                 }
@@ -1153,13 +1153,13 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         bool result;
         string reason = "";
         StructureTokenEvent eventValue;
-        if (CanRebuild(troop, ref reason) && !AoWHSMap.Current.Players.GetPlayers(troop.Player).GetBusy())
+        if (CanRebuild(troop, ref reason) && !StrategicMap.Current.Players.GetPlayers(troop.Player).GetBusy())
         {
             eventValue = CreateTokenEvent();
             SetupTokenEvent(eventValue);
             eventValue.Action = -2;
             eventValue.Param = troop.UnitId;
-            AoWHSMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(troop.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -1177,9 +1177,9 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         bool result = default;
         string reason = "";
         RazeStructureEventLog log;
-        if (CanRaze(player, ref reason) && !AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
+        if (CanRaze(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
-            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
+            if (StrategicMap.Current.Players.GetPlayers(player).PlayerType == PlayerType.Human)
             {
                 log = new RazeStructureEventLog(null);
                 log.Structure = this;
@@ -1264,7 +1264,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         UpdateCount -= 1;
         if (UpdateCount == 0)
         {
-            AoWHSMap.Current.StructureChanged(this);
+            StrategicMap.Current.StructureChanged(this);
         }
     }
 
@@ -1296,7 +1296,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
     }
 
     // Structur.PAS:1087
-    public sbyte GetPlayer() => ((AoWMapField)Owner).GetPlayer();
+    public sbyte GetPlayer() => Owner.GetPlayer();
 
     // Structur.PAS:1217
     public void FogChanged()
@@ -1304,7 +1304,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
         HexNumberWalkData walk = default;
         int count;
         MapLevel level;
-        Fogged = AoWHSMap.Current.FogEnabled;
+        Fogged = StrategicMap.Current.FogEnabled;
         if (Fogged)
         {
             count = GetTerrainCount();
@@ -1315,7 +1315,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
                 if (_resource.TerrainList.Terrain[walk.HexNumber] >= 0 && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                 {
                     var fieldValue = level.GetField(walk.X, walk.Y);
-                    Fogged = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)fieldValue).FieldFlags).Hi).Lo == 0;
+                    Fogged = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref fieldValue.FieldFlags).Hi).Lo == 0;
                 }
 
                 HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -1339,7 +1339,7 @@ public partial class Structure : FixedImageLibraryTerrainMapObject
             if (_resource.TerrainList.Used[walk.HexNumber] && walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
                 var hexLevel = GetHexLevel();
-                result = AoWHSMap.Current.ValidateObservation(player, (sbyte)walk.X, (sbyte)walk.Y, hexLevel, 0);
+                result = StrategicMap.Current.ValidateObservation(player, (sbyte)walk.X, (sbyte)walk.Y, hexLevel, 0);
             }
 
             HexNumberWalkData.WalkToNextHexNumber(ref walk);

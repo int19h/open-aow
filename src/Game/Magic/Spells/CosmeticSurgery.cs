@@ -1,5 +1,4 @@
 // Translated from UnitSpells.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -63,7 +62,7 @@ public partial class CosmeticSurgery : UnitSpell
                 caster.FaceIndex = 0;
             }
 
-            AoWHSMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
+            StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
             caster.Release();
             result = true;
         }

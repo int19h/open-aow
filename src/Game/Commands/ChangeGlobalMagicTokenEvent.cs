@@ -54,10 +54,10 @@ public partial class ChangeGlobalMagicTokenEvent : TokenEvent
         switch (Mode)
         {
             case ChangeGlobalMagicTokenEventMode.DispelEnchantment:
-                success = AoWHSMap.Current.GlobalMagicControl.ExecuteDispelEnchantment((sbyte)PlayerIndex, EnchantmentId);
+                success = StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment((sbyte)PlayerIndex, EnchantmentId);
                 break;
             case ChangeGlobalMagicTokenEventMode.RemoveEnchantment:
-                success = AoWHSMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment((sbyte)PlayerIndex, EnchantmentId);
+                success = StrategicMap.Current.GlobalMagicControl.ExecuteRemoveEnchantment((sbyte)PlayerIndex, EnchantmentId);
                 break;
         }
 

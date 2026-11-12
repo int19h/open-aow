@@ -63,7 +63,7 @@ public partial class Terrain : TerrainMapObject
         MapField oldOwner;
         if (Owner.FindOwnedChild(132990) == null)
         {
-            if (AoWHSMap.Current.Random(20) == 0)
+            if (StrategicMap.Current.Random(20) == 0)
             {
                 R = FindCompatibleResource(((TerrainMapObjectResource)_resource).TerrainType, 1, 0);
                 if (R != null)

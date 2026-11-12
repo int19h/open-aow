@@ -29,13 +29,13 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
         EngineResource resource;
         SmokeCloud cloud;
         var sourceLocal = eventValue.GetSource();
-        AoWHSMap.Current.ValidateObservation(sourceLocal.Player, ((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel, 2);
-        if (eventValue.GetSource().Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel, 2))
+        StrategicMap.Current.ValidateObservation(sourceLocal.Player, ((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel, 2);
+        if (eventValue.GetSource().Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel, 2))
         {
-            AoWHSSet.Current.SpellControl.GetSpell(eventValue.EventSpellId).CastSounds.Play(0);
+            GamePack.Current.SpellControl.GetSpell(eventValue.EventSpellId).CastSounds.Play(0);
         }
 
-        resource = (EngineResource)((ECustomNode)(object)AoWHSSet.Current.MapObjectResourceList).FindChild(135747);
+        resource = (EngineResource)((ECustomNode)(object)GamePack.Current.MapObjectResourceList).FindChild(135747);
         if (resource != null)
         {
             cloud = (SmokeCloud)resource.CreateResourceUser();
@@ -44,12 +44,12 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
             cloud.Enchantment.PlayerIndex = source.Player;
             cloud.Enchantment.EnchantmentManaUpkeep = this.ManaUpkeep;
             cloud.Drifting = false;
-            if (!AoWHSMap.Current.PlaceHex(cloud, ((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel))
+            if (!StrategicMap.Current.PlaceHex(cloud, ((GlobalTargetSpellTokenEvent)eventValue).Location.X, ((GlobalTargetSpellTokenEvent)eventValue).Location.Y, ((GlobalTargetSpellTokenEvent)eventValue).Location.MapLevel))
             {
                 cloud?.Dispose();
             }
 
-            AoWHSSet.Current.SpellControl.GetSpell(this.SpellId).CastingDone(source, this.BaseManaCost);
+            GamePack.Current.SpellControl.GetSpell(this.SpellId).CastingDone(source, this.BaseManaCost);
         }
 
         return false;
@@ -75,7 +75,7 @@ public partial class SmokeCloudSpell : GlobalTargetSpell
         eventValue = new GlobalTargetSpellTokenEvent(null);
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         eventValue.Release();
         return true;
     }

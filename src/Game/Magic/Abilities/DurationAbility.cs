@@ -67,7 +67,7 @@ public partial class DurationAbility : AdjustableAbility
     // AoWAb.PAS:40
     public override void NewDay(AbilityOwner owner)
     {
-        if (AoWHSMap.Current.Day == 1)
+        if (StrategicMap.Current.Day == 1)
         {
             owner.RemoveAbility(AbilityId);
         }

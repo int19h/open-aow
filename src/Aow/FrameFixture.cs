@@ -112,24 +112,24 @@ internal sealed class FrameFixture
         int lastCombatWorldFrame = 0;
         void ObserveDay()
         {
-            if (AoWHSMap.Current is not null) titleOrigin = display.Frame;
-            if (AoWHSMap.Current?.CombatMap is not null)
+            if (StrategicMap.Current is not null) titleOrigin = display.Frame;
+            if (StrategicMap.Current?.CombatMap is not null)
             {
                 sawCombat = true;
-                lastCombatWorldFrame = AoWHSMap.Current.Frame;
+                lastCombatWorldFrame = StrategicMap.Current.Frame;
             }
-            if (AoWHSMap.Current is { } map && observedDay != map.Day)
+            if (StrategicMap.Current is { } map && observedDay != map.Day)
             {
                 observedDay = map.Day;
                 dayOrigin = map.Frame;
             }
         }
-        int DayFrame() => AoWHSMap.Current is { } map ? map.Frame - dayOrigin + 1 : -1;
-        int AfterCombatFrame() => sawCombat && AoWHSMap.Current is { CombatMap: null } map ? map.Frame - lastCombatWorldFrame : -1;
+        int DayFrame() => StrategicMap.Current is { } map ? map.Frame - dayOrigin + 1 : -1;
+        int AfterCombatFrame() => sawCombat && StrategicMap.Current is { CombatMap: null } map ? map.Frame - lastCombatWorldFrame : -1;
         long ScriptFrame(Click click)
         {
             string clock = click.Clock ?? fixture._defaults.GetValueOrDefault("frame_clock", "world");
-            var map = AoWHSMap.Current;
+            var map = StrategicMap.Current;
             return clock switch
             {
                 "presentation" => display.Frame,
@@ -148,7 +148,7 @@ internal sealed class FrameFixture
                 DialogHosts.FileDialogWindow.Directory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
             FrameFixtureInputs.TacticalInitialized = () =>
             {
-                if (AoWHSMap.Current?.CombatMap is not CombatMap combat) return;
+                if (StrategicMap.Current?.CombatMap is not CombatMap combat) return;
                 combat.PlaySounds = true;
                 combat.SetSeatedCombatPlayer(0);
                 DialogHosts.ChatWindow.MinClick();
@@ -159,17 +159,17 @@ internal sealed class FrameFixture
                 ObserveDay();
                 if (applied != clicks.Count) return false;
                 return afterCombatCapture ? AfterCombatFrame() == frame :
-                combatCapture ? AoWHSMap.Current?.CombatMap?.Frame == frame :
-                titleCapture ? AoWHSMap.Current is null && display.Frame - titleOrigin == frame :
-                dayCapture ? AoWHSMap.Current?.Day == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && DayFrame() == frame :
+                combatCapture ? StrategicMap.Current?.CombatMap?.Frame == frame :
+                titleCapture ? StrategicMap.Current is null && display.Frame - titleOrigin == frame :
+                dayCapture ? StrategicMap.Current?.Day == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && DayFrame() == frame :
                 !worldCapture && (scene == "title" || presentationClock) ? display.Frame == frame :
-                tactical ? tacticalReady && AoWHSMap.Current.CombatMap.Frame == frame :
-                AoWHSMap.Current is { } map && map.Day == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame;
+                tactical ? tacticalReady && StrategicMap.Current.CombatMap.Frame == frame :
+                StrategicMap.Current is { } map && map.Day == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame;
             }
             display.CaptureWhen = () =>
             {
                 ObserveDay();
-                pendingSnapshot = snapshots.FirstOrDefault(s => AoWHSMap.Current?.Day == s.Day && DayFrame() == s.Frame && !capturedSnapshots.Contains(s.Name));
+                pendingSnapshot = snapshots.FirstOrDefault(s => StrategicMap.Current?.Day == s.Day && DayFrame() == s.Frame && !capturedSnapshots.Contains(s.Name));
                 display.CaptureName = pendingSnapshot is null ? null : "snapshot-" + pendingSnapshot.Name;
                 if (pendingSnapshot is not null)
                 {
@@ -195,7 +195,7 @@ internal sealed class FrameFixture
                 if (pendingSnapshot is { } snapshot)
                 {
                     diagnostics?.Snapshot(snapshot.Name);
-                    AoWHSMap.Current.PlayerControl.AutoSave();
+                    StrategicMap.Current.PlayerControl.AutoSave();
                     File.Copy(Path.Combine(output, "user", "Save", "autosave.asg"), Path.Combine(output, "snapshot-" + snapshot.Name + ".asg"), true);
                     capturedSnapshots.Add(snapshot.Name);
                     pendingSnapshot = null;
@@ -205,10 +205,10 @@ internal sealed class FrameFixture
                     {
                         presentation = display.Frame,
                         applied,
-                        day = AoWHSMap.Current?.Day,
-                        map_frame = AoWHSMap.Current?.Frame,
-                        seat = AoWHSMap.Current?.SeatedPlayer,
-                        combat_frame = AoWHSMap.Current?.CombatMap?.Frame
+                        day = StrategicMap.Current?.Day,
+                        map_frame = StrategicMap.Current?.Frame,
+                        seat = StrategicMap.Current?.SeatedPlayer,
+                        combat_frame = StrategicMap.Current?.CombatMap?.Frame
                     }) + "\n");
                 if (AtTarget()) { complete = true; form.Display.StopUpdateFrameLoop(); return; }
                 if (applied < clicks.Count)
@@ -277,8 +277,8 @@ internal sealed class FrameFixture
             TaskBar taskbar = DialogHosts.TaskBar;
             var controls = DialogHosts.ControlWindow;
             File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1CheckBox.Text, controls.Unit2CheckBox.Text, controls.MovesLabel.Text }) + "\n");
-            var selected = AoWHSMap.Current?.SelectedArmy?.GetArmyHexSprite();
-            if (AoWHSMap.Current is { } world)
+            var selected = StrategicMap.Current?.SelectedArmy?.GetArmyHexSprite();
+            if (StrategicMap.Current is { } world)
             {
                 var heroes = new List<object>();
                 for (int i = 0; i < world.HeroControl.GetCount(); i++)
@@ -328,7 +328,7 @@ internal sealed class FrameFixture
                     }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
                 }
             }
-            if (AoWHSMap.Current?.CombatMap is CombatMap combatMap)
+            if (StrategicMap.Current?.CombatMap is CombatMap combatMap)
             {
                 var viewer = DialogHosts.MapWindow.MapViewer;
                 var units = new List<object>();
@@ -362,7 +362,7 @@ internal sealed class FrameFixture
             }
             File.WriteAllText(Path.Combine(output, "selection.json"), JsonSerializer.Serialize(new
             {
-                count = AoWHSMap.Current?.SelectedArmy?.MoveSettingsList?.Count,
+                count = StrategicMap.Current?.SelectedArmy?.MoveSettingsList?.Count,
                 x = selected?.GetHexX(),
                 y = selected?.GetHexY(),
                 level = selected?.GetHexLevel(),
@@ -370,7 +370,7 @@ internal sealed class FrameFixture
             }) + "\n");
             if (fixture._values.GetValueOrDefault("save_state") == "true")
             {
-                var map = AoWHSMap.Current ?? throw new InvalidOperationException("State capture requires a map");
+                var map = StrategicMap.Current ?? throw new InvalidOperationException("State capture requires a map");
                 string saveName = "autosave.asg";
                 if (fixture._values.GetValueOrDefault("save_world") == "true")
                 {
@@ -403,9 +403,9 @@ internal sealed class FrameFixture
                 fixture = name,
                 complete,
                 display_presentations = display.Frame,
-                map_frame = AoWHSMap.Current?.Frame,
-                day = AoWHSMap.Current?.Day,
-                combat_frame = AoWHSMap.Current?.CombatMap?.Frame,
+                map_frame = StrategicMap.Current?.Frame,
+                day = StrategicMap.Current?.Day,
+                combat_frame = StrategicMap.Current?.CombatMap?.Frame,
                 clicks_applied = applied,
                 input_sha256 = input is null ? null : Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(input))),
                 local_time = now,
@@ -420,7 +420,7 @@ internal sealed class FrameFixture
                 checkpoint_frames = checkpoints,
                 snapshots = capturedSnapshots
             }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
-            Console.WriteLine($"fixture {name}: map frame {AoWHSMap.Current?.Frame}, combat frame {AoWHSMap.Current?.CombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
+            Console.WriteLine($"fixture {name}: map frame {StrategicMap.Current?.Frame}, combat frame {StrategicMap.Current?.CombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
         }
         finally
         {

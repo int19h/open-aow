@@ -196,7 +196,7 @@ public partial class UnitHexSprite : HexSprite
     public override bool PlaceOnMap()
     {
         Connect();
-        ((GameMap)Owner.Owner.Map).ScannerIconsChangedRadius(Owner.HexX, Owner.HexY, Owner.HexLevel, 0);
+        Owner.Owner.Map.ScannerIconsChangedRadius(Owner.HexX, Owner.HexY, Owner.HexLevel, 0);
         return true;
     }
 
@@ -214,7 +214,7 @@ public partial class UnitHexSprite : HexSprite
 
             Disconnect();
             field.UpdateMapField();
-            ((GameMap)field.Owner.Map).ScannerIconsChangedRadius(field.HexX, field.HexY, field.HexLevel, 0);
+            field.Owner.Map.ScannerIconsChangedRadius(field.HexX, field.HexY, field.HexLevel, 0);
         }
     }
 
@@ -244,7 +244,7 @@ public partial class UnitHexSprite : HexSprite
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
         base.MapFieldMessageProc(ref message);
-        if (message.MessageId == 16 && message.HexNumber == 0 && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId == 16 && message.HexNumber == 0 && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             Dispose();
         }
@@ -281,7 +281,7 @@ public partial class UnitHexSprite : HexSprite
     {
         if (info.HexNumber <= 7)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192;
         }
     }
 
@@ -458,7 +458,7 @@ public partial class UnitHexSprite : HexSprite
             DestroyShadow();
         }
 
-        if (AoWHSMap.Current.ShowUnitShadows)
+        if (StrategicMap.Current.ShowUnitShadows)
         {
             _shadow = new UnitShadowHexSprite(null);
             _shadow.UnitHexSprite = this;
@@ -506,7 +506,7 @@ public partial class UnitHexSprite : HexSprite
                 old.Release();
             }
 
-            resource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(value);
+            resource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(value);
             UnitGraphicsResource = resource;
             if (resource != null)
             {

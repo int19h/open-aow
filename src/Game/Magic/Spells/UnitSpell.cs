@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Game.AI;
@@ -82,7 +81,7 @@ public partial class UnitSpell : Spell
                     eventValue.Initialize(SpellId, source, null, BaseManaCost);
                     eventValue.TargetPlayer = (byte)source.Player;
                     eventValue.TargetUnitIds.Add(target.UnitId);
-                    AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                    StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                     eventValue.Release();
                     result = true;
                 }
@@ -135,13 +134,13 @@ public partial class UnitSpell : Spell
                     SetupUnitSelectionControl(caster, source, source.UnitListOwner);
                 }
 
-                AoWHSMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
+                StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
                 caster.Release();
             }
             else
             {
-                SetupTargetSelection(source, AoWHSMap.Current.TargetSelection);
-                AoWHSMap.Current.TargetSelection.Activate();
+                SetupTargetSelection(source, StrategicMap.Current.TargetSelection);
+                StrategicMap.Current.TargetSelection.Activate();
             }
 
             result = true;
@@ -256,12 +255,12 @@ public partial class UnitSpell : Spell
         bool result;
         UnitSpellTokenEvent eventValue;
         ResetTargetSelection();
-        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new UnitSpellTokenEvent(null);
             var castingMana = ((Hero)source).CastingMana(this);
             eventValue.Initialize(SpellId, source, targets, castingMana);
-            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -282,7 +281,7 @@ public partial class UnitSpell : Spell
         UnitSpellCaster caster;
         caster = new UnitSpellCaster(null);
         SetupUnitSelectionControl(caster, source, party.Army);
-        AoWHSMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
+        StrategicMap.Current.CosmeticSurgeryEventsStore.Raise(caster);
         caster.Release();
     }
 
@@ -321,7 +320,7 @@ public partial class UnitSpell : Spell
             {
                 if (action.Mana != 0 && (((byte)combat.Status.Image) & 1) != 0)
                 {
-                    AoWHSSet.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, action.Mana);
+                    GamePack.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, action.Mana);
                 }
             }
         }
@@ -364,13 +363,13 @@ public partial class UnitSpell : Spell
     {
         Troop source;
         ArmyHexSprite party;
-        source = AoWHSMap.Current.UnitControl.FindUnit(control.SourceUnitId);
+        source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
         if (source != null)
         {
-            if (AoWHSMap.Current.Visible(X, Y, L, 0))
+            if (StrategicMap.Current.Visible(X, Y, L, 0))
             {
-                party = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHexSprite();
-                if (party != null && (party.Army.Player == source.Player || !((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetMagicShieldActive()))
+                party = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
+                if (party != null && (party.Army.Player == source.Player || !StrategicMap.Current.MapContainer.GetField(X, Y, L).GetMagicShieldActive()))
                 {
                     valid = ValidTargetParty(source, party);
                 }
@@ -395,7 +394,7 @@ public partial class UnitSpell : Spell
     {
         Troop source;
         ArmyHexSprite party;
-        source = AoWHSMap.Current.UnitControl.FindUnit(control.SourceUnitId);
+        source = StrategicMap.Current.UnitControl.FindUnit(control.SourceUnitId);
         if (source != null)
         {
             switch (control.Change)
@@ -406,7 +405,7 @@ public partial class UnitSpell : Spell
                 case TargetSelectionChange.Selected:
                     if (control.TargetX != -1)
                     {
-                        party = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(control.TargetX, control.TargetY, control.TargetL)).GetArmyHexSprite();
+                        party = StrategicMap.Current.MapContainer.GetField(control.TargetX, control.TargetY, control.TargetL).GetArmyHexSprite();
                         if (party != null && ValidTargetParty(source, party))
                         {
                             TargetPartySelected(source, party);
@@ -425,7 +424,7 @@ public partial class UnitSpell : Spell
     // Spells.PAS:1310
     public void ResetTargetSelection()
     {
-        var targetSelectionControl = AoWHSMap.Current.TargetSelection;
+        var targetSelectionControl = StrategicMap.Current.TargetSelection;
         targetSelectionControl.FOnChange -= OnTargetSelectionChange;
         targetSelectionControl.Deactivate();
     }
@@ -459,9 +458,9 @@ public partial class UnitSpell : Spell
         control.Title = SpellName;
         control.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
         control.SourceUnitId = source.UnitId;
-        control.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(20).GetPreviewImage();
-        control.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(21).GetPreviewImage();
-        control.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(22).GetPreviewImage();
+        control.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(20).GetPreviewImage();
+        control.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(21).GetPreviewImage();
+        control.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(22).GetPreviewImage();
     }
 
     private static ReadOnlySpan<byte> SelectionMasks => [0, 1, 3, 7, 15, 31, 63, 127, 255];

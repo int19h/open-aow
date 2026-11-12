@@ -109,7 +109,7 @@ public sealed class ControlStyleConstructionTests
 
     private static FieldInfo Field(Type type, string name) => MemberNames.Field(type, name)!;
 
-    private sealed class FlagOwner : AoWHSSet
+    private sealed class FlagOwner : GamePack
     {
         public FlagOwner() : base(null!, null!) { }
 
@@ -128,7 +128,7 @@ public sealed class ControlStyleConstructionTests
 
         internal ImageLibraryManagerObject Entry { get; }
 
-        private readonly AoWHSSet _previous = AoWHSSet.Current;
+        private readonly GamePack _previous = GamePack.Current;
         private readonly IFileSystem _previousFiles = Runtime.Files;
         private readonly string _previousStartup = EngineFixture.Engine.StartupDirectory;
         private readonly string _previousSoundPath = AudioHost.BaseSoundEnginePath;
@@ -155,7 +155,7 @@ public sealed class ControlStyleConstructionTests
             try
             {
                 Owner = new FlagOwner();
-                Field(typeof(HSSet), "_imageLibraryManager").SetValue(Owner, _manager);
+                Field(typeof(GamePack), "_imageLibraryManager").SetValue(Owner, _manager);
                 Field(typeof(ImageLibraryManager), "_searchPath").SetValue(_manager, "9.3b-2-missing/");
                 var disk = (ImageLibraryManagerList)Field(typeof(ImageLibraryManager), "_diskList").GetValue(_manager)!;
                 if (directory is null) Entry = disk.AddImageLibraryFile("Flags.ILB");
@@ -166,7 +166,7 @@ public sealed class ControlStyleConstructionTests
                 }
                 if (loaded)
                     Field(typeof(ImageLibraryManagerObject), "_imageLibrary").SetValue(Entry, new ImageLibrary(null!));
-                AoWHSSet.Current = Owner;
+                GamePack.Current = Owner;
                 Owner.Members.Clear();
             }
             catch
@@ -181,7 +181,7 @@ public sealed class ControlStyleConstructionTests
             try { foreach (var child in Owner.Members.ToArray()) child.Dispose(); }
             finally
             {
-                AoWHSSet.Current = _previous;
+                GamePack.Current = _previous;
                 try { _manager.Dispose(); }
                 finally { RestoreFiles(); }
             }

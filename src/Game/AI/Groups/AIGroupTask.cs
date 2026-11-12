@@ -95,7 +95,7 @@ public partial class AIGroupTask : EngineObject
             Validate();
             busy = false;
             I = 0;
-            while (!busy && State != -1 && (I == 0 || AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0))
+            while (!busy && State != -1 && (I == 0 || StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0))
             {
                 I += 1;
                 busy = Process();

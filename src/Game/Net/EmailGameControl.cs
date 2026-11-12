@@ -156,8 +156,8 @@ public partial class EmailGameControl : EngineObject
     // Diplomacy.pas:2576
     public void ValidateIncomingGame(string fileName, ref string destination)
     {
-        AoWHSMap map;
-        AoWHSMap previousMap;
+        StrategicMap map;
+        StrategicMap previousMap;
         EmailGame localGame;
         bool overwrite;
         int I;
@@ -167,7 +167,7 @@ public partial class EmailGameControl : EngineObject
         {
             destination = "";
             overwrite = false;
-            map = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(fileName, GameProfile.WorldMap);
+            map = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(fileName, GameProfile.WorldMap);
             bool condition = map != null && map.ConnectionType == PlayerConnectionType.Email && map.CurrentPlayer > 0;
             if (condition)
             {
@@ -188,7 +188,7 @@ public partial class EmailGameControl : EngineObject
                             name = map.Players.GetPlayers(map.CurrentPlayer).PbemSettings.EmailGame.Name;
                             if (FileExists(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + ".asg"))
                             {
-                                previousMap = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + ".asg", GameProfile.WorldMap);
+                                previousMap = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(GameTables.GameEngine.StartupDirectory + "EmailIn\\" + name + ".asg", GameProfile.WorldMap);
                                 if (previousMap != null)
                                 {
                                     // { Original bug: the previous map's player is checked against the new map's count. }

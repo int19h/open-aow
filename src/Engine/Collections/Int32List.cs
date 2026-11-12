@@ -568,7 +568,7 @@ public partial class Int32List : Persistent
             index = indexes[Random(indexes.Count)];
             if (index != -1)
             {
-                testUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(index));
+                testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                 if (CanUse(testUnit))
                 {
                     if (testUnit.GetObtainValue() + result > value)
@@ -581,7 +581,7 @@ public partial class Int32List : Persistent
                             index = indexes[Random(indexes.Count)];
                             if (index != -1 && index != bestIndex)
                             {
-                                testUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(index));
+                                testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                                 if (CanUse(testUnit))
                                 {
                                     delta = Math.Abs(testUnit.GetObtainValue() - (value - result));
@@ -600,7 +600,7 @@ public partial class Int32List : Persistent
                     }
 
                     unit = new Unit(null);
-                    unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(index));
+                    unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                     units.AddUnit(unit);
                     result += unit.GetObtainValue();
                     tries = 50;
@@ -644,7 +644,7 @@ public partial class Int32List : Persistent
             index = indexes[Random(indexes.Count)];
             if (index != -1)
             {
-                testUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(index));
+                testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                 if (CanUse(testUnit))
                 {
                     if (testUnit.GetObtainValue() + result > value)
@@ -657,7 +657,7 @@ public partial class Int32List : Persistent
                             index = indexes[Random(indexes.Count)];
                             if (index != -1 && index != bestIndex)
                             {
-                                testUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(index));
+                                testUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(index));
                                 if (CanUse(testUnit))
                                 {
                                     delta = Math.Abs(testUnit.GetObtainValue() - (value - result));
@@ -676,7 +676,7 @@ public partial class Int32List : Persistent
                     }
 
                     units.Add(index);
-                    result += AoWHSSet.Current.UnitResources.GetUnitResource(index).ObtainValue;
+                    result += GamePack.Current.UnitResources.GetUnitResource(index).ObtainValue;
                     tries = 50;
                 }
             }

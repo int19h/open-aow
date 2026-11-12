@@ -14,17 +14,17 @@ public sealed class RelationBandTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly AoWHSMap previous = AoWHSMap.Current;
+        private readonly StrategicMap previous = StrategicMap.Current;
 
         public MapScope()
         {
-            Map = new AoWHSMap(null!);
-            AoWHSMap.Current = Map;
+            Map = new StrategicMap(null!);
+            StrategicMap.Current = Map;
         }
 
-        public AoWHSMap Map { get; }
+        public StrategicMap Map { get; }
 
-        public void Dispose() => AoWHSMap.Current = previous;
+        public void Dispose() => StrategicMap.Current = previous;
     }
 
     private sealed class RecordingRelWindow : RelationWindow

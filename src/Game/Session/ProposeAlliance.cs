@@ -22,7 +22,7 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
     public override string LogText(DiplomaticAction action)
     {
         var subject = AbilityRules.TranslateResourceString(AllianceProposalText);
-        var accepted = action.Source == AoWHSMap.Current.SeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateResourceString(MadeAllianceText);
+        var accepted = action.Source == StrategicMap.Current.SeatedPlayer ? AcceptedLine(subject) : AbilityRules.TranslateResourceString(MadeAllianceText);
         return Outcome(action, subject, subject, accepted, subject);
     }
 
@@ -38,7 +38,7 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
 
     public override void Accepted(DiplomaticAction action)
     {
-        AoWHSMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Alliance);
+        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Alliance);
         Broadcast(action, -1, action.Source);
         RemoveTargetLog(action);
     }
@@ -49,9 +49,9 @@ public sealed partial record ProposeAlliance(int Gold = 0, int Mana = 0) : Offer
     public override void AnswerAI(DiplomaticAction action, sbyte player, DiplomaticRelation relation, ByteList idealPeace, ByteList idealWar)
     {
         string errorText = "";
-        if (AoWHSMap.Current.Players.GetPlayers(action.Target).AIControl.CanProposeAlliance((byte)action.Source))
+        if (StrategicMap.Current.Players.GetPlayers(action.Target).AIControl.CanProposeAlliance((byte)action.Source))
         {
-            RandSeed = (int)(((uint)(AoWHSMap.Current.InitialRandomSeed + AoWHSMap.Current.Day + action.Source + action.Target)) >> 2);
+            RandSeed = (int)(((uint)(StrategicMap.Current.InitialRandomSeed + StrategicMap.Current.Day + action.Source + action.Target)) >> 2);
             int chance = (action.EscrowGold + action.EscrowMana) / 25 + 30;
             if (chance > 60)
             {

@@ -47,7 +47,7 @@ public partial class ResearchSpellAIPlayerAction : AIPlayerAction, IAIPlayerActi
 
             if (choices.Count != 0)
             {
-                RandSeed = AoWHSMap.Current.Random(16777215);
+                RandSeed = StrategicMap.Current.Random(16777215);
                 index = choices.RandomChanceItemB(0);
                 var item = choices[index];
                 Control.Player.MagicControl.ExecuteResearchSpell(item.First);

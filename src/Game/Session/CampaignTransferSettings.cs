@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
@@ -194,11 +193,11 @@ public partial class CampaignTransferSettings : EngineObject
         Item item;
         Item copyItem;
         Clear();
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
             units = new UnitUserList(null);
-            player = (sbyte)AoWHSMap.Current.Players.LocalPlayers[0];
-            Leader = (Leader)AoWHSMap.Current.Players.GetPlayers(player).Leader.Copy(GameTables.GameEngine);
+            player = (sbyte)StrategicMap.Current.Players.LocalPlayers[0];
+            Leader = (Leader)StrategicMap.Current.Players.GetPlayers(player).Leader.Copy(GameTables.GameEngine);
             Leader.RemoveEnchantments();
             Leader.RemoveHandicaps();
             Leader.ExecuteCancelCasting();
@@ -228,9 +227,9 @@ public partial class CampaignTransferSettings : EngineObject
             }
 
             Leader.HeroItems.Clear();
-            for (int I = 0, last = AoWHSMap.Current.UnitControl.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = StrategicMap.Current.UnitControl.GetCount() - 1; I <= last; I++)
             {
-                troop = AoWHSMap.Current.UnitControl.GetUnit(I);
+                troop = StrategicMap.Current.UnitControl.GetUnit(I);
                 if (troop.Player == player && troop.GetUnitType() != UnitType.Machine && (troop.GetMoveTypes() & Set<MoveType>.Of(MoveType.Walking, MoveType.Flying)) != Set<MoveType>.Of() && !(troop is Leader) && !troop.GetAbilityEnabled(155))
                 {
                     if (troop is Hero)
@@ -279,12 +278,12 @@ public partial class CampaignTransferSettings : EngineObject
                 }
             }
 
-            _researchPercentage = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage;
-            var players = AoWHSMap.Current.Players.GetPlayers(player);
+            _researchPercentage = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage;
+            var players = StrategicMap.Current.Players.GetPlayers(player);
             _spells.Assign(players.MagicControl.Spells);
-            _researchSpellId = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId;
-            _researchPointsLeft = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft;
-            RandSeed = AoWHSMap.Current.Random(16777215);
+            _researchSpellId = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId;
+            _researchPointsLeft = StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft;
+            RandSeed = StrategicMap.Current.Random(16777215);
             GenerateTransferUnits(units);
             units?.Dispose();
         }
@@ -454,9 +453,9 @@ public partial class CampaignTransferSettings : EngineObject
     // Diplomacy.pas:2044
     public void SetupSelection(string fileName)
     {
-        AoWHSMap map;
+        StrategicMap map;
         ClearSelection();
-        map = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(fileName, GameProfile.WorldMap);
+        map = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(fileName, GameProfile.WorldMap);
         TransferPointsMax = map.CampaignSettings.TransferPointsMax;
         if (GameTables.GameEngine.Campaign.DifficultyLevel == CampaignDifficultyLevel.Easy)
         {
@@ -560,29 +559,29 @@ public partial class CampaignTransferSettings : EngineObject
         Troop troop;
         Hero hero;
         Item Item;
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
-            AoWHSMap.Current.SynchronizeBegin();
-            AoWHSMap.Current.Players.Update();
-            player = (sbyte)(AoWHSMap.Current.Players.Count - 1);
-            while (player > 1 && AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+            StrategicMap.Current.SynchronizeBegin();
+            StrategicMap.Current.Players.Update();
+            player = (sbyte)(StrategicMap.Current.Players.Count - 1);
+            while (player > 1 && StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
             {
                 player = (sbyte)(player - 1);
             }
 
             if (GameTables.GameEngine.Campaign.CompletedScenarios.Count != 0)
             {
-                AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage = _researchPercentage;
+                StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPercentage = _researchPercentage;
             }
 
-            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId = _researchSpellId;
-            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft = _researchPointsLeft;
-            AoWHSMap.Current.Players.GetPlayers(player).MagicControl.Spells.Assign(_spells);
-            var players = AoWHSMap.Current.Players.GetPlayers(player);
+            StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchSpellId = _researchSpellId;
+            StrategicMap.Current.Players.GetPlayers(player).MagicControl.ResearchPointsLeft = _researchPointsLeft;
+            StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.Assign(_spells);
+            var players = StrategicMap.Current.Players.GetPlayers(player);
             players.InitialGold += SelectedTransferGold;
-            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);
+            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
             fPlayersPlayers.MagicControl.ExternalMana += SelectedTransferMana;
-            leader = AoWHSMap.Current.Players.GetPlayers(player).Leader;
+            leader = StrategicMap.Current.Players.GetPlayers(player).Leader;
             leader.GetLocation(ref X, ref Y, ref L);
             if (Leader != null)
             {
@@ -657,12 +656,12 @@ public partial class CampaignTransferSettings : EngineObject
             {
                 var item = SelectedItems[I];
                 Item = (Item)Items.GetItem(item).Copy(GameTables.GameEngine);
-                AoWHSMap.Current.ItemControl.RegisterItem(Item);
-                Item.PlaceOnMap(AoWHSMap.Current, X, Y, L);
+                StrategicMap.Current.ItemControl.RegisterItem(Item);
+                Item.PlaceOnMap(StrategicMap.Current, X, Y, L);
                 Item.Release();
             }
 
-            AoWHSMap.Current.SynchronizeEnd();
+            StrategicMap.Current.SynchronizeEnd();
         }
     }
 

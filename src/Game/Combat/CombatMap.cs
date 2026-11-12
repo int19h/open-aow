@@ -1,33 +1,42 @@
-// Translated from AoWTC.pas.
+// Translated from AoWE.pas and AoWTC.pas.
 using Aow.Engine;
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
-
 using Aow.Game.Audio;
-
 using Aow.Game.Commands;
 using Aow.Game.Draw;
-
 using Aow.Game.Magic.Abilities;
-
 using Aow.Game.Net;
-
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World;
-
 using Aow.Game.World.Map;
-
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat;
 
-// FPlayers. FCombat. FUnitPositions. FSeatedCombatPlayer. FCurrentCombatPlayer. turn/player
-// events. MoveControl. UnitSelection. selection/unit events. AI. Effects. Walls.
-// FleeLocations. EndTurnPending. PlaySounds. PositionStatus. Round
-public partial class CombatMap : CustomCombatMap
+// The combat event lists (TAbstractAoWCombatMap). FPlayers. FCombat. FUnitPositions.
+// FSeatedCombatPlayer. FCurrentCombatPlayer. turn/player events. MoveControl. UnitSelection.
+// selection/unit events. AI. Effects. Walls. FleeLocations. EndTurnPending. PlaySounds.
+// PositionStatus. Round
+public partial class CombatMap : GameMap
 {
+    internal EventStore<CombatSpellCaster> CombatStartedEventsStore { get; }
+
+    public event NotifyEvent<CombatSpellCaster> FCombatStartedEvents
+    {
+        add => CombatStartedEventsStore.Add(value);
+        remove => CombatStartedEventsStore.Remove(value);
+    }
+
+    internal EventStore<AbilityActivation> AbilityActivatedEventsStore { get; }
+
+    public event NotifyEvent<AbilityActivation> FAbilityActivatedEvents
+    {
+        add => AbilityActivatedEventsStore.Add(value);
+        remove => AbilityActivatedEventsStore.Remove(value);
+    }
+
     // AoWTC.pas:2183
     public new const int ClassId = 2228480;
 
@@ -112,7 +121,7 @@ public partial class CombatMap : CustomCombatMap
 
     public int Round { get; private set; }
 
-    // AoWTC.pas:2213
+    // AoWTC.pas:2213 around AoWHSMap.PAS:914.
     public override void Dispose()
     {
         while (Effects.Count > 0)
@@ -126,6 +135,9 @@ public partial class CombatMap : CustomCombatMap
         }
 
         base.Dispose();
+        CombatStartedEventsStore.Clear();
+        AbilityActivatedEventsStore.Clear();
+
         Current = null;
         UnitPositions?.Dispose();
         ChangeTurnEventsStore.Clear();
@@ -146,9 +158,12 @@ public partial class CombatMap : CustomCombatMap
     // AoWTC.pas:2189
     private protected sealed override void InitializeBeforeInherited() => Current = this;
 
-    // AoWTC.pas:2186
+    // AoWHSMap.PAS:907, then AoWTC.pas:2186.
     public CombatMap(ECustomNode owner) : base(owner)
     {
+        CombatStartedEventsStore = new();
+        AbilityActivatedEventsStore = new();
+
         UnitPositions = new UnitPositionControl(null);
         ChangeTurnEventsStore = new();
         _playerChangedEventsStore = new();
@@ -179,7 +194,7 @@ public partial class CombatMap : CustomCombatMap
     {
         if (message.MessageId == 536870920 && !Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            SetCombat((TacticalBattle)AoWHSMap.Current.Combat);
+            SetCombat((TacticalBattle)StrategicMap.Current.Combat);
         }
 
         base.MessageProc(ref message, sender);
@@ -196,7 +211,7 @@ public partial class CombatMap : CustomCombatMap
         {
             for (int Y = 6, lastY = MapContainer.Height - 7; Y <= lastY; Y++)
             {
-                AoWHSSet.Current.CombatHexes.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 1);
+                GamePack.Current.CombatHexes.Place(MapContainer, (sbyte)X, (sbyte)Y, 0, 1);
             }
         }
 
@@ -232,7 +247,7 @@ public partial class CombatMap : CustomCombatMap
     public override void DrawDynamicScene(ref LockedSurface lockedSurface)
     {
         base.DrawDynamicScene(ref lockedSurface);
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
             DrawFog(lockedSurface);
         }
@@ -278,7 +293,7 @@ public partial class CombatMap : CustomCombatMap
         if (!Status.Contains(HexSpriteMapStatusElement.Editting) && Combat != null)
         {
             UpdateCursor();
-            if (EndTurnPending && (AoWHSMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote || Players.GetPlayers(CurrentCombatPlayer).Auto && AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(CurrentPlayer).ConnectionMode != ConnectionMode.Remote))
+            if (EndTurnPending && (StrategicMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(Combat.HostPlayer).ConnectionMode != ConnectionMode.Remote || Players.GetPlayers(CurrentCombatPlayer).Auto && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(CurrentPlayer).ConnectionMode != ConnectionMode.Remote))
             {
                 switch (AI.Status)
                 {
@@ -422,7 +437,7 @@ public partial class CombatMap : CustomCombatMap
         SetCurrentPlayer(Players.GetPlayers(CurrentCombatPlayer).Player);
         Combat.NewTurn((byte)CurrentCombatPlayer);
         UnitSelection.Unselect();
-        AoWHSMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(CurrentPlayer);
+        StrategicMap.Current.TokenManager.TokenExecutor.ActivateTacticalBattle(CurrentPlayer);
         if (Players.GetPlayers(CurrentCombatPlayer).Player == 0)
         {
             var ind = AbilityRules.TranslateResourceString(s_independentsText);
@@ -432,17 +447,17 @@ public partial class CombatMap : CustomCombatMap
         else
         {
             var playerLocal = Players.GetPlayers(CurrentCombatPlayer);
-            var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(playerLocal.Player);
+            var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(playerLocal.Player);
             var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[playerPlayerRace.PlayerRace]);
             var beginRound = AbilityRules.TranslateResourceString(s_beginRoundText);
             ShowMessage(raceNamesPlural + " " + beginRound);
         }
 
         var playerPlayer = Players.GetPlayers(CurrentCombatPlayer);
-        if (AoWHSMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
+        if (StrategicMap.Current.Players.GetPlayers(playerPlayer.Player).PlayerType == PlayerType.Human)
         {
             var playerLocal = Players.GetPlayers(CurrentCombatPlayer);
-            if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(playerLocal.Player).ConnectionMode != ConnectionMode.Remote)
+            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.GetPlayers(playerLocal.Player).ConnectionMode != ConnectionMode.Remote)
             {
                 SetSeatedCombatPlayer(CurrentCombatPlayer);
                 if (Players.GetPlayers(CurrentCombatPlayer).LastX == 0)
@@ -501,7 +516,7 @@ public partial class CombatMap : CustomCombatMap
         bool result = false;
         if (!automatic)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human)
+            if (StrategicMap.Current.Players.GetPlayers(CurrentPlayer).PlayerType != PlayerType.Human)
             {
                 return result;
             }
@@ -512,12 +527,12 @@ public partial class CombatMap : CustomCombatMap
             }
         }
 
-        if (AoWHSMap.Current.TokenManager.PlayerReady(CurrentPlayer))
+        if (StrategicMap.Current.TokenManager.PlayerReady(CurrentPlayer))
         {
             tokenEvent = CreateTacticalBattleEndTurnTokenEvent(CurrentPlayer);
             if (tokenEvent != null)
             {
-                AoWHSMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
+                StrategicMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
                 tokenEvent.Release();
                 result = true;
                 EndTurnPending = false;
@@ -636,7 +651,7 @@ public partial class CombatMap : CustomCombatMap
     // AoWTC.pas:2475
     public void UpdateCursor()
     {
-        if (!((SeatedPlayer == -1 || AoWHSMap.Current.TokenManager.PlayerReady(SeatedPlayer)) && SeatedPlayer == CurrentPlayer && !Players.GetPlayers(CurrentCombatPlayer).Auto && Current.SeatedCombatPlayer == Current.CurrentCombatPlayer))
+        if (!((SeatedPlayer == -1 || StrategicMap.Current.TokenManager.PlayerReady(SeatedPlayer)) && SeatedPlayer == CurrentPlayer && !Players.GetPlayers(CurrentCombatPlayer).Auto && Current.SeatedCombatPlayer == Current.CurrentCombatPlayer))
         {
             Mouse.Cursor = (int)(((uint)Frame) >> 2) % 4 + 6;
         }
@@ -667,7 +682,7 @@ public partial class CombatMap : CustomCombatMap
     {
         TerminateCombatTokenEvent tokenEvent;
         tokenEvent = new TerminateCombatTokenEvent(null);
-        AoWHSMap.Current.TokenManager.TokenExecutor.AddSystemEvent(tokenEvent);
+        StrategicMap.Current.TokenManager.TokenExecutor.AddSystemEvent(tokenEvent);
         tokenEvent.Release();
     }
 
@@ -726,13 +741,13 @@ public partial class CombatMap : CustomCombatMap
     public void Surrender(sbyte mode)
     {
         TacticalBattleEndCombatTokenEvent tokenEvent;
-        if (AoWHSMap.Current.TokenManager.PlayerReady(Current.CurrentPlayer) && CurrentCombatPlayer == SeatedCombatPlayer)
+        if (StrategicMap.Current.TokenManager.PlayerReady(Current.CurrentPlayer) && CurrentCombatPlayer == SeatedCombatPlayer)
         {
             UnitSelection.Unselect();
             tokenEvent = CreateTacticalBattleEndCombatTokenEvent();
             if (tokenEvent != null)
             {
-                AoWHSMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
+                StrategicMap.Current.TokenManager.GetTokenControl(CurrentPlayer).AddEvent(tokenEvent);
                 tokenEvent.Release();
             }
         }
@@ -747,7 +762,7 @@ public partial class CombatMap : CustomCombatMap
     private static TacticalBattleEndTurnTokenEvent CreateTacticalBattleEndTurnTokenEvent(sbyte player)
     {
         TacticalBattleEndTurnTokenEvent result;
-        if (player != -1 && AoWHSMap.Current.TokenManager.PlayerReady(player))
+        if (player != -1 && StrategicMap.Current.TokenManager.PlayerReady(player))
         {
             result = new TacticalBattleEndTurnTokenEvent(null);
         }
@@ -795,5 +810,4 @@ public partial class CombatMap : CustomCombatMap
     // AoWTC.pas:484
 
     // AoWTC.pas:484
-
 }

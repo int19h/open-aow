@@ -39,14 +39,14 @@ public partial class SetupEvents : DataModule
         DialogHosts.ChatWindow.PlayerList.Items.Clear();
         var allPlayers = AbilityRules.TranslateResourceString(s_allPlayersText);
         DialogHosts.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
-            for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+            for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
             {
-                if (I != AoWHSMap.Current.SeatedPlayer && AoWHSMap.Current.Players.GetPlayers(I).Status != PlayerStatus.Terminated && AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[I].ConnectionMode == ConnectionMode.Remote)
+                if (I != StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(I).Status != PlayerStatus.Terminated && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[I].ConnectionMode == ConnectionMode.Remote)
                 {
-                    var player = AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[I];
-                    var playerLeader = AoWHSMap.Current.Players.GetPlayers(I);
+                    var player = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.Players[I];
+                    var playerLeader = StrategicMap.Current.Players.GetPlayers(I);
                     DialogHosts.ChatWindow.PlayerList.Items.AddObject(playerLeader.Leader.HeroName, IntToObject(player.SystemId));
                     DialogHosts.ChatWindow.PlayerList.Selected = 0;
                 }
@@ -188,7 +188,7 @@ public partial class SetupEvents : DataModule
         {
             GameTables.GameEngine.LoadHsmFromStream(control.Stream, false, (_, message, progression) => DialogHosts.General.MapProgress(message, progression));
             var fileName2 = ExtractFileName(fileName);
-            AoWHSMap.Current.FileName = GameTables.GameEngine.StartupDirectory + "Scenario\\" + fileName2;
+            StrategicMap.Current.FileName = GameTables.GameEngine.StartupDirectory + "Scenario\\" + fileName2;
         }
         else
         {
@@ -228,11 +228,11 @@ public partial class SetupEvents : DataModule
             SetupControl.DataReceived(data, size, fromId);
         }
 
-        if (AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
-            if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl)
+            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl is RemotePlayerCommunicationControl)
             {
-                ((RemotePlayerCommunicationControl)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl).DataReceived(data, size, fromId);
+                ((RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl).DataReceived(data, size, fromId);
             }
         }
     }
@@ -275,9 +275,9 @@ public partial class SetupEvents : DataModule
     // aowSetupEvents.pas:291
     public void DPlayMessageError()
     {
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
-            AoWHSMap.Current.PlayerConnectionLost();
+            StrategicMap.Current.PlayerConnectionLost();
         }
     }
 
@@ -293,16 +293,16 @@ public partial class SetupEvents : DataModule
             }
         }
 
-        if (AoWHSMap.Current != null && AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl != null)
+        if (StrategicMap.Current != null && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl != null)
         {
-            player = (sbyte)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(id);
+            player = (sbyte)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl.IndexOfSystemId(id);
             if (player != -1)
             {
-                if (AoWHSMap.Current.Players.GetPlayers(player) != null)
+                if (StrategicMap.Current.Players.GetPlayers(player) != null)
                 {
-                    if (AoWHSMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
+                    if (StrategicMap.Current.Players.GetPlayers(player).Status == PlayerStatus.Playing)
                     {
-                        AoWHSMap.Current.PlayerDisconnected(player);
+                        StrategicMap.Current.PlayerDisconnected(player);
                     }
 
                     UpdateChatPlayers();

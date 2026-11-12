@@ -89,7 +89,7 @@ public partial class PoisonCloud : MultiHexMapObject
     // PoisonC.pas:182
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
-        if (message.MessageId != 16 || AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (message.MessageId != 16 || StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.MapFieldMessageProc(ref message);
         }
@@ -152,7 +152,7 @@ public partial class PoisonCloud : MultiHexMapObject
         base.Activate();
         if (_direction == 0)
         {
-            _direction = (byte)(AoWHSMap.Current.Random(6) + 1);
+            _direction = (byte)(StrategicMap.Current.Random(6) + 1);
         }
     }
 
@@ -161,7 +161,7 @@ public partial class PoisonCloud : MultiHexMapObject
     {
         if (_resource.TerrainList.Terrain[info.HexNumber] >= -1)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192;
         }
     }
 
@@ -224,7 +224,7 @@ public partial class PoisonCloud : MultiHexMapObject
     // PoisonC.pas:142
     public void ArmyPlaced(ArmyHexSprite armyHexSprite)
     {
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && !((AoWMapField)armyHexSprite.Owner).GetMagicShieldActive())
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && !armyHexSprite.Owner.GetMagicShieldActive())
         {
             armyHexSprite.Army.IncomingStorm(StormType.Pestilence, 0, armyHexSprite.Army.Player);
         }
@@ -315,7 +315,7 @@ public partial class PoisonCloud : MultiHexMapObject
 
                 while (directions.Count != 0 && !valid)
                 {
-                    direction = directions[AoWHSMap.Current.Random(directions.Count)];
+                    direction = directions[StrategicMap.Current.Random(directions.Count)];
                     valid = ValidMoveDirection(direction);
                     if (!valid)
                     {
@@ -329,7 +329,7 @@ public partial class PoisonCloud : MultiHexMapObject
                     tries = 20;
                     while (!valid && tries != 0)
                     {
-                        direction = AoWHSMap.Current.Random(6) + 1;
+                        direction = StrategicMap.Current.Random(6) + 1;
                         valid = ValidMoveDirection(direction);
                         tries -= 1;
                     }
@@ -345,12 +345,12 @@ public partial class PoisonCloud : MultiHexMapObject
                     HexGeometry.CenterHexNumberToHex(GetHexX(), yhx, direction, ref hexX, ref hexY);
                     HexGeometry.CenterHexNumberToHex(hexX, hexY, direction, ref hexX, ref hexY);
                     Disconnect();
-                    UpdateMapFields(AoWHSMap.Current.MapContainer.GetMapLevel(hexLevel), oldHexX, oldHexY);
+                    UpdateMapFields(StrategicMap.Current.MapContainer.GetMapLevel(hexLevel), oldHexX, oldHexY);
                     _hexX = (sbyte)hexX;
                     _hexY = (sbyte)hexY;
-                    Owner = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+                    Owner = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
                     Connect();
-                    UpdateMapFields(AoWHSMap.Current.MapContainer.GetMapLevel(hexLevel), hexX, hexY);
+                    UpdateMapFields(StrategicMap.Current.MapContainer.GetMapLevel(hexLevel), hexX, hexY);
                 }
             }
 

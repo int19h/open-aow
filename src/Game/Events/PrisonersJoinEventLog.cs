@@ -29,14 +29,14 @@ public partial class PrisonersJoinEventLog : JoinEventLog
         bool result;
         Dungeon dungeon;
         StructureTokenEvent tokenEvent;
-        dungeon = (Dungeon)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131882);
-        if (dungeon != null && !AoWHSMap.Current.Players.GetPlayers(_player).GetBusy())
+        dungeon = (Dungeon)StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131882);
+        if (dungeon != null && !StrategicMap.Current.Players.GetPlayers(_player).GetBusy())
         {
             tokenEvent = dungeon.CreateTokenEvent();
             dungeon.SetupTokenEvent(tokenEvent);
             tokenEvent.Param = _player;
             tokenEvent.Action = 1;
-            AoWHSMap.Current.TokenManager.GetTokenControl(_player).AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.GetTokenControl(_player).AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
         }
@@ -53,7 +53,7 @@ public partial class PrisonersJoinEventLog : JoinEventLog
     {
         Dungeon dungeon;
         int index;
-        dungeon = (Dungeon)AoWHSMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131882);
+        dungeon = (Dungeon)StrategicMap.Current.MapContainer.GetField(X, Y, MapLevel).FindOwnedChild(131882);
         if (dungeon != null)
         {
             for (int I = 0, last = dungeon.Prisoners.Count - 1; I <= last; I++)
@@ -62,10 +62,10 @@ public partial class PrisonersJoinEventLog : JoinEventLog
                 if (Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature).Contains(unitType))
                 {
                     index = dungeon.Prisoners.GetUnit(I).GetUnitGraphicsResourceIndex();
-                    if (AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) != null)
+                    if (GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index) != null)
                     {
                         var random = Random(15);
-                        var unitGraphicsResource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);
+                        var unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index);
                         unitGraphicsResource.SfxLibraries[3].Play(0, 100, false, random, SamplePanning.Center, null);
                     }
                 }

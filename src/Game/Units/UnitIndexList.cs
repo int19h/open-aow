@@ -41,7 +41,7 @@ public partial class UnitIndexList : Int32List
         for (int I = Count - 1; I >= 0; I--)
         {
             U = List[I];
-            if (U != -1 && AoWHSSet.Current.UnitResources.GetUnitResource(U) == null)
+            if (U != -1 && GamePack.Current.UnitResources.GetUnitResource(U) == null)
             {
                 if (showErrors)
                 {
@@ -68,7 +68,7 @@ public partial class UnitIndexList : Int32List
     // UnitRes.PAS:262
     public void SortUnits()
     {
-        if (AoWHSSet.Current != null)
+        if (GamePack.Current != null)
         {
             Pack();
             try
@@ -83,9 +83,9 @@ public partial class UnitIndexList : Int32List
 
     private static int CompareUnitIndexes(int item1, int item2)
     {
-        RtlUnit.Assert(AoWHSSet.Current.UnitResources.GetUnitResource(item1) != null && AoWHSSet.Current.UnitResources.GetUnitResource(item1) != null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
-        UnitResource unitResource = AoWHSSet.Current.UnitResources.GetUnitResource(item2);
-        UnitResource unitResource2 = AoWHSSet.Current.UnitResources.GetUnitResource(item1);
+        RtlUnit.Assert(GamePack.Current.UnitResources.GetUnitResource(item1) != null && GamePack.Current.UnitResources.GetUnitResource(item1) != null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
+        UnitResource unitResource = GamePack.Current.UnitResources.GetUnitResource(item2);
+        UnitResource unitResource2 = GamePack.Current.UnitResources.GetUnitResource(item1);
         return unitResource.Level - unitResource2.Level;
     }
 

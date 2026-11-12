@@ -43,9 +43,9 @@ public partial class CustomDisplay : WinControl
     // direct frame blit
     private int _pauseCount;
     private bool _mouseAboveSurface;
-    private CustomDisplayController _primaryDisplayController;
-    private CustomDisplayController _secondaryDisplayController;
-    private CustomDisplayController _activeDisplayController;
+    private DisplayController _primaryDisplayController;
+    private DisplayController _secondaryDisplayController;
+    private DisplayController _activeDisplayController;
 
     // DisplayC.pas:1397
     internal void SetBufferingScheme(BufferingScheme value)
@@ -252,9 +252,9 @@ public partial class CustomDisplay : WinControl
     }
 
     // DisplayC.pas:1541
-    public virtual CustomDisplayController GetDisplayController(int index)
+    public virtual DisplayController GetDisplayController(int index)
     {
-        CustomDisplayController result;
+        DisplayController result;
         switch (index)
         {
             case -1:
@@ -410,7 +410,7 @@ public partial class CustomDisplay : WinControl
     }
 
     // DisplayC.pas:1669
-    public int SupportDisplayController(CustomDisplayController displayController)
+    public int SupportDisplayController(DisplayController displayController)
     {
         int result;
         if (displayController != null)
@@ -443,15 +443,15 @@ public partial class CustomDisplay : WinControl
     }
 
     public new int Cursor { get => GetCursor(); set => SetCursor(value); }
-    public CustomDisplayController ActiveDisplayController { get => _activeDisplayController; }
+    public DisplayController ActiveDisplayController { get => _activeDisplayController; }
     protected internal Set<OptionsElement> Options { get => _options; set => _options = value; }
     protected internal BufferingScheme BufferingScheme { get => _bufferingScheme; set => SetBufferingScheme(value); }
     protected internal BackSurfaceControlMode BackSurfaceControlMode { get => _backSurfaceControlMode; set => _backSurfaceControlMode = value; }
     protected internal int BackSurfaceWidth { get => _backSurfaceWidth; set => SetBackSurfaceWidth(value); }
     protected internal int BackSurfaceHeight { get => _backSurfaceHeight; set => SetBackSurfaceHeight(value); }
     protected internal int FrameRate { get => _frameRate; set => SetFrameRate(value); }
-    protected internal CustomDisplayController PrimaryDisplayController { get => _primaryDisplayController; set => _primaryDisplayController = value; }
-    protected internal CustomDisplayController SecondaryDisplayController { get => _secondaryDisplayController; set => _secondaryDisplayController = value; }
+    protected internal DisplayController PrimaryDisplayController { get => _primaryDisplayController; set => _primaryDisplayController = value; }
+    protected internal DisplayController SecondaryDisplayController { get => _secondaryDisplayController; set => _secondaryDisplayController = value; }
     protected internal UpdateFrameMode UpdateFrameMode { get => _updateFrameMode; set => SetUpdateFrameMode(value); }
     protected internal NotifyEvent<object> OnResize { get => _onResize; set => _onResize = value; }
     protected internal NotifyEvent<object> OnBlitSurface { get => _onBlitSurface; set => _onBlitSurface = value; }
@@ -483,11 +483,11 @@ public partial class CustomDisplay : WinControl
         AutoResizeBackSurface = 0, AutoSwapDisplayController = 1, AutoStartUpdateFrameLoop = 2, AutoActivatePrimaryDisplayController = 3, ShowFrameRate = 4, ShowErrors = 5, FocusAble = 6, RestoreSurfacesOnSwap = 7, BlitOnPaint = 8, AutoEnableDDraw = 9
     }
 
-    public delegate void UpdateFrameEvent(object Sender, CustomDisplayController DC, int SurfaceType);
-    public delegate void DCNotifyEvent(object Sender, CustomDisplayController DC);
-    public delegate void SurfaceDataLostEvent(CustomDisplayController DC, int SurfaceType);
+    public delegate void UpdateFrameEvent(object Sender, DisplayController DC, int SurfaceType);
+    public delegate void DCNotifyEvent(object Sender, DisplayController DC);
+    public delegate void SurfaceDataLostEvent(DisplayController DC, int SurfaceType);
 
-    public delegate void ResizeBackSurfaceEvent(CustomDisplayController DC, int Width, int Height);
-    public delegate void SwapDCEvent(CustomDisplayController DC);
+    public delegate void ResizeBackSurfaceEvent(DisplayController DC, int Width, int Height);
+    public delegate void SwapDCEvent(DisplayController DC);
 
 }

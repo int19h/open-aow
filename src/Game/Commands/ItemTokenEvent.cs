@@ -43,13 +43,13 @@ public partial class ItemTokenEvent : TokenEvent
         Hero hero;
         base.Execute(tokenEvent);
         done = false;
-        item = AoWHSMap.Current.ItemControl.FindItem(ItemId);
+        item = StrategicMap.Current.ItemControl.FindItem(ItemId);
         if (item != null)
         {
             switch (_action)
             {
                 case 0:
-                    hero = AoWHSMap.Current.HeroControl.FindId(HeroId);
+                    hero = StrategicMap.Current.HeroControl.FindId(HeroId);
                     if (hero != null)
                     {
                         done = item.ExecuteUse(hero);

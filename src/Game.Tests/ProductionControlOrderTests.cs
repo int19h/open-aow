@@ -13,8 +13,8 @@ public sealed class ProductionControlOrderTests
     [Fact]
     public void BothKindsKeepRegistrationOrderThroughTheReaders()
     {
-        var previous = AoWHSMap.Current;
-        AoWHSMap.Current = null!;
+        var previous = StrategicMap.Current;
+        StrategicMap.Current = null!;
         var player = new Player(null!);
         var action = new AutoProduceAIPlayerAction(null!);
         try
@@ -66,7 +66,7 @@ public sealed class ProductionControlOrderTests
         {
             action.Dispose();
             player.Dispose();
-            AoWHSMap.Current = previous;
+            StrategicMap.Current = previous;
         }
     }
 }

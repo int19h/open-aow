@@ -56,7 +56,7 @@ public partial class UnitBanner : DataModule
             for (int I = 0, last = DialogHosts.General.Abilities.Count - 1; I <= last; I++)
             {
                 A = DialogHosts.General.Abilities[I];
-                var name2 = AoWHSSet.Current.AbilityControl.GetAbility(A.Ability).GetName(DialogHosts.General.SelectedUnit);
+                var name2 = GamePack.Current.AbilityControl.GetAbility(A.Ability).GetName(DialogHosts.General.SelectedUnit);
                 AbilityList.Items.Add(name2);
             }
 
@@ -102,7 +102,7 @@ public partial class UnitBanner : DataModule
             if (AbilityList.Selected > -1 && AbilityList.Selected < DialogHosts.General.ActiveAbilityCount)
             {
                 var ability = DialogHosts.General.Abilities[AbilityList.Selected];
-                AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(DialogHosts.General.SelectedUnit, ref reason);
+                GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(DialogHosts.General.SelectedUnit, ref reason);
                 BannerMenu.Visible = false;
             }
             else

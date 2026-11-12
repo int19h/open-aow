@@ -45,7 +45,7 @@ public partial class FreezeWater : GlobalTargetSpell
         eventValue = new FreezeWaterTokenEvent(null);
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         eventValue.Release();
         return true;
     }
@@ -54,7 +54,7 @@ public partial class FreezeWater : GlobalTargetSpell
     {
         if (!base.ValidTargetMapField(field)) return false;
         sbyte terrain = field.TerrainType;
-        return (terrain == 0 || terrain == 10) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHexSprite() == null;
+        return (terrain == 0 || terrain == 10) && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
     }
 
     public override bool ValidTargetSelectionMapField(MapField field)
@@ -62,7 +62,7 @@ public partial class FreezeWater : GlobalTargetSpell
         if (!base.ValidTargetSelectionMapField(field)) return false;
         sbyte terrain = field.TerrainType;
         if ((terrain != 0 && terrain != 10) || field.FindNoneTransparentHexSprite(typeof(Structure)) != null) return false;
-        var army = ((AoWMapField)field).GetArmyHexSprite();
+        var army = field.GetArmyHexSprite();
         return army == null || !army.VisibleForSeatedPlayer();
     }
 

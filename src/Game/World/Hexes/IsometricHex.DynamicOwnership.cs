@@ -1,6 +1,5 @@
 using Aow.Game.Draw;
 
-using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
 
@@ -23,7 +22,7 @@ public partial class IsometricHex
                 var neighbour = level.GetField(walk.X, walk.Y);
                 var sprite = neighbour.FindOwnedHexSprite(peer);
                 bool peerFound = sprite != null;
-                sprite ??= neighbour.FindOwnedHexSprite(typeof(BorderHexagon));
+                sprite ??= neighbour.FindOwnedHexSprite(typeof(BorderHex));
                 if (sprite == null)
                 {
                     OpenSides |= (byte)(1 << (walk.HexNumber - 1));

@@ -1,5 +1,4 @@
 // Translated from CombatTE.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 using Aow.Game.Audio;
@@ -100,7 +99,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
                             if (AbilityId == 52)
                             {
-                                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CombatSpellCast(_unit);
+                                GamePack.Current.SpellControl.GetSpell(SpellId).CombatSpellCast(_unit);
                             }
 
                             bool notExplorationEnabled = !CombatMap.Current.ExplorationEnabled;
@@ -108,7 +107,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             {
                                 var hexY = _unit.UnitHexSprite.HexY;
                                 var hexX = _unit.UnitHexSprite.HexX;
-                                notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(hexX, hexY, 0)).GetExplored(CombatMap.Current.SeatedPlayer);
+                                notExplorationEnabled = CombatMap.Current.MapContainer.GetField(hexX, hexY, 0).GetExplored(CombatMap.Current.SeatedPlayer);
                             }
 
                             if (notExplorationEnabled)
@@ -156,12 +155,12 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                 default:
                                     if (AbilityId == 52)
                                     {
-                                        AoWHSSet.Current.SpellControl.GetSpell(SpellId).GetCombatInfo(_unit.Troop, ref info);
+                                        GamePack.Current.SpellControl.GetSpell(SpellId).GetCombatInfo(_unit.Troop, ref info);
                                         _strikeCount = info.RepeatCount;
                                     }
                                     else
                                     {
-                                        _strikeCount = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).GetAttackRepeatRangedAttack(_unit.Troop);
+                                        _strikeCount = ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).GetAttackRepeatRangedAttack(_unit.Troop);
                                     }
 
                                     break;
@@ -170,11 +169,11 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             switch (_effectType)
                             {
                                 case BattleEffectType.Tremors:
-                                    _sound = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0, 64, true, 0, SamplePanning.Center, null);
+                                    _sound = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0, 64, true, 0, SamplePanning.Center, null);
                                     NextStrike();
                                     break;
                                 case BattleEffectType.ScreenSwarm:
-                                    _sound = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(2, 64, true, 0, SamplePanning.Center, null);
+                                    _sound = GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(2, 64, true, 0, SamplePanning.Center, null);
                                     {
                                         I = 0;
                                         int last = _strikeCount - 1;
@@ -258,8 +257,8 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                         hexSprite = (TacticalBattleUnitHexSprite)CombatMap.Current.MapContainer.MapLevels[0].GetField(X, Y).FindOwnedChild(2228484);
                                         if (hexSprite != null)
                                         {
-                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                            effect.CombatAction = AoWHSSet.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction(_unit, hexSprite.Unit, false);
+                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                            effect.CombatAction = GamePack.Current.SpellControl.GetSpell(effect.SpellIndex).CreateCombatAction(_unit, hexSprite.Unit, false);
                                             var hexY = hexSprite.HexY;
                                             HexGeometry.HexToPixel(hexSprite.HexX, hexY, ref I, ref X);
                                             if (((DamageCombatAction)effect.CombatAction).DamageTypes.Value - ((DamageCombatAction)effect.CombatAction).Effects.Value != Set<DamageType>.Of())
@@ -457,9 +456,9 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                             {
                                                                 if (CombatMap.Current.Combat.CombatData.GetObjects(I) != null && CombatMap.Current.Combat.CombatData.GetObjects(I) is CombatUnit && CombatMap.Current.Combat.CombatData.GetObjects(I).GetSide() != _unit.GetSide() && CombatMap.Current.Combat.CombatData.GetObjects(I).GetEnabled() && ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite != null)
                                                                 {
-                                                                    RandSeed = AoWHSMap.Current.Random(16777215);
+                                                                    RandSeed = StrategicMap.Current.Random(16777215);
                                                                     var combatObject = CombatMap.Current.Combat.CombatData.GetObjects(I);
-                                                                    action = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, combatObject, false);
+                                                                    action = GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, combatObject, false);
                                                                     if (((ExclusiveCombatSpellCombatAction)action).Succeeded)
                                                                     {
                                                                         ((TacticalBattleUnit)CombatMap.Current.Combat.CombatData.GetObjects(I)).UnitHexSprite.SetAction(TacticalBattleUnitHexSprite.SpriteAction.Hit);
@@ -528,26 +527,26 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                                                                     if (effect.Done && effect.Target != null && effect.Target.GetEnabled())
                                                                     {
                                                                         I = 0;
-                                                                        RandSeed = AoWHSMap.Current.Random(16777215);
+                                                                        RandSeed = StrategicMap.Current.Random(16777215);
                                                                         if (AbilityId == 52)
                                                                         {
-                                                                            effect.CombatAction = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, effect.Target, false);
+                                                                            effect.CombatAction = GamePack.Current.SpellControl.GetSpell(SpellId).CreateCombatAction(_unit, effect.Target, false);
                                                                         }
                                                                         else
                                                                         {
                                                                             if (AbilityId == 47)
                                                                             {
-                                                                                effect.CombatAction = ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(_unit, effect.Target);
+                                                                                effect.CombatAction = ((HealingAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateHealingCombatAction(_unit, effect.Target);
                                                                             }
                                                                             else
                                                                             {
                                                                                 if (AbilityId == 60)
                                                                                 {
-                                                                                    effect.CombatAction = ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(_unit, effect.Target);
+                                                                                    effect.CombatAction = ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateCombatAction(_unit, effect.Target);
                                                                                 }
                                                                                 else
                                                                                 {
-                                                                                    effect.CombatAction = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityId)).CreateRangedAttackCombatAction(_unit, effect.Target, 0);
+                                                                                    effect.CombatAction = ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(AbilityId)).CreateRangedAttackCombatAction(_unit, effect.Target, 0);
                                                                                 }
                                                                             }
                                                                         }
@@ -745,7 +744,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             {
                                 if (_unit.UnitHexSprite.ActionDone || (AbilityId == 52 && _delay <= 0))
                                 {
-                                    _delay = AoWHSMap.Current.Random(3) + 4;
+                                    _delay = StrategicMap.Current.Random(3) + 4;
                                 }
 
                                 _delay -= 1;
@@ -895,7 +894,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
 
             if (used.Count > 0)
             {
-                I = AoWHSMap.Current.Random(total) - weights[0];
+                I = StrategicMap.Current.Random(total) - weights[0];
                 index = 0;
                 while (index < used.Count - 1 && I > 0)
                 {
@@ -1053,7 +1052,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                     effect.Target = hexSprite.Unit;
                 }
 
-                I = AoWHSMap.Current.Random(37) + 1;
+                I = StrategicMap.Current.Random(37) + 1;
                 found = false;
                 while (!found)
                 {
@@ -1429,7 +1428,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                 while (I < obstacles.Count)
                 {
                     obstacle = obstacles[I];
-                    if (AoWHSMap.Current.Random(100) < obstacle.Chance)
+                    if (StrategicMap.Current.Random(100) < obstacle.Chance)
                     {
                         var path = effect.Path[obstacle.PathIndex];
                         HexGeometry.PixelToHex(effect.Path[obstacle.PathIndex].X, path.Y, ref J, ref K);
@@ -1521,7 +1520,7 @@ public partial class CombatAbilityRangedTokenEvent : TokenEvent
                             effect.Target = _unit;
                             break;
                         case 115:
-                            if (AoWHSMap.Current.Random(100) < 75)
+                            if (StrategicMap.Current.Random(100) < 75)
                             {
                                 effect.Target = null;
                             }

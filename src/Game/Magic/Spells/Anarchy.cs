@@ -45,7 +45,7 @@ public partial class Anarchy : CityTargetSpell
             var hexLevel = targetCity.GetHexLevel();
             var hexY = targetCity.GetHexY();
             log.SetLocation(targetCity.GetHexX(), hexY, hexLevel);
-            AoWHSMap.Current.Players.GetPlayers(targetCity.Player).EventLogbook.AddEvent(log);
+            StrategicMap.Current.Players.GetPlayers(targetCity.Player).EventLogbook.AddEvent(log);
             log.Release();
             PlayDefaultCityEffects(source, targetCity);
             targetCity.ValidateObservation(source.Player);
@@ -61,7 +61,7 @@ public partial class Anarchy : CityTargetSpell
                 var targetCityHexLevel = targetCity.GetHexLevel();
                 var targetCityHexY = targetCity.GetHexY();
                 var hexX = targetCity.GetHexX();
-                AoWHSMap.Current.PlaceHex(A, hexX, targetCityHexY, targetCityHexLevel);
+                StrategicMap.Current.PlaceHex(A, hexX, targetCityHexY, targetCityHexLevel);
             }
 
             result = true;

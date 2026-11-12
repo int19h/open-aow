@@ -33,18 +33,18 @@ public partial class BirdsView : Spell
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         CastingDone(source, eventValue.EventMana);
         source.GetLocation(ref X, ref Y, ref layer);
-        if (AoWHSMap.Current.SeatedPlayer == source.Player)
+        if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             var birdsViewHexSprite = new BirdsViewHexSprite(null);
             birdsViewHexSprite.StartAnimation(X, Y, layer, 14);
         }
 
-        AoWHSMap.Current.ExploreArea(X, Y, layer, source.Player, 14);
+        StrategicMap.Current.ExploreArea(X, Y, layer, source.Player, 14);
         return false;
     }
 
     // GlobalSpells.pas:500
-    public override bool GetEnabled() => AoWHSMap.Current.ExplorationEnabled;
+    public override bool GetEnabled() => StrategicMap.Current.ExplorationEnabled;
 
     // GlobalSpells.pas:518
     public override bool CanActivate(Troop source, ref string messageText)
@@ -73,11 +73,11 @@ public partial class BirdsView : Spell
         string reason = "";
         SpellTokenEvent eventValue;
         base.Activate(source);
-        if (CanActivate(source, ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new SpellTokenEvent(null);
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }

@@ -31,11 +31,11 @@ public partial class WaterMasteryEnchantment : GlobalEnchantment
     public override bool Deactivate(byte player)
     {
         base.Deactivate(player);
-        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
-        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
-        AoWHSMap.Current.UpdateVisibility();
+        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
+        StrategicMap.Current.UpdateVisibility();
         // { Original uses Fire for Water Mastery. }
-        AoWHSMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Fire);
+        StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Fire);
         return true;
     }
 
@@ -45,7 +45,7 @@ public partial class WaterMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
+            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.WaterMastery))
             {
                 var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat);
                 var name = GetName();
@@ -61,11 +61,11 @@ public partial class WaterMasteryEnchantment : GlobalEnchantment
     public override bool Activate(sbyte player)
     {
         base.Activate(player);
-        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
-        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
-        AoWHSMap.Current.UpdateVisibility();
+        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.WaterMastery));
+        StrategicMap.Current.UpdateVisibility();
         // { Original uses Fire for Water Mastery. }
-        AoWHSMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Fire);
+        StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Fire);
         return true;
     }
 

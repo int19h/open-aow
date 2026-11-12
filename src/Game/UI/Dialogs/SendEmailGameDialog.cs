@@ -5,7 +5,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -52,10 +52,10 @@ public partial class SendEmailGameDialog : DataModule
         _sendEvent = eventValue;
         _sendEvent.AddRef();
         var sendEmailGameEventLog = _sendEvent;
-        var player = AoWHSMap.Current.Players.GetPlayers(_sendEvent.SendPlayer);
+        var player = StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer);
         EmailAddressEdit.Text = player.PbemSettings.EmailGame.EmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
-        var nameEx = AoWHSMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).GetNameWithRace();
+        var nameEx = StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).GetNameWithRace();
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_nextPlayerFormat), [nameEx]);
         RecipientNameLabel.Text = format;
         if (sendEmailGameEventLog.Mode == 2)
@@ -106,7 +106,7 @@ public partial class SendEmailGameDialog : DataModule
     // AoWSendEmailGameDlg.pas:120
     public void EmailAddressEditChange()
     {
-        AoWHSMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).PbemSettings.EmailGame.EmailAddress = EmailAddressEdit.Text;
+        StrategicMap.Current.Players.GetPlayers(_sendEvent.SendPlayer).PbemSettings.EmailGame.EmailAddress = EmailAddressEdit.Text;
     }
 
     // AoWSendEmailGameDlg.pas:125

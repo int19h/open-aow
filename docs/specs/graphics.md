@@ -519,7 +519,7 @@ controller swaps and modal VCL dialogs.
 
 ### 7.3 `SdlDisplayController`, the one controller
 
-`SdlDisplayController` implements `CustomDisplayController` for the port. Of the 35 virtual methods the game reaches these:
+`SdlDisplayController` derives from `DisplayController`, which declares the 35 virtual methods of the Delphi `TAbstractDC`. Of these the game reaches:
 
 | method | behavior |
 |---|---|

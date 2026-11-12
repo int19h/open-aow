@@ -1,9 +1,8 @@
-using Aow.Game.UI.Controls;
+
 using Aow.Game.UI.Grids;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -20,7 +19,7 @@ public partial class CombatScanner : DataModule
     {
         DialogHosts.MapWindow.MapViewer.SceneX = (Scanner.TLeft + 6) * 33;
         DialogHosts.MapWindow.MapViewer.SceneY = (Scanner.TTop + 6) * 33;
-        if (AoWHSMap.Current.SeatedPlayer != -1)
+        if (StrategicMap.Current.SeatedPlayer != -1)
         {
             Scanner.SetTWidth(DialogHosts.MapWindow.MapViewer.SceneWidth / 32);
             Scanner.SetTHeight(DialogHosts.MapWindow.MapViewer.SceneHeight / 32);

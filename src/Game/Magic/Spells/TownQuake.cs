@@ -48,7 +48,7 @@ public partial class TownQuake : CityTargetSpell
                 targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
                 targetCity.StopTownQuake();
                 armies = new ArmyHSList(null);
-                if (AoWHSMap.Current.Random(10) < 7)
+                if (StrategicMap.Current.Random(10) < 7)
                 {
                     targetCity.SetWallType(0);
                 }

@@ -56,9 +56,9 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
         ImageSequenceAnimation animation;
         base.Execute(tokenEvent);
         enchantments = new EnchantmentList(null);
-        source = AoWHSMap.Current.UnitControl.FindUnit(SourceId);
-        target = AoWHSMap.Current.UnitControl.FindUnit(TargetId);
-        ability = (DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(60);
+        source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
+        target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
+        ability = (DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(60);
         success = source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer;
         success = success && ability.GetEnabled(source);
         if (success)
@@ -70,42 +70,42 @@ public partial class DispelMagicAbilityTokenEvent : TokenEvent
         if (success)
         {
             count = 0;
-            mana = ((DispelMagicAbility)AoWHSSet.Current.AbilityControl.GetAbility(60)).GetDispelMana(source);
+            mana = ((DispelMagicAbility)GamePack.Current.AbilityControl.GetAbility(60)).GetDispelMana(source);
             for (int I = enchantments.GetCount() - 1; I >= 0; I--)
             {
                 chance = enchantments.GetEnchantments(I).DispelChance(mana);
-                if (chance > AoWHSMap.Current.Random(100))
+                if (chance > StrategicMap.Current.Random(100))
                 {
                     count += 1;
                     enchantments.GetEnchantments(I).Dispel();
                 }
             }
 
-            if (source.Player == AoWHSMap.Current.SeatedPlayer)
+            if (source.Player == StrategicMap.Current.SeatedPlayer)
             {
                 if (count > 0)
                 {
                     var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.SpellsSuccessfullyDispelledFormat), [IntToStr(count)]);
-                    AoWHSMap.Current.ShowMessage(format);
+                    StrategicMap.Current.ShowMessage(format);
                 }
                 else
                 {
                     var dispelMagicFailed = AbilityRules.TranslateResourceString(GameText.DispelMagicFailedText);
-                    AoWHSMap.Current.ShowMessage(dispelMagicFailed);
+                    StrategicMap.Current.ShowMessage(dispelMagicFailed);
                 }
             }
 
             ability.SetEnabled(source, false);
             target.GetLocation(ref X, ref Y, ref L);
-            AoWHSMap.Current.ValidateObservation((sbyte)SourcePlayer, X, Y, L, 0);
-            if (AoWHSMap.Current.Visible(X, Y, L, 0))
+            StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, X, Y, L, 0);
+            if (StrategicMap.Current.Visible(X, Y, L, 0))
             {
                 animation = new ImageSequenceAnimation(null);
                 animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
-                AoWHSMap.Current.PlaceHex(animation, X, Y, L);
+                StrategicMap.Current.PlaceHex(animation, X, Y, L);
             }
 
-            if ((byte)AoWHSMap.Current.SeatedPlayer == SourcePlayer || AoWHSMap.Current.Watching(X, Y, L, 0))
+            if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(X, Y, L, 0))
             {
                 ability.SfxLibrary.Play(0);
             }

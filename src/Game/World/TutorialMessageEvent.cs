@@ -43,12 +43,12 @@ public partial class TutorialMessageEvent : FlagEvent
     public override bool Trigger(sbyte player)
     {
         TutorialMessageEventLog log;
-        if (AoWHSMap.Current.SeatedPlayer == player)
+        if (StrategicMap.Current.SeatedPlayer == player)
         {
             log = new TutorialMessageEventLog(null);
             var text = _message.Text;
             log.Message.Text = text;
-            AoWHSMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
+            StrategicMap.Current.TriggerExecuteEventLog(log, TriggerMode == FlagEventTriggerMode.Instant, null);
             log.Release();
         }
 

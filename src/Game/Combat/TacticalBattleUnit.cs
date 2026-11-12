@@ -92,7 +92,7 @@ public partial class TacticalBattleUnit : CombatUnit
                         blood.Activate();
                         blood.OffsetX = Random(32) - 32;
                         blood.OffsetY = Random(32) - 32;
-                        blood.Frame = Random(AoWHSSet.Current.ImageSequences.ImageSequences[4].GetTotalSequenceFrames());
+                        blood.Frame = Random(GamePack.Current.ImageSequences.ImageSequences[4].GetTotalSequenceFrames());
                     }
 
                     count -= 1;
@@ -237,7 +237,7 @@ public partial class TacticalBattleUnit : CombatUnit
     }
 
     // AoWTC.pas:2618
-    public void MovedTo(AoWMapField oldField, AoWMapField newField, int moveCost)
+    public void MovedTo(MapField oldField, MapField newField, int moveCost)
     {
         MovePoints = MovePoints - moveCost;
         if (MovePoints < 0)
@@ -308,7 +308,7 @@ public partial class TacticalBattleUnit : CombatUnit
         MovePath newPath;
         bool result = false;
         var player = unitObject.GetPlayer();
-        if (AoWHSMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
+        if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
         {
             movePoints = unitObject.MovePoints;
             cost = 0;
@@ -336,7 +336,7 @@ public partial class TacticalBattleUnit : CombatUnit
                 if (eventValue != null)
                 {
                     var unitObjectPlayer = unitObject.GetPlayer();
-                    AoWHSMap.Current.TokenManager.GetTokenControl(unitObjectPlayer).AddEvent(eventValue);
+                    StrategicMap.Current.TokenManager.GetTokenControl(unitObjectPlayer).AddEvent(eventValue);
                     eventValue.Release();
                     result = true;
                 }

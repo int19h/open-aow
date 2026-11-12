@@ -1,7 +1,6 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
-using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -140,7 +139,7 @@ public partial class AIGroupControl : EngineObject
             Group.GetLocation(ref Location.X, ref Location.Y, ref Location.MapLevel);
             if (Location.X != -1)
             {
-                ArmyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref Location))).GetArmyHexSprite();
+                ArmyHexSprite = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref Location)).GetArmyHexSprite();
                 RetrieveGroupArmy(Location.X, Location.Y, Location.MapLevel, ref Army, ref Selection);
                 UpdateGroupChanges();
                 result = true;
@@ -199,7 +198,7 @@ public partial class AIGroupControl : EngineObject
             if (found)
             {
                 var behavior = Group.GroupClass.Behavior;
-                group = AoWHSMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, behavior);
+                group = StrategicMap.Current.AIGroupManager.CreateGroup(Group.Player, Group.IndependentRelation, behavior);
                 group.Status = group.Status + Set<AIGroupStatusElement>.Of(AIGroupStatusElement.Split);
                 I = Group.Count - 1;
                 for (; I >= 0; I -= 1)
@@ -232,8 +231,8 @@ public partial class AIGroupControl : EngineObject
     public virtual void Activate()
     {
         State = 0;
-        MoveExecutor = AoWHSMap.Current.Players.GetPlayers(Group.Player).AIControl.MoveExecutor;
-        AoWHSMap.Current.AIExecutor.UseProcessTime(100);
+        MoveExecutor = StrategicMap.Current.Players.GetPlayers(Group.Player).AIControl.MoveExecutor;
+        StrategicMap.Current.AIExecutor.UseProcessTime(100);
         _status = _status + Set<StatusElement>.Of(StatusElement.Activated);
     }
 
@@ -286,8 +285,8 @@ public partial class AIGroupControl : EngineObject
     // AIGroup.pas:1124
     public virtual void ExecuteME(sbyte X, sbyte Y, sbyte L)
     {
-        AoWMapField field;
-        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+        MapField field;
+        field = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         if (field.GetPlayer() != -1 && field.GetPlayer() != Group.Player)
         {
             MoveExecutor.Mode = MoveExecutor.Mode + Set<AIMoveExecutorModeElement>.Of(AIMoveExecutorModeElement.Adjacent, AIMoveExecutorModeElement.Attack);
@@ -366,7 +365,7 @@ public partial class AIGroupControl : EngineObject
     {
         bool result;
         ArmyHexSprite armyHexSprite;
-        armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetArmyHexSprite();
+        armyHexSprite = StrategicMap.Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
         if (armyHexSprite != null)
         {
             army = armyHexSprite.Army;
@@ -389,7 +388,7 @@ public partial class AIGroupControl : EngineObject
         Player player;
         AIGroup group;
         MapCoordinate location = default;
-        player = AoWHSMap.Current.Players.GetPlayers(Group.Player);
+        player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         for (int I = player.AIGroups.Count - 1; I >= 0; I--)
         {
             group = player.AIGroups.GetGroups(I);
@@ -439,7 +438,7 @@ public partial class AIGroupControl : EngineObject
     public void SetupCP(AIGroupControlTarget target)
     {
         ResetCP();
-        if (((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location))).GetMoveAction(Group.Player) != MoveAction.Negotiate)
+        if (StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref target.Location)).GetMoveAction(Group.Player) != MoveAction.Negotiate)
         {
             CombatPredictor.InitializeAdjacentOpponents((byte)Group.Player, (byte)Group.IndependentRelation, target.Location.X, target.Location.Y, target.Location.MapLevel);
         }
@@ -496,7 +495,7 @@ public partial class AIGroupControl : EngineObject
             try
             {
                 busy = false;
-                while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
+                while (!busy && !Group.Status.Contains(AIGroupStatusElement.Done) && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && MoveExecutor.Status != AIMoveExecutorStatus.Busy)
                 {
                     if (_aiGroupTask != null)
                     {
@@ -504,7 +503,7 @@ public partial class AIGroupControl : EngineObject
                         if (!busy)
                         {
                             DeactivatePlugin();
-                            if (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && !Group.Status.Contains(AIGroupStatusElement.Done))
+                            if (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() >= 0 && !Group.Status.Contains(AIGroupStatusElement.Done))
                             {
                                 MainProcessStates(looped);
                             }
@@ -542,7 +541,7 @@ public partial class AIGroupControl : EngineObject
         MapCoordinate location = default;
         Player player;
         list = new DoubleItemList<Troop>();
-        player = AoWHSMap.Current.Players.GetPlayers(Group.Player);
+        player = StrategicMap.Current.Players.GetPlayers(Group.Player);
         for (int I = 0, last = player.Armies.Count - 1; I <= last; I++)
         {
             troop = player.Armies.GetArmy(I).Transporter(255);

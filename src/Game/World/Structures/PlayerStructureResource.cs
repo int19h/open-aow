@@ -49,12 +49,12 @@ public partial class PlayerStructureResource : StructureResource
     public override int ResourceUserClassId() => 131916;
 
     // Structur.PAS:2473
-    public override MapObject PlaceResourceUser(HSMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override MapObject PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         MapObject result = base.PlaceResourceUser(hexSpriteMap, hexX, hexY, hexLevel);
-        if (result != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (result != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            ((PlayerStructure)result).SetPlayer(AoWHSMap.Current.EditorPlayer);
+            ((PlayerStructure)result).SetPlayer(StrategicMap.Current.EditorPlayer);
         }
 
         return result;
@@ -90,7 +90,7 @@ public partial class PlayerStructureResource : StructureResource
     // Structur.PAS:2462
     public void ActivateMessage()
     {
-        FlagControl = ((AoWHSSet)Engine.HexSpriteSet).FlagControl;
+        FlagControl = Engine.HexSpriteSet.FlagControl;
     }
 
     // intf_P1_09.inc:300

@@ -47,7 +47,7 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
         eventValue = new PoisonPlantSpellTokenEvent(null);
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         eventValue.Release();
         return true;
     }
@@ -59,10 +59,10 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
         bool result = base.ValidTargetSelectionMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
         // { Original precedence also accepts these overlays without the terrain test. }
         result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
-        result = result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHexSprite() == null;
+        result = result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
         if (result)
         {
-            armyHexSprite = ((AoWMapField)field).GetArmyHexSprite();
+            armyHexSprite = field.GetArmyHexSprite();
             if (armyHexSprite != null)
             {
                 result = !armyHexSprite.VisibleForSeatedPlayer();
@@ -78,7 +78,7 @@ public partial class PoisonPlantSpell : GlobalTargetSpell
         bool result = base.ValidTargetMapField(field) && Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)field.TerrainType);
         // { Original precedence also accepts these overlays without the terrain test. }
         result = (result && field.OverlayType == -1) || Set<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)field.OverlayType);
-        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && ((AoWMapField)field).GetArmyHexSprite() == null;
+        return result && field.FindNoneTransparentHexSprite(typeof(Structure)) == null && field.GetArmyHexSprite() == null;
     }
 
     private static readonly string s_poisonPlantsText = "Poison Plants";

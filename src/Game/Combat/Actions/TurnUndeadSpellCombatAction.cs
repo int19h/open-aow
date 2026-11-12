@@ -28,7 +28,7 @@ public partial class TurnUndeadSpellCombatAction : CombatSpellCombatAction
             target = (CombatUnit)combat.CombatData.FindId(TargetId);
             if (!target.Status.Contains(CombatObjectStatusElement.Destroyed))
             {
-                AoWHSSet.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
+                GamePack.Current.AbilityControl.GetAbility(34).Expand(target.Troop);
                 data = (UnitEnchantmentAbilityData)target.Troop.GetAbilityData(34);
                 if (data != null)
                 {

@@ -447,7 +447,7 @@ public partial class UnitList : EChangeNotifyNode, IChildList<Troop>
             if (!condition)
             {
                 var alignment = units[I].GetAlignment();
-                condition = AoWHSSet.Current.RaceResources.GetRaceResource(relation).Alignments.Contains(alignment);
+                condition = GamePack.Current.RaceResources.GetRaceResource(relation).Alignments.Contains(alignment);
             }
 
             sameRace = condition;

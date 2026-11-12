@@ -88,7 +88,7 @@ public partial class PadControl : ControlStyleObject
         if (resource != null)
         {
             pad = (ImageLibraryTerrainMapObject)resource.CreateResourceUser();
-            result = pad.CanPlace(AoWHSMap.Current.MapContainer, X, Y, L);
+            result = pad.CanPlace(StrategicMap.Current.MapContainer, X, Y, L);
             pad?.Dispose();
         }
         else
@@ -107,7 +107,7 @@ public partial class PadControl : ControlStyleObject
         resource = GetPadResource(size);
         if (resource != null)
         {
-            result = (ImageLibraryTerrainMapObject)resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
+            result = (ImageLibraryTerrainMapObject)resource.PlaceResourceUser(StrategicMap.Current, X, Y, L);
         }
         else
         {

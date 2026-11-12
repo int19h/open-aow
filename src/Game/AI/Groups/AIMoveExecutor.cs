@@ -362,7 +362,7 @@ public partial class AIMoveExecutor : EngineObject
                     }
                 }
 
-                AoWHSMap.Current.TokenManager.GetTokenControl(_player).AddEvent(multiMove);
+                StrategicMap.Current.TokenManager.GetTokenControl(_player).AddEvent(multiMove);
                 multiMove.Release();
                 Moves.Clear();
             }
@@ -405,7 +405,7 @@ public partial class AIMoveExecutor : EngineObject
                     DeactivateMoveExecutorControl();
                 }
 
-                timeLeft = AoWHSMap.Current.AIExecutor.GetProcessTimeLeft();
+                timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
             }
 
             if (Control == null && ControlQueue.Count != 0 && Status == AIMoveExecutorStatus.Busy)
@@ -504,7 +504,7 @@ public partial class AIMoveExecutor : EngineObject
             capacity = 1;
         }
 
-        army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(this.Transporter.Location.X, this.Transporter.Location.Y, this.Transporter.Location.MapLevel)).GetArmyHexSprite();
+        army = StrategicMap.Current.MapContainer.GetField(this.Transporter.Location.X, this.Transporter.Location.Y, this.Transporter.Location.MapLevel).GetArmyHexSprite();
 
         I = 0;
         while (capacity > 0 && I != army.Army.Count)

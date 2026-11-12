@@ -42,7 +42,7 @@ public partial class EnterArenaEventLog : EventLog
         if (index >= 0 && index < UnitIds.Count)
         {
             var unitId = UnitIds[index];
-            result = AoWHSMap.Current.UnitControl.FindUnit(unitId);
+            result = StrategicMap.Current.UnitControl.FindUnit(unitId);
         }
         else
         {
@@ -71,7 +71,7 @@ public partial class EnterArenaEventLog : EventLog
             }
         }
 
-        bool result = Arena.TrainUnits(AoWHSMap.Current.SeatedPlayer, units, ref errorText);
+        bool result = Arena.TrainUnits(StrategicMap.Current.SeatedPlayer, units, ref errorText);
         units?.Dispose();
         return result;
     }
@@ -89,7 +89,7 @@ public partial class EnterArenaEventLog : EventLog
             }
         }
 
-        bool result = Arena.CanTrainUnits(AoWHSMap.Current.SeatedPlayer, units, ref errorText);
+        bool result = Arena.CanTrainUnits(StrategicMap.Current.SeatedPlayer, units, ref errorText);
         units?.Dispose();
         return result;
     }
@@ -106,7 +106,7 @@ public partial class EnterArenaEventLog : EventLog
             if (((1 << I) & Selection) != 0)
             {
                 var unitId = UnitIds[I];
-                troop = AoWHSMap.Current.UnitControl.FindUnit(unitId);
+                troop = StrategicMap.Current.UnitControl.FindUnit(unitId);
                 if (troop != null)
                 {
                     total += Arena.UnitTrainCost(troop);

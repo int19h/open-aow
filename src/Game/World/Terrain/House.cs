@@ -27,7 +27,7 @@ public partial class House : CombatStructure
         base.Activate();
         if (!CombatMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(PlayerStructure));
+            structure = (PlayerStructure)StrategicMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLocation).GetField(CombatPlacement.CombatXLocation, CombatPlacement.CombatYLocation).FindNoneTransparentHexSprite(typeof(PlayerStructure));
             if (structure != null)
             {
                 if (structure is City)
@@ -45,7 +45,7 @@ public partial class House : CombatStructure
                 }
                 else
                 {
-                    _flagId = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+                    _flagId = StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
                 }
 
                 if (_flagId == -1)
@@ -68,7 +68,7 @@ public partial class House : CombatStructure
         pixelYSurface = pixelY - pixelYSurface;
         if (HitPoints == 0)
         {
-            sequence = AoWHSSet.Current.ImageSequences.GetImageSequence(50);
+            sequence = GamePack.Current.ImageSequences.GetImageSequence(50);
             var hexY = GetHexY();
             var hexX = GetHexX();
             switch (CombatMap.Current.MapContainer.GetMapLevel(0).GetField(hexX, hexY).TerrainType)
@@ -135,7 +135,7 @@ public partial class House : CombatStructure
                                 {
                                     var hexX2 = GetHexX();
                                     var hexY2 = GetHexY();
-                                    AoWHSSet.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + AoWHSMap.Current.Frame + hexY2 * 100, (byte)_flagId, lockedSurface, false);
+                                    GamePack.Current.FlagControl.ShowStructureFlag(pixelXSurface + 21 + sequence.OffsetX, pixelYSurface + sequence.OffsetY + 16, hexX2 + StrategicMap.Current.Frame + hexY2 * 100, (byte)_flagId, lockedSurface, false);
                                 }
                             }
 

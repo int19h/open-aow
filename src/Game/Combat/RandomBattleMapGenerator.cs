@@ -1,5 +1,4 @@
 // Translated from AoWTC.pas.
-using Aow.Engine.Buffers;
 
 using Aow.Formats;
 
@@ -56,13 +55,13 @@ public partial class RandomBattleMapGenerator : IDisposable
             _resources[I] = list;
         }
 
-        for (int J = 0, last = AoWHSSet.Current.CombatResources.GetCount() - 1; J <= last; J++)
+        for (int J = 0, last = GamePack.Current.CombatResources.GetCount() - 1; J <= last; J++)
         {
-            if (AoWHSSet.Current.CombatResources.Resources[J] is CombatTerrain.Resource)
+            if (GamePack.Current.CombatResources.Resources[J] is CombatTerrain.Resource)
             {
-                var mapObjectResource = AoWHSSet.Current.CombatResources.Resources[J];
-                var mapObjectResource2 = AoWHSSet.Current.CombatResources.Resources[J];
-                var mapObjectResource3 = AoWHSSet.Current.CombatResources.Resources[J];
+                var mapObjectResource = GamePack.Current.CombatResources.Resources[J];
+                var mapObjectResource2 = GamePack.Current.CombatResources.Resources[J];
+                var mapObjectResource3 = GamePack.Current.CombatResources.Resources[J];
                 _resources[(sbyte)((TerrainMapObjectResource)mapObjectResource2).TerrainType * 19 + ((TerrainMapObjectResource)mapObjectResource3).DecorationType].Add(mapObjectResource);
             }
         }
@@ -128,14 +127,14 @@ public partial class RandomBattleMapGenerator : IDisposable
         CombatPlacement.CombatXLocation = X;
         CombatPlacement.CombatYLocation = Y;
         CombatPlacement.CombatLLocation = L;
-        RandSeed = Y * 128 + X + L * 16384 + AoWHSMap.Current.InitialRandomSeed;
+        RandSeed = Y * 128 + X + L * 16384 + StrategicMap.Current.InitialRandomSeed;
         I = 0;
         for (; I <= 6; I += 1)
         {
             HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
-            var mapField = AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K];
+            var mapField = StrategicMap.Current.MapContainer.MapLevels[L].Field[J, K];
             _terrain[I] = mapField.TerrainType;
-            var combatTerrainTag = ((AoWMapField)AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K]).GetCombatTerrainTag();
+            var combatTerrainTag = StrategicMap.Current.MapContainer.MapLevels[L].Field[J, K].GetCombatTerrainTag();
             _tags[I] = (sbyte)combatTerrainTag;
         }
 
@@ -160,11 +159,11 @@ public partial class RandomBattleMapGenerator : IDisposable
         }
 
         fileName = "TCMaps\\";
-        structure = (Structure)AoWHSMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite(typeof(Structure));
+        structure = (Structure)StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite(typeof(Structure));
         bridge = null;
         if (structure == null)
         {
-            bridge = (HexBridge)AoWHSMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite(typeof(HexBridge));
+            bridge = (HexBridge)StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].FindNoneTransparentHexSprite(typeof(HexBridge));
         }
 
         if (structure != null)
@@ -173,7 +172,7 @@ public partial class RandomBattleMapGenerator : IDisposable
             var site = new CombatMapSite(siteCombat, randomTerrain, (direction, kind) =>
             {
                 HexGeometry.CenterHexNumberToHex(X, Y, direction, ref J, ref K);
-                return AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K].FindNoneTransparentHexSprite(kind) != null;
+                return StrategicMap.Current.MapContainer.MapLevels[L].Field[J, K].FindNoneTransparentHexSprite(kind) != null;
             });
             fileName = fileName + structure.CombatMapName(site);
             randomTerrain = site.RandomTerrain;
@@ -245,7 +244,7 @@ public partial class RandomBattleMapGenerator : IDisposable
         }
         else
         {
-            AoWHSMap.Current.InitializeCombatMap(combat, fileName);
+            StrategicMap.Current.InitializeCombatMap(combat, fileName);
         }
 
         CombatMap.Current.SetCombat(combat);
@@ -435,7 +434,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                         if (J > -1)
                         {
                             HexGeometry.CenterHexNumberToHex(X, Y, J, ref K, ref hexX);
-                            if (AoWHSMap.Current.MapContainer.MapLevels[L].Field[K, hexX].FindOwnedChild(131946) == null)
+                            if (StrategicMap.Current.MapContainer.MapLevels[L].Field[K, hexX].FindOwnedChild(131946) == null)
                             {
                                 CombatMap.Current.ClearTerrain(column, row, 0, 0, -1);
                             }
@@ -446,13 +445,13 @@ public partial class RandomBattleMapGenerator : IDisposable
                 }
             }
 
-            if (AoWHSMap.Current.MapContainer.MapLevels[L].Field[X, Y].OverlayType == 4)
+            if (StrategicMap.Current.MapContainer.MapLevels[L].Field[X, Y].OverlayType == 4)
             {
                 I = 0;
                 for (; I <= 6; I += 1)
                 {
                     HexGeometry.CenterHexNumberToHex(X, Y, I, ref J, ref K);
-                    var item = AoWHSMap.Current.MapContainer.MapLevels[L].Field[J, K];
+                    var item = StrategicMap.Current.MapContainer.MapLevels[L].Field[J, K];
                     weights[I] = item.OverlayType;
                 }
 
@@ -535,7 +534,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                         {
                             if (_tags[shape - 1] != 127 && weights[shape - 1] == 4)
                             {
-                                AoWHSSet.Current.CombatRoads.Place(CombatMap.Current.MapContainer, (sbyte)column, (sbyte)row, 0, 1);
+                                GamePack.Current.CombatRoads.Place(CombatMap.Current.MapContainer, (sbyte)column, (sbyte)row, 0, 1);
                                 terrainBuffer[row * 65 + column] = 251;
                             }
                         }
@@ -881,7 +880,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                             {
                                 if (U.GetSide() == CombatSideIndex.Defender)
                                 {
-                                    if (AoWHSMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y].FindNoneTransparentHexSprite(typeof(City)) != null)
+                                    if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y].FindNoneTransparentHexSprite(typeof(City)) != null)
                                     {
                                     }
                                 }
@@ -921,7 +920,7 @@ public partial class RandomBattleMapGenerator : IDisposable
 
         if (CombatMap.Current.PositionStatus[0] != 1)
         {
-            if (AoWHSMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y].FindNoneTransparentHexSprite(typeof(City)) != null && CombatMap.Current.Combat.CombatData.WallType != 0)
+            if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y].FindNoneTransparentHexSprite(typeof(City)) != null && CombatMap.Current.Combat.CombatData.WallType != 0)
             {
                 position = 1;
                 while (position < 7)
@@ -929,7 +928,7 @@ public partial class RandomBattleMapGenerator : IDisposable
                     if (CombatMap.Current.PositionStatus[position] == 1)
                     {
                         HexGeometry.CenterHexNumberToHex(CombatMap.Current.Combat.CombatData.X, CombatMap.Current.Combat.CombatData.Y, position, ref J, ref temporary);
-                        if (AoWHSMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[J, temporary].FindNoneTransparentHexSprite(typeof(City)) != null)
+                        if (StrategicMap.Current.MapContainer.MapLevels[CombatMap.Current.Combat.CombatData.MapLevel].Field[J, temporary].FindNoneTransparentHexSprite(typeof(City)) != null)
                         {
                             _homePosition = position;
                             CombatMap.Current.PositionStatus[position] = (int)CombatSideIndex.Neutral;

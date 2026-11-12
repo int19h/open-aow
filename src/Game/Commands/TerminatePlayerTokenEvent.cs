@@ -39,32 +39,32 @@ public partial class TerminatePlayerTokenEvent : TokenEvent
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
         MessageEventLog log = default;
-        AoWHSMap.Current.Players.GetPlayers(Player).PlayerType = PlayerType.Cpu3;
-        var remotePlayerCommunicationControl = (RemotePlayerCommunicationControl)AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        StrategicMap.Current.Players.GetPlayers(Player).PlayerType = PlayerType.Cpu3;
+        var remotePlayerCommunicationControl = (RemotePlayerCommunicationControl)StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
         remotePlayerCommunicationControl.SetConnectionMode(Player, ConnectionMode.Global);
         remotePlayerCommunicationControl.SetSystemId(Player, 0);
 
-        if (!AoWHSMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
+        if (!StrategicMap.Current.Players.GetPlayers(Player).SingleProcessCycle)
         {
-            AoWHSMap.Current.PlayerControl.EndTurn(Player);
+            StrategicMap.Current.PlayerControl.EndTurn(Player);
         }
 
-        AoWHSMap.Current.Players.Update();
-        if (AoWHSMap.Current.SeatedPlayer != Player)
+        StrategicMap.Current.Players.Update();
+        if (StrategicMap.Current.SeatedPlayer != Player)
         {
             log = new MessageEventLog(null);
             log.Buttons = MessageEventLogButtons.Ok;
             log.Layout = MessageEventLogLayout.Normal;
-            var name = AoWHSMap.Current.Players.GetPlayers(Player).GetName();
+            var name = StrategicMap.Current.Players.GetPlayers(Player).GetName();
             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_leftGameFormat), [name]);
             log.Message.Add(format);
             // { Append the departure message, as in the original. }
-            AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
+            StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
             log.Release();
         }
         else
         {
-            AoWHSMap.Current.ExecuteExitGame();
+            StrategicMap.Current.ExecuteExitGame();
             if (ExitCallback != null)
             {
                 ExitCallback(ExitMode, true);

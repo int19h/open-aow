@@ -66,9 +66,9 @@ public partial class Altar : PlayerStructure
             if (executor.ExecuteCount == 0 && CanTarget(ref reason))
             {
                 _storm = CreateStorm();
-                var player = AoWHSMap.Current.Players.GetPlayers(Player);
+                var player = StrategicMap.Current.Players.GetPlayers(Player);
                 var targetMana = TargetMana();
-                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(player.MagicControl.Mana - targetMana);
+                StrategicMap.Current.Players.GetPlayers(Player).MagicControl.SetMana(player.MagicControl.Mana - targetMana);
                 RechargeDays = 0;
                 _storm.InitializeStorm(Player, (sbyte)(tokenEvent.Param & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 8)) & 255), (sbyte)(((int)(((uint)tokenEvent.Param) >> 16)) & 255));
             }
@@ -143,28 +143,28 @@ public partial class Altar : PlayerStructure
                 value = damage.EnemyDamage - damage.FriendlyDamage;
                 if ((double)value > (double)TargetMana() * 0.75)
                 {
-                    var playerAIBudget = AoWHSMap.Current.Players.GetPlayers(player);
+                    var playerAIBudget = StrategicMap.Current.Players.GetPlayers(player);
                     var targetMana = TargetMana();
-                    if (AoWHSMap.Current.Players.GetPlayers(player).AIBudget.RequestBudgetExpense(0, targetMana, playerAIBudget.AIBudget.DefaultBudget, true))
+                    if (StrategicMap.Current.Players.GetPlayers(player).AIBudget.RequestBudgetExpense(0, targetMana, playerAIBudget.AIBudget.DefaultBudget, true))
                     {
                         BattleFieldInfo.SetupBattleFieldInfo(ref friendly, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
                         var hexLevel2 = GetHexLevel();
                         var hexY2 = GetHexY();
                         var hexX = GetHexX();
-                        AoWHSMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, 1, ref friendly);
+                        StrategicMap.Current.RetrieveBattleFieldInfo(hexX, hexY2, hexLevel2, 1, ref friendly);
                         BattleFieldInfo.SetupBattleFieldInfo(ref enemy, player, 0, Set<BattleFieldInfoRequestsElement>.Of(), AbilityRules.s_allDamageTypes - Set<DamageType>.Of(DamageType.Wall));
                         var hexLevel3 = GetHexLevel();
                         var hexY3 = GetHexY();
                         var hexX2 = GetHexX();
-                        AoWHSMap.Current.RetrieveBattleFieldInfo(hexX2, hexY3, hexLevel3, 8, ref enemy);
+                        StrategicMap.Current.RetrieveBattleFieldInfo(hexX2, hexY3, hexLevel3, 8, ref enemy);
                         if (friendly.FriendlyStrength < enemy.Strength || value > 100)
                         {
                             if (StormTargetSelected(target.X, target.Y, target.MapLevel))
                             {
-                                var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+                                var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                                 var targetMana2 = TargetMana();
-                                AoWHSMap.Current.Players.GetPlayers(player).AIBudget.BudgetExpenseMade(0, targetMana2, playerLocal.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
+                                StrategicMap.Current.Players.GetPlayers(player).AIBudget.BudgetExpenseMade(0, targetMana2, playerLocal.AIBudget.DefaultBudget, AIBudgetManager.ExpenseMode.PoolThenBudget);
                             }
                         }
                     }
@@ -183,9 +183,9 @@ public partial class Altar : PlayerStructure
         if (player != Player)
         {
             base.SetPlayer(player);
-            if (player == Player && this == AoWHSMap.Current.TargetSelection.Source)
+            if (player == Player && this == StrategicMap.Current.TargetSelection.Source)
             {
-                AoWHSMap.Current.TargetSelection.Deactivate();
+                StrategicMap.Current.TargetSelection.Deactivate();
             }
         }
     }
@@ -202,13 +202,13 @@ public partial class Altar : PlayerStructure
         bool result;
         string reason = "";
         StructureTokenEvent eventValue;
-        if (CanTarget(ref reason) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
+        if (CanTarget(ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             eventValue = CreateTokenEvent();
             SetupTokenEvent(eventValue);
             eventValue.Param = X + (Y << 8) + (L << 16);
             eventValue.Action = 0;
-            AoWHSMap.Current.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -227,7 +227,7 @@ public partial class Altar : PlayerStructure
     public virtual bool CanTarget(ref string reason)
     {
         bool result;
-        if (TargetMana() <= AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.Mana)
+        if (TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana)
         {
             result = true;
         }
@@ -246,8 +246,8 @@ public partial class Altar : PlayerStructure
         bool result = default;
         TargetSelectionControl selection = default;
         string reason = "";
-        selection = AoWHSMap.Current.TargetSelection;
-        if (!GetRazed() && Player >= 0 && TargetMana() <= AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm == null)
+        selection = StrategicMap.Current.TargetSelection;
+        if (!GetRazed() && Player >= 0 && TargetMana() <= StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Mana && CanTarget(ref reason) && _storm == null)
         {
             selection.Initialize(this);
             selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
@@ -257,7 +257,7 @@ public partial class Altar : PlayerStructure
             selection.Range = 12;
             selection.FOnChange += OnTargetSelectionChange;
             _storm = CreateStorm();
-            _storm.UpdateTargetSelection(AoWHSMap.Current.TargetSelection);
+            _storm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
             var name = _storm.Name();
             var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SelectTargetLocationForOnMapFormat), [name]);
             selection.Text.Text = format;
@@ -285,7 +285,7 @@ public partial class Altar : PlayerStructure
         bool result;
         if (GetTargeting())
         {
-            AoWHSMap.Current.TargetSelection.Deactivate();
+            StrategicMap.Current.TargetSelection.Deactivate();
             result = true;
         }
         else
@@ -325,7 +325,7 @@ public partial class Altar : PlayerStructure
     }
 
     // Altar.pas:196
-    public bool GetTargeting() => AoWHSMap.Current.TargetSelection.Status.Contains(TargetSelectionStatusElement.Activated) && this == AoWHSMap.Current.TargetSelection.Source;
+    public bool GetTargeting() => StrategicMap.Current.TargetSelection.Status.Contains(TargetSelectionStatusElement.Activated) && this == StrategicMap.Current.TargetSelection.Source;
 
     private static readonly string s_chargingText = "Charging";
     private static readonly string s_readyText = "Ready";

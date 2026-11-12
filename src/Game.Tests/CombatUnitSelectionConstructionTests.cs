@@ -36,8 +36,8 @@ public sealed class CombatUnitSelectionConstructionTests
             using var fixture = new OrderingRecording.Fixture();
             var entry = fixture.Manager.DiskList.AddImageLibraryFile("TargHex.ILB");
             entry.ImageLibrary = new ImageLibrary(null!);
-            var set = AoWHSSet.Current;
-            if (fail == 1) AoWHSSet.Current = null!;
+            var set = GamePack.Current;
+            if (fail == 1) GamePack.Current = null!;
             int before = entry.RefCount;
             CombatUnitSelectionControl? value = null;
             string state;
@@ -49,7 +49,7 @@ public sealed class CombatUnitSelectionConstructionTests
                 state = OrderingRecording.Snapshot(value);
             }
             catch (Exception error) when (error is not XunitException) { state = error.GetType().FullName + ":" + error.Message; }
-            finally { AoWHSSet.Current = set; }
+            finally { GamePack.Current = set; }
             Assert.Equal(fail == 0, value is not null);
             actual.Add("fail" + fail, JsonSerializer.Serialize(new { State = state, Before = before, After = entry.RefCount }));
             value?.Dispose();

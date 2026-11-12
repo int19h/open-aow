@@ -29,18 +29,18 @@ public partial class DisjunctionSpellCaster : SpellCaster
         // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
         Troop source;
         bool result = base.CanCast(ref reason);
-        source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
+        source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         if (result && SelectedEnchantment() != null)
         {
-            if (!AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard) || SelectedEnchantment().EnchantmentType == GlobalEnchantmentType.SpellWard)
+            if (!StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard) || SelectedEnchantment().EnchantmentType == GlobalEnchantmentType.SpellWard)
             {
-                if (!AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
+                if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
                 {
                     if (source is Hero hero)
                     {
-                        var spell = AoWHSSet.Current.SpellControl.GetSpell(51);
+                        var spell = GamePack.Current.SpellControl.GetSpell(51);
                         var mana = GetMana();
-                        if (AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress >= spell.BaseManaCost + mana)
+                        if (StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress >= spell.BaseManaCost + mana)
                         {
                             result = true;
                         }
@@ -79,15 +79,15 @@ public partial class DisjunctionSpellCaster : SpellCaster
         DisjunctionTokenEvent eventValue;
         if (CanCast(ref reason))
         {
-            source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
-            if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+            source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
+            if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
             {
                 eventValue = new DisjunctionTokenEvent(null);
-                var spell = AoWHSSet.Current.SpellControl.GetSpell(51);
+                var spell = GamePack.Current.SpellControl.GetSpell(51);
                 eventValue.Initialize(CasterSpellId, (byte)source.Player, source.UnitId, spell.BaseManaCost);
                 eventValue.EnchantmentId = EnchantmentId;
                 eventValue.DispelChance = DispelChance;
-                AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 eventValue.Release();
                 result = true;
             }
@@ -99,7 +99,7 @@ public partial class DisjunctionSpellCaster : SpellCaster
         else
         {
             result = false;
-            AoWHSMap.Current.ShowMessage(reason);
+            StrategicMap.Current.ShowMessage(reason);
         }
 
         return result;
@@ -116,10 +116,10 @@ public partial class DisjunctionSpellCaster : SpellCaster
     {
         GlobalEnchantment result;
         int index;
-        index = AoWHSMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
+        index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
         if (index != -1)
         {
-            result = AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
+            result = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
         }
         else
         {
@@ -172,15 +172,15 @@ public partial class DisjunctionSpellCaster : SpellCaster
         Troop source;
         int Mana;
         bool result = false;
-        source = AoWHSMap.Current.UnitControl.FindUnit(CasterSourceId);
+        source = StrategicMap.Current.UnitControl.FindUnit(CasterSourceId);
         if (SelectedEnchantment() != null)
         {
-            if (!AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
+            if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
             {
                 if (source is Hero hero)
                 {
-                    Mana = AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
-                    var spell = AoWHSSet.Current.SpellControl.GetSpell(51);
+                    Mana = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + hero.CastingProgress;
+                    var spell = GamePack.Current.SpellControl.GetSpell(51);
                     var mana = GetMana();
                     if (Mana >= spell.BaseManaCost + mana)
                     {

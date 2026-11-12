@@ -54,9 +54,9 @@ internal static class OrderingRecording
         internal AoWDictionary Dictionary => _dictionary;
 
         private readonly AoWDictionary _dictionary = EngineFixture.Engine.Dictionary;
-        private readonly AoWHSSet _set = AoWHSSet.Current;
+        private readonly GamePack _set = GamePack.Current;
         private readonly GameEngine _engine = GameTables.GameEngine;
-        private readonly AoWHSMap _map = AoWHSMap.Current;
+        private readonly StrategicMap _map = StrategicMap.Current;
 
         internal ImageLibraryManager Manager { get; } = new ImageLibraryManager(null!);
         internal GameEngine Engine { get; }
@@ -66,10 +66,10 @@ internal static class OrderingRecording
             Runtime.RandSeed = 123456789;
             var value = EngineFixture.CreateGameSet(Manager);
             if (type == typeof(ArmyHexSprite)) value.UnitGraphicsResources = new UnitGFXResourceList(null!);
-            AoWHSSet.Current = value;
+            GamePack.Current = value;
             GameTables.GameEngine = EngineFixture.Engine;
-            AoWHSMap.Current = null!;
-            if (type != typeof(ArmyHexSprite)) AoWHSSet.Current.UnitGraphicsResources = null!;
+            StrategicMap.Current = null!;
+            if (type != typeof(ArmyHexSprite)) GamePack.Current.UnitGraphicsResources = null!;
             Runtime.RandSeed = 123456789;
             if (EngineHost.Engines is null) EngineHost.Initialize();
             Engine = new GameEngine(null!);
@@ -86,10 +86,10 @@ internal static class OrderingRecording
         {
             Engine.Dispose();
             EngineFixture.Engine.Dictionary = _dictionary;
-            AoWHSSet.Current?.UnitGraphicsResources?.Dispose();
-            AoWHSSet.Current = _set;
+            GamePack.Current?.UnitGraphicsResources?.Dispose();
+            GamePack.Current = _set;
             GameTables.GameEngine = _engine;
-            AoWHSMap.Current = _map;
+            StrategicMap.Current = _map;
             Runtime.RandSeed = _seed;
             Manager.Dispose();
         }

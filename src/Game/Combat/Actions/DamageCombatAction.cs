@@ -216,23 +216,23 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         bool flag = false;
         if (damageTypes.Contains(DamageType.Fire))
         {
-            flag = flag || AoWHSSet.Current.AbilityControl.GetAbility(127).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
+            flag = flag || GamePack.Current.AbilityControl.GetAbility(127).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
         }
         if (damageTypes.Contains(DamageType.Poison))
         {
-            flag = flag || AoWHSSet.Current.AbilityControl.GetAbility(96).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
+            flag = flag || GamePack.Current.AbilityControl.GetAbility(96).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
         }
         if (damageTypes.Contains(DamageType.Cold))
         {
-            flag = flag || AoWHSSet.Current.AbilityControl.GetAbility(95).ImageSequences.Show(1, X + 32, Y + 32, frame, in surface);
+            flag = flag || GamePack.Current.AbilityControl.GetAbility(95).ImageSequences.Show(1, X + 32, Y + 32, frame, in surface);
         }
         if (damageTypes.Contains(DamageType.Death))
         {
-            flag = flag || AoWHSSet.Current.AbilityControl.GetAbility(93).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
+            flag = flag || GamePack.Current.AbilityControl.GetAbility(93).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
         }
         if (damageTypes.Contains(DamageType.Holy))
         {
-            flag = flag || AoWHSSet.Current.AbilityControl.GetAbility(98).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
+            flag = flag || GamePack.Current.AbilityControl.GetAbility(98).ImageSequences.Show(0, X + 32, Y + 32, frame, in surface);
         }
         return flag;
     }
@@ -242,7 +242,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         int number = 0;
         if (damageTypes.Contains(DamageType.Fire))
         {
-            int framesCount = AoWHSSet.Current.AbilityControl.GetAbility(127).ImageSequences.GetFramesCount(0);
+            int framesCount = GamePack.Current.AbilityControl.GetAbility(127).ImageSequences.GetFramesCount(0);
             if (framesCount > number)
             {
                 number = framesCount;
@@ -250,7 +250,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         }
         if (damageTypes.Contains(DamageType.Poison))
         {
-            int framesCount = AoWHSSet.Current.AbilityControl.GetAbility(96).ImageSequences.GetFramesCount(0);
+            int framesCount = GamePack.Current.AbilityControl.GetAbility(96).ImageSequences.GetFramesCount(0);
             if (framesCount > number)
             {
                 number = framesCount;
@@ -258,7 +258,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         }
         if (damageTypes.Contains(DamageType.Cold))
         {
-            int framesCount = AoWHSSet.Current.AbilityControl.GetAbility(95).ImageSequences.GetFramesCount(1);
+            int framesCount = GamePack.Current.AbilityControl.GetAbility(95).ImageSequences.GetFramesCount(1);
             if (framesCount > number)
             {
                 number = framesCount;
@@ -266,7 +266,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         }
         if (damageTypes.Contains(DamageType.Death))
         {
-            int framesCount = AoWHSSet.Current.AbilityControl.GetAbility(93).ImageSequences.GetFramesCount(0);
+            int framesCount = GamePack.Current.AbilityControl.GetAbility(93).ImageSequences.GetFramesCount(0);
             if (framesCount > number)
             {
                 number = framesCount;
@@ -274,7 +274,7 @@ public partial class DamageCombatAction : SingleTargetCombatAction
         }
         if (damageTypes.Contains(DamageType.Holy))
         {
-            int framesCount = AoWHSSet.Current.AbilityControl.GetAbility(98).ImageSequences.GetFramesCount(0);
+            int framesCount = GamePack.Current.AbilityControl.GetAbility(98).ImageSequences.GetFramesCount(0);
             if (framesCount > number)
             {
                 number = framesCount;

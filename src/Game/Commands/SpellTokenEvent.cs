@@ -43,7 +43,7 @@ public partial class SpellTokenEvent : TokenEvent
     }
 
     // NetworkE.pas:230
-    public Troop GetSource() => AoWHSMap.Current.UnitControl.FindUnit(EventSourceId);
+    public Troop GetSource() => StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
 
     public virtual bool Validate(Hero source)
     {
@@ -52,13 +52,13 @@ public partial class SpellTokenEvent : TokenEvent
         finally { reason = ""; }
     }
 
-    public virtual bool Process(Troop source, int value) => AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).ExecuteTokenEvent(this, source, value);
+    public virtual bool Process(Troop source, int value) => GamePack.Current.SpellControl.GetSpell(EventSpellId).ExecuteTokenEvent(this, source, value);
 
     public virtual void PlayDefaultCastEffects(int unused1, int unused2)
     {
         sbyte x = 0, y = 0, l = 0;
         GetSource().GetLocation(ref x, ref y, ref l);
-        var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
+        var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
         spell.PlayDefaultCastEffects(GetSource().Player, x, y, l);
     }
 
@@ -66,7 +66,7 @@ public partial class SpellTokenEvent : TokenEvent
     {
         base.Execute(executor);
         // ExecuteCount binds tighter than the null test. A non-hero with a later count still reaches Process.
-        var source = AoWHSMap.Current.UnitControl.FindUnit(EventSourceId);
+        var source = StrategicMap.Current.UnitControl.FindUnit(EventSourceId);
         if (source == null)
         {
             return ExecuteResult.DoneHalt;

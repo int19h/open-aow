@@ -36,7 +36,7 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
         {
             result = false;
             troop.GetLocation(ref X, ref Y, ref L);
-            mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(L);
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 0);
             while (walk.HexNumber < 7 && !result)
             {
@@ -68,11 +68,11 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
         troop.GetLocation(ref X, ref Y, ref L);
         if (L == 0)
         {
-            result = (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindResource(60);
+            result = (StructureResource)GamePack.Current.MapObjectResourceList.FindResource(60);
         }
         else
         {
-            result = (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindResource(107);
+            result = (StructureResource)GamePack.Current.MapObjectResourceList.FindResource(107);
         }
 
         return result;

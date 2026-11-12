@@ -488,7 +488,7 @@ public partial class BattleAI : IDisposable
             if (list[I] != ignore)
             {
                 target = list[I];
-                AoWHSSet.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, target, ref damageValue);
+                GamePack.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, target, ref damageValue);
                 if (damageValue.SourceDamage > 0)
                 {
                     switch (spell)
@@ -540,17 +540,17 @@ public partial class BattleAI : IDisposable
         {
             if (ability == 52)
             {
-                AoWHSSet.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, hexSprite.Unit, ref damageValue);
+                GamePack.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, hexSprite.Unit, ref damageValue);
             }
             else
             {
                 if (TacticalTables.AbilityTypes[ability] == BattleEffectType.Touch)
                 {
-                    AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, hexSprite.Unit, ref damageValue);
+                    GamePack.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, hexSprite.Unit, ref damageValue);
                 }
                 else
                 {
-                    AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, hexSprite.Unit, ref damageValue);
+                    GamePack.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, hexSprite.Unit, ref damageValue);
                 }
             }
 
@@ -632,17 +632,17 @@ public partial class BattleAI : IDisposable
             {
                 if (ability == 52)
                 {
-                    AoWHSSet.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, CombatMap.Current.Combat.CombatData.Wall, ref damageValue);
+                    GamePack.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, CombatMap.Current.Combat.CombatData.Wall, ref damageValue);
                 }
                 else
                 {
                     if (TacticalTables.AbilityTypes[ability] == BattleEffectType.Touch)
                     {
-                        AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, CombatMap.Current.Combat.CombatData.Wall, ref damageValue);
+                        GamePack.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, CombatMap.Current.Combat.CombatData.Wall, ref damageValue);
                     }
                     else
                     {
-                        AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, CombatMap.Current.Combat.CombatData.Wall, ref damageValue);
+                        GamePack.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, CombatMap.Current.Combat.CombatData.Wall, ref damageValue);
                     }
                 }
 
@@ -993,7 +993,7 @@ public partial class BattleAI : IDisposable
                 spell = 0;
                 X = originalX;
                 Y = originalY;
-                AoWHSSet.Current.AbilityControl.GetAbility(ability).GetCombatInfo(U.Troop, ref abilityInfo);
+                GamePack.Current.AbilityControl.GetAbility(ability).GetCombatInfo(U.Troop, ref abilityInfo);
                 switch (ability)
                 {
                     case 52:
@@ -1028,8 +1028,8 @@ public partial class BattleAI : IDisposable
                                     case BattleEffectType.ShockWave:
                                     case BattleEffectType.SacFlame:
                                     case BattleEffectType.Winds:
-                                        AoWHSSet.Current.SpellControl.GetSpell(spell).GetCombatInfo(U.Troop, ref spellInfo);
-                                        AoWHSSet.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, target, ref values);
+                                        GamePack.Current.SpellControl.GetSpell(spell).GetCombatInfo(U.Troop, ref spellInfo);
+                                        GamePack.Current.SpellControl.GetSpell(spell).GetCombatDamageValues(U, target, ref values);
                                         if (values.SourceDamage > 0)
                                         {
                                             U.CanFlee = false;
@@ -1502,11 +1502,11 @@ public partial class BattleAI : IDisposable
                         switch (TacticalTables.AbilityTypes[ability])
                         {
                             case BattleEffectType.Touch:
-                                if (target is CombatWall || target is CombatUnit && ((TouchAbility)AoWHSSet.Current.AbilityControl.GetAbility(ability)).CanTouch(U, target))
+                                if (target is CombatWall || target is CombatUnit && ((TouchAbility)GamePack.Current.AbilityControl.GetAbility(ability)).CanTouch(U, target))
                                 {
                                     try
                                     {
-                                        AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, target, ref values);
+                                        GamePack.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValues(U, target, ref values);
                                         if (values.SourceDamage > 0)
                                         {
                                             adjacent = ((MovePath)Path).MovePointsToPosition(U.MovePoints) == 0;
@@ -1672,7 +1672,7 @@ public partial class BattleAI : IDisposable
                             case BattleEffectType.HighPrayer:
                                 try
                                 {
-                                    cost = AoWHSSet.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValue(U, target);
+                                    cost = GamePack.Current.AbilityControl.GetAbility(ability).TacticalBattleGetDamageValue(U, target);
                                     if (cost > 0)
                                     {
                                         U.CanFlee = false;
@@ -1682,13 +1682,13 @@ public partial class BattleAI : IDisposable
                                         }
 
                                         pathValue = 0;
-                                        if (AoWHSSet.Current.AbilityControl.GetAbility(ability).GetCombatMode(U.Troop) == CombatMode.LongRange)
+                                        if (GamePack.Current.AbilityControl.GetAbility(ability).GetCombatMode(U.Troop) == CombatMode.LongRange)
                                         {
                                             range = 12;
                                         }
                                         else
                                         {
-                                            if (AoWHSSet.Current.AbilityControl.GetAbility(ability).GetCombatMode(U.Troop) == CombatMode.MediumRange)
+                                            if (GamePack.Current.AbilityControl.GetAbility(ability).GetCombatMode(U.Troop) == CombatMode.MediumRange)
                                             {
                                                 range = 8;
                                             }
@@ -1977,7 +1977,7 @@ public partial class BattleAI : IDisposable
         SpellCombatInfo spellInfo = default;
         CityWall Wall;
         Status = AIStatus.Busy;
-        if (AoWHSMap.Current.TokenManager.PlayerReady(CombatMap.Current.CurrentPlayer))
+        if (StrategicMap.Current.TokenManager.PlayerReady(CombatMap.Current.CurrentPlayer))
         {
             switch (_currentMove)
             {
@@ -2013,7 +2013,7 @@ public partial class BattleAI : IDisposable
                                 {
                                     var hexY = ((TacticalBattleUnit)tacticalBattle.CombatData.GetObjects(I)).UnitHexSprite.GetHexY();
                                     HexGeometry.CenterHexNumberToHex(((TacticalBattleUnit)tacticalBattle.CombatData.GetObjects(I)).UnitHexSprite.GetHexX(), hexY, J, ref K, ref L);
-                                    if (!CombatMap.Current.ExplorationEnabled || ((AoWMapField)CombatMap.Current.MapContainer.GetField(K, L, 0)).GetExplored(CombatMap.Current.SeatedPlayer))
+                                    if (!CombatMap.Current.ExplorationEnabled || CombatMap.Current.MapContainer.GetField(K, L, 0).GetExplored(CombatMap.Current.SeatedPlayer))
                                     {
                                         visible = true;
                                     }
@@ -2097,19 +2097,19 @@ public partial class BattleAI : IDisposable
                                                 N = 0;
                                                 for (; N <= 130; N += 1)
                                                 {
-                                                    bool condition = target.Troop.Player > 0 && TacticalTables.SpellTypes[N] != BattleEffectType.None && AoWHSMap.Current.Players.GetPlayers(target.Troop.Player).MagicControl.Spells.IndexOf(N) != -1;
+                                                    bool condition = target.Troop.Player > 0 && TacticalTables.SpellTypes[N] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(target.Troop.Player).MagicControl.Spells.IndexOf(N) != -1;
                                                     if (condition)
                                                     {
-                                                        var spell = AoWHSSet.Current.SpellControl.GetSpell(N);
+                                                        var spell = GamePack.Current.SpellControl.GetSpell(N);
                                                         condition = ((Hero)target.Troop).CanCastSpellInstantly(N, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
                                                     {
-                                                        AoWHSSet.Current.SpellControl.GetSpell(N).GetCombatInfo(target.Troop, ref spellInfo);
+                                                        GamePack.Current.SpellControl.GetSpell(N).GetCombatInfo(target.Troop, ref spellInfo);
                                                         if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy) && (K <= spellInfo.Range || spellInfo.Range == -1))
                                                         {
-                                                            value = AoWHSSet.Current.SpellControl.GetSpell(N).GetCombatDamageValue(target, U);
+                                                            value = GamePack.Current.SpellControl.GetSpell(N).GetCombatDamageValue(target, U);
                                                             if (value > 0)
                                                             {
                                                                 if (Set<BattleEffectType>.Of(BattleEffectType.Arrow, BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.Ray).Contains(TacticalTables.SpellTypes[N]))
@@ -2137,16 +2137,16 @@ public partial class BattleAI : IDisposable
                                             {
                                                 if (TacticalTables.AbilityTypes[L] != BattleEffectType.None && TacticalTables.AbilityTypes[L] != BattleEffectType.Touch)
                                                 {
-                                                    AoWHSSet.Current.AbilityControl.GetAbility(L).GetCombatInfo(target.Troop, ref aiInfo);
+                                                    GamePack.Current.AbilityControl.GetAbility(L).GetCombatInfo(target.Troop, ref aiInfo);
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
                                                     {
-                                                        if (AoWHSSet.Current.AbilityControl.GetAbility(L).GetCombatMode(target.Troop) == CombatMode.LongRange)
+                                                        if (GamePack.Current.AbilityControl.GetAbility(L).GetCombatMode(target.Troop) == CombatMode.LongRange)
                                                         {
                                                             N = 12;
                                                         }
                                                         else
                                                         {
-                                                            if (AoWHSSet.Current.AbilityControl.GetAbility(L).GetCombatMode(target.Troop) == CombatMode.MediumRange)
+                                                            if (GamePack.Current.AbilityControl.GetAbility(L).GetCombatMode(target.Troop) == CombatMode.MediumRange)
                                                             {
                                                                 N = 8;
                                                             }
@@ -2158,7 +2158,7 @@ public partial class BattleAI : IDisposable
 
                                                         if (K <= N)
                                                         {
-                                                            value = AoWHSSet.Current.AbilityControl.GetAbility(L).TacticalBattleGetDamageValue(target, U);
+                                                            value = GamePack.Current.AbilityControl.GetAbility(L).TacticalBattleGetDamageValue(target, U);
                                                             if (value > 0)
                                                             {
                                                                 if (Set<BattleEffectType>.Of(BattleEffectType.Arrow, BattleEffectType.Rock, BattleEffectType.Comet, BattleEffectType.Breath, BattleEffectType.CometBall, BattleEffectType.Ray).Contains(TacticalTables.AbilityTypes[L]))
@@ -2229,16 +2229,16 @@ public partial class BattleAI : IDisposable
                                                 K = 0;
                                                 for (; K <= 130; K += 1)
                                                 {
-                                                    bool condition = U.Troop.Player > 0 && TacticalTables.SpellTypes[K] != BattleEffectType.None && AoWHSMap.Current.Players.GetPlayers(U.Troop.Player).MagicControl.Spells.IndexOf(K) != -1;
+                                                    bool condition = U.Troop.Player > 0 && TacticalTables.SpellTypes[K] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(U.Troop.Player).MagicControl.Spells.IndexOf(K) != -1;
                                                     if (condition)
                                                     {
-                                                        var spell = AoWHSSet.Current.SpellControl.GetSpell(K);
+                                                        var spell = GamePack.Current.SpellControl.GetSpell(K);
                                                         condition = ((Hero)U.Troop).CanCastSpellInstantly(K, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
                                                     {
-                                                        AoWHSSet.Current.SpellControl.GetSpell(K).GetCombatInfo(U.Troop, ref spellInfo);
+                                                        GamePack.Current.SpellControl.GetSpell(K).GetCombatInfo(U.Troop, ref spellInfo);
                                                         if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
                                                         {
                                                             abilities.Add(new CombatAbilityRef());
@@ -2252,7 +2252,7 @@ public partial class BattleAI : IDisposable
                                             {
                                                 if (TacticalTables.AbilityTypes[J] != BattleEffectType.None)
                                                 {
-                                                    AoWHSSet.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
+                                                    GamePack.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 2) != 0)
                                                     {
                                                         abilities.Add(new CombatAbilityRef());
@@ -2318,16 +2318,16 @@ public partial class BattleAI : IDisposable
                                                 K = 0;
                                                 for (; K <= 130; K += 1)
                                                 {
-                                                    bool condition = TacticalTables.SpellTypes[K] != BattleEffectType.None && AoWHSMap.Current.Players.GetPlayers(U.Troop.Player).MagicControl.Spells.IndexOf(K) != -1;
+                                                    bool condition = TacticalTables.SpellTypes[K] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(U.Troop.Player).MagicControl.Spells.IndexOf(K) != -1;
                                                     if (condition)
                                                     {
-                                                        var spell = AoWHSSet.Current.SpellControl.GetSpell(K);
+                                                        var spell = GamePack.Current.SpellControl.GetSpell(K);
                                                         condition = ((Hero)U.Troop).CanCastSpellInstantly(K, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
                                                     {
-                                                        AoWHSSet.Current.SpellControl.GetSpell(K).GetCombatInfo(U.Troop, ref spellInfo);
+                                                        GamePack.Current.SpellControl.GetSpell(K).GetCombatInfo(U.Troop, ref spellInfo);
                                                         if (spellInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                                                         {
                                                             abilities.Add(new CombatAbilityRef());
@@ -2341,7 +2341,7 @@ public partial class BattleAI : IDisposable
                                             {
                                                 if (TacticalTables.AbilityTypes[J] != BattleEffectType.None)
                                                 {
-                                                    AoWHSSet.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
+                                                    GamePack.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
                                                     if ((((byte)aiInfo.TargetTypes.Image) & 1) != 0)
                                                     {
                                                         abilities.Add(new CombatAbilityRef());
@@ -2487,16 +2487,16 @@ public partial class BattleAI : IDisposable
                                                 K = 0;
                                                 for (; K <= 130; K += 1)
                                                 {
-                                                    bool condition = TacticalTables.SpellTypes[K] != BattleEffectType.None && AoWHSMap.Current.Players.GetPlayers(U.Troop.Player).MagicControl.Spells.IndexOf(K) != -1;
+                                                    bool condition = TacticalTables.SpellTypes[K] != BattleEffectType.None && StrategicMap.Current.Players.GetPlayers(U.Troop.Player).MagicControl.Spells.IndexOf(K) != -1;
                                                     if (condition)
                                                     {
-                                                        var spell = AoWHSSet.Current.SpellControl.GetSpell(K);
+                                                        var spell = GamePack.Current.SpellControl.GetSpell(K);
                                                         condition = ((Hero)U.Troop).CanCastSpellInstantly(K, spell.BaseManaCost, ref reason);
                                                     }
 
                                                     if (condition)
                                                     {
-                                                        AoWHSSet.Current.SpellControl.GetSpell(K).GetCombatInfo(U.Troop, ref spellInfo);
+                                                        GamePack.Current.SpellControl.GetSpell(K).GetCombatInfo(U.Troop, ref spellInfo);
                                                         if (spellInfo.DamageTypes.Contains(DamageType.Wall))
                                                         {
                                                             _flee = false;
@@ -2512,7 +2512,7 @@ public partial class BattleAI : IDisposable
                                         {
                                             if (TacticalTables.AbilityTypes[J] != BattleEffectType.None)
                                             {
-                                                AoWHSSet.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
+                                                GamePack.Current.AbilityControl.GetAbility(J).GetCombatInfo(U.Troop, ref aiInfo);
                                                 if (aiInfo.DamageTypes.Contains(DamageType.Wall))
                                                 {
                                                     _flee = false;
@@ -2982,7 +2982,7 @@ public partial class BattleAI : IDisposable
                                     settings?.Dispose();
                                     break;
                                 case BattleAIMoveType.Touch:
-                                    AoWHSSet.Current.AbilityControl.GetAbility(move.Ability).GetCombatInfo(move.UnitHexSprite.Unit.Troop, ref aiInfo);
+                                    GamePack.Current.AbilityControl.GetAbility(move.Ability).GetCombatInfo(move.UnitHexSprite.Unit.Troop, ref aiInfo);
                                     settings = new CombatMoveControlSettings(null);
                                     var hexY3 = move.UnitHexSprite.GetHexY();
                                     settings.SetSourcePosition(move.UnitHexSprite.GetHexX(), hexY3, 0);

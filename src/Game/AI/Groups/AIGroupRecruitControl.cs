@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 
@@ -73,7 +72,7 @@ public partial class AIGroupRecruitControl : AIGroupTask
         switch (State)
         {
             case 0:
-                AoWHSMap.Current.AIExecutor.UseProcessTime(500);
+                StrategicMap.Current.AIExecutor.UseProcessTime(500);
                 I = 0;
                 _control.RecruitmentGroups.Validate(_control);
                 while (!Complete && I != _control.RecruitmentGroups.Count)

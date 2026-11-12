@@ -121,7 +121,7 @@ public partial class DefenderAIGroupControl : BehaviorAIGroupControl
 
                 break;
             case 6:
-                var player = AoWHSMap.Current.Players.GetPlayers(Group.Player);
+                var player = StrategicMap.Current.Players.GetPlayers(Group.Player);
                 if (Set<PlayerType>.Of(PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType))
                 {
                     State = 0;

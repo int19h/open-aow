@@ -40,12 +40,12 @@ public partial class FireMastery : GlobalEnchantmentSpell
         {
             source.GetLocation(ref X, ref Y, ref L);
             SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Fire);
-            AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+            StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
             var animation = new Animation(null);
             animation.AnimationLevel = 27;
             animation.OnShow = ShowAnimation;
-            animation.AnimationMap = AoWHSMap.Current;
-            animation.Tag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
+            animation.AnimationMap = StrategicMap.Current;
+            animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();
 
             CastSounds.Play(0);
@@ -71,7 +71,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {
         int chance = GameTables.GameEngine.AnimationDetail switch { 0 => 2, 2 => 5, _ => 3 };
-        var map = AoWHSMap.Current;
+        var map = StrategicMap.Current;
         var level = map.MapContainer.GetMapLevel(map.ViewL);
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)
@@ -82,7 +82,7 @@ public partial class FireMastery : GlobalEnchantmentSpell
             pixelY = pixelY - pixelYSurface + 16;
             for (int y = map.ViewHexY; y <= maxY; y++, pixelY += 32)
             {
-                var field = (AoWMapField)level.GetField(x, y);
+                var field = level.GetField(x, y);
                 if (field.TerrainType is 7 or 8 or 15 || map.SeatedPlayer == -1 || map.ExplorationEnabled && !field.GetExplored(map.SeatedPlayer)) continue;
                 RandSeed = field.HexX + field.HexY * 8 + ((field.FieldFlags >> 16) & 255) * 65536;
                 if (Random(100) >= chance) continue;

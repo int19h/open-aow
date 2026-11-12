@@ -47,25 +47,25 @@ public partial class HealingTokenEvent : TokenEvent
         sbyte Y = default;
         sbyte L = default;
         base.Execute(tokenEvent);
-        source = AoWHSMap.Current.UnitControl.FindUnit(SourceId);
-        target = AoWHSMap.Current.UnitControl.FindUnit(TargetId);
+        source = StrategicMap.Current.UnitControl.FindUnit(SourceId);
+        target = StrategicMap.Current.UnitControl.FindUnit(TargetId);
         if (source != null && (byte)source.Player == SourcePlayer && target != null && (byte)target.Player == TargetPlayer)
         {
-            ability = (HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(47);
+            ability = (HealingAbility)GamePack.Current.AbilityControl.GetAbility(47);
             if (ability.GetEnabled(source))
             {
                 ability.SetEnabled(source, false);
                 ability.HealUnit(target);
                 target.GetLocation(ref X, ref Y, ref L);
-                AoWHSMap.Current.ValidateObservation((sbyte)SourcePlayer, X, Y, L, 0);
-                if (AoWHSMap.Current.Visible(X, Y, L, 0))
+                StrategicMap.Current.ValidateObservation((sbyte)SourcePlayer, X, Y, L, 0);
+                if (StrategicMap.Current.Visible(X, Y, L, 0))
                 {
                     animation = new ImageSequenceAnimation(null);
                     animation.SetImageSequence(ability.ImageSequences.GetImageSequence(0));
-                    AoWHSMap.Current.PlaceHex(animation, X, Y, L);
+                    StrategicMap.Current.PlaceHex(animation, X, Y, L);
                 }
 
-                if ((byte)AoWHSMap.Current.SeatedPlayer == SourcePlayer || AoWHSMap.Current.Watching(X, Y, L, 0))
+                if ((byte)StrategicMap.Current.SeatedPlayer == SourcePlayer || StrategicMap.Current.Watching(X, Y, L, 0))
                 {
                     ability.SfxLibrary.Play(0);
                 }

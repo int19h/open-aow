@@ -304,7 +304,7 @@ public sealed class AsmStubsProbeTests
     private static List<string> ExploredLines()
     {
         var lines = new List<string>();
-        var field = new AoWMapField(null!);
+        var field = new MapField(null!);
         for (int j = 0; j < s_values.Length; j++)
         {
             field.FieldFlags = s_values[j];

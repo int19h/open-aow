@@ -7,7 +7,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -48,23 +48,23 @@ public partial class DisjunctionDialog : DataModule
     {
         GlobalMagicControl magic;
         string reason = "";
-        magic = AoWHSMap.Current.GlobalMagicControl;
+        magic = StrategicMap.Current.GlobalMagicControl;
         EnchantmentList.Items.Clear();
         OwnerList.Items.Clear();
         for (int I = 0, last = magic.Enchantments.Count - 1; I <= last; I++)
         {
-            if (magic.Enchantments.GetEnchantments(I).PlayerIndex != AoWHSMap.Current.SeatedPlayer)
+            if (magic.Enchantments.GetEnchantments(I).PlayerIndex != StrategicMap.Current.SeatedPlayer)
             {
-                if (magic.Enchantments.GetEnchantments(I).VisibleForPlayer(AoWHSMap.Current.SeatedPlayer))
+                if (magic.Enchantments.GetEnchantments(I).VisibleForPlayer(StrategicMap.Current.SeatedPlayer))
                 {
-                    if (magic.Enchantments.GetEnchantments(I).CanDispel(AoWHSMap.Current.SeatedPlayer, ref reason))
+                    if (magic.Enchantments.GetEnchantments(I).CanDispel(StrategicMap.Current.SeatedPlayer, ref reason))
                     {
                         reason = magic.Enchantments.GetEnchantments(I).GetName();
                         var name = magic.Enchantments.GetEnchantments(I).GetName();
                         var enchantmentEnchantmentId = magic.Enchantments.GetEnchantments(I);
                         EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentId._enchantmentId));
                         var enchantmentPlayerIndex = magic.Enchantments.GetEnchantments(I);
-                        var player = AoWHSMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
+                        var player = StrategicMap.Current.Players.GetPlayers(enchantmentPlayerIndex.PlayerIndex);
                         OwnerList.Items.Add(player.Leader.HeroName);
                     }
                 }
@@ -107,9 +107,9 @@ public partial class DisjunctionDialog : DataModule
             DisjunctionManaLabel.TextColor = 255;
         }
 
-        var spell = AoWHSSet.Current.SpellControl.GetSpell(51);
+        var spell = GamePack.Current.SpellControl.GetSpell(51);
         var mana = _caster.GetMana();
-        var fSpellControlSpell = AoWHSSet.Current.SpellControl.GetSpell(51);
+        var fSpellControlSpell = GamePack.Current.SpellControl.GetSpell(51);
         var fCasterMana = _caster.GetMana();
         DisjunctionManaLabel.Text = IntToStr(spell.BaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.BaseManaCost + fCasterMana);
         DisjunctionChanceLabel.Text = IntToStr(_caster.DispelChance) + "%";
@@ -191,7 +191,7 @@ public partial class DisjunctionDialog : DataModule
         }
         else
         {
-            AoWHSMap.Current.ShowMessage(reason);
+            StrategicMap.Current.ShowMessage(reason);
         }
     }
 
@@ -294,17 +294,17 @@ public partial class DisjunctionDialog : DataModule
         }
 
         LockedSurface.CreateFrom(lockedSurface, R, ref mapSurfaceDescription);
-        AoWHSMap.Current.SetViewPort(X, Y, _mapL, R.Right - R.Left, R.Bottom - R.Top);
-        AoWHSMap.Current.UpdateStaticScene();
-        AoWHSMap.Current.UpdateDynamicScene();
-        AoWHSMap.Current.DrawStaticScene(ref mapSurfaceDescription);
-        AoWHSMap.Current.DrawDynamicScene(ref mapSurfaceDescription);
+        StrategicMap.Current.SetViewPort(X, Y, _mapL, R.Right - R.Left, R.Bottom - R.Top);
+        StrategicMap.Current.UpdateStaticScene();
+        StrategicMap.Current.UpdateDynamicScene();
+        StrategicMap.Current.DrawStaticScene(ref mapSurfaceDescription);
+        StrategicMap.Current.DrawDynamicScene(ref mapSurfaceDescription);
     }
 
     // AoWDisjunctionDlg.pas:170
     public void MapViewUpdate()
     {
         DialogHosts.General.Manager.OverlayPriority = 49;
-        MapView.Drawn = MapView.Drawn && (AoWHSMap.Current.Frame & 1) != 0;
+        MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
     }
 }

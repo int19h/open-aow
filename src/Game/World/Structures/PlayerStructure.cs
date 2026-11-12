@@ -63,7 +63,7 @@ public partial class PlayerStructure : Structure
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001989)
         {
-            if (AoWHSMap.Current.Players.GetNumberOfPlayers() < Player)
+            if (StrategicMap.Current.Players.GetNumberOfPlayers() < Player)
             {
                 SetPlayer(0);
             }
@@ -88,12 +88,12 @@ public partial class PlayerStructure : Structure
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
         pixelXSurface = pixelX - pixelXSurface;
         pixelYSurface = pixelY - pixelYSurface;
-        if (_flagId != 63 && (!AoWHSMap.Current.FogEnabled || !Fogged))
+        if (_flagId != 63 && (!StrategicMap.Current.FogEnabled || !Fogged))
         {
             var playerStructureResource = (PlayerStructureResource)_resource;
             if (playerStructureResource.FlagType <= 1)
             {
-                AoWHSSet.Current.FlagControl.ShowFlag(playerStructureResource.FlagX + pixelXSurface, playerStructureResource.FlagY + pixelYSurface, playerStructureResource.Engine.HexSpriteMap.Frame + pixelX, _flagId, lockedSurface);
+                GamePack.Current.FlagControl.ShowFlag(playerStructureResource.FlagX + pixelXSurface, playerStructureResource.FlagY + pixelYSurface, playerStructureResource.Engine.HexSpriteMap.Frame + pixelX, _flagId, lockedSurface);
             }
             else
             {
@@ -109,13 +109,13 @@ public partial class PlayerStructure : Structure
     {
         if (message.MessageId == 4364 && message.HexNumber == 0 && _resource.TerrainList.Terrain[message.HexNumber] >= 0)
         {
-            if (!AoWHSMap.Current.FogEnabled || !Fogged)
+            if (!StrategicMap.Current.FogEnabled || !Fogged)
             {
                 if (Player >= 0)
                 {
                     if (Player > 0)
                     {
-                        var players = AoWHSMap.Current.Players.GetPlayers(Player);
+                        var players = StrategicMap.Current.Players.GetPlayers(Player);
                         message.Param[0] = message.Param[0].Int + (players.PlayerRace + 1) * 256;
                     }
                     else
@@ -128,7 +128,7 @@ public partial class PlayerStructure : Structure
                     message.Param[0] = message.Param[0].Int + 3584;
                 }
 
-                if (AoWHSMap.Current.VictoryCondition == AoWHSMapVictoryCondition.CaptureLocations && _victoryLocations[AoWHSMap.Current.SeatedPlayer])
+                if (StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations && _victoryLocations[StrategicMap.Current.SeatedPlayer])
                 {
                     message.Param[0] = message.Param[0].Int | 16777216;
                 }
@@ -178,7 +178,7 @@ public partial class PlayerStructure : Structure
                 if (condition)
                 {
                     var trueVisionRange = TrueVisionRange();
-                    AoWHSMap.Current.UpdatePlayerSeen(Player, message.MapField.HexX, message.MapField.HexY, message.MapField.HexLevel, message.Param[0].Int, trueVisionRange);
+                    StrategicMap.Current.UpdatePlayerSeen(Player, message.MapField.HexX, message.MapField.HexY, message.MapField.HexLevel, message.Param[0].Int, trueVisionRange);
                 }
             }
             else
@@ -198,7 +198,7 @@ public partial class PlayerStructure : Structure
                     {
                         if (message.MessageId == 4362 && Player > 0)
                         {
-                            if (Player == message.Param[1].Int || AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)message.Param[1].Int) == DiplomaticRelation.Alliance)
+                            if (Player == message.Param[1].Int || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)message.Param[1].Int) == DiplomaticRelation.Alliance)
                             {
                                 var visibilityRange = VisibilityRange();
                                 if (message.Param[0].Int <= visibilityRange)
@@ -214,7 +214,7 @@ public partial class PlayerStructure : Structure
 
         if (message.MessageId == 4363 && Player > 0)
         {
-            if (Player == message.Param[1].Int || AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)message.Param[1].Int) == DiplomaticRelation.Alliance)
+            if (Player == message.Param[1].Int || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)message.Param[1].Int) == DiplomaticRelation.Alliance)
             {
                 var trueVisionRange = TrueVisionRange();
                 if (message.Param[0].Int <= trueVisionRange)
@@ -299,7 +299,7 @@ public partial class PlayerStructure : Structure
         RegisterVictoryLocations();
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).Structures.AddChild(this);
+            StrategicMap.Current.Players.GetPlayers(Player).Structures.AddChild(this);
         }
     }
 
@@ -308,7 +308,7 @@ public partial class PlayerStructure : Structure
     {
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).Structures.RemoveChild(this);
+            StrategicMap.Current.Players.GetPlayers(Player).Structures.RemoveChild(this);
         }
 
         UnregisterVictoryLocations();
@@ -321,7 +321,7 @@ public partial class PlayerStructure : Structure
     {
         if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 4096 | 8192 | 16384 | 33554432 | 16777216 | 134217728;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 4096 | 8192 | 16384 | 33554432 | 16777216 | 134217728;
         }
     }
 
@@ -329,7 +329,7 @@ public partial class PlayerStructure : Structure
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.Day == 1 && Player > 0)
+        if (StrategicMap.Current.Day == 1 && Player > 0)
         {
             UpdateExploration();
             UpdatePlayerSeen();
@@ -438,10 +438,10 @@ public partial class PlayerStructure : Structure
             ProductionPriority = 0;
             if (Player != -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).Structures.RemoveChild(this);
+                StrategicMap.Current.Players.GetPlayers(Player).Structures.RemoveChild(this);
             }
 
-            if (AoWHSMap.Current.Day > 0)
+            if (StrategicMap.Current.Day > 0)
             {
                 StructureCaptured(Player, player);
             }
@@ -454,27 +454,27 @@ public partial class PlayerStructure : Structure
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
             var hexX = GetHexX();
-            AoWHSMap.Current.ScannerIconsChangedRadius(hexX, hexY, hexLevel, hexNumberToRadius);
+            StrategicMap.Current.ScannerIconsChangedRadius(hexX, hexY, hexLevel, hexNumberToRadius);
             UpdateFlagId();
             FogChanged();
             var hexLevel2 = GetHexLevel();
             var hexY2 = GetHexY();
             var hexX2 = GetHexX();
-            AoWHSMap.Current.NotifyPlayerChanged(hexX2, hexY2, hexLevel2);
+            StrategicMap.Current.NotifyPlayerChanged(hexX2, hexY2, hexLevel2);
             if (Player != -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).Structures.AddChild(this);
+                StrategicMap.Current.Players.GetPlayers(Player).Structures.AddChild(this);
             }
 
-            if (Player > 0 && AoWHSMap.Current.VictoryCondition == AoWHSMapVictoryCondition.CaptureLocations)
+            if (Player > 0 && StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.CaptureLocations)
             {
-                for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+                for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
                 {
                     if (_victoryLocations[I])
                     {
-                        if (I == Player || AoWHSMap.Current.AlliedVictory && AoWHSMap.Current.Players.GetDiplomaticRelation(Player, (sbyte)I) == DiplomaticRelation.Alliance)
+                        if (I == Player || StrategicMap.Current.AlliedVictory && StrategicMap.Current.Players.GetDiplomaticRelation(Player, (sbyte)I) == DiplomaticRelation.Alliance)
                         {
-                            AoWHSMap.Current.Players.GetPlayers(I).CheckCaptureLocations();
+                            StrategicMap.Current.Players.GetPlayers(I).CheckCaptureLocations();
                         }
                     }
                 }
@@ -497,7 +497,7 @@ public partial class PlayerStructure : Structure
         {
             if (Player > 0)
             {
-                _flagId = (byte)AoWHSMap.Current.Players.GetPlayers(Player).PlayerRace;
+                _flagId = (byte)StrategicMap.Current.Players.GetPlayers(Player).PlayerRace;
             }
             else
             {
@@ -524,7 +524,7 @@ public partial class PlayerStructure : Structure
         if (!GetBuilding())
         {
             result = 6;
-            if (GetHexLevel() != 0 || Player > 0 && (((byte)AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+            if (GetHexLevel() != 0 || Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
             {
                 result = (int)(((uint)(result + 1)) >> 1);
             }
@@ -548,7 +548,7 @@ public partial class PlayerStructure : Structure
             return;
         }
 
-        if (Status.Contains(MapObjectStatusElement.Activated) && Player != -1 && AoWHSMap.Current.SeatedPlayer != -1 && (AoWHSMap.Current.SeatedPlayer == Player || AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(AoWHSMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance))
+        if (Status.Contains(MapObjectStatusElement.Activated) && Player != -1 && StrategicMap.Current.SeatedPlayer != -1 && (StrategicMap.Current.SeatedPlayer == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation(StrategicMap.Current.SeatedPlayer) == DiplomaticRelation.Alliance))
         {
             range = VisibilityRange();
         }
@@ -566,7 +566,7 @@ public partial class PlayerStructure : Structure
                     if (_resource.TerrainList.Terrain[I] >= 0)
                     {
                         HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                        AoWHSMap.Current.FogArea(X, Y, Owner.HexLevel, UnfogRange);
+                        StrategicMap.Current.FogArea(X, Y, Owner.HexLevel, UnfogRange);
                     }
                 }
             }
@@ -579,7 +579,7 @@ public partial class PlayerStructure : Structure
                     if (_resource.TerrainList.Terrain[I] >= 0)
                     {
                         HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                        AoWHSMap.Current.UnFogArea(X, Y, Owner.HexLevel, UnfogRange);
+                        StrategicMap.Current.UnFogArea(X, Y, Owner.HexLevel, UnfogRange);
                     }
                 }
             }
@@ -593,9 +593,9 @@ public partial class PlayerStructure : Structure
         int Y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap) && Player > 0)
         {
-            for (int player = 1, last = AoWHSMap.Current.Players.Count - 1; player <= last; player++)
+            for (int player = 1, last = StrategicMap.Current.Players.Count - 1; player <= last; player++)
             {
-                if (player == Player || AoWHSMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
+                if (player == Player || StrategicMap.Current.Players.GetPlayers(Player).DiplomaticRelations.GetDiplomaticRelation((sbyte)player) == DiplomaticRelation.Alliance)
                 {
                     for (int I = 0, lastI = _resource.TerrainList.Count - 1; I <= lastI; I++)
                     {
@@ -603,7 +603,7 @@ public partial class PlayerStructure : Structure
                         {
                             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
                             var visibilityRange = VisibilityRange();
-                            AoWHSMap.Current.ExploreArea(X, Y, Owner.HexLevel, (sbyte)player, visibilityRange);
+                            StrategicMap.Current.ExploreArea(X, Y, Owner.HexLevel, (sbyte)player, visibilityRange);
                         }
                     }
                 }
@@ -645,7 +645,7 @@ public partial class PlayerStructure : Structure
     public virtual void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
         LocationTextEventLog log;
-        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)_resource).Claimed)
+        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)_resource).Claimed)
         {
             log = new LocationTextEventLog(null);
             log._player = newPlayer;
@@ -742,11 +742,11 @@ public partial class PlayerStructure : Structure
             _victoryLocations[player] = value;
             if (value)
             {
-                AoWHSMap.Current.Players.GetPlayers(player).RegisterVictoryLocation(this);
+                StrategicMap.Current.Players.GetPlayers(player).RegisterVictoryLocation(this);
             }
             else
             {
-                AoWHSMap.Current.Players.GetPlayers(player).UnregisterVictoryLocation(this);
+                StrategicMap.Current.Players.GetPlayers(player).UnregisterVictoryLocation(this);
             }
 
             Update();
@@ -760,9 +760,9 @@ public partial class PlayerStructure : Structure
         {
             if (_victoryLocations[I])
             {
-                if (AoWHSMap.Current.Players.GetPlayers(I) != null)
+                if (StrategicMap.Current.Players.GetPlayers(I) != null)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(I).RegisterVictoryLocation(this);
+                    StrategicMap.Current.Players.GetPlayers(I).RegisterVictoryLocation(this);
                 }
                 else
                 {
@@ -777,9 +777,9 @@ public partial class PlayerStructure : Structure
     {
         for (int I = 1, last = _victoryLocations.Count - 1; I <= last; I++)
         {
-            if (_victoryLocations[I] && AoWHSMap.Current.Players.GetPlayers(I) != null)
+            if (_victoryLocations[I] && StrategicMap.Current.Players.GetPlayers(I) != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(I).UnregisterVictoryLocation(this);
+                StrategicMap.Current.Players.GetPlayers(I).UnregisterVictoryLocation(this);
             }
         }
     }
@@ -802,7 +802,7 @@ public partial class PlayerStructure : Structure
                     var hexLevel = GetHexLevel();
                     var visibilityRange = VisibilityRange();
                     var trueVisionRange = TrueVisionRange();
-                    AoWHSMap.Current.UpdatePlayerSeen(Player, X, Y, hexLevel, visibilityRange, trueVisionRange);
+                    StrategicMap.Current.UpdatePlayerSeen(Player, X, Y, hexLevel, visibilityRange, trueVisionRange);
                 }
             }
         }

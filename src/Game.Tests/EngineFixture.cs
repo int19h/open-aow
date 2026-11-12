@@ -15,7 +15,7 @@ public sealed partial class EngineFixture : IDisposable
     private static RecordingHost s_services = null!;
 
     internal static GameEngine Engine { get; private set; } = null!;
-    internal static AoWHSSet GameSet { get; private set; } = null!;
+    internal static GamePack GameSet { get; private set; } = null!;
     internal static string Root => s_services.GameRoot;
 
     private static readonly Dictionary<FieldInfo, object?> s_state = [];
@@ -24,8 +24,8 @@ public sealed partial class EngineFixture : IDisposable
     {
         foreach (var pair in s_state) pair.Key.SetValue(Engine, pair.Value);
         GameTables.GameEngine = Engine;
-        AoWHSSet.Current = GameSet;
-        AoWHSMap.Current = null!;
+        GamePack.Current = GameSet;
+        StrategicMap.Current = null!;
     }
 
     public EngineFixture()
@@ -34,7 +34,7 @@ public sealed partial class EngineFixture : IDisposable
         s_services = _host;
         GameTables.ValidateGameEngine();
         Engine = GameTables.GameEngine;
-        GameSet = AoWHSSet.Current;
+        GameSet = GamePack.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
@@ -47,10 +47,10 @@ public sealed partial class EngineFixture : IDisposable
 
     internal static IRtlHost Services => s_services;
 
-    internal static AoWHSSet CreateGameSet(ImageLibraryManager manager)
+    internal static GamePack CreateGameSet(ImageLibraryManager manager)
     {
-        var value = AoWHSSet.Create(null!);
-        typeof(HSSet).GetField("_imageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(value, manager);
+        var value = GamePack.Create(null!);
+        typeof(GamePack).GetField("_imageLibraryManager", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(value, manager);
         return value;
     }
 
@@ -259,7 +259,7 @@ public sealed partial class EngineFixture : IDisposable
 
     // A map makes its selection and visibility lists in its constructor. They stay its own
     // children, and forwarding starts once the map is built.
-    internal sealed class MapOwner : HSMap, IForwarder
+    internal sealed class MapOwner : GameMap, IForwarder
     {
         private readonly Owner _recorder;
 

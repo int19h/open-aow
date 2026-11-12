@@ -32,7 +32,7 @@ public partial class ChangePlayerSettingsTokenEvent : TokenEvent
     // MoveT.PAS:1898
     public override ExecuteResult Execute(TokenExecutor tokenEvent)
     {
-        AoWHSMap.Current.Players.GetPlayers(Player).Settings = Settings;
+        StrategicMap.Current.Players.GetPlayers(Player).Settings = Settings;
         return ExecuteResult.Done;
     }
 

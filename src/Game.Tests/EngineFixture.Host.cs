@@ -57,21 +57,21 @@ public sealed partial class EngineFixture
             EngineHost.Plugins = new List<Engine.Plugin>();
             EngineHost.VerifyEngineObjectEnabled = true;
             GameTables.GameEngine = null!;
-            AoWHSSet.Current = null!;
-            AoWHSMap.Current = null!;
+            GamePack.Current = null!;
+            StrategicMap.Current = null!;
             GameEngine.HexSpriteEngineDebugChannel = CombatAbilityTables.CombatDebugChannel = AbilityRules.AiDebugChannel = AbilityRules.TemporaryDebugChannel = GameEngine.MagicDebugChannel = 0;
             ImageLibraries.BaseImageLibraryPath = AudioHost.BaseSoundEnginePath = "";
             LocalizationRuntime.StartupDirectory = "";
         }
 
         internal string Relative(string value) => value.Replace(_root, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
-        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), GameTables.GameEngine is not null, AoWHSSet.Current is not null, EngineHost.Engines.Count, destroy ?? []);
+        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), GameTables.GameEngine is not null, GamePack.Current is not null, EngineHost.Engines.Count, destroy ?? []);
         private void Record(string call, string argument) => Events.Add(Event(call, argument));
 
         internal JsonObject State() => new()
         {
             ["AoWEngine"] = GameTables.GameEngine is not null,
-            ["AoWHSSet"] = AoWHSSet.Current is not null,
+            ["AoWHSSet"] = GamePack.Current is not null,
             ["HSEngineDID"] = GameEngine.HexSpriteEngineDebugChannel,
             ["CombatDID"] = CombatAbilityTables.CombatDebugChannel,
             ["AIDID"] = AbilityRules.AiDebugChannel,

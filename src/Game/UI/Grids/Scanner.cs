@@ -392,7 +392,7 @@ public partial class Scanner : Controls.Control
     public void SetLevel(MapLevel value)
     {
         Level = value;
-        if (AoWHSMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap != null)
         {
             _mapWidth = Level.Width - 16;
             _mapHeight = Level.Height - 12;
@@ -407,7 +407,7 @@ public partial class Scanner : Controls.Control
     // Scanner.pas:205
     public void SetMapWidth(int value)
     {
-        if (AoWHSMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap != null)
         {
             _mapWidth = value - 16;
         }
@@ -420,7 +420,7 @@ public partial class Scanner : Controls.Control
     // Scanner.pas:211
     public void SetMapHeight(int value)
     {
-        if (AoWHSMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap != null)
         {
             _mapHeight = value - 12;
         }
@@ -435,7 +435,7 @@ public partial class Scanner : Controls.Control
     public byte GetTerrain(int X, int Y)
     {
         byte result;
-        if (AoWHSMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap != null)
         {
             result = (byte)Level.GetField(X + 8, Y + 6).TerrainType;
         }
@@ -456,7 +456,7 @@ public partial class Scanner : Controls.Control
     public int GetOverlay(int X, int Y)
     {
         int result;
-        if (AoWHSMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap != null)
         {
             switch (Level.GetField(X + 8, Y + 6).GetDecorationType())
             {
@@ -508,14 +508,14 @@ public partial class Scanner : Controls.Control
     public byte GetExplored(int X, int Y)
     {
         byte result;
-        AoWMapField field;
-        if (AoWHSMap.Current.CombatMap != null)
+        MapField field;
+        if (StrategicMap.Current.CombatMap != null)
         {
-            field = (AoWMapField)Level.GetField(X + 8, Y + 6);
+            field = Level.GetField(X + 8, Y + 6);
         }
         else
         {
-            field = (AoWMapField)Level.GetField(X + 6, Y + 6);
+            field = Level.GetField(X + 6, Y + 6);
         }
 
         if (_map.ExplorationEnabled)
@@ -574,13 +574,13 @@ public partial class Scanner : Controls.Control
     public int GetObject(int X, int Y)
     {
         int result;
-        if (AoWHSMap.Current.CombatMap != null)
+        if (StrategicMap.Current.CombatMap != null)
         {
-            result = ((AoWMapField)Level.GetField(X + 8, Y + 6)).GetScannerIcon();
+            result = Level.GetField(X + 8, Y + 6).GetScannerIcon();
         }
         else
         {
-            result = ((AoWMapField)Level.GetField(X + 6, Y + 6)).GetScannerIcon();
+            result = Level.GetField(X + 6, Y + 6).GetScannerIcon();
         }
 
         return result;
@@ -682,7 +682,7 @@ public partial class Scanner : Controls.Control
         if (_map != null)
         {
             Level = _map.MapContainer.GetMapLevel(0);
-            if (AoWHSMap.Current.CombatMap != null)
+            if (StrategicMap.Current.CombatMap != null)
             {
                 _mapWidth = Level.Width - 16;
                 _mapHeight = Level.Height - 12;

@@ -38,7 +38,7 @@ public partial class HeroUpgradeEventLog : EventLog
     {
         string result = "";
         Hero hero;
-        hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         if (hero != null)
         {
             if (NewLevel - OldLevel == 1)
@@ -62,15 +62,15 @@ public partial class HeroUpgradeEventLog : EventLog
         bool result = default;
         Hero hero;
         bool executeNow;
-        var unitControl = AoWHSMap.Current.UnitControl;
+        var unitControl = StrategicMap.Current.UnitControl;
         hero = unitControl.FindUnit<Hero>(UnitId);
-        if (hero != null && AoWHSMap.Current.SeatedPlayer == hero.Player)
+        if (hero != null && StrategicMap.Current.SeatedPlayer == hero.Player)
         {
             if (hero.UpgradePending)
             {
                 executeNow = trigger == ExecuteTrigger.User;
-                executeNow = executeNow || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
-                executeNow = executeNow || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
+                executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
+                executeNow = executeNow || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
                 if (executeNow)
                 {
                     result = base.Execute(mode, trigger, done);
@@ -82,15 +82,15 @@ public partial class HeroUpgradeEventLog : EventLog
             }
             else
             {
-                if (AoWHSMap.Current.Players.GetPlayers(hero.Player).Day == _day)
+                if (StrategicMap.Current.Players.GetPlayers(hero.Player).Day == _day)
                 {
                     var canOnlyUpgradeHeroOnce = AbilityRules.TranslateResourceString(s_canOnlyUpgradeHeroOnceText);
-                    AoWHSMap.Current.ShowWarning(canOnlyUpgradeHeroOnce);
+                    StrategicMap.Current.ShowWarning(canOnlyUpgradeHeroOnce);
                 }
                 else
                 {
                     var canOnlyUpgradeOnTheDayALevelIsMade = AbilityRules.TranslateResourceString(s_canOnlyUpgradeOnDayLevelIsMadeText);
-                    AoWHSMap.Current.ShowWarning(canOnlyUpgradeOnTheDayALevelIsMade);
+                    StrategicMap.Current.ShowWarning(canOnlyUpgradeOnTheDayALevelIsMade);
                 }
 
                 result = false;
@@ -111,7 +111,7 @@ public partial class HeroUpgradeEventLog : EventLog
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        U = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        U = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (U != null)
         {
             U.GetLocation(ref X, ref Y, ref L);

@@ -1,6 +1,6 @@
 // Translated from AoWPWindows.pas.
 using System.Collections.Immutable;
-using Aow.Engine.Buffers;
+
 using Aow.Game.Events;
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
@@ -8,7 +8,6 @@ using Aow.Game.Session;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -127,7 +126,7 @@ public partial class PopupWindows : DataModule
                     AbilityRules.TranslateResourceString(s_surrenderYourEmpireText), 4);
                 break;
             case 1:
-                AoWHSMap.Current.ExitGame(ExitGameMode.Terminate, null);
+                StrategicMap.Current.ExitGame(ExitGameMode.Terminate, null);
                 break;
             case 2:
                 if (GameTables.GameEngine.Demo) DialogHosts.TitleWindow.ShowExitSplash();
@@ -172,13 +171,13 @@ public partial class PopupWindows : DataModule
         {
             dialog.BookContext.AddRef();
         }
-        dialog.LeftPageLabel.Text = AoWHSMap.Current.MapName;
+        dialog.LeftPageLabel.Text = StrategicMap.Current.MapName;
         ((StringCollection)dialog.LeftPageMemo.Items).Clear();
-        ((StringCollection)dialog.LeftPageMemo.Items).AddStrings((StringCollection)(object)AoWHSMap.Current.Description);
+        ((StringCollection)dialog.LeftPageMemo.Items).AddStrings((StringCollection)(object)StrategicMap.Current.Description);
         string text = AbilityRules.TranslateResourceString(s_mapSettingsText);
         dialog.RightPageLabel.Text = text;
         ((StringCollection)dialog.RightPageMemo.Items).Clear();
-        if (AoWHSMap.Current.VictoryCondition == AoWHSMapVictoryCondition.None)
+        if (StrategicMap.Current.VictoryCondition == StrategicMapVictoryCondition.None)
         {
             string text2 = AbilityRules.TranslateResourceString(s_conquerMapText);
             string s = AbilityRules.TranslateResourceString(s_objectiveFormat);
@@ -188,20 +187,20 @@ public partial class PopupWindows : DataModule
         }
         else
         {
-            string text4 = AbilityRules.TranslateResourceString(s_victoryConditionTexts[(int)AoWHSMap.Current.VictoryCondition]);
+            string text4 = AbilityRules.TranslateResourceString(s_victoryConditionTexts[(int)StrategicMap.Current.VictoryCondition]);
             string s2 = AbilityRules.TranslateResourceString(s_objectiveFormat);
             FormatArg value2 = (FormatArg)(text4);
             string text5 = AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref value2));
             ((StringCollection)dialog.RightPageMemo.Items).Add(text5);
         }
-        if (AoWHSMap.Current.DayLimit > 0)
+        if (StrategicMap.Current.DayLimit > 0)
         {
             string s3 = AbilityRules.TranslateResourceString(s_dayLimitFormat);
-            FormatArg value3 = (FormatArg)(RtlUnit.IntToStr(AoWHSMap.Current.DayLimit));
+            FormatArg value3 = (FormatArg)(RtlUnit.IntToStr(StrategicMap.Current.DayLimit));
             string text6 = AbilityRules.Format(s3, new ReadOnlySpan<FormatArg>(ref value3));
             ((StringCollection)dialog.RightPageMemo.Items).Add(text6);
         }
-        if (AoWHSMap.Current.AlliedVictory)
+        if (StrategicMap.Current.AlliedVictory)
         {
             string text7 = AbilityRules.TranslateResourceString(s_enabledText);
             string s4 = AbilityRules.TranslateResourceString(s_alliedVictoryFormat);
@@ -217,22 +216,22 @@ public partial class PopupWindows : DataModule
             string text10 = AbilityRules.Format(s5, new ReadOnlySpan<FormatArg>(ref value5));
             ((StringCollection)dialog.RightPageMemo.Items).Add(text10);
         }
-        int count = AoWHSMap.Current.Players.GetCount();
+        int count = StrategicMap.Current.Players.GetCount();
         string s6 = AbilityRules.TranslateResourceString(s_playersOnMapFormat);
         FormatArg value6 = (FormatArg)(RtlUnit.IntToStr(count - 1));
         string text11 = AbilityRules.Format(s6, new ReadOnlySpan<FormatArg>(ref value6));
         ((StringCollection)dialog.RightPageMemo.Items).Add(text11);
         string s7 = AbilityRules.TranslateResourceString(s_maximumSphereLevelFormat);
-        FormatArg value7 = (FormatArg)(RtlUnit.IntToStr(AoWHSMap.Current.SphereCount));
+        FormatArg value7 = (FormatArg)(RtlUnit.IntToStr(StrategicMap.Current.SphereCount));
         string text12 = AbilityRules.Format(s7, new ReadOnlySpan<FormatArg>(ref value7));
         ((StringCollection)dialog.RightPageMemo.Items).Add(text12);
         string s8 = AbilityRules.TranslateResourceString(s_maximumPlayerHeroesFormat);
-        FormatArg value8 = (FormatArg)(RtlUnit.IntToStr((int)AoWHSMap.Current.HeroCountMax));
+        FormatArg value8 = (FormatArg)(RtlUnit.IntToStr((int)StrategicMap.Current.HeroCountMax));
         string text13 = AbilityRules.Format(s8, new ReadOnlySpan<FormatArg>(ref value8));
         ((StringCollection)dialog.RightPageMemo.Items).Add(text13);
-        if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local && AoWHSMap.Current.RequestCombatType)
+        if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && StrategicMap.Current.RequestCombatType)
         {
-            string text14 = AbilityRules.TranslateResourceString(s_playerConnectionTypeTexts[(int)AoWHSMap.Current.ConnectionType]);
+            string text14 = AbilityRules.TranslateResourceString(s_playerConnectionTypeTexts[(int)StrategicMap.Current.ConnectionType]);
             string text15 = AbilityRules.TranslateResourceString(s_hotSeatText);
             string s9 = AbilityRules.TranslateResourceString(s_gameTypeFormat);
             FormatArg value9 = (FormatArg)(text14 + "/" + text15);
@@ -241,13 +240,13 @@ public partial class PopupWindows : DataModule
         }
         else
         {
-            string text17 = AbilityRules.TranslateResourceString(s_playerConnectionTypeTexts[(int)AoWHSMap.Current.ConnectionType]);
+            string text17 = AbilityRules.TranslateResourceString(s_playerConnectionTypeTexts[(int)StrategicMap.Current.ConnectionType]);
             string s10 = AbilityRules.TranslateResourceString(s_gameTypeFormat);
             FormatArg value10 = (FormatArg)(text17);
             string text18 = AbilityRules.Format(s10, new ReadOnlySpan<FormatArg>(ref value10));
             ((StringCollection)dialog.RightPageMemo.Items).Add(text18);
         }
-        string text19 = AbilityRules.TranslateResourceString(GameText.PlayModeTexts[(int)AoWHSMap.Current.PlayMode]);
+        string text19 = AbilityRules.TranslateResourceString(GameText.PlayModeTexts[(int)StrategicMap.Current.PlayMode]);
         string s11 = AbilityRules.TranslateResourceString(s_turnModeFormat);
         FormatArg value11 = (FormatArg)(text19);
         string text20 = AbilityRules.Format(s11, new ReadOnlySpan<FormatArg>(ref value11));

@@ -9,7 +9,7 @@ using Aow.Rtl;
 namespace Aow.Game.World.Map;
 
 // FWidth, FHeight, FLevelCount, FMap, FEngine. The levels of a map (the children, TMapLevel)
-public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<HSMap>, IOwnedSink<HSMap>
+public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<GameMap>, IOwnedSink<GameMap>
 {
     // The level in slot index, read as the original reads the list, without a range check.
     // AcceptsChild admits only a level, so the cast never fails.
@@ -20,11 +20,11 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<HSMap>, 
     int IChildSink<MapLevel>.AddChild(MapLevel child) => AddChild(child);
 
     // The map the container belongs to. AcceptsOwner admits only a map, so the cast never fails.
-    public new HSMap Owner { get => (HSMap)base.Owner; set => SetOwner(value); }
+    public new GameMap Owner { get => (GameMap)base.Owner; set => SetOwner(value); }
 
-    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is HSMap;
+    protected sealed override bool AcceptsOwner(ECustomNode owner) => owner is GameMap;
 
-    void IOwnedSink<HSMap>.SetOwner(HSMap owner) => SetOwner(owner);
+    void IOwnedSink<GameMap>.SetOwner(GameMap owner) => SetOwner(owner);
 
     // HSEngine.pas:3208
     public new const int ClassId = 65795;
@@ -32,7 +32,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<HSMap>, 
     private int _width;
     private int _height;
     private int _levelCount;
-    private HSMap _map;
+    private GameMap _map;
     private GameEngine _engine;
 
     // HSEngine.pas:3167
@@ -209,7 +209,7 @@ public partial class MapContainer : ENode, IChildList<MapLevel>, IOwned<HSMap>, 
     public int Width { get => _width; internal set => _width = value; }
     public int Height { get => _height; internal set => _height = value; }
     public int LevelCount { get => _levelCount; internal set => _levelCount = value; }
-    public HSMap Map { get => _map; internal set => _map = value; }
+    public GameMap Map { get => _map; internal set => _map = value; }
 
     public sealed class MapLevelsAccessor(MapContainer target)
     {

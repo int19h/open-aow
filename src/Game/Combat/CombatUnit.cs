@@ -83,7 +83,7 @@ public partial class CombatUnit : CombatObject
             U = Troop;
             combatValue = 0;
             damageValue = 0;
-            abilities = AoWHSSet.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
+            abilities = GamePack.Current.AbilityControl.AbilitiesByType[(int)AbilityType.Combat];
             for (int I = abilities.Count - 1; I >= 0; I--)
             {
                 ability = abilities.GetAbility(I);
@@ -113,7 +113,7 @@ public partial class CombatUnit : CombatObject
 
             if (U.GetAbilityEnabled(52))
             {
-                ability = AoWHSSet.Current.AbilityControl.GetAbility(52);
+                ability = GamePack.Current.AbilityControl.GetAbility(52);
                 ability.TacticalBattleGetDamageValues(this, target, ref values);
                 if (values.SourceDamage > 0)
                 {
@@ -417,7 +417,7 @@ public partial class CombatUnit : CombatObject
                     if (party != null && (sbyte)party.PlayerIndex == CombatPlayer)
                     {
                         var player = GetPlayer();
-                        if (AoWHSMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
+                        if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                         {
                             placed = Troop.Place(party.X, party.Y, party.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.NeglectEmptyPlayerLocation));
                         }
@@ -448,7 +448,7 @@ public partial class CombatUnit : CombatObject
                 if (party == null || party.X != -1)
                 {
                     var player = GetPlayer();
-                    if (AoWHSMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
+                    if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.Lost)
                     {
                         Troop.Place(Combat.CombatData.X, Combat.CombatData.Y, Combat.CombatData.MapLevel, 0, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     }
@@ -490,7 +490,7 @@ public partial class CombatUnit : CombatObject
             while (I != 0 && !result)
             {
                 I -= 1;
-                result = Troop.GetAbilityEnabled(I) && modes.Contains(AoWHSSet.Current.AbilityControl.GetAbility(I).GetCombatMode(Troop));
+                result = Troop.GetAbilityEnabled(I) && modes.Contains(GamePack.Current.AbilityControl.GetAbility(I).GetCombatMode(Troop));
             }
         }
         else
@@ -511,22 +511,22 @@ public partial class CombatUnit : CombatObject
         {
             case 0:
                 var unitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
-                var unitGraphicsResource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                var unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                 unitGraphicsResource.SfxLibraries[2].Play(0);
                 break;
             case 1:
                 var fUnitUnitGraphicsResourceIndex = Troop.GetUnitGraphicsResourceIndex();
-                var fUnitGraphicsResourcesUnitGraphicsResource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(fUnitUnitGraphicsResourceIndex);
+                var fUnitGraphicsResourcesUnitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(fUnitUnitGraphicsResourceIndex);
                 fUnitGraphicsResourcesUnitGraphicsResource.SfxLibraries[2].Play(1);
                 break;
             case 2:
                 var unitGraphicsResourceIndex2 = Troop.GetUnitGraphicsResourceIndex();
-                var unitGraphicsResource2 = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex2);
+                var unitGraphicsResource2 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex2);
                 unitGraphicsResource2.SfxLibraries[3].Play(0);
                 break;
             case 3:
                 var unitGraphicsResourceIndex3 = Troop.GetUnitGraphicsResourceIndex();
-                var unitGraphicsResource3 = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex3);
+                var unitGraphicsResource3 = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex3);
                 unitGraphicsResource3.SfxLibraries[4].Play(0);
                 break;
         }
@@ -587,7 +587,7 @@ public partial class CombatUnit : CombatObject
             U.Show(X, Y, surface, info);
             if (Status.Contains(CombatObjectStatusElement.Fled))
             {
-                AoWHSSet.Current.CombatImages[7].Show(X + 18, Y + 10, surface);
+                GamePack.Current.CombatImages[7].Show(X + 18, Y + 10, surface);
             }
         }
     }
@@ -680,7 +680,7 @@ public partial class CombatUnit : CombatObject
             {
                 if (Troop.GetAbilityEnabled(I))
                 {
-                    AoWHSSet.Current.AbilityControl.GetAbility(I).CombatObjectDestroyed(this);
+                    GamePack.Current.AbilityControl.GetAbility(I).CombatObjectDestroyed(this);
                 }
             }
         }
@@ -791,7 +791,7 @@ public partial class CombatUnit : CombatObject
         if (U != null && !Status.Contains(CombatObjectStatusElement.Destroyed))
         {
             WallCombatFeaturesValue = U.GetWallCombatFeatures();
-            if (Troop.GetAbilityEnabled(52) && ((SpellCastingAbility)AoWHSSet.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(Troop))
+            if (Troop.GetAbilityEnabled(52) && ((SpellCastingAbility)GamePack.Current.AbilityControl.GetAbility(52)).CanCastBreachWallSpell(Troop))
             {
                 WallCombatFeaturesValue = WallCombatFeaturesValue + Set<WallCombatFeaturesElement>.Of(WallCombatFeaturesElement.WallBreaching);
             }
@@ -863,7 +863,7 @@ public partial class CombatUnit : CombatObject
             ReleaseUnitGraphicsResource();
             if (index != -1)
             {
-                AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).AddRef();
+                GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).AddRef();
                 _unitGraphicsResourceIndex = index;
             }
         }
@@ -876,7 +876,7 @@ public partial class CombatUnit : CombatObject
         index = _unitGraphicsResourceIndex;
         if (index != -1)
         {
-            AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).Release();
+            GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(index).Release();
             _unitGraphicsResourceIndex = -1;
         }
     }

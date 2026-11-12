@@ -43,7 +43,7 @@ public partial class InvokeDeathCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(35).SfxLibrary.Play(0);
+            GamePack.Current.AbilityControl.GetAbility(35).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -60,7 +60,7 @@ public partial class InvokeDeathCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(35).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            GamePack.Current.AbilityControl.GetAbility(35).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

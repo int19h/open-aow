@@ -106,7 +106,10 @@ public partial class GameEngine : ENode
         OnHsmCloseStore = new();
         _onHssLoadedStore = new();
         _onHssCloseStore = new();
-        RegisterEngineClasses([EngineClass.Of<MapContainer>(), EngineClass.Of<MapLevel>(), EngineClass.Of<HSMap>(), EngineClass.Of<HSSet>()]);
+        // HSEngine registered the engine level (65794) and set (66049) here. Issue 200 folded them
+        // into the game classes, which the game registers below under their own ids. No file stores
+        // the engine ids.
+        RegisterEngineClasses([EngineClass.Of<MapContainer>(), EngineClass.Of<GameMap>()]);
         RegisterEngineClasses([EngineClass.Of<MapObjectResource>(), EngineClass.Of<MultiHexMapObjectResource>()]);
         RegisterEngineClasses([EngineClass.Of<AbstractHexagon>(), EngineClass.Of<AbstractBorderHexagon>(), EngineClass.Of<AbstractRoad>()]);
         HexSpriteEngineDebugChannel = RegisterDebugId("HS-Engine");
@@ -114,7 +117,7 @@ public partial class GameEngine : ENode
         CreateHexSpriteSet();
 
         Options = Options - Set<EngineModeElement>.Of(EngineModeElement.VerifyEObjects);
-        RegisterEngineClasses([EngineClass.Of<AoWHSSet>(), EngineClass.Of<AoWHSMap>(), EngineClass.Of<AoWMapLevel>(), EngineClass.Of<Campaign>(), EngineClass.Of<CampaignScenario>()]);
+        RegisterEngineClasses([EngineClass.Of<GamePack>(), EngineClass.Of<StrategicMap>(), EngineClass.Of<MapLevel>(), EngineClass.Of<Campaign>(), EngineClass.Of<CampaignScenario>()]);
         RegisterEngineClasses([EngineClass.Of<Player>(), EngineClass.Of<Race>(), EngineClass.Of<Unit>(), EngineClass.Of<RaceResource>(), EngineClass.Of<UnitGraphicsResource>(), EngineClass.Of<UnitResource>(), EngineClass.Of<UnitHexSprite>()]);
         RegisterEngineClasses([EngineClass.Of<Hero>(), EngineClass.Of<HeroResource>(), EngineClass.Of<HeroUpgradeTokenEvent>(), EngineClass.Of<HeroJoinEventLog>(), EngineClass.Of<HeroEmergeEventLog>(), EngineClass.Of<Leader>(), EngineClass.Of<ItemGraphics>(), EngineClass.Of<Item>(), EngineClass.Of<ItemTokenEvent>(), EngineClass.Of<ItemHexSprite>(), EngineClass.Of<FaceResource>()]);
         RegisterEngineClasses([EngineClass.Of<Army>(), EngineClass.Of<ArmyHexSprite>(), EngineClass.Of<ArmyView>(), EngineClass.Of<ArmyEventLog>(), EngineClass.Of<ArmyId>(), EngineClass.Of<TurnInfoItem>()]);
@@ -774,12 +777,12 @@ public partial class GameEngine : ENode
 
     internal static void RegisterBorderHex(GameEngine engine)
     {
-        engine.RegisterEngineClasses([EngineClass.Of<BorderHexagon>(), EngineClass.Of<BorderHexagon.Resource>()]);
+        engine.RegisterEngineClasses([EngineClass.Of<BorderHex>(), EngineClass.Of<BorderHex.Resource>()]);
     }
 
     internal static void RegisterHex(GameEngine engine)
     {
-        engine.RegisterEngineClasses([EngineClass.Of<Hexagon>(), EngineClass.Of<HexagonResource>()]);
+        engine.RegisterEngineClasses([EngineClass.Of<Hex>(), EngineClass.Of<HexagonResource>()]);
     }
 
     internal static void RegisterIsometricHex(GameEngine engine)

@@ -65,20 +65,20 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
         if (value == 0)
         {
             _angle = 0;
-            var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
-            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
-            AoWHSMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
-            if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
+            var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+            StrategicMap.Current.ValidateObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
+            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(Location.X, Location.Y, Location.MapLevel, 2))
             {
-                AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+                GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
             }
 
             animation = new Animation(null);
             _animation = animation;
             animation.AnimationLevel = 27;
             animation.OnShow = ShowAnimation;
-            animation.AnimationMap = AoWHSMap.Current;
-            animation.Tag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
+            animation.AnimationMap = StrategicMap.Current;
+            animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();
         }
 
@@ -175,13 +175,13 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
         int direction;
         int radius;
         int count;
-        if (AoWHSMap.Current.ViewL == Location.MapLevel)
+        if (StrategicMap.Current.ViewL == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, ref pixelX, ref pixelY);
             pixelX -= pixelXSurface;
             pixelY -= pixelYSurface;
             _angle = this._angle + 20 + _animation.FrameCounter / 5;
-            RandSeed = AoWHSMap.Current.InitialRandomSeed;
+            RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int I = 0; I <= 200; I++)
             {
                 direction = Random(360);
@@ -212,7 +212,7 @@ public partial class VortexTokenEvent : GlobalTargetSpellTokenEvent
                     {
                         X = Round((double)Math.Cos(angle) * radius) + xShift;
                         Y = Round((double)((double)Math.Sin(angle) * radius) / 1.75) + height;
-                        AoWHSSet.Current.SpellControl.GetSpell(70).CastImages.Show(0, pixelX + X, pixelY - Y, 0, lockedSurface);
+                        GamePack.Current.SpellControl.GetSpell(70).CastImages.Show(0, pixelX + X, pixelY - Y, 0, lockedSurface);
                         angle = (float)((double)0.035 + angle);
                     }
                 }

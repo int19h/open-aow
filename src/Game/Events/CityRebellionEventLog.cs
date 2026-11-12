@@ -45,8 +45,8 @@ public partial class CityRebellionEventLog : EventLog
         bool result = default;
         bool showEvent;
         showEvent = trigger == ExecuteTrigger.User;
-        showEvent = showEvent || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
-        showEvent = showEvent || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
+        showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
+        showEvent = showEvent || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion);
         if (showEvent)
         {
             result = base.Execute(mode, trigger, done);

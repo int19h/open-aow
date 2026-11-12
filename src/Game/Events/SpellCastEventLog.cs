@@ -32,7 +32,7 @@ public partial class SpellCastEventLog : EventLog
     // Spells.PAS:855
     public override string GetText()
     {
-        var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+        var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
         return AbilityRules.Format(AbilityRules.TranslateResourceString(s_castingReadyFormat), [spell.SpellName]);
     }
 
@@ -42,14 +42,14 @@ public partial class SpellCastEventLog : EventLog
         bool show;
         string reason = "";
         show = trigger == ExecuteTrigger.User;
-        show = show || AoWHSMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
-        show = show || AoWHSMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
+        show = show || StrategicMap.Current.PlayMode == PlayMode.Turn && GameTables.GameEngine.Registry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
+        show = show || StrategicMap.Current.PlayMode == PlayMode.Simultaneous && GameTables.GameEngine.Registry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
         if (show)
         {
-            var hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+            var hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
             if (hero != null && hero.CastingSpellId == SpellId && hero.CastingReady())
             {
-                AoWHSSet.Current.AbilityControl.GetAbility(52).Activate(hero, ref reason);
+                GamePack.Current.AbilityControl.GetAbility(52).Activate(hero, ref reason);
             }
         }
 
@@ -63,7 +63,7 @@ public partial class SpellCastEventLog : EventLog
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        troop = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        troop = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (troop != null)
         {
             troop.GetLocation(ref X, ref Y, ref L);

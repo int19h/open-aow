@@ -25,7 +25,7 @@ public partial class FlagControl : ControlStyleObject
     // PlayerC.PAS:1920
     public override void Dispose()
     {
-        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
         Flags = null;
         base.Dispose();
     }
@@ -33,7 +33,7 @@ public partial class FlagControl : ControlStyleObject
     // PlayerC.PAS:1909
     private protected FlagControl(ConstructionContext context, ECustomNode owner) : base(context, owner)
     {
-        var gameSet = (AoWHSSet)owner;
+        var gameSet = (GamePack)owner;
         Flags = gameSet.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "Flags.ILB");
         this._raceResources = gameSet.RaceResources;
 

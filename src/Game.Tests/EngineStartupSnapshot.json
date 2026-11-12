@@ -32,7 +32,7 @@
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet": {
-        "Type": "Aow.Game.World.Map.AoWHSSet"
+        "Type": "Aow.Game.World.Map.GamePack"
       },
       "Engine.GameSet.AbilityControl": {
         "Type": "Aow.Game.Magic.Abilities.AbilityControl"
@@ -1187,9 +1187,7 @@
         259,
         1026,
         65795,
-        65794,
         66048,
-        66049,
         65876,
         65877,
         65904,
@@ -1326,7 +1324,7 @@
       ],
       "Children": [
         "Aow.Engine.Nodes.EControlStyleNode",
-        "Aow.Game.World.Map.AoWHSSet"
+        "Aow.Game.World.Map.GamePack"
       ],
       "Globals": {
         "AoWEngine": true,
@@ -75897,7 +75895,7 @@
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine.GameSet": {
-        "Type": "Aow.Game.World.Map.AoWHSSet"
+        "Type": "Aow.Game.World.Map.GamePack"
       },
       "Engine.GameSet.AbilityControl": {
         "Type": "Aow.Game.Magic.Abilities.AbilityControl"
@@ -77624,7 +77622,7 @@
         "Type": "Aow.Engine.Nodes.EngineObjectList"
       },
       "Engine._children[1]": {
-        "Type": "Aow.Game.World.Map.AoWHSSet"
+        "Type": "Aow.Game.World.Map.GamePack"
       },
       "Engine._children[1].CombatHexes": {
         "Type": "Aow.Game.World.Map.HexControl"
@@ -77837,7 +77835,7 @@
         "Set": false,
         "Engines": 1,
         "DestroyFrames": [
-          "AoWHSSet"
+          "GamePack"
         ]
       },
       {

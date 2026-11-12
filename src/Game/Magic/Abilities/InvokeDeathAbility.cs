@@ -80,7 +80,7 @@ public partial class InvokeDeathAbility : TouchAbility
             var unitStrikeDamageValue = Troop.UnitStrikeDamageValue(defender, attacker);
             damageValues.TargetDamage = Round((double)unitStrikeDamageValue * ((double)1 - probability));
             var protectionTypes = attacker.GetProtectionTypes();
-            var damageTypes = ((StrikeAbility)AoWHSSet.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender);
+            var damageTypes = ((StrikeAbility)GamePack.Current.AbilityControl.GetAbility(21)).GetDamageTypes(defender);
             var immunityTypes = attacker.GetImmunityTypes();
             var statisticsToMaxDamage = AbilityRules.StatisticsToMaxDamage(defender.GetDamage(), damageTypes, immunityTypes, protectionTypes);
             damageValues.TargetCost = statisticsToMaxDamage;

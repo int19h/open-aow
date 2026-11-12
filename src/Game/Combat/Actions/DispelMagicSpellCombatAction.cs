@@ -33,10 +33,10 @@ public partial class DispelMagicSpellCombatAction : DispelMagicCombatAction
         base.Execute(combat);
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
-            if (AoWHSSet.Current.SpellControl.GetSpell(SpellId) != null)
+            if (GamePack.Current.SpellControl.GetSpell(SpellId) != null)
             {
                 source = (CombatUnit)combat.CombatData.FindId(SourceId);
-                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastingDone(source.Troop, ManaCost);
+                GamePack.Current.SpellControl.GetSpell(SpellId).CastingDone(source.Troop, ManaCost);
             }
         }
     }

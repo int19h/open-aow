@@ -218,7 +218,7 @@ public partial class MapObjectResource : EngineResource
     }
 
     // MAPOBJ.PAS:556
-    public virtual MapObject PlaceResourceUser(HSMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public virtual MapObject PlaceResourceUser(GameMap hexSpriteMap, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         int pixelX = default;
         int pixelY = default;

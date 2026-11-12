@@ -80,7 +80,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         player = Control.Player;
         if (player.PlayerIndex != 0)
         {
-            while (_state != -1 && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !player.GetBusy())
+            while (_state != -1 && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && !player.GetBusy())
             {
                 ProcessStates();
             }
@@ -146,12 +146,12 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                 {
                     done = false;
                     var item = _pendingHeroes[0];
-                    hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(item);
+                    hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(item);
                     if (hero != null && hero.Owner != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                     {
                         if (hero.CastingSpellId != 0)
                         {
-                            done = AoWHSSet.Current.SpellControl.GetSpell(hero.CastingSpellId).AIExecuteCastSpellAction(hero);
+                            done = GamePack.Current.SpellControl.GetSpell(hero.CastingSpellId).AIExecuteCastSpellAction(hero);
                         }
 
                         if (!done)
@@ -188,7 +188,7 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                 if (_pendingHeroes.Count != 0)
                 {
                     var item = _pendingHeroes[0];
-                    hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(item);
+                    hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(item);
                     if (hero != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                     {
                         PrefetchCastSpellActions(hero);
@@ -225,13 +225,13 @@ public partial class CastSpellAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
                             I += 1;
                         }
 
-                        index = AoWHSMap.Current.Random(I);
+                        index = StrategicMap.Current.Random(I);
                         var castSpellActions2 = _castSpellActions.GetCastSpellActions(index);
-                        hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(castSpellActions2.SourceUnitId);
+                        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(castSpellActions2.SourceUnitId);
                         if (hero != null && (((byte)hero.UnitStatus.Image) & 16) == 0)
                         {
                             var castSpellActions = _castSpellActions.GetCastSpellActions(index);
-                            if (AoWHSSet.Current.SpellControl.GetSpell(castSpellActions.SpellId).AIExecuteCastSpellAction(hero))
+                            if (GamePack.Current.SpellControl.GetSpell(castSpellActions.SpellId).AIExecuteCastSpellAction(hero))
                             {
                                 _castingHeroes.Add(hero.UnitId);
                                 _idleHeroes.Remove(hero.UnitId);

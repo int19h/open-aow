@@ -9,7 +9,7 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 
 using Aow.Game.Session;
-using Aow.Game.UI.Grids;
+
 using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
@@ -76,7 +76,7 @@ public partial class MapEvents : DataModule
                 }
             }
 
-            if (AoWHSMap.Current.SeatedPlayer == army.Player && DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 3)
+            if (StrategicMap.Current.SeatedPlayer == army.Player && DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 3)
             {
                 DialogHosts.RealmWindow.UpdateOverview();
             }
@@ -147,7 +147,7 @@ public partial class MapEvents : DataModule
 
         for (int I = 0, last = army.GetCount() - 1; I <= last; I++)
         {
-            if (!army.GetUnitConcealedForPlayer(I, AoWHSMap.Current.SeatedPlayer))
+            if (!army.GetUnitConcealedForPlayer(I, StrategicMap.Current.SeatedPlayer))
             {
                 DialogHosts.General.SelectedUnits[count] = I;
                 count += 1;
@@ -156,24 +156,24 @@ public partial class MapEvents : DataModule
 
         DialogHosts.General.UnitList = army;
         DialogHosts.ControlWindow.UpdateArmy();
-        if (AoWHSMap.Current.SeatedPlayer == army.Player)
+        if (StrategicMap.Current.SeatedPlayer == army.Player)
         {
-            AoWHSMap.Current.TutorialControl.ShowMessage(63, true, true);
+            StrategicMap.Current.TutorialControl.ShowMessage(63, true, true);
         }
     }
 
     // aowMapEvents.pas:167
     public void TheMapDayChanged(int day)
     {
-        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
+        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             DialogHosts.TaskBar.WorldTurnButton.LastPlayer = -1;
         }
 
         var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_dayFormat), [day]);
         DialogHosts.PlayerInfoWindow.TurnLabel.Text = format;
-        DialogHosts.MapEvents.TheMapGemsChanged(AoWHSMap.Current.SeatedPlayer);
-        DialogHosts.MapEvents.TheMapIncomeChanged(AoWHSMap.Current.SeatedPlayer);
+        DialogHosts.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
+        DialogHosts.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
         if (DialogHosts.RealmWindow.Window.Visible)
         {
             DialogHosts.RealmWindow.UpdateOverview();
@@ -183,7 +183,7 @@ public partial class MapEvents : DataModule
     // aowMapEvents.pas:187
     public void TheMapEndTurn(sbyte player, bool cancelled)
     {
-        if (AoWHSMap.Current.SeatedPlayer == player && AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None)
+        if (StrategicMap.Current.SeatedPlayer == player && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GameOverStatus == GameOverStatus.None)
         {
             if (cancelled)
             {
@@ -224,15 +224,15 @@ public partial class MapEvents : DataModule
     {
         bool update;
         update = false;
-        if (AoWHSMap.Current.SeatedPlayer == player)
+        if (StrategicMap.Current.SeatedPlayer == player)
         {
             update = true;
         }
         else
         {
-            if (AoWHSMap.Current.CombatMap != null)
+            if (StrategicMap.Current.CombatMap != null)
             {
-                if (AoWHSMap.Current.CombatMap.SeatedPlayer == player)
+                if (StrategicMap.Current.CombatMap.SeatedPlayer == player)
                 {
                     update = true;
                 }
@@ -247,7 +247,7 @@ public partial class MapEvents : DataModule
             }
             else
             {
-                if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+                if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
                 {
                     update = false;
                 }
@@ -262,7 +262,7 @@ public partial class MapEvents : DataModule
             }
             else
             {
-                var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+                var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                 DialogHosts.TaskBar.WorldGoldTotalLabel.Text = IntToStr(playerLocal.Gems);
                 if (DialogHosts.RealmWindow.Window.Visible && DialogHosts.RealmWindow.HeaderTabs.Selected == 0)
                 {
@@ -288,15 +288,15 @@ public partial class MapEvents : DataModule
         bool update;
         int netIncome;
         update = false;
-        if (AoWHSMap.Current.SeatedPlayer == player)
+        if (StrategicMap.Current.SeatedPlayer == player)
         {
             update = true;
         }
         else
         {
-            if (AoWHSMap.Current.CombatMap != null)
+            if (StrategicMap.Current.CombatMap != null)
             {
-                if (AoWHSMap.Current.CombatMap.SeatedPlayer == player)
+                if (StrategicMap.Current.CombatMap.SeatedPlayer == player)
                 {
                     update = true;
                 }
@@ -311,7 +311,7 @@ public partial class MapEvents : DataModule
             }
             else
             {
-                if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+                if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
                 {
                     update = false;
                 }
@@ -323,8 +323,8 @@ public partial class MapEvents : DataModule
             }
             else
             {
-                var upkeep = AoWHSMap.Current.Players.GetPlayers(player).GetUpkeep();
-                netIncome = AoWHSMap.Current.Players.GetPlayers(player).Income - upkeep;
+                var upkeep = StrategicMap.Current.Players.GetPlayers(player).GetUpkeep();
+                netIncome = StrategicMap.Current.Players.GetPlayers(player).Income - upkeep;
                 if (netIncome >= 0)
                 {
                     DialogHosts.TaskBar.WorldGoldSignLabel.Text = "+";
@@ -378,15 +378,15 @@ public partial class MapEvents : DataModule
         MagicPlayerChanged(DialogHosts.MagicWindow, player);
         DialogHosts.SpellBook.PlayerChanged(player);
         update = false;
-        if (AoWHSMap.Current.SeatedPlayer == player)
+        if (StrategicMap.Current.SeatedPlayer == player)
         {
             update = true;
         }
         else
         {
-            if (AoWHSMap.Current.CombatMap != null)
+            if (StrategicMap.Current.CombatMap != null)
             {
-                if (AoWHSMap.Current.CombatMap.SeatedPlayer == player)
+                if (StrategicMap.Current.CombatMap.SeatedPlayer == player)
                 {
                     update = true;
                 }
@@ -401,7 +401,7 @@ public partial class MapEvents : DataModule
             }
             else
             {
-                if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
+                if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human)
                 {
                     update = false;
                 }
@@ -414,9 +414,9 @@ public partial class MapEvents : DataModule
             }
             else
             {
-                var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+                var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                 DialogHosts.TaskBar.WorldManaTotalLabel.Text = IntToStr(playerLocal.MagicControl.Mana);
-                netIncome = AoWHSMap.Current.Players.GetPlayers(player).MagicControl.GetManaIncome() - AoWHSMap.Current.Players.GetPlayers(player).MagicControl.GetManaUpkeep();
+                netIncome = StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaIncome() - StrategicMap.Current.Players.GetPlayers(player).MagicControl.GetManaUpkeep();
                 if (netIncome >= 0)
                 {
                     DialogHosts.TaskBar.WorldManaSignLabel.Text = "+";
@@ -444,7 +444,7 @@ public partial class MapEvents : DataModule
     // aowMapEvents.pas:1021
     public void TheMapLogbookChanged(sbyte player)
     {
-        if (player == AoWHSMap.Current.SeatedPlayer)
+        if (player == StrategicMap.Current.SeatedPlayer)
         {
             DialogHosts.PlayerInfoWindow.UpdateEvents();
         }
@@ -454,9 +454,9 @@ public partial class MapEvents : DataModule
     public void TheMapPlayerTerminated(sbyte player)
     {
         DialogHosts.TaskBar.UpdatePlayerIndicator();
-        if (AoWHSMap.Current != null)
-            if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Network)
-                if (player == AoWHSMap.Current.SeatedPlayer)
+        if (StrategicMap.Current != null)
+            if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network)
+                if (player == StrategicMap.Current.SeatedPlayer)
                 {
                     /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
                     throw new NotImplementedException();
@@ -480,11 +480,11 @@ public partial class MapEvents : DataModule
         {
             DialogHosts.General.ShowWindows();
             var turnButton = DialogHosts.TaskBar.WorldTurnButton;
-            if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated) && !turnButton.Animating)
+            if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Activated) && !turnButton.Animating)
             {
                 if (player > -1)
                 {
-                    turnButton.CurrentPlayer = AoWHSMap.Current.Players.GetPlayers(player).PlayerRace;
+                    turnButton.CurrentPlayer = StrategicMap.Current.Players.GetPlayers(player).PlayerRace;
                 }
                 else
                 {
@@ -499,7 +499,7 @@ public partial class MapEvents : DataModule
                 turnButton.LastPlayer = -1;
             }
 
-            DialogHosts.TaskBar.CurrentPlayerImage.Visible = AoWHSMap.Current.PlayMode == PlayMode.Turn;
+            DialogHosts.TaskBar.CurrentPlayerImage.Visible = StrategicMap.Current.PlayMode == PlayMode.Turn;
             DialogHosts.PlayerInfoWindow.UpdatePlayer();
             if (DialogHosts.RealmWindow.Window.Visible)
             {
@@ -542,7 +542,7 @@ public partial class MapEvents : DataModule
     {
         if (DialogHosts.General.Sign != null)
         {
-            DialogHosts.General.Sign.ChangeText(AoWHSMap.Current.SeatedPlayer, DialogHosts.InfoWindow.SignTextMemo.Items);
+            DialogHosts.General.Sign.ChangeText(StrategicMap.Current.SeatedPlayer, DialogHosts.InfoWindow.SignTextMemo.Items);
         }
 
         DialogHosts.General.Structure = null;
@@ -668,7 +668,7 @@ public partial class MapEvents : DataModule
     {
         if (structure == DialogHosts.General.Structure && structure != null)
         {
-            if (StructureScreens.TryGet(structure.DoubleClick(AoWHSMap.Current.SeatedPlayer), out var open))
+            if (StructureScreens.TryGet(structure.DoubleClick(StrategicMap.Current.SeatedPlayer), out var open))
             {
                 open(this, structure);
             }
@@ -702,7 +702,7 @@ public partial class MapEvents : DataModule
 
     private static void ShowStructureInfo(InfoWindow dialog, Structure structure)
     {
-        InfoWindow.StructurePanels[structure.InfoPanel(AoWHSMap.Current.SeatedPlayer)].Invoke(dialog, structure);
+        InfoWindow.StructurePanels[structure.InfoPanel(StrategicMap.Current.SeatedPlayer)].Invoke(dialog, structure);
         if (!DialogHosts.TaskBar.StructureButton.Visible)
         {
             DialogHosts.InfoWindow.MainWindow.Visible = true;
@@ -745,8 +745,8 @@ public partial class MapEvents : DataModule
         dialog.StructureLine.ImageMiddle = imageMiddle;
         LibraryImage imageBottom = DialogHosts.UIGraphics.MiscArt[37];
         dialog.StructureLine.ImageBottom = imageBottom;
-        ArmyHexSprite armyHexSprite = ((AoWMapField)items.Owner).GetArmyHexSprite();
-        if (armyHexSprite != null && armyHexSprite.Army.Player == AoWHSMap.Current.SeatedPlayer)
+        ArmyHexSprite armyHexSprite = items.Owner.GetArmyHexSprite();
+        if (armyHexSprite != null && armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer)
         {
             dialog.ItemBagMemo.Visible = false;
             Hero hero = armyHexSprite.Army.Hero(255, RosterTables.AllHeroTypes);
@@ -858,7 +858,7 @@ public partial class MapEvents : DataModule
         }
         dialog.Caster = caster;
         dialog.Caster.AddRef();
-        Hero hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(dialog.Caster.CasterSourceId);
+        Hero hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(dialog.Caster.CasterSourceId);
         if (hero != null)
         {
             string name = hero.GetName();
@@ -875,7 +875,7 @@ public partial class MapEvents : DataModule
                 RtlUnit.IntToStr((int)castingPointsMax)
             });
         }
-        Spell spell = AoWHSSet.Current.SpellControl.GetSpell(dialog.Caster.CasterSpellId);
+        Spell spell = GamePack.Current.SpellControl.GetSpell(dialog.Caster.CasterSpellId);
         dialog.SpellNameLabel.Text = spell.SpellName;
         int number = hero.CastingMana(spell);
         string text2 = AbilityRules.TranslateResourceString(GameText.CastingCostText);
@@ -898,7 +898,7 @@ public partial class MapEvents : DataModule
             " ",
             text5
         });
-        Player players = AoWHSMap.Current.Players.GetPlayers(hero.Player);
+        Player players = StrategicMap.Current.Players.GetPlayers(hero.Player);
         string text6 = AbilityRules.TranslateResourceString(GameText.ManaText);
         dialog.CastingManaLabel.Text = text6 + ": " + RtlUnit.IntToStr(players.MagicControl.Mana);
         dialog.Unit1CheckBox.Checked = false;
@@ -955,7 +955,7 @@ public partial class MapEvents : DataModule
 
     private static void MagicPlayerChanged(MagicWindow window, sbyte player)
     {
-        if (window.Window.Visible && player == AoWHSMap.Current.SeatedPlayer)
+        if (window.Window.Visible && player == StrategicMap.Current.SeatedPlayer)
         {
             MagicWindow.RefreshMagicWindow(window);
         }

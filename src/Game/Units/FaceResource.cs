@@ -86,7 +86,7 @@ public partial class FaceResource : EngineResource
         ReleaseImageLibrary();
         if (!IsEmpty(_imageLibraryName))
         {
-            _imageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
+            _imageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
         }
         else
         {
@@ -101,7 +101,7 @@ public partial class FaceResource : EngineResource
         {
             if (!IsEmpty(_imageLibraryName))
             {
-                AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
+                GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
             }
 
             _imageLibrary = null;
@@ -114,14 +114,14 @@ public partial class FaceResource : EngineResource
         if (!IsEmpty(_imageLibraryName))
         {
             // { Original releases the old name even when this resource has no references. }
-            AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
+            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
             _imageLibrary = null;
         }
 
         _imageLibraryName = value;
         if (!IsEmpty(_imageLibraryName) && _references != 0)
         {
-            _imageLibrary = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
+            _imageLibrary = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), _imageLibraryName);
         }
     }
 

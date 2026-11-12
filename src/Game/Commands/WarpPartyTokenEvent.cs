@@ -52,7 +52,7 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         if (result)
         {
             ArmyId.RetrieveArmy(ref army, ref selection);
-            result = ((WarpParty)AoWHSSet.Current.SpellControl.GetSpell(EventSpellId)).ValidTarget(army, WarpLocation.X, WarpLocation.Y, WarpLocation.MapLevel);
+            result = ((WarpParty)GamePack.Current.SpellControl.GetSpell(EventSpellId)).ValidTarget(army, WarpLocation.X, WarpLocation.Y, WarpLocation.MapLevel);
         }
 
         return result;
@@ -73,40 +73,40 @@ public partial class WarpPartyTokenEvent : SpellTokenEvent
         base.Process(source, value);
         source.GetLocation(ref X, ref Y, ref layer);
         ArmyId.RetrieveArmy(ref army, ref selection);
-        field = AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation.Packed);
+        field = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(WarpLocation.Packed);
         army.MoveTo(field, 0);
-        showSource = AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.VisibleForPlayer(X, Y, layer, AoWHSMap.Current.SeatedPlayer);
-        showTarget = AoWHSMap.Current.SeatedPlayer == source.Player || AoWHSMap.Current.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, AoWHSMap.Current.SeatedPlayer);
-        if (showSource && AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
+        showSource = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(X, Y, layer, StrategicMap.Current.SeatedPlayer);
+        showTarget = StrategicMap.Current.SeatedPlayer == source.Player || StrategicMap.Current.VisibleForPlayer(field.HexX, field.HexY, field.HexLevel, StrategicMap.Current.SeatedPlayer);
+        if (showSource && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
             animation = new ImageSequenceAnimation(null);
-            animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
-            AoWHSMap.Current.PlaceHex(animation, X, Y, layer);
+            animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
+            StrategicMap.Current.PlaceHex(animation, X, Y, layer);
         }
 
-        if (showTarget && AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
+        if (showTarget && GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0] != null)
         {
             animation = new ImageSequenceAnimation(null);
-            animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
-            AoWHSMap.Current.PlaceHex(animation, field.HexX, field.HexY, field.HexLevel);
+            animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(EventSpellId).CastImages.ImageSequences[0]);
+            StrategicMap.Current.PlaceHex(animation, field.HexX, field.HexY, field.HexLevel);
         }
 
-        if (source.Player == AoWHSMap.Current.SeatedPlayer)
+        if (source.Player == StrategicMap.Current.SeatedPlayer)
         {
-            AoWHSMap.Current.CenterViewTo(field.HexX, field.HexY, field.HexLevel);
+            StrategicMap.Current.CenterViewTo(field.HexX, field.HexY, field.HexLevel);
         }
         else
         {
-            AoWHSMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0);
+            StrategicMap.Current.ValidateObservation(source.Player, field.HexX, field.HexY, field.HexLevel, 0);
         }
 
-        if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.Watching(X, Y, layer, 0) || AoWHSMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
+        if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.Watching(X, Y, layer, 0) || StrategicMap.Current.Watching(field.HexX, field.HexY, field.HexLevel, 0))
         {
-            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
         }
 
-        var spell = AoWHSSet.Current.SpellControl.GetSpell(EventSpellId);
-        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
+        var spell = GamePack.Current.SpellControl.GetSpell(EventSpellId);
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, spell.BaseManaCost);
         return false;
     }
 

@@ -42,7 +42,7 @@ namespace Aow.Game.World.Map;
 // map name, heroes, game mode, stream mode, fixed leaders, allied victory, day limit, turn
 // order, day/turn events, event-log locks, diplomacy events, initial seed, random seed, debug
 // save, communicator, token log Text, logging enabled
-public partial class AoWHSMap : GameMap
+public partial class StrategicMap : GameMap
 {
 
     public new const int ClassId = 131089;
@@ -61,18 +61,18 @@ public partial class AoWHSMap : GameMap
     public UnitControl UnitControl { get; set; }
     public StructureControl StructureControl { get; private set; }
 
-    private AoWHSMapIndependentAIMode _independentAIMode;
+    private StrategicMapIndependentAIMode _independentAIMode;
     private StringList _objectives;
     public sbyte HeroCountMax;
 
     public StartupSongList StartupSongs { get; }
     public SongList GameSongs { get; }
 
-    public AoWHSMapGameStatus GameStatus;
-    public AoWHSMapGameResult GameResult;
+    public StrategicMapGameStatus GameStatus;
+    public StrategicMapGameResult GameResult;
     public GameType GameType;
 
-    public CustomCombatMap CombatMap { get; set; }
+    public CombatMap CombatMap { get; set; }
     public Battle Combat { get; private set; }
     public TutorialControl TutorialControl { get; }
     public AIExecutor AIExecutor { get; set; }
@@ -95,7 +95,7 @@ public partial class AoWHSMap : GameMap
     public bool StartingGame;
     public bool AlliedVictory;
     public byte VictoryMode;
-    public AoWHSMapVictoryCondition VictoryCondition;
+    public StrategicMapVictoryCondition VictoryCondition;
     public int VictoryMana;
     public int VictoryGold;
     public int DayLimit;
@@ -103,7 +103,7 @@ public partial class AoWHSMap : GameMap
     private int _turnTimeElapsed;
     private int _turnTimeBeep;
     private int _turnTimerStart;
-    public AoWHSMapTurnOrderMode TurnOrderMode;
+    public StrategicMapTurnOrderMode TurnOrderMode;
 
     public ByteList TurnOrder { get; }
 
@@ -127,9 +127,9 @@ public partial class AoWHSMap : GameMap
     public bool ShowAllPlayers;
     private int _relationsChangedLockCount;
 
-    private EventStore<AoWHSMap> _playerChangedEventsStore;
+    private EventStore<StrategicMap> _playerChangedEventsStore;
 
-    public event NotifyEvent<AoWHSMap> FPlayerChangedEvents
+    public event NotifyEvent<StrategicMap> FPlayerChangedEvents
     {
         add => _playerChangedEventsStore.Add(value);
         remove => _playerChangedEventsStore.Remove(value);
@@ -159,17 +159,17 @@ public partial class AoWHSMap : GameMap
         remove => _endTurnEventsStore.Remove(value);
     }
 
-    private EventStore<AoWHSMap> _currentPlayerChangedEventsStore;
+    private EventStore<StrategicMap> _currentPlayerChangedEventsStore;
 
-    public event NotifyEvent<AoWHSMap> FCurrentPlayerChangedEvents
+    public event NotifyEvent<StrategicMap> FCurrentPlayerChangedEvents
     {
         add => _currentPlayerChangedEventsStore.Add(value);
         remove => _currentPlayerChangedEventsStore.Remove(value);
     }
 
-    private EventStore<AoWHSMap> _seatedPlayerChangedEventsStore;
+    private EventStore<StrategicMap> _seatedPlayerChangedEventsStore;
 
-    public event NotifyEvent<AoWHSMap> FSeatedPlayerChangedEvents
+    public event NotifyEvent<StrategicMap> FSeatedPlayerChangedEvents
     {
         add => _seatedPlayerChangedEventsStore.Add(value);
         remove => _seatedPlayerChangedEventsStore.Remove(value);
@@ -191,17 +191,17 @@ public partial class AoWHSMap : GameMap
         remove => _playerTerminatedEventsStore.Remove(value);
     }
 
-    private EventStore<AoWHSMap> _gameOverEventsStore;
+    private EventStore<StrategicMap> _gameOverEventsStore;
 
-    public event NotifyEvent<AoWHSMap> FGameOverEvents
+    public event NotifyEvent<StrategicMap> FGameOverEvents
     {
         add => _gameOverEventsStore.Add(value);
         remove => _gameOverEventsStore.Remove(value);
     }
 
-    private EventStore<AoWHSMap> _gameTerminatedEventsStore;
+    private EventStore<StrategicMap> _gameTerminatedEventsStore;
 
-    public event NotifyEvent<AoWHSMap> FGameTerminatedEvents
+    public event NotifyEvent<StrategicMap> FGameTerminatedEvents
     {
         add => _gameTerminatedEventsStore.Add(value);
         remove => _gameTerminatedEventsStore.Remove(value);
@@ -209,9 +209,9 @@ public partial class AoWHSMap : GameMap
 
     public bool ExitPending { get; private set; }
 
-    private EventStore<AoWHSMap> _exitEventsStore;
+    private EventStore<StrategicMap> _exitEventsStore;
 
-    public event NotifyEvent<AoWHSMap> FExitEvents
+    public event NotifyEvent<StrategicMap> FExitEvents
     {
         add => _exitEventsStore.Add(value);
         remove => _exitEventsStore.Remove(value);
@@ -258,9 +258,9 @@ public partial class AoWHSMap : GameMap
         remove => DiplomaticRelationsChangedEventsStore.Remove(value);
     }
 
-    private EventStore<AoWHSMap> _updateVisibilityEventsStore;
+    private EventStore<StrategicMap> _updateVisibilityEventsStore;
 
-    public event NotifyEvent<AoWHSMap> FUpdateVisibilityEvents
+    public event NotifyEvent<StrategicMap> FUpdateVisibilityEvents
     {
         add => _updateVisibilityEventsStore.Add(value);
         remove => _updateVisibilityEventsStore.Remove(value);
@@ -322,25 +322,25 @@ public partial class AoWHSMap : GameMap
         remove => _structureDestroyedEventsStore.Remove(value);
     }
 
-    private EventStore<AoWHSMap> _tokenControlActivatedEventsStore;
+    private EventStore<StrategicMap> _tokenControlActivatedEventsStore;
 
-    public event NotifyEvent<AoWHSMap> FTokenControlActivatedEvents
+    public event NotifyEvent<StrategicMap> FTokenControlActivatedEvents
     {
         add => _tokenControlActivatedEventsStore.Add(value);
         remove => _tokenControlActivatedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> CombatMapCreatedEventsStore { get; }
+    internal EventStore<StrategicMap> CombatMapCreatedEventsStore { get; }
 
-    public event NotifyEvent<AoWHSMap> FCombatMapCreatedEvents
+    public event NotifyEvent<StrategicMap> FCombatMapCreatedEvents
     {
         add => CombatMapCreatedEventsStore.Add(value);
         remove => CombatMapCreatedEventsStore.Remove(value);
     }
 
-    internal EventStore<AoWHSMap> CombatMapDestroyedEventsStore { get; }
+    internal EventStore<StrategicMap> CombatMapDestroyedEventsStore { get; }
 
-    public event NotifyEvent<AoWHSMap> FCombatMapDestroyedEvents
+    public event NotifyEvent<StrategicMap> FCombatMapDestroyedEvents
     {
         add => CombatMapDestroyedEventsStore.Add(value);
         remove => CombatMapDestroyedEventsStore.Remove(value);
@@ -367,9 +367,9 @@ public partial class AoWHSMap : GameMap
         LockMapChangedEvent();
         OnViewLevel = null;
         OnCenterView = null;
-        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "GENERAL.ILB");
-        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "CURSORS.ILB");
-        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "GENERAL.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "CURSORS.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "COMBAT.ILB");
         MoveControl?.Dispose();
         for (int I = Effects.Count - 1; I >= 0; I--)
         {
@@ -623,7 +623,7 @@ public partial class AoWHSMap : GameMap
     }
 
     // AoWHSMap.PAS:1238
-    public AoWHSMap(ECustomNode owner) : base(owner)
+    public StrategicMap(ECustomNode owner) : base(owner)
     {
         ItemControl = new ItemControl(null);
         TokenManager = new AoWTokenManager(GameTables.GameEngine);
@@ -657,7 +657,7 @@ public partial class AoWHSMap : GameMap
         VictoryMana = 5000;
         Description = new StringList();
         _objectives = new StringList();
-        _independentAIMode = AoWHSMapIndependentAIMode.Normal;
+        _independentAIMode = StrategicMapIndependentAIMode.Normal;
         Players = new PlayerList(null);
         Races = new RaceList(null);
         _playerChangedEventsStore = new();
@@ -667,11 +667,11 @@ public partial class AoWHSMap : GameMap
         _executeEventLogBuffer = new EventLogList(null);
         DebugSave = false;
         TutorialControl = new TutorialControl(null);
-        TurnOrderMode = AoWHSMapTurnOrderMode.Fixed;
+        TurnOrderMode = StrategicMapTurnOrderMode.Fixed;
         TurnOrder = new ByteList();
         Day = 0;
-        GameStatus = AoWHSMapGameStatus.Idle;
-        GameResult = AoWHSMapGameResult.None;
+        GameStatus = StrategicMapGameStatus.Idle;
+        GameResult = StrategicMapGameResult.None;
         _sessionName = "";
         var detailLevel = GameTables.GameEngine.Registry.GetDetailLevel();
         ShowUnitShadows = Set<DetailLevel>.Of(DetailLevel.Normal, DetailLevel.High).Contains(detailLevel);
@@ -868,16 +868,16 @@ public partial class AoWHSMap : GameMap
             InitializeMapLevel((sbyte)L);
         }
 
-        for (int I = 0, last = AoWHSSet.Current.ItemLibraries.SystemLibrary.Count - 1; I <= last; I++)
+        for (int I = 0, last = GamePack.Current.ItemLibraries.SystemLibrary.Count - 1; I <= last; I++)
         {
-            objectValue = AoWHSSet.Current.ItemLibraries.SystemLibrary.GetItem(I).Copy(GameTables.GameEngine);
+            objectValue = GamePack.Current.ItemLibraries.SystemLibrary.GetItem(I).Copy(GameTables.GameEngine);
             ItemControl.RegisterItem((Item)objectValue);
             objectValue.Release();
         }
 
-        for (int I = 0, last = AoWHSSet.Current.HeroLibraries.SystemLibrary.Count - 1; I <= last; I++)
+        for (int I = 0, last = GamePack.Current.HeroLibraries.SystemLibrary.Count - 1; I <= last; I++)
         {
-            objectValue = AoWHSSet.Current.HeroLibraries.SystemLibrary.GetHero(I).Copy(GameTables.GameEngine);
+            objectValue = GamePack.Current.HeroLibraries.SystemLibrary.GetHero(I).Copy(GameTables.GameEngine);
             HeroControl.RegisterHero((Hero)objectValue);
             objectValue.Release();
         }
@@ -918,7 +918,7 @@ public partial class AoWHSMap : GameMap
             }
         }
 
-        GameStatus = AoWHSMapGameStatus.Playing;
+        GameStatus = StrategicMapGameStatus.Playing;
         DebugSave = GameTables.GameEngine.Registry.GetAutoDebugSave();
         GlobalMagicControl.Update();
         Players.BeginUpdate();
@@ -1009,13 +1009,13 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:2568
     public override void NewFrame()
     {
-        CustomCombatMap combatMap;
+        CombatMap combatMap;
         base.NewFrame();
         if (Status.Contains(HexSpriteMapStatusElement.Activated))
         {
             PlayerControl.NewFrame();
             PlayerCommunicator.Process();
-            if (CombatMap == null && GameStatus != AoWHSMapGameStatus.Terminated)
+            if (CombatMap == null && GameStatus != StrategicMapGameStatus.Terminated)
             {
                 AIExecutor.Process();
             }
@@ -1048,7 +1048,7 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:1892
     public virtual void TriggerGameTerminatedEvent()
     {
-        GameStatus = AoWHSMapGameStatus.Terminated;
+        GameStatus = StrategicMapGameStatus.Terminated;
         _gameOverEventsStore.Raise(this);
     }
 
@@ -1062,7 +1062,7 @@ public partial class AoWHSMap : GameMap
     public virtual void StartNewMap()
     {
         TurnOrder.Clear();
-        if (TurnOrderMode == AoWHSMapTurnOrderMode.Fixed)
+        if (TurnOrderMode == StrategicMapTurnOrderMode.Fixed)
         {
             for (int I = 0, last = Players.Count - 1; I <= last; I++)
             {
@@ -1070,7 +1070,7 @@ public partial class AoWHSMap : GameMap
             }
         }
 
-        if (TurnOrderMode == AoWHSMapTurnOrderMode.Random)
+        if (TurnOrderMode == StrategicMapTurnOrderMode.Random)
         {
             GenerateNewTurnOrder();
         }
@@ -1171,18 +1171,18 @@ public partial class AoWHSMap : GameMap
     }
 
     // AoWHSMap.PAS:1525
-    public AoWHSMapIndependentAIMode GetIndependentAIMode()
+    public StrategicMapIndependentAIMode GetIndependentAIMode()
     {
-        AoWHSMapIndependentAIMode result = _independentAIMode;
+        StrategicMapIndependentAIMode result = _independentAIMode;
         if (!Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
         {
-            if (result == AoWHSMapIndependentAIMode.Off)
+            if (result == StrategicMapIndependentAIMode.Off)
             {
-                result = AoWHSMapIndependentAIMode.Normal;
+                result = StrategicMapIndependentAIMode.Normal;
             }
             else
             {
-                result = AoWHSMapIndependentAIMode.Aggressive;
+                result = StrategicMapIndependentAIMode.Aggressive;
             }
         }
 
@@ -1214,7 +1214,7 @@ public partial class AoWHSMap : GameMap
     public bool TerrainVisible(sbyte X, sbyte Y, sbyte L, int radius)
     {
         MapLevel mapLevel;
-        AoWMapField field;
+        MapField field;
         HexNumberWalkData walk = default;
         // { Original returns true immediately when exploration is enabled. }
         bool result = Current.ExplorationEnabled;
@@ -1224,7 +1224,7 @@ public partial class AoWHSMap : GameMap
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                field = mapLevel.GetField(walk.X, walk.Y);
                 result = field.GetExplored(Current.SeatedPlayer);
             }
 
@@ -1241,7 +1241,7 @@ public partial class AoWHSMap : GameMap
     public bool Visible(sbyte X, sbyte Y, sbyte L, int radius)
     {
         MapLevel mapLevel;
-        AoWMapField field;
+        MapField field;
         HexNumberWalkData walk = default;
         bool result = false;
         mapLevel = MapContainer.GetMapLevel(L);
@@ -1250,7 +1250,7 @@ public partial class AoWHSMap : GameMap
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                field = mapLevel.GetField(walk.X, walk.Y);
                 result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo != 0 || !Current.FogEnabled) && (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled);
             }
 
@@ -1267,7 +1267,7 @@ public partial class AoWHSMap : GameMap
     public bool WatchingTerrain(sbyte X, sbyte Y, sbyte L, int radius)
     {
         MapLevel mapLevel;
-        AoWMapField field;
+        MapField field;
         HexNumberWalkData walk = default;
         bool result = false;
         mapLevel = MapContainer.GetMapLevel(L);
@@ -1276,7 +1276,7 @@ public partial class AoWHSMap : GameMap
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                field = mapLevel.GetField(walk.X, walk.Y);
                 result = (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled) && Viewing(walk.X, walk.Y, L);
             }
 
@@ -1293,7 +1293,7 @@ public partial class AoWHSMap : GameMap
     public bool Watching(sbyte X, sbyte Y, sbyte L, int radius)
     {
         MapLevel mapLevel;
-        AoWMapField field;
+        MapField field;
         HexNumberWalkData walk = default;
         bool result = false;
         mapLevel = MapContainer.GetMapLevel(L);
@@ -1302,7 +1302,7 @@ public partial class AoWHSMap : GameMap
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                field = mapLevel.GetField(walk.X, walk.Y);
                 result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Lo != 0 || !Current.FogEnabled) && (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled) && Viewing(walk.X, walk.Y, L);
             }
 
@@ -1320,7 +1320,7 @@ public partial class AoWHSMap : GameMap
     {
         bool result;
         MapLevel mapLevel;
-        AoWMapField field;
+        MapField field;
         HexNumberWalkData walk = default;
         int wx;
         if (ShowIndependentMoves && player != Current.SeatedPlayer)
@@ -1333,7 +1333,7 @@ public partial class AoWHSMap : GameMap
                 wx = walk.X;
                 if (wx >= 0 && walk.Y >= 0 && wx < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    field = (AoWMapField)mapLevel.GetField(wx, walk.Y);
+                    field = mapLevel.GetField(wx, walk.Y);
                     result = field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled;
                 }
 
@@ -1922,7 +1922,7 @@ public partial class AoWHSMap : GameMap
         MapLevel mapLevel;
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
-        AoWMapField field;
+        MapField field;
         mapLevel = MapContainer.GetMapLevel(L);
         message.MessageId = 4365;
         message.Result = 1;
@@ -1931,7 +1931,7 @@ public partial class AoWHSMap : GameMap
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                field = mapLevel.GetField(walk.X, walk.Y);
                 if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Hi & 1) != 0)
                 {
                     message.Param[0] = walk.Radius;
@@ -1949,7 +1949,7 @@ public partial class AoWHSMap : GameMap
         MapLevel mapLevel;
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
-        AoWMapField field;
+        MapField field;
         mapLevel = MapContainer.GetMapLevel(L);
         message.MessageId = 4400;
         message.Param[0] = player;
@@ -1958,7 +1958,7 @@ public partial class AoWHSMap : GameMap
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
             {
-                field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                field = mapLevel.GetField(walk.X, walk.Y);
                 if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Hi).Hi & 2) != 0)
                 {
                     message.Result = -1;
@@ -2000,7 +2000,7 @@ public partial class AoWHSMap : GameMap
         MapLevel mapLevel;
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
-        AoWMapField field;
+        MapField field;
         mapLevel = MapContainer.GetMapLevel(level);
         if (player >= 0)
         {
@@ -2012,7 +2012,7 @@ public partial class AoWHSMap : GameMap
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                    field = mapLevel.GetField(walk.X, walk.Y);
                     if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Lo).Hi & 16) != 0)
                     {
                         message.Param[0] = walk.Radius;
@@ -2040,9 +2040,9 @@ public partial class AoWHSMap : GameMap
         MapLevel mapLevel;
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
-        AoWMapField field;
+        MapField field;
         mapLevel = MapContainer.GetMapLevel(L);
-        if (!ExplorationEnabled || ((AoWMapField)mapLevel.GetField(X, Y)).GetExplored(player))
+        if (!ExplorationEnabled || mapLevel.GetField(X, Y).GetExplored(player))
         {
             if (FogEnabled)
             {
@@ -2056,7 +2056,7 @@ public partial class AoWHSMap : GameMap
                     {
                         if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                         {
-                            field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                            field = mapLevel.GetField(walk.X, walk.Y);
                             if ((Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref field.FieldFlags).Lo).Hi & 16) != 0)
                             {
                                 message.Param[0] = walk.Radius;
@@ -2072,7 +2072,7 @@ public partial class AoWHSMap : GameMap
                 else
                 {
                     var fieldValue = Current.MapContainer.GetField(X, Y, L);
-                    result = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)fieldValue).FieldFlags).Hi).Lo == 0;
+                    result = Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref fieldValue.FieldFlags).Hi).Lo == 0;
                 }
             }
             else
@@ -2091,14 +2091,14 @@ public partial class AoWHSMap : GameMap
     // AoWHSMap.PAS:2474
     public void MouseMoved(object sender)
     {
-        AoWMapField field;
+        MapField field;
         // The original tests Xhx only and with Yhx -1 read memory before the field block. The
         // port treats that point as off the map.
         if (Mouse.Capture == null && Mouse.HexX != -1 && Mouse.HexY != -1)
         {
             var hexY = Mouse.HexY;
             var hexX = Mouse.HexX;
-            field = (AoWMapField)MapContainer.GetField(hexX, hexY, _viewL);
+            field = MapContainer.GetField(hexX, hexY, _viewL);
             if (Current.ExplorationEnabled && !field.GetExplored(Current.SeatedPlayer))
             {
                 return;
@@ -2411,7 +2411,7 @@ public partial class AoWHSMap : GameMap
         {
             for (int I = 0, last = MapContainer.LevelCount - 1; I <= last; I++)
             {
-                ((AoWMapLevel)MapContainer.GetMapLevel(I)).Reset();
+                MapContainer.GetMapLevel(I).Reset();
             }
         }
     }
@@ -2439,7 +2439,7 @@ public partial class AoWHSMap : GameMap
                 player.ViewL = (byte)L;
             }
 
-            CombatMap = (CustomCombatMap)GameTables.GameEngine.LoadHsmMap(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
+            CombatMap = (CombatMap)GameTables.GameEngine.LoadHsmMap(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + fileName), false, null, GameProfile.TacticalMap);
             CombatMapCreatedEventsStore.Raise(this);
         }
     }
@@ -2694,7 +2694,7 @@ public partial class AoWHSMap : GameMap
                     Current.PlayCenterAnimation(X, Y, L);
                 }
 
-                army = ((AoWMapField)Current.MapContainer.GetField(X, Y, L)).GetArmyHexSprite();
+                army = Current.MapContainer.GetField(X, Y, L).GetArmyHexSprite();
                 if (army != null)
                 {
                     Selection.UnselectLocation();
@@ -2711,7 +2711,7 @@ public partial class AoWHSMap : GameMap
         DelphiList<MapObjectResource> candidates;
         MapObjectResource resource;
         RandSeed = Current.Random(16777215);
-        resources = AoWHSSet.Current.MapObjectResourceList;
+        resources = GamePack.Current.MapObjectResourceList;
         if (!Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)overlayType))
         {
             candidates = new DelphiList<MapObjectResource>();
@@ -2734,7 +2734,7 @@ public partial class AoWHSMap : GameMap
         }
         else
         {
-            AoWHSSet.Current.RoadControl.Place(Current.MapContainer, X, Y, L, terrainType);
+            GamePack.Current.RoadControl.Place(Current.MapContainer, X, Y, L, terrainType);
         }
     }
 
@@ -2792,7 +2792,7 @@ public partial class AoWHSMap : GameMap
                 mapLevel ??= MapContainer.GetMapLevel(level);
                 if (walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    var field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                    var field = mapLevel.GetField(walk.X, walk.Y);
                     result = (((field.FieldFlags >> 16) & 0xff) != 0 || !Current.FogEnabled) &&
                         (field.GetExplored(Current.SeatedPlayer) || !Current.ExplorationEnabled);
                 }
@@ -2858,7 +2858,7 @@ public partial class AoWHSMap : GameMap
 
     private static readonly string s_oneMomentPleaseText = "One moment please...";
 
-    public static AoWHSMap Current { get; set; }
+    public static StrategicMap Current { get; set; }
 
     // { Interface declaration run owned by P5. }
     // allied victory. . points. gold. mana. next scenario
@@ -2897,27 +2897,27 @@ public partial class AoWHSMap : GameMap
 
 }
 
-public enum AoWHSMapTurnOrderMode : byte
+public enum StrategicMapTurnOrderMode : byte
 {
     Fixed = 0, Random = 1, Changing = 2
 }
 
-public enum AoWHSMapVictoryCondition : byte
+public enum StrategicMapVictoryCondition : byte
 {
     None = 0, CaptureLocations = 1, AccumulateGold = 2, AccumulateMana = 3
 }
 
-public enum AoWHSMapGameResult : byte
+public enum StrategicMapGameResult : byte
 {
     None = 0, Failed = 1, Succeeded = 2
 }
 
-public enum AoWHSMapGameStatus : byte
+public enum StrategicMapGameStatus : byte
 {
     Idle = 0, Playing = 1, Terminated = 2
 }
 
-public enum AoWHSMapIndependentAIMode : byte
+public enum StrategicMapIndependentAIMode : byte
 {
     Off = 0, Passive = 1, Normal = 2, Aggressive = 3
 }

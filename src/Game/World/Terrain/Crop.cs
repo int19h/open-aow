@@ -91,7 +91,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
     // Crops.pas:189
     public override void Deactivate()
     {
-        if (CropOwner != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (CropOwner != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
             var playerCropStructure = CropOwner;
             this.CropOwner = null;
@@ -150,11 +150,11 @@ public partial class Crop : ImageLibraryTerrainMapObject
     {
         sbyte playerIndex;
         ArmyHexSprite army;
-        army = ((AoWMapField)Owner).GetArmyHexSprite();
+        army = Owner.GetArmyHexSprite();
         playerIndex = player;
         if (army != null && army.Army.Player == playerIndex && CropOwner.Player > 0 && playerIndex != CropOwner.Player)
         {
-            if (AoWHSMap.Current.Players.GetDiplomaticRelation(CropOwner.Player, playerIndex) == DiplomaticRelation.War)
+            if (StrategicMap.Current.Players.GetDiplomaticRelation(CropOwner.Player, playerIndex) == DiplomaticRelation.War)
             {
                 CropOwner.CropTrampled(playerIndex);
                 Dispose();
@@ -208,7 +208,7 @@ public partial class Crop : ImageLibraryTerrainMapObject
             result.SetResource(this);
             result.ResourceLinked = true;
             result.CropOwner = cropOwner;
-            if (!AoWHSMap.Current.PlaceHex(result, X, Y, L))
+            if (!StrategicMap.Current.PlaceHex(result, X, Y, L))
             {
                 result?.Dispose();
                 result = null;

@@ -5,7 +5,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -56,11 +56,11 @@ public partial class ConstructDialog : DataModule
         ConstructAbility ability;
         ConstructionControl control;
         Window.Drawn = false;
-        U = AoWHSMap.Current.UnitControl.FindUnit(_request.UnitId);
+        U = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
-        ability = (ConstructAbility)AoWHSSet.Current.AbilityControl.GetAbility(125);
+        ability = (ConstructAbility)GamePack.Current.AbilityControl.GetAbility(125);
         for (int I = 0, last = ability.ConstructionControls.Count - 1; I <= last; I++)
         {
             control = ability.ConstructionControls.GetConstructionControl(I);
@@ -144,7 +144,7 @@ public partial class ConstructDialog : DataModule
 
         if (condition)
         {
-            U = AoWHSMap.Current.UnitControl.FindUnit(_request.UnitId);
+            U = StrategicMap.Current.UnitControl.FindUnit(_request.UnitId);
             control = ConstructionList.Items.Objects[ConstructionList.Selected];
             if (control.CanConstruct(U, ref reason))
             {
@@ -155,7 +155,7 @@ public partial class ConstructDialog : DataModule
             }
             else
             {
-                AoWHSMap.Current.ShowWarning(reason);
+                StrategicMap.Current.ShowWarning(reason);
             }
         }
     }

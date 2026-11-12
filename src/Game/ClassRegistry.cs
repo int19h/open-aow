@@ -71,7 +71,7 @@ internal static class ClassRegistry
         EngineClass.Register(CampaignScenario.ClassId, static owner => new CampaignScenario(owner), 20);
         EngineClass.Register(EngineObject.ClassId, static owner => new CampaignTransferSettings(owner), 80);
         EngineClass.Register(EngineObject.ClassId, static owner => new HexSpriteMapKeyboard(owner), 20);
-        EngineClass.Register(EngineObject.ClassId, static owner => new AoWHSMap.MapCampaignSettings(owner), 28);
+        EngineClass.Register(EngineObject.ClassId, static owner => new StrategicMap.MapCampaignSettings(owner), 28);
         EngineClass.Register(ArmyId.ClassId, static owner => new ArmyId(owner), 20);
         EngineClass.Register(EngineObject.ClassId, static owner => new Battle(owner), 76);
         EngineClass.Register(EngineObject.ClassId, static owner => new CombatAction(owner), 12);
@@ -325,8 +325,6 @@ internal static class ClassRegistry
         EngineClass.Register(EngineObject.ClassId, static owner => new WatcherEnchantment(owner), 40);
         EngineClass.Register(HexSprite.ClassId, static owner => new FixedVisibleHexSprite(owner), 12);
         EngineClass.Register(EngineObject.ClassId, static owner => new HexControl(owner), 24);
-        EngineClass.Register(MapField.ClassId, static owner => new MapField(owner), 24);
-        EngineClass.Register(MapLevel.ClassId, static owner => new MapLevel(owner), 124);
         EngineClass.Register(MapObject.ClassId, static owner => new MapObject(owner), 16);
         EngineClass.Register(MapObjectResource.ClassId, static owner => new MapObjectResource(owner), 52);
         EngineClass.Register(EngineObject.ClassId, static owner => new RoadControl(owner), 24);
@@ -370,8 +368,8 @@ internal static class ClassRegistry
         EngineClass.Register(EngineObject.ClassId, static owner => new Troop(owner), 60);
         EngineClass.Register(ENode.ClassId, static owner => new AdjacentArmyList(owner), 12);
         EngineClass.Register(ENode.ClassId, static owner => new AoWCampaignScenarioList(owner), 12);
-        EngineClass.Register(AoWMapField.ClassId, static owner => new AoWMapField(owner), 28);
-        EngineClass.Register(AoWMapLevel.ClassId, static owner => new AoWMapLevel(owner), 128);
+        EngineClass.Register(MapField.ClassId, static owner => new MapField(owner), 28);
+        EngineClass.Register(MapLevel.ClassId, static owner => new MapLevel(owner), 128);
         EngineClass.Register(ArmyHexSprite.ClassId, static owner => new ArmyHexSprite(owner), 36);
         EngineClass.Register(ENode.ClassId, static owner => new CombatPartyList(owner), 12);
         EngineClass.Register(ENode.ClassId, static owner => new CombatPlayerList(owner), 12);
@@ -550,7 +548,6 @@ internal static class ClassRegistry
         EngineClass.Register(AbstractRoad.ClassId, static owner => new AbstractRoad(owner), 16);
         EngineClass.Register(MapObjectResource.ClassId, static owner => new AbstractRoadResource(owner), 52);
         EngineClass.Register(HexSprite.ClassId, static owner => new CustomFixedVisibleHexSprite(owner), 24);
-        EngineClass.Register(HSMap.ClassId, static owner => new HSMap(owner), 164);
         EngineClass.Register(MapContainer.ClassId, static owner => new MapContainer(owner), 32);
         EngineClass.Register(MapObject.ClassId, static owner => new MultiHexMapObject(owner), 20);
         EngineClass.Register(MultiHexMapObjectResource.ClassId, static owner => new MultiHexMapObjectResource(owner), 68);
@@ -625,7 +622,7 @@ internal static class ClassRegistry
         EngineClass.Register(ENode.ClassId, static owner => new AIMoveExecutorArmy(owner), 48);
         EngineClass.Register(ENode.ClassId, static owner => new AIMoveExecutorMove(owner), 32);
         EngineClass.Register(ENode.ClassId, static owner => new AIRecruitmentGroupList(owner), 12);
-        EngineClass.Register(HSMap.ClassId, static owner => new GameMap(owner), 216);
+        EngineClass.Register(GameMap.ClassId, static owner => new GameMap(owner), 216);
         EngineClass.Register(EngineObject.ClassId, static owner => new HypotheticalUnit(owner), 72);
         EngineClass.Register(Army.ClassId, static owner => new Army(owner), 44);
         EngineClass.Register(ArmyCombatMoveTokenEvent.ClassId, static owner => new ArmyCombatMoveTokenEvent(owner), 60);
@@ -712,9 +709,7 @@ internal static class ClassRegistry
         EngineClass.Register(AbstractBorderHexagon.ClassId, static owner => new AbstractBorderHexagon(owner), 16);
         EngineClass.Register(MapObjectResource.ClassId, static owner => new AbstractBorderHexagon.Resource(owner), 52);
         EngineClass.Alias(65537, static owner => new GameEngine(owner), 88);
-        EngineClass.Register(HSSet.ClassId, static owner => new HSSet(owner), 72);
         EngineClass.Register(EControlStyleNode.ClassId, static owner => new HexSpriteSelection(owner), 32);
-        EngineClass.Register(Hexagon.ClassId, static owner => new Hexagon(owner), 20);
         EngineClass.Register(HexagonResource.ClassId, static owner => new HexagonResource(owner), 56);
         EngineClass.Register(HolyGroundSpellTokenEvent.ClassId, static owner => new HolyGroundSpellTokenEvent(owner), 36);
         EngineClass.Register(HexBridge.ClassId, static owner => new HexBridge(owner), 28);
@@ -769,7 +764,6 @@ internal static class ClassRegistry
         EngineClass.Register(PoisonCloud.ClassId, static owner => new PoisonCloud(owner), 32);
         EngineClass.Register(PoisonCloud.Resource.ClassId, static owner => new PoisonCloud.Resource(owner), 68);
         EngineClass.Register(PoisonPlantSpellTokenEvent.ClassId, static owner => new PoisonPlantSpellTokenEvent(owner), 36);
-        EngineClass.Register(Road.ClassId, static owner => new Road(owner), 20);
         EngineClass.Register(Road.Resource.ClassId, static owner => new Road.Resource(owner), 52);
         EngineClass.Register(SingleCombatHex.ClassId, static owner => new SingleCombatHex(owner), 16);
         EngineClass.Register(SingleCombatHex.Resource.ClassId, static owner => new SingleCombatHex.Resource(owner), 52);
@@ -784,10 +778,9 @@ internal static class ClassRegistry
         EngineClass.Register(UnholyGroundSpellTokenEvent.ClassId, static owner => new UnholyGroundSpellTokenEvent(owner), 36);
         EngineClass.Register(DispelMagicSpellCombatAction.ClassId, static owner => new DispelMagicSpellCombatAction(owner), 28);
         EngineClass.Register(AIGroup.ClassId, static owner => new AIGroup(owner), 80);
-        EngineClass.Register(HSMap.ClassId, static owner => new CustomCombatMap(owner), 224);
         EngineClass.Register(GameEngine.ClassId, static owner => GameEngine.Create(owner), 128);
-        EngineClass.Register(AoWHSMap.ClassId, static owner => new AoWHSMap(owner), 1052);
-        EngineClass.Register(AoWHSSet.ClassId, static owner => AoWHSSet.Create(owner), 160);
+        EngineClass.Register(StrategicMap.ClassId, static owner => new StrategicMap(owner), 1052);
+        EngineClass.Register(GamePack.ClassId, static owner => GamePack.Create(owner), 160);
         EngineClass.Register(ArmyView.ClassId, static owner => new ArmyView(owner), 96);
         EngineClass.Register(EngineObject.ClassId, static owner => new CharmAbility(owner), 44);
         EngineClass.Register(EngineObject.ClassId, static owner => new DominateAbility(owner), 44);
@@ -804,13 +797,12 @@ internal static class ClassRegistry
         EngineClass.Register(EngineObject.ClassId, static owner => new SeduceAbility(owner), 44);
         EngineClass.Register(EResourceList.ClassId, static owner => new UnitGFXResourceList(owner), 20);
         EngineClass.Register(EResourceList.ClassId, static owner => new UnitResourceList(owner), 20);
-        EngineClass.Register(Hexagon.ClassId, static owner => new AoWHexagon(owner), 20);
-        EngineClass.Register(HexagonResource.ClassId, static owner => new AoWHexagon.Resource(owner), 56);
-        EngineClass.Register(Road.ClassId, static owner => new AoWRoad(owner), 20);
+        EngineClass.Register(Hex.ClassId, static owner => new Hex(owner), 20);
+        EngineClass.Register(HexagonResource.ClassId, static owner => new Hex.Resource(owner), 56);
+        EngineClass.Register(Road.ClassId, static owner => new Road(owner), 20);
         EngineClass.Register(TerrainMapObject.ClassId, static owner => new Terrain(owner), 20);
         EngineClass.Register(TerrainMapObjectResource.ClassId, static owner => new Terrain.Resource(owner), 76);
-        EngineClass.Register(BorderHexagon.ClassId, static owner => new BorderHexagon(owner), 16);
-        EngineClass.Register(BorderHexagon.Resource.ClassId, static owner => new BorderHexagon.Resource(owner), 52);
+        EngineClass.Register(BorderHex.Resource.ClassId, static owner => new BorderHex.Resource(owner), 52);
         EngineClass.Register(CityProductionEventLog.ClassId, static owner => new CityProductionEventLog(owner), 32);
         EngineClass.Register(CombatImageLibraryTerrain.ClassId, static owner => new CombatImageLibraryTerrain(owner), 32);
         EngineClass.Register(CombatImageLibraryTerrainResource.ClassId, static owner => new CombatImageLibraryTerrainResource(owner), 72);
@@ -848,7 +840,7 @@ internal static class ClassRegistry
         EngineClass.Register(HuntAIGroup.ClassId, static owner => new HuntAIGroup(owner), 84);
         EngineClass.Register(Structure.ClassId, static owner => new Structure(owner), 48);
         EngineClass.Register(StructureResource.ClassId, static owner => new StructureResource(owner), 100);
-        EngineClass.Register(BorderHexagon.ClassId, static owner => new AoWBorderHexagon(owner), 16);
+        EngineClass.Register(BorderHex.ClassId, static owner => new BorderHex(owner), 16);
         EngineClass.Register(WaterHex.ClassId, static owner => new WaterHex(owner), 32);
         EngineClass.Register(WaterHex.Resource.ClassId, static owner => new WaterHex.Resource(owner), 56);
         EngineClass.Register(CombatMap.ClassId, static owner => new CombatMap(owner), 312);
@@ -1085,7 +1077,7 @@ internal static class ClassRegistry
         // Issue 158: the typed token event list keeps the stored class id of TEReferenceNode. It is
         // registered last, so the compiler's names of the registrations above stay the same.
         EngineClass.Register(ENode.ClassId, static owner => new TokenEventReferenceList(owner), 12);
-        FormatMapping.Register("AoWHSMap", new Reference("CurrentPlayer", PlayerSlots.Instance), new ReferenceList("TurnOrder", PlayerSlots.Instance), new RequiredChild("MapContainer"));
+        FormatMapping.Register("StrategicMap", new Reference("CurrentPlayer", PlayerSlots.Instance), new ReferenceList("TurnOrder", PlayerSlots.Instance), new RequiredChild("MapContainer"));
         FormatMapping.Register("MapContainer", new CountedChildren("MapLevel", "LevelCount"));
         FormatMapping.Register("ProductionItem", new ProductionOrderCases());
         FormatMapping.Register("DiplomaticAction", new DiplomaticProposalCases());

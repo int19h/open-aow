@@ -102,7 +102,7 @@ public partial class SummonSpell : Spell
             eventValue = new SummonSpellTokenEvent(null);
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             SetupSummonSpellTokenEvent(eventValue);
-            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -126,7 +126,7 @@ public partial class SummonSpell : Spell
     public int GetAIUpkeepPriority()
     {
         var unitIndex = UnitIndices[0];
-        return ((SummonedAbility)AoWHSSet.Current.AbilityControl.GetAbility(155)).UnitIndexToAIUpkeepPriority(unitIndex);
+        return ((SummonedAbility)GamePack.Current.AbilityControl.GetAbility(155)).UnitIndexToAIUpkeepPriority(unitIndex);
     }
 
     // SummonSpells.pas:255

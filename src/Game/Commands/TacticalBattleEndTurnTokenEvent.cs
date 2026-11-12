@@ -26,7 +26,7 @@ public partial class TacticalBattleEndTurnTokenEvent : TokenEvent
         int turnIndex;
         bool found;
         base.Execute(tokenEvent);
-        RandSeed = AoWHSMap.Current.Random(16777215);
+        RandSeed = StrategicMap.Current.Random(16777215);
         turnIndex = CombatMap.Current.Combat.CombatData.TurnOrder.IndexOf((byte)CombatMap.Current.CurrentCombatPlayer);
         found = false;
         while (!found)

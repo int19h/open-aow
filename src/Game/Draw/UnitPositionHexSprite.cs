@@ -66,7 +66,7 @@ public partial class UnitPositionHexSprite : SingleHexSprite
             var hexY = GetHexY();
             var packMapCoordinate = HexGeometry.PackMapCoordinate(GetHexX(), hexY, 0);
             CombatMap.Current.UnitPositions.SetUnitPosition(_position, _index, packMapCoordinate);
-            _images = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
+            _images = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
             UpdateImageIndex();
         }
         else
@@ -85,7 +85,7 @@ public partial class UnitPositionHexSprite : SingleHexSprite
     {
         if (Activated() && Owner.Owner.Map.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
+            GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "TCUNITS.ILB");
             var unitPosition = CombatMap.Current.UnitPositions.GetUnitPosition(_position, _index);
             var hexX = GetHexX();
             bool condition = unitPosition.X == hexX;

@@ -10,7 +10,7 @@ public sealed class SmallClassTargetTests
     [Fact]
     public void MapLoadedHandlersRemoveByStaticMethodIdentity()
     {
-        var events = new EventStore<HSMap>();
+        var events = new EventStore<GameMap>();
         events.Add(BehaviorRegistrar.MapLoaded);
         events.Add(CityRegistrar.MapLoaded);
         events.Add(IndependentRegistrar.MapLoaded);

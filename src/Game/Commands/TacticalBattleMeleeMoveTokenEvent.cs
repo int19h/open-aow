@@ -45,7 +45,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
                         {
                             var hexY = Unit.UnitHexSprite.HexY;
                             var hexX = Unit.UnitHexSprite.HexX;
-                            notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(hexX, hexY, 0)).GetExplored(CombatMap.Current.SeatedPlayer);
+                            notExplorationEnabled = CombatMap.Current.MapContainer.GetField(hexX, hexY, 0).GetExplored(CombatMap.Current.SeatedPlayer);
                         }
 
                         if (notExplorationEnabled)
@@ -317,7 +317,7 @@ public partial class TacticalBattleMeleeMoveTokenEvent : CombatMoveTokenEvent
             Strike.Release();
         }
 
-        RandSeed = AoWHSMap.Current.Random(16777215);
+        RandSeed = StrategicMap.Current.Random(16777215);
         Strike = _meleeRound.CreateStrikeCombatAction(_strikeIndex);
         _meleeRound.GetMeleeStrike(_strikeIndex, ref strike);
         if (strike.Side == CombatSideIndex.Attacker)

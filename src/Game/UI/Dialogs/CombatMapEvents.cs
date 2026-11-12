@@ -7,7 +7,7 @@ using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.UI.Controls;
-using Aow.Game.UI.Grids;
+
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
@@ -28,8 +28,8 @@ public partial class CombatMapEvents : DataModule
     {
         StopSong();
         AudioHost.SongPlayer.Resume();
-        DialogHosts.MapWindow.MapViewer.HexSpriteMap = AoWHSMap.Current;
-        DialogHosts.ScannerWindow.Scanner.SetMap(AoWHSMap.Current);
+        DialogHosts.MapWindow.MapViewer.HexSpriteMap = StrategicMap.Current;
+        DialogHosts.ScannerWindow.Scanner.SetMap(StrategicMap.Current);
         DialogHosts.ScannerWindow.Scanner.PreviousWidth = 0;
         DialogHosts.ScannerWindow.Scanner.Incremental = false;
         DialogHosts.ScannerWindow.Scanner.Sized = false;
@@ -79,15 +79,15 @@ public partial class CombatMapEvents : DataModule
         DialogHosts.General.Manager.Aligned = false;
         DialogHosts.TaskBar.WorldPanel.Visible = true;
         DialogHosts.TaskBar.CombatPanel.Visible = false;
-        var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
+        var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         DialogHosts.TaskBar.WorldTurnButton.ButtonChecked = player.SingleProcessCycle;
         DialogHosts.CombatScanner.CombatScannerWindow.Visible = false;
         DialogHosts.CombatUnitInfo.MainWindow.Visible = false;
         DialogHosts.CombatScanner.Scanner.SetMap(null);
         DialogHosts.General.Manager.OverlayPriority = 0;
-        DialogHosts.MapEvents.TheMapGemsChanged(AoWHSMap.Current.SeatedPlayer);
-        DialogHosts.MapEvents.TheMapIncomeChanged(AoWHSMap.Current.SeatedPlayer);
-        DialogHosts.MapEvents.TheMapPlayerMagicChanged(AoWHSMap.Current.SeatedPlayer);
+        DialogHosts.MapEvents.TheMapGemsChanged(StrategicMap.Current.SeatedPlayer);
+        DialogHosts.MapEvents.TheMapIncomeChanged(StrategicMap.Current.SeatedPlayer);
+        DialogHosts.MapEvents.TheMapPlayerMagicChanged(StrategicMap.Current.SeatedPlayer);
     }
 
     // aowTCMapEvents.pas:157
@@ -212,7 +212,7 @@ public partial class CombatMapEvents : DataModule
     // aowTCMapEvents.pas:240
     public void CombatMapTurnChanged()
     {
-        var player = AoWHSMap.Current.Players.GetPlayers(CombatMap.Current.CurrentPlayer);
+        var player = StrategicMap.Current.Players.GetPlayers(CombatMap.Current.CurrentPlayer);
         DialogHosts.TaskBar.CombatTurnButton.CurrentPlayer = player.PlayerRace;
         if (DialogHosts.TaskBar.CombatTurnButton.CurrentPlayer == -1)
         {
@@ -301,8 +301,8 @@ public partial class CombatMapEvents : DataModule
                     window.CombatUnitPanel.Visible = false;
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
-                    AoWHSSet.Current.SpellControl.GetSpell(DialogHosts.General.CombatUnit.SelectedSpell).GetCombatInfo(DialogHosts.General.CombatUnit.Unit.Troop, ref info);
-                    Spell spell = AoWHSSet.Current.SpellControl.GetSpell(DialogHosts.General.CombatUnit.SelectedSpell);
+                    GamePack.Current.SpellControl.GetSpell(DialogHosts.General.CombatUnit.SelectedSpell).GetCombatInfo(DialogHosts.General.CombatUnit.Unit.Troop, ref info);
+                    Spell spell = GamePack.Current.SpellControl.GetSpell(DialogHosts.General.CombatUnit.SelectedSpell);
                     window.AbilityNameLabel.Text = spell.SpellName;
                     if (info.Attack > 0)
                     {
@@ -381,8 +381,8 @@ public partial class CombatMapEvents : DataModule
                     window.CombatUnitPanel.Visible = false;
                     window.CombatAbilityPanel.Visible = true;
                     window.TargetSelectPanel.Visible = false;
-                    AoWHSSet.Current.AbilityControl.GetAbility(DialogHosts.General.CombatUnit.SelectedAbility).GetCombatInfo(DialogHosts.General.CombatUnit.Unit.Troop, ref Info);
-                    string name = AoWHSSet.Current.AbilityControl.GetAbility(DialogHosts.General.CombatUnit.SelectedAbility).GetName(DialogHosts.General.CombatUnit.Unit.Troop);
+                    GamePack.Current.AbilityControl.GetAbility(DialogHosts.General.CombatUnit.SelectedAbility).GetCombatInfo(DialogHosts.General.CombatUnit.Unit.Troop, ref Info);
+                    string name = GamePack.Current.AbilityControl.GetAbility(DialogHosts.General.CombatUnit.SelectedAbility).GetName(DialogHosts.General.CombatUnit.Unit.Troop);
                     window.AbilityNameLabel.Text = name;
                     if (Info.Attack > 0)
                     {

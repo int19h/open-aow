@@ -32,7 +32,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
     {
         Player playerLocal;
         base.Deactivate(player);
-        playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         var playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 
@@ -45,7 +45,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
         }
 
         // { Original doubles Air. }
-        AoWHSMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Air);
+        StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Air);
         return true;
     }
 
@@ -55,7 +55,7 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
+            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.EarthMastery))
             {
                 reason = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat), [Name]);
                 result = false;
@@ -71,8 +71,8 @@ public partial class EarthMasteryEnchantment : GlobalEnchantment
         Player playerLocal;
         base.Activate(player);
         // { Original doubles Air. }
-        AoWHSMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Air);
-        playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Air);
+        playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         var playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.EarthMastery));
 

@@ -40,7 +40,7 @@ public partial class IceStorm : BlastStorm
                     ice = (FrozenWaterHexSprite)mapField.FindOwnedHexSprite(typeof(FrozenWaterHexSprite));
                     if (ice != null)
                     {
-                        ice.DaysRemaining = (sbyte)(3 + (AoWHSMap.Current.Random(11) - 5) / 5);
+                        ice.DaysRemaining = (sbyte)(3 + (StrategicMap.Current.Random(11) - 5) / 5);
                         ice.CasterPlayer = Player;
                     }
                 }
@@ -58,10 +58,10 @@ public partial class IceStorm : BlastStorm
             if (ice == null)
             {
                 ice = new FrozenWaterHexSprite(null);
-                AoWHSMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
+                StrategicMap.Current.PlaceHex(ice, mapField.HexX, mapField.HexY, mapField.HexLevel);
             }
 
-            ice.DaysRemaining = (sbyte)(3 + (AoWHSMap.Current.Random(11) - 5) / 5);
+            ice.DaysRemaining = (sbyte)(3 + (StrategicMap.Current.Random(11) - 5) / 5);
             ice.CasterPlayer = Player;
         }
     }

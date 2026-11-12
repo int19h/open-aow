@@ -34,9 +34,9 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         {
             if (message.Payload.Int != 0)
             {
-                if (AoWHSMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
+                if (StrategicMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
                 {
-                    UpdateFire(2, !AoWHSMap.Current.RequestCombatType);
+                    UpdateFire(2, !StrategicMap.Current.RequestCombatType);
                 }
             }
         }
@@ -50,7 +50,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
     {
         Player playerLocal;
         base.Deactivate(player);
-        playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         var playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
 
@@ -63,7 +63,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         }
 
         // { Original doubles Water. }
-        AoWHSMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Water);
+        StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Water);
         return true;
     }
 
@@ -71,7 +71,7 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
     public override bool CanActivate(sbyte player, ref string reason)
     {
         bool result;
-        if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
+        if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.FireMastery))
         {
             var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat);
             var name = GetName();
@@ -92,8 +92,8 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         Player playerLocal;
         base.Activate(player);
         // { Original doubles Water. }
-        AoWHSMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Water);
-        playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
+        StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Water);
+        playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
         var playerMagicControl = playerLocal.MagicControl;
         playerMagicControl.SetActiveEnchantments(playerMagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.FireMastery));
 
@@ -115,20 +115,20 @@ public partial class FireMasteryEnchantment : GlobalEnchantment
         int chance;
         MapLevel mapLevel;
         Fire fire;
-        RandSeed = AoWHSMap.Current.Random(16777215);
-        for (int L = 0, last = AoWHSMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
+        RandSeed = StrategicMap.Current.Random(16777215);
+        for (int L = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
         {
-            mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(L);
             for (int Y = 1, lastY = mapLevel.Height - 1; Y <= lastY; Y++)
             {
                 for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
                 {
-                    chance = AoWMapField.IgnitionChance((AoWMapField)mapLevel.GetField(X, Y));
+                    chance = MapField.IgnitionChance(mapLevel.GetField(X, Y));
                     if (chance > 0)
                     {
-                        if (AoWHSMap.Current.Random(10000) < chance * factor)
+                        if (StrategicMap.Current.Random(10000) < chance * factor)
                         {
-                            fire = AoWHSSet.Current.FireControl.PlaceFire(X, Y, L, FireType.Large);
+                            fire = GamePack.Current.FireControl.PlaceFire(X, Y, L, FireType.Large);
                             if (fire != null)
                             {
                                 if (explosions)

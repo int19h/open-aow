@@ -70,7 +70,7 @@ public partial class AIGroupControlTarget : EngineObject, IOwned<AIGroupControlT
         X = Location.X;
         if (X != -1)
         {
-            result = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Location.Y, Location.MapLevel)).GetAITarget(control, Info, ref data);
+            result = StrategicMap.Current.MapContainer.GetField(X, Location.Y, Location.MapLevel).GetAITarget(control, Info, ref data);
         }
         else
         {

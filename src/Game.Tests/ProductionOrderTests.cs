@@ -267,9 +267,9 @@ public sealed class ProductionOrderTests
     [Fact]
     public void OrdersAnswerAsTheOldSwitches()
     {
-        var previousMap = AoWHSMap.Current;
-        var map = new AoWHSMap(null!);
-        AoWHSMap.Current = map;
+        var previousMap = StrategicMap.Current;
+        var map = new StrategicMap(null!);
+        StrategicMap.Current = map;
         var owner = new EngineFixture.FieldOwner(new EngineFixture.Owner());
         var city = (City)EngineClass.Of<City>().CreateInstance(owner);
         var guild = (BuildersGuild)EngineClass.Of<BuildersGuild>().CreateInstance(owner);
@@ -309,7 +309,7 @@ public sealed class ProductionOrderTests
         finally
         {
             foreach (Structure structure in new Structure[] { city, guild, node }) _ = Record.Exception(structure.Dispose);
-            AoWHSMap.Current = previousMap;
+            StrategicMap.Current = previousMap;
             map.Dispose();
         }
     }

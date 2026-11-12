@@ -1,8 +1,6 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 
-using Aow.Engine.Buffers;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -74,7 +72,7 @@ public partial class AIGroupCooperationControl : AIGroupTask
         switch (State)
         {
             case 0:
-                AoWHSMap.Current.AIExecutor.UseProcessTime(500);
+                StrategicMap.Current.AIExecutor.UseProcessTime(500);
                 _control.RecruitmentGroups.Validate(_control);
                 I = 0;
                 while (!Complete && I != _control.RecruitmentGroups.Count)
@@ -324,13 +322,13 @@ public partial class AIGroupCooperationControl : AIGroupTask
         info.EnemyRelations = Set<byte>.WithBounds(0, 7);
         info.Units = units;
         info.Requests += Set<BattleFieldInfoRequestsElement>.Of(new BattleFieldInfoRequestsElement[1] { BattleFieldInfoRequestsElement.IgnorePassiveIndependents });
-        AoWHSMap.Current.RetrieveBattleFieldInfo(Unsafe.As<int, MapCoordinate>(ref location).X, Unsafe.As<int, MapCoordinate>(ref location).Y, Unsafe.As<int, MapCoordinate>(ref location).MapLevel, friendlyRadius, ref info);
+        StrategicMap.Current.RetrieveBattleFieldInfo(Unsafe.As<int, MapCoordinate>(ref location).X, Unsafe.As<int, MapCoordinate>(ref location).Y, Unsafe.As<int, MapCoordinate>(ref location).MapLevel, friendlyRadius, ref info);
         int friendlyStrength = info.FriendlyStrength;
         BattleFieldInfo.SetupBattleFieldInfo(ref info, player, relation, Set<BattleFieldInfoRequestsElement>.Of(Array.Empty<BattleFieldInfoRequestsElement>()), damageTypes);
         info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
         info.Units = units;
         info.Requests += Set<BattleFieldInfoRequestsElement>.Of(new BattleFieldInfoRequestsElement[1] { BattleFieldInfoRequestsElement.IgnorePassiveIndependents });
-        AoWHSMap.Current.RetrieveBattleFieldInfo(Unsafe.As<int, MapCoordinate>(ref location).X, Unsafe.As<int, MapCoordinate>(ref location).Y, Unsafe.As<int, MapCoordinate>(ref location).MapLevel, enemyRadius, ref info);
+        StrategicMap.Current.RetrieveBattleFieldInfo(Unsafe.As<int, MapCoordinate>(ref location).X, Unsafe.As<int, MapCoordinate>(ref location).Y, Unsafe.As<int, MapCoordinate>(ref location).MapLevel, enemyRadius, ref info);
         int strength = info.Strength;
         return friendlyStrength - strength;
     }

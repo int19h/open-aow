@@ -42,7 +42,7 @@ public partial class HealingShowers : GlobalTargetSpell
         eventValue = new HealingShowersTokenEvent(null);
         eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
         eventValue.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-        AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+        StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
         eventValue.Release();
         return true;
     }

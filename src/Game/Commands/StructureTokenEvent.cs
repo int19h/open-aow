@@ -52,7 +52,7 @@ public partial class StructureTokenEvent : TokenEvent
         ExecuteResult result;
         if (tokenEvent.ExecuteCount != 0 || Validate())
         {
-            result = ((Structure)AoWHSMap.Current.MapContainer.GetField(_x, _y, _mapLevel).FindOwnedChild(_structureClassId)).ExecuteTokenEvent(this, tokenEvent);
+            result = ((Structure)StrategicMap.Current.MapContainer.GetField(_x, _y, _mapLevel).FindOwnedChild(_structureClassId)).ExecuteTokenEvent(this, tokenEvent);
         }
         else
         {
@@ -67,8 +67,8 @@ public partial class StructureTokenEvent : TokenEvent
     {
         bool result;
         Structure structure;
-        AoWMapField mapField;
-        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(_x, _y, _mapLevel);
+        MapField mapField;
+        mapField = StrategicMap.Current.MapContainer.GetField(_x, _y, _mapLevel);
         structure = (Structure)mapField.FindOwnedChild(_structureClassId);
         if (structure != null && structure.EngineClass.ClassId == _structureClassId)
         {
@@ -85,17 +85,17 @@ public partial class StructureTokenEvent : TokenEvent
     // Structur.PAS:2537
     public void Initialize(int classId, sbyte X, sbyte Y, sbyte L)
     {
-        AoWMapField mapField;
+        MapField mapField;
         Structure structure;
         this._x = X;
         this._y = Y;
         _mapLevel = L;
-        mapField = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(this._x, this._y, _mapLevel);
+        mapField = StrategicMap.Current.MapContainer.GetField(this._x, this._y, _mapLevel);
         structure = (Structure)mapField.FindOwnedChild(classId);
         Assert(classId == structure.EngineClass.ClassId, "Invalid position (StructureTE)", "Structur.PAS", 3045);
         _structureClassId = classId;
         _razed = structure.GetRazed();
-        Player = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(this._x, this._y, _mapLevel)).GetPlayer();
+        Player = StrategicMap.Current.MapContainer.GetField(this._x, this._y, _mapLevel).GetPlayer();
     }
 
     // NetworkE.pas:230

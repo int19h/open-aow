@@ -54,7 +54,7 @@ public partial class CustomAbilityList : EngineObject
             int last = AbilityCount - 1;
             for (; I <= last; I += 1)
             {
-                if (GetAbilitySetAt(I) && AoWHSSet.Current.AbilityControl.GetAbility(I) == null)
+                if (GetAbilitySetAt(I) && GamePack.Current.AbilityControl.GetAbility(I) == null)
                 {
                     SetAbilitySet(I, 0);
                 }
@@ -72,7 +72,7 @@ public partial class CustomAbilityList : EngineObject
         persister.BitArray("AbilityCount", AbilityCount, AbilityBits.AsSpan(0, length));
         for (int index = 0; index < AbilityCount; index++)
         {
-            if (GetAbilitySetAt(index) && AoWHSSet.Current.AbilityControl.GetAbility(index) == null)
+            if (GetAbilitySetAt(index) && GamePack.Current.AbilityControl.GetAbility(index) == null)
                 SetAbilitySet(index, 0);
         }
     }
@@ -96,7 +96,7 @@ public partial class CustomAbilityList : EngineObject
         {
             if (GetAbilitySetAt(I))
             {
-                ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+                ability = GamePack.Current.AbilityControl.GetAbility(I);
                 if ((Set<byte>.FromMask(ability.SelectionTypes.Mask) & Set<byte>.FromMask(types.Mask)) != Set<byte>.WithBounds(0, 15))
                 {
                     text.AddObject(ability.GetName(null), IntToObject(I));

@@ -1,5 +1,4 @@
 // Translated from GlobalSpells.pas.
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 
@@ -37,7 +36,7 @@ public partial class WarpParty : Spell
         string reason = "";
         WarpPartyTokenEvent eventValue;
         base.Activate(source);
-        if (CanActivate(source, ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             if (source.Owner is HeroList)
             {
@@ -49,10 +48,10 @@ public partial class WarpParty : Spell
             eventValue.ArmyId = source.ArmyOwner.CreateId(255);
             var warpLocation = CalculateWarpLocation(source.ArmyOwner.GetArmyHexSprite());
             eventValue.WarpLocation.Packed = warpLocation;
-            AoWHSMap.Current.SelectedArmy.Unselect();
+            StrategicMap.Current.SelectedArmy.Unselect();
             if (eventValue.WarpLocation.Packed != 16777215)
             {
-                AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 result = true;
             }
             else
@@ -73,9 +72,9 @@ public partial class WarpParty : Spell
     // GlobalSpells.pas:643
     public bool ValidTarget(ArmyHexSprite army, sbyte X, sbyte Y, sbyte layer)
     {
-        AoWMapField field;
+        MapField field;
         MapFieldMessage message = default;
-        field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(X, Y, layer);
+        field = StrategicMap.Current.MapContainer.GetField(X, Y, layer);
         bool result = field.GetArmyHexSprite() == null && field.GetPlayer() == -1;
         if (result)
         {
@@ -92,25 +91,25 @@ public partial class WarpParty : Spell
     // GlobalSpells.pas:660
     public int CalculateWarpLocation(ArmyHexSprite army)
     {
-        DelphiList<AoWMapField> candidates;
+        DelphiList<MapField> candidates;
         MovePointTable table = default;
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
         MapLevel level;
-        AoWMapField field;
+        MapField field;
         int I;
         bool found;
-        candidates = new DelphiList<AoWMapField>();
+        candidates = new DelphiList<MapField>();
         army.Army.CreateMovePointTable(255, Bytes.Of(ref table));
         var hexY = army.HexY;
         var hexX = army.HexX;
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 10);
-        level = AoWHSMap.Current.MapContainer.MapLevels[army.HexLevel];
+        level = StrategicMap.Current.MapContainer.MapLevels[army.HexLevel];
         while (walk.Radius < 20)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
             {
-                field = (AoWMapField)level.GetField(walk.X, walk.Y);
+                field = level.GetField(walk.X, walk.Y);
                 if (table[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] != -1)
                 {
                     candidates.Add(field);
@@ -120,11 +119,11 @@ public partial class WarpParty : Spell
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
 
-        for (int L = 0, last = AoWHSMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
+        for (int L = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
         {
             if (Math.Abs(L - army.HexLevel) == 1)
             {
-                level = AoWHSMap.Current.MapContainer.MapLevels[L];
+                level = StrategicMap.Current.MapContainer.MapLevels[L];
                 var armyHexY = army.HexY;
                 var armyHexX = army.HexX;
                 HexNumberWalkData.InitializeHexNumberWalk(ref walk, armyHexX, armyHexY, 0);
@@ -132,7 +131,7 @@ public partial class WarpParty : Spell
                 {
                     if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height)
                     {
-                        field = (AoWMapField)level.GetField(walk.X, walk.Y);
+                        field = level.GetField(walk.X, walk.Y);
                         if (table[field.TerrainType][field.OverlayType - MovementTables.FirstOverlay] != -1)
                         {
                             candidates.Add(field);

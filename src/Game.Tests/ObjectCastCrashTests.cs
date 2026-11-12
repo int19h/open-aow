@@ -26,25 +26,25 @@ public sealed class ObjectCastCrashTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly AoWHSMap _previous = AoWHSMap.Current;
+        private readonly StrategicMap _previous = StrategicMap.Current;
 
         public MapScope()
         {
-            Map = new AoWHSMap(null!);
+            Map = new StrategicMap(null!);
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
             level.CreateMapFieldList(1, 1);
             container.Map = Map;
             Map.MapContainer = container;
             Field = container.GetField(0, 0, 0);
-            AoWHSMap.Current = Map;
+            StrategicMap.Current = Map;
         }
 
-        public AoWHSMap Map { get; }
+        public StrategicMap Map { get; }
 
         public MapField Field { get; }
 
-        public void Dispose() => AoWHSMap.Current = _previous;
+        public void Dispose() => StrategicMap.Current = _previous;
     }
 
     private sealed class MasteryUnit : Troop
@@ -155,7 +155,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MasterySettersWriteUpkeepSourceAndResistance()
     {
-        var control = AoWHSSet.Current.SpellControl;
+        var control = GamePack.Current.SpellControl;
         control.RegisterSpell(new StoneSkin(null!));
         control.RegisterSpell(new Bless(null!));
         try
@@ -356,7 +356,7 @@ public sealed class ObjectCastCrashTests
     public void MasteryGuardianDefaultsNeedNoSummonedSpell()
     {
         // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
-        Assert.Null(AoWHSSet.Current.SpellControl.GetSpell(155));
+        Assert.Null(GamePack.Current.SpellControl.GetSpell(155));
         var unit = new Unit(null!);
         unit.UnitResource = new UnitResource(null!) { Level = 2 };
         Assert.Equal(6, SummonedAbility.GetDefaultManaUpkeep(unit));
@@ -368,16 +368,16 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MovingAPlacedBridgeSkipsTheLevelOverlay()
     {
-        AoWHSMap previous = AoWHSMap.Current;
+        StrategicMap previous = StrategicMap.Current;
         try
         {
-            var map = new AoWHSMap(null!);
+            var map = new StrategicMap(null!);
             var container = new MapContainer(null!);
             var level = new MapLevel(container);
             level.CreateMapFieldList(2, 1);
             container.Map = map;
             map.MapContainer = container;
-            AoWHSMap.Current = map;
+            StrategicMap.Current = map;
             var first = container.GetField(0, 0, 0);
             var second = container.GetField(1, 0, 0);
             var bridge = new Bridge(null!);
@@ -390,7 +390,7 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            AoWHSMap.Current = previous;
+            StrategicMap.Current = previous;
         }
     }
 }

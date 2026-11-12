@@ -23,7 +23,7 @@ public partial class FastBattleCommand
     // AIGroup.pas:6710
     public virtual string GetName()
     {
-        string result = AoWHSSet.Current.AbilityControl.GetAbility(AbilityId).GetName(null);
+        string result = GamePack.Current.AbilityControl.GetAbility(AbilityId).GetName(null);
         if (Target != null)
         {
             result = result + " on " + Target.IdString();

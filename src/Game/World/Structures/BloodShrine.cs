@@ -49,16 +49,16 @@ public partial class BloodShrine : Structure
         for (int I = 0, last = armyHexSprite.Army.Count - 1; I <= last; I++)
         {
             troop = armyHexSprite.Army.GetUnit(I);
-            AoWHSSet.Current.AbilityControl.GetAbility(168).Expand(troop);
+            GamePack.Current.AbilityControl.GetAbility(168).Expand(troop);
         }
 
-        bool condition = armyHexSprite.Army.Player == AoWHSMap.Current.SeatedPlayer;
+        bool condition = armyHexSprite.Army.Player == StrategicMap.Current.SeatedPlayer;
         if (!condition)
         {
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
             var hexX = GetHexX();
-            condition = AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0);
+            condition = StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0);
         }
 
         if (condition)
@@ -69,7 +69,7 @@ public partial class BloodShrine : Structure
         var hexLevel2 = GetHexLevel();
         var hexY2 = GetHexY();
         var hexX2 = GetHexX();
-        if (AoWHSMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
+        if (StrategicMap.Current.Visible(hexX2, hexY2, hexLevel2, 0))
         {
             animation = new BloodShrineAnimation(null);
             R = new Rect(-16, -8, 32, 40);
@@ -79,7 +79,7 @@ public partial class BloodShrine : Structure
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
             var hexX = GetHexX();
-            AoWHSMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
+            StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         }
     }
 

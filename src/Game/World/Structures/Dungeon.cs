@@ -90,7 +90,7 @@ public partial class Dungeon : ExplorationSite
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.Day == 1)
+        if (StrategicMap.Current.Day == 1)
         {
             GeneratePrisoners();
         }
@@ -151,7 +151,7 @@ public partial class Dungeon : ExplorationSite
         int collection;
         UnitIndexList list;
         UnitIndexListCollection collections;
-        RandSeed = AoWHSMap.Current.DefendersSeed;
+        RandSeed = StrategicMap.Current.DefendersSeed;
         if (_prisonersMode == DungeonPrisonersMode.Random)
         {
             _prisonersMode = (DungeonPrisonersMode)(Random(3) + 1);
@@ -208,7 +208,7 @@ public partial class Dungeon : ExplorationSite
             if (Prisoners.Count == 1)
             {
                 armyLog.Text = AbilityRules.TranslateResourceString(s_onePrisonerLiberatedText);
-                var name2 = AoWHSMap.Current.Players.GetPlayers(player).GetName();
+                var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
                 var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_afterLiberationOneUnitJoinedForcesFormat), [name2]);
                 armyLog.Messages.Text = format;
             }
@@ -217,7 +217,7 @@ public partial class Dungeon : ExplorationSite
                 var count = Prisoners.Count;
                 armyLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_prisonersLiberatedFormat), [IntToStr(count)]);
                 var fPrisonersCount = Prisoners.Count;
-                var name2 = AoWHSMap.Current.Players.GetPlayers(player).GetName();
+                var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
                 var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_afterLiberationUnitsJoinedForcesFormat), [fPrisonersCount, name2]);
                 armyLog.Messages.Text = format;
             }
@@ -225,7 +225,7 @@ public partial class Dungeon : ExplorationSite
         else
         {
             armyLog.Text = RtlUnit.Format(AbilityRules.TranslateResourceString(s_liberatedFormat), [hero.HeroName]);
-            var name2 = AoWHSMap.Current.Players.GetPlayers(player).GetName();
+            var name2 = StrategicMap.Current.Players.GetPlayers(player).GetName();
             var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_afterLiberationJoinedForcesFormat), [hero.HeroName, name2]);
             armyLog.Messages.Text = format;
         }

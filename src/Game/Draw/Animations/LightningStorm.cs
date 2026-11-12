@@ -57,7 +57,7 @@ public partial class LightningStorm : Storm
         // { Original adds to the map selection, without clearing its existing hexes. }
         for (int I = 0, last = HexGeometry.RadiusToHexNumber(2) - 1; I <= last; I++)
         {
-            AoWHSMap.Current.TargetSelection.HexNumbers.Add(0);
+            StrategicMap.Current.TargetSelection.HexNumbers.Add(0);
         }
     }
 
@@ -66,7 +66,7 @@ public partial class LightningStorm : Storm
     {
         Rect R = default;
         base.InitializeStorm(player, X, Y, L);
-        _stormImages = AoWHSSet.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
+        _stormImages = GamePack.Current.ImageLibraryManager.LinkToImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
         if (GetVisible())
         {
             _stormImages.LoadDiscardableImageData();
@@ -77,8 +77,8 @@ public partial class LightningStorm : Storm
         R.Top = -_stormImages[0].Height + 32;
         R.Bottom = 32;
         SetDimensions(R);
-        AoWHSMap.Current.ValidateTerrainObservation(AoWHSMap.Current.CurrentPlayer, X, Y, L, 2);
-        PlaceHex(AoWHSMap.Current.MapContainer, X, Y, L);
+        StrategicMap.Current.ValidateTerrainObservation(StrategicMap.Current.CurrentPlayer, X, Y, L, 2);
+        PlaceHex(StrategicMap.Current.MapContainer, X, Y, L);
     }
 
     // Storms.pas:466
@@ -95,7 +95,7 @@ public partial class LightningStorm : Storm
         {
             var hexLevel = GetHexLevel();
             var hexY = GetHexY();
-            AbilityRules.TriggerStormDamage(StormType.Lightning, GetHexX(), hexY, hexLevel, 0, 1, AoWHSMap.Current.CurrentPlayer);
+            AbilityRules.TriggerStormDamage(StormType.Lightning, GetHexX(), hexY, hexLevel, 0, 1, StrategicMap.Current.CurrentPlayer);
             result = false;
         }
         else
@@ -110,7 +110,7 @@ public partial class LightningStorm : Storm
     public override void FinalizeStorm()
     {
         _stormImages.ReleaseDiscardableImageData();
-        AoWHSSet.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
+        GamePack.Current.ImageLibraryManager.ReleaseImageLibrary(Set<ImageLibraryManagerCategoryElement>.Of(ImageLibraryManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
         base.FinalizeStorm();
     }
 

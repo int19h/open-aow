@@ -100,7 +100,7 @@ public sealed class ObjectLifetimeTests
     [Fact]
     public void DrawnEffectsAreCollectibleOnceDropped()
     {
-        var control = AoWHSSet.Current.SpellControl;
+        var control = GamePack.Current.SpellControl;
         var spell = new EarthMastery(null!);
         WeakReference particle;
         control.RegisterSpell(spell);

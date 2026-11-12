@@ -39,9 +39,9 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:7
     public override void Dispose()
     {
-        if (AoWHSMap.Current != null && AoWHSMap.Current.TokenManager != null)
+        if (StrategicMap.Current != null && StrategicMap.Current.TokenManager != null)
         {
-            var tokenExecutor = AoWHSMap.Current.TokenManager.TokenExecutor;
+            var tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
             tokenExecutor.OnGetSyncValue = null;
             tokenExecutor.OnSyncError = null;
         }
@@ -63,45 +63,45 @@ public partial class PlayerControl : EngineObject
         EngineMessage message = default;
         TextEventLog log = default;
         MessageEventLog messageLog;
-        AoWHSMap.Current.Day += 1;
-        AoWHSMap.Current.Players.BeginUpdate();
-        AoWHSMap.Current.LockRelationsChanged();
-        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        StrategicMap.Current.Day += 1;
+        StrategicMap.Current.Players.BeginUpdate();
+        StrategicMap.Current.LockRelationsChanged();
+        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
             log = new NewDayEventLog(null);
-            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_newDayFormat), [AoWHSMap.Current.Day]);
-            if (AoWHSMap.Current.DayLimit != 0 && AoWHSMap.Current.DayLimit - AoWHSMap.Current.Day <= 10)
+            log.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_newDayFormat), [StrategicMap.Current.Day]);
+            if (StrategicMap.Current.DayLimit != 0 && StrategicMap.Current.DayLimit - StrategicMap.Current.Day <= 10)
             {
-                var formatDaysLeftString = DurationText.FormatDaysLeftString(AoWHSMap.Current.DayLimit - AoWHSMap.Current.Day);
+                var formatDaysLeftString = DurationText.FormatDaysLeftString(StrategicMap.Current.DayLimit - StrategicMap.Current.Day);
                 log.Text = log.Text + " (" + formatDaysLeftString + ")";
             }
 
             log._player = (sbyte)I;
-            AoWHSMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
+            StrategicMap.Current.Players.GetPlayers(I).EventLogbook.AddEvent(log);
             log.Release();
         }
 
-        if (AoWHSMap.Current.TurnOrderMode == AoWHSMapTurnOrderMode.Changing)
+        if (StrategicMap.Current.TurnOrderMode == StrategicMapTurnOrderMode.Changing)
         {
-            AoWHSMap.Current.GenerateNewTurnOrder();
+            StrategicMap.Current.GenerateNewTurnOrder();
         }
 
-        if (AoWHSMap.Current.Day == 1)
+        if (StrategicMap.Current.Day == 1)
         {
-            AoWHSMap.Current.Races.ResetPlayerRelations();
-            if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local)
+            StrategicMap.Current.Races.ResetPlayerRelations();
+            if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Local)
             {
                 Randomize();
-                AoWHSMap.Current.InitialRandomSeed = RandSeed;
+                StrategicMap.Current.InitialRandomSeed = RandSeed;
             }
 
-            AoWHSMap.Current.DefendersSeed = AoWHSMap.Current.InitialRandomSeed;
+            StrategicMap.Current.DefendersSeed = StrategicMap.Current.InitialRandomSeed;
         }
 
         try
         {
             EngineMessage.InitializeMessage(ref message, 537001985, this);
-            AoWHSMap.Current.SendMessage(ref message, this);
+            StrategicMap.Current.SendMessage(ref message, this);
         }
         catch
         {
@@ -109,13 +109,13 @@ public partial class PlayerControl : EngineObject
 
         try
         {
-            AoWHSMap.Current.NewDayEventsStore.Raise(this);
+            StrategicMap.Current.NewDayEventsStore.Raise(this);
         }
         catch
         {
         }
 
-        if (AoWHSMap.Current.DayLimit == AoWHSMap.Current.Day)
+        if (StrategicMap.Current.DayLimit == StrategicMap.Current.Day)
         {
             messageLog = new MessageEventLog(null);
             messageLog.Title = AbilityRules.TranslateResourceString(GameText.InfoText);
@@ -123,73 +123,73 @@ public partial class PlayerControl : EngineObject
             messageLog.Layout = MessageEventLogLayout.Normal;
             var turnLimitReached = AbilityRules.TranslateResourceString(s_turnLimitReachedText);
             messageLog.Message.Text = turnLimitReached;
-            AoWHSMap.Current.TriggerExecuteEventLog(messageLog, false, null);
+            StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, null);
             messageLog.Release();
-            AoWHSMap.Current.GameOver(AoWHSMap.Current.SeatedPlayer, GameOverStatus.Lost);
-            for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+            StrategicMap.Current.GameOver(StrategicMap.Current.SeatedPlayer, GameOverStatus.Lost);
+            for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
             {
-                AoWHSMap.Current.GameOver((sbyte)I, GameOverStatus.Lost);
+                StrategicMap.Current.GameOver((sbyte)I, GameOverStatus.Lost);
             }
         }
 
-        AoWHSMap.Current.UnlockRelationsChanged();
-        AoWHSMap.Current.TriggerRelationsChanged();
-        AoWHSMap.Current.Players.EndUpdate();
+        StrategicMap.Current.UnlockRelationsChanged();
+        StrategicMap.Current.TriggerRelationsChanged();
+        StrategicMap.Current.Players.EndUpdate();
     }
 
     // PlayerC.PAS:177
     public virtual void NewTurn(sbyte player)
     {
         EngineMessage message = default;
-        if (AoWHSMap.Current.Day != 1)
+        if (StrategicMap.Current.Day != 1)
         {
-            var players = AoWHSMap.Current.Players.GetPlayers(player);
-            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);
-            var upkeep = AoWHSMap.Current.Players.GetPlayers(player).GetUpkeep();
-            AoWHSMap.Current.Players.GetPlayers(player).SetGems(players.Gems + fPlayersPlayers.Income - upkeep);
-            if (AoWHSMap.Current.Players.GetPlayers(player).Gems < 0)
+            var players = StrategicMap.Current.Players.GetPlayers(player);
+            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
+            var upkeep = StrategicMap.Current.Players.GetPlayers(player).GetUpkeep();
+            StrategicMap.Current.Players.GetPlayers(player).SetGems(players.Gems + fPlayersPlayers.Income - upkeep);
+            if (StrategicMap.Current.Players.GetPlayers(player).Gems < 0)
             {
-                AoWHSMap.Current.Players.GetPlayers(player).SetGems(0);
-                var players2 = AoWHSMap.Current.Players.GetPlayers(player);
+                StrategicMap.Current.Players.GetPlayers(player).SetGems(0);
+                var players2 = StrategicMap.Current.Players.GetPlayers(player);
                 players2.MoraleValue = (sbyte)(players2.MoraleValue - 5);
-                if (AoWHSMap.Current.Players.GetPlayers(player).MoraleValue < -50)
+                if (StrategicMap.Current.Players.GetPlayers(player).MoraleValue < -50)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(player).MoraleValue = -50;
+                    StrategicMap.Current.Players.GetPlayers(player).MoraleValue = -50;
                 }
             }
             else
             {
-                AoWHSMap.Current.Players.GetPlayers(player).MoraleValue = 0;
+                StrategicMap.Current.Players.GetPlayers(player).MoraleValue = 0;
             }
 
-            AoWHSMap.Current.Players.GetPlayers(player).SetEndTurn(false);
+            StrategicMap.Current.Players.GetPlayers(player).SetEndTurn(false);
         }
 
-        var players3 = AoWHSMap.Current.Players.GetPlayers(player);
+        var players3 = StrategicMap.Current.Players.GetPlayers(player);
         players3.Day += 1;
-        AoWHSMap.Current.LockUpdateVisibility();
+        StrategicMap.Current.LockUpdateVisibility();
         EngineMessage.InitializeMessage(ref message, 537001986, this);
         message.Payload = player;
-        AoWHSMap.Current.SendMessage(ref message, this);
-        AoWHSMap.Current.NewTurnEventsStore.Raise(player);
+        StrategicMap.Current.SendMessage(ref message, this);
+        StrategicMap.Current.NewTurnEventsStore.Raise(player);
         EngineMessage.InitializeMessage(ref message, 537001987, this);
         message.Payload = player;
-        AoWHSMap.Current.SendMessage(ref message, this);
-        AoWHSMap.Current.UnLockUpdateVisibility();
-        if (AoWHSMap.Current.DebugSave)
+        StrategicMap.Current.SendMessage(ref message, this);
+        StrategicMap.Current.UnLockUpdateVisibility();
+        if (StrategicMap.Current.DebugSave)
         {
             try
             {
-                if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous)
+                if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous)
                 {
                     if (player == 0)
                     {
-                        GameTables.GameEngine.SaveHsm(GameTables.GameEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.MapName + IntToStr(AoWHSMap.Current.Day) + "_p" + IntToStr(AoWHSMap.Current.SeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
+                        GameTables.GameEngine.SaveHsm(GameTables.GameEngine.StartupDirectory + "DEBUG\\" + StrategicMap.Current.MapName + IntToStr(StrategicMap.Current.Day) + "_p" + IntToStr(StrategicMap.Current.SeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
                     }
                 }
                 else
                 {
-                    GameTables.GameEngine.SaveHsm(GameTables.GameEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.MapName + IntToStr(AoWHSMap.Current.Day) + "-" + IntToStr(player) + "_p" + IntToStr(AoWHSMap.Current.SeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
+                    GameTables.GameEngine.SaveHsm(GameTables.GameEngine.StartupDirectory + "DEBUG\\" + StrategicMap.Current.MapName + IntToStr(StrategicMap.Current.Day) + "-" + IntToStr(player) + "_p" + IntToStr(StrategicMap.Current.SeatedPlayer) + FileBoundary.WriteExtension(DocumentKind.Save), null, GameProfile.WorldMap);
                 }
             }
             catch
@@ -202,7 +202,7 @@ public partial class PlayerControl : EngineObject
     public virtual void AutoSave()
     {
         string fileName = "";
-        if (AoWHSMap.Current.GameType == GameType.Campaign)
+        if (StrategicMap.Current.GameType == GameType.Campaign)
         {
             try
             {
@@ -213,7 +213,7 @@ public partial class PlayerControl : EngineObject
             catch
             {
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CouldNotSaveFormat), [fileName]);
-                AoWHSMap.Current.ShowWarning(format);
+                StrategicMap.Current.ShowWarning(format);
             }
         }
         else
@@ -226,7 +226,7 @@ public partial class PlayerControl : EngineObject
             catch
             {
                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CouldNotSaveFormat), [fileName]);
-                AoWHSMap.Current.ShowWarning(format);
+                StrategicMap.Current.ShowWarning(format);
             }
         }
     }
@@ -240,26 +240,26 @@ public partial class PlayerControl : EngineObject
     public virtual void Setup()
     {
         LocalPlayerCommunicationControl playerCommunicationControl = default;
-        if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Network && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            if (AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl == null)
+            if (StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl == null)
             {
                 throw new InvalidOperationException("Please setup DirectPlayPCC");
             }
 
-            var tokenExecutor = AoWHSMap.Current.TokenManager.TokenExecutor;
+            var tokenExecutor = StrategicMap.Current.TokenManager.TokenExecutor;
             tokenExecutor.OnGetSyncValue = this.GetSyncValue;
             tokenExecutor.OnSyncError = OutOfSync;
         }
         else
         {
-            if ((AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(AoWHSMap.Current.ConnectionType)) && AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl == null)
+            if ((StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(StrategicMap.Current.ConnectionType)) && StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl == null)
             {
                 playerCommunicationControl = new LocalPlayerCommunicationControl();
-                playerCommunicationControl.Setup(AoWHSMap.Current.Players.Count);
-                for (int I = 0, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+                playerCommunicationControl.Setup(StrategicMap.Current.Players.Count);
+                for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
                 {
-                    if (AoWHSMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human)
+                    if (StrategicMap.Current.Players.GetPlayers(I).PlayerType == PlayerType.Human)
                     {
                         playerCommunicationControl.SetConnectionMode(I, ConnectionMode.Local);
                     }
@@ -269,9 +269,9 @@ public partial class PlayerControl : EngineObject
                     }
                 }
 
-                AoWHSMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
+                StrategicMap.Current.PlayerCommunicator.ActivatePlayerCommunicationControl(playerCommunicationControl);
                 playerCommunicationControl.Release();
-                AoWHSMap.Current.Players.Update();
+                StrategicMap.Current.Players.Update();
             }
         }
     }
@@ -279,11 +279,11 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:224
     public virtual void StartNewMap()
     {
-        for (int I = 0, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
-            if (I == 0 || AoWHSMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Independent)
+            if (I == 0 || StrategicMap.Current.Players.GetPlayers(I).PlayerType != PlayerType.Independent)
             {
-                AoWHSMap.Current.Players.GetPlayers(I).Status = PlayerStatus.Playing;
+                StrategicMap.Current.Players.GetPlayers(I).Status = PlayerStatus.Playing;
             }
         }
     }
@@ -296,7 +296,7 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:463
     public virtual void PasswordFailed()
     {
-        AoWHSMap.Current.ExecuteExitGame();
+        StrategicMap.Current.ExecuteExitGame();
     }
 
     // PlayerC.PAS:468
@@ -307,32 +307,32 @@ public partial class PlayerControl : EngineObject
     // PlayerC.PAS:236
     public virtual void SetPlayerGameOverStatus(sbyte player, GameOverStatus status)
     {
-        AoWHSMap.Current.Players.GetPlayers(player).SetGameOverStatus(status);
+        StrategicMap.Current.Players.GetPlayers(player).SetGameOverStatus(status);
     }
 
     // PlayerC.PAS:241
     public virtual void GameOver(sbyte player, GameOverStatus status)
     {
-        if (AoWHSMap.Current.Players.GetPlayers(player).GameOverStatus != status && AoWHSMap.Current.Players.GetPlayers(player).Status != PlayerStatus.Terminated)
+        if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus != status && StrategicMap.Current.Players.GetPlayers(player).Status != PlayerStatus.Terminated)
         {
-            AoWHSMap.Current.LockGameOverEvent();
+            StrategicMap.Current.LockGameOverEvent();
             SetPlayerGameOverStatus(player, status);
             if (status == GameOverStatus.Lost)
             {
-                if (!AoWHSMap.Current.AlliedVictory)
+                if (!StrategicMap.Current.AlliedVictory)
                 {
-                    if (AoWHSMap.Current.Players.ActivePlayers.Count == 1)
+                    if (StrategicMap.Current.Players.ActivePlayers.Count == 1)
                     {
-                        GameOver((sbyte)AoWHSMap.Current.Players.ActivePlayers[0], GameOverStatus.Won);
+                        GameOver((sbyte)StrategicMap.Current.Players.ActivePlayers[0], GameOverStatus.Won);
                     }
                 }
                 else
                 {
-                    if (AoWHSMap.Current.Players.GetActivePlayersAllied())
+                    if (StrategicMap.Current.Players.GetActivePlayersAllied())
                     {
-                        for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+                        for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
                         {
-                            if (I != player && AoWHSMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing && AoWHSMap.Current.Players.GetPlayers(I).GameOverStatus != GameOverStatus.Lost)
+                            if (I != player && StrategicMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing && StrategicMap.Current.Players.GetPlayers(I).GameOverStatus != GameOverStatus.Lost)
                             {
                                 SetPlayerGameOverStatus((sbyte)I, GameOverStatus.Won);
                             }
@@ -344,11 +344,11 @@ public partial class PlayerControl : EngineObject
             {
                 if (status == GameOverStatus.Won)
                 {
-                    for (int I = 1, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+                    for (int I = 1, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
                     {
-                        if (I != player && AoWHSMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing && AoWHSMap.Current.Players.GetPlayers(I).GameOverStatus != GameOverStatus.Lost)
+                        if (I != player && StrategicMap.Current.Players.GetPlayers(I).Status == PlayerStatus.Playing && StrategicMap.Current.Players.GetPlayers(I).GameOverStatus != GameOverStatus.Lost)
                         {
-                            if (AoWHSMap.Current.Players.GetDiplomaticRelation(player, (sbyte)I) == DiplomaticRelation.Alliance && AoWHSMap.Current.AlliedVictory)
+                            if (StrategicMap.Current.Players.GetDiplomaticRelation(player, (sbyte)I) == DiplomaticRelation.Alliance && StrategicMap.Current.AlliedVictory)
                             {
                                 SetPlayerGameOverStatus((sbyte)I, GameOverStatus.Won);
                             }
@@ -361,25 +361,25 @@ public partial class PlayerControl : EngineObject
                 }
             }
 
-            AoWHSMap.Current.UnlockGameOverEvent();
+            StrategicMap.Current.UnlockGameOverEvent();
         }
     }
 
     // PlayerC.PAS:274
     public virtual void GameOverEventHandled(sbyte player)
     {
-        AoWHSMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
+        StrategicMap.Current.Players.GetPlayers(player).Status = PlayerStatus.Terminated;
     }
 
     // PlayerC.PAS:388
     public virtual void ExitGame(ExitGameMode mode, ExitGameCallBack done)
     {
         MessageEventLog log = default;
-        if (AoWHSMap.Current.Combat == null)
+        if (StrategicMap.Current.Combat == null)
         {
-            if (AoWHSMap.Current.ConnectionType == PlayerConnectionType.Network && AoWHSMap.Current.GameStatus != AoWHSMapGameStatus.Terminated && AoWHSMap.Current.GameType != GameType.Tutorial && AoWHSMap.Current.Players.LocalPlayers.Count > 1)
+            if (StrategicMap.Current.ConnectionType == PlayerConnectionType.Network && StrategicMap.Current.GameStatus != StrategicMapGameStatus.Terminated && StrategicMap.Current.GameType != GameType.Tutorial && StrategicMap.Current.Players.LocalPlayers.Count > 1)
             {
-                if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous || AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
+                if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
                 {
                     _exitMode = mode;
                     _exitCallback = done;
@@ -391,7 +391,7 @@ public partial class PlayerControl : EngineObject
                     log.Message.Add(yourAboutToExitAMultiPlayerGame);
                     var translatedText = AbilityRules.TranslateResourceString(s_doYouWantToContinueExitingText);
                     log.Message.Add(translatedText);
-                    AoWHSMap.Current.TriggerExecuteEventLog(log, false, ExitNetworkGameCallback);
+                    StrategicMap.Current.TriggerExecuteEventLog(log, false, ExitNetworkGameCallback);
                     log.Release();
                 }
                 else
@@ -402,13 +402,13 @@ public partial class PlayerControl : EngineObject
                     log.Layout = MessageEventLogLayout.Normal;
                     var pleaseWaitTillItIsYourTurn = AbilityRules.TranslateResourceString(s_pleaseWaitTillItIsYourTurnText);
                     log.Message.Add(pleaseWaitTillItIsYourTurn);
-                    AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
+                    StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
                     log.Release();
                 }
             }
             else
             {
-                if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Modified) && AoWHSMap.Current.GameStatus != AoWHSMapGameStatus.Terminated && AoWHSMap.Current.GameType != GameType.Tutorial)
+                if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Modified) && StrategicMap.Current.GameStatus != StrategicMapGameStatus.Terminated && StrategicMap.Current.GameType != GameType.Tutorial)
                 {
                     if (!(_exitCallback != null))
                     {
@@ -419,17 +419,17 @@ public partial class PlayerControl : EngineObject
                             log = new MessageEventLog(null);
                             log.Title = AbilityRules.TranslateResourceString(ConfirmText);
                             log.Buttons = MessageEventLogButtons.YesNoCancel;
-                            if (GameTables.GameEngine.Campaign == null && !IsEmpty(AoWHSMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
+                            if (GameTables.GameEngine.Campaign == null && !IsEmpty(StrategicMap.Current.FileName) && !DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
                             {
                                 log.Layout = MessageEventLogLayout.Normal;
                                 // The message names the file the save writes (own-formats.md 4.2).
-                                var fileName = ExtractFileName(FileBoundary.WriteName(AoWHSMap.Current.FileName));
+                                var fileName = ExtractFileName(FileBoundary.WriteName(StrategicMap.Current.FileName));
                                 var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_saveGameFormat), [fileName]);
                                 log.Message.Add(format);
                             }
                             else
                             {
-                                if (GameTables.GameEngine.Campaign != null && !IsEmpty(GameTables.GameEngine.Campaign.FileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
+                                if (GameTables.GameEngine.Campaign != null && !IsEmpty(GameTables.GameEngine.Campaign.FileName) && !DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName)))
                                 {
                                     // { Original tests the map extension when saving a campaign. }
                                     log.Layout = MessageEventLogLayout.Normal;
@@ -445,7 +445,7 @@ public partial class PlayerControl : EngineObject
                                 }
                             }
 
-                            AoWHSMap.Current.TriggerExecuteEventLog(log, false, SaveGameOnExitCallback);
+                            StrategicMap.Current.TriggerExecuteEventLog(log, false, SaveGameOnExitCallback);
                             log.Release();
                         }
                         else
@@ -460,7 +460,7 @@ public partial class PlayerControl : EngineObject
                 }
                 else
                 {
-                    AoWHSMap.Current.ExecuteExitGame();
+                    StrategicMap.Current.ExecuteExitGame();
                 }
             }
         }
@@ -481,14 +481,14 @@ public partial class PlayerControl : EngineObject
         int Y = default;
         int L = default;
         Player P;
-        AoWHSMap.Current.LockRelationsChanged();
-        if (player == AoWHSMap.Current.SeatedPlayer)
+        StrategicMap.Current.LockRelationsChanged();
+        if (player == StrategicMap.Current.SeatedPlayer)
         {
-            P = AoWHSMap.Current.Players.GetPlayers(player);
+            P = StrategicMap.Current.Players.GetPlayers(player);
             P.SetEndTurn(true);
             if (P != null)
             {
-                AoWHSMap.Current.GetViewCenter(ref X, ref Y, ref L);
+                StrategicMap.Current.GetViewCenter(ref X, ref Y, ref L);
                 P.ViewX = (byte)X;
                 P.ViewY = (byte)Y;
                 P.ViewL = (byte)L;
@@ -497,19 +497,19 @@ public partial class PlayerControl : EngineObject
 
         EngineMessage.InitializeMessage(ref message, 537001991, this);
         message.Payload = player;
-        AoWHSMap.Current.SendMessage(ref message, this);
-        AoWHSMap.Current.UnlockRelationsChanged();
-        AoWHSMap.Current.TriggerRelationsChanged();
+        StrategicMap.Current.SendMessage(ref message, this);
+        StrategicMap.Current.UnlockRelationsChanged();
+        StrategicMap.Current.TriggerRelationsChanged();
     }
 
     // PlayerC.PAS:279
     public virtual void SetSeatedPlayer(sbyte player)
     {
-        if (player != AoWHSMap.Current.SeatedPlayer)
+        if (player != StrategicMap.Current.SeatedPlayer)
         {
-            AoWHSMap.Current.SeatedPlayer = player;
-            AoWHSMap.Current.SeatedPlayerChanged();
-            AoWHSMap.Current.ResetSeatedPlayerView();
+            StrategicMap.Current.SeatedPlayer = player;
+            StrategicMap.Current.SeatedPlayerChanged();
+            StrategicMap.Current.ResetSeatedPlayerView();
         }
     }
 
@@ -522,9 +522,9 @@ public partial class PlayerControl : EngineObject
         for (int I = _disconnectedPlayers.Count - 1; I >= 0; I--)
         {
             player = _disconnectedPlayers[I].First;
-            if (AoWHSMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.None)
+            if (StrategicMap.Current.Players.GetPlayers(player).GameOverStatus == GameOverStatus.None)
             {
-                if (AoWHSMap.Current.TokenManager.PlayerReady(AoWHSMap.Current.CurrentPlayer) && AoWHSMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Count == 0)
+                if (StrategicMap.Current.TokenManager.PlayerReady(StrategicMap.Current.CurrentPlayer) && StrategicMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Count == 0)
                 {
                     count = _disconnectedPlayers[I].Second;
                     if (count > 0)
@@ -537,7 +537,7 @@ public partial class PlayerControl : EngineObject
                     {
                         log = new PlayerConnectionEventLog(null);
                         log.Setup((sbyte)player, 2);
-                        AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
+                        StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
                         log.Release();
                         _disconnectedPlayers.Delete(I);
                     }
@@ -556,36 +556,36 @@ public partial class PlayerControl : EngineObject
         PlayerConnectionEventLog log;
         log = new PlayerConnectionEventLog(null);
         log.Setup(-1, 2);
-        AoWHSMap.Current.TriggerExecuteEventLog(log, false, null);
+        StrategicMap.Current.TriggerExecuteEventLog(log, false, null);
         log.Release();
     }
 
     // PlayerC.PAS:289
-    public virtual bool LockAI() => AoWHSMap.Current.ConnectionType == PlayerConnectionType.Local && !AoWHSMap.Current.RequestCombatType && AoWHSMap.Current.AILockCount != 0;
+    public virtual bool LockAI() => StrategicMap.Current.ConnectionType == PlayerConnectionType.Local && !StrategicMap.Current.RequestCombatType && StrategicMap.Current.AILockCount != 0;
 
     // PlayerC.PAS:49
     public void GetSyncValue(ref int value)
     {
-        value = AoWHSMap.Current.DefendersSeed;
+        value = StrategicMap.Current.DefendersSeed;
     }
 
     // PlayerC.PAS:54
     public void OutOfSync(object sender)
     {
         PlayerConnectionEventLog log;
-        if (AoWHSMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Active)
+        if (StrategicMap.Current.TokenManager.TokenExecutor.ActiveTacticalBattle.Active)
         {
             if (!_outOfSyncShown)
             {
                 log = new PlayerConnectionEventLog(null);
                 log.Setup(-1, 3);
-                AoWHSMap.Current.TriggerExecuteEventLog(log, AoWHSMap.Current.Combat != null, null);
+                StrategicMap.Current.TriggerExecuteEventLog(log, StrategicMap.Current.Combat != null, null);
                 log.Release();
                 _outOfSyncShown = true;
             }
             else
             {
-                AoWHSMap.Current.TokenManager.TokenExecutor.Lock();
+                StrategicMap.Current.TokenManager.TokenExecutor.Lock();
             }
         }
     }
@@ -596,11 +596,11 @@ public partial class PlayerControl : EngineObject
         int race;
         string text;
         PlayerCommunicationControl playerCommunicationControl;
-        playerCommunicationControl = AoWHSMap.Current.PlayerCommunicator.PlayerCommunicationControl;
-        for (int I = 0, last = AoWHSMap.Current.Players.Count - 1; I <= last; I++)
+        playerCommunicationControl = StrategicMap.Current.PlayerCommunicator.PlayerCommunicationControl;
+        for (int I = 0, last = StrategicMap.Current.Players.Count - 1; I <= last; I++)
         {
             text = "Player " + IntToStr(I);
-            race = AoWHSMap.Current.Players.GetPlayers(I).PlayerRace;
+            race = StrategicMap.Current.Players.GetPlayers(I).PlayerRace;
             if (race != -1)
             {
                 var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[race]);
@@ -631,7 +631,7 @@ public partial class PlayerControl : EngineObject
                 GameTables.GameEngine.SaveHsm(((SaveGameEventLog)log).FileName, null, GameProfile.WorldMap);
             }
 
-            AoWHSMap.Current.ExecuteExitGame();
+            StrategicMap.Current.ExecuteExitGame();
             if (_exitCallback != null)
             {
                 _exitCallback(_exitMode, true);
@@ -654,12 +654,12 @@ public partial class PlayerControl : EngineObject
         SaveGameEventLog saveLog = default;
         if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
         {
-            if (GameTables.GameEngine.Campaign == null && (IsEmpty(AoWHSMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))) || GameTables.GameEngine.Campaign != null && (IsEmpty(GameTables.GameEngine.Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))))
+            if (GameTables.GameEngine.Campaign == null && (IsEmpty(StrategicMap.Current.FileName) || DocumentKind.Map.HasExtension(ExtractFileExt(StrategicMap.Current.FileName))) || GameTables.GameEngine.Campaign != null && (IsEmpty(GameTables.GameEngine.Campaign.FileName) || DocumentKind.CampaignMap.HasExtension(ExtractFileExt(StrategicMap.Current.FileName))))
             {
                 saveLog = new SaveGameEventLog(null);
-                if (!IsEmpty(AoWHSMap.Current.FileName))
+                if (!IsEmpty(StrategicMap.Current.FileName))
                 {
-                    saveLog.DefaultName = ExtractFileName(AoWHSMap.Current.FileName);
+                    saveLog.DefaultName = ExtractFileName(StrategicMap.Current.FileName);
                     if (Pos(".", saveLog.DefaultName) != 0)
                     {
                         saveLog.DefaultName = RtlUnit.Copy(saveLog.DefaultName, 1, Pos(".", saveLog.DefaultName) - 1);
@@ -667,11 +667,11 @@ public partial class PlayerControl : EngineObject
                 }
                 else
                 {
-                    saveLog.DefaultName = AoWHSMap.Current.MapName;
+                    saveLog.DefaultName = StrategicMap.Current.MapName;
                 }
 
                 saveLog.Directory = GameTables.GameEngine.StartupDirectory + "Save\\";
-                AoWHSMap.Current.TriggerExecuteEventLog(saveLog, false, ExitSaveGameCallback);
+                StrategicMap.Current.TriggerExecuteEventLog(saveLog, false, ExitSaveGameCallback);
                 saveLog.Release();
             }
             else
@@ -685,10 +685,10 @@ public partial class PlayerControl : EngineObject
                 }
                 else
                 {
-                    engine.SaveHsm(FileBoundary.WriteName(AoWHSMap.Current.FileName), null, GameProfile.WorldMap);
+                    engine.SaveHsm(FileBoundary.WriteName(StrategicMap.Current.FileName), null, GameProfile.WorldMap);
                 }
 
-                AoWHSMap.Current.ExecuteExitGame();
+                StrategicMap.Current.ExecuteExitGame();
                 if (_exitCallback != null)
                 {
                     _exitCallback(_exitMode, true);
@@ -701,7 +701,7 @@ public partial class PlayerControl : EngineObject
         {
             if (((MessageEventLog)log).PressedButton == PressedEventLogButton.No)
             {
-                AoWHSMap.Current.ExecuteExitGame();
+                StrategicMap.Current.ExecuteExitGame();
                 if (_exitCallback != null)
                 {
                     _exitCallback(_exitMode, true);
@@ -730,13 +730,13 @@ public partial class PlayerControl : EngineObject
         TerminatePlayerTokenEvent tokenEvent;
         if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
         {
-            if (AoWHSMap.Current.PlayMode == PlayMode.Simultaneous || AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
+            if (StrategicMap.Current.PlayMode == PlayMode.Simultaneous || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
             {
                 tokenEvent = new TerminatePlayerTokenEvent(null);
-                tokenEvent.Player = AoWHSMap.Current.SeatedPlayer;
+                tokenEvent.Player = StrategicMap.Current.SeatedPlayer;
                 tokenEvent.ExitCallback = _exitCallback;
                 tokenEvent.ExitMode = _exitMode;
-                AoWHSMap.Current.TokenManager.GetTokenControl(AoWHSMap.Current.SeatedPlayer).AddEvent(tokenEvent);
+                StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(tokenEvent);
                 tokenEvent.Release();
             }
         }
@@ -749,7 +749,7 @@ public partial class PlayerControl : EngineObject
         if (((MessageEventLog)log).PressedButton == PressedEventLogButton.Yes)
         {
             passwordLog = new PasswordEventLog(null);
-            AoWHSMap.Current.TriggerExecuteEventLog(passwordLog, false, ValidatePasswordCallback);
+            StrategicMap.Current.TriggerExecuteEventLog(passwordLog, false, ValidatePasswordCallback);
             passwordLog.Release();
         }
         else
@@ -774,7 +774,7 @@ public partial class PlayerControl : EngineObject
             messageLog.Message.Add("");
             var translatedText = AbilityRules.TranslateResourceString(s_doYouWantToTryAgainText);
             messageLog.Message.Add(translatedText);
-            AoWHSMap.Current.TriggerExecuteEventLog(messageLog, false, PasswordTryAgainCallback);
+            StrategicMap.Current.TriggerExecuteEventLog(messageLog, false, PasswordTryAgainCallback);
             messageLog.Release();
         }
         else
@@ -787,14 +787,14 @@ public partial class PlayerControl : EngineObject
     public void ValidatePassword(string password)
     {
         PasswordEventLog log = default;
-        if (AoWHSMap.Current.SeatedPlayer != -1)
+        if (StrategicMap.Current.SeatedPlayer != -1)
         {
             SetSeatedPlayer(-1);
         }
 
         _password = password;
         log = new PasswordEventLog(null);
-        AoWHSMap.Current.TriggerExecuteEventLog(log, false, ValidatePasswordCallback);
+        StrategicMap.Current.TriggerExecuteEventLog(log, false, ValidatePasswordCallback);
         log.Release();
     }
 

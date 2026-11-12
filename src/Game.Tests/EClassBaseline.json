@@ -364,15 +364,10 @@
     "size": 20,
     "parent": "Aow.Game.Magic.Abilities.CustomAbilityList"
   },
-  "Aow.Game.Combat.CustomCombatMap": {
-    "id": 66048,
-    "size": 224,
-    "parent": "Aow.Game.World.Map.GameMap"
-  },
   "Aow.Game.World.Map.GameMap": {
     "id": 66048,
     "size": 216,
-    "parent": "Aow.Game.World.Map.HSMap"
+    "parent": "Aow.Engine.Nodes.ENode"
   },
   "Aow.Game.Magic.Abilities.Troop": {
     "id": 80,
@@ -439,7 +434,7 @@
     "size": 128,
     "parent": "Aow.Engine.Nodes.ENode"
   },
-  "Aow.Game.World.Map.AoWHSMap": {
+  "Aow.Game.World.Map.StrategicMap": {
     "id": 131089,
     "size": 1052,
     "parent": "Aow.Game.World.Map.GameMap"
@@ -449,25 +444,25 @@
     "size": 20,
     "parent": "Aow.Engine.Nodes.EngineObject"
   },
-  "Aow.Game.World.Map.AoWHSSet": {
+  "Aow.Game.World.Map.GamePack": {
     "id": 131088,
     "size": 160,
-    "parent": "Aow.Game.World.Map.HSSet"
+    "parent": "Aow.Engine.Nodes.ECustomOwner"
   },
-  "Aow.Game.World.Map.AoWHSMap+MapCampaignSettings": {
+  "Aow.Game.World.Map.StrategicMap+MapCampaignSettings": {
     "id": 80,
     "size": 28,
     "parent": "Aow.Engine.Nodes.EngineObject"
   },
-  "Aow.Game.World.Map.AoWMapField": {
+  "Aow.Game.World.Map.MapField": {
     "id": 131090,
     "size": 28,
-    "parent": "Aow.Game.World.Map.MapField"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
-  "Aow.Game.World.Map.AoWMapLevel": {
+  "Aow.Game.World.Map.MapLevel": {
     "id": 131091,
     "size": 128,
-    "parent": "Aow.Game.World.Map.MapLevel"
+    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
   "Aow.Game.World.MapObjectEditor": {
     "id": 80,
@@ -1819,17 +1814,17 @@
     "size": 40,
     "parent": "Aow.Game.Draw.FixedVisibleHexSprite"
   },
-  "Aow.Game.World.Hexes.AoWBorderHexagon": {
+  "Aow.Game.World.Hexes.BorderHex": {
     "id": 132439,
     "size": 16,
-    "parent": "Aow.Game.World.Hexes.BorderHexagon"
+    "parent": "Aow.Game.World.Map.AbstractBorderHexagon"
   },
-  "Aow.Game.World.Hexes.AoWHexagon": {
+  "Aow.Game.World.Hexes.Hex": {
     "id": 131410,
     "size": 20,
-    "parent": "Aow.Game.World.Hexes.Hexagon"
+    "parent": "Aow.Game.World.Map.AbstractHexagon"
   },
-  "Aow.Game.World.Hexes.AoWHexagon+Resource": {
+  "Aow.Game.World.Hexes.Hex+Resource": {
     "id": 131411,
     "size": 56,
     "parent": "Aow.Game.World.Hexes.HexagonResource"
@@ -1844,10 +1839,10 @@
     "size": 56,
     "parent": "Aow.Game.World.Hexes.LowerIsometricHex+Resource"
   },
-  "Aow.Game.World.Hexes.AoWRoad": {
+  "Aow.Game.World.Hexes.Road": {
     "id": 131428,
     "size": 20,
-    "parent": "Aow.Game.World.Hexes.Road"
+    "parent": "Aow.Game.World.Map.AbstractRoad"
   },
   "Aow.Game.Session.CustomizeLeaderControl": {
     "id": 80,
@@ -1882,12 +1877,12 @@
   "Aow.Game.Combat.CombatMap": {
     "id": 2228480,
     "size": 312,
-    "parent": "Aow.Game.Combat.CustomCombatMap"
+    "parent": "Aow.Game.World.Map.GameMap"
   },
   "Aow.Game.Combat.CombatMapLevel": {
     "id": 2228482,
     "size": 128,
-    "parent": "Aow.Game.World.Map.AoWMapLevel"
+    "parent": "Aow.Game.World.Map.MapLevel"
   },
   "Aow.Game.Draw.TacticalBattleBloodHexSprite": {
     "id": 2228487,
@@ -2099,12 +2094,7 @@
     "size": 100,
     "parent": "Aow.Game.World.Structures.StructureResource"
   },
-  "Aow.Game.World.Hexes.BorderHexagon": {
-    "id": 132439,
-    "size": 16,
-    "parent": "Aow.Game.World.Map.AbstractBorderHexagon"
-  },
-  "Aow.Game.World.Hexes.BorderHexagon+Resource": {
+  "Aow.Game.World.Hexes.BorderHex+Resource": {
     "id": 132440,
     "size": 52,
     "parent": "Aow.Game.World.Map.AbstractBorderHexagon+Resource"
@@ -3289,16 +3279,6 @@
     "size": 12,
     "parent": "Aow.Game.Draw.HexSprite"
   },
-  "Aow.Game.World.Map.HSMap": {
-    "id": 66048,
-    "size": 164,
-    "parent": "Aow.Engine.Nodes.ENode"
-  },
-  "Aow.Game.World.Map.HSSet": {
-    "id": 66049,
-    "size": 72,
-    "parent": "Aow.Engine.Nodes.ECustomOwner"
-  },
   "Aow.Game.World.Map.HexControl": {
     "id": 80,
     "size": 24,
@@ -3323,16 +3303,6 @@
     "id": 65795,
     "size": 32,
     "parent": "Aow.Engine.Nodes.ENode"
-  },
-  "Aow.Game.World.Map.MapField": {
-    "id": 65793,
-    "size": 24,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
-  },
-  "Aow.Game.World.Map.MapLevel": {
-    "id": 65794,
-    "size": 124,
-    "parent": "Aow.Engine.Nodes.ECustomNode"
   },
   "Aow.Game.World.MapObject": {
     "id": 65878,
@@ -3373,11 +3343,6 @@
     "id": 263,
     "size": 28,
     "parent": "Aow.Engine.Nodes.EControlStyleInverseSortNode"
-  },
-  "Aow.Game.World.Hexes.Hexagon": {
-    "id": 131410,
-    "size": 20,
-    "parent": "Aow.Game.World.Map.AbstractHexagon"
   },
   "Aow.Game.World.Hexes.HexagonResource": {
     "id": 131411,
@@ -4068,11 +4033,6 @@
     "id": 132671,
     "size": 116,
     "parent": "Aow.Game.World.Structures.PlayerStructureResource"
-  },
-  "Aow.Game.World.Hexes.Road": {
-    "id": 131428,
-    "size": 20,
-    "parent": "Aow.Game.World.Map.AbstractRoad"
   },
   "Aow.Game.World.Hexes.Road+Resource": {
     "id": 131429,

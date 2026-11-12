@@ -49,7 +49,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
         pixelYSurface = Y - pixelYSurface - 25;
         if (SequenceIndex > -1)
         {
-            sequence = AoWHSSet.Current.ImageSequences.ImageSequences[SequenceIndex];
+            sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
             while (sequence != null)
             {
                 frame = sequence.GetUnloopedFrameIndex(_sequenceFrame);
@@ -167,14 +167,14 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
                     switch (message.Param[1].Int)
                     {
                         case 130:
-                            RandSeed = AoWHSMap.Current.Random(16777215);
-                            animateAction = AoWHSSet.Current.SpellControl.GetSpell(130).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            RandSeed = StrategicMap.Current.Random(16777215);
+                            animateAction = GamePack.Current.SpellControl.GetSpell(130).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                             CombatMap.Current.Combat.ExecuteCombatAction(animateAction);
                             animateAction.Release();
                             break;
                         case 129:
-                            RandSeed = AoWHSMap.Current.Random(16777215);
-                            raiseAction = AoWHSSet.Current.SpellControl.GetSpell(129).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            RandSeed = StrategicMap.Current.Random(16777215);
+                            raiseAction = GamePack.Current.SpellControl.GetSpell(129).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                             CombatMap.Current.Combat.ExecuteCombatAction(raiseAction);
                             raiseAction.Release();
                             break;
@@ -221,7 +221,7 @@ public partial class TacticalBattleCorpseHexSprite : SingleHexSprite
     public void NewFrame(object sender)
     {
         ImageSequence sequence;
-        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[SequenceIndex];
+        sequence = GamePack.Current.ImageSequences.ImageSequences[SequenceIndex];
         var totalSequenceFrames = sequence.GetTotalSequenceFrames();
         if (_sequenceFrame + 1 < totalSequenceFrames)
         {

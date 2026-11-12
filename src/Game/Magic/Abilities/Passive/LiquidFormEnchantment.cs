@@ -28,7 +28,7 @@ public partial class LiquidFormEnchantment : UnitEnchantmentAbility
             troop.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
-                var mapField = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+                var mapField = StrategicMap.Current.MapContainer.GetField(X, Y, L);
                 army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }

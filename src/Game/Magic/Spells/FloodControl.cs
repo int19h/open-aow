@@ -73,8 +73,8 @@ public partial class FloodControl : EngineObject
     // GlobalEnchantmentSpells.pas:1090
     public void Setup()
     {
-        Width = AoWHSMap.Current.MapContainer.Width;
-        Height = AoWHSMap.Current.MapContainer.Height;
+        Width = StrategicMap.Current.MapContainer.Width;
+        Height = StrategicMap.Current.MapContainer.Height;
         Array.Resize(ref OriginalTerrain, Width * Height * 2);
         Array.Clear(OriginalTerrain);
     }
@@ -88,8 +88,8 @@ public partial class FloodControl : EngineObject
         int index;
         HexSprite roadHexSprite;
         sbyte terrainType;
-        AoWHSMap.Current.LockMapChangedEvent();
-        mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(0);
+        StrategicMap.Current.LockMapChangedEvent();
+        mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
         // { Original includes the last row when walking neighbouring hexagons. }
         for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
         {
@@ -146,8 +146,8 @@ public partial class FloodControl : EngineObject
             }
         }
 
-        AoWHSMap.Current.UnlockMapChangedEvent();
-        AoWHSMap.Current.InvalidateMap();
+        StrategicMap.Current.UnlockMapChangedEvent();
+        StrategicMap.Current.InvalidateMap();
     }
 
     // GlobalEnchantmentSpells.pas:1160
@@ -160,8 +160,8 @@ public partial class FloodControl : EngineObject
         MapLevel mapLevel;
         sbyte overlay;
         MapObjectResource resource;
-        AoWHSMap.Current.LockMapChangedEvent();
-        mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(0);
+        StrategicMap.Current.LockMapChangedEvent();
+        mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(0);
         for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
         {
             index = (Width * Y + 1) * 2;
@@ -181,7 +181,7 @@ public partial class FloodControl : EngineObject
             }
         }
 
-        resources = AoWHSSet.Current.MapObjectResourceList;
+        resources = GamePack.Current.MapObjectResourceList;
         candidates = new DelphiList<MapObjectResource>();
         for (int Y = 1, last = mapLevel.Height - 1; Y <= last; Y++)
         {
@@ -194,7 +194,7 @@ public partial class FloodControl : EngineObject
                     mapField = mapLevel.GetField(X, Y);
                     if (Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)overlay))
                     {
-                        AoWHSSet.Current.RoadControl.Place(AoWHSMap.Current.MapContainer, (sbyte)X, (sbyte)Y, 0, mapField.TerrainType);
+                        GamePack.Current.RoadControl.Place(StrategicMap.Current.MapContainer, (sbyte)X, (sbyte)Y, 0, mapField.TerrainType);
                     }
                     else
                     {
@@ -210,7 +210,7 @@ public partial class FloodControl : EngineObject
 
                         if (candidates.Count != 0)
                         {
-                            candidates[AoWHSMap.Current.Random(candidates.Count)].PlaceResourceUser(AoWHSMap.Current, (sbyte)X, (sbyte)Y, 0);
+                            candidates[StrategicMap.Current.Random(candidates.Count)].PlaceResourceUser(StrategicMap.Current, (sbyte)X, (sbyte)Y, 0);
                         }
                     }
                 }
@@ -220,8 +220,8 @@ public partial class FloodControl : EngineObject
         }
 
         candidates?.Dispose();
-        AoWHSMap.Current.UnlockMapChangedEvent();
-        AoWHSMap.Current.InvalidateMap();
+        StrategicMap.Current.UnlockMapChangedEvent();
+        StrategicMap.Current.InvalidateMap();
     }
 
 }

@@ -60,7 +60,7 @@ public sealed class GameSwitchTests
                 break;
             case "incompatible-class":
                 // A known class of the game table that is not a world map root.
-                Replace(root, "$class", new JsonString("AoWHSSet"));
+                Replace(root, "$class", new JsonString("GamePack"));
                 break;
             case "duplicate-slot":
                 Replace(Player(document, 3), "$slot", new JsonInteger(2));
@@ -105,7 +105,7 @@ public sealed class GameSwitchTests
         byte[] bytes = GameFiles.Write(document);
         File.WriteAllBytes(file, bytes);
         GameEngine engine = EngineFixture.Engine;
-        var live = EngineFixture.Configure(new AoWHSMap(null!), value => { value.Day = 7; value.MapName = "live"; });
+        var live = EngineFixture.Configure(new StrategicMap(null!), value => { value.Day = 7; value.MapName = "live"; });
         var previous = engine.HexSpriteMap;
         engine.SetHexSpriteMapWithoutCurrentMap(live);
         try

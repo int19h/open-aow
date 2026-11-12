@@ -10,7 +10,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -50,7 +50,7 @@ public partial class WizardsTowerDialog : DataModule
             eventValue.Release();
         }
 
-        AoWHSMap.Current.TutorialControl.ShowMessage(69, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(69, true, true);
     }
 
     // AoWWizardsTowerDlg.pas:67
@@ -65,9 +65,9 @@ public partial class WizardsTowerDialog : DataModule
     {
         string reason = "";
         DialogHosts.General.PlayButtonSound(0);
-        if (!_event.Tower.Buy(AoWHSMap.Current.SeatedPlayer, ref reason))
+        if (!_event.Tower.Buy(StrategicMap.Current.SeatedPlayer, ref reason))
         {
-            AoWHSMap.Current.ShowWarning(reason);
+            StrategicMap.Current.ShowWarning(reason);
         }
         else
         {
@@ -90,7 +90,7 @@ public partial class WizardsTowerDialog : DataModule
         var wizardsTower = _event.Tower;
         if (wizardsTower.SpellId != 0)
         {
-            S = AoWHSSet.Current.SpellControl.GetSpell(wizardsTower.SpellId);
+            S = GamePack.Current.SpellControl.GetSpell(wizardsTower.SpellId);
             if (S != null)
             {
                 if (S.CastImages.GetImageSequence(10) != null)
@@ -125,7 +125,7 @@ public partial class WizardsTowerDialog : DataModule
             var buyCost = dialog._event.Tower.BuyCost();
             var format = AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.ForGoldFormat), [IntToStr(buyCost)]);
             dialog.PriceLabel.Text = format + ".";
-            spell = AoWHSSet.Current.SpellControl.GetSpell(tower.SpellId);
+            spell = GamePack.Current.SpellControl.GetSpell(tower.SpellId);
             dialog.SpellNameLabel.Text = spell.SpellName;
             var magicSphere = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)spell.MagicSphere]);
             var level = AbilityRules.TranslateResourceString(GameText.LevelText);

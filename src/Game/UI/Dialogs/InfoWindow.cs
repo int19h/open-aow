@@ -8,7 +8,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -123,20 +123,20 @@ public partial class InfoWindow : DataModule
             var itemHexSprite = ItemBag;
             var hexY = ItemBag.HexY;
             var hexX = itemHexSprite.HexX;
-            AoWHSMap.Current.CenterViewTo(hexX, hexY, ItemBag.HexLevel);
+            StrategicMap.Current.CenterViewTo(hexX, hexY, ItemBag.HexLevel);
 
             var fItemBagHexY = ItemBag.HexY;
             var fItemBagHexX = ItemBag.HexX;
-            AoWHSMap.Current.PlayCenterAnimation(fItemBagHexX, fItemBagHexY, ItemBag.HexLevel);
+            StrategicMap.Current.PlayCenterAnimation(fItemBagHexX, fItemBagHexY, ItemBag.HexLevel);
         }
         else
         {
             var hexY = DialogHosts.General.Structure.HexY;
             var hexX = DialogHosts.General.Structure.HexX;
-            AoWHSMap.Current.CenterViewTo(hexX, hexY, DialogHosts.General.Structure.HexLevel);
+            StrategicMap.Current.CenterViewTo(hexX, hexY, DialogHosts.General.Structure.HexLevel);
             var fStructureHexY = DialogHosts.General.Structure.HexY;
             var fStructureHexX = DialogHosts.General.Structure.HexX;
-            AoWHSMap.Current.PlayCenterAnimation(fStructureHexX, fStructureHexY, DialogHosts.General.Structure.HexLevel);
+            StrategicMap.Current.PlayCenterAnimation(fStructureHexX, fStructureHexY, DialogHosts.General.Structure.HexLevel);
         }
     }
 
@@ -147,13 +147,13 @@ public partial class InfoWindow : DataModule
         DialogHosts.General.PlayButtonSound(0);
         if (DialogHosts.General.Structure != null)
         {
-            if (DialogHosts.General.Structure.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
+            if (DialogHosts.General.Structure.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
             {
-                DialogHosts.General.Structure.Raze(AoWHSMap.Current.SeatedPlayer);
+                DialogHosts.General.Structure.Raze(StrategicMap.Current.SeatedPlayer);
             }
             else
             {
-                AoWHSMap.Current.ShowWarning(reason);
+                StrategicMap.Current.ShowWarning(reason);
             }
         }
     }
@@ -166,7 +166,7 @@ public partial class InfoWindow : DataModule
         if (DialogHosts.General.Structure != null)
         {
             var structure = DialogHosts.General.Structure;
-            if (StructureButtons.TryGet(structure.InfoButton(AoWHSMap.Current.SeatedPlayer), out var open))
+            if (StructureButtons.TryGet(structure.InfoButton(StrategicMap.Current.SeatedPlayer), out var open))
             {
                 open(this, structure);
             }
@@ -175,8 +175,8 @@ public partial class InfoWindow : DataModule
         {
             if (ItemBag != null)
             {
-                army = ((AoWMapField)ItemBag.Owner).GetArmyHexSprite();
-                if (army != null && army.Army.Player == AoWHSMap.Current.SeatedPlayer)
+                army = ItemBag.Owner.GetArmyHexSprite();
+                if (army != null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
                 {
                     if (army.Army.Hero(255, RosterTables.AllHeroTypes) != null)
                     {
@@ -302,7 +302,7 @@ public partial class InfoWindow : DataModule
         var description = DialogHosts.General.Structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
         dialog.SingleButtonMemo.Sized = false;
-        var canTeleport = structure.CanTeleport(AoWHSMap.Current.SeatedPlayer);
+        var canTeleport = structure.CanTeleport(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canTeleport;
         var teleport = AbilityRules.TranslateResourceString(Teleport.Resource.TeleportText);
         dialog.MainButton.Text = teleport;
@@ -316,7 +316,7 @@ public partial class InfoWindow : DataModule
         dialog.SingleButtonPanel.Visible = true;
         var description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
-        var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
+        var canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
         var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
         dialog.MainButton.Text = enter;
@@ -329,7 +329,7 @@ public partial class InfoWindow : DataModule
         dialog.SingleButtonPanel.Visible = true;
         var description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
-        var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
+        var canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
         var enter = AbilityRules.TranslateResourceString(GameText.EnterText);
         dialog.MainButton.Text = enter;
@@ -342,7 +342,7 @@ public partial class InfoWindow : DataModule
         dialog.SingleButtonPanel.Visible = true;
         var description = structure.GetDescription();
         dialog.SingleButtonMemo.Items.Assign(description);
-        var canEnter = structure.CanEnter(AoWHSMap.Current.SeatedPlayer);
+        var canEnter = structure.CanEnter(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canEnter;
         switch (structure.Entrance)
         {
@@ -387,7 +387,7 @@ public partial class InfoWindow : DataModule
             dialog.ExplorationSiteStatusLabel.Text = unexplored;
         }
 
-        var canSearch = ((ExplorationSite)DialogHosts.General.Structure).CanSearch(AoWHSMap.Current.SeatedPlayer);
+        var canSearch = ((ExplorationSite)DialogHosts.General.Structure).CanSearch(StrategicMap.Current.SeatedPlayer);
         dialog.MainButton.Visible = canSearch;
         var search = AbilityRules.TranslateResourceString(GameText.SearchText);
         dialog.MainButton.Text = search;
@@ -495,7 +495,7 @@ public partial class InfoWindow : DataModule
             dialog.ActiveCityActionMemo.Items.Add(producingMerchandise);
         }
 
-        var playerRelation = AoWHSMap.Current.Races.GetRace(structure.Race).GetPlayerRelation(structure.Player);
+        var playerRelation = StrategicMap.Current.Races.GetRace(structure.Race).GetPlayerRelation(structure.Player);
         dialog.RaceRelationIcon.CurrentImage = (int)playerRelation + 11;
         dialog.RazePanel.Visible = true;
     }
@@ -651,7 +651,7 @@ public partial class InfoWindow : DataModule
 
         if (structure.Player != -1)
         {
-            raceIndex = AoWHSMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
+            raceIndex = StrategicMap.Current.Players.GetPlayers(structure.Player).PlayerRace;
             if (raceIndex == -1)
             {
                 raceIndex = 12;

@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -182,7 +181,7 @@ public partial class AIMoveTargetSelector : EngineObject
             gaps = new Int32List();
             target = _bufferedTargets.GetTarget(0);
             _transporter.GetLocation(ref location.X, ref location.Y, ref location.MapLevel);
-            if (ListMovementGaps(AoWHSMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
+            if (ListMovementGaps(StrategicMap.Current, target.MovePath, MovePointTable, gaps, null) != 0)
             {
                 _settings.Reset();
                 this._settings.Player = TargetInfo.Player;
@@ -204,7 +203,7 @@ public partial class AIMoveTargetSelector : EngineObject
                     var item3 = gaps[I];
                     var item4 = target.MovePath[item3];
                     _settings.SetDestinationPosition(item4.X, item2.Y, fMovePathItem.MapLevel);
-                    valid = AoWHSMap.Current.MoveControl.CanMove(_settings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
+                    valid = StrategicMap.Current.MoveControl.CanMove(_settings, Set<CanMoveModeElement>.Of(CanMoveModeElement.Fast)) != -1;
                 }
             }
             else
@@ -233,7 +232,7 @@ public partial class AIMoveTargetSelector : EngineObject
         bool found;
         int I;
         MoveControlSettings settings;
-        AoWMapField field;
+        MapField field;
         MoveTarget target;
         AITargetData data = default;
         yield = false;
@@ -261,15 +260,15 @@ public partial class AIMoveTargetSelector : EngineObject
                 yield = false;
                 break;
             case 1:
-                AoWHSMap.Current.MoveControl.Activate(_settings);
+                StrategicMap.Current.MoveControl.Activate(_settings);
                 processing = true;
-                while (AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && processing)
+                while (StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0 && processing)
                 {
-                    processing = AoWHSMap.Current.MoveControl.Process();
+                    processing = StrategicMap.Current.MoveControl.Process();
                 }
 
                 yield = processing;
-                AoWHSMap.Current.MoveControl.Deactivate();
+                StrategicMap.Current.MoveControl.Deactivate();
                 if (_settings.Status != MoveControlSettingsStatus.Processing)
                 {
                     _state = 2;
@@ -298,14 +297,14 @@ public partial class AIMoveTargetSelector : EngineObject
                             if (Mode.Contains(AIMoveTargetSelectorModeElement.CreateMovePaths))
                             {
                                 target.MovePath = new MovePath();
-                                AoWHSMap.Current.MoveControl.Activate(_settings);
-                                AoWHSMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
+                                StrategicMap.Current.MoveControl.Activate(_settings);
+                                StrategicMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
                                 if (target.MovePath.Count != 0)
                                 {
                                     _bufferedTargets.AddChild(target);
                                 }
 
-                                AoWHSMap.Current.MoveControl.Deactivate();
+                                StrategicMap.Current.MoveControl.Deactivate();
                             }
                             else
                             {
@@ -370,12 +369,12 @@ public partial class AIMoveTargetSelector : EngineObject
                 yield = false;
                 break;
             case 11:
-                AoWHSMap.Current.MoveControl.Activate(_settings);
-                while (AoWHSMap.Current.MoveControl.Process() && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
+                StrategicMap.Current.MoveControl.Activate(_settings);
+                while (StrategicMap.Current.MoveControl.Process() && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
                 {
                 }
 
-                AoWHSMap.Current.MoveControl.Deactivate();
+                StrategicMap.Current.MoveControl.Deactivate();
                 if (_settings.Status != MoveControlSettingsStatus.Processing)
                 {
                     _state = 12;
@@ -402,9 +401,9 @@ public partial class AIMoveTargetSelector : EngineObject
                             target.TransporterId = _transporter.UnitId;
                             target.Data = data;
                             target.MovePath = new MovePath();
-                            AoWHSMap.Current.MoveControl.Activate(_settings);
-                            AoWHSMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
-                            AoWHSMap.Current.MoveControl.Deactivate();
+                            StrategicMap.Current.MoveControl.Activate(_settings);
+                            StrategicMap.Current.MoveControl.CalculatePath(target.MovePath, field.HexX, field.HexY, field.HexLevel);
+                            StrategicMap.Current.MoveControl.Deactivate();
                             _bufferedTargets.AddChild(target);
                             target.Release();
                             found = true;
@@ -441,7 +440,7 @@ public partial class AIMoveTargetSelector : EngineObject
         try
         {
             yield = false;
-            while (!yield && _state != -1 && AoWHSMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
+            while (!yield && _state != -1 && StrategicMap.Current.AIExecutor.GetProcessTimeLeft() > 0)
             {
                 yield = ProcessStates();
             }
@@ -480,7 +479,7 @@ public partial class AIMoveTargetSelector : EngineObject
         return result;
     }
 
-    private static int ListMovementGaps(AoWHSMap map, MovePath path, MovePointTable table, Int32List starts, Int32List ends)
+    private static int ListMovementGaps(StrategicMap map, MovePath path, MovePointTable table, Int32List starts, Int32List ends)
     {
         int number = path.Count - 1;
         int number2 = 0;

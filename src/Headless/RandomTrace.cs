@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
 using Aow.Game.Commands;
+using Aow.Game.World.Map;
 using Aow.Rtl;
 
 namespace Aow.Headless;
@@ -74,7 +75,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
         var stack = new StackTrace(1, true).GetFrames()
             .Where(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Game")
             .ToArray();
-        bool map = stack.FirstOrDefault()?.GetMethod() is { Name: "Random", DeclaringType.Name: "AoWHSMap" };
+        bool map = stack.FirstOrDefault()?.GetMethod() is { Name: "Random", DeclaringType.Name: nameof(StrategicMap) };
         var caller = stack.Skip(map ? 1 : 0).FirstOrDefault();
         _writer.WriteLine(JsonSerializer.Serialize(new
         {

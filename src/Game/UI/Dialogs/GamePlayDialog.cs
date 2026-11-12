@@ -1,6 +1,5 @@
 // Translated from AoWGamePlayDlg.pas.
 using System.Collections.Immutable;
-using Aow.Engine.Buffers;
 
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
@@ -9,7 +8,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -56,7 +55,7 @@ public partial class GamePlayDialog : DataModule
                 password = new PasswordEventLog(null);
                 password.Title = AbilityRules.TranslateResourceString(s_passwordConfirmationText);
                 password.Prompt = AbilityRules.TranslateResourceString(s_reenterNewPasswordText);
-                AoWHSMap.Current.TriggerExecuteEventLog(password, true, PasswordConfirmed);
+                StrategicMap.Current.TriggerExecuteEventLog(password, true, PasswordConfirmed);
                 password.Release();
             }
             else
@@ -136,7 +135,7 @@ public partial class GamePlayDialog : DataModule
         Simultaneous6CheckBox.Checked = events.Contains(WindowPopupEvent.PartyDamage);
         Simultaneous7CheckBox.Checked = events.Contains(WindowPopupEvent.HeroUpgrade);
         Simultaneous8CheckBox.Checked = events.Contains(WindowPopupEvent.HeroJoin);
-        var player = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer);
+        var player = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer);
         PasswordEdit.Text = player.Settings;
     }
 
@@ -144,11 +143,11 @@ public partial class GamePlayDialog : DataModule
     public void ChangePasswordBtnClick()
     {
         PasswordEventLog log = default;
-        if (AoWHSMap.Current.PlayMode != PlayMode.Turn || AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network || AoWHSMap.Current.CurrentPlayer == AoWHSMap.Current.SeatedPlayer)
+        if (StrategicMap.Current.PlayMode != PlayMode.Turn || StrategicMap.Current.ConnectionType != PlayerConnectionType.Network || StrategicMap.Current.CurrentPlayer == StrategicMap.Current.SeatedPlayer)
         {
             log = new PasswordEventLog(null);
             log.Prompt = AbilityRules.TranslateResourceString(s_enterNewPasswordText);
-            AoWHSMap.Current.TriggerExecuteEventLog(log, true, PasswordEntered);
+            StrategicMap.Current.TriggerExecuteEventLog(log, true, PasswordEntered);
             log.Release();
         }
     }
@@ -159,15 +158,15 @@ public partial class GamePlayDialog : DataModule
         string error = "";
         Set<WindowPopupEvent> events;
         DialogHosts.General.PlayButtonSound(0);
-        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Settings != PasswordEdit.Text)
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Settings != PasswordEdit.Text)
         {
-            if (AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network)
+            if (StrategicMap.Current.ConnectionType != PlayerConnectionType.Network)
             {
-                AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Settings = PasswordEdit.Text;
+                StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Settings = PasswordEdit.Text;
             }
             else
             {
-                if (!AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref error))
+                if (!StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref error))
                 {
                     MessageDialog.ResetMessageDialog(DialogHosts.MessageDialog);
                     DialogHosts.MessageDialog.MessageMemo.Items.Add("");

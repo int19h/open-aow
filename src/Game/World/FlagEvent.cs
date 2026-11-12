@@ -39,7 +39,7 @@ public partial class FlagEvent : MapObject
     // FlagEvents.pas:164
     public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
     {
-        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             base.Show(pixelXSurface, pixelYSurface, lockedSurface);
         }
@@ -56,7 +56,7 @@ public partial class FlagEvent : MapObject
     }
 
     // FlagEvents.pas:110
-    public override bool CanSelect(int pixelX, int pixelY) => AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
+    public override bool CanSelect(int pixelX, int pixelY) => StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting);
 
     // FlagEvents.pas:105
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
@@ -87,7 +87,7 @@ public partial class FlagEvent : MapObject
     public void UpdateInstantTrigger()
     {
         sbyte player;
-        player = ((AoWMapField)Owner).GetPlayer();
+        player = Owner.GetPlayer();
         if (player != -1 && GetTriggerPlayer(player) && Trigger(player))
         {
             SetTriggerPlayer(player, false);
@@ -97,7 +97,7 @@ public partial class FlagEvent : MapObject
     // FlagEvents.pas:143
     public void UpdateNewTurnTrigger(sbyte player)
     {
-        if (player == ((AoWMapField)Owner).GetPlayer() && GetTriggerPlayer(player) && Trigger(player))
+        if (player == Owner.GetPlayer() && GetTriggerPlayer(player) && Trigger(player))
         {
             SetTriggerPlayer(player, false);
         }

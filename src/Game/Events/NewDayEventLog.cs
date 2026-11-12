@@ -20,7 +20,7 @@ public partial class NewDayEventLog : TextEventLog
     // EventLog.pas:815
     public override void PlayLoggedSfx(EventLogbook logbook)
     {
-        if (AoWHSMap.Current.Day > 1)
+        if (StrategicMap.Current.Day > 1)
         {
             base.PlayLoggedSfx(logbook);
         }

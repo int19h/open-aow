@@ -6,7 +6,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -83,7 +83,7 @@ public partial class SynchronizeDialog : DataModule
 
             var raceNamesPlural = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[settings.Race]);
             PlayerRaceLabel.Text = raceNamesPlural;
-            Day = AoWHSMap.Current.Day;
+            Day = StrategicMap.Current.Day;
             if (Day == 0)
             {
                 Day = 1;

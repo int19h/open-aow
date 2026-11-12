@@ -19,7 +19,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -81,7 +81,7 @@ public partial class WorldMap : DataModule
     public void UpdateCampaignState()
     {
         int index = default;
-        AoWHSMap preview = default;
+        StrategicMap preview = default;
         if (GetCampaign() != null)
         {
             switch (GetCampaign().State)
@@ -383,7 +383,7 @@ public partial class WorldMap : DataModule
                 case 4:
                     var campaign27 = GetCampaign();
                     var campaignScenario11 = WorldMapCampaign.GetCampaignScenario(GetCampaign(), campaign27.NextScenarioId);
-                    preview = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FileName), GameProfile.WorldMap);
+                    preview = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FileName), GameProfile.WorldMap);
                     if (preview != null)
                     {
                         index = preview.Players.IndexOfPlayerType(PlayerType.Human);
@@ -1163,7 +1163,7 @@ public partial class WorldMap : DataModule
         if (GetCampaign().RaceHistory.Count > 0)
         {
             var raceHistory = GetCampaign().RaceHistory[0];
-            AoWHSSet.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
+            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
         }
     }
 
@@ -1175,7 +1175,7 @@ public partial class WorldMap : DataModule
         if (GetCampaign().RaceHistory.Count > 1)
         {
             var raceHistory = GetCampaign().RaceHistory[1];
-            AoWHSSet.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
+            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
         }
     }
 
@@ -1187,7 +1187,7 @@ public partial class WorldMap : DataModule
         if (GetCampaign().RaceHistory.Count > 2)
         {
             var raceHistory = GetCampaign().RaceHistory[2];
-            AoWHSSet.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
+            GamePack.Current.RaceResources.GetRaceResource(raceHistory).GetFace().ShowStretched(R, surface);
         }
     }
 

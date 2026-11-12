@@ -33,8 +33,8 @@ public partial class PowerSource : EngineObject
         GetLocation(ref X, ref Y, ref L);
         if (X != -1)
         {
-            AoWHSMap.Current.CenterViewTo(X, Y, L);
-            AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
+            StrategicMap.Current.CenterViewTo(X, Y, L);
+            StrategicMap.Current.PlayCenterAnimation(X, Y, L);
         }
     }
 

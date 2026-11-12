@@ -5,7 +5,7 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Map;
 
-public partial class AoWMapField
+public partial class MapField
 {
     public bool GetAITarget(AIGroupControl control, in AITargetInfo info, ref AITargetData data)
     {

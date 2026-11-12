@@ -62,14 +62,14 @@ internal static class HitChance
     {
         LockedSurface lockedSurface;
         lockedSurface = surface;
-        AoWHSSet.Current.CombatImages[0].Show(X + 20, Y + 54, lockedSurface);
+        GamePack.Current.CombatImages[0].Show(X + 20, Y + 54, lockedSurface);
         lockedSurface.ClipRectangle.Right = X + 20 + (percent + 3) / 4;
         if (lockedSurface.ClipRectangle.Right > surface.ClipRectangle.Right)
         {
             lockedSurface.ClipRectangle.Right = surface.ClipRectangle.Right;
         }
 
-        AoWHSSet.Current.CombatImages[1].Show(X + 20, Y + 54, lockedSurface);
+        GamePack.Current.CombatImages[1].Show(X + 20, Y + 54, lockedSurface);
     }
 
 }

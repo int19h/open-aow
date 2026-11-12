@@ -37,7 +37,7 @@ public partial class Animation : HexSprite
     public ShowAnimationEvent OnShow { get; set; }
     public NewFrameAnimationEvent OnNewFrame { get; set; }
     public int Tag { get; set; }
-    public HSMap AnimationMap { get; set; }
+    public GameMap AnimationMap { get; set; }
 
     // Animation.pas:153
     public override Set<ControlStyleElement> GetControlStyle()

@@ -132,12 +132,12 @@ public partial class ProductionControl : EngineObject
             player = GetPlayer();
             if (player > -1)
             {
-                var players = AoWHSMap.Current.Players.GetPlayers(player);
+                var players = StrategicMap.Current.Players.GetPlayers(player);
                 var cancelProductionReturnGold = CancelProductionReturnGold();
-                AoWHSMap.Current.Players.GetPlayers(player).SetGems(players.Gems + cancelProductionReturnGold);
-                var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(player);
+                StrategicMap.Current.Players.GetPlayers(player).SetGems(players.Gems + cancelProductionReturnGold);
+                var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(player);
                 var cancelProductionReturnMana = CancelProductionReturnMana();
-                AoWHSMap.Current.Players.GetPlayers(player).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + cancelProductionReturnMana);
+                StrategicMap.Current.Players.GetPlayers(player).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + cancelProductionReturnMana);
             }
 
             Settings.Clear();
@@ -377,7 +377,7 @@ public partial class ProductionControl : EngineObject
         {
             unit = new Unit(null);
             var unitProduction = UnitProductions.GetItem(index);
-            unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
+            unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
             result = unit;
         }
         else
@@ -466,7 +466,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
@@ -475,7 +475,7 @@ public partial class ProductionControl : EngineObject
             eventValue.Command = 1;
             eventValue.Index = index;
             var player = GetPlayer();
-            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -496,7 +496,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
@@ -504,7 +504,7 @@ public partial class ProductionControl : EngineObject
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 2;
             var player = GetPlayer();
-            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -527,7 +527,7 @@ public partial class ProductionControl : EngineObject
     {
         int unitIndex;
         unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        return AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).ObtainValue;
+        return GamePack.Current.UnitResources.GetUnitResource(unitIndex).ObtainValue;
     }
 
     // Structur.PAS:590
@@ -537,7 +537,7 @@ public partial class ProductionControl : EngineObject
     public virtual int UnitProductionGoldUpkeep(int index)
     {
         var unitProduction = UnitProductions.GetItem(index);
-        return (AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level + 1) * 2;
+        return (GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex).Level + 1) * 2;
     }
 
     // Structur.PAS:593
@@ -548,7 +548,7 @@ public partial class ProductionControl : EngineObject
     {
         int unitIndex;
         unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        return AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).Level;
+        return GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level;
     }
 
     // Structur.PAS:604
@@ -564,7 +564,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
@@ -577,7 +577,7 @@ public partial class ProductionControl : EngineObject
             eventValue.Item.Order = new ProduceUnit(index, groupId);
 
             var player = GetPlayer();
-            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -597,7 +597,7 @@ public partial class ProductionControl : EngineObject
     {
         int unitIndex;
         unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        return AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).ObtainValue;
+        return GamePack.Current.UnitResources.GetUnitResource(unitIndex).ObtainValue;
     }
 
     // Structur.PAS:649
@@ -608,7 +608,7 @@ public partial class ProductionControl : EngineObject
     {
         int unitIndex;
         unitIndex = UnitProductions.GetItem(index).UnitIndex;
-        return AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex).Level;
+        return GamePack.Current.UnitResources.GetUnitResource(unitIndex).Level;
     }
 
     // Structur.PAS:660
@@ -638,7 +638,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
@@ -651,7 +651,7 @@ public partial class ProductionControl : EngineObject
             eventValue.Item.Order = new ResearchSpell(index);
 
             var player = GetPlayer();
-            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             // { Original returns False after successfully queueing research. }
             result = false;
@@ -686,7 +686,7 @@ public partial class ProductionControl : EngineObject
         AIGroup group;
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            group = AoWHSMap.Current.AIGroupManager.FindId(Settings.GroupId);
+            group = StrategicMap.Current.AIGroupManager.FindId(Settings.GroupId);
             if (group != null)
             {
                 group.Productions.Add(this, Settings.Unit);
@@ -700,7 +700,7 @@ public partial class ProductionControl : EngineObject
         AIGroup group;
         if (Status == ProductionControlStatus.Producing && Settings.GroupId != 0)
         {
-            group = AoWHSMap.Current.AIGroupManager.FindId(Settings.GroupId);
+            group = StrategicMap.Current.AIGroupManager.FindId(Settings.GroupId);
             if (group != null)
             {
                 group.Productions.DeleteUnit(Settings.Unit);
@@ -715,7 +715,7 @@ public partial class ProductionControl : EngineObject
     {
         AIGroup group;
         var player = GetPlayer();
-        group = AoWHSMap.Current.Players.GetPlayers(player).AIGroups.FindId(groupId);
+        group = StrategicMap.Current.Players.GetPlayers(player).AIGroups.FindId(groupId);
         if (group != null)
         {
             group.UnitProduced(this, troop);
@@ -728,14 +728,14 @@ public partial class ProductionControl : EngineObject
         bool result;
         ProductionTokenEvent eventValue;
         var player = GetPlayer();
-        if (!AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
+        if (!StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
             eventValue = CreateProductionTokenEvent();
             eventValue.Command = 0;
             eventValue.Queue = queue;
             eventValue.Item = (ProductionItem)item.Copy(GameTables.GameEngine);
             var player2 = GetPlayer();
-            AoWHSMap.Current.TokenManager.GetTokenControl(player2).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(player2).AddEvent(eventValue);
             eventValue.Release();
             // { Original returns False after successfully queueing production. }
             result = false;
@@ -757,7 +757,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
@@ -767,7 +767,7 @@ public partial class ProductionControl : EngineObject
                 eventValue = CreateProductionTokenEvent();
                 eventValue.Command = 3;
                 var player = GetPlayer();
-                AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+                StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
                 eventValue.Release();
                 result = true;
             }
@@ -793,7 +793,7 @@ public partial class ProductionControl : EngineObject
         if (condition)
         {
             var player = GetPlayer();
-            condition = !AoWHSMap.Current.Players.GetPlayers(player).GetBusy();
+            condition = !StrategicMap.Current.Players.GetPlayers(player).GetBusy();
         }
 
         if (condition)
@@ -810,7 +810,7 @@ public partial class ProductionControl : EngineObject
             }
 
             var player = GetPlayer();
-            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -859,7 +859,7 @@ public partial class ProductionControl : EngineObject
         int minimum;
         bool include;
         var player = GetPlayer();
-        Player = AoWHSMap.Current.Players.GetPlayers(player);
+        Player = StrategicMap.Current.Players.GetPlayers(player);
         unit = new Unit(null);
         productions = new DoubleItemList();
         for (int I = UnitProductions.Count - 1; I >= 0; I--)
@@ -870,7 +870,7 @@ public partial class ProductionControl : EngineObject
                 if (predictor != null)
                 {
                     var unitProduction = UnitProductions.GetItem(I);
-                    unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
+                    unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitProduction.UnitIndex));
                     priority = predictor.Usefullness(unit);
                     // { Original replaces the affordability check here. }
                     include = (priority & 8388608) != 0;
@@ -897,13 +897,13 @@ public partial class ProductionControl : EngineObject
                 result += 1;
             }
 
-            if (AoWHSMap.Current.Random(2) == 1)
+            if (StrategicMap.Current.Random(2) == 1)
             {
                 result = 0;
             }
             else
             {
-                result = AoWHSMap.Current.Random(result + 1);
+                result = StrategicMap.Current.Random(result + 1);
             }
 
             result = productions[result].First;

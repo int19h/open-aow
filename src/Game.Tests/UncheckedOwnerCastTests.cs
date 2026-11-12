@@ -20,17 +20,17 @@ public sealed class UncheckedOwnerCastTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly AoWHSMap _previous = AoWHSMap.Current;
+        private readonly StrategicMap _previous = StrategicMap.Current;
 
         public MapScope()
         {
-            Map = new AoWHSMap(null!);
-            AoWHSMap.Current = Map;
+            Map = new StrategicMap(null!);
+            StrategicMap.Current = Map;
         }
 
-        public AoWHSMap Map { get; }
+        public StrategicMap Map { get; }
 
-        public void Dispose() => AoWHSMap.Current = _previous;
+        public void Dispose() => StrategicMap.Current = _previous;
     }
 
     // The list is the owner without going through AddChild.

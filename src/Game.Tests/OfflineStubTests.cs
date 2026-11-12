@@ -40,16 +40,16 @@ public sealed class OfflineStubTests
     private sealed class SavedGlobals : IDisposable
     {
         private readonly object?[] _values = s_globals.Select(field => field.GetValue(null)).ToArray();
-        private readonly AoWHSMap _map = AoWHSMap.Current;
-        private readonly TextControl _text = AoWHSSet.Current.TextControl;
-        private readonly HeroResourceList _heroes = AoWHSSet.Current.HeroResources;
+        private readonly StrategicMap _map = StrategicMap.Current;
+        private readonly TextControl _text = GamePack.Current.TextControl;
+        private readonly HeroResourceList _heroes = GamePack.Current.HeroResources;
 
         public void Dispose()
         {
             for (int i = 0; i < s_globals.Length; i++) s_globals[i].SetValue(null, _values[i]);
-            AoWHSMap.Current = _map;
-            AoWHSSet.Current.TextControl = _text;
-            AoWHSSet.Current.HeroResources = _heroes;
+            StrategicMap.Current = _map;
+            GamePack.Current.TextControl = _text;
+            GamePack.Current.HeroResources = _heroes;
         }
     }
 
@@ -114,7 +114,7 @@ public sealed class OfflineStubTests
         var events = OfflineSetupEvents();
         var heroes = new HeroResourceList(null!);
         new HeroResource(heroes);
-        AoWHSSet.Current.HeroResources = heroes;
+        GamePack.Current.HeroResources = heroes;
         var window = Populate(new LeaderSetupWindow(null!));
         var control = new LeaderSetupControl(null!) { OriginalLeader = new Leader(null!) };
         bool done = false;
@@ -245,7 +245,7 @@ public sealed class OfflineStubTests
             item.Id = id;
             item.Text.Text = header + "\r\nBody " + id;
         }
-        AoWHSSet.Current.TextControl = text;
+        GamePack.Current.TextControl = text;
         var help = Populate(new HelpWindow(null!));
         DialogHosts.HelpWindow = help;
         var popups = new PopupWindows(null!);
@@ -285,18 +285,18 @@ public sealed class OfflineStubTests
         var level = new MapLevel(null!);
         SetField(level, "_width", 2);
         int[] overlaid = [0, 4, 3];
-        MapField[] fields = Enumerable.Range(0, 6).Select(i => (MapField)new AoWMapField(null!)
+        MapField[] fields = Enumerable.Range(0, 6).Select(i => new MapField(null!)
         { HexX = (sbyte)(i % 2), HexY = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
         SetField(level, "_fields", fields);
         var container = new MapContainer(null!);
         var levels = new EngineObjectList();
         levels.Add(level);
         SetField(container, "_children", levels);
-        var map = new AoWHSMap(null!);
+        var map = new StrategicMap(null!);
         SetField(map, "_mapContainer", container);
         SetField(map, "_viewWidthHex", 2);
         SetField(map, "_viewHeightHex", 3);
-        AoWHSMap.Current = map;
+        StrategicMap.Current = map;
         var sequence = new ImageSequence(null!);
         SetField(sequence, "_imageLibrary", library);
         sequence.SequenceMode = SequenceMode.Up;

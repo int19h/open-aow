@@ -41,12 +41,12 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
         int mana;
         int requiredMana;
         bool result = base.Validate(source);
-        index = AoWHSMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
+        index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
         result = result && index != -1;
         if (result)
         {
-            var globalEnchantment = AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
-            mana = AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + source.CastingProgress;
+            var globalEnchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
+            mana = StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.Mana + source.CastingProgress;
             requiredMana = Round((double)((double)globalEnchantment.DispelMana * 0.02) * DispelChance) + EventMana;
             result = requiredMana <= mana;
         }
@@ -65,40 +65,40 @@ public partial class DisjunctionTokenEvent : SpellTokenEvent
         TwinkleAnimation twinkle;
         int mana;
         base.Process(source, value);
-        index = AoWHSMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
-        enchantment = AoWHSMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
+        index = StrategicMap.Current.GlobalMagicControl.IndexOfId(EnchantmentId);
+        enchantment = StrategicMap.Current.GlobalMagicControl.Enchantments.GetEnchantments(index);
         source.GetLocation(ref X, ref Y, ref layer);
-        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
+        StrategicMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
         twinkle = new TwinkleAnimation(null);
-        twinkle.Setup(AoWHSSet.Current.SpellControl.GetSpell(51).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), EventMana + 50, 192, 50, 30);
-        AoWHSMap.Current.PlaceHex(twinkle, X, Y, layer);
-        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
+        twinkle.Setup(GamePack.Current.SpellControl.GetSpell(51).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Expand, TwinkleModeElement.Explode), EventMana + 50, 192, 50, 30);
+        StrategicMap.Current.PlaceHex(twinkle, X, Y, layer);
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastSounds.Play(0);
         mana = Round((double)((double)enchantment.DispelMana * 0.02) * DispelChance);
-        var player = AoWHSMap.Current.Players.GetPlayers(source.Player);
-        AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
-        if (AoWHSMap.Current.Random(100) < DispelChance)
+        var player = StrategicMap.Current.Players.GetPlayers(source.Player);
+        StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.SetMana(player.MagicControl.Mana - mana);
+        if (StrategicMap.Current.Random(100) < DispelChance)
         {
-            if (AoWHSMap.Current.SeatedPlayer == source.Player)
+            if (StrategicMap.Current.SeatedPlayer == source.Player)
             {
                 var name = enchantment.GetName();
                 var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_successfullyDispelledFormat), [name]);
-                AoWHSMap.Current.ShowMessage(format);
+                StrategicMap.Current.ShowMessage(format);
             }
 
-            AoWHSMap.Current.GlobalMagicControl.ExecuteDispelEnchantment(source.Player, EnchantmentId);
+            StrategicMap.Current.GlobalMagicControl.ExecuteDispelEnchantment(source.Player, EnchantmentId);
         }
         else
         {
-            if (AoWHSMap.Current.SeatedPlayer == source.Player)
+            if (StrategicMap.Current.SeatedPlayer == source.Player)
             {
                 // { Original formats this message with an unused enchantment-name argument. }
                 var name = enchantment.GetName();
                 var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.DispelMagicFailedText), [name]);
-                AoWHSMap.Current.ShowMessage(format);
+                StrategicMap.Current.ShowMessage(format);
             }
         }
 
-        AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+        GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         return false;
     }
 

@@ -39,36 +39,36 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
         base.Process(source, value);
         if (value == 0)
         {
-            AoWHSMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
-            if (source.Player == AoWHSMap.Current.SeatedPlayer || AoWHSMap.Current.WatchingTerrain(Location.X, Location.Y, Location.MapLevel, 2))
+            StrategicMap.Current.ValidateTerrainObservation(source.Player, Location.X, Location.Y, Location.MapLevel, 2);
+            if (source.Player == StrategicMap.Current.SeatedPlayer || StrategicMap.Current.WatchingTerrain(Location.X, Location.Y, Location.MapLevel, 2))
             {
-                AoWHSSet.Current.SpellControl.GetSpell(73).CastSounds.Play(0);
+                GamePack.Current.SpellControl.GetSpell(73).CastSounds.Play(0);
             }
 
             animation = (ImageSequenceAnimation)new Animation(null);
             _animation = animation;
             animation.AnimationLevel = 27;
             animation.OnShow = ShowAnimation;
-            animation.AnimationMap = AoWHSMap.Current;
-            animation.Tag = (AoWHSMap.Current.ViewWidth & 65535) | (AoWHSMap.Current.ViewHeight << 16);
+            animation.AnimationMap = StrategicMap.Current;
+            animation.Tag = (StrategicMap.Current.ViewWidth & 65535) | (StrategicMap.Current.ViewHeight << 16);
             animation.Activate();
-            AoWHSSet.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
+            GamePack.Current.SpellControl.GetSpell(EventSpellId).CastingDone(source, EventMana);
         }
 
         if (value == 50)
         {
             playSound = false;
-            AoWHSMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, null);
-            level = AoWHSMap.Current.MapContainer.MapLevels[Location.MapLevel];
+            StrategicMap.Current.ChangeTerrain(null, Location.X, Location.Y, Location.MapLevel, 1, ChangeTerrain, null);
+            level = StrategicMap.Current.MapContainer.MapLevels[Location.MapLevel];
             HexNumberWalkData.InitializeHexNumberWalk(ref walk, Location.X, Location.Y, 0);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && level.Height > walk.Y)
                 {
-                    if (!((AoWMapField)level.GetField(walk.X, walk.Y)).GetMagicShieldActive())
+                    if (!level.GetField(walk.X, walk.Y).GetMagicShieldActive())
                     {
                         Healed = false;
-                        army = ((AoWMapField)level.GetField(walk.X, walk.Y)).GetArmyHexSprite();
+                        army = level.GetField(walk.X, walk.Y).GetArmyHexSprite();
                         if (army != null)
                         {
                             for (int I = 0, last = army.Army.Count - 1; I <= last; I++)
@@ -93,26 +93,26 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                             {
                                 var hexY = army.HexY;
                                 var hexX = army.HexX;
-                                healed = AoWHSMap.Current.VisibleForPlayer(hexX, hexY, army.HexLevel, AoWHSMap.Current.SeatedPlayer);
+                                healed = StrategicMap.Current.VisibleForPlayer(hexX, hexY, army.HexLevel, StrategicMap.Current.SeatedPlayer);
                             }
 
                             if (healed)
                             {
-                                bool condition = playSound || (byte)army.Army.Player == (byte)AoWHSMap.Current.SeatedPlayer;
+                                bool condition = playSound || (byte)army.Army.Player == (byte)StrategicMap.Current.SeatedPlayer;
                                 if (!condition)
                                 {
                                     var hexY = army.HexY;
                                     var hexX = army.HexX;
-                                    condition = AoWHSMap.Current.Watching(hexX, hexY, army.HexLevel, 1);
+                                    condition = StrategicMap.Current.Watching(hexX, hexY, army.HexLevel, 1);
                                 }
 
                                 playSound = condition;
                                 animation = new ImageSequenceAnimation(null);
-                                animation.SetImageSequence(AoWHSSet.Current.AbilityControl.GetAbility(47).ImageSequences.ImageSequences[0]);
+                                animation.SetImageSequence(GamePack.Current.AbilityControl.GetAbility(47).ImageSequences.ImageSequences[0]);
                                 animation.AnimationLevel = 27;
                                 var armyHexY = army.HexY;
                                 var armyHexX = army.HexX;
-                                AoWHSMap.Current.PlaceHex(animation, armyHexX, armyHexY, army.HexLevel);
+                                StrategicMap.Current.PlaceHex(animation, armyHexX, armyHexY, army.HexLevel);
                             }
                         }
 
@@ -129,7 +129,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
 
             if (playSound)
             {
-                AoWHSSet.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
+                GamePack.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
             }
         }
 
@@ -158,7 +158,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
         int pixelY = default;
         int count;
         int frame;
-        if (AoWHSMap.Current.ViewL == Location.MapLevel)
+        if (StrategicMap.Current.ViewL == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, ref pixelX, ref pixelY);
             pixelX -= pixelXSurface;
@@ -176,7 +176,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                     break;
             }
 
-            RandSeed = AoWHSMap.Current.InitialRandomSeed;
+            RandSeed = StrategicMap.Current.InitialRandomSeed;
             for (int I = 0; I <= count; I++)
             {
                 X = Random(100) - 50;
@@ -195,7 +195,7 @@ public partial class HealingShowersTokenEvent : GlobalTargetSpellTokenEvent
                         {
                             xShift = X - Round((double)(J * 2) * 0.1);
                             yShift = Y + Round((double)(J * 10) * 0.1);
-                            AoWHSSet.Current.SpellControl.GetSpell(73).CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
+                            GamePack.Current.SpellControl.GetSpell(73).CastImages.Show(0, pixelX + xShift + 120, pixelY + yShift - 500 + 30, 0, lockedSurface);
                         }
                     }
                 }

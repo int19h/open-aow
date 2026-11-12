@@ -4,10 +4,125 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-// the common part of the display controllers. FLastFrameTime, FFrameCount (Word), FStatus,
-// FDisplay, FPrimarySurfaceRgn (the output rectangle), FInvMatrix, FRealizePalet, FLastVBTime
-public partial class DisplayController : CustomDisplayController
+// The display controller. TAbstractDC declared 35 virtual methods, all abstract but GetSurface and
+// BlitInvalidatedSurface, and TDisplayCtrl implemented the other 33 as the common part of the
+// display controllers. FLastFrameTime, FFrameCount (Word), FStatus, FDisplay, FPrimarySurfaceRgn
+// (the output rectangle), FInvMatrix, FRealizePalet, FLastVBTime
+public partial class DisplayController : Component
 {
+    // DisplayC.pas:554
+    public virtual Surface GetSurface(int index) => null;
+
+    // DisplayC.pas:562
+    // { Blits the invalidated blocks of back surface Index to the primary surface: every block the
+    //   matrix marks is merged with its marked neighbours (GetInverseBlockSize) into one rectangle, and
+    //   the marks count down, so a block is blitted once per back surface. }
+    public virtual int BlitInvalidatedSurface(int index)
+    {
+        int result;
+        Matrix M;
+        int bw = default;
+        int bh = default;
+        int pixelX2 = default;
+        int pixelY2 = default;
+        int blockWidth = default;
+        int blockHeight = default;
+        int V;
+        Rect clipR = default;
+        Rect sourceR = default;
+        Rect destinationR = default;
+        if (GetInverseMatrix() != null)
+        {
+            result = 0;
+            var inverseMatrix = GetInverseMatrix();
+            M = new Matrix(GetInverseMatrix().Width, inverseMatrix.Height);
+            for (int I = 0, last = GetInverseMatrix().Width - 1; I <= last; I++)
+            {
+                for (int J = 0, lastJ = GetInverseMatrix().Height - 1; J <= lastJ; J++)
+                {
+                    if (GetInverseMatrix().GetValue((byte)I, (byte)J) != 0)
+                    {
+                        M.SetValue((byte)I, (byte)J, 1);
+                    }
+                }
+            }
+
+            clipR.Left = 0;
+            clipR.Right = GetSurface(1).Width;
+            clipR.Top = 0;
+            clipR.Bottom = GetSurface(1).Height;
+            for (int J = 0, lastJ = M.Height - 1; J <= lastJ; J++)
+            {
+                for (int I = 0, last = M.Width - 1; I <= last; I++)
+                {
+                    if (result >= 0)
+                    {
+                        V = GetInverseMatrix().GetValue((byte)I, (byte)J);
+                        if (V != 0)
+                        {
+                            GetInverseMatrix().SetValue((byte)I, (byte)J, (byte)(V - 1));
+                        }
+
+                        if (M.GetValue((byte)I, (byte)J) != 0)
+                        {
+                            GetInverseBlockSize(I, J, M, ref bw, ref bh);
+                            GetPixelPositionOfBlock(I, J, clipR, ref sourceR.Left, ref sourceR.Top, ref blockWidth, ref blockHeight);
+                            if (bw > 1 || bh > 1)
+                            {
+                                GetPixelPositionOfBlock(I + bw - 1, J + bh - 1, clipR, ref pixelX2, ref pixelY2, ref blockWidth, ref blockHeight);
+                                sourceR.Right = pixelX2 + blockWidth;
+                                sourceR.Bottom = pixelY2 + blockHeight;
+                            }
+                            else
+                            {
+                                sourceR.Right = sourceR.Left + blockWidth;
+                                sourceR.Bottom = sourceR.Top + blockHeight;
+                            }
+
+                            var primarySurfaceRegion = GetPrimarySurfaceRegion();
+                            GetPixelPositionOfBlock(I, J, primarySurfaceRegion.Value, ref destinationR.Left, ref destinationR.Top, ref blockWidth, ref blockHeight);
+                            var primarySurfaceRegion2 = GetPrimarySurfaceRegion();
+                            destinationR.Left += primarySurfaceRegion2.Value.Left;
+                            var primarySurfaceRegion3 = GetPrimarySurfaceRegion();
+                            destinationR.Top += primarySurfaceRegion3.Value.Top;
+                            if (bw > 1 || bh > 1)
+                            {
+                                var primarySurfaceRegion4 = GetPrimarySurfaceRegion();
+                                GetPixelPositionOfBlock(I + bw - 1, J + bh - 1, primarySurfaceRegion4.Value, ref pixelX2, ref pixelY2, ref blockWidth, ref blockHeight);
+                                var primarySurfaceRegion5 = GetPrimarySurfaceRegion();
+                                destinationR.Right = pixelX2 + blockWidth + primarySurfaceRegion5.Value.Left;
+                                var primarySurfaceRegion6 = GetPrimarySurfaceRegion();
+                                destinationR.Bottom = pixelY2 + blockHeight + primarySurfaceRegion6.Value.Top;
+                            }
+                            else
+                            {
+                                destinationR.Right = destinationR.Left + blockWidth;
+                                destinationR.Bottom = destinationR.Top + blockHeight;
+                            }
+
+                            var surface = GetSurface(0);
+                            result = GetSurface(index).BlitStretch(surface, sourceR, destinationR);
+                            for (int X = 0, lastX = bw - 1; X <= lastX; X++)
+                            {
+                                for (int Y = 0, lastY = bh - 1; Y <= lastY; Y++)
+                                {
+                                    M.SetValue((byte)(I + X), (byte)(J + Y), 0);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            M.Dispose();
+        }
+        else
+        {
+            result = DisplayCodes.DCERR_FAILED;
+        }
+
+        return result;
+    }
 
     private int _lastFrameTime;
     private ushort _frameCount;
@@ -43,10 +158,10 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:634
-    public override Matrix GetInverseMatrix() => _inverseMatrix;
+    public virtual Matrix GetInverseMatrix() => _inverseMatrix;
 
     // DisplayC.pas:639
-    public override int GetSurfaceCount()
+    public virtual int GetSurfaceCount()
     {
         int result;
         if (GetDisplay() == null)
@@ -62,7 +177,7 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:647
-    public override int BlitSurface(int index)
+    public virtual int BlitSurface(int index)
     {
         var primarySurfaceRegion = GetPrimarySurfaceRegion();
         var surface = GetSurface(0);
@@ -70,7 +185,7 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:652
-    public override int FlipSurface(int index)
+    public virtual int FlipSurface(int index)
     {
         var primarySurfaceRegion = GetPrimarySurfaceRegion();
         var surface = GetSurface(0);
@@ -85,30 +200,30 @@ public partial class DisplayController : CustomDisplayController
 
     // DisplayC.pas:660
     // { Bug kept from the original: the result of Resize is ignored, so Result stays 0. }
-    public override int ResizeBackSurfaces(int width, int height)
+    public virtual int ResizeBackSurfaces(int width, int height)
     {
         /* TODO: Implement Controls.Color in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:675
-    public override void SetPrimarySurfaceRegion(in Rect R)
+    public virtual void SetPrimarySurfaceRegion(in Rect R)
     {
         PrimarySurfaceRegion = R;
     }
 
     // DisplayC.pas:680
     // The original returns @FPrimarySurfaceRgn, which is never nil.
-    public override Rect? GetPrimarySurfaceRegion() => PrimarySurfaceRegion;
+    public virtual Rect? GetPrimarySurfaceRegion() => PrimarySurfaceRegion;
 
     // DisplayC.pas:685
-    public override Set<DisplayControllerStatusElement> GetStatus() => Status;
+    public virtual Set<DisplayControllerStatusElement> GetStatus() => Status;
 
     // DisplayC.pas:690
-    public override int GetHPalette() => 0;
+    public virtual int GetHPalette() => 0;
 
     // DisplayC.pas:695
-    public override bool WindowProc(ref Message message)
+    public virtual bool WindowProc(ref Message message)
     {
         bool result = true;
         if (message.Msg == 133)
@@ -127,15 +242,15 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:710
-    public override CustomDisplay GetDisplay() => _display;
+    public virtual CustomDisplay GetDisplay() => _display;
 
     // DisplayC.pas:720
-    public override void WindowRecreated()
+    public virtual void WindowRecreated()
     {
     }
 
     // DisplayC.pas:734
-    public override int Activate(CustomDisplay display)
+    public virtual int Activate(CustomDisplay display)
     {
         int result;
         if (!Status.Contains(DisplayControllerStatusElement.Activated))
@@ -155,7 +270,7 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:748
-    public override int Deactivate()
+    public virtual int Deactivate()
     {
         int result;
         if (Status.Contains(DisplayControllerStatusElement.Activated))
@@ -178,10 +293,10 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:762
-    public override int SupportDisplayMode(CustomDisplay display) => DisplayCodes.DCERR_NOTSUPPORTED;
+    public virtual int SupportDisplayMode(CustomDisplay display) => DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:767
-    public override int SetPalette(Palette palette) => DisplayCodes.DCERR_NOTSUPPORTED;
+    public virtual int SetPalette(Palette palette) => DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:772
     public void RealizePalette()
@@ -196,36 +311,36 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:780
-    public override int RealizePaletteNow() => DisplayCodes.DCERR_NOTSUPPORTED;
+    public virtual int RealizePaletteNow() => DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:787
     // { The mouse position in the display, or -1, -1 when the mouse is outside or another window has
     //   captured it. }
-    public override void GetMousePosition(ref int X, ref int Y)
+    public virtual void GetMousePosition(ref int X, ref int Y)
     {
         /* TODO: Implement Windows.GetCapture in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:830
-    public override int Hide()
+    public virtual int Hide()
     {
         Status = Status - Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
         return 0;
     }
 
     // DisplayC.pas:836
-    public override int Show()
+    public virtual int Show()
     {
         Status = Status + Set<DisplayControllerStatusElement>.Of(DisplayControllerStatusElement.Visible);
         return 0;
     }
 
     // DisplayC.pas:842
-    public override Palette GetPalette() => null;
+    public virtual Palette GetPalette() => null;
 
     // DisplayC.pas:873
-    public override void InitializeInverseMatrix(byte width, byte height)
+    public virtual void InitializeInverseMatrix(byte width, byte height)
     {
         if (_inverseMatrix != null)
         {
@@ -236,7 +351,7 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:880
-    public override void InvalidateAll()
+    public virtual void InvalidateAll()
     {
         if (_inverseMatrix != null)
         {
@@ -254,7 +369,7 @@ public partial class DisplayController : CustomDisplayController
     // { The size of the largest rectangle of marked blocks with its top left corner at X, Y, grown
     //   first downwards (rows of shrinking width) and then to the right (columns of shrinking
     //   height); BW and BH get its size in blocks, the result is its area. }
-    public override int GetInverseBlockSize(int X, int Y, Matrix matrix, ref int bw, ref int bh)
+    public virtual int GetInverseBlockSize(int X, int Y, Matrix matrix, ref int bw, ref int bh)
     {
         int result;
         int size1;
@@ -345,7 +460,7 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:964
-    public override void GetPixelPositionOfBlock(int bx, int by, Rect R, ref int pixelX, ref int pixelY, ref int bw, ref int bh)
+    public virtual void GetPixelPositionOfBlock(int bx, int by, Rect R, ref int pixelX, ref int pixelY, ref int bw, ref int bh)
     {
         int W;
         int H;
@@ -358,7 +473,7 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:976
-    public override void GetBlockPositionOfPixel(int pixelX, int pixelY, Rect R, ref int bx, ref int by)
+    public virtual void GetBlockPositionOfPixel(int pixelX, int pixelY, Rect R, ref int bx, ref int by)
     {
         int W;
         int H;
@@ -426,7 +541,7 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:1020
-    public override void Invalidate(int X, int Y, int W, int H)
+    public virtual void Invalidate(int X, int Y, int W, int H)
     {
         InverseWndwithValue(X, Y, W, H, 1);
     }
@@ -436,7 +551,7 @@ public partial class DisplayController : CustomDisplayController
 
     // DisplayC.pas:1049
     // { Counts frames; every 5 frames the frame rate is measured. }
-    public override void NewFrame()
+    public virtual void NewFrame()
     {
         int T;
         if (_frameCount >= 5)
@@ -451,10 +566,9 @@ public partial class DisplayController : CustomDisplayController
     }
 
     // DisplayC.pas:1063
-    public override void ShowFrameRate()
+    public virtual void ShowFrameRate()
     {
     }
 
     private const int DCERR_ACTIVATED = -2147414011;
-
 }

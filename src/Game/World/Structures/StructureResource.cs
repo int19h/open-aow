@@ -89,7 +89,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
         int offset;
         int frameIndex;
         ImageSequence sequence;
-        if (structure.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
+        if (structure.GetSelected() && (StrategicMap.Current.Frame & 6) == 6)
         {
             index = structure.ImageIndex;
             offset = structure.Owner.HexX + structure.Owner.HexY * 16;
@@ -98,7 +98,7 @@ public partial class StructureResource : FixedImageLibraryTerrainMapObjectResour
                 sequence = ImageSequenceList.List[index];
                 while (sequence != null)
                 {
-                    frameIndex = sequence.GetFrameIndex(AoWHSMap.Current.Frame, offset);
+                    frameIndex = sequence.GetFrameIndex(StrategicMap.Current.Frame, offset);
                     if (frameIndex != -1)
                     {
                         if (sequence.ImageLibrary[frameIndex].ShowInfo.ShowMode == ShowMode.Opaque)

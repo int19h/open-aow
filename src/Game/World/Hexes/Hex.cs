@@ -1,20 +1,48 @@
-// Translated from AoWHex.pas.
-using Aow.Engine.Buffers;
+// Translated from Hexagon.pas and AoWHex.pas.
 using Aow.Engine.Nodes;
-
+using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
-
 using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
 
-// inherited transition images [0.2], side flags
-public partial class AoWHexagon : Hexagon
+// { The Hexagon unit of HSEPack.dpl: the plain terrain hexagon (THexagon, ClassID $20152) drawn from
+//   the first image of its resource's image library, with the transitions to the neighbour terrain
+//   on three sides from HexTrans.ILB (THexagonResource, ClassID $20153). }
+// FTransitions (the transition image of the sides 0.2), FTransitionSides (bits 0.2: the sides
+// with a transition, bits 3.5: the shifted variants)
+public partial class Hex : AbstractHexagon
 {
-    public AoWHexagon(ECustomNode owner) : base(owner)
+    public Hex(ECustomNode owner) : base(owner)
     { }
+
+    public new const int ClassId = 131410;
+
+    protected internal byte[] Transitions { get; } = new byte[3];
+
+    protected internal byte TransitionSides { get; protected set; }
+
+    // Hexagon.pas:52
+    public override void Show(int pixelXSurface, int pixelYSurface, in LockedSurface lockedSurface)
+    {
+        int pixelX = default;
+        int pixelY = default;
+        HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref pixelX, ref pixelY);
+        ((HexagonResource)_resource).Show(pixelX - pixelXSurface - 8, pixelY - pixelYSurface, lockedSurface, this);
+    }
+
+    // Hexagon.pas:74
+    public override void UpdateTransitions()
+    {
+        byte side;
+        for (int sideOrdinal = 0; sideOrdinal <= 2; sideOrdinal++)
+        {
+            side = (byte)sideOrdinal;
+            UpdateTransition(side);
+        }
+    }
 
     // AoWHex.pas:119
     public override void ChangeTerrain(in HexSpriteTerrainInfo message)
@@ -23,19 +51,19 @@ public partial class AoWHexagon : Hexagon
         if (message.HexNumber == 0 && GetTerrain(0) != message.TerrainType)
         {
             var classId = _resource.EngineClass.ClassId;
-            R = AoWHSSet.Current.HexControl.GetRandomResource(message.TerrainType, classId);
+            R = GamePack.Current.HexControl.GetRandomResource(message.TerrainType, classId);
             if (R != null)
             {
                 SetResource(R);
                 UpdateTransitions();
-                AoWHSMap.Current.InvalidateStaticScene(Owner.HexX, Owner.HexY, Owner.HexLevel);
+                StrategicMap.Current.InvalidateStaticScene(Owner.HexX, Owner.HexY, Owner.HexLevel);
             }
             else
             {
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                _resource.Engine.HexSpriteSet.HexControl.Place(AoWHSMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                _resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
         }
     }
@@ -50,14 +78,14 @@ public partial class AoWHexagon : Hexagon
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                _resource.Engine.HexSpriteSet.HexControl.Place(AoWHSMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
+                _resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, message.TerrainType);
             }
             else
             {
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 var hexX = GetHexX();
-                _resource.Engine.HexSpriteSet.HexControl.Place(AoWHSMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
+                _resource.Engine.HexSpriteSet.HexControl.Place(StrategicMap.Current.MapContainer, hexX, hexY, hexLevel, 0);
             }
         }
     }
@@ -82,8 +110,8 @@ public partial class AoWHexagon : Hexagon
         }
     }
 
-    // AoWHex.pas:150
-    public override void UpdateTransition(byte side)
+    // AoWHex.pas:150 (Hexagon.pas:70 is empty)
+    public virtual void UpdateTransition(byte side)
     {
         bool shifted;
         int nHexX = default;

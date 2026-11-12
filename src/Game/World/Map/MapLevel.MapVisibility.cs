@@ -4,21 +4,21 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
-public partial class AoWMapLevel
+public partial class MapLevel
 {
-    private IEnumerable<AoWMapField> Area(int x, int y, int radius)
+    private IEnumerable<MapField> Area(int x, int y, int radius)
     {
         HexNumberWalkData walk = default;
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, x, y, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < Width && walk.Y < Height)
-                yield return (AoWMapField)GetField(walk.X, walk.Y);
+                yield return GetField(walk.X, walk.Y);
             HexNumberWalkData.WalkToNextHexNumber(ref walk);
         }
     }
 
-    private static byte FogCount(AoWMapField field) => (byte)((uint)field.FieldFlags >> 16);
+    private static byte FogCount(MapField field) => (byte)((uint)field.FieldFlags >> 16);
 
     public bool FogArea(int x, int y, int radius)
     {
@@ -44,11 +44,11 @@ public partial class AoWMapLevel
         return result;
     }
 
-    private bool Explore(AoWMapField field, sbyte player)
+    private bool Explore(MapField field, sbyte player)
     {
         if (field.GetExplored(player)) return false;
         field.SetExplored(player, true);
-        var map = (GameMap)Map;
+        var map = Map;
         if (map.ExplorationEnabled && map.SeatedPlayer == player) Map.InvalidateStaticScene(field.HexX, field.HexY, HexLevel);
         return true;
     }
@@ -74,9 +74,9 @@ public partial class AoWMapLevel
         return result;
     }
 
-    public void ResetFog() { for (int i = 0; i < Count; i++) ((AoWMapField)GetChild(i)).SetFogCount(0); }
+    public void ResetFog() { for (int i = 0; i < Count; i++) ((MapField)GetChild(i)).SetFogCount(0); }
 
-    public void ResetUnFog() { for (int i = 0; i < Count; i++) ((AoWMapField)GetChild(i)).SetFogCount(1); }
+    public void ResetUnFog() { for (int i = 0; i < Count; i++) ((MapField)GetChild(i)).SetFogCount(1); }
 
-    public void Reset() { for (int i = 0; i < Count; i++) ((AoWMapField)GetChild(i)).FieldFlags = 0; }
+    public void Reset() { for (int i = 0; i < Count; i++) ((MapField)GetChild(i)).FieldFlags = 0; }
 }

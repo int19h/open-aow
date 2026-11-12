@@ -140,12 +140,12 @@ public partial class UnitResource : TroopResource
     {
         sbyte player;
         Unit unit;
-        if (AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
-            player = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel)).GetPlayer();
+            player = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel).GetPlayer();
             if (player == -1)
             {
-                player = AoWHSMap.Current.EditorPlayer;
+                player = StrategicMap.Current.EditorPlayer;
             }
         }
         else
@@ -169,7 +169,7 @@ public partial class UnitResource : TroopResource
     // UnitRes.PAS:111
     public byte GetTransportCapacity()
     {
-        byte result = (byte)AoWHSSet.Current.AbilityControl.GetAbility(50).GetLevel(Abilities[(int)Unit.Rank.None]);
+        byte result = (byte)GamePack.Current.AbilityControl.GetAbility(50).GetLevel(Abilities[(int)Unit.Rank.None]);
         if (result < _transportCapacity)
         {
             result = _transportCapacity;

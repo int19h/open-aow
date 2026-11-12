@@ -62,7 +62,7 @@ public partial class ReflectingPool : PlayerStructure
         base.Activate();
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).KnownStructures.AddChild(this);
+            StrategicMap.Current.Players.GetPlayers(Player).KnownStructures.AddChild(this);
         }
     }
 
@@ -73,7 +73,7 @@ public partial class ReflectingPool : PlayerStructure
         DeactivatePoolCentering();
         if (Player != -1)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).KnownStructures.RemoveChild(this);
+            StrategicMap.Current.Players.GetPlayers(Player).KnownStructures.RemoveChild(this);
         }
     }
 
@@ -84,17 +84,17 @@ public partial class ReflectingPool : PlayerStructure
         {
             if (Player != -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).KnownStructures.RemoveChild(this);
+                StrategicMap.Current.Players.GetPlayers(Player).KnownStructures.RemoveChild(this);
             }
 
             base.SetPlayer(player);
             if (Player != -1)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).KnownStructures.AddChild(this);
+                StrategicMap.Current.Players.GetPlayers(Player).KnownStructures.AddChild(this);
             }
 
             UpdateReflectingPoolsExploration();
-            if (Player != -1 && Player == AoWHSMap.Current.SeatedPlayer && AoWHSMap.Current.Players.GetPlayers(Player).KnownStructures.Count == 1)
+            if (Player != -1 && Player == StrategicMap.Current.SeatedPlayer && StrategicMap.Current.Players.GetPlayers(Player).KnownStructures.Count == 1)
             {
                 ActivatePoolCentering();
             }
@@ -105,7 +105,7 @@ public partial class ReflectingPool : PlayerStructure
     public override int VisibilityRange()
     {
         int result = 8;
-        if (GetHexLevel() != 0 || Player > 0 && (((byte)AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
+        if (GetHexLevel() != 0 || Player > 0 && (((byte)StrategicMap.Current.Players.GetPlayers(Player).MagicControl.EnemyEnchantments.Image) & 8) != 0)
         {
             result = (int)(((uint)(result + 1)) >> 1);
         }
@@ -121,9 +121,9 @@ public partial class ReflectingPool : PlayerStructure
         int Y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            if (Status.Contains(MapObjectStatusElement.Activated) && AoWHSMap.Current.SeatedPlayer != -1)
+            if (Status.Contains(MapObjectStatusElement.Activated) && StrategicMap.Current.SeatedPlayer != -1)
             {
-                if (PoolVisionPlayer(AoWHSMap.Current.SeatedPlayer))
+                if (PoolVisionPlayer(StrategicMap.Current.SeatedPlayer))
                 {
                     range = VisibilityRange();
                 }
@@ -146,7 +146,7 @@ public partial class ReflectingPool : PlayerStructure
                         if (_resource.TerrainList.GetTerrain(I) >= 0)
                         {
                             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                            AoWHSMap.Current.FogArea(X, Y, Owner.HexLevel, UnfogRange);
+                            StrategicMap.Current.FogArea(X, Y, Owner.HexLevel, UnfogRange);
                         }
                     }
                 }
@@ -159,7 +159,7 @@ public partial class ReflectingPool : PlayerStructure
                         if (_resource.TerrainList.GetTerrain(I) >= 0)
                         {
                             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
-                            AoWHSMap.Current.UnFogArea(X, Y, Owner.HexLevel, UnfogRange);
+                            StrategicMap.Current.UnFogArea(X, Y, Owner.HexLevel, UnfogRange);
                         }
                     }
                 }
@@ -174,7 +174,7 @@ public partial class ReflectingPool : PlayerStructure
         int Y = default;
         if (Status.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            for (int P = 1, last = AoWHSMap.Current.Players.Count - 1; P <= last; P++)
+            for (int P = 1, last = StrategicMap.Current.Players.Count - 1; P <= last; P++)
             {
                 if (PoolVisionPlayer((sbyte)P))
                 {
@@ -184,7 +184,7 @@ public partial class ReflectingPool : PlayerStructure
                         {
                             HexGeometry.CenterHexNumberToHex(_hexX, _hexY, I, ref X, ref Y);
                             var visibilityRange = VisibilityRange();
-                            AoWHSMap.Current.ExploreArea(X, Y, Owner.HexLevel, (sbyte)P, visibilityRange);
+                            StrategicMap.Current.ExploreArea(X, Y, Owner.HexLevel, (sbyte)P, visibilityRange);
                         }
                     }
                 }
@@ -198,11 +198,11 @@ public partial class ReflectingPool : PlayerStructure
     // ReflectingPool.pas:61
     public void ListReflectingPools(ref PlayerStructureList list)
     {
-        for (int P = AoWHSMap.Current.Players.Count - 1; P >= 0; P--)
+        for (int P = StrategicMap.Current.Players.Count - 1; P >= 0; P--)
         {
-            for (int I = AoWHSMap.Current.Players.GetPlayers(P).KnownStructures.Count - 1; I >= 0; I--)
+            for (int I = StrategicMap.Current.Players.GetPlayers(P).KnownStructures.Count - 1; I >= 0; I--)
             {
-                var structure = AoWHSMap.Current.Players.GetPlayers(P).KnownStructures.GetStructure(I);
+                var structure = StrategicMap.Current.Players.GetPlayers(P).KnownStructures.GetStructure(I);
                 list.AddChild(structure);
             }
         }
@@ -213,7 +213,7 @@ public partial class ReflectingPool : PlayerStructure
     {
         PlayerStructureList list = default;
         PlayerStructure pool = default;
-        if (AoWHSMap.Current.SeatedPlayer == Player)
+        if (StrategicMap.Current.SeatedPlayer == Player)
         {
             _centerFrame += 1;
             if (_centerFrame % 8 == 0)
@@ -229,14 +229,14 @@ public partial class ReflectingPool : PlayerStructure
                     var hexLevel = pool.GetHexLevel();
                     var hexY = pool.GetHexY();
                     var hexX = pool.GetHexX();
-                    AoWHSMap.Current.CenterViewTo(hexX, hexY, hexLevel);
+                    StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
                 }
                 else
                 {
                     var hexLevel = GetHexLevel();
                     var hexY = GetHexY();
                     var hexX = GetHexX();
-                    AoWHSMap.Current.CenterViewTo(hexX, hexY, hexLevel);
+                    StrategicMap.Current.CenterViewTo(hexX, hexY, hexLevel);
                     DeactivatePoolCentering();
                 }
 
@@ -254,7 +254,7 @@ public partial class ReflectingPool : PlayerStructure
     {
         DeactivatePoolCentering();
         _centerFrame = 0;
-        AoWHSMap.Current.NewFrameEvents += NewFrame;
+        StrategicMap.Current.NewFrameEvents += NewFrame;
     }
 
     // ReflectingPool.pas:134
@@ -262,7 +262,7 @@ public partial class ReflectingPool : PlayerStructure
     {
         if (_centerFrame != -1)
         {
-            AoWHSMap.Current.NewFrameEvents -= NewFrame;
+            StrategicMap.Current.NewFrameEvents -= NewFrame;
             _centerFrame = -1;
         }
     }
@@ -271,9 +271,9 @@ public partial class ReflectingPool : PlayerStructure
     public void UpdateReflectingPoolsExploration()
     {
         Player player;
-        for (int P = AoWHSMap.Current.Players.Count - 1; P >= 0; P--)
+        for (int P = StrategicMap.Current.Players.Count - 1; P >= 0; P--)
         {
-            player = AoWHSMap.Current.Players.GetPlayers(P);
+            player = StrategicMap.Current.Players.GetPlayers(P);
             for (int I = player.KnownStructures.Count - 1; I >= 0; I--)
             {
                 player.KnownStructures.GetStructure(I).UpdateExploration();
@@ -286,14 +286,14 @@ public partial class ReflectingPool : PlayerStructure
     public bool PoolVisionPlayer(sbyte player)
     {
         int P;
-        bool result = AoWHSMap.Current.Players.GetPlayers(player).KnownStructures.Count != 0;
+        bool result = StrategicMap.Current.Players.GetPlayers(player).KnownStructures.Count != 0;
         if (!result)
         {
-            P = AoWHSMap.Current.Players.Count;
+            P = StrategicMap.Current.Players.Count;
             while (P > 1 && !result)
             {
                 P -= 1;
-                result = AoWHSMap.Current.Players.GetPlayers(P).KnownStructures.Count != 0 && AoWHSMap.Current.Players.GetPlayers(P).DiplomaticRelations.GetDiplomaticRelation(player) == DiplomaticRelation.Alliance;
+                result = StrategicMap.Current.Players.GetPlayers(P).KnownStructures.Count != 0 && StrategicMap.Current.Players.GetPlayers(P).DiplomaticRelations.GetDiplomaticRelation(player) == DiplomaticRelation.Alliance;
             }
         }
 
@@ -303,12 +303,12 @@ public partial class ReflectingPool : PlayerStructure
     // ReflectingPool.pas:233
     public void NotifyPlayerChanged(MapField mapField, int distance)
     {
-        for (int P = 1, last = AoWHSMap.Current.Players.Count - 1; P <= last; P++)
+        for (int P = 1, last = StrategicMap.Current.Players.Count - 1; P <= last; P++)
         {
             if (PoolVisionPlayer((sbyte)P))
             {
                 var trueVisionRange = TrueVisionRange();
-                AoWHSMap.Current.UpdatePlayerSeen(P, mapField.HexX, mapField.HexY, mapField.HexLevel, distance, trueVisionRange);
+                StrategicMap.Current.UpdatePlayerSeen(P, mapField.HexX, mapField.HexY, mapField.HexLevel, distance, trueVisionRange);
             }
         }
     }

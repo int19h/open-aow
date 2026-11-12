@@ -116,16 +116,16 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         if (message.MessageId == 537001986 && message.Payload.Int == Source && Reaction == DiplomaticActionReaction.None)
         {
             ignore = Proposal.LapsesUnanswered(this);
-            if (ignore && (AoWHSMap.Current.PlayMode != PlayMode.Simultaneous || AoWHSMap.Current.Day > Day + 1))
+            if (ignore && (StrategicMap.Current.PlayMode != PlayMode.Simultaneous || StrategicMap.Current.Day > Day + 1))
             {
                 Reaction = DiplomaticActionReaction.Ignore;
-                log = AoWHSMap.Current.Players.GetPlayers(Target).EventLogbook.FindId(EventLogId);
+                log = StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId(EventLogId);
                 Assert(log is DiplomaticActionEventLog, "", "Diplomacy.pas", 697);
-                AoWHSMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
-                var players = AoWHSMap.Current.Players.GetPlayers(Source);
-                AoWHSMap.Current.Players.GetPlayers(Source).SetGems(players.Gems + EscrowGold);
-                var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(Source);
-                AoWHSMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
+                StrategicMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
+                var players = StrategicMap.Current.Players.GetPlayers(Source);
+                StrategicMap.Current.Players.GetPlayers(Source).SetGems(players.Gems + EscrowGold);
+                var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
+                StrategicMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
                 EscrowGold = 0;
                 EscrowMana = 0;
             }
@@ -139,11 +139,11 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         {
             var (_, gold, mana) = Proposal.ToFields();
             EscrowGold = gold;
-            var players = AoWHSMap.Current.Players.GetPlayers(Source);
-            AoWHSMap.Current.Players.GetPlayers(Source).SetGems(players.Gems - gold);
+            var players = StrategicMap.Current.Players.GetPlayers(Source);
+            StrategicMap.Current.Players.GetPlayers(Source).SetGems(players.Gems - gold);
             EscrowMana = mana;
-            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(Source);
-            AoWHSMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana - mana);
+            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
+            StrategicMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana - mana);
             Proposal.Sent(this);
         }
     }
@@ -153,11 +153,11 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         Reaction = DiplomaticActionReaction.Accept;
         RetrieveDefaultMessage(Source, Target, OtherPlayer, Reaction);
-        var players = AoWHSMap.Current.Players.GetPlayers(Target);
-        AoWHSMap.Current.Players.GetPlayers(Target).SetGems(players.Gems + EscrowGold);
+        var players = StrategicMap.Current.Players.GetPlayers(Target);
+        StrategicMap.Current.Players.GetPlayers(Target).SetGems(players.Gems + EscrowGold);
         EscrowGold = 0;
-        var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(Target);
-        AoWHSMap.Current.Players.GetPlayers(Target).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
+        var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Target);
+        StrategicMap.Current.Players.GetPlayers(Target).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
         EscrowMana = 0;
         ApplyRelationModifiers();
         Proposal.Accepted(this);
@@ -168,16 +168,16 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         DiplomaticActionEventLog log;
         Reaction = Proposal.RejectReaction(this);
-        var players = AoWHSMap.Current.Players.GetPlayers(Source);
-        AoWHSMap.Current.Players.GetPlayers(Source).SetGems(players.Gems + EscrowGold);
+        var players = StrategicMap.Current.Players.GetPlayers(Source);
+        StrategicMap.Current.Players.GetPlayers(Source).SetGems(players.Gems + EscrowGold);
         EscrowGold = 0;
-        var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(Source);
-        AoWHSMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
+        var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(Source);
+        StrategicMap.Current.Players.GetPlayers(Source).MagicControl.SetMana(fPlayersPlayers.MagicControl.Mana + EscrowMana);
         EscrowMana = 0;
         RetrieveDefaultMessage(Source, Target, OtherPlayer, Reaction);
-        log = (DiplomaticActionEventLog)AoWHSMap.Current.Players.GetPlayers(Target).EventLogbook.FindId(EventLogId);
+        log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(Target).EventLogbook.FindId(EventLogId);
         log.SetDiplomaticAction(this);
-        AoWHSMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(Source).EventLogbook.AddEvent(log);
     }
 
     // Diplomacy.pas:722
@@ -193,14 +193,14 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
         reaction = Reaction;
         if (reaction == DiplomaticActionReaction.None)
         {
-            relation = AoWHSMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)Source, (sbyte)(byte)Target);
+            relation = StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)Source, (sbyte)(byte)Target);
             idealPeace = new ByteList();
             idealWar = new ByteList();
             peace = new ByteList();
             war = new ByteList();
             unknown = new ByteList();
-            AoWHSMap.Current.Players.GetPlayers(Target).AIControl.ListPeaceWarUnknownPlayers(peace, war, unknown);
-            AoWHSMap.Current.Players.GetPlayers(Target).AIControl.ListIdealPeaceWarPlayers(idealPeace, idealWar);
+            StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListPeaceWarUnknownPlayers(peace, war, unknown);
+            StrategicMap.Current.Players.GetPlayers(Target).AIControl.ListIdealPeaceWarPlayers(idealPeace, idealWar);
             Proposal.AnswerAI(this, player, relation, idealPeace, idealWar);
             peace?.Dispose();
             war?.Dispose();
@@ -222,9 +222,9 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         bool result;
         var (_, gold, mana) = Proposal.ToFields();
-        if (AoWHSMap.Current.Players.GetPlayers(Source).Gems >= gold)
+        if (StrategicMap.Current.Players.GetPlayers(Source).Gems >= gold)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(Source).MagicControl.Mana >= mana)
+            if (StrategicMap.Current.Players.GetPlayers(Source).MagicControl.Mana >= mana)
             {
                 result = Proposal.CanSend(this, ref errorText);
             }
@@ -248,13 +248,13 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         bool result;
         DiplomaticActionTokenEvent tokenEvent;
-        if (CanSend(ref errorText) && !AoWHSMap.Current.Players.GetPlayers(Source).GetBusy())
+        if (CanSend(ref errorText) && !StrategicMap.Current.Players.GetPlayers(Source).GetBusy())
         {
-            Day = AoWHSMap.Current.Day;
+            Day = StrategicMap.Current.Day;
             tokenEvent = new DiplomaticActionTokenEvent(null);
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 0;
-            AoWHSMap.Current.TokenManager.TokenControls[Source].AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.TokenControls[Source].AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
         }
@@ -274,12 +274,12 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         bool result;
         DiplomaticActionTokenEvent tokenEvent;
-        if (CanAccept(ref errorText) && !AoWHSMap.Current.Players.GetPlayers(Target).GetBusy())
+        if (CanAccept(ref errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
         {
             tokenEvent = new DiplomaticActionTokenEvent(null);
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 1;
-            AoWHSMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
         }
@@ -299,12 +299,12 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         bool result;
         DiplomaticActionTokenEvent tokenEvent;
-        if (CanReject(ref errorText) && !AoWHSMap.Current.Players.GetPlayers(Target).GetBusy())
+        if (CanReject(ref errorText) && !StrategicMap.Current.Players.GetPlayers(Target).GetBusy())
         {
             tokenEvent = new DiplomaticActionTokenEvent(null);
             tokenEvent.SetDiplomaticAction(this);
             tokenEvent.Operation = 2;
-            AoWHSMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.TokenControls[Target].AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
         }
@@ -327,7 +327,7 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     {
         DiplomaticActionEventLog log;
         log = new DiplomaticActionEventLog(null);
-        log._day = AoWHSMap.Current.Day;
+        log._day = StrategicMap.Current.Day;
         log.SetDiplomaticAction(this);
         return log;
     }
@@ -336,12 +336,12 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     public void UpdateAIDiplomaticActionsLog(sbyte player)
     {
         DiplomaticAction action;
-        var players = AoWHSMap.Current.Players.GetPlayers(player);
+        var players = StrategicMap.Current.Players.GetPlayers(player);
         if (Set<PlayerType>.Of().WithRange(PlayerType.Cpu1, PlayerType.Cpu3).WithRange(PlayerType.Cpu4, PlayerType.Cpu5).Contains(players.PlayerType))
         {
             action = (DiplomaticAction)Copy(GameTables.GameEngine);
             action.Proposal = action.Proposal with { Message = [] };
-            AoWHSMap.Current.Players.GetPlayers(player).DiplomaticActions.AddChild(action);
+            StrategicMap.Current.Players.GetPlayers(player).DiplomaticActions.AddChild(action);
             action.Release();
         }
     }
@@ -351,24 +351,24 @@ public partial class DiplomaticAction : EngineObject, IOwned<DiplomaticActionLis
     private static void RetrieveDefaultDiplomaticActionMessage(sbyte source, sbyte target, sbyte other, DiplomaticProposal proposal, DiplomaticActionReaction reaction, StringCollection text)
     {
         text.Clear();
-        TextControl fTextControl = AoWHSSet.Current.TextControl;
-        DiplomaticRelation diplomaticRelation = AoWHSMap.Current.Players.GetDiplomaticRelation(source, target);
-        Player players = AoWHSMap.Current.Players.GetPlayers(source);
+        TextControl fTextControl = GamePack.Current.TextControl;
+        DiplomaticRelation diplomaticRelation = StrategicMap.Current.Players.GetDiplomaticRelation(source, target);
+        Player players = StrategicMap.Current.Players.GetPlayers(source);
         string sourceRace = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
-        Player players2 = AoWHSMap.Current.Players.GetPlayers(target);
+        Player players2 = StrategicMap.Current.Players.GetPlayers(target);
         string targetRace = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players2.PlayerRace]);
         string otherRace;
         if (other > 0)
         {
-            Player players3 = AoWHSMap.Current.Players.GetPlayers(other);
+            Player players3 = StrategicMap.Current.Players.GetPlayers(other);
             otherRace = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players3.PlayerRace]);
         }
         else
         {
             otherRace = "";
         }
-        Player players4 = AoWHSMap.Current.Players.GetPlayers(source);
-        Alignment alignment = AoWHSSet.Current.RaceResources.GetRaceResource(players4.PlayerRace).GetAlignment();
+        Player players4 = StrategicMap.Current.Players.GetPlayers(source);
+        Alignment alignment = GamePack.Current.RaceResources.GetRaceResource(players4.PlayerRace).GetAlignment();
         int alignment2 = ((!Set<Alignment>.Of(new Alignment[2]
         {
             Alignment.PureGood,

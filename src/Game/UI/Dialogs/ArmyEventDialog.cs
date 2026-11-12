@@ -11,7 +11,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -70,14 +70,14 @@ public partial class ArmyEventDialog : DataModule
                 {
                     var unit5 = _units[index];
                     var unitGraphicsResourceIndex = eventValue.ArmyView.GetUnit(unit5).GetUnitGraphicsResourceIndex();
-                    var unitGraphicsResource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                    var unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                     unitGraphicsResource.SfxLibraries[3].Play(0);
                 }
                 else
                 {
                     var unit5 = _units[index];
                     var unitGraphicsResourceIndex = eventValue.ArmyView.GetUnit(unit5).GetUnitGraphicsResourceIndex();
-                    var unitGraphicsResource = AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
+                    var unitGraphicsResource = GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(unitGraphicsResourceIndex);
                     unitGraphicsResource.SfxLibraries[4].Play(0);
                 }
             }
@@ -126,7 +126,7 @@ public partial class ArmyEventDialog : DataModule
             resource = _event.ArmyView.GetUnit(unit).GetUnitGraphicsResourceIndex();
             if (resource != -1)
             {
-                AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(resource).Release();
+                GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(resource).Release();
             }
         }
 
@@ -214,13 +214,13 @@ public partial class ArmyEventDialog : DataModule
         dialog._units.Clear();
         for (int I = 0, last = army.GetCount() - 1; I <= last; I++)
         {
-            if (!army.GetUnitConcealedForPlayer(I, AoWHSMap.Current.SeatedPlayer) || log.DamageValues[I] != 0)
+            if (!army.GetUnitConcealedForPlayer(I, StrategicMap.Current.SeatedPlayer) || log.DamageValues[I] != 0)
             {
                 dialog._units.Add((byte)I);
                 image = log.ArmyView.GetUnit(I).GetUnitGraphicsResourceIndex();
                 if (image != -1)
                 {
-                    AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();
+                    GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).AddRef();
                 }
             }
         }

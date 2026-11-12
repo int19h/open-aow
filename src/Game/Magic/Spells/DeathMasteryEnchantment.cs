@@ -33,7 +33,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         {
             if (message.Payload.Int != 0)
             {
-                if (AoWHSMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
+                if (StrategicMap.Current.Players.GetPlayers(message.Payload.Int).MagicControl.EnemyEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
                 {
                     NewTurn((sbyte)message.Payload.Int);
                 }
@@ -50,11 +50,11 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         EngineMessage message = default;
         base.Deactivate(player);
         // { Original doubles Life. }
-        AoWHSMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Life);
-        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
-        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
+        StrategicMap.Current.GlobalMagicControl.DecrementDoubleSphereManaCount(MagicSphere.Life);
+        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments - Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
         EngineMessage.InitializeMessage(ref message, 537002241, this);
-        AoWHSMap.Current.SendMessage(ref message, this);
+        StrategicMap.Current.SendMessage(ref message, this);
         return true;
     }
 
@@ -64,7 +64,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         bool result = base.CanActivate(player, ref reason);
         if (result)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
+            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.ActiveEnchantments.Contains(PlayerEnchantmentType.DeathMastery))
             {
                 var xIsAlreadyActive = AbilityRules.TranslateResourceString(GameText.IsAlreadyActiveFormat);
                 var name = GetName();
@@ -81,9 +81,9 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
     {
         base.Activate(player);
         // { Original doubles Life. }
-        AoWHSMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Life);
-        var playerLocal = AoWHSMap.Current.Players.GetPlayers(PlayerIndex);
-        AoWHSMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
+        StrategicMap.Current.GlobalMagicControl.IncrementDoubleSphereManaCount(MagicSphere.Life);
+        var playerLocal = StrategicMap.Current.Players.GetPlayers(PlayerIndex);
+        StrategicMap.Current.Players.GetPlayers(PlayerIndex).MagicControl.SetActiveEnchantments(playerLocal.MagicControl.ActiveEnchantments + Set<PlayerEnchantmentType>.Of(PlayerEnchantmentType.DeathMastery));
         return true;
     }
 
@@ -98,9 +98,9 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
         bool border;
         flags = [];
         mask = 1 << (player - 1);
-        for (int L = 0, last = AoWHSMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
+        for (int L = 0, last = StrategicMap.Current.MapContainer.LevelCount - 1; L <= last; L++)
         {
-            mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+            mapLevel = StrategicMap.Current.MapContainer.GetMapLevel(L);
             index = 0;
             Array.Resize(ref flags, mapLevel.Width * mapLevel.Height);
             Array.Clear(flags);
@@ -108,7 +108,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
             {
                 for (int X = 1, lastX = mapLevel.Width - 2; X <= lastX; X++)
                 {
-                    if ((((AoWMapField)mapLevel.GetField(X, Y)).FieldFlags & mask) != 0)
+                    if ((mapLevel.GetField(X, Y).FieldFlags & mask) != 0)
                     {
                         border = false;
                         HexNumberWalkData.InitializeHexNumberWalk(ref walk, X, Y, 1);
@@ -116,7 +116,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
                         {
                             if (walk.X >= 0 && walk.X < mapLevel.Width && walk.Y >= 0 && walk.Y < mapLevel.Height)
                             {
-                                border = (((AoWMapField)mapLevel.GetField(walk.X, walk.Y)).FieldFlags & mask) == 0;
+                                border = (mapLevel.GetField(walk.X, walk.Y).FieldFlags & mask) == 0;
                             }
 
                             HexNumberWalkData.WalkToNextHexNumber(ref walk);
@@ -139,7 +139,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
                 {
                     if (flags[index] != 0)
                     {
-                        ((AoWMapField)mapLevel.GetField(X, Y)).SetExplored(player, false);
+                        mapLevel.GetField(X, Y).SetExplored(player, false);
                     }
 
                     index += 1;
@@ -147,7 +147,7 @@ public partial class DeathMasteryEnchantment : GlobalEnchantment
             }
         }
 
-        AoWHSMap.Current.UpdateVisibility();
+        StrategicMap.Current.UpdateVisibility();
         Array.Resize(ref flags, 0);
     }
 

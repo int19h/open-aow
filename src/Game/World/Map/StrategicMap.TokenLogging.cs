@@ -7,7 +7,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
-public partial class AoWHSMap
+public partial class StrategicMap
 {
     private Stream _tokenLog;
 

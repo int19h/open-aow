@@ -129,10 +129,10 @@ public abstract partial record DiplomaticProposal
     // Modifier, scaled by how Race regards the race of Other, or Modifier itself for Other's own race.
     protected static int RaceModifier(sbyte other, sbyte race, int modifier)
     {
-        if (AoWHSMap.Current.Players.GetPlayers(other).PlayerRace != race)
+        if (StrategicMap.Current.Players.GetPlayers(other).PlayerRace != race)
         {
-            var players = AoWHSMap.Current.Players.GetPlayers(other);
-            return Round((double)((AoWHSMap.Current.Races.GetRace(race).GetRelationValue(players.PlayerRace) - 50) * modifier) * 0.01);
+            var players = StrategicMap.Current.Players.GetPlayers(other);
+            return Round((double)((StrategicMap.Current.Races.GetRace(race).GetRelationValue(players.PlayerRace) - 50) * modifier) * 0.01);
         }
 
         return modifier;
@@ -140,12 +140,12 @@ public abstract partial record DiplomaticProposal
 
     // The relation of First to Second.
     protected static DiplomaticRelation Relation(sbyte first, sbyte second) =>
-        AoWHSMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)first, (sbyte)(byte)second);
+        StrategicMap.Current.Players.GetDiplomaticRelation((sbyte)(byte)first, (sbyte)(byte)second);
 
     // Shows Log at once when Player is seated.
     protected static void ShowTo(EventLog log, sbyte player)
     {
-        if (player == AoWHSMap.Current.SeatedPlayer)
+        if (player == StrategicMap.Current.SeatedPlayer)
         {
             log.Execute(false, ExecuteTrigger.Event, null);
         }
@@ -163,24 +163,24 @@ public abstract partial record DiplomaticProposal
     // Delivers the proposal to the target's logbook (Diplomacy.pas:992, the arm of the kinds that wait for an answer).
     protected static void Deliver(DiplomaticAction action)
     {
-        AoWHSMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
-        if (action.Source == AoWHSMap.Current.SeatedPlayer)
+        StrategicMap.Current.Players.GetPlayers(action.Target).PlayerSeen((sbyte)(byte)action.Source);
+        if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
             var messageSent = AbilityRules.TranslateResourceString(s_messageSentText);
-            AoWHSMap.Current.ShowMessage(messageSent);
+            StrategicMap.Current.ShowMessage(messageSent);
         }
 
         var log = action.CreateEventLog();
-        AoWHSMap.Current.Players.GetPlayers(action.Target).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.AddEvent(log);
         ShowTo(log, action.Target);
         log.Release();
-        AoWHSMap.Current.DiplomaticRelationsChangedEventsStore.Raise(action);
+        StrategicMap.Current.DiplomaticRelationsChangedEventsStore.Raise(action);
     }
 
     // Drops the target's logbook entry of the answered proposal.
     protected static void RemoveTargetLog(DiplomaticAction action)
     {
-        var log = (DiplomaticActionEventLog)AoWHSMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
+        var log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
         if (log != null)
         {
             log.SetOwner(null);
@@ -190,9 +190,9 @@ public abstract partial record DiplomaticProposal
     // Moves the target's logbook entry, now holding the answer, to the source and shows it there.
     protected static void ReturnToSource(DiplomaticAction action)
     {
-        var log = (DiplomaticActionEventLog)AoWHSMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
+        var log = (DiplomaticActionEventLog)StrategicMap.Current.Players.GetPlayers(action.Target).EventLogbook.FindId(action.EventLogId);
         log.SetDiplomaticAction(action);
-        AoWHSMap.Current.Players.GetPlayers(action.Source).EventLogbook.AddEvent(log);
+        StrategicMap.Current.Players.GetPlayers(action.Source).EventLogbook.AddEvent(log);
         ShowTo(log, action.Source);
     }
 
@@ -218,10 +218,10 @@ public abstract partial record DiplomaticProposal
     private static void BroadcastDiplomaticEvent(DiplomaticActionEventLog log, sbyte exclude)
     {
         int i = 0;
-        for (int number = AoWHSMap.Current.Players.Count - 1; i <= number; i++)
+        for (int number = StrategicMap.Current.Players.Count - 1; i <= number; i++)
         {
-            Player players = AoWHSMap.Current.Players.GetPlayers(i);
-            if (players.Status == PlayerStatus.Playing && i != exclude && (i == log.Action.Source || i == log.Action.Target || (AoWHSMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Source) != -1 && AoWHSMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Target) != -1)))
+            Player players = StrategicMap.Current.Players.GetPlayers(i);
+            if (players.Status == PlayerStatus.Playing && i != exclude && (i == log.Action.Source || i == log.Action.Target || (StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Source) != -1 && StrategicMap.Current.Players.GetPlayers(i).GetFirstDaySeen((sbyte)(byte)log.Action.Target) != -1)))
             {
                 EventLog eventLog = (EventLog)log.Copy(GameTables.GameEngine);
                 players.EventLogbook.AddEvent(eventLog);

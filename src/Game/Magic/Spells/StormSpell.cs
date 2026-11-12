@@ -129,14 +129,14 @@ public partial class StormSpell : Spell
         {
             _source = source;
             source.GetLocation(ref X, ref Y, ref L);
-            selection = AoWHSMap.Current.TargetSelection;
+            selection = StrategicMap.Current.TargetSelection;
             _targetStorm = CreateStorm();
             selection.Initialize(this);
             selection.TargetMode = selection.TargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
             selection.SourceX = X;
             selection.SourceY = Y;
             selection.SourceL = L;
-            AoWHSMap.Current.MakeVisible(X, Y, L, 5);
+            StrategicMap.Current.MakeVisible(X, Y, L, 5);
             var name = _targetStorm.Name();
             var format = RtlUnit.Format(AbilityRules.TranslateResourceString(GameText.SelectTargetLocationForOnMapFormat), [name]);
             selection.Text.Text = format;
@@ -144,11 +144,11 @@ public partial class StormSpell : Spell
             selection.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
             selection.Range = 12;
             selection.FOnChange += OnTargetSelectionChange;
-            selection.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
-            selection.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
-            selection.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
+            selection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
+            selection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
+            selection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
             selection.Activate();
-            _targetStorm.UpdateTargetSelection(AoWHSMap.Current.TargetSelection);
+            _targetStorm.UpdateTargetSelection(StrategicMap.Current.TargetSelection);
             result = true;
         }
         else
@@ -170,14 +170,14 @@ public partial class StormSpell : Spell
     {
         bool result;
         StormSpellTokenEvent tokenEvent;
-        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             tokenEvent = new StormSpellTokenEvent(null);
             tokenEvent.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
             tokenEvent.X = X;
             tokenEvent.Y = Y;
             tokenEvent.MapLevel = L;
-            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
         }

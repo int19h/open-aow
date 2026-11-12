@@ -74,7 +74,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
         bool result = base.Accept(ref errorText);
         if (result)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(_player).PlayerType == PlayerType.Human && AoWHSMap.Current.Players.GetPlayers(_player).GetBusy())
+            if (StrategicMap.Current.Players.GetPlayers(_player).PlayerType == PlayerType.Human && StrategicMap.Current.Players.GetPlayers(_player).GetBusy())
             {
                 return result;
             }
@@ -83,7 +83,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
             tokenEvent.Gold = Gold;
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.OfferBribe;
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Accept;
-            AoWHSMap.Current.TokenManager.TokenControls[_player].AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.TokenControls[_player].AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
         }
@@ -101,7 +101,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
         bool result = base.Reject(ref errorText);
         if (result)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(_player).PlayerType == PlayerType.Human && AoWHSMap.Current.Players.GetPlayers(_player).GetBusy())
+            if (StrategicMap.Current.Players.GetPlayers(_player).PlayerType == PlayerType.Human && StrategicMap.Current.Players.GetPlayers(_player).GetBusy())
             {
                 return result;
             }
@@ -110,7 +110,7 @@ public partial class NegotiateRequestEventLog : JoinEventLog
             tokenEvent.Gold = 0;
             tokenEvent.Offer = NegotiateTokenEvent.NegotiateOffer.ForceOffer;
             tokenEvent.Result = NegotiateTokenEvent.NegotiateResult.Reject;
-            AoWHSMap.Current.TokenManager.TokenControls[_player].AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.TokenControls[_player].AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
         }
@@ -145,5 +145,5 @@ public partial class NegotiateRequestEventLog : JoinEventLog
         return eventValue;
     }
 
-    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => trigger == 0 && AoWHSMap.Current.SeatedPlayer == _player && base.Execute(mode, trigger, done);
+    public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => trigger == 0 && StrategicMap.Current.SeatedPlayer == _player && base.Execute(mode, trigger, done);
 }

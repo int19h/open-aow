@@ -43,7 +43,7 @@ public partial class ChangePlayerMagicTokenEvent : TokenEvent
         PlayerMagicControl magic;
         base.Execute(tokenEvent);
         success = false;
-        magic = AoWHSMap.Current.Players.GetPlayers((sbyte)PlayerIndex).MagicControl;
+        magic = StrategicMap.Current.Players.GetPlayers((sbyte)PlayerIndex).MagicControl;
         switch (Mode)
         {
             case ChangePlayerMagicTokenEventMode.DispelEnchantment:

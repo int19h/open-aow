@@ -86,7 +86,7 @@ public partial class FleeLocation : MapObject
     public override bool CanSelect(int pixelX, int pixelY) => true;
 
     // FleeLoc.pas:79
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
     // FleeLoc.pas:87
     public override bool CanPlace(MapContainer mapContainer, sbyte hexX, sbyte hexY, sbyte hexLevel) => true;
@@ -103,7 +103,7 @@ public partial class FleeLocation : MapObject
             if (oldHex != null)
             {
                 oldHex?.Dispose();
-                AoWHSSet.Current.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, 0, 1);
+                GamePack.Current.CombatHexes.Place(CombatMap.Current.MapContainer, hexX, hexY, 0, 1);
             }
         }
 

@@ -198,7 +198,7 @@ public partial class ItemList : EChangeNotifyNode, IChildList<Item>
             item = this[I];
             if (item != null && !item.Status.Contains(ItemStatusElement.Registered))
             {
-                AoWHSMap.Current.ItemControl.RegisterItem(item);
+                StrategicMap.Current.ItemControl.RegisterItem(item);
             }
         }
     }

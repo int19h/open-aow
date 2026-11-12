@@ -24,8 +24,8 @@ public partial class DispelMagicAbilityUnitSelector : UnitSelector
         string error = "";
         int I;
         DispelMagicAbilityTokenEvent eventValue;
-        source = AoWHSMap.Current.UnitControl.FindUnit(SourceUnitId);
-        if (CanSelect(ref error) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        source = StrategicMap.Current.UnitControl.FindUnit(SourceUnitId);
+        if (CanSelect(ref error) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             I = 0;
             target = null;
@@ -46,7 +46,7 @@ public partial class DispelMagicAbilityUnitSelector : UnitSelector
                 eventValue.SourcePlayer = (byte)source.Player;
                 eventValue.TargetId = target.UnitId;
                 eventValue.TargetPlayer = (byte)target.Player;
-                AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 eventValue.Release();
                 result = true;
             }

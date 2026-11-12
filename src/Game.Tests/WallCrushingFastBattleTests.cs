@@ -17,19 +17,19 @@ public sealed class WallCrushingFastBattleTests
     // TAbility's constructor reads the game set's image library manager.
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet _previousSet = AoWHSSet.Current;
+        private readonly GamePack _previousSet = GamePack.Current;
         private readonly GameEngine _previousEngine = GameTables.GameEngine;
         private readonly ImageLibraryManager _manager = new ImageLibraryManager(null!);
 
         internal Fixture()
         {
-            AoWHSSet.Current = EngineFixture.CreateGameSet(_manager);
+            GamePack.Current = EngineFixture.CreateGameSet(_manager);
             GameTables.GameEngine = null!;
         }
 
         public void Dispose()
         {
-            AoWHSSet.Current = _previousSet;
+            GamePack.Current = _previousSet;
             GameTables.GameEngine = _previousEngine;
             _manager.Dispose();
         }

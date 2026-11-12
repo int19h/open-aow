@@ -18,7 +18,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -96,15 +96,15 @@ public partial class FileDialogWindow : DataModule
     // TAoWEngine.LoadCampaign closes the campaign. The original closed both first.
     public void LoadSelectedGame(string name)
     {
-        AoWHSMap map = default;
+        StrategicMap map = default;
         if (DocumentKind.CampaignSave.HasExtension(ExtractFileExt(name)))
         {
             if (!GameTables.GameEngine.Demo)
             {
                 // A refused campaign keeps the current map, which is not started again.
-                var previous = AoWHSMap.Current;
+                var previous = StrategicMap.Current;
                 LoadCampaign(DialogHosts.General, name);
-                if (AoWHSMap.Current != null && AoWHSMap.Current != previous)
+                if (StrategicMap.Current != null && StrategicMap.Current != previous)
                 {
                     General.StartGame(DialogHosts.General);
                 }
@@ -112,7 +112,7 @@ public partial class FileDialogWindow : DataModule
         }
         else
         {
-            map = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(name, GameProfile.WorldMap);
+            map = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(name, GameProfile.WorldMap);
             if (map != null)
             {
                 GameTables.GameEngine.CloseCampaign();
@@ -122,7 +122,7 @@ public partial class FileDialogWindow : DataModule
                     if (map.ConnectionType != PlayerConnectionType.Network)
                     {
                         General.LoadGame(DialogHosts.General, name);
-                        if (AoWHSMap.Current != null)
+                        if (StrategicMap.Current != null)
                         {
                             General.StartGame(DialogHosts.General);
                         }
@@ -326,9 +326,9 @@ public partial class FileDialogWindow : DataModule
                 case 0:
                     if (!IsEmpty(SaveFileNameEdit.Text) && FileExists(SaveFileNameEdit.Text))
                     {
-                        if (AoWHSMap.Current != null)
+                        if (StrategicMap.Current != null)
                         {
-                            if (AoWHSMap.Current.CombatMap != null)
+                            if (StrategicMap.Current.CombatMap != null)
                             {
                                 DialogHosts.General.ReturnToTitle();
                             }
@@ -338,28 +338,28 @@ public partial class FileDialogWindow : DataModule
                                 {
                                     if (CompareText(GameTables.GameEngine.Campaign.FileName, Directory + SaveFileNameEdit.Text) == 0)
                                     {
-                                        AoWHSMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
+                                        StrategicMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
                                     }
                                     else
                                     {
-                                        AoWHSMap.Current.ExitGame(ExitGameMode.Load, ExitForLoad);
+                                        StrategicMap.Current.ExitGame(ExitGameMode.Load, ExitForLoad);
                                     }
                                 }
                                 else
                                 {
-                                    if (CompareText(AoWHSMap.Current.FileName, Directory + SaveFileNameEdit.Text) == 0)
+                                    if (CompareText(StrategicMap.Current.FileName, Directory + SaveFileNameEdit.Text) == 0)
                                     {
-                                        AoWHSMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
+                                        StrategicMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
                                     }
                                     else
                                     {
-                                        AoWHSMap.Current.ExitGame(ExitGameMode.Load, ExitForLoad);
+                                        StrategicMap.Current.ExitGame(ExitGameMode.Load, ExitForLoad);
                                     }
                                 }
                             }
                         }
 
-                        if (AoWHSMap.Current == null || AoWHSMap.Current.ExitPending)
+                        if (StrategicMap.Current == null || StrategicMap.Current.ExitPending)
                         {
                             Window.Visible = false;
                             LoadSelectedGame(path + SaveFileNameEdit.Text);
@@ -446,7 +446,7 @@ public partial class FileDialogWindow : DataModule
     // AoWFileDialog.pas:406
     public void FileLBChange(ListBox sender)
     {
-        AoWHSMap map;
+        StrategicMap map;
         ListBox list;
         list = sender;
         FileList.Selected = list.Selected;
@@ -458,7 +458,7 @@ public partial class FileDialogWindow : DataModule
             SaveFileNameEdit.Text = item;
             if (!DocumentKind.CampaignSave.HasExtension(ExtractFileExt(SaveFileNameEdit.Text)))
             {
-                map = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(SaveFileNameEdit.Text, GameProfile.WorldMap);
+                map = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(SaveFileNameEdit.Text, GameProfile.WorldMap);
                 if (map != null)
                 {
                     var count = map.Players.GetCount();
@@ -829,7 +829,7 @@ public partial class FileDialogWindow : DataModule
             return;
         }
 
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
             GameTables.GameEngine.CloseHsm(null);
         }
@@ -868,13 +868,13 @@ public partial class FileDialogWindow : DataModule
 
     private static void SaveGame(General controller, string name)
     {
-        AoWHSMap.Current.SaveGame(name);
+        StrategicMap.Current.SaveGame(name);
     }
 
     private static void SaveCampaign(General controller, string name)
     {
         // { Original campaign-save command uses the map save routine. }
-        AoWHSMap.Current.SaveGame(name);
+        StrategicMap.Current.SaveGame(name);
     }
 
     private static void PickScenarioMap(ScenarioSetup dialog, string name)

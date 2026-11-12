@@ -25,7 +25,7 @@ public partial class MagicSanctuary : Structure
     // MagicSanctuary.pas:117
     public override void Dispose()
     {
-        AoWHSMap.Current.DynamicVisibleHexSprite.RemoveChild(_overlayHexSprite);
+        StrategicMap.Current.DynamicVisibleHexSprite.RemoveChild(_overlayHexSprite);
         _overlayHexSprite?.Dispose();
         base.Dispose();
     }

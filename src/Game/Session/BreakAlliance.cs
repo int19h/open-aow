@@ -26,11 +26,11 @@ public sealed partial record BreakAlliance : DiplomaticProposal
     public override void Sent(DiplomaticAction action)
     {
         action.ApplyRelationModifiers();
-        AoWHSMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Peace);
-        if (action.Source == AoWHSMap.Current.SeatedPlayer)
+        StrategicMap.Current.Players.SetDiplomaticRelation((sbyte)(byte)action.Source, (sbyte)(byte)action.Target, DiplomaticRelation.Peace);
+        if (action.Source == StrategicMap.Current.SeatedPlayer)
         {
             var allianceBroken = AbilityRules.TranslateResourceString(AllianceBrokenText);
-            AoWHSMap.Current.ShowMessage(allianceBroken);
+            StrategicMap.Current.ShowMessage(allianceBroken);
         }
 
         Broadcast(action, -1, action.Target);

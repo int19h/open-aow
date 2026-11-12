@@ -26,11 +26,11 @@ public partial class BattleEffectSprite
         {
             if (AbilityIndex == 52)
             {
-                sequence = AoWHSSet.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[number];
+                sequence = GamePack.Current.SpellControl.GetSpell(SpellIndex).CastImages.ImageSequences[number];
             }
             else
             {
-                sequence = AoWHSSet.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[number];
+                sequence = GamePack.Current.AbilityControl.GetAbility(AbilityIndex).ImageSequences.ImageSequences[number];
             }
         }
 
@@ -72,14 +72,14 @@ public partial class BattleEffectSprite
                     break;
             }
 
-            sequence = AoWHSSet.Current.ImageSequences.ImageSequences[N];
+            sequence = GamePack.Current.ImageSequences.ImageSequences[N];
         }
 
         void ShowMovingLoop()
         {
             while (sequence != null)
             {
-                index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
                     var pathY = Path[Frame];
@@ -260,7 +260,7 @@ public partial class BattleEffectSprite
         {
             while (sequence != null)
             {
-                index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
                     var pathY = Path[0];
@@ -302,7 +302,7 @@ public partial class BattleEffectSprite
 
             while (sequence != null)
             {
-                index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (index != -1 && sequence.ImageLibrary.ImageExist(index))
                 {
                     var pathX = Path[0];
@@ -468,7 +468,7 @@ public partial class BattleEffectSprite
                         SelectSequence(2);
                         if (sequence != null)
                         {
-                            index = sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                            index = sequence.GetFrameIndex(StrategicMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                             ShowAtStart();
                             FinishPath();
                         }
@@ -558,26 +558,26 @@ public partial class BattleEffectSprite
                         ShowTrail();
                         break;
                     case BattleEffectType.WallSmoke:
-                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[5];
+                        sequence = GamePack.Current.ImageSequences.ImageSequences[5];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
                         break;
                     case BattleEffectType.HitGround:
-                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[9];
+                        sequence = GamePack.Current.ImageSequences.ImageSequences[9];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
                         break;
                     case BattleEffectType.HitWater:
-                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[10];
+                        sequence = GamePack.Current.ImageSequences.ImageSequences[10];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
                         break;
                     case BattleEffectType.Blood:
                         var path = Path[0];
-                        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[path.Z];
+                        sequence = GamePack.Current.ImageSequences.ImageSequences[path.Z];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();

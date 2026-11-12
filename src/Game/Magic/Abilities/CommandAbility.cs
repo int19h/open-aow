@@ -218,7 +218,7 @@ public partial class CommandAbility : TouchAbility
         // { The returned class is consumed by its constructor. }
         Uncommand(target);
         // { Inline the returned class receiver. }
-        targetData = (CommandedAbilityData)AoWHSSet.Current.AbilityControl.GetAbility(CommandedAbilityId).AbilityDataClass().CreateInstance(null);
+        targetData = (CommandedAbilityData)GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).AbilityDataClass().CreateInstance(null);
         targetData.AbilityId = CommandedAbilityId;
         targetData.CommandAbilityId = AbilityId;
         targetData.SourceId = source.Id;
@@ -289,7 +289,7 @@ public partial class CommandAbility : TouchAbility
                 target.SetCombatPlayer(data.OriginalCombatPlayer);
             }
 
-            AoWHSSet.Current.AbilityControl.GetAbility(CommandedAbilityId).Remove(target.Troop);
+            GamePack.Current.AbilityControl.GetAbility(CommandedAbilityId).Remove(target.Troop);
             if (source != null)
             {
                 sourceData = (CommandAbilityData)source.Troop.GetAbilityData(AbilityId);

@@ -101,17 +101,17 @@ public partial class ProductionPlace : PlayerStructure
         {
             if (GetMagicSphere() == MagicSphere.None)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).ProductionControls.Add(ProductionControl);
+                StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Add(ProductionControl);
             }
 
             if (_powerSource != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
+                StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
             }
 
             if (_incomeSource != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
+                StrategicMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
             }
         }
     }
@@ -123,17 +123,17 @@ public partial class ProductionPlace : PlayerStructure
         {
             if (GetMagicSphere() == MagicSphere.None)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(ProductionControl);
+                StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(ProductionControl);
             }
 
             if (_powerSource != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
+                StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
             }
 
             if (_incomeSource != null)
             {
-                AoWHSMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
+                StrategicMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
             }
         }
 
@@ -172,7 +172,7 @@ public partial class ProductionPlace : PlayerStructure
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.Day == 1)
+        if (StrategicMap.Current.Day == 1)
         {
             if (Player == 0)
             {
@@ -261,7 +261,7 @@ public partial class ProductionPlace : PlayerStructure
                         {
                             if (AbilityRules.ValidAttackRelation(info.Player, info.IndependentRelation, Player, 0))
                             {
-                                var player = AoWHSMap.Current.Players.GetPlayers(info.Player);
+                                var player = StrategicMap.Current.Players.GetPlayers(info.Player);
                                 data.Priority = 50 + player.Income / 2;
                                 if (data.Priority < 25)
                                 {
@@ -301,12 +301,12 @@ public partial class ProductionPlace : PlayerStructure
         base.Update();
         if (_incomeSource != null && Player >= 0)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).UpdateIncome();
+            StrategicMap.Current.Players.GetPlayers(Player).UpdateIncome();
         }
 
         if (_powerSource != null && Player >= 0)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.Update();
+            StrategicMap.Current.Players.GetPlayers(Player).MagicControl.Update();
         }
     }
 
@@ -314,7 +314,7 @@ public partial class ProductionPlace : PlayerStructure
     public override bool CanDoubleClick()
     {
         bool result;
-        if (AoWHSMap.Current.SeatedPlayer != Player || GetMagicSphere() != MagicSphere.None)
+        if (StrategicMap.Current.SeatedPlayer != Player || GetMagicSphere() != MagicSphere.None)
         {
             result = false;
         }
@@ -336,17 +336,17 @@ public partial class ProductionPlace : PlayerStructure
             {
                 if (_powerSource != null)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
+                    StrategicMap.Current.Players.GetPlayers(Player).MagicControl.UnregisterPowerSource(_powerSource);
                 }
 
                 if (_incomeSource != null)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
+                    StrategicMap.Current.Players.GetPlayers(Player).UnregisterIncomeSource(_incomeSource);
                 }
 
                 if (GetMagicSphere() == MagicSphere.None)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(ProductionControl);
+                    StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Remove(ProductionControl);
                 }
             }
 
@@ -355,17 +355,17 @@ public partial class ProductionPlace : PlayerStructure
             {
                 if (_powerSource != null)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
+                    StrategicMap.Current.Players.GetPlayers(Player).MagicControl.RegisterPowerSource(_powerSource);
                 }
 
                 if (_incomeSource != null)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
+                    StrategicMap.Current.Players.GetPlayers(Player).RegisterIncomeSource(_incomeSource);
                 }
 
                 if (GetMagicSphere() == MagicSphere.None)
                 {
-                    AoWHSMap.Current.Players.GetPlayers(Player).ProductionControls.Add(ProductionControl);
+                    StrategicMap.Current.Players.GetPlayers(Player).ProductionControls.Add(ProductionControl);
                 }
             }
         }
@@ -395,7 +395,7 @@ public partial class ProductionPlace : PlayerStructure
         if (Player > 0 && GetMagicSphere() != MagicSphere.Cosmos && !GetRazed() && !GetBuilding())
         {
             var magicSphere = GetMagicSphere();
-            result = AoWHSMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
+            result = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
             if (result != 0)
             {
                 result = result * 5 + 10;
@@ -417,7 +417,7 @@ public partial class ProductionPlace : PlayerStructure
     public override void StructureCaptured(sbyte oldPlayer, sbyte newPlayer)
     {
         ProductionPlaceEventLog log;
-        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)Resource).Claimed)
+        if (!GetRazed() && !GetBuilding() && oldPlayer == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting) && Status.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)Resource).Claimed)
         {
             log = new ProductionPlaceEventLog(null);
             log._player = newPlayer;
@@ -447,7 +447,7 @@ public partial class ProductionPlace : PlayerStructure
         {
             if (_defenderLevel == 4)
             {
-                _defenderLevel = (byte)(AoWHSMap.Current.Random(3) + 1);
+                _defenderLevel = (byte)(StrategicMap.Current.Random(3) + 1);
             }
 
             budget = (_defenderLevel - 2) * 25 + 25;
@@ -459,7 +459,7 @@ public partial class ProductionPlace : PlayerStructure
 
             if (budget > 0)
             {
-                RandSeed = AoWHSMap.Current.Random(1048575);
+                RandSeed = StrategicMap.Current.Random(1048575);
                 collection = ((StructureResource)Resource).Defenders.GetRandomCollection();
                 if (collection != -1)
                 {
@@ -472,7 +472,7 @@ public partial class ProductionPlace : PlayerStructure
 
                     var hexY = HexY;
                     AbilityRules.PlaceRandomUnits(HexX, hexY, HexLevel, 0, units, 4, budget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
-                    armyHexSprite = ((AoWMapField)Owner).GetArmyHexSprite();
+                    armyHexSprite = Owner.GetArmyHexSprite();
                     if (armyHexSprite != null && armyHexSprite.Army.Player == 0)
                     {
                         armyHexSprite.Army.SetBehavior(255, GroupBehavior.Guard);
@@ -525,7 +525,7 @@ public partial class ProductionPlace : PlayerStructure
             if (Player > 0)
             {
                 var magicSphere = GetMagicSphere();
-                picks = AoWHSMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
+                picks = StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere);
                 var magicSphere2 = GetMagicSphere();
                 var magicSphereText = AbilityRules.TranslateResourceString(GameTables.MagicSphereTexts[(int)magicSphere2]);
                 names.Add(RtlUnit.Format(AbilityRules.TranslateResourceString(s_sphereCountFormat), [IntToStr(picks), LowerCase(magicSphereText)]));
@@ -577,7 +577,7 @@ public partial class ProductionPlace : PlayerStructure
             if (unitIndex != -1)
             {
                 unit = new Unit(null);
-                unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(unitIndex));
+                unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(unitIndex));
                 unit.SetPlayer(Player);
                 var hexY = HexY;
                 armyHexSprite = unit.Place(HexX, hexY, HexLevel, Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
@@ -593,13 +593,13 @@ public partial class ProductionPlace : PlayerStructure
 
                     var armyHexSpriteHexY = armyHexSprite.HexY;
                     var hexX = armyHexSprite.HexX;
-                    if (AoWHSMap.Current.Visible(hexX, armyHexSpriteHexY, armyHexSprite.HexLevel, 0))
+                    if (StrategicMap.Current.Visible(hexX, armyHexSpriteHexY, armyHexSprite.HexLevel, 0))
                     {
                         animation = new ImageSequenceAnimation(null);
-                        animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(29).CastImages.GetImageSequence(0));
+                        animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(29).CastImages.GetImageSequence(0));
                         var hexY2 = HexY;
                         var hexX2 = HexX;
-                        AoWHSMap.Current.PlaceHex(animation, hexX2, hexY2, HexLevel);
+                        StrategicMap.Current.PlaceHex(animation, hexX2, hexY2, HexLevel);
                     }
                 }
 
@@ -645,7 +645,7 @@ public partial class ProductionPlace : PlayerStructure
         if (GetMagicSphere() != MagicSphere.None)
         {
             var magicSphere = GetMagicSphere();
-            if (AoWHSMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere) > 0)
+            if (StrategicMap.Current.Players.GetPlayers(Player).Leader.GetSpherePicks(magicSphere) > 0)
             {
                 result = true;
             }
@@ -669,7 +669,7 @@ public partial class ProductionPlace : PlayerStructure
         bool result;
         ProductionItem item;
         string reason = "";
-        if (CanTrade(queue, ref reason) && !AoWHSMap.Current.Players.GetPlayers(Player).GetBusy())
+        if (CanTrade(queue, ref reason) && !StrategicMap.Current.Players.GetPlayers(Player).GetBusy())
         {
             item = new ProductionItem(null);
             if (queue)

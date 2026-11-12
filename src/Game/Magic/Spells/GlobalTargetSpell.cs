@@ -62,8 +62,8 @@ public partial class GlobalTargetSpell : Spell
         {
             _casterId = source.UnitId;
             _casterPlayer = source.Player;
-            SetupTargetSelection(source, AoWHSMap.Current.TargetSelection);
-            AoWHSMap.Current.TargetSelection.Activate();
+            SetupTargetSelection(source, StrategicMap.Current.TargetSelection);
+            StrategicMap.Current.TargetSelection.Activate();
             result = true;
         }
         else
@@ -78,21 +78,21 @@ public partial class GlobalTargetSpell : Spell
     public virtual void ShowTargetSelection(TargetSelectionControl target, int hexNumber, int xs, int ys, in LockedSurface lockedSurface)
     {
         MapLevel level;
-        AoWMapField mapField;
+        MapField mapField;
         int X = default;
         int Y = default;
         int intensity;
         int radius;
-        level = AoWHSMap.Current.MapContainer.MapLevels[target.TargetL];
+        level = StrategicMap.Current.MapContainer.MapLevels[target.TargetL];
         HexGeometry.CenterHexNumberToHex(target.TargetX, target.TargetY, hexNumber, ref X, ref Y);
         // { Original accepts Width/Height themselves (strict > bounds test). }
         if (X >= 0 && Y >= 0 && X <= level.Width && Y <= level.Height)
         {
-            mapField = (AoWMapField)level.Field[X, Y];
-            if (this.ValidTargetSelectionMapField((MapField)(object)mapField))
+            mapField = level.Field[X, Y];
+            if (this.ValidTargetSelectionMapField(mapField))
             {
                 radius = HexGeometry.HexNumberToRadius(hexNumber);
-                intensity = Math.Abs((AoWHSMap.Current.Frame + radius) % 9 - 4) * 20 + 20;
+                intensity = Math.Abs((StrategicMap.Current.Frame + radius) % 9 - 4) * 20 + 20;
                 target.ImageLibrary[0].ShowBlended(xs - 8, ys, lockedSurface, GraphicsState.IntensityBlendTable.LookupTables[intensity]);
             }
             else
@@ -121,9 +121,9 @@ public partial class GlobalTargetSpell : Spell
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
         targetSelection.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
-        targetSelection.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
-        targetSelection.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
-        targetSelection.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
+        targetSelection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
+        targetSelection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
+        targetSelection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
     }
 
     // GlobalTargetSpells.pas:544
@@ -135,7 +135,7 @@ public partial class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:475
     public virtual bool ValidTargetSelectionMapField(MapField field)
     {
-        if (AoWHSMap.Current.ExplorationEnabled && !((AoWMapField)field).GetExplored(_casterPlayer))
+        if (StrategicMap.Current.ExplorationEnabled && !field.GetExplored(_casterPlayer))
         {
             // Preserve the result for callers.
             return false;
@@ -150,7 +150,7 @@ public partial class GlobalTargetSpell : Spell
     // GlobalTargetSpells.pas:492. The recovered view aliases this control.
     public virtual void OnTargetSelectionChange(TargetSelectionControl target)
     {
-        var caster = AoWHSMap.Current.UnitControl.FindUnit(_casterId);
+        var caster = StrategicMap.Current.UnitControl.FindUnit(_casterId);
         if (caster is null || target.Change == TargetSelectionChange.Deactivated)
         {
             target.FOnChange -= OnTargetSelectionChange;
@@ -192,8 +192,8 @@ public partial class GlobalTargetSpell : Spell
         {
             spell._casterId = caster.UnitId;
             spell._casterPlayer = caster.Player;
-            spell.SetupTargetSelection(caster, AoWHSMap.Current.TargetSelection);
-            AoWHSMap.Current.TargetSelection.Activate();
+            spell.SetupTargetSelection(caster, StrategicMap.Current.TargetSelection);
+            StrategicMap.Current.TargetSelection.Activate();
             result = true;
         }
         else

@@ -40,7 +40,7 @@ public partial class TutorialControl : EngineObject
     public void ShowMessage(int id, bool immediate, bool onceOnly)
     {
         TutorialMessageEventLog log;
-        if (AoWHSMap.Current.GameType == GameType.Tutorial && AoWHSMap.Current.TextControl.FindId(id) != null)
+        if (StrategicMap.Current.GameType == GameType.Tutorial && StrategicMap.Current.TextControl.FindId(id) != null)
         {
             if (onceOnly && _shownMessages.IndexOf(id) != -1)
             {
@@ -48,9 +48,9 @@ public partial class TutorialControl : EngineObject
             }
 
             log = new TutorialMessageEventLog(null);
-            var idLocal = AoWHSMap.Current.TextControl.FindId(id);
+            var idLocal = StrategicMap.Current.TextControl.FindId(id);
             log.Message.Assign(idLocal.Text);
-            AoWHSMap.Current.TriggerExecuteEventLog(log, immediate, null);
+            StrategicMap.Current.TriggerExecuteEventLog(log, immediate, null);
             log.Release();
             _shownMessages.Add(id);
         }

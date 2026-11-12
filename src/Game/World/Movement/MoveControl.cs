@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
-using Aow.Engine.Buffers;
 
 using Aow.Game.Draw;
 
@@ -21,7 +20,7 @@ public partial class MoveControl : IDisposable
 {
 
     // MoveT.PAS:257
-    public MoveControl(HSMap owner)
+    public MoveControl(GameMap owner)
     {
         Map = owner;
         GapStarts = new MapCoordinateList();
@@ -29,7 +28,7 @@ public partial class MoveControl : IDisposable
         _directRoute = new MapCoordinateList();
     }
 
-    public HSMap Map { get; init; }
+    public GameMap Map { get; init; }
 
     private Set<StatusElement> _status;
 
@@ -50,7 +49,7 @@ public partial class MoveControl : IDisposable
     public int MovePointsLimit { get; set; }
 
     public MovePointTable MovePointTable;
-    private DelphiList<AoWMapField> _processedMapFields;
+    private DelphiList<MapField> _processedMapFields;
 
     public ArmyHexSprite ArmyHexSprite { get; private set; }
     public int Selection { get; private set; }
@@ -79,7 +78,7 @@ public partial class MoveControl : IDisposable
     // MoveT.PAS:474
     public virtual bool SetupMove()
     {
-        AoWMapField field;
+        MapField field;
         PathFindingStep pathFindingStep;
         _processedCount = 0;
         Settings.ClearMovePoints();
@@ -115,11 +114,11 @@ public partial class MoveControl : IDisposable
                     MovePointsLimit = Settings.MovePointsMax;
                 }
 
-                AoWHSMap.Current.AIExecutor.UseProcessTime(MovePointsLimit);
+                StrategicMap.Current.AIExecutor.UseProcessTime(MovePointsLimit);
             }
 
             Settings.SetMovePoints(_sourceX, _sourceY, _sourceL, 0);
-            field = (AoWMapField)MapLevel.GetField(_sourceX, _sourceY);
+            field = MapLevel.GetField(_sourceX, _sourceY);
             if (Mode.Contains(MoveModeElement.LogProcessedMapFields))
             {
                 _processedMapFields.Add(field);
@@ -132,7 +131,7 @@ public partial class MoveControl : IDisposable
             }
 
             pathFindingStep.Owner = Settings.SubMoves;
-            AoWHSMap.Current.AIExecutor.UseProcessTime(100);
+            StrategicMap.Current.AIExecutor.UseProcessTime(100);
         }
         else
         {
@@ -194,7 +193,7 @@ public partial class MoveControl : IDisposable
     }
 
     // MoveT.PAS:299
-    public int DefaultMoveOnMovePointProc(AoWMapField mapField, int moveOverCode)
+    public int DefaultMoveOnMovePointProc(MapField mapField, int moveOverCode)
     {
         int overlay;
         int points;
@@ -209,7 +208,7 @@ public partial class MoveControl : IDisposable
     }
 
     // MoveT.PAS:308
-    public AoWMapField FindSubMoveOrigin(AoWMapField mapField)
+    public MapField FindSubMoveOrigin(MapField mapField)
     {
         int best;
         int points;
@@ -217,7 +216,7 @@ public partial class MoveControl : IDisposable
         PathFindingStep pathFindingStep;
         MoveControlSettings settings;
         best = 16777215;
-        AoWMapField result = null;
+        MapField result = null;
         I = 0;
         settings = Settings;
         while (I < settings.SubMoves.Count)
@@ -229,7 +228,7 @@ public partial class MoveControl : IDisposable
                 if (points <= best)
                 {
                     // { After pushing L, the original stack slot holds Self, not Result. }
-                    result = (AoWMapField)Map.MapContainer.GetField(pathFindingStep.Origin.X, pathFindingStep.Origin.Y, pathFindingStep.Origin.MapLevel);
+                    result = Map.MapContainer.GetField(pathFindingStep.Origin.X, pathFindingStep.Origin.Y, pathFindingStep.Origin.MapLevel);
                     best = points;
                 }
             }
@@ -243,13 +242,13 @@ public partial class MoveControl : IDisposable
     // MoveT.PAS:430
     public bool ValidLocation(int X, int Y, int L)
     {
-        AoWMapField field;
-        field = (AoWMapField)Map.MapContainer.GetField(X, Y, L);
+        MapField field;
+        field = Map.MapContainer.GetField(X, Y, L);
         return OnMovePoint(field, 1) >= 0;
     }
 
     // MoveT.PAS:437
-    public void ExecuteExternalMove(AoWMapField source, AoWMapField target, int movePoints)
+    public void ExecuteExternalMove(MapField source, MapField target, int movePoints)
     {
         int points = default;
         int previous = default;
@@ -314,7 +313,7 @@ public partial class MoveControl : IDisposable
     }
 
     // MoveT.PAS:1257
-    public PathFindingStep SetupSubMove(AoWMapField mapField, AoWMapField origin)
+    public PathFindingStep SetupSubMove(MapField mapField, MapField origin)
     {
         PathFindingStep pathFindingStep;
         int overCode;
@@ -398,9 +397,9 @@ public partial class MoveControl : IDisposable
             HexGeometry.CenterHexNumberToHex(pathFindingStep.Location.X, pathFindingStep.Location.Y, direction, ref X, ref Y);
             pathFindingStep.MovePointLines.Delete(0);
             processed = _processedCount;
-            ProcessHex((AoWMapField)MapLevel.GetField(X, Y), direction, count - 1);
+            ProcessHex(MapLevel.GetField(X, Y), direction, count - 1);
             processed = _processedCount - processed;
-            AoWHSMap.Current.AIExecutor.UseProcessTime(Round((double)((double)processed / 430) * 1000));
+            StrategicMap.Current.AIExecutor.UseProcessTime(Round((double)((double)processed / 430) * 1000));
         }
 
         return pathFindingStep.MovePointLines.Count == 0;
@@ -447,7 +446,7 @@ public partial class MoveControl : IDisposable
     }
 
     // MoveT.PAS:1443
-    public int ExploredOnlyMoveOnMovePointProc(AoWMapField mapField, int moveOverCode)
+    public int ExploredOnlyMoveOnMovePointProc(MapField mapField, int moveOverCode)
     {
         int points;
         if ((mapField.FieldFlags & _exploredMask) != 0)
@@ -558,7 +557,7 @@ public partial class MoveControl : IDisposable
         int Y;
         int direction;
         int overCode;
-        AoWMapField field;
+        MapField field;
         bool clear;
         int points = default;
         clear = true;
@@ -660,7 +659,7 @@ public partial class MoveControl : IDisposable
                 }
             }
 
-            field = (AoWMapField)MapLevel.GetField(X, Y);
+            field = MapLevel.GetField(X, Y);
             points = OnMovePoint(field, overCode);
             if (points >= 0)
             {
@@ -762,7 +761,7 @@ public partial class MoveControl : IDisposable
         Activated = 0
     }
 
-    public delegate int MoveOnMovePointProc(AoWMapField MapF, int MoveOverCode);
+    public delegate int MoveOnMovePointProc(MapField MapF, int MoveOverCode);
 
     // intf_P5_01.inc:120
 

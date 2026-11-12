@@ -53,7 +53,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                         MoveControl.CanMove(settings);
                         if (MoveControl.Status != AIMoveControlStatus.Processing)
                         {
-                            timeLeft = AoWHSMap.Current.AIExecutor.GetProcessTimeLeft();
+                            timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
                         }
 
                         settings.Release();
@@ -247,7 +247,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                                 army.SetStatus(255, AIMoveExecutorUnitStatus.Done);
                             }
 
-                            timeLeft = AoWHSMap.Current.AIExecutor.GetProcessTimeLeft();
+                            timeLeft = StrategicMap.Current.AIExecutor.GetProcessTimeLeft();
                         }
                     }
 
@@ -377,12 +377,12 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         }
 
         var aiMoveExecutorUnit = Executor.Transporter;
-        armyHexSprite = ((AoWMapField)AoWHSMap.Current.MapContainer.GetField(aiMoveExecutorUnit.Location.X, aiMoveExecutorUnit.Location.Y, aiMoveExecutorUnit.Location.MapLevel)).GetArmyHexSprite();
+        armyHexSprite = StrategicMap.Current.MapContainer.GetField(aiMoveExecutorUnit.Location.X, aiMoveExecutorUnit.Location.Y, aiMoveExecutorUnit.Location.MapLevel).GetArmyHexSprite();
 
         settings = new MoveControlSettings(null);
         settings.SetupArmy(armyHexSprite, 255);
         settings.SetDestinationPosition(X, Y, L);
-        AoWHSMap.Current.MoveControl.ProcessMove(settings);
+        StrategicMap.Current.MoveControl.ProcessMove(settings);
         if (settings.Path.Count != 0)
         {
             movePoints = armyHexSprite.Army.MovePoints(255);
@@ -466,10 +466,10 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
         MoveControlSettings settings;
         byte selection = default;
         ArmyHexSprite armyHexSprite = default;
-        DelphiList<AoWMapField> fields;
-        DelphiList<AoWMapField> otherFields;
+        DelphiList<MapField> fields;
+        DelphiList<MapField> otherFields;
         int I;
-        AoWMapField field;
+        MapField field;
         bool found;
         transporting = 0;
         others = 0;
@@ -494,7 +494,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             settings.SetupArmy(armyHexSprite, selection);
             settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
             settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
-            AoWHSMap.Current.MoveControl.ProcessMove(settings);
+            StrategicMap.Current.MoveControl.ProcessMove(settings);
             fields = settings.ProcessedMapFields;
             found = false;
             I = 0;
@@ -541,7 +541,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
             settings.SetupArmy(armyHexSprite, selection);
             settings.MovePointsMax = armyHexSprite.Army.Moves(selection);
             settings.Mode = settings.Mode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields);
-            AoWHSMap.Current.MoveControl.ProcessMove(settings);
+            StrategicMap.Current.MoveControl.ProcessMove(settings);
             field = null;
             otherFields = settings.ProcessedMapFields;
             found = false;
@@ -631,7 +631,7 @@ public partial class TransportMoveExecutorControl : AIMoveExecutorControl
                 settings.SetupArmy(armyHexSprite, selection);
                 settings.SetSourcePosition(_meetingPoint.X, _meetingPoint.Y, _meetingPoint.MapLevel);
                 settings.SetDestinationPosition(Executor.Destination.X, Executor.Destination.Y, Executor.Destination.MapLevel);
-                AoWHSMap.Current.MoveControl.ProcessMove(settings);
+                StrategicMap.Current.MoveControl.ProcessMove(settings);
                 if (settings.Path.Count > 4)
                 {
                     _meetingPoint = settings.Path[settings.Path.Count - 2];

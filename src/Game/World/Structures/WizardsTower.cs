@@ -59,15 +59,15 @@ public partial class WizardsTower : Structure
         ExecuteResult result = base.ExecuteTokenEvent(tokenEvent, executor);
         if (tokenEvent.Action == 1 && CanBuy((sbyte)tokenEvent.Param, ref reason))
         {
-            player = AoWHSMap.Current.Players.GetPlayers(tokenEvent.Param);
+            player = StrategicMap.Current.Players.GetPlayers(tokenEvent.Param);
             var buyCost = BuyCost();
             player.SetGems(player.Gems - buyCost);
             player.MagicControl.Spells.Add(SpellId);
-            if (AoWHSMap.Current.SeatedPlayer == tokenEvent.Param)
+            if (StrategicMap.Current.SeatedPlayer == tokenEvent.Param)
             {
-                var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+                var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
                 var format = RtlUnit.Format(AbilityRules.TranslateResourceString(s_theyTaughtYouSpellFormat), [spell.SpellName]);
-                AoWHSMap.Current.ShowMessage(format);
+                StrategicMap.Current.ShowMessage(format);
             }
         }
 
@@ -78,7 +78,7 @@ public partial class WizardsTower : Structure
     public override void NewDay()
     {
         base.NewDay();
-        if (AoWHSMap.Current.Day == 1 && (_generateSpell || SpellId == 0))
+        if (StrategicMap.Current.Day == 1 && (_generateSpell || SpellId == 0))
         {
             GenerateSettings();
         }
@@ -95,7 +95,7 @@ public partial class WizardsTower : Structure
         bool found;
         int location;
         base.ArmyPlaced(placedArmy);
-        var player = AoWHSMap.Current.Players.GetPlayers(placedArmy.Army.Player);
+        var player = StrategicMap.Current.Players.GetPlayers(placedArmy.Army.Player);
         if (Set<PlayerType>.Of(PlayerType.Cpu1, PlayerType.Cpu2, PlayerType.Cpu3, PlayerType.Cpu4, PlayerType.Cpu5).Contains(player.PlayerType) && ValidAITarget(placedArmy.Army.Player))
         {
             army = placedArmy.Army;
@@ -116,9 +116,9 @@ public partial class WizardsTower : Structure
             if (found && CanBuy(army.Player, ref reason))
             {
                 group.ReturnTargetExpense();
-                var playerGems = AoWHSMap.Current.Players.GetPlayers(army.Player);
-                AoWHSMap.Current.Players.GetPlayers(army.Player).SetGems(playerGems.Gems - cost);
-                AoWHSMap.Current.Players.GetPlayers(army.Player).MagicControl.Spells.Add(SpellId);
+                var playerGems = StrategicMap.Current.Players.GetPlayers(army.Player);
+                StrategicMap.Current.Players.GetPlayers(army.Player).SetGems(playerGems.Gems - cost);
+                StrategicMap.Current.Players.GetPlayers(army.Player).MagicControl.Spells.Add(SpellId);
             }
         }
     }
@@ -132,7 +132,7 @@ public partial class WizardsTower : Structure
             switch (info.Mode)
             {
                 case AITargetMode.Attack:
-                    player = ((AoWMapField)Owner).GetPlayer();
+                    player = Owner.GetPlayer();
                     if (player != info.Player && (player <= 0 || AbilityRules.ValidAttackRelation(info.Player, 0, player, 0)) && ValidAITarget(info.Player))
                     {
                         if (data.Priority < 10)
@@ -150,15 +150,15 @@ public partial class WizardsTower : Structure
     }
 
     // WizardsTower.pas:96
-    public override bool CanDoubleClick() => CanEnter(AoWHSMap.Current.SeatedPlayer);
+    public override bool CanDoubleClick() => CanEnter(StrategicMap.Current.SeatedPlayer);
 
     // WizardsTower.pas:99
     public bool ValidAITarget(sbyte player)
     {
         bool result;
-        if (player > 0 && !GetRazed() && SpellId != 0 && AoWHSMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
+        if (player > 0 && !GetRazed() && SpellId != 0 && StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
         {
-            result = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastDuration > 0;
+            result = GamePack.Current.SpellControl.GetSpell(SpellId).CastDuration > 0;
         }
         else
         {
@@ -171,7 +171,7 @@ public partial class WizardsTower : Structure
     // WizardsTower.pas:163
     public void GenerateSettings()
     {
-        SpellId = AoWHSSet.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, _magicSpheres);
+        SpellId = GamePack.Current.SpellControl.GetRandomSpell(_spellLevel, _spellLevel, _magicSpheres);
     }
 
     // WizardsTower.pas:174
@@ -197,7 +197,7 @@ public partial class WizardsTower : Structure
     {
         bool result = default;
         EnterWizardsTowerEventLog log;
-        if (CanEnter(AoWHSMap.Current.SeatedPlayer))
+        if (CanEnter(StrategicMap.Current.SeatedPlayer))
         {
             log = new EnterWizardsTowerEventLog(null);
             log.Tower = this;
@@ -219,7 +219,7 @@ public partial class WizardsTower : Structure
         int result;
         if (SpellId != 0)
         {
-            result = AoWHSSet.Current.SpellControl.GetSpell(SpellId).ResearchCost;
+            result = GamePack.Current.SpellControl.GetSpell(SpellId).ResearchCost;
         }
         else
         {
@@ -235,9 +235,9 @@ public partial class WizardsTower : Structure
         bool result;
         if (SpellId != 0)
         {
-            if (AoWHSMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
+            if (StrategicMap.Current.Players.GetPlayers(player).MagicControl.Spells.IndexOf(SpellId) == -1)
             {
-                var playerLocal = AoWHSMap.Current.Players.GetPlayers(player);
+                var playerLocal = StrategicMap.Current.Players.GetPlayers(player);
                 var buyCost = BuyCost();
                 if (playerLocal.Gems >= buyCost)
                 {
@@ -269,13 +269,13 @@ public partial class WizardsTower : Structure
         bool result;
         StructureTokenEvent tokenEvent;
         reason = "";
-        if (CanBuy(player, ref reason) && !AoWHSMap.Current.Players.GetPlayers(player).GetBusy())
+        if (CanBuy(player, ref reason) && !StrategicMap.Current.Players.GetPlayers(player).GetBusy())
         {
             tokenEvent = CreateTokenEvent();
             SetupTokenEvent(tokenEvent);
             tokenEvent.Action = 1;
             tokenEvent.Param = player;
-            AoWHSMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
+            StrategicMap.Current.TokenManager.GetTokenControl(player).AddEvent(tokenEvent);
             tokenEvent.Release();
             result = true;
         }

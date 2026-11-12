@@ -17,7 +17,7 @@ public partial class Altar
             }
             else
             {
-                Map.AoWHSMap.Current.ShowWarning(reason);
+                Map.StrategicMap.Current.ShowWarning(reason);
             }
         }
         else

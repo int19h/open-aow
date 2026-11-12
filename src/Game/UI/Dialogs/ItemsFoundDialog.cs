@@ -13,7 +13,6 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -41,8 +40,8 @@ public partial class ItemsFoundDialog : DataModule
         Hero result = null;
         if (_event != null)
         {
-            army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref _event.Location))).GetArmyHexSprite();
-            if (army != null && army.Army.Player == AoWHSMap.Current.SeatedPlayer)
+            army = StrategicMap.Current.MapContainer.GetFieldMapCoordinate(Unsafe.As<MapCoordinate, int>(ref _event.Location)).GetArmyHexSprite();
+            if (army != null && army.Army.Player == StrategicMap.Current.SeatedPlayer)
             {
                 result = army.Army.Hero(255, RosterTables.AllHeroTypes);
             }
@@ -103,7 +102,7 @@ public partial class ItemsFoundDialog : DataModule
             if (slot + _itemOffset < eventValue.ItemIds.Count)
             {
                 var itemId = _event.ItemIds[slot + _itemOffset];
-                item = AoWHSMap.Current.ItemControl.FindItem(itemId);
+                item = StrategicMap.Current.ItemControl.FindItem(itemId);
                 if (item != null)
                 {
                     item.Show(Window.WinLeft + sender.WinLeft, Window.WinTop + sender.WinTop, lockedSurface);
@@ -123,15 +122,15 @@ public partial class ItemsFoundDialog : DataModule
             DialogHosts.General.SelectedUnit = hero;
             DialogHosts.UnitWindow.ShowUnit();
             DialogHosts.UnitWindow.UnitTabs.Selected = 2;
-            if (AoWHSMap.Current.GameType == GameType.Tutorial)
+            if (StrategicMap.Current.GameType == GameType.Tutorial)
             {
                 eventValue = new TutorialMessageEventLog(null);
                 eventValue.HelpFileName = AbilityRules.TranslateResourceString(GameText.TutorialText);
-                if (AoWHSMap.Current.TextControl.FindId(55) != null)
+                if (StrategicMap.Current.TextControl.FindId(55) != null)
                 {
-                    var id = AoWHSMap.Current.TextControl.FindId(55);
+                    var id = StrategicMap.Current.TextControl.FindId(55);
                     eventValue.Message.Assign(id.Text);
-                    AoWHSMap.Current.TriggerExecuteEventLog(eventValue, true, null);
+                    StrategicMap.Current.TriggerExecuteEventLog(eventValue, true, null);
                 }
 
                 eventValue.Release();
@@ -153,7 +152,7 @@ public partial class ItemsFoundDialog : DataModule
             if (_itemOffset + slot < _event.ItemIds.Count)
             {
                 var itemId = _event.ItemIds[_itemOffset + slot];
-                item = AoWHSMap.Current.ItemControl.FindItem(itemId);
+                item = StrategicMap.Current.ItemControl.FindItem(itemId);
                 if (item != null)
                 {
                     box.PopupMenu = DialogHosts.ItemBanner.BannerMenu;
@@ -214,7 +213,7 @@ public partial class ItemsFoundDialog : DataModule
             dialog.PickupPanel.Visible = true;
         }
 
-        AoWHSMap.Current.TutorialControl.ShowMessage(54, true, true);
+        StrategicMap.Current.TutorialControl.ShowMessage(54, true, true);
         dialog.Window.Drawn = false;
         dialog.Window.Visible = true;
     }

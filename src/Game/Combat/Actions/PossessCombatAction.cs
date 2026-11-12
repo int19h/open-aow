@@ -46,12 +46,12 @@ public partial class PossessCombatAction : SingleTargetCombatAction
             target = (CombatUnit)combat.CombatData.FindId(TargetId);
             for (int I = 0; I <= 2; I++)
             {
-                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).ResetCommandedUnits(target);
+                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).ResetCommandedUnits(target);
             }
 
             for (int I = 0; I <= 2; I++)
             {
-                ((CommandAbility)AoWHSSet.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).Uncommand(target);
+                ((CommandAbility)GamePack.Current.AbilityControl.GetAbility(AbilityRules.CommandAbilityIds[I])).Uncommand(target);
             }
 
             newUnit = target.Troop;
@@ -68,7 +68,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
                 source.Troop.UnitStatus = source.Troop.UnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
 
-            AoWHSSet.Current.AbilityControl.GetAbility(107).Expand(source.Troop);
+            GamePack.Current.AbilityControl.GetAbility(107).Expand(source.Troop);
             if (oldUnit.GetAbilityEnabled(107))
             {
                 data = (PossessedAbilityData)oldUnit.GetAbilityData(107);
@@ -102,7 +102,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(106).SfxLibrary.Play(0);
+            GamePack.Current.AbilityControl.GetAbility(106).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -119,7 +119,7 @@ public partial class PossessCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId || objectValue.Id == TargetId)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(106).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            GamePack.Current.AbilityControl.GetAbility(106).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

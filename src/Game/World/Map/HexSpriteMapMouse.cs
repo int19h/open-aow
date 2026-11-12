@@ -22,7 +22,7 @@ public partial class HexSpriteMapMouse : IDisposable
         Reset();
     }
 
-    private HSMap _hexSpriteMap;
+    private GameMap _hexSpriteMap;
     private int _x;
     private int _y;
     private MouseButton _button;
@@ -327,7 +327,7 @@ public partial class HexSpriteMapMouse : IDisposable
         }
     }
 
-    public HSMap HexSpriteMap { get => _hexSpriteMap; internal set => _hexSpriteMap = value; }
+    public GameMap HexSpriteMap { get => _hexSpriteMap; internal set => _hexSpriteMap = value; }
     public int X { get => _x; }
     public int Y { get => _y; }
     public int PixelX { get => GetPixelX(); }

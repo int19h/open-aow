@@ -155,7 +155,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     {
         if (_resource.TerrainList.GetTerrain(info.HexNumber) >= 0)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192;
         }
     }
 
@@ -188,7 +188,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         Troop U;
         int damage;
         count = 0;
-        RandSeed = AoWHSMap.Current.Random(16777215);
+        RandSeed = StrategicMap.Current.Random(16777215);
         log = new ArmyEventLog(null);
         log.ArmyText = AbilityRules.TranslateResourceString(s_poisonPlantDamageText);
         log._player = armyHexSprite.Army.Player;
@@ -248,7 +248,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
     // PoisonP.pas:168
     public void ArmyPlaced(ArmyHexSprite armyHexSprite)
     {
-        if (PoisonPlantActive() && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (PoisonPlantActive() && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             TriggerArmyDamage(armyHexSprite);
         }
@@ -264,7 +264,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         Dispose();
         if (originalOverlay > 0)
         {
-            AoWHSMap.Current.PlaceTerrain(mapField.HexX, mapField.HexY, mapField.HexLevel, mapField.TerrainType, originalOverlay);
+            StrategicMap.Current.PlaceTerrain(mapField.HexX, mapField.HexY, mapField.HexLevel, mapField.TerrainType, originalOverlay);
         }
     }
 
@@ -298,21 +298,21 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         var hexLevel = animation.GetHexLevel();
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
-        mapField = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        mapField = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == mapField.FindOwnedChild(131998) && GameTables.GameEngine.AnimationDetail != 0 && animation.FrameCounter == 0)
         {
-            bool condition = AoWHSMap.Current.SeatedPlayer == animation.Tag;
+            bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
                 var hexLevel2 = GetHexLevel();
                 var hexY2 = GetHexY();
                 var hexX2 = GetHexX();
-                condition = AoWHSMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
+                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
             }
 
             if (condition)
             {
-                AoWHSSet.Current.SpellControl.GetSpell(12).CastSounds.Play(0);
+                GamePack.Current.SpellControl.GetSpell(12).CastSounds.Play(0);
             }
         }
     }
@@ -323,7 +323,7 @@ public partial class PoisonPlant : ImageLibraryTerrainMapObject
         var hexLevel = animation.GetHexLevel();
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
-        var field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        var field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131998) && frameCounter == 9)
         {
             PlantStatus = PlantStatus - Set<PoisonPlantStatusElement>.Of(PoisonPlantStatusElement.Summoning);

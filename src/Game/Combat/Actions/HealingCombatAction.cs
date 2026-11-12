@@ -23,8 +23,8 @@ public partial class HealingCombatAction : SingleTargetCombatAction
         CombatUnit target;
         source = (CombatUnit)combat.CombatData.FindId(SourceId);
         target = (CombatUnit)combat.CombatData.FindId(TargetId);
-        ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(47)).SetEnabled(source.Troop, false);
-        ((HealingAbility)AoWHSSet.Current.AbilityControl.GetAbility(47)).HealUnit(target.Troop);
+        ((HealingAbility)GamePack.Current.AbilityControl.GetAbility(47)).SetEnabled(source.Troop, false);
+        ((HealingAbility)GamePack.Current.AbilityControl.GetAbility(47)).HealUnit(target.Troop);
     }
 
     // AoWAb.PAS:3595
@@ -32,7 +32,7 @@ public partial class HealingCombatAction : SingleTargetCombatAction
     {
         if (viewer.Time == 0)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
+            GamePack.Current.AbilityControl.GetAbility(47).SfxLibrary.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -49,7 +49,7 @@ public partial class HealingCombatAction : SingleTargetCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == TargetId)
         {
-            AoWHSSet.Current.AbilityControl.GetAbility(47).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
+            GamePack.Current.AbilityControl.GetAbility(47).ImageSequences.Show(0, X + 32, Y + 32, viewer.Time, surface);
         }
     }
 

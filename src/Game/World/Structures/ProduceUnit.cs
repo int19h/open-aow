@@ -28,7 +28,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
         }
 
         var format = control.UnitProductionGold(Index) != 0 ? GameText.ProduceFormat : GameText.SummonFormat;
-        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        var unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(format), [unitName]);
     }
 
@@ -41,7 +41,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
         }
 
         var format = control.UnitProductionGold(Index) != 0 ? GameText.ProducingFormat : GameText.SummoningFormat;
-        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        var unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(format), [unitName]);
     }
 
@@ -49,10 +49,10 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
     {
         bool result;
         Waiting(control, ref reason);
-        var players = AoWHSMap.Current.Players.GetPlayers(control.GetPlayer());
+        var players = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         if (control.UnitProductionGold(Index) <= players.Gems)
         {
-            var fPlayersPlayers = AoWHSMap.Current.Players.GetPlayers(control.GetPlayer());
+            var fPlayersPlayers = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
             if (control.UnitProductionMana(Index) <= fPlayersPlayers.MagicControl.Mana)
             {
                 result = true;
@@ -98,7 +98,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
     {
         if (control.UnitProduced())
         {
-            if (AoWHSMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human && control.Settings.GroupId != 0)
+            if (StrategicMap.Current.Players.GetPlayers(player).PlayerType != PlayerType.Human && control.Settings.GroupId != 0)
             {
                 control.GroupProductionProduced(control.Settings.Unit, control.Settings.GroupId);
             }

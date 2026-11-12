@@ -144,7 +144,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbilitySetAt(I))
             {
-                ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+                ability = GamePack.Current.AbilityControl.GetAbility(I);
                 if ((ability.SelectionTypes & types) != Set<AbilitySelectionType>.Of())
                 {
                     text.AddObject(ability.GetName(this), IntToObject(I));
@@ -160,34 +160,34 @@ public partial class AbilityOwner : CustomAbilityList
     public virtual string GetOwnerName() => "";
 
     // Ability.PAS:1927
-    public virtual string GetAbName(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetName(this);
+    public virtual string GetAbName(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetName(this);
 
     // Ability.PAS:1931
-    public virtual sbyte GetAbilityAttack(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetAttack(this);
+    public virtual sbyte GetAbilityAttack(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetAttack(this);
 
     // Ability.PAS:1935
-    public virtual sbyte GetAbilityDefense(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetDefense(this);
+    public virtual sbyte GetAbilityDefense(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetDefense(this);
 
     // Ability.PAS:1939
-    public virtual sbyte GetAbilityResistance(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetResistance(this);
+    public virtual sbyte GetAbilityResistance(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetResistance(this);
 
     // Ability.PAS:1943
-    public virtual sbyte GetAbilityDamage(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetDamage(this);
+    public virtual sbyte GetAbilityDamage(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetDamage(this);
 
     // Ability.PAS:1947
-    public virtual Set<MoveType> GetAbilityMoveTypes(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetMoveTypes(this);
+    public virtual Set<MoveType> GetAbilityMoveTypes(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetMoveTypes(this);
 
     // Ability.PAS:1951
-    public virtual Set<DamageType> GetAbilityProtectionTypes(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetProtectionTypes(this);
+    public virtual Set<DamageType> GetAbilityProtectionTypes(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetProtectionTypes(this);
 
     // Ability.PAS:1955
-    public virtual Set<DamageType> GetAbilityImmunityTypes(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetImmunityTypes(this);
+    public virtual Set<DamageType> GetAbilityImmunityTypes(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetImmunityTypes(this);
 
     // Ability.PAS:1959
-    public virtual int GetAbLevel(int abilityId) => AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetLevel(this);
+    public virtual int GetAbLevel(int abilityId) => GamePack.Current.AbilityControl.GetAbility(abilityId).GetLevel(this);
 
     // Ability.PAS:1963
-    public virtual bool GetAbEnabled(int abilityId) => GetAbilitySetAt(abilityId) && AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetEnabled(this);
+    public virtual bool GetAbEnabled(int abilityId) => GetAbilitySetAt(abilityId) && GamePack.Current.AbilityControl.GetAbility(abilityId).GetEnabled(this);
 
     // Ability.PAS:1672
     public virtual Set<AbilitySelectionType> GetAbilitySelectionTypes() => Set<AbilitySelectionType>.Of();
@@ -200,7 +200,7 @@ public partial class AbilityOwner : CustomAbilityList
     // Ability.PAS:1840
     public virtual bool ExpandAbility(int abilityId)
     {
-        bool result = AoWHSSet.Current.AbilityControl.GetAbility(abilityId).Expand(this);
+        bool result = GamePack.Current.AbilityControl.GetAbility(abilityId).Expand(this);
         if (result)
         {
             Changed();
@@ -212,7 +212,7 @@ public partial class AbilityOwner : CustomAbilityList
     // Ability.PAS:1845
     public virtual bool RemoveAbility(int abilityId)
     {
-        bool result = AoWHSSet.Current.AbilityControl.GetAbility(abilityId).Remove(this);
+        bool result = GamePack.Current.AbilityControl.GetAbility(abilityId).Remove(this);
         if (result)
         {
             Changed();
@@ -228,7 +228,7 @@ public partial class AbilityOwner : CustomAbilityList
         types = GetAbilitySelectionTypes();
         for (int I = GetAbCount() - 1; I >= 0; I--)
         {
-            if (GetAbilitySetAt(I) && (AoWHSSet.Current.AbilityControl.GetAbility(I).SelectionTypes & types) == Set<AbilitySelectionType>.Of())
+            if (GetAbilitySetAt(I) && (GamePack.Current.AbilityControl.GetAbility(I).SelectionTypes & types) == Set<AbilitySelectionType>.Of())
             {
                 SetAbilitySet(I, 0);
             }
@@ -367,7 +367,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbEnabled(I))
             {
-                result = (sbyte)(result + AoWHSSet.Current.AbilityControl.GetAbility(I).GetAttack(this));
+                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(I).GetAttack(this));
             }
         }
 
@@ -382,7 +382,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbEnabled(I))
             {
-                result = (sbyte)(result + AoWHSSet.Current.AbilityControl.GetAbility(I).GetDefense(this));
+                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(I).GetDefense(this));
             }
         }
 
@@ -397,7 +397,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbEnabled(I))
             {
-                result = (sbyte)(result + AoWHSSet.Current.AbilityControl.GetAbility(I).GetResistance(this));
+                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(I).GetResistance(this));
             }
         }
 
@@ -412,7 +412,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbEnabled(I))
             {
-                result = (sbyte)(result + AoWHSSet.Current.AbilityControl.GetAbility(I).GetDamage(this));
+                result = (sbyte)(result + GamePack.Current.AbilityControl.GetAbility(I).GetDamage(this));
             }
         }
 
@@ -477,7 +477,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbEnabled(I))
             {
-                result = result & AoWHSSet.Current.AbilityControl.GetAbility(I).GetWallCombatFeatures(this);
+                result = result & GamePack.Current.AbilityControl.GetAbility(I).GetWallCombatFeatures(this);
             }
         }
 
@@ -587,7 +587,7 @@ public partial class AbilityOwner : CustomAbilityList
             {
                 if (GetAbilitySetAt(I))
                 {
-                    AoWHSSet.Current.AbilityControl.GetAbility(I).NewDay(this);
+                    GamePack.Current.AbilityControl.GetAbility(I).NewDay(this);
                 }
             }
         }
@@ -603,7 +603,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbilitySetAt(I))
             {
-                AoWHSSet.Current.AbilityControl.GetAbility(I).NewTurn(this, player);
+                GamePack.Current.AbilityControl.GetAbility(I).NewTurn(this, player);
             }
         }
     }
@@ -615,7 +615,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbilitySetAt(I))
             {
-                AoWHSSet.Current.AbilityControl.GetAbility(I).NewCombatTurn(combat, player);
+                GamePack.Current.AbilityControl.GetAbility(I).NewCombatTurn(combat, player);
             }
         }
     }
@@ -627,7 +627,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbilitySetAt(I))
             {
-                AoWHSSet.Current.AbilityControl.GetAbility(I).CombatDone(combat);
+                GamePack.Current.AbilityControl.GetAbility(I).CombatDone(combat);
             }
         }
     }
@@ -642,7 +642,7 @@ public partial class AbilityOwner : CustomAbilityList
         {
             if (GetAbilitySetAt(I))
             {
-                ability = AoWHSSet.Current.AbilityControl.GetAbility(I);
+                ability = GamePack.Current.AbilityControl.GetAbility(I);
                 name = ability.GetName(this);
                 if (!IsEmpty(name))
                 {

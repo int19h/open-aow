@@ -153,7 +153,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
                 var pathL = path[I];
                 var pathY = path[I];
                 var pathX = path[I];
-                AoWHSMap.Current.RetrieveBattleFieldInfo(pathX.X, pathY.Y, pathL.MapLevel, _battleFieldRadius, ref info);
+                StrategicMap.Current.RetrieveBattleFieldInfo(pathX.X, pathY.Y, pathL.MapLevel, _battleFieldRadius, ref info);
                 if (result < info.Strength)
                 {
                     result = info.Strength;
@@ -207,7 +207,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupTask
         _selector.MovePointTable = control.MovePointTable;
         _selector.TargetInfo.Player = control.Group.Player;
         _selector.TargetInfo.IndependentRelation = control.Group.IndependentRelation;
-        switch (AoWHSMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
+        switch (StrategicMap.Current.Players.GetPlayers(control.Group.Player).PlayerType)
         {
             case PlayerType.Cpu2:
                 _mode = _mode + Set<ModeElement>.Of(ModeElement.CalculateMovePathBfs);

@@ -1,5 +1,4 @@
 // Translated from AoWE.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Collections;
 
 using Aow.Game.Draw;
@@ -330,7 +329,7 @@ public partial class CombatPredictor : IDisposable
             FinishCombat();
         }
 
-        AoWHSMap.Current.AIExecutor.UseProcessTime(Work * 58);
+        StrategicMap.Current.AIExecutor.UseProcessTime(Work * 58);
         CombatResult result = (CombatResult)Result;
         Invalid = 0;
         return result;
@@ -496,13 +495,13 @@ public partial class CombatPredictor : IDisposable
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
         AddUnits(army.Army);
-        level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
+        level = StrategicMap.Current.MapContainer.GetMapLevel(L);
         var armyLocal = army.Army;
         player = (byte)armyLocal.Player;
         relation = (byte)armyLocal.IndependentRelation;
 
-        defender = (byte)((AoWMapField)level.GetField(X, Y)).GetPlayer();
-        defenderRelation = ((AoWMapField)level.GetField(X, Y)).GetIndependentRelation();
+        defender = (byte)level.GetField(X, Y).GetPlayer();
+        defenderRelation = level.GetField(X, Y).GetIndependentRelation();
         if (defender != 255)
         {
             message.MessageId = 4387;
@@ -561,9 +560,9 @@ public partial class CombatPredictor : IDisposable
         MapField field;
         MapFieldMessage message = default;
         HexNumberWalkData walk = default;
-        level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-        defender = (byte)((AoWMapField)level.GetField(X, Y)).GetPlayer();
-        defenderRelation = ((AoWMapField)level.GetField(X, Y)).GetIndependentRelation();
+        level = StrategicMap.Current.MapContainer.GetMapLevel(L);
+        defender = (byte)level.GetField(X, Y).GetPlayer();
+        defenderRelation = level.GetField(X, Y).GetIndependentRelation();
         if (defender != 255)
         {
             message.MessageId = 4387;

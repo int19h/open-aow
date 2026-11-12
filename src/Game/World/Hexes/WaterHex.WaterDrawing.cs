@@ -27,7 +27,7 @@ public partial class WaterHex
         pixelX = pixelX - pixelXSurface - 8;
         pixelY = pixelY - pixelYSurface;
         // { Original uses the shared engine settings and the Flood enchantment. }
-        if (GameTables.GameEngine.AnimationDetail != 0 && (((((AoWMapField)Owner).FieldFlags >> 16) & 255) != 0 || !((GameMap)Owner.Owner.Map).FogEnabled))
+        if (GameTables.GameEngine.AnimationDetail != 0 && (((Owner.FieldFlags >> 16) & 255) != 0 || !Owner.Owner.Map.FogEnabled))
         {
             _animationFrame = (sbyte)(_animationFrame + 1);
             if (_animationFrame >= 0)
@@ -36,9 +36,9 @@ public partial class WaterHex
                 if (_animationFrame == 0)
                 {
                     // { Original tests the Flood enchantment. }
-                    if (AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.Flood))
+                    if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.Flood))
                     {
-                        if (OpenSides == 0 && Random(300) == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                        if (OpenSides == 0 && Random(300) == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
                             _animationIndex = (byte)(Random(10) + 30);
                         }
@@ -56,7 +56,7 @@ public partial class WaterHex
                     }
                     else
                     {
-                        if (OpenSides == 0 && Random(700) == 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+                        if (OpenSides == 0 && Random(700) == 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
                         {
                             _animationIndex = (byte)(Random(10) + 30);
                         }

@@ -13,7 +13,7 @@
             "DelphiList\u00601.items": []
           },
           "CombatUnitSelectionControl._pathInvalid": {
-            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl\u002BPathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.CombatUnitSelectionControl+PathKind, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
             "Set\u00601.a": 0,
             "Set\u00601.b": 0,
             "Set\u00601.bounded": false,
@@ -443,7 +443,7 @@
             },
             "MoveControlSettings.Player": -1,
             "MoveControlSettings.ProcessedMapFields": {
-              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.AoWMapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "$type": "Aow.Rtl.DelphiList\u00601[[Aow.Game.World.Map.MapField, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
               "DelphiList\u00601.count": 0,
               "DelphiList\u00601.items": []
             },

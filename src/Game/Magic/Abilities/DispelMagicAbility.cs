@@ -190,7 +190,7 @@ public partial class DispelMagicAbility : TouchAbility
 
             info.SetUnitSelector(selector);
             selector.Release();
-            AoWHSMap.Current.OnActivateAbilityStore.Raise(info);
+            StrategicMap.Current.OnActivateAbilityStore.Raise(info);
             info.Release();
             result = true;
         }

@@ -26,12 +26,12 @@ public sealed class OwnershipUnionTests
     private static string Kind(GameEngineChild child) => child switch
     {
         EControlStyleNode => "control",
-        HSSet => "set",
-        HSMap => "map",
+        GamePack => "set",
+        GameMap => "map",
         null => "empty",
     };
 
-    private static string Kind(HSSetChild child) => child switch
+    private static string Kind(GamePackChild child) => child switch
     {
         EResourceList => "resources",
         MapObjectResourceTerrainControl => "terrain",
@@ -44,8 +44,8 @@ public sealed class OwnershipUnionTests
     {
         if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new GameEngine(null!);
-        var map = new HSMap(engine);
-        var set = new HSSet(null!);
+        var map = new GameMap(engine);
+        var set = new GamePack(null!);
         try
         {
             IChildSink<GameEngineChild> sink = engine;
@@ -93,26 +93,32 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void SetChildrenAreResourceListsTerrainControlsAndControlObjects()
     {
-        var set = new HSSet(null!);
+        var set = new GamePack(null!);
         var units = new UnitResourceList(null!);
         var stranger = new ENode(null!);
         var tokenEvent = new TokenEvent(null!);
         try
         {
-            // The set makes its hexagon and road controls, its map object resources and its edit
-            // settings in its constructor, in that order.
-            Assert.Equal(["terrain", "terrain", "resources", "control"], Enumerable.Range(0, set.Count).Select(index => Kind(set[index])));
+            // The engine part of the constructor makes the hexagon and road controls, the map object
+            // resources and the edit settings. The game part (issue 200 folded it into the same
+            // constructor) then makes the combat resources, hexagon and road controls, the pad
+            // control, the race resources, the flag control and the unit, unit graphics, hero, item
+            // graphics and face resources, in that order.
+            Assert.Equal(["terrain", "terrain", "resources", "control", "resources", "terrain", "terrain", "control", "resources", "control",
+                "resources", "resources", "resources", "resources", "resources"], Enumerable.Range(0, set.Count).Select(index => Kind(set[index])));
             Assert.IsType<HexControl>(set[0].Node);
             Assert.IsType<RoadControl>(set[1].Node);
             Assert.IsType<MapObjectResourceList>(set[2].Node);
             Assert.IsType<ResourceEditSettings>(set[3].Node);
-            IChildSink<HSSetChild> sink = set;
-            Assert.Equal(4, sink.AddChild(units));
-            Assert.Equal("resources", Kind(set[4]));
-            Assert.Same(units, set[4].Node);
+            Assert.Same(set.CombatResources, set[4].Node);
+            Assert.Same(set.FaceResources, set[14].Node);
+            IChildSink<GamePackChild> sink = set;
+            Assert.Equal(15, sink.AddChild(units));
+            Assert.Equal("resources", Kind(set[15]));
+            Assert.Same(units, set[15].Node);
             Assert.Throws<ArgumentException>(() => set.AddChild(stranger));
             Assert.Throws<ArgumentException>(() => set.AddChild(tokenEvent));
-            Assert.Equal(5, set.Count);
+            Assert.Equal(16, set.Count);
         }
         finally
         {
@@ -127,7 +133,7 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void MapPartsTakeTheirOwnTypeOfOwnerOnly()
     {
-        var map = new HSMap(null!);
+        var map = new GameMap(null!);
         var container = new MapContainer(map);
         var level = new MapLevel(container);
         var stranger = new ENode(null!);
@@ -164,7 +170,7 @@ public sealed class OwnershipUnionTests
     [Fact]
     public void SortedListAndSelectionTakeSpritesOnly()
     {
-        var map = new HSMap(null!);
+        var map = new GameMap(null!);
         var stranger = new ENode(null!);
         var first = new HexSprite(null!);
         var second = new HexSprite(null!);

@@ -24,9 +24,9 @@ public partial class Leader : Hero
     // Hero.PAS:2766
     public override void Dispose()
     {
-        if (AoWHSMap.Current != null && AoWHSMap.Current.Players.GetPlayers(Player) != null && this == AoWHSMap.Current.Players.GetPlayers(Player).Leader)
+        if (StrategicMap.Current != null && StrategicMap.Current.Players.GetPlayers(Player) != null && this == StrategicMap.Current.Players.GetPlayers(Player).Leader)
         {
-            AoWHSMap.Current.Players.GetPlayers(Player).SetLeader(null);
+            StrategicMap.Current.Players.GetPlayers(Player).SetLeader(null);
         }
 
         base.Dispose();
@@ -57,14 +57,14 @@ public partial class Leader : Hero
         base.MessageProc(ref message, sender);
         if (message.MessageId == 537001989)
         {
-            SetSpherePicksMax((byte)AoWHSMap.Current.SphereCount);
-            if (AoWHSMap.Current.Players.GetCount() > Player)
+            SetSpherePicksMax((byte)StrategicMap.Current.SphereCount);
+            if (StrategicMap.Current.Players.GetCount() > Player)
             {
                 // { reload FPlayer }
-                if (AoWHSMap.Current.Players.GetPlayers((sbyte)(byte)this.Player).PlayerRace != Race)
+                if (StrategicMap.Current.Players.GetPlayers((sbyte)(byte)this.Player).PlayerRace != Race)
                 {
-                    var players = AoWHSMap.Current.Players.GetPlayers(Player);
-                    SetHeroResourceIndex(AoWHSSet.Current.HeroResources.Find(players.PlayerRace, HeroType.HeroLeader));
+                    var players = StrategicMap.Current.Players.GetPlayers(Player);
+                    SetHeroResourceIndex(GamePack.Current.HeroResources.Find(players.PlayerRace, HeroType.HeroLeader));
                     Changed();
                 }
             }
@@ -79,9 +79,9 @@ public partial class Leader : Hero
     public override void Changed()
     {
         base.Changed();
-        if (AoWHSMap.Current != null && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
+        if (StrategicMap.Current != null && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Destroying))
         {
-            AoWHSMap.Current.OnLeaderChangedStore.Raise(this);
+            StrategicMap.Current.OnLeaderChangedStore.Raise(this);
         }
     }
 
@@ -131,7 +131,7 @@ public partial class Leader : Hero
         bool result = base.CanActivate();
         if (result)
         {
-            leader = AoWHSMap.Current.Players.GetPlayers(Player).Leader;
+            leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
             if (leader != null && !CompatibleHero(leader))
             {
                 result = false;
@@ -148,13 +148,13 @@ public partial class Leader : Hero
         LibraryId = -1;
         if (Player == 0)
         {
-            Player = (sbyte)AoWHSMap.Current.Players.RaceToPlayer(Race);
+            Player = (sbyte)StrategicMap.Current.Players.RaceToPlayer(Race);
         }
 
         base.Activate();
-        if (AoWHSMap.Current.Players.GetPlayers(Player) != null)
+        if (StrategicMap.Current.Players.GetPlayers(Player) != null)
         {
-            leader = AoWHSMap.Current.Players.GetPlayers(Player).Leader;
+            leader = StrategicMap.Current.Players.GetPlayers(Player).Leader;
             if (leader != this)
             {
                 if (leader != null && leader.Owner != null)
@@ -169,7 +169,7 @@ public partial class Leader : Hero
                 }
 
                 // { Original silently swallows this duplicate-leader exception. }
-                AoWHSMap.Current.Players.GetPlayers(Player).SetLeader(this);
+                StrategicMap.Current.Players.GetPlayers(Player).SetLeader(this);
                 Changed();
             }
             else
@@ -196,9 +196,9 @@ public partial class Leader : Hero
     // Hero.PAS:2915
     public override void Killed()
     {
-        if (UnitStatus.Contains(UnitStatusElement.Activated) && AoWHSMap.Current.Combat == null)
+        if (UnitStatus.Contains(UnitStatusElement.Activated) && StrategicMap.Current.Combat == null)
         {
-            AoWHSMap.Current.GameOver(Player, GameOverStatus.Lost);
+            StrategicMap.Current.GameOver(Player, GameOverStatus.Lost);
         }
 
         base.Killed();
@@ -208,9 +208,9 @@ public partial class Leader : Hero
     public override string GetNickname()
     {
         string result;
-        if (AoWHSMap.Current != null)
+        if (StrategicMap.Current != null)
         {
-            if (AoWHSMap.Current.GameType != GameType.Campaign)
+            if (StrategicMap.Current.GameType != GameType.Campaign)
             {
                 result = "";
             }
@@ -230,7 +230,7 @@ public partial class Leader : Hero
     // Hero.PAS:2795
     public override void SetNickname(string value)
     {
-        if (AoWHSMap.Current != null && AoWHSMap.Current.GameType == GameType.Campaign)
+        if (StrategicMap.Current != null && StrategicMap.Current.GameType == GameType.Campaign)
         {
             base.SetNickname(value);
         }
@@ -240,7 +240,7 @@ public partial class Leader : Hero
     public override void SetHeroResourceIndex(int value)
     {
         base.SetHeroResourceIndex(value);
-        if (HeroResource != null && AoWHSMap.Current != null && AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (HeroResource != null && StrategicMap.Current != null && StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             HeroName = HeroResource.Name;
         }

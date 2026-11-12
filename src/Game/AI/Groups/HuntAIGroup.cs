@@ -49,7 +49,7 @@ public partial class HuntAIGroup : AIGroup, IAIGroupClass
         while (I != 0)
         {
             I -= 1;
-            troop = AoWHSMap.Current.UnitControl.FindUnit(TargetUnitIds.List[I]);
+            troop = StrategicMap.Current.UnitControl.FindUnit(TargetUnitIds.List[I]);
             // { Original bug: each entry overwrites the result, including earlier matches. }
             result = troop != null && player == troop.Player;
         }

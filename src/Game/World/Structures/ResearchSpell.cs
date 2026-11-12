@@ -26,7 +26,7 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
             return AbilityRules.TranslateResourceString(GameTables.UnknownText);
         }
 
-        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        var unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.InstallFormat), [unitName]);
     }
 
@@ -38,14 +38,14 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
             return AbilityRules.TranslateResourceString(GameTables.UnknownText);
         }
 
-        var unitName = AoWHSSet.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
+        var unitName = GamePack.Current.UnitResources.GetUnitResource(production.UnitIndex).GetUnitName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(s_installingFormat), [unitName]);
     }
 
     public override bool CanExecute(ProductionControl control, ref string reason)
     {
         Waiting(control, ref reason);
-        var players = AoWHSMap.Current.Players.GetPlayers(control.GetPlayer());
+        var players = StrategicMap.Current.Players.GetPlayers(control.GetPlayer());
         if (control.UnitResearchGold(Index) <= players.Gems)
         {
             return true;

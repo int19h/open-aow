@@ -1,5 +1,4 @@
 // Translated from GlobalSpells.pas.
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
@@ -45,23 +44,23 @@ public partial class Crusade : Spell
         if (executeCount == 0)
         {
             source.GetLocation(ref X, ref Y, ref layer);
-            AoWHSMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
+            StrategicMap.Current.ValidateObservation(source.Player, X, Y, layer, 0);
             HexGeometry.HexToPixel(X, Y, ref pixelX, ref pixelY);
-            var worldEffectHexSprite = AoWHSMap.Current.AddEffect(WorldEffectType.Crusade);
+            var worldEffectHexSprite = StrategicMap.Current.AddEffect(WorldEffectType.Crusade);
             worldEffectHexSprite.X = pixelX + 16;
             worldEffectHexSprite.Y = pixelY + 16;
             worldEffectHexSprite.Layer = layer;
 
-            if (AoWHSMap.Current.Random(100) < 20)
+            if (StrategicMap.Current.Random(100) < 20)
             {
                 party = new ArmyHexSprite(null);
                 party.Army.SetPlayer(0);
                 count = 1;
-                unitIndex = AoWHSMap.Current.Random(1);
+                unitIndex = StrategicMap.Current.Random(1);
                 for (int J = 0; J <= count - 1; J++)
                 {
                     newUnit = new Unit(null);
-                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(LargeUnitResourceIds[unitIndex]));
+                    newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(LargeUnitResourceIds[unitIndex]));
                     newUnit.ExpandAbility(101);
                     party.Army.AddUnit(newUnit);
                     newUnit.Release();
@@ -78,12 +77,12 @@ public partial class Crusade : Spell
                 {
                     party = new ArmyHexSprite(null);
                     party.Army.SetPlayer(0);
-                    count = AoWHSMap.Current.Random(3) + 4;
+                    count = StrategicMap.Current.Random(3) + 4;
                     for (int J = 0; J <= count - 1; J++)
                     {
                         newUnit = new Unit(null);
-                        unitIndex = AoWHSMap.Current.Random(2);
-                        newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(FootUnitResourceIds[unitIndex]));
+                        unitIndex = StrategicMap.Current.Random(2);
+                        newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(FootUnitResourceIds[unitIndex]));
                         newUnit.ExpandAbility(101);
                         party.Army.AddUnit(newUnit);
                         newUnit.Release();
@@ -97,7 +96,7 @@ public partial class Crusade : Spell
 
                 party = new ArmyHexSprite(null);
                 party.Army.SetPlayer(0);
-                unitIndex = AoWHSMap.Current.Random(3);
+                unitIndex = StrategicMap.Current.Random(3);
                 count = 2;
                 if (unitIndex == 2)
                 {
@@ -107,7 +106,7 @@ public partial class Crusade : Spell
                 for (int J = 0; J <= count - 1; J++)
                 {
                     newUnit = new Unit(null);
-                    newUnit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(MountedUnitResourceIds[unitIndex]));
+                    newUnit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(MountedUnitResourceIds[unitIndex]));
                     newUnit.ExpandAbility(101);
                     party.Army.AddUnit(newUnit);
                     newUnit.Release();
@@ -119,8 +118,8 @@ public partial class Crusade : Spell
                 }
             }
 
-            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastingDone(source, BaseManaCost);
-            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            GamePack.Current.SpellControl.GetSpell(SpellId).CastingDone(source, BaseManaCost);
+            GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
 
         return false;
@@ -133,11 +132,11 @@ public partial class Crusade : Spell
         string reason = "";
         SpellTokenEvent eventValue;
         base.Activate(source);
-        if (CanActivate(source, ref reason) && !AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (CanActivate(source, ref reason) && !StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = new SpellTokenEvent(null);
             eventValue.Initialize(SpellId, (byte)source.Player, source.UnitId, BaseManaCost);
-            AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+            StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
             eventValue.Release();
             result = true;
         }
@@ -161,7 +160,7 @@ public partial class Crusade : Spell
         ImageSequenceAnimation animation;
         source.GetLocation(ref X, ref Y, ref layer);
         var radiusToHexNumber = HexGeometry.RadiusToHexNumber(5);
-        var random = AoWHSMap.Current.Random(radiusToHexNumber);
+        var random = StrategicMap.Current.Random(radiusToHexNumber);
         HexGeometry.CenterHexNumberToHex(X, Y, random, ref targetX, ref targetY);
         if (party.Place((sbyte)targetX, (sbyte)targetY, layer, Set<ArmyPlaceModeElement>.Of(ArmyPlaceModeElement.Safe, ArmyPlaceModeElement.ScanArea)))
         {
@@ -170,18 +169,18 @@ public partial class Crusade : Spell
             var hexLevel = party.GetHexLevel();
             var hexY = party.GetHexY();
             var hexX = party.GetHexX();
-            if (AoWHSMap.Current.Watching(hexX, hexY, hexLevel, 0))
+            if (StrategicMap.Current.Watching(hexX, hexY, hexLevel, 0))
             {
-                if (AoWHSSet.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0) != null)
+                if (GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0) != null)
                 {
                     // { Original uses Warp Party's images for Crusade parties. }
                     animation = new ImageSequenceAnimation(null);
-                    animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0));
+                    animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(34).CastImages.GetImageSequence(0));
                     animation.AnimationLevel = 28;
                     var partyHexLevel = party.GetHexLevel();
                     var partyHexY = party.GetHexY();
                     var partyHexX = party.GetHexX();
-                    AoWHSMap.Current.PlaceHex(animation, partyHexX, partyHexY, partyHexLevel);
+                    StrategicMap.Current.PlaceHex(animation, partyHexX, partyHexY, partyHexLevel);
                 }
             }
 

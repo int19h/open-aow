@@ -50,10 +50,10 @@ order of `DocumentKind.All`, and `GameFiles.KindForExtension` asks the kinds for
 
 | family | extension and kind | own extension | profile | engine table and root | 9.7 status |
 | --- | --- | --- | --- | --- | --- |
-| World saves | `.asg`, `save` | `.oasg` | `world-hsm` | game, `AoWHSMap`, HSM header, CFS or raw | Convert. The game writes JSON |
-| Custom maps | `.hsm`, `map` | `.ohsm` | `world-hsm` | game, `AoWHSMap`, HSM header, CFS or raw | Convert. The game has no map writer, since the editor is out of scope |
+| World saves | `.asg`, `save` | `.oasg` | `world-hsm` | game, `StrategicMap` (Delphi `TAoWHSMap`), HSM header, CFS or raw | Convert. The game writes JSON |
+| Custom maps | `.hsm`, `map` | `.ohsm` | `world-hsm` | game, `StrategicMap`, HSM header, CFS or raw | Convert. The game has no map writer, since the editor is out of scope |
 | Tactical maps | `.hsm` in `TCMaps`, `map` | `.ohsm` | `tactical-hsm` | tactical, `CombatMap`, HSM header, CFS or raw | Convert with tactical registration context |
-| Campaign maps | `.csm`, `campaign-map` | `.ocsm` | `world-hsm` | game, `AoWHSMap`, HSM header, CFS or raw | Convert |
+| Campaign maps | `.csm`, `campaign-map` | `.ocsm` | `world-hsm` | game, `StrategicMap`, HSM header, CFS or raw | Convert |
 | Campaign definitions | `.cam`, `campaign` | `.ocam` | `campaign` | campaign, `Campaign` (Delphi `TAoWCampaign`), stored object with class identity | Convert |
 | Campaign saves | `.acg`, `campaign-save` | `.oacg` | `campaign` | campaign, `Campaign`, with an optional embedded compressed HSM image | Convert. The game writes JSON |
 | Scenario sets | `.hss`, `scenario-set` | `.ohss` | `scenario-set` | game, `AoWHSSet` (Delphi `TAoWHSSet`), 52-byte HSS header, object body and trailing CRC-32 | Convert this file, not its external resources. `SaveHss` takes the profile and has no caller in the product |
@@ -203,7 +203,7 @@ What version 1 holds, and versions 2 and 3 keep: 970 classes, generated once by 
 `src/Game.Tests/EClassBaseline.json`, registration reachability and corpus order evidence, then
 hand-owned. `python -B tools/formats/schema-build/regenerate.py` reproduces it. A class records
 its name, class id, parent, the engine tables that enlist it (game, tactical, campaign) and,
-for three classes whose corpus order differs from inherited `ReadWrite` order (`AoWHSMap`,
+for three classes whose corpus order differs from inherited `ReadWrite` order (`StrategicMap`,
 `Hero` (Delphi `THero`), `Leader` (Delphi `TLeader`)), an explicit order. A property records its name, id, codec and, where they
 apply, its size, its object class or family, its callback payload, its dynamic id range and its
 slot base. A property renamed after documents were written lists its earlier names in
@@ -376,7 +376,7 @@ nonzero `$reserved` on `SetupPlayerBehavior` (Delphi `TSetupPlayerBehavior`) in 
 residue is 3142 parts in 61 files: `table-form-order` 3136, `gaps` 5, `header-extensions` 1.
 `tactical-hsm` holds 2999 parts in 52 files, because 52 of the 59 tactical maps store field
 sprites with nonsequential dynamic ids that 1.36 ignores on read. `world-hsm` holds 142 parts in
-8 files (the 7 prepared oracle inputs and one install map that writes `AoWHSMap` id 31 after
+8 files (the 7 prepared oracle inputs and one install map that writes `StrategicMap` id 31 after
 id 30), and `scenario-set` 1 part in its one file. The check expectation file pins these counts.
 
 ### 2.6 Versioning and code page
@@ -461,9 +461,9 @@ What runs in version 1. Structural validation is the strict image encoding of
 `GameFiles.ExportImage`: unknown members, classes and properties, incompatible families,
 duplicate slots, dimensions and row lengths, storage ranges and mistyped reserved members fail
 there. The game validators are `FormatMapping.Validators`, one `unit-content` validator over the
-rules that `ClassRegistry` registers in its third block: `AoWHSMap.CurrentPlayer` and
-`AoWHSMap.TurnOrder` name stored slots of the `player-slot` domain (`root.Players.Children`), a
-`AoWHSMap` needs its `MapContainer` child, and a `MapContainer` holds as many `MapLevel` (Delphi `TMapLevel`)
+rules that `ClassRegistry` registers in its third block: `StrategicMap.CurrentPlayer` and
+`StrategicMap.TurnOrder` name stored slots of the `player-slot` domain (`root.Players.Children`), a
+`StrategicMap` needs its `MapContainer` child, and a `MapContainer` holds as many `MapLevel` (Delphi `TMapLevel`)
 children as its `LevelCount`. A nested document, a campaign's `Map`, validates in its own scope.
 No other reference, ownership or content rule exists yet. `GameSwitchTests` load a shipped save
 edited eleven ways (removed referenced child, unknown and incompatible class, duplicate slot,
@@ -587,7 +587,7 @@ diff after game load/save. Canonical ordering makes real changes visible.
   and draws no random number or instance id. `ClassRegistryTests` checks every
   schema class requiring a unit mapping. In the code the item object itself carries
   `$case` and the case fields (2.3), and `FormatMapping.Register` in `ClassRegistry`'s third
-  block registers four classes: `AoWHSMap` and `MapContainer` with content rules,
+  block registers four classes: `StrategicMap` and `MapContainer` with content rules,
   `ProductionItem` and `DiplomaticAction` with their case units. The test checks that the
   registered classes are exactly `unitMappings` of `versions.json`, that every rule names
   members of its schema class, that no `flatMappings` class has a line, and that every class
@@ -745,7 +745,7 @@ The CRC forms run over the engine image, so an original and its own document giv
 `FileBoundary.ImageCrc32` serves the map CRCs of the multiplayer setup (`AoWSetup.cs`
 `ValidateMap` and `PickMap`), and the host sends the engine image of its map, so the client's
 CRC of the received stream agrees. `FileBoundary.ImageTailInt32` reads the stored CRC of
-`RELEASE.HSS` for `AoWHSSet.RetrieveHssCrc`. The PFS CRCs keep their original routines.
+`RELEASE.HSS` for `GamePack.RetrieveHssCrc`. The PFS CRCs keep their original routines.
 
 ### 4.2 User data and atomic replacement
 

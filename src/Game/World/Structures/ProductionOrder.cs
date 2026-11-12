@@ -110,8 +110,8 @@ public abstract partial record ProductionOrder
     // Changes the relation of City's race to the control's player by Change.
     protected static void ChangeRelation(ProductionControl control, City city, int change)
     {
-        var playerRelationValue = AoWHSMap.Current.Races.GetRace(city.Race).GetPlayerRelationValue(control.GetPlayer());
-        AoWHSMap.Current.Races.GetRace(city.Race).SetPlayerRelationValue(control.GetPlayer(), playerRelationValue + change);
+        var playerRelationValue = StrategicMap.Current.Races.GetRace(city.Race).GetPlayerRelationValue(control.GetPlayer());
+        StrategicMap.Current.Races.GetRace(city.Race).SetPlayerRelationValue(control.GetPlayer(), playerRelationValue + change);
     }
 
     // Adds Text at City to the logbook of the control's player.
@@ -123,14 +123,14 @@ public abstract partial record ProductionOrder
         var hexLevel = city.GetHexLevel();
         var hexY = city.GetHexY();
         eventValue.SetLocation(city.GetHexX(), hexY, hexLevel);
-        AoWHSMap.Current.Players.GetPlayers(eventValue._player).EventLogbook.AddEvent(eventValue);
+        StrategicMap.Current.Players.GetPlayers(eventValue._player).EventLogbook.AddEvent(eventValue);
         eventValue.Release();
     }
 
     // Charges the settings' costs to the settings' player.
     protected static void Pay(ProductionControl control)
     {
-        var player = AoWHSMap.Current.Players.GetPlayers(control.Settings.Player);
+        var player = StrategicMap.Current.Players.GetPlayers(control.Settings.Player);
         player.SetGems(player.Gems - control.Settings.Gold);
         player.MagicControl.SetMana(player.MagicControl.Mana - control.Settings.Mana);
     }

@@ -1,6 +1,5 @@
 // Translated from AoWE.pas.
 using System.Collections.Immutable;
-using Aow.Engine.Buffers;
 
 using Aow.Engine.Nodes;
 
@@ -116,53 +115,53 @@ public partial class HexSpriteMapKeyboard : EngineObject
                         switch (translatedKey)
                         {
                             case 79:
-                                AoWHSMap.Current.ShowIndependentMoves = !AoWHSMap.Current.ShowIndependentMoves;
-                                if (AoWHSMap.Current.ShowIndependentMoves)
+                                StrategicMap.Current.ShowIndependentMoves = !StrategicMap.Current.ShowIndependentMoves;
+                                if (StrategicMap.Current.ShowIndependentMoves)
                                 {
                                     var observeEnabled = AbilityRules.TranslateResourceString(s_observeEnabledText);
-                                    AoWHSMap.Current.ShowMessage(observeEnabled);
+                                    StrategicMap.Current.ShowMessage(observeEnabled);
                                 }
                                 else
                                 {
                                     var observeDisabled = AbilityRules.TranslateResourceString(s_observeDisabledText);
-                                    AoWHSMap.Current.ShowMessage(observeDisabled);
+                                    StrategicMap.Current.ShowMessage(observeDisabled);
                                 }
 
                                 break;
                             case 78:
                             case 188:
-                                AoWHSMap.Current.SelectNextArmy();
+                                StrategicMap.Current.SelectNextArmy();
                                 break;
                             case 80:
                             case 190:
-                                AoWHSMap.Current.SelectPreviousArmy();
+                                StrategicMap.Current.SelectPreviousArmy();
                                 break;
                             case 72:
-                                AoWHSMap.Current.SelectNextHero();
+                                StrategicMap.Current.SelectNextHero();
                                 break;
                             case 77:
-                                AoWHSMap.Current.SelectedArmy.ExecuteMove();
+                                StrategicMap.Current.SelectedArmy.ExecuteMove();
                                 break;
                             case 68:
-                                AoWHSMap.Current.SelectedArmy.TurnDone();
+                                StrategicMap.Current.SelectedArmy.TurnDone();
                                 break;
                             case 71:
-                                AoWHSMap.Current.SelectedArmy.ToggleGuard();
+                                StrategicMap.Current.SelectedArmy.ToggleGuard();
                                 break;
                             case 76:
-                                AoWHSMap.Current.CenterOnLeader(AoWHSMap.Current.SeatedPlayer, true, false);
+                                StrategicMap.Current.CenterOnLeader(StrategicMap.Current.SeatedPlayer, true, false);
                                 break;
                             case 67:
                                 if (!shift.Contains(ShiftState.Ctrl))
                                 {
-                                    AoWHSMap.Current.SelectedArmy.Center();
+                                    StrategicMap.Current.SelectedArmy.Center();
                                 }
 
                                 break;
                             case 82:
                                 if (GameTables.GameEngine.Debug)
                                 {
-                                    GameTables.GameEngine.OutputDebugString("Random Seed: " + IntToStr(AoWHSMap.Current.DefendersSeed));
+                                    GameTables.GameEngine.OutputDebugString("Random Seed: " + IntToStr(StrategicMap.Current.DefendersSeed));
                                 }
 
                                 break;
@@ -174,9 +173,9 @@ public partial class HexSpriteMapKeyboard : EngineObject
 
                                 break;
                             case 65:
-                                if (GameTables.GameEngine.Registry.GetDeveloper() && AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
+                                if (GameTables.GameEngine.Registry.GetDeveloper() && StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).PlayerType != PlayerType.Human)
                                 {
-                                    AoWHSMap.Current.AIExecutor.ActivatePlayer(AoWHSMap.Current.SeatedPlayer);
+                                    StrategicMap.Current.AIExecutor.ActivatePlayer(StrategicMap.Current.SeatedPlayer);
                                 }
 
                                 break;
@@ -184,7 +183,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
                                 if (GameTables.GameEngine.Debug)
                                 {
                                     var heapStatus = GetHeapStatus();
-                                    AoWHSMap.Current.ShowMessage("Allocated Memory: " + IntToStr(heapStatus.TotalAllocated));
+                                    StrategicMap.Current.ShowMessage("Allocated Memory: " + IntToStr(heapStatus.TotalAllocated));
                                 }
 
                                 break;
@@ -208,12 +207,12 @@ public partial class HexSpriteMapKeyboard : EngineObject
                         complete = CompareText(_cheatText, s_cheatNames[I]) == 0;
                     }
 
-                    if (complete && AoWHSMap.Current.SeatedPlayer != -1 && !AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).GetBusy())
+                    if (complete && StrategicMap.Current.SeatedPlayer != -1 && !StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).GetBusy())
                     {
                         cheat = new CheatTokenEvent(null);
-                        cheat.Player = AoWHSMap.Current.SeatedPlayer;
+                        cheat.Player = StrategicMap.Current.SeatedPlayer;
                         cheat.CheatId = I;
-                        AoWHSMap.Current.TokenManager.GetTokenControl(AoWHSMap.Current.SeatedPlayer).AddEvent(cheat);
+                        StrategicMap.Current.TokenManager.GetTokenControl(StrategicMap.Current.SeatedPlayer).AddEvent(cheat);
                         cheat.Release();
                         _cheatText = "";
                         Mode = HexSpriteMapKeyboardMode.Default;
@@ -231,7 +230,7 @@ public partial class HexSpriteMapKeyboard : EngineObject
             }
         }
 
-        if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && CompareText(ParamStr(1), "beatrix") == 0 && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Network && AoWHSMap.Current.ConnectionType != PlayerConnectionType.Email && !GameTables.GameEngine.Demo)
+        if (key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && CompareText(ParamStr(1), "beatrix") == 0 && StrategicMap.Current.ConnectionType != PlayerConnectionType.Network && StrategicMap.Current.ConnectionType != PlayerConnectionType.Email && !GameTables.GameEngine.Demo)
         {
             AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
             Mode = HexSpriteMapKeyboardMode.Cheat;

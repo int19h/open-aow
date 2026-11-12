@@ -49,18 +49,15 @@ public static class NameTable
         return TryMember(enumType, member, out var current) ? current : member;
     }
 
+    // The Delphi name of the type a stored name names: the first row of its current name, the name
+    // Delphi(type) gives. Folded classes (issue 200) and old stored names add rows with other
+    // Delphi names, and the first row stays the class's own Delphi name.
     public static string? DelphiName(string stored)
     {
         ArgumentNullException.ThrowIfNull(stored);
         var table = Current();
-        if (!table.TypeByStored.TryGetValue(stored, out var rows)) return null;
-        string? delphi = null;
-        foreach (var row in rows)
-        {
-            if (delphi is null) delphi = row.Delphi;
-            else if (delphi != row.Delphi) return null;
-        }
-        return delphi;
+        if (!table.TypeByStored.TryGetValue(stored, out var rows) || rows.Count == 0) return null;
+        return table.TypeByCurrent.TryGetValue(rows[0].Current, out var first) ? first.Delphi : rows[0].Delphi;
     }
 
     public static string? ResolveStored(string name)

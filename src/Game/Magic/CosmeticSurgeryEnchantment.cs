@@ -40,7 +40,7 @@ public partial class CosmeticSurgeryEnchantment : UnitEnchantment
     public override string GetName()
     {
         Troop source;
-        source = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        source = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         // { Original supplies an argument to the unformatted 'Cosmagic Surgery' text. }
         var name = source.GetName();
         return AbilityRules.Format(AbilityRules.TranslateResourceString(GameText.CosmeticSurgeryText), [name]);

@@ -35,9 +35,9 @@ public partial class WaterMastery : GlobalEnchantmentSpell
         base.ExecuteTokenEvent(eventValue, source, 0);
         source.GetLocation(ref X, ref Y, ref L);
         SpellTargets.NotifySpellSphere(source.Player, MagicSphere.Water);
-        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         CastSounds.Play(0);
-        AoWHSMap.Current.AddEffect(WorldEffectType.WaterMastery);
+        StrategicMap.Current.AddEffect(WorldEffectType.WaterMastery);
         CastingDone(source, BaseManaCost);
         return false;
     }

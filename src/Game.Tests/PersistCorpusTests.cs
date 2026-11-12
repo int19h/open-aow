@@ -51,15 +51,15 @@ public sealed class PersistCorpusTests
     private readonly ITestOutputHelper _output;
 
     // TArmy.Destroy notifies AoWHSMap unless that map is being destroyed. A blank instance has no map.
-    private static AoWHSMap? s_reaper;
+    private static StrategicMap? s_reaper;
 
     public PersistCorpusTests(ITestOutputHelper output) => this._output = output;
 
     [CorpusFact]
     public void CorpusInstancesMatchTheConverter()
     {
-        var previous = AoWHSMap.Current;
-        var map = new AoWHSMap(null!);
+        var previous = StrategicMap.Current;
+        var map = new StrategicMap(null!);
         map.Status = Set<HexSpriteMapStatusElement>.Of(HexSpriteMapStatusElement.Destroying);
         s_reaper = map;
         s_blocked.Clear();
@@ -120,7 +120,7 @@ public sealed class PersistCorpusTests
         finally
         {
             s_reaper = null;
-            AoWHSMap.Current = previous;
+            StrategicMap.Current = previous;
             map.Dispose();
         }
     }
@@ -174,7 +174,7 @@ public sealed class PersistCorpusTests
         }
         else if (prop.Codec is CampaignMapCodec && value is JsonObject map && map["root"] is JsonObject campaignRoot)
         {
-            var campaignClass = campaignRoot["$class"] is JsonString nestedName ? schema.Get(nestedName.Value) : schema.Get("AoWHSMap");
+            var campaignClass = campaignRoot["$class"] is JsonString nestedName ? schema.Get(nestedName.Value) : schema.Get("StrategicMap");
             Walk(campaignRoot, campaignClass, engine, file, schema, factory, counts);
         }
     }
@@ -319,15 +319,15 @@ public sealed class PersistCorpusTests
 
     private static void Release(EngineObject objectValue)
     {
-        var previous = AoWHSMap.Current;
-        AoWHSMap.Current = s_reaper;
+        var previous = StrategicMap.Current;
+        StrategicMap.Current = s_reaper;
         try
         {
             objectValue.Dispose();
         }
         finally
         {
-            AoWHSMap.Current = previous;
+            StrategicMap.Current = previous;
         }
     }
 

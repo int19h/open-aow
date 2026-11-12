@@ -20,15 +20,15 @@ public sealed class OwnExtensionWriteTests
 
     private static string Save(string name) => Path.Combine(EngineFixture.Root, "Save", name);
 
-    private void Run(Action<Game.GameEngine, AoWHSMap> action)
+    private void Run(Action<Game.GameEngine, StrategicMap> action)
     {
         Directory.CreateDirectory(Path.Combine(EngineFixture.Root, "Save"));
         Game.GameEngine engine = EngineFixture.Engine;
-        var map = new AoWHSMap(null!);
+        var map = new StrategicMap(null!);
         var previousMap = engine.HexSpriteMap;
         var previousLog = FileBoundary.Log;
         engine.SetHexSpriteMapWithoutCurrentMap(map);
-        AoWHSMap.Current = map;
+        StrategicMap.Current = map;
         FileBoundary.Log = _log.Add;
         try
         {
@@ -38,7 +38,7 @@ public sealed class OwnExtensionWriteTests
         {
             FileBoundary.Log = previousLog;
             engine.SetHexSpriteMapWithoutCurrentMap(previousMap);
-            AoWHSMap.Current = null!;
+            StrategicMap.Current = null!;
             foreach (var file in Directory.GetFiles(Path.Combine(EngineFixture.Root, "Save"))) File.Delete(file);
         }
     }

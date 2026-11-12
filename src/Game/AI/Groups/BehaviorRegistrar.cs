@@ -8,11 +8,11 @@ namespace Aow.Game.AI.Groups;
 public partial class BehaviorRegistrar
 {
     // BehaviorAG.pas:136
-    public static void MapLoaded(HSMap sender)
+    public static void MapLoaded(GameMap sender)
     {
-        if (sender == AoWHSMap.Current)
+        if (sender == StrategicMap.Current)
         {
-            AoWHSMap.Current.AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<DefenderAIGroup>(), AIGroupClass.Of<AggressorAIGroup>(), AIGroupClass.Of<ExpanderAIGroup>(), AIGroupClass.Of<ScorcherAIGroup>(), AIGroupClass.Of<NormalAIGroup>(), AIGroupClass.Of<SkirmishAIGroup>()]);
+            StrategicMap.Current.AIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<DefenderAIGroup>(), AIGroupClass.Of<AggressorAIGroup>(), AIGroupClass.Of<ExpanderAIGroup>(), AIGroupClass.Of<ScorcherAIGroup>(), AIGroupClass.Of<NormalAIGroup>(), AIGroupClass.Of<SkirmishAIGroup>()]);
         }
     }
 

@@ -56,18 +56,18 @@ public partial class HeroEmergeEventLog : EventLog
         }
         else
         {
-            hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+            hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
             if (hero != null)
             {
                 if (hero.Player == _player)
                 {
                     var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_alreadyJoinedFormat), [hero.HeroName]);
-                    AoWHSMap.Current.ShowWarning(format);
+                    StrategicMap.Current.ShowWarning(format);
                 }
                 else
                 {
                     var format = AbilityRules.Format(AbilityRules.TranslateResourceString(s_doesNotWantToJoinAnymoreFormat), [hero.HeroName]);
-                    AoWHSMap.Current.ShowWarning(format);
+                    StrategicMap.Current.ShowWarning(format);
                 }
             }
 
@@ -84,7 +84,7 @@ public partial class HeroEmergeEventLog : EventLog
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        U = AoWHSMap.Current.UnitControl.FindUnit(UnitId);
+        U = StrategicMap.Current.UnitControl.FindUnit(UnitId);
         if (U != null)
         {
             U.GetLocation(ref X, ref Y, ref L);
@@ -101,7 +101,7 @@ public partial class HeroEmergeEventLog : EventLog
         string name;
         _player = player;
         UnitId = hero.UnitId;
-        _day = AoWHSMap.Current.Day;
+        _day = StrategicMap.Current.Day;
         _mode = mode;
         name = hero.HeroName;
         if (!IsEmpty(hero.GetNickname()))
@@ -118,7 +118,7 @@ public partial class HeroEmergeEventLog : EventLog
     {
         HeroJoinEventLog result;
         Hero hero;
-        hero = AoWHSMap.Current.UnitControl.FindUnit<Hero>(UnitId);
+        hero = StrategicMap.Current.UnitControl.FindUnit<Hero>(UnitId);
         if (hero != null && hero.Player == 0 && hero.OfferToJoin(_player) && hero.Owner is not HeroList)
         {
             result = new HeroJoinEventLog(null);

@@ -42,14 +42,14 @@ public partial class GameOverEventLog : EventLog
     public override string GetText()
     {
         string result = "";
-        switch (AoWHSMap.Current.Players.GetPlayers(_player).GameOverStatus)
+        switch (StrategicMap.Current.Players.GetPlayers(_player).GameOverStatus)
         {
             case GameOverStatus.Lost:
-                var name = AoWHSMap.Current.Players.GetPlayers(_player).GetName();
+                var name = StrategicMap.Current.Players.GetPlayers(_player).GetName();
                 result = RtlUnit.Format(AbilityRules.TranslateResourceString(s_gameOverDefeatEventLogFormat), [name]);
                 break;
             case GameOverStatus.Won:
-                var name2 = AoWHSMap.Current.Players.GetPlayers(_player).GetName();
+                var name2 = StrategicMap.Current.Players.GetPlayers(_player).GetName();
                 result = RtlUnit.Format(AbilityRules.TranslateResourceString(s_gameOverVictoryEventLogFormat), [name2]);
                 break;
         }
@@ -64,9 +64,9 @@ public partial class GameOverEventLog : EventLog
         switch (trigger)
         {
             case ExecuteTrigger.User:
-                if (AoWHSMap.Current.SeatedPlayer != _player)
+                if (StrategicMap.Current.SeatedPlayer != _player)
                 {
-                    AoWHSMap.Current.TriggerExecuteEventLog(this, mode, done);
+                    StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
                     result = true;
                 }
                 else
@@ -76,11 +76,11 @@ public partial class GameOverEventLog : EventLog
 
                 break;
             case ExecuteTrigger.Event:
-                AoWHSMap.Current.TriggerExecuteEventLog(this, mode, done);
+                StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
                 result = true;
                 break;
             case ExecuteTrigger.NewTurn:
-                AoWHSMap.Current.TriggerExecuteEventLog(this, mode, done);
+                StrategicMap.Current.TriggerExecuteEventLog(this, mode, done);
                 result = true;
                 break;
             default:
@@ -94,7 +94,7 @@ public partial class GameOverEventLog : EventLog
     // EventLog.pas:791
     public void Handled()
     {
-        AoWHSMap.Current.GameOverEventHandled(_player);
+        StrategicMap.Current.GameOverEventHandled(_player);
     }
 
     private static readonly string s_gameOverDefeatEventLogFormat = "%s is defeated!";

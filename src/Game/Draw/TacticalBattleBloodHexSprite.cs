@@ -32,7 +32,7 @@ public partial class TacticalBattleBloodHexSprite : SingleHexSprite
         ImageSequence sequence;
         int X = default;
         int Y = default;
-        sequence = AoWHSSet.Current.ImageSequences.ImageSequences[4];
+        sequence = GamePack.Current.ImageSequences.ImageSequences[4];
         HexGeometry.HexToPixel(Owner.HexX, Owner.HexY, ref X, ref Y);
         if (sequence != null)
         {

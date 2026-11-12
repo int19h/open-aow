@@ -29,7 +29,7 @@ public partial class ControlWindow
         }
         PartyActionLabel1.Visible = PartyActionLabel2.Visible = false;
         var army = DialogHosts.General.UnitList;
-        bool readOnly = army.Player != AoWHSMap.Current.SeatedPlayer;
+        bool readOnly = army.Player != StrategicMap.Current.SeatedPlayer;
         if (army.Player == 0)
         {
             PartyMovesPanel.Visible = false;
@@ -56,7 +56,7 @@ public partial class ControlWindow
         {
             PartyMovesPanel.Visible = false;
             PartyInfoPanel.Visible = true;
-            PartyInfoLabel.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_partyOwnerFormat), [AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[AoWHSMap.Current.Players.GetPlayers(army.Player).PlayerRace])]);
+            PartyInfoLabel.Text = AbilityRules.Format(AbilityRules.TranslateResourceString(s_partyOwnerFormat), [AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[StrategicMap.Current.Players.GetPlayers(army.Player).PlayerRace])]);
             PartyControlPanel.Visible = false;
         }
         else

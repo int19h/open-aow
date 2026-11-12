@@ -49,13 +49,13 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
     }
 
     // CombatTE.pas:209
-    public override AoWMapField GetMapField(MapCoordinate location) => (AoWMapField)CombatMap.Current.MapContainer.GetField(location.X, location.Y, 0);
+    public override MapField GetMapField(MapCoordinate location) => CombatMap.Current.MapContainer.GetField(location.X, location.Y, 0);
 
     // CombatTE.pas:234
     public override bool Validate()
     {
         bool result;
-        AoWMapField mapField;
+        MapField mapField;
         int index;
         TacticalBattleUnitHexSprite hexSprite;
         base.Validate();
@@ -79,7 +79,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
     // CombatTE.pas:299
     public override MoveStatus DefaultMove()
     {
-        AoWMapField mapField;
+        MapField mapField;
         int direction;
         int X = default;
         int Y = default;
@@ -91,7 +91,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
             TacticalBattleUnitHexSprite hexSprite = default;
             if (Unit.GetEnabled() && _freeStrikeUnit == null)
             {
-                mapField = (AoWMapField)Unit.UnitHexSprite.Owner;
+                mapField = Unit.UnitHexSprite.Owner;
                 hexNumber = _neighbour + 1;
                 while (hexNumber <= 6)
                 {
@@ -165,7 +165,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                         {
                             if (_freeStrikeUnit.UnitHexSprite.ActionDone)
                             {
-                                RandSeed = AoWHSMap.Current.Random(16777215);
+                                RandSeed = StrategicMap.Current.Random(16777215);
                                 Strike = CombatObject.CreateStrikeCombatAction(_freeStrikeUnit, Unit, true);
                                 if (Strike.Damage == 0)
                                 {
@@ -308,7 +308,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                             {
                                 var hexY = Unit.UnitHexSprite.HexY;
                                 var hexX = Unit.UnitHexSprite.HexX;
-                                notExplorationEnabled = ((AoWMapField)CombatMap.Current.MapContainer.GetField(hexX, hexY, 0)).GetExplored(CombatMap.Current.SeatedPlayer);
+                                notExplorationEnabled = CombatMap.Current.MapContainer.GetField(hexX, hexY, 0).GetExplored(CombatMap.Current.SeatedPlayer);
                             }
 
                             if (notExplorationEnabled)
@@ -404,11 +404,11 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
     public MoveStatus ExecuteDefaultMove()
     {
         MoveStatus result;
-        AoWMapField newField;
-        AoWMapField oldField;
+        MapField newField;
+        MapField oldField;
         Rect R;
         Move();
-        oldField = (AoWMapField)Unit.UnitHexSprite.Owner;
+        oldField = Unit.UnitHexSprite.Owner;
         newField = GetMapField(Path[MoveIndex]);
         Unit.UnitHexSprite.MoveTo(newField, 0);
         if (newField.FindChildIndex(Unit.UnitHexSprite) != -1)
@@ -454,7 +454,7 @@ public partial class CombatMoveTokenEvent : MoveTokenEvent
                 }
 
                 var fUnitPlayer = Unit.GetPlayer();
-                if (AoWHSMap.Current.Players.GetPlayers(fUnitPlayer).PlayerType != PlayerType.Human || CombatMap.Current.Players.GetPlayers(Unit.CombatPlayer).Auto)
+                if (StrategicMap.Current.Players.GetPlayers(fUnitPlayer).PlayerType != PlayerType.Human || CombatMap.Current.Players.GetPlayers(Unit.CombatPlayer).Auto)
                 {
                     Unit.MovePoints = 0;
                 }

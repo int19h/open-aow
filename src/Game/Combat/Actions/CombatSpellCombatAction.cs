@@ -38,7 +38,7 @@ public partial class CombatSpellCombatAction : DamageCombatAction
         if (ManaCost != 0 && combat.Status.Contains(CombatStatusElement.Executing))
         {
             source = combat.CombatData.FindId(SourceId);
-            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, ManaCost);
+            GamePack.Current.SpellControl.GetSpell(SpellId).CombatCastingDone(source, ManaCost);
         }
     }
 
@@ -47,7 +47,7 @@ public partial class CombatSpellCombatAction : DamageCombatAction
     {
         if (viewer.Time == 0)
         {
-            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
 
         if (viewer.Delay == viewer.Time)
@@ -64,14 +64,14 @@ public partial class CombatSpellCombatAction : DamageCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+            var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
             GameTables.GameEngine.CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
         }
         else
         {
             if (objectValue.Id == TargetId)
             {
-                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
+                GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
             }
         }
     }
@@ -83,14 +83,14 @@ public partial class CombatSpellCombatAction : DamageCombatAction
         base.ShowObject(viewer, objectValue, frame, direction, X, Y, surface);
         if (objectValue.Id == SourceId)
         {
-            var spell = AoWHSSet.Current.SpellControl.GetSpell(SpellId);
+            var spell = GamePack.Current.SpellControl.GetSpell(SpellId);
             GameTables.GameEngine.CombatFont.SetTextCentered(X + 32, Y + 32 + 8, spell.SpellName, surface);
         }
         else
         {
             if (objectValue.Id == TargetId)
             {
-                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
+                GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.Show(11, X + 32, Y + 32, viewer.Time, surface);
             }
         }
     }

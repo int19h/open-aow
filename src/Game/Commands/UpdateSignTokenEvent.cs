@@ -53,12 +53,12 @@ public partial class UpdateSignTokenEvent : TokenEvent
     {
         ExecuteResult result;
         Sign sign;
-        sign = (Sign)AoWHSMap.Current.MapContainer.GetField(HexX, HexY, HexLevel).FindOwnedChild(131330);
+        sign = (Sign)StrategicMap.Current.MapContainer.GetField(HexX, HexY, HexLevel).FindOwnedChild(131330);
         if (sign != null)
         {
             sign.SetText(Text);
             sign.TextSeen.Clear();
-            sign.TextSeen[AoWHSMap.Current.CurrentPlayer] = true;
+            sign.TextSeen[StrategicMap.Current.CurrentPlayer] = true;
             result = ExecuteResult.Done;
         }
         else

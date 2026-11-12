@@ -38,15 +38,15 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
         TwinkleAnimation twinkle = default;
         base.ExecuteTokenEvent(eventValue, source, executeCount);
         source.GetLocation(ref X, ref Y, ref L);
-        AoWHSMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
+        StrategicMap.Current.ValidateObservation(source.Player, X, Y, L, 0);
         animation = new Animation(null);
         animation.AnimationLevel = 27;
         animation.OnShow = ShowAnimation;
-        animation.AnimationMap = AoWHSMap.Current;
+        animation.AnimationMap = StrategicMap.Current;
         animation.Activate();
         twinkle = new TwinkleAnimation(null);
-        twinkle.Setup(AoWHSSet.Current.SpellControl.GetSpell(44).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
-        AoWHSMap.Current.PlaceHex(twinkle, X, Y, L);
+        twinkle.Setup(GamePack.Current.SpellControl.GetSpell(44).CastImages.ImageSequences[0], Set<TwinkleModeElement>.Of(TwinkleModeElement.Rotate), 50, 64, 50, 30);
+        StrategicMap.Current.PlaceHex(twinkle, X, Y, L);
         CastSounds.Play(0);
         CastingDone(source, eventValue.EventMana);
         return false;
@@ -57,7 +57,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
 
     public void ShowAnimation(Animation animation, int pixelXSurface, int pixelYSurface, in LockedSurface surface)
     {
-        var map = AoWHSMap.Current;
+        var map = StrategicMap.Current;
         var level = map.MapContainer.GetMapLevel(map.ViewL);
         int maxX = map.ViewHexX + map.ViewWidthHex - 1, maxY = map.ViewHexY + map.ViewHeightHex - 1;
         for (int x = map.ViewHexX; x <= maxX; x++)
@@ -68,7 +68,7 @@ public partial class EnchantedRoads : GlobalEnchantmentSpell
             pixelY = pixelY - pixelYSurface + 16;
             for (int y = map.ViewHexY; y <= maxY; y++, pixelY += 32)
             {
-                var field = (AoWMapField)level.GetField(x, y);
+                var field = level.GetField(x, y);
                 if (field.OverlayType == 4 && map.SeatedPlayer != -1 && field.GetExplored(map.SeatedPlayer))
                     CastImages.Show(0, pixelX, pixelY, animation.FrameCounter - ((field.HexX + field.HexY * 8 + ((field.FieldFlags >> 16) & 255)) & 15), surface);
             }

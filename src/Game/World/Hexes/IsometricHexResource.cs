@@ -31,7 +31,7 @@ public partial class IsometricHexResource : AbstractHexagonResource
     }
 
     // IsoHex.pas:273
-    public override MapObject PlaceResourceUser(HSMap map, sbyte hexX, sbyte hexY, sbyte hexLevel)
+    public override MapObject PlaceResourceUser(GameMap map, sbyte hexX, sbyte hexY, sbyte hexLevel)
     {
         MapField mapField;
         mapField = map.MapContainer.GetField(hexX, hexY, hexLevel);

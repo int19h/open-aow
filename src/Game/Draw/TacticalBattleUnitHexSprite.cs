@@ -1,7 +1,6 @@
 // Translated from AoWTC.pas.
 using System.Runtime.CompilerServices;
 
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -66,12 +65,12 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4364)
         {
-            if (message.HexNumber == 0 && (!CombatMap.Current.FogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FieldFlags).Hi).Lo != 0))
+            if (message.HexNumber == 0 && (!CombatMap.Current.FogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Owner.FieldFlags).Hi).Lo != 0))
             {
                 if (Unit.GetPlayer() != 0)
                 {
                     var player = Unit.GetPlayer();
-                    var playerPlayerRace = AoWHSMap.Current.Players.GetPlayers(player);
+                    var playerPlayerRace = StrategicMap.Current.Players.GetPlayers(player);
                     message.Param[0] = message.Param[0].Int | (playerPlayerRace.PlayerRace + 1);
                 }
                 else
@@ -91,8 +90,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             {
                 if (message.MessageId == 200704 && message.HexNumber == 0)
                 {
-                    RandSeed = AoWHSMap.Current.Random(16777215);
-                    selfDestruct = ((SelfDestructAbility)AoWHSSet.Current.AbilityControl.GetAbility(65)).CreateSelfDestructCombatAction(message.Param[0].As<CombatObject>(), Unit);
+                    RandSeed = StrategicMap.Current.Random(16777215);
+                    selfDestruct = ((SelfDestructAbility)GamePack.Current.AbilityControl.GetAbility(65)).CreateSelfDestructCombatAction(message.Param[0].As<CombatObject>(), Unit);
                     if (selfDestruct.Damage > 0)
                     {
                         SetAction(SpriteAction.Hit);
@@ -105,8 +104,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 {
                     if (message.MessageId == 200707 && message.HexNumber == 0)
                     {
-                        RandSeed = AoWHSMap.Current.Random(16777215);
-                        spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(117).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                        RandSeed = StrategicMap.Current.Random(16777215);
+                        spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(117).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                         if (spellDamage.Damage > 0)
                         {
                             SetAction(SpriteAction.Hit);
@@ -119,8 +118,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                     {
                         if (message.MessageId == 200715 && message.HexNumber == 0)
                         {
-                            RandSeed = AoWHSMap.Current.Random(16777215);
-                            spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(113).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                            RandSeed = StrategicMap.Current.Random(16777215);
+                            spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(113).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                             if (spellDamage.Damage > 0)
                             {
                                 SetAction(SpriteAction.Hit);
@@ -133,8 +132,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                         {
                             if (message.MessageId == 200714 && message.HexNumber == 0)
                             {
-                                RandSeed = AoWHSMap.Current.Random(16777215);
-                                rangedDamage = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(31)).CreateRangedAttackCombatAction(message.Param[0].As<CombatObject>(), Unit, 0);
+                                RandSeed = StrategicMap.Current.Random(16777215);
+                                rangedDamage = ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(31)).CreateRangedAttackCombatAction(message.Param[0].As<CombatObject>(), Unit, 0);
                                 if (rangedDamage.Damage > 0)
                                 {
                                     SetAction(SpriteAction.Hit);
@@ -147,8 +146,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                             {
                                 if (message.MessageId == 200723 && message.HexNumber == 0)
                                 {
-                                    RandSeed = AoWHSMap.Current.Random(16777215);
-                                    spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(message.Param[1].Int).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                    RandSeed = StrategicMap.Current.Random(16777215);
+                                    spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(message.Param[1].Int).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                                     if (spellDamage.Damage > 0)
                                     {
                                         SetAction(SpriteAction.Hit);
@@ -161,8 +160,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                 {
                                     if (message.MessageId == 200722 && message.HexNumber == 0)
                                     {
-                                        RandSeed = AoWHSMap.Current.Random(16777215);
-                                        rangedDamage = ((RangedAttackAbility)AoWHSSet.Current.AbilityControl.GetAbility(message.Param[1].Int)).CreateRangedAttackCombatAction(message.Param[0].As<CombatObject>(), Unit, 0);
+                                        RandSeed = StrategicMap.Current.Random(16777215);
+                                        rangedDamage = ((RangedAttackAbility)GamePack.Current.AbilityControl.GetAbility(message.Param[1].Int)).CreateRangedAttackCombatAction(message.Param[0].As<CombatObject>(), Unit, 0);
                                         if (rangedDamage.Damage > 0)
                                         {
                                             SetAction(SpriteAction.Hit);
@@ -175,8 +174,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                     {
                                         if (message.MessageId == 200709 && message.HexNumber == 0)
                                         {
-                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                            spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(104).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                            spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(104).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                                             if (spellDamage.Damage > 0)
                                             {
                                                 SetAction(SpriteAction.Hit);
@@ -189,8 +188,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                         {
                                             if (message.MessageId == 200716 && message.HexNumber == 0)
                                             {
-                                                RandSeed = AoWHSMap.Current.Random(16777215);
-                                                spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(120).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                RandSeed = StrategicMap.Current.Random(16777215);
+                                                spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(120).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                                                 if (spellDamage.Damage > 0)
                                                 {
                                                     SetAction(SpriteAction.Hit);
@@ -203,8 +202,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                             {
                                                 if (message.MessageId == 200710 && message.HexNumber == 0)
                                                 {
-                                                    RandSeed = AoWHSMap.Current.Random(16777215);
-                                                    spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(116).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                    RandSeed = StrategicMap.Current.Random(16777215);
+                                                    spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(116).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                                                     if (spellDamage.Damage > 0)
                                                     {
                                                         SetAction(SpriteAction.Hit);
@@ -217,8 +216,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                 {
                                                     if (message.MessageId == 200717 && message.HexNumber == 0)
                                                     {
-                                                        RandSeed = AoWHSMap.Current.Random(16777215);
-                                                        spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(127).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                        RandSeed = StrategicMap.Current.Random(16777215);
+                                                        spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(127).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                                                         if (spellDamage.Damage > 0)
                                                         {
                                                             SetAction(SpriteAction.Hit);
@@ -231,8 +230,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                     {
                                                         if (message.MessageId == 200718 && message.HexNumber == 0)
                                                         {
-                                                            RandSeed = AoWHSMap.Current.Random(16777215);
-                                                            spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(128).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                            RandSeed = StrategicMap.Current.Random(16777215);
+                                                            spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(128).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                                                             if (spellDamage.Damage > 0)
                                                             {
                                                                 SetAction(SpriteAction.Hit);
@@ -271,8 +270,8 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                                                                         {
                                                                             if (!Unit.Troop.GetMoveTypes().Contains(MoveType.Flying) && Owner.TerrainType != 0 && Owner.TerrainType != 9)
                                                                             {
-                                                                                RandSeed = AoWHSMap.Current.Random(16777215);
-                                                                                spellDamage = (DamageCombatAction)AoWHSSet.Current.SpellControl.GetSpell(112).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
+                                                                                RandSeed = StrategicMap.Current.Random(16777215);
+                                                                                spellDamage = (DamageCombatAction)GamePack.Current.SpellControl.GetSpell(112).CreateCombatAction(message.Param[0].As<CombatObject>(), Unit, false);
                                                                                 if (spellDamage.Damage > 0)
                                                                                 {
                                                                                     SetAction(SpriteAction.Hit);
@@ -359,13 +358,13 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 return;
             }
 
-            AoWHSSet.Current.AbilityControl.GetAbility(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility).GetCombatInfo(((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Troop, ref abilityInfo);
+            GamePack.Current.AbilityControl.GetAbility(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility).GetCombatInfo(((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Troop, ref abilityInfo);
             if (abilityInfo.TargetTypes.Contains(CombatTargetTypeElement.Friend) && Unit.GetSide() == ((CombatMoveControl)info.Sender).UnitHexSprite.Unit.GetSide())
             {
                 goto Touch;
             }
 
-            AoWHSSet.Current.AbilityControl.GetAbility(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility).GetCombatInfo(((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Troop, ref enemyInfo);
+            GamePack.Current.AbilityControl.GetAbility(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility).GetCombatInfo(((CombatMoveControl)info.Sender).UnitHexSprite.Unit.Troop, ref enemyInfo);
             if (!enemyInfo.TargetTypes.Contains(CombatTargetTypeElement.Enemy))
             {
                 return;
@@ -377,7 +376,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             }
 
         Touch:
-            if (((TouchAbility)AoWHSSet.Current.AbilityControl.GetAbility(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility)).CanTouch(((CombatMoveControl)info.Sender).UnitHexSprite.Unit, Unit))
+            if (((TouchAbility)GamePack.Current.AbilityControl.GetAbility(((CombatMoveControl)info.Sender).UnitHexSprite.SelectedAbility)).CanTouch(((CombatMoveControl)info.Sender).UnitHexSprite.Unit, Unit))
             {
                 moveResult.Code = 0;
             }
@@ -488,13 +487,13 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
     {
         if (info.HexNumber == 0)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16384 | 8192 | 33554432;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 16384 | 8192 | 33554432;
         }
         else
         {
             if (info.HexNumber <= 6)
             {
-                ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 16384;
+                info.MapField.FieldFlags = info.MapField.FieldFlags | 16384;
             }
         }
     }
@@ -572,13 +571,13 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         TacticalBattleMeleeMoveTokenEvent tokenEvent;
         bool result = false;
         var player = Unit.GetPlayer();
-        if (AoWHSMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
+        if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 1)
         {
             tokenEvent = CreateTacticalBattleMeleeMoveTokenEvent(Unit, path);
             if (tokenEvent != null)
             {
                 var fUnitPlayer = Unit.GetPlayer();
-                AoWHSMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
+                StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
                 tokenEvent.Release();
                 result = true;
             }
@@ -612,7 +611,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 {
                     if (Unit.Troop.GetMoves() == Unit.MovePoints)
                     {
-                        AoWHSSet.Current.AbilityControl.GetAbility(abilityId).ActivateCombat(Unit.Troop, ref reason);
+                        GamePack.Current.AbilityControl.GetAbility(abilityId).ActivateCombat(Unit.Troop, ref reason);
                         SelectedSpell = -1;
                         SelectedAbility = abilityId;
                         result = index;
@@ -620,18 +619,18 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 }
                 else
                 {
-                    var combatMode = AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop);
+                    var combatMode = GamePack.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop);
                     if (Set<CombatMode>.Of(CombatMode.ShortRange, CombatMode.MediumRange, CombatMode.LongRange).Contains(combatMode))
                     {
                         if (Unit.Troop.GetMoves() == Unit.MovePoints)
                         {
-                            if (AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop) == CombatMode.ShortRange)
+                            if (GamePack.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop) == CombatMode.ShortRange)
                             {
                                 CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = 4;
                             }
                             else
                             {
-                                if (AoWHSSet.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop) == CombatMode.MediumRange)
+                                if (GamePack.Current.AbilityControl.GetAbility(abilityId).GetCombatMode(Unit.Troop) == CombatMode.MediumRange)
                                 {
                                     CombatMap.Current.UnitSelection.RangedPathHexSprite.Range = 8;
                                 }
@@ -674,7 +673,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         SpellCombatInfo info = default;
         CombatMap.Current.UnitSelection.DeactivateRangedPath();
         SelectedSpell = spellId;
-        AoWHSSet.Current.SpellControl.GetSpell(SelectedSpell).GetCombatInfo(Unit.Troop, ref info);
+        GamePack.Current.SpellControl.GetSpell(SelectedSpell).GetCombatInfo(Unit.Troop, ref info);
         if (info.Range != 0)
         {
             if (info.Range == -1)
@@ -733,7 +732,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
             {
                 ability = new CombatAbilityRef();
                 ability.Ability = I;
-                if (AoWHSSet.Current.AbilityControl.GetAbility(I).GetControlType(Unit.Troop).Contains(AbilityControlTypeElement.CombatAction) && AoWHSSet.Current.AbilityControl.GetAbility(I).GetCombatMode(Unit.Troop) != CombatMode.Melee)
+                if (GamePack.Current.AbilityControl.GetAbility(I).GetControlType(Unit.Troop).Contains(AbilityControlTypeElement.CombatAction) && GamePack.Current.AbilityControl.GetAbility(I).GetCombatMode(Unit.Troop) != CombatMode.Melee)
                 {
                     Abilities.Insert(CombatAbilityCount, ability);
                     CombatAbilityCount += 1;
@@ -763,18 +762,18 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         for (int I = 0, last = Abilities.Count - 1; I <= last; I++)
         {
             var ability = Abilities[I];
-            names.AddObject(AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetName(Unit.Troop), IntToObject((Abilities[I]).Ability));
+            names.AddObject(GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetName(Unit.Troop), IntToObject((Abilities[I]).Ability));
             if (types != null)
             {
                 var ability2 = Abilities[I];
-                var abilityType = AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetAbilityType();
+                var abilityType = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetAbilityType();
                 types.Add(AbilityRules.TranslateResourceString(GameTables.AbilityTypeTexts[(int)abilityType]));
             }
 
             if (sources != null)
             {
                 var ability2 = Abilities[I];
-                sources.Add(AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetSourceName(Unit.Troop));
+                sources.Add(GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability2).Ability).GetSourceName(Unit.Troop));
             }
         }
     }
@@ -812,7 +811,7 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         AbilityCombatInfo buffer = default;
         bool result = false;
         var player = Unit.GetPlayer();
-        if (AoWHSMap.Current.TokenManager.PlayerReady(player) && path.Count > 0)
+        if (StrategicMap.Current.TokenManager.PlayerReady(player) && path.Count > 0)
         {
             if (path.Count > 1)
             {
@@ -820,14 +819,14 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
                 if (tokenEvent != null)
                 {
                     var fUnitPlayer = Unit.GetPlayer();
-                    AoWHSMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
+                    StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
                     tokenEvent.Release();
                     result = true;
                 }
             }
             else
             {
-                AoWHSSet.Current.AbilityControl.GetAbility(SelectedAbility).GetCombatInfo(Unit.Troop, ref buffer);
+                GamePack.Current.AbilityControl.GetAbility(SelectedAbility).GetCombatInfo(Unit.Troop, ref buffer);
                 if (buffer.TargetTypes.Contains(CombatTargetTypeElement.Friend))
                 {
                     var pathLocal = path[0];
@@ -845,13 +844,13 @@ public partial class TacticalBattleUnitHexSprite : UnitHexSprite
         CombatAbilityRangedTokenEvent tokenEvent;
         bool result = false;
         var player = Unit.GetPlayer();
-        if (AoWHSMap.Current.TokenManager.PlayerReady(player))
+        if (StrategicMap.Current.TokenManager.PlayerReady(player))
         {
             tokenEvent = CreateTacticalBattleAbilityRangedTokenEvent(Unit, X, Y, SelectedAbility, SelectedSpell);
             if (tokenEvent != null)
             {
                 var fUnitPlayer = Unit.GetPlayer();
-                AoWHSMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
+                StrategicMap.Current.TokenManager.GetTokenControl(fUnitPlayer).AddEvent(tokenEvent);
                 tokenEvent.Release();
                 result = true;
             }

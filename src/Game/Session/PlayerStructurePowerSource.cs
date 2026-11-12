@@ -31,7 +31,7 @@ public partial class PlayerStructurePowerSource : PowerSource
     // Structur.PAS:2526
     public override void Select()
     {
-        AoWHSMap.Current.Select(_structure, true);
+        StrategicMap.Current.Select(_structure, true);
     }
 
     // Structur.PAS:2504

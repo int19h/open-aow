@@ -1,4 +1,4 @@
-using Aow.Engine.Buffers;
+
 using Aow.Formats;
 using Aow.Game.Draw.Images;
 using Aow.Game.Magic.Abilities;
@@ -8,7 +8,6 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -227,12 +226,12 @@ public partial class FactionSelectionWindow : DataModule
             case 0:
                 LoadWorldCampaign(DialogHosts.WorldMap, "Keepers.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 10;
-                AoWHSSet.Current.TextControl.RetrieveText(10, (StringCollection)(object)value);
+                GamePack.Current.TextControl.RetrieveText(10, (StringCollection)(object)value);
                 break;
             case 1:
                 LoadWorldCampaign(DialogHosts.WorldMap, "Storm.cam");
                 dialog.CharacterGenerationPanel.ImageLibraryIndexTexture = 11;
-                AoWHSSet.Current.TextControl.RetrieveText(11, (StringCollection)(object)value);
+                GamePack.Current.TextControl.RetrieveText(11, (StringCollection)(object)value);
                 break;
         }
         ParseFontText(((StringCollection)value).Text, (StringCollection)(object)dialog.ScrollText, DialogHosts.UIFonts.Age15WhiteOnGrey, 300);
@@ -240,7 +239,7 @@ public partial class FactionSelectionWindow : DataModule
         int id = WorldMapCampaign.GetCampaignScenario(campaign, 0).Paths[0];
         int index = campaign.Scenarios.IndexOfId(id);
         WorldMapCampaignScenario campaignScenario = WorldMapCampaign.GetCampaignScenario(DialogHosts.WorldMap.GetCampaign(), index);
-        AoWHSMap hexSpriteMap = (AoWHSMap)GameTables.GameEngine.CreatePreviewHsm(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FileName), GameProfile.WorldMap);
+        StrategicMap hexSpriteMap = (StrategicMap)GameTables.GameEngine.CreatePreviewHsm(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FileName), GameProfile.WorldMap);
         int i;
         for (i = 0; i < hexSpriteMap.Count && hexSpriteMap.Players.GetPlayers(i).PlayerType != PlayerType.Human; i++)
         {

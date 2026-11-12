@@ -131,7 +131,7 @@ public partial class EventLogbook : EngineObject
     // EventLog.pas:600
     public void AddEvent(EventLog eventValue)
     {
-        Assert(AoWHSMap.Current.GetSynchronized(), "", "EventLog.pas", 704);
+        Assert(StrategicMap.Current.GetSynchronized(), "", "EventLog.pas", 704);
         eventValue.SetOwner(_events);
         eventValue.Id = CreateUniqueId();
         eventValue.NotifyLogged(this);

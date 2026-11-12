@@ -37,8 +37,8 @@ public partial class CityTargetSpell : Spell
         if (CanActivate(source, ref reason))
         {
             _sourceId = source.UnitId;
-            SetupTargetSelection(source, AoWHSMap.Current.TargetSelection);
-            AoWHSMap.Current.TargetSelection.Activate();
+            SetupTargetSelection(source, StrategicMap.Current.TargetSelection);
+            StrategicMap.Current.TargetSelection.Activate();
             result = true;
         }
         else
@@ -54,7 +54,7 @@ public partial class CityTargetSpell : Spell
     {
         Troop source = default;
         bool valid = default;
-        source = AoWHSMap.Current.UnitControl.FindUnit(_sourceId);
+        source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
         if (source != null)
         {
             switch (targetSelection.Change)
@@ -93,7 +93,7 @@ public partial class CityTargetSpell : Spell
         bool playSound;
         playSound = false;
         var hexLevel = targetCity.GetHexLevel();
-        level = AoWHSMap.Current.MapContainer.GetMapLevel(hexLevel);
+        level = StrategicMap.Current.MapContainer.GetMapLevel(hexLevel);
         var hexY = targetCity.GetHexY();
         var hexX = targetCity.GetHexX();
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, hexX, hexY, 0);
@@ -101,27 +101,27 @@ public partial class CityTargetSpell : Spell
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < level.Width && walk.Y < level.Height && targetCity.Resource.TerrainList.Used[walk.HexNumber])
             {
-                bool condition = source.Player == AoWHSMap.Current.SeatedPlayer;
+                bool condition = source.Player == StrategicMap.Current.SeatedPlayer;
                 if (!condition)
                 {
                     var targetCityHexLevel = targetCity.GetHexLevel();
-                    condition = AoWHSMap.Current.TerrainVisible((sbyte)walk.X, (sbyte)walk.Y, targetCityHexLevel, 0);
+                    condition = StrategicMap.Current.TerrainVisible((sbyte)walk.X, (sbyte)walk.Y, targetCityHexLevel, 0);
                 }
 
                 if (condition)
                 {
                     // { Original passes the city layer before the radius. }
                     A = new ImageSequenceAnimation(null);
-                    A.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
+                    A.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[0]);
                     A.FrameCounter = Random(5);
                     A.AnimationLevel = 27;
                     var targetCityHexLevel = targetCity.GetHexLevel();
-                    AoWHSMap.Current.PlaceHex(A, walk.X, walk.Y, targetCityHexLevel);
-                    bool test = source.Player == AoWHSMap.Current.SeatedPlayer;
+                    StrategicMap.Current.PlaceHex(A, walk.X, walk.Y, targetCityHexLevel);
+                    bool test = source.Player == StrategicMap.Current.SeatedPlayer;
                     if (!test)
                     {
                         var hexLevel2 = targetCity.GetHexLevel();
-                        test = AoWHSMap.Current.WatchingTerrain((sbyte)walk.X, (sbyte)walk.Y, hexLevel2, 0);
+                        test = StrategicMap.Current.WatchingTerrain((sbyte)walk.X, (sbyte)walk.Y, hexLevel2, 0);
                     }
 
                     if (test)
@@ -136,7 +136,7 @@ public partial class CityTargetSpell : Spell
 
         if (playSound)
         {
-            AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+            GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
         }
     }
 
@@ -152,9 +152,9 @@ public partial class CityTargetSpell : Spell
         targetSelection.Text.Text = format;
         targetSelection.Title = SpellName;
         targetSelection.CancelText = AbilityRules.TranslateResourceString(GameText.CancelText);
-        targetSelection.SourceImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
-        targetSelection.ValidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
-        targetSelection.InvalidTargetImage = AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
+        targetSelection.SourceImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[20].GetPreviewImage();
+        targetSelection.ValidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[21].GetPreviewImage();
+        targetSelection.InvalidTargetImage = GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.ImageSequences[22].GetPreviewImage();
         source.GetLocation(ref X, ref Y, ref L);
         targetSelection.SourceX = X;
         targetSelection.SourceY = Y;
@@ -175,12 +175,12 @@ public partial class CityTargetSpell : Spell
     {
         bool result;
         CityTargetSpellTokenEvent eventValue;
-        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).GetBusy())
+        if (!StrategicMap.Current.Players.GetPlayers(source.Player).GetBusy())
         {
             eventValue = CreateTokenEvent();
             if (SetupTokenEvent(eventValue, source, X, Y, L))
             {
-                AoWHSMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
+                StrategicMap.Current.TokenManager.GetTokenControl(source.Player).AddEvent(eventValue);
                 result = true;
             }
             else
@@ -210,7 +210,7 @@ public partial class CityTargetSpell : Spell
         if (result && CityTargetMode.Contains(CityTargetModeElement.SkipSource))
         {
             source.GetLocation(ref X, ref Y, ref L);
-            found = (City)AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(City));
+            found = (City)StrategicMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHexSprite(typeof(City));
             result = targetCity != found;
         }
 
@@ -234,14 +234,14 @@ public partial class CityTargetSpell : Spell
     {
         Troop source;
         MapLevel level;
-        AoWMapField field;
+        MapField field;
         City targetCity;
-        level = AoWHSMap.Current.MapContainer.GetMapLevel(L);
-        source = AoWHSMap.Current.UnitControl.FindUnit(_sourceId);
+        level = StrategicMap.Current.MapContainer.GetMapLevel(L);
+        source = StrategicMap.Current.UnitControl.FindUnit(_sourceId);
         if (source != null && X >= 0 && Y >= 0 && X < level.Width && Y < level.Height)
         {
-            field = (AoWMapField)level.GetField(X, Y);
-            valid = !AoWHSMap.Current.ExplorationEnabled || field.GetExplored(source.Player);
+            field = level.GetField(X, Y);
+            valid = !StrategicMap.Current.ExplorationEnabled || field.GetExplored(source.Player);
             if (valid)
             {
                 targetCity = (City)field.FindNoneTransparentHexSprite(typeof(City));

@@ -1,10 +1,6 @@
 // Translated from AoWE.pas.
 using Aow.Game.World.Map;
 
-using Aow.Game.World.Structures;
-
-using Aow.Rtl;
-
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
@@ -65,8 +61,8 @@ public partial class FireControl : IDisposable
         if (resource != null)
         {
             fire = (Fire)resource.CreateResourceUser();
-            fire.Player = AoWHSMap.Current.CurrentPlayer;
-            if (!AoWHSMap.Current.PlaceHex(fire, X, Y, L))
+            fire.Player = StrategicMap.Current.CurrentPlayer;
+            if (!StrategicMap.Current.PlaceHex(fire, X, Y, L))
             {
                 fire?.Dispose();
                 result = null;

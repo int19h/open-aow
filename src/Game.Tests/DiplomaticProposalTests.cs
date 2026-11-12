@@ -456,8 +456,8 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void ProposalsAnswerAsTheOldSwitches()
     {
-        var previousMap = AoWHSMap.Current;
-        AoWHSMap.Current = new AoWHSMap(null!);
+        var previousMap = StrategicMap.Current;
+        StrategicMap.Current = new StrategicMap(null!);
         var control = TextControl();
         try
         {
@@ -482,7 +482,7 @@ public sealed class DiplomaticProposalTests
                     {
                         var action = new DiplomaticAction(null!) { Source = source, Target = 2, Reaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
                         string where = proposal + " reaction " + reaction + " source " + source;
-                        Assert.True(OldText(kind, (DiplomaticActionReaction)reaction, source == AoWHSMap.Current.SeatedPlayer) == proposal.LogText(action), where);
+                        Assert.True(OldText(kind, (DiplomaticActionReaction)reaction, source == StrategicMap.Current.SeatedPlayer) == proposal.LogText(action), where);
                         Assert.True(OldMiddleIcon(kind, reaction) == proposal.MiddleIcon(action), where);
                         checks += 2;
                     }
@@ -505,7 +505,7 @@ public sealed class DiplomaticProposalTests
         finally
         {
             control?.Dispose();
-            AoWHSMap.Current = previousMap;
+            StrategicMap.Current = previousMap;
         }
     }
 }

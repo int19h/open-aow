@@ -7,7 +7,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -32,7 +32,7 @@ public partial class PowerDialog : DataModule
     {
         PlayerMagicControl control;
         Window.Visible = true;
-        control = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl;
+        control = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl;
         PowerSlider.Position = control.ResearchPercentage;
         var netPower = control.GetNetPower();
         PowerLabel.Text = IntToStr(netPower);
@@ -48,16 +48,16 @@ public partial class PowerDialog : DataModule
         int pointsLeft;
         int manaPower;
         int researchPower;
-        manaPower = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.GetNetPower();
-        pointsLeft = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ResearchPointsLeft;
-        upkeep = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.GetManaUpkeep();
-        spellId = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ResearchSpellId;
+        manaPower = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetNetPower();
+        pointsLeft = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchPointsLeft;
+        upkeep = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.GetManaUpkeep();
+        spellId = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchSpellId;
         researchPower = Round((double)(PowerSlider.Position * manaPower) / 100);
         manaPower -= researchPower;
         if (spellId != 0)
         {
-            turns = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, pointsLeft);
-            var spell = AoWHSSet.Current.SpellControl.GetSpell(spellId);
+            turns = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ResearchTurns(researchPower, pointsLeft);
+            var spell = GamePack.Current.SpellControl.GetSpell(spellId);
             SpellNameLabel.Text = spell.SpellName;
             var formatTurnsString = FormatTurnsString(turns);
             ResearchLeftLabel.Text = formatTurnsString;
@@ -92,7 +92,7 @@ public partial class PowerDialog : DataModule
     public void SetBtnClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        if (AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).MagicControl.ChangePowerSettings(PowerSlider.Position))
+        if (StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).MagicControl.ChangePowerSettings(PowerSlider.Position))
         {
             Window.Visible = false;
         }

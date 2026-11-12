@@ -13,7 +13,7 @@ internal static class SweepFailureFixture
         "Aow.Game.Magic.Spells.UnholyGroundSpell",
         "Aow.Game.Magic.Spells.RaiseTerrain",
         "Aow.Game.Magic.Spells.PoisonPlantSpell",
-        "Aow.Game.World.Map.AoWMapLevel",
+        "Aow.Game.World.Map.MapLevel",
         "Aow.Game.Combat.CombatMapLevel",
     ];
 

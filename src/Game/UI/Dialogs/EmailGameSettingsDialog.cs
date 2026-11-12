@@ -7,7 +7,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -133,7 +133,7 @@ public partial class EmailGameSettingsDialog : DataModule
         if (I < EmailAddresses.Count)
         {
             var objectValue = EmailAddresses.Objects[I];
-            R = AoWHSSet.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
+            R = GamePack.Current.RaceResources.GetRaceResource(ObjectToInt(objectValue));
             R.AddRef();
             R.ImageLibrary[38].Show(panel.WinLeft, panel.WinTop, lockedSurface);
             R.Release();

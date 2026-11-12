@@ -44,7 +44,7 @@ public sealed class MapNetSoundFailureTests
             ConstructionContext.Create(data, static (context, value) => new FailingSample(context, value));
     }
 
-    private sealed class Container(HSMap map) : MapContainer(map)
+    private sealed class Container(GameMap map) : MapContainer(map)
     {
         private readonly List<string> _events = [];
 
@@ -110,7 +110,7 @@ public sealed class MapNetSoundFailureTests
     [Fact]
     public void PlainWorldAndCombatLevelsKeepTheRegisteredTypeAndOwner()
     {
-        foreach (var descriptor in new[] { EngineClass.Of<AoWMapLevel>(), EngineClass.Of<CombatMapLevel>() })
+        foreach (var descriptor in new[] { EngineClass.Of<MapLevel>(), EngineClass.Of<CombatMapLevel>() })
         {
             var owner = new SoundOwner();
             var container = new EngineFixture.ContainerOwner(owner);

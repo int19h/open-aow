@@ -22,10 +22,10 @@ public partial class CityProductionEventLog : ProductionEventLog
         if (trigger == ExecuteTrigger.User)
         {
             city = GetCity();
-            if (city != null && AoWHSMap.Current.SeatedPlayer == city.Player)
+            if (city != null && StrategicMap.Current.SeatedPlayer == city.Player)
             {
-                AoWHSMap.Current.CenterViewTo(HexX, HexY, HexLevel);
-                AoWHSMap.Current.TriggerExecuteEventLog(this, true, done);
+                StrategicMap.Current.CenterViewTo(HexX, HexY, HexLevel);
+                StrategicMap.Current.TriggerExecuteEventLog(this, true, done);
             }
         }
 
@@ -33,6 +33,6 @@ public partial class CityProductionEventLog : ProductionEventLog
     }
 
     // City.pas:3200
-    public City GetCity() => (City)AoWHSMap.Current.MapContainer.GetField(HexX, HexY, HexLevel).FindNoneTransparentHexSprite(typeof(City));
+    public City GetCity() => (City)StrategicMap.Current.MapContainer.GetField(HexX, HexY, HexLevel).FindNoneTransparentHexSprite(typeof(City));
 
 }

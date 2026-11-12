@@ -92,7 +92,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         base.MapFieldMessageProc(ref message);
         if (message.MessageId == 4418)
         {
-            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0 && !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+            if (_resource.TerrainList.Terrain[message.HexNumber] >= 0 && !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
             {
                 ArmyPlaced(message.Param[0].As<ArmyHexSprite>());
                 return;
@@ -151,7 +151,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
     {
         if (_resource.TerrainList.Terrain[info.HexNumber] >= 0)
         {
-            ((AoWMapField)info.MapField).FieldFlags = ((AoWMapField)info.MapField).FieldFlags | 8192;
+            info.MapField.FieldFlags = info.MapField.FieldFlags | 8192;
         }
     }
 
@@ -163,7 +163,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         int damaged;
         Troop troop;
         damaged = 0;
-        RandSeed = AoWHSMap.Current.Random(16777215);
+        RandSeed = StrategicMap.Current.Random(16777215);
         log = new ArmyEventLog(null);
         log.ArmyText = AbilityRules.TranslateResourceString(s_holyGroundDamageText);
         var holyGroundDamage = AbilityRules.TranslateResourceString(s_holyGroundDamageText);
@@ -222,7 +222,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
     // HolyG.pas:139
     public void ArmyPlaced(ArmyHexSprite army)
     {
-        if (!AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
+        if (!StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting))
         {
             TriggerArmyDamage(army);
         }
@@ -238,7 +238,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         Dispose();
         if (overlay > 0)
         {
-            AoWHSMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
+            StrategicMap.Current.PlaceTerrain(field.HexX, field.HexY, field.HexLevel, field.TerrainType, overlay);
         }
     }
 
@@ -293,21 +293,21 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         var hexLevel = animation.GetHexLevel();
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
-        field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131987) && GameTables.GameEngine.AnimationDetail != 0 && animation.FrameCounter == 0)
         {
-            bool condition = AoWHSMap.Current.SeatedPlayer == animation.Tag;
+            bool condition = StrategicMap.Current.SeatedPlayer == animation.Tag;
             if (!condition)
             {
                 var hexLevel2 = GetHexLevel();
                 var hexY2 = GetHexY();
                 var hexX2 = GetHexX();
-                condition = AoWHSMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
+                condition = StrategicMap.Current.WatchingTerrain(hexX2, hexY2, hexLevel2, 0);
             }
 
             if (condition)
             {
-                AoWHSSet.Current.SpellControl.GetSpell(13).CastSounds.Play(0);
+                GamePack.Current.SpellControl.GetSpell(13).CastSounds.Play(0);
             }
         }
     }
@@ -318,7 +318,7 @@ public partial class HolyGround : ImageLibraryTerrainMapObject
         var hexLevel = animation.GetHexLevel();
         var hexY = animation.GetHexY();
         var hexX = animation.GetHexX();
-        var field = AoWHSMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
+        var field = StrategicMap.Current.MapContainer.GetField(hexX, hexY, hexLevel);
         if (this == field.FindOwnedChild(131987) && frameCounter == 9)
         {
             Mode = Mode - Set<HolySummoning>.Of(HolySummoning.Summoning);

@@ -1,8 +1,6 @@
 // Translated from AoWE.pas.
 using System.Runtime.InteropServices;
 
-using Aow.Engine.Buffers;
-
 using Aow.Engine.Nodes;
 
 using Aow.Game.Draw;
@@ -27,7 +25,7 @@ public partial class MoveControlSettings : EngineObject
     public MoveControlSettings(ECustomNode owner) : base(owner)
     {
         _refCount = 1;
-        ProcessedMapFields = new DelphiList<AoWMapField>();
+        ProcessedMapFields = new DelphiList<MapField>();
         Path = new MovePath();
         SubMoves = new SubMoveList(null);
         Units = new UnitUserList(null);
@@ -39,7 +37,7 @@ public partial class MoveControlSettings : EngineObject
     public int MovePointsLimit { get; set; }
     public SubMoveList SubMoves { get; }
     public int SubMoveIndex { get; set; }
-    public DelphiList<AoWMapField> ProcessedMapFields { get; }
+    public DelphiList<MapField> ProcessedMapFields { get; }
 
     private int[] _rowOffsets = [];
     private int[][] _levelData = [];
@@ -182,7 +180,7 @@ public partial class MoveControlSettings : EngineObject
         SourceL = army.HexLevel;
         Player = army.Army.Player;
         army.Army.CreateMovePointTable(selection, Bytes.Of(ref MovePointTable));
-        if (AoWHSMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
+        if (StrategicMap.Current.Players.GetPlayers(Player).PlayerType != PlayerType.Human)
         {
             Mode = Mode + Set<MoveModeElement>.Of(MoveModeElement.AI);
         }

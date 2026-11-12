@@ -31,9 +31,9 @@ public partial class GlobalEnchantmentEventLog : LocationTextEventLog
         int result;
         sbyte player;
         player = EnchantmentPlayer;
-        if (player > 0 && AoWHSMap.Current.Players.GetCount() > player)
+        if (player > 0 && StrategicMap.Current.Players.GetCount() > player)
         {
-            result = AoWHSMap.Current.Players.GetPlayers(EnchantmentPlayer).PlayerRace;
+            result = StrategicMap.Current.Players.GetPlayers(EnchantmentPlayer).PlayerRace;
         }
         else
         {

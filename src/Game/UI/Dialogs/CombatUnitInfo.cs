@@ -6,7 +6,7 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -71,7 +71,7 @@ public partial class CombatUnitInfo : DataModule
             if (condition)
             {
                 var ability = DialogHosts.General.CombatUnit.Abilities[drawItem];
-                var combatMode = AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
+                var combatMode = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
                 bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.CombatUnit.Abilities[drawItem]).Ability != 52;
                 if (!test)
                 {
@@ -128,7 +128,7 @@ public partial class CombatUnitInfo : DataModule
                 if (button == MouseButton.Right && DialogHosts.General.CombatUnit != null)
                 {
                     var objectValue = UnitAbilityList.Items.Objects[UnitAbilityList.Selected];
-                    ability = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+                    ability = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
                     if (ability != null)
                     {
                         var name = ability.GetName(DialogHosts.General.CombatUnit.Unit.Troop);
@@ -147,7 +147,7 @@ public partial class CombatUnitInfo : DataModule
             if (DialogHosts.General.CombatUnit.Unit.GetPlayer() == CombatMap.Current.SeatedPlayer && DialogHosts.General.CombatUnit.Unit.MovePoints != 0 && UnitAbilityList.HoverItem < DialogHosts.General.CombatUnit.CombatAbilityCount)
             {
                 var ability = DialogHosts.General.CombatUnit.Abilities[UnitAbilityList.HoverItem];
-                var combatMode = AoWHSSet.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
+                var combatMode = GamePack.Current.AbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).GetCombatMode(DialogHosts.General.CombatUnit.Unit.Troop);
                 if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && (DialogHosts.General.CombatUnit.Abilities[UnitAbilityList.HoverItem]).Ability != 52)
                 {
                     return;

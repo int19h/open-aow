@@ -224,9 +224,9 @@ public partial class Battle : EngineObject
         data.AttackerL = attackerL;
         data.AttackerPlayer = (sbyte)AddCombatPlayer(attackerPlayer, attackerRelation, CombatSideIndex.Attacker);
         data.DefenderPlayer = (sbyte)AddCombatPlayer(defenderPlayer, defenderRelation, CombatSideIndex.Defender);
-        var fieldValue = AoWHSMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel);
+        var fieldValue = StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel);
         data.TerrainAndOverlayTypes[0] = (byte)fieldValue.TerrainType;
-        var mapContainerField = AoWHSMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel);
+        var mapContainerField = StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel);
         data.TerrainAndOverlayTypes[1] = (byte)mapContainerField.OverlayType;
         return true;
     }
@@ -234,7 +234,7 @@ public partial class Battle : EngineObject
     // Combat.pas:6619
     public virtual CombatResult Execute()
     {
-        RandSeed = AoWHSMap.Current.Random(16777215);
+        RandSeed = StrategicMap.Current.Random(16777215);
         return CombatResult.Idle;
     }
 
@@ -318,7 +318,7 @@ public partial class Battle : EngineObject
             data = CombatData;
             var item = data.DefeatedLeaders[I];
             var players = data.Players.GetPlayers((sbyte)item);
-            AoWHSMap.Current.GameOver(players.Player, GameOverStatus.Lost);
+            StrategicMap.Current.GameOver(players.Player, GameOverStatus.Lost);
             Logbook.PlayerEliminated = true;
         }
 
@@ -347,7 +347,7 @@ public partial class Battle : EngineObject
         {
             playerIndex -= 1;
             var players = CombatData.Players.GetPlayers((sbyte)playerIndex);
-            player = AoWHSMap.Current.Players.GetPlayers(players.Player);
+            player = StrategicMap.Current.Players.GetPlayers(players.Player);
             armyIndex = player.Armies.Count;
             alive = false;
             while (armyIndex != 0 && !alive)
@@ -370,7 +370,7 @@ public partial class Battle : EngineObject
             message.MessageId = 4368;
             message.Param[0] = this;
             message.Result = 0;
-            AoWHSMap.Current.MapContainer.GetField(finalData.X, finalData.Y, finalData.MapLevel).SendMapFieldMessage(ref message);
+            StrategicMap.Current.MapContainer.GetField(finalData.X, finalData.Y, finalData.MapLevel).SendMapFieldMessage(ref message);
         }
 
         UnlockExecuted();
@@ -539,7 +539,7 @@ public partial class Battle : EngineObject
             {
                 var party = CombatData.Parties.GetParty((byte)I);
                 var players = CombatData.Players.GetPlayers((sbyte)party.PlayerIndex);
-                if (types.Contains(AoWHSMap.Current.Players.GetPlayers(players.Player).PlayerType))
+                if (types.Contains(StrategicMap.Current.Players.GetPlayers(players.Player).PlayerType))
                 {
                     result = true;
                 }
@@ -630,7 +630,7 @@ public partial class Battle : EngineObject
         ArmyHexSprite armyHexSprite;
         CombatSideIndex side;
         data = CombatData;
-        level = AoWHSMap.Current.MapContainer.GetMapLevel(data.MapLevel);
+        level = StrategicMap.Current.MapContainer.GetMapLevel(data.MapLevel);
         HexNumberWalkData.InitializeHexNumberWalk(ref walk, data.X, data.Y, 0);
         while (walk.Radius <= 1)
         {
@@ -748,11 +748,11 @@ public partial class Battle : EngineObject
         if (X != -1)
         {
             message.MessageId = 4387;
-            var fieldValue = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+            var fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
             message.Param[0] = fieldValue;
             message.Result = 0;
             data = CombatData;
-            AoWHSMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).SendMapFieldMessage(ref message);
+            StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).SendMapFieldMessage(ref message);
             if (message.Result.Int != 0)
             {
                 party.Wall = (byte)message.Result.Int;
@@ -815,10 +815,10 @@ public partial class Battle : EngineObject
 
         party = CombatData.Parties.CreateParty(this, position, playerLocal, X, Y, L, null);
         message.MessageId = 4387;
-        var fieldValue = AoWHSMap.Current.MapContainer.GetField(X, Y, L);
+        var fieldValue = StrategicMap.Current.MapContainer.GetField(X, Y, L);
         message.Param[0] = fieldValue;
         message.Result = 0;
-        AoWHSMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
+        StrategicMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMessage(ref message);
         if (message.Result.Int != 0)
         {
             party.Wall = (byte)message.Result.Int;
@@ -836,7 +836,7 @@ public partial class Battle : EngineObject
         {
             ExplorationSite = 2;
             AddArmy(army, CombatSideIndex.Attacker, X, Y, L);
-            armyHexSprite = (ArmyHexSprite)AoWHSMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).FindOwnedChild(131607);
+            armyHexSprite = (ArmyHexSprite)StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel).FindOwnedChild(131607);
             if (armyHexSprite != null)
             {
                 AddArmy(armyHexSprite.Army, CombatSideIndex.Defender, data.X, data.Y, data.MapLevel);
@@ -882,7 +882,7 @@ public partial class Battle : EngineObject
         message.Result = query;
         message.Param[0] = this;
         // { direct combat data }
-        AoWHSMap.Current.MapContainer.GetField(CombatData.X, CombatData.Y, CombatData.MapLevel).SendMapFieldMessage(ref message);
+        StrategicMap.Current.MapContainer.GetField(CombatData.X, CombatData.Y, CombatData.MapLevel).SendMapFieldMessage(ref message);
         if (IsEmpty(result))
         {
             if (CombatResult == CombatResult.Victory)

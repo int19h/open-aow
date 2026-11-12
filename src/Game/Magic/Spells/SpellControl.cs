@@ -174,7 +174,7 @@ public partial class SpellControl : EngineObject
 
         if (candidates.Count != 0)
         {
-            result = candidates[AoWHSMap.Current.Random(candidates.Count)];
+            result = candidates[StrategicMap.Current.Random(candidates.Count)];
         }
         else
         {

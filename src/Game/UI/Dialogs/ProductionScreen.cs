@@ -12,7 +12,7 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
+
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.UI.Dialogs;
@@ -106,7 +106,7 @@ public partial class ProductionScreen : DataModule
         for (int I = _images.Count - 1; I >= 0; I--)
         {
             var image = _images[I];
-            AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
+            GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(image).Release();
         }
 
         _images.Clear();
@@ -116,8 +116,8 @@ public partial class ProductionScreen : DataModule
     public void LoadUnitImages(int index)
     {
         int graphics;
-        graphics = AoWHSSet.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
-        AoWHSSet.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
+        graphics = GamePack.Current.UnitResources.GetUnitResource(index).UnitGraphicsResourceIndex;
+        GamePack.Current.UnitGraphicsResources.GetUnitGraphicsResource(graphics).AddRef();
         _images.Add(graphics);
     }
 
@@ -237,7 +237,7 @@ public partial class ProductionScreen : DataModule
     {
         if (Window.Visible && sender == _place)
         {
-            if (_place.Player == AoWHSMap.Current.SeatedPlayer)
+            if (_place.Player == StrategicMap.Current.SeatedPlayer)
             {
                 UpdateInfo();
             }
@@ -586,7 +586,7 @@ public partial class ProductionScreen : DataModule
         var hexY = _place.GetHexY();
         _preview = generator.RandomMap(null, _place.GetHexX(), hexY, hexLevel);
         generator?.Dispose();
-        army = ((AoWMapField)_place.Owner).GetArmyHexSprite();
+        army = _place.Owner.GetArmyHexSprite();
         if (army != null)
         {
             for (int I = 0, last = army.Army.GetCount() - 1; I <= last; I++)
@@ -737,7 +737,7 @@ public partial class ProductionScreen : DataModule
                             }
                             else
                             {
-                                AoWHSMap.Current.ShowWarning(reason);
+                                StrategicMap.Current.ShowWarning(reason);
                             }
                         }
                         else
@@ -749,7 +749,7 @@ public partial class ProductionScreen : DataModule
                             }
                             else
                             {
-                                AoWHSMap.Current.ShowWarning(reason);
+                                StrategicMap.Current.ShowWarning(reason);
                             }
                         }
 
@@ -762,19 +762,19 @@ public partial class ProductionScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
                     case 5:
-                        if (_place.CanRaze(AoWHSMap.Current.SeatedPlayer, ref reason))
+                        if (_place.CanRaze(StrategicMap.Current.SeatedPlayer, ref reason))
                         {
-                            _place.Raze(AoWHSMap.Current.SeatedPlayer);
+                            _place.Raze(StrategicMap.Current.SeatedPlayer);
                             Window.Visible = false;
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -809,7 +809,7 @@ public partial class ProductionScreen : DataModule
                             }
                             else
                             {
-                                AoWHSMap.Current.ShowWarning(reason);
+                                StrategicMap.Current.ShowWarning(reason);
                             }
                         }
                         else
@@ -820,7 +820,7 @@ public partial class ProductionScreen : DataModule
                             }
                             else
                             {
-                                AoWHSMap.Current.ShowWarning(reason);
+                                StrategicMap.Current.ShowWarning(reason);
                             }
                         }
 
@@ -832,7 +832,7 @@ public partial class ProductionScreen : DataModule
                         }
                         else
                         {
-                            AoWHSMap.Current.ShowWarning(reason);
+                            StrategicMap.Current.ShowWarning(reason);
                         }
 
                         break;
@@ -848,7 +848,7 @@ public partial class ProductionScreen : DataModule
                     }
                     else
                     {
-                        AoWHSMap.Current.ShowWarning(reason);
+                        StrategicMap.Current.ShowWarning(reason);
                     }
                 }
 
@@ -1070,7 +1070,7 @@ public partial class ProductionScreen : DataModule
             preview.NewFrame();
         }
 
-        MapView.Drawn = MapView.Drawn && (AoWHSMap.Current.Frame & 1) != 0;
+        MapView.Drawn = MapView.Drawn && (StrategicMap.Current.Frame & 1) != 0;
     }
 
     // AoWProdScreen.pas:530
@@ -1086,7 +1086,7 @@ public partial class ProductionScreen : DataModule
         if (button == MouseButton.Right && UnitAbilitiesList.Selected > -1)
         {
             var objectValue = UnitAbilitiesList.Items.Objects[UnitAbilitiesList.Selected];
-            A = AoWHSSet.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
+            A = GamePack.Current.AbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {
                 var name = A.GetName(null);
@@ -1101,17 +1101,17 @@ public partial class ProductionScreen : DataModule
         int start;
         int index;
         PlayerStructure S;
-        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
+        start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
         index = start;
         index -= 1;
         if (index < 0)
         {
-            index = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount() - 1;
+            index = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1;
         }
 
         while (index != start)
         {
-            S = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetStructure(index);
+            S = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
             if (S is ProductionPlace && ((ProductionPlace)S).GetMagicSphere() == MagicSphere.None)
             {
                 index = start + 1;
@@ -1121,7 +1121,7 @@ public partial class ProductionScreen : DataModule
             index += -1;
             if (index < 0)
             {
-                index = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount() - 1;
+                index = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount() - 1;
             }
         }
     }
@@ -1132,16 +1132,16 @@ public partial class ProductionScreen : DataModule
         int start;
         int index;
         PlayerStructure S;
-        start = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
+        start = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.FindChildIndex(_place);
         index = start + 1;
-        if (index >= AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount())
+        if (index >= StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount())
         {
             index = 0;
         }
 
         while (index != start)
         {
-            S = AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetStructure(index);
+            S = StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetStructure(index);
             if (S is ProductionPlace && ((ProductionPlace)S).GetMagicSphere() == MagicSphere.None)
             {
                 index = start - 1;
@@ -1149,7 +1149,7 @@ public partial class ProductionScreen : DataModule
             }
 
             index += 1;
-            if (index >= AoWHSMap.Current.Players.GetPlayers(AoWHSMap.Current.SeatedPlayer).Structures.GetCount())
+            if (index >= StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Structures.GetCount())
             {
                 index = 0;
             }

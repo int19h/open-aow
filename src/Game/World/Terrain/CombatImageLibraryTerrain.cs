@@ -69,7 +69,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
     }
 
     // CombatILTer.pas:163
-    public override MapObjectResourceList GetResourceList(GameEngine engine) => AoWHSSet.Current.CombatResources;
+    public override MapObjectResourceList GetResourceList(GameEngine engine) => GamePack.Current.CombatResources;
 
     // CombatILTer.pas:93
     public override bool CanPlaceOnHexSprite(HexSprite hexSprite) => base.CanPlaceOnHexSprite(hexSprite) || hexSprite is AbstractRoad;
@@ -116,7 +116,7 @@ public partial class CombatImageLibraryTerrain : ImageLibraryTerrainMapObject
                 DestroyShadow();
             }
 
-            if (AoWHSMap.Current == null || AoWHSMap.Current.ShowUnitShadows)
+            if (StrategicMap.Current == null || StrategicMap.Current.ShowUnitShadows)
             {
                 _shadow = new CombatImageLibraryTerrainShadow(null);
                 _shadow._terrain = this;

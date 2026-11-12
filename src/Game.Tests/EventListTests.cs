@@ -128,9 +128,9 @@ public sealed class EventListTests
     [Fact]
     public void PlayerGemsChangeReachesATypedSubscriber()
     {
-        var previous = AoWHSMap.Current;
-        var map = new AoWHSMap(null!);
-        AoWHSMap.Current = map;
+        var previous = StrategicMap.Current;
+        var map = new StrategicMap(null!);
+        StrategicMap.Current = map;
         var player = new Player(null!);
         try
         {
@@ -146,7 +146,7 @@ public sealed class EventListTests
         finally
         {
             player.Dispose();
-            AoWHSMap.Current = previous;
+            StrategicMap.Current = previous;
             map.Dispose();
         }
     }

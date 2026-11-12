@@ -1,4 +1,4 @@
-// Translated from BorderHx.pas.
+// Translated from BorderHx.pas and AoWHex.pas.
 using Aow.Engine.Nodes;
 using Aow.Game.Draw;
 
@@ -9,9 +9,9 @@ namespace Aow.Game.World.Hexes;
 // { The BorderHx unit of HSEPack.dpl: the border hexagon (TBorderHexagon, ClassID $20557) drawn at
 //   level 11 over the map edge; it also adds itself to the hexagon above (HN 1) of its map field.
 //   TBorderHexagonResource has ClassID $20558. }
-public partial class BorderHexagon : AbstractBorderHexagon
+public partial class BorderHex : AbstractBorderHexagon
 {
-    public BorderHexagon(ECustomNode owner) : base(owner)
+    public BorderHex(ECustomNode owner) : base(owner)
     { }
 
     // BorderHx.pas:59
@@ -81,7 +81,14 @@ public partial class BorderHexagon : AbstractBorderHexagon
 
         // BorderHx.pas:107
         public override string ResourceEditName() => "Border Hexagon";
-
     }
 
+    // AoWHex.pas:261
+    public override void UpdateMapField(in HexSpriteMapFieldInfo info)
+    {
+        if (info.HexNumber == 0 && StrategicMap.Current != null && StrategicMap.Current.Day == 0)
+        {
+            info.MapField.FieldFlags = info.MapField.FieldFlags & -4096;
+        }
+    }
 }

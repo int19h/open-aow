@@ -41,9 +41,9 @@ public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
         if (sequence != null)
         {
             blend = 50;
-            if (_fadeEndFrame != -1 && _fadeEndFrame > AoWHSMap.Current.Frame)
+            if (_fadeEndFrame != -1 && _fadeEndFrame > StrategicMap.Current.Frame)
             {
-                framesLeft = _fadeEndFrame - AoWHSMap.Current.Frame;
+                framesLeft = _fadeEndFrame - StrategicMap.Current.Frame;
                 if (framesLeft <= 20)
                 {
                     blend += (10 - Math.Abs(framesLeft - 10)) * 3;
@@ -66,7 +66,7 @@ public partial class MagicSanctuaryOverlayHexSprite : SingleHexSprite
     // MagicSanctuary.pas:105
     public void FadeUp()
     {
-        _fadeEndFrame = AoWHSMap.Current.Frame + 20;
+        _fadeEndFrame = StrategicMap.Current.Frame + 20;
     }
 
     // MagicSanctuary.pas:22

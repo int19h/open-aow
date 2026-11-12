@@ -67,7 +67,7 @@ public partial class TitleScene
                     break;
                 case 2:
                     LoadGame(DialogHosts.General, FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
-                    if (AoWHSMap.Current is { } map)
+                    if (StrategicMap.Current is { } map)
                     {
                         map.FixedLeaders = true;
                         StartGame(DialogHosts.General);

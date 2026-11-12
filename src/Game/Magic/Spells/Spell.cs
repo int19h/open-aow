@@ -30,7 +30,7 @@ public partial class Spell : EngineObject
     {
         SpellText = new StringList();
         CastSounds = new SfxLibrary(null);
-        CastImages = new ImageSequenceList(AoWHSSet.Current.ImageLibraryManager, null);
+        CastImages = new ImageSequenceList(GamePack.Current.ImageLibraryManager, null);
         ResearchCost = 1;
         SpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
     }
@@ -79,19 +79,19 @@ public partial class Spell : EngineObject
     public virtual void PlayDefaultCastEffects(sbyte player, sbyte X, sbyte Y, sbyte layer)
     {
         ImageSequenceAnimation animation;
-        if (AoWHSMap.Current.Visible(X, Y, layer, 0))
+        if (StrategicMap.Current.Visible(X, Y, layer, 0))
         {
-            AoWHSMap.Current.ValidateObservation(player, X, Y, layer, 0);
-            if (AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
+            StrategicMap.Current.ValidateObservation(player, X, Y, layer, 0);
+            if (GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0) != null)
             {
                 animation = new ImageSequenceAnimation(null);
-                animation.SetImageSequence(AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
-                AoWHSMap.Current.PlaceHex(animation, X, Y, layer);
+                animation.SetImageSequence(GamePack.Current.SpellControl.GetSpell(SpellId).CastImages.GetImageSequence(0));
+                StrategicMap.Current.PlaceHex(animation, X, Y, layer);
             }
 
-            if (AoWHSMap.Current.SeatedPlayer == player || AoWHSMap.Current.Watching(X, Y, layer, 0))
+            if (StrategicMap.Current.SeatedPlayer == player || StrategicMap.Current.Watching(X, Y, layer, 0))
             {
-                AoWHSSet.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
+                GamePack.Current.SpellControl.GetSpell(SpellId).CastSounds.Play(0);
             }
         }
     }
@@ -116,7 +116,7 @@ public partial class Spell : EngineObject
         bool result;
         if (SpellType == SpellType.Global)
         {
-            if (AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
+            if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
                 messageText = AbilityRules.TranslateResourceString(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
                 result = false;
@@ -139,7 +139,7 @@ public partial class Spell : EngineObject
         bool result;
         if (SpellType == SpellType.Global)
         {
-            if (AoWHSMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
+            if (StrategicMap.Current.GlobalMagicControl.ActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
             {
                 messageText = AbilityRules.TranslateResourceString(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveText);
                 result = false;
@@ -163,12 +163,12 @@ public partial class Spell : EngineObject
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        if (AoWHSMap.Current.SeatedPlayer == source.Player)
+        if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             source.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
-                AoWHSMap.Current.MakeVisible(X, Y, L, 3);
+                StrategicMap.Current.MakeVisible(X, Y, L, 3);
             }
         }
 
@@ -181,12 +181,12 @@ public partial class Spell : EngineObject
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
-        if (AoWHSMap.Current.SeatedPlayer == source.Player)
+        if (StrategicMap.Current.SeatedPlayer == source.Player)
         {
             source.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
-                AoWHSMap.Current.MakeVisible(X, Y, L, 3);
+                StrategicMap.Current.MakeVisible(X, Y, L, 3);
             }
         }
 
@@ -205,7 +205,7 @@ public partial class Spell : EngineObject
             caster = new CombatSpellCaster(null);
             caster.CombatCasterSpellId = SpellId;
             caster.CombatCasterSourceId = source.UnitId;
-            AoWHSMap.Current.CombatMap.CombatStartedEventsStore.Raise(caster);
+            StrategicMap.Current.CombatMap.CombatStartedEventsStore.Raise(caster);
             caster.Release();
             result = true;
         }
@@ -284,15 +284,15 @@ public partial class Spell : EngineObject
         AIBudgetManager manager;
         if (upkeep > 0)
         {
-            mana -= AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.AIRequestOverrideUpkeep(Round((double)upkeep * 0.8));
+            mana -= StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.AIRequestOverrideUpkeep(Round((double)upkeep * 0.8));
             if (mana < 0)
             {
                 mana = 0;
             }
         }
 
-        manager = AoWHSMap.Current.Players.GetPlayers(source.Player).AIBudget;
-        if (!AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
+        manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
+        if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
         {
             result = manager.RequestBudgetExpense(0, budget, 0, mana, manager.DefaultBudget, 1 != 0);
         }
@@ -311,8 +311,8 @@ public partial class Spell : EngineObject
         AIBudgetManager manager;
         if (AIRequestCastSpellExpense(source, budget, mana, upkeep))
         {
-            manager = AoWHSMap.Current.Players.GetPlayers(source.Player).AIBudget;
-            if (!AoWHSMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
+            manager = StrategicMap.Current.Players.GetPlayers(source.Player).AIBudget;
+            if (!StrategicMap.Current.Players.GetPlayers(source.Player).MagicControl.GetCheatEnabled())
             {
                 result = manager.BudgetExpenseMade(0, budget, 0, mana, manager.DefaultBudget, (AIBudgetManager.ExpenseMode)2);
             }
@@ -329,7 +329,7 @@ public partial class Spell : EngineObject
         return result;
     }
 
-    public virtual bool CanActivateCombat(Troop source, ref string reason) => AoWHSMap.Current.Combat != null;
+    public virtual bool CanActivateCombat(Troop source, ref string reason) => StrategicMap.Current.Combat != null;
 
     public virtual void GetCombatInfo(Troop source, ref SpellCombatInfo info)
     {

@@ -1,5 +1,4 @@
 // Translated from CitySpells.pas.
-using Aow.Engine.Buffers;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Audio;
@@ -67,7 +66,7 @@ public partial class AnimateRuins : CityTargetSpell
                 var hexLevel2 = targetCity.GetHexLevel();
                 var hexY2 = targetCity.GetHexY();
                 var targetCityHexX = targetCity.GetHexX();
-                AoWHSMap.Current.PlaceHex(A, targetCityHexX, hexY2, hexLevel2);
+                StrategicMap.Current.PlaceHex(A, targetCityHexX, hexY2, hexLevel2);
             }
 
             result = true;
@@ -77,15 +76,15 @@ public partial class AnimateRuins : CityTargetSpell
             if (executeCount == 50)
             {
                 targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
-                targetCity.SetRace(AoWHSMap.Current.Players.GetPlayers(source.Player).PlayerRace);
+                targetCity.SetRace(StrategicMap.Current.Players.GetPlayers(source.Player).PlayerRace);
                 targetCity.SetRazed(false);
                 var size = targetCity.GetSize();
-                count = AoWHSMap.Current.Random(size * 2) + 1;
+                count = StrategicMap.Current.Random(size * 2) + 1;
                 for (int I = 0; I <= count; I++)
                 {
                     unit = new Unit(null);
-                    var random = AoWHSMap.Current.Random(2);
-                    unit.SetUnitResource(AoWHSSet.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
+                    var random = StrategicMap.Current.Random(2);
+                    unit.SetUnitResource(GamePack.Current.UnitResources.GetUnitResource(UndeadUnitResourceIds[random]));
                     var hexLevel = targetCity.GetHexLevel();
                     var hexY = targetCity.GetHexY();
                     unit.Place(targetCity.GetHexX(), hexY, hexLevel, source.Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));

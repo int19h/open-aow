@@ -144,7 +144,9 @@ Names follow the .NET identifier-names guide. A type, a member and a constant us
 
 Fields are private. A member that other types use is a property, get-only when nothing writes it after construction. A field stays visible only where a property cannot replace it: a `ref`, `out` or `in` use, a write through a member of a struct field, the fields of an explicit record, and a Delphi backing field whose derived types declare their own property of its PascalCase name. Where a Delphi backing field sits beside a property whose setter does more than store the value, outside code that wrote the field directly calls a raw setter whose name says what it skips, such as `SetOwnerWithoutNotify`.
 
-A ported type drops the Delphi T prefix and any recovery prefix. A generic parameter stays `TFoo`. The Delphi prefix still marks a type that is not fully ported. A type uses the CLR name when that name is the meaning, as in `Int32` and `SByte`. A nested type does not repeat its owner. A nested enum whose name a member of its class needs moves out beside the class as `FooBar` (class `Foo`, member `Foo.Bar`), so no member takes a `Current` prefix. A metaclass keeps `Class` at the end of its name. A type name has no `Abstract` prefix. The hex and road bases keep the names issue 200 owns, which are `AbstractHexagon`, `AbstractBorderHexagon`, `AbstractRoad`, `AbstractHexagonResource`, `AbstractBorderHexagonResource` and `AbstractRoadResource`.
+A ported type drops the Delphi T prefix and any recovery prefix. A generic parameter stays `TFoo`. The Delphi prefix still marks a type that is not fully ported. A type uses the CLR name when that name is the meaning, as in `Int32` and `SByte`. A nested type does not repeat its owner. A nested enum whose name a member of its class needs moves out beside the class as `FooBar` (class `Foo`, member `Foo.Bar`), so no member takes a `Current` prefix. A metaclass keeps `Class` at the end of its name. A type name has no `Abstract` prefix. The hex and road bases `AbstractHexagon`, `AbstractBorderHexagon`, `AbstractRoad`, `AbstractHexagonResource`, `AbstractBorderHexagonResource` and `AbstractRoadResource` keep their names until a review names the family.
+
+Issue 200 folded each engine base that had one game subclass into that subclass. `Hex` (Delphi `THexagon` and `TAoWHexagon`), `BorderHex`, `Road`, `MapField` and `MapLevel` are one class each. `GameMap` is the hex-sprite map and the game rules that the world map and the battle map share (Delphi `THSMap` and `TAbstractAoWHSMap`). `StrategicMap` (Delphi `TAoWHSMap`) is the world map of a game and `CombatMap` the battle map. `GamePack` is the set of resources and rules a game loads from `Release.hss` and the PFS files beside it (Delphi `THSSet` and `TAoWHSSet`). `DisplayController` holds the virtual methods of the Delphi `TAbstractDC` and the common bodies of `TDisplayCtrl`. A folded class carries the game class's class id. Own documents name the folded class, and `names.csv` keeps each old name as an alias.
 
 ## 3. Transpile strategy
 
@@ -573,8 +575,8 @@ The second stage starts when milestone 2.4 passes and the C# tree becomes the so
   not notify: `SortChildren`, `MoveChild`, `ExchangeChildren`, `PackChildren`, `DropChild`,
   `DeleteChildAt` and `ClearChildren`. A change-notifying node's `Sort` notifies as before.
   A node whose children are of a few unrelated kinds declares them as a C# union: the engine's
-  children are a `GameEngineChild` (its control node, its sprite set or a map), and a sprite set's
-  children are an `HSSetChild` (a resource list, a terrain control or a control object). The
+  children are a `GameEngineChild` (its control node, its game pack or a map), and a game pack's
+  children are a `GamePackChild` (a resource list, a terrain control or a control object). The
   children stay in one ordered list, so slots and stored order do not change. The resource lists
   take resources only and narrow that to their own kind through `AcceptsResource`, and the unit
   and item lists take troops and items through `AcceptsTroop` and `AcceptsItem` in the same way.

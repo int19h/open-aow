@@ -2,7 +2,6 @@ using Aow.Game.UI.Controls;
 using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using Aow.Rtl.Localize;
 
 namespace Aow.Game.UI.Dialogs;
 
@@ -22,7 +21,7 @@ public partial class TargetSelectionDialog : DataModule
     public void CloseClick()
     {
         DialogHosts.General.PlayButtonSound(0);
-        AoWHSMap.Current.TargetSelection.Deactivate();
+        StrategicMap.Current.TargetSelection.Deactivate();
     }
 
     // AoWTargetSelection.pas:51

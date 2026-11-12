@@ -110,7 +110,7 @@ public partial class UnitGraphicsResource : EngineResource
     public override int Release()
     {
         _refCount -= 1;
-        if (_refCount == 0 && !AoWHSSet.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (AoWHSMap.Current == null || !AoWHSMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
+        if (_refCount == 0 && !GamePack.Current.Status.Contains(HexSpriteSetStatusElement.Editting) && (StrategicMap.Current == null || !StrategicMap.Current.Status.Contains(HexSpriteMapStatusElement.Editting)))
         {
             ReleaseImageLibrary();
         }
