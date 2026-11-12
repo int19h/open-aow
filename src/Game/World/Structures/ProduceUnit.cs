@@ -13,7 +13,7 @@ public sealed record ProduceUnit(int Index, int GroupId) : ProductionOrder
 {
     public const int Kind = 1;
 
-    public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, Index, GroupId);
+    public override (int Kind, int Parameter, int GroupId) ToFields() => (Kind, Index, GroupId);
 
     public override CityAction CityAction => CityAction.Produce;
 

@@ -11,6 +11,5 @@ internal static class TreeErrors
             Path = path.ToString(),
             Value = value,
             Constraint = constraint,
-            Migration = at?.Origin,
         });
 }

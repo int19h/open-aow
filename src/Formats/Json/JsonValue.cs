@@ -9,9 +9,6 @@ public abstract class JsonValue
 {
     public TextSpan Span { get; set; }
 
-    /// <summary>The migration that synthesized this value, or null for parsed and imported values.</summary>
-    public string? Origin { get; set; }
-
     /// <summary>The name of the value kind in diagnostics.</summary>
     public abstract string KindName { get; }
 }

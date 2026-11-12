@@ -31,7 +31,7 @@ public partial class CombatData : EngineObject
     public int MapLevel;
     public int AttackerX;
     public int AttackerY;
-    public int AttackerL;
+    public int AttackerMapLevel;
 
     public byte[] TerrainAndOverlayTypes { get; } = new byte[2];
 

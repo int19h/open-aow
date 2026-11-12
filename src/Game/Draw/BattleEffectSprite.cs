@@ -1519,21 +1519,21 @@ public partial class BattleEffectSprite : FixedVisibleHexSprite
                                 var random = Random(Frame / 3);
                                 var pathX = Path[0];
                                 var random2 = Random(Frame / 3);
-                                CombatMap.Current.ChangeViewTo(pathX.X + random2 - Frame / 6, pathY.Y + random - Frame / 6, CombatMap.Current.ViewL);
+                                CombatMap.Current.ChangeViewTo(pathX.X + random2 - Frame / 6, pathY.Y + random - Frame / 6, CombatMap.Current.ViewMapLevel);
                                 break;
                             case >= 30 and <= 89:
                                 var path = Path[0];
                                 var random3 = Random(10);
                                 var path2 = Path[0];
                                 var random4 = Random(10);
-                                CombatMap.Current.ChangeViewTo(path2.X + random4 - 5, path.Y + random3 - 5, CombatMap.Current.ViewL);
+                                CombatMap.Current.ChangeViewTo(path2.X + random4 - 5, path.Y + random3 - 5, CombatMap.Current.ViewMapLevel);
                                 break;
                             case >= 90 and <= 119:
                                 var path3 = Path[0];
                                 var random5 = Random((119 - Frame) / 3);
                                 var path4 = Path[0];
                                 var random6 = Random((119 - Frame) / 3);
-                                CombatMap.Current.ChangeViewTo(path4.X + random6 - (119 - Frame) / 6, path3.Y + random5 - (119 - Frame) / 6, CombatMap.Current.ViewL);
+                                CombatMap.Current.ChangeViewTo(path4.X + random6 - (119 - Frame) / 6, path3.Y + random5 - (119 - Frame) / 6, CombatMap.Current.ViewMapLevel);
                                 break;
                             case 120:
                                 Frame = -1;

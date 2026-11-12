@@ -35,7 +35,7 @@ public partial class ImageSequenceAnimation : Animation
         int Y = default;
         int index;
         base.Show(pixelXSurface, pixelYSurface, lockedSurface);
-        if (GetHexLevel() == AnimationMap.ViewL)
+        if (GetHexLevel() == AnimationMap.ViewMapLevel)
         {
             HexGeometry.HexToPixel(_hexX, _hexY, out X, out Y);
             pixelXSurface = X - pixelXSurface + 16 + PixelXOffset;

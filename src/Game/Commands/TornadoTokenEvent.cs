@@ -248,7 +248,7 @@ public partial class TornadoTokenEvent : GlobalTargetSpellTokenEvent
         int direction;
         int radius;
         int last;
-        if (StrategicMap.Current.ViewL == Location.MapLevel)
+        if (StrategicMap.Current.ViewMapLevel == Location.MapLevel)
         {
             HexGeometry.HexToPixel(Location.X, Location.Y, out pixelX, out pixelY);
             pixelX -= pixelXSurface;

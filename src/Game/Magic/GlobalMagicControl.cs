@@ -67,7 +67,7 @@ public partial class GlobalMagicControl : EngineObject
     {
         base.PersistFields(persister);
         persister.Object("Enchantments", Enchantments);
-        NextEnchantmentId = persister.Int32("NextEnchantmentID", NextEnchantmentId);
+        NextEnchantmentId = persister.Int32("NextEnchantmentId", NextEnchantmentId);
         PersistSupport.Int32Array(persister, "DoubleSphereManaCount", DoubleSphereManaCount);
         UpdateActiveEnchantments();
     }

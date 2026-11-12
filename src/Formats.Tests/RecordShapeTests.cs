@@ -403,10 +403,10 @@ public sealed class RecordShapeTests : FormatsTest
         Assert.Equal("010002", ((JsonString)stored["$reserved"]!).Value);
 
         var list = new ObjectNode(null, null);
-        list.Add("AbCount", new IntegerNode(4, true, 1));
-        list.Add("AbilityCount", new BitArrayNode(1, [], 0x80));
+        list.Add("AbilityCount", new IntegerNode(4, true, 1));
+        list.Add("AbilityBits", new BitArrayNode(1, [], 0x80));
         var listDocument = RoundTrip(schema.Get("TCustomAbilityList"), schema, list);
-        var ability = (JsonObject)listDocument["AbilityCount"]!;
+        var ability = (JsonObject)listDocument["AbilityBits"]!;
         Assert.Empty(((JsonArray)ability["values"]!).Items);
         Assert.Equal("80", ((JsonString)ability["$reserved"]!).Value);
 

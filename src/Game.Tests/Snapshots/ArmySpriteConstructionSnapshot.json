@@ -7,7 +7,7 @@
           "ArmyHexSprite.Army": {
             "$type": "Aow.Game.Units.Army",
             "Army.ConcealedUnits": 0,
-            "Army.DestinationL": -1,
+            "Army.DestinationMapLevel": -1,
             "Army.DestinationX": -1,
             "Army.DestinationY": -1,
             "Army.IndependentRelation": -1,
@@ -93,7 +93,7 @@
           "ArmyHexSprite.Army": {
             "$type": "Aow.Game.Units.Army",
             "Army.ConcealedUnits": 0,
-            "Army.DestinationL": -1,
+            "Army.DestinationMapLevel": -1,
             "Army.DestinationX": -1,
             "Army.DestinationY": -1,
             "Army.IndependentRelation": -1,

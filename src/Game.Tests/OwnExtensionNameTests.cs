@@ -49,7 +49,7 @@ public sealed class OwnExtensionNameTests : IDisposable
     private string Root(string relative) => Path.Combine(_directory, "root", relative);
 
     private static byte[] HeroList(string name) => Encoding.UTF8.GetBytes(
-        "{\"$format\": \"OpenAoW\", \"$version\": 1, \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {\"LibraryName\": \""
+        "{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {\"LibraryName\": \""
         + name + "\"}}");
 
     [Fact]

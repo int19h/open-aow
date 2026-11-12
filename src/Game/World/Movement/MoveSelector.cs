@@ -60,7 +60,7 @@ public partial class MoveSelector : IDisposable
             if (capture == this && hexSpriteMapMouse.Button == MouseButton.Left)
             {
                 var hexY = Map.Mouse.HexY;
-                SelectPath((sbyte)hexSpriteMapMouse.HexX, (sbyte)hexY, (sbyte)Map.ViewL);
+                SelectPath((sbyte)hexSpriteMapMouse.HexX, (sbyte)hexY, (sbyte)Map.ViewMapLevel);
             }
         }
     }
@@ -193,7 +193,7 @@ public partial class MoveSelector : IDisposable
                     int limit = settings.Path.Count - 2;
                     for (; J <= limit; J += 1)
                     {
-                        if (settings.Path[J].X >= Map.ViewHexX && settings.Path[J].X <= maxX && settings.Path[J].Y >= Map.ViewHexY && settings.Path[J].Y <= maxY && settings.Path[J].MapLevel == Map.ViewL)
+                        if (settings.Path[J].X >= Map.ViewHexX && settings.Path[J].X <= maxX && settings.Path[J].Y >= Map.ViewHexY && settings.Path[J].Y <= maxY && settings.Path[J].MapLevel == Map.ViewMapLevel)
                         {
                             x1 = settings.Path[J].X;
                             y1 = settings.Path[J].Y;
@@ -239,7 +239,7 @@ public partial class MoveSelector : IDisposable
 
                                     HexGeometry.HexToPixel(x1, y1, out pixelX, out pixelY);
                                     GamePack.Current.CursorImages[imageIndex].Show(pixelX - Map.ViewPixelX - 8, pixelY - Map.ViewPixelY - 8, surface);
-                                    if (pointsLeft - settings.Path[J].Tag != 0 && settings.Path[J + 1].MapLevel == Map.ViewL)
+                                    if (pointsLeft - settings.Path[J].Tag != 0 && settings.Path[J + 1].MapLevel == Map.ViewMapLevel)
                                     {
                                         if (pointsLeft - settings.Path[J].Tag <= settings.MovePoints)
                                         {
@@ -285,7 +285,7 @@ public partial class MoveSelector : IDisposable
                         pointsLeft -= settings.Path[J].Tag;
                     }
 
-                    if (settings.Path[0].X >= Map.ViewHexX && settings.Path[0].X <= maxX && settings.Path[0].Y >= Map.ViewHexY && settings.Path[0].Y <= maxY && settings.Path[0].MapLevel == Map.ViewL)
+                    if (settings.Path[0].X >= Map.ViewHexX && settings.Path[0].X <= maxX && settings.Path[0].Y >= Map.ViewHexY && settings.Path[0].Y <= maxY && settings.Path[0].MapLevel == Map.ViewMapLevel)
                     {
                         var item = settings.Path[0];
                         var fPathItem = settings.Path[0];
@@ -322,7 +322,7 @@ public partial class MoveSelector : IDisposable
                     if (settings.MovePoints < settings.PathMovePoints)
                     {
                         J = settings.Path.MovePointsToPosition(settings.MovePoints);
-                        if (J > 0 && J < settings.Path.Count - 1 && settings.Path[J].X >= Map.ViewHexX && settings.Path[J].X <= maxX && settings.Path[J].Y >= Map.ViewHexY && settings.Path[J].Y <= maxY && settings.Path[J].MapLevel == Map.ViewL)
+                        if (J > 0 && J < settings.Path.Count - 1 && settings.Path[J].X >= Map.ViewHexX && settings.Path[J].X <= maxX && settings.Path[J].Y >= Map.ViewHexY && settings.Path[J].Y <= maxY && settings.Path[J].MapLevel == Map.ViewMapLevel)
                         {
                             var item = settings.Path[J];
                             HexGeometry.HexToPixel(settings.Path[J].X, item.Y, out pixelX, out pixelY);

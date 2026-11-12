@@ -51,9 +51,9 @@ public partial class ItemExplorationSiteEventLog : EventLog
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        PersistSupport.Int32List(persister, "ItemIDs", ItemIds);
-        PersistSupport.Lines(persister, "Messages", Messages);
-        Title = persister.String("Title", Title);
+        PersistSupport.Int32List(persister, name: "ItemIds", list: ItemIds);
+        PersistSupport.Lines(persister, name: "Messages", lines: Messages);
+        Title = persister.String("Title", value: Title);
     }
 
 }

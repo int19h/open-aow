@@ -109,7 +109,7 @@ internal static class CaseCodec
         if (chosen.Key is null && objectValue[keyField] is JsonValue kind && mapping.Cases.FirstOrDefault(c => c.Key == Number(kind)) is { } known)
             throw context.Fail(Codes.Case, $"Key {Number(kind).ToString(CultureInfo.InvariantCulture)} has the case {known.Name}, not {chosen.Name}.",
                 kind, path.Member(keyField), Number(kind).ToString(CultureInfo.InvariantCulture), known.Name);
-        var flat = new JsonObject { Span = objectValue.Span, Origin = objectValue.Origin };
+        var flat = new JsonObject { Span = objectValue.Span };
         var fieldMembers = chosen.Fields.ToDictionary(f => f.Field, f => f.Member, StringComparer.Ordinal);
         var numbers = new Dictionary<string, long>(StringComparer.Ordinal);
         foreach (var m in objectValue.Members)

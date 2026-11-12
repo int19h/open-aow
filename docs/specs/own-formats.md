@@ -208,51 +208,43 @@ its name, class id, parent, the engine tables that enlist it (game, tactical, ca
 for three classes whose corpus order differs from inherited `ReadWrite` order (`StrategicMap`,
 `Hero` (Delphi `THero`), `Leader` (Delphi `TLeader`)), an explicit order. A property records its name, id, codec and, where they
 apply, its size, its object class or family, its callback payload, its dynamic id range and its
-slot base. A property renamed after documents were written lists its earlier names in
-`oldNames`. Loading renames a member stored under such a name to the current name, and a layout
-fingerprint that held before the rename is recomputed, so an older document still loads. Absence needs no schema default: an absent member is an absent property in the engine
+slot base. Since version 6 (issue 230) a property's name is the name of the C# member its storage
+call reads and writes, following the .NET identifier guide (`Id`, whole words). A member that no
+single C# member binds, such as an array element (`UnitResource.SilverRankAbilities` is
+`Abilities[Unit.Rank.Silver]`), a local the storage method copies, a second copy of one member
+(`StrategicMap.HeroControlCopy`) or a stored value nothing reads (`StrategicMap.UnknownProperty57`),
+says what it holds. `StoredNameBindingTests` pins the rule. No property keeps an earlier name. Absence needs no schema default: an absent member is an absent property in the engine
 image, and the engine's reader applies its own default, constructor-backed `rwData` defaults
 included. Version 1 annotates no reference domain in the schema. The unit validators of 2.7 name
 the one domain the game checks (`player-slot`), and the census marks the other reference
 candidates for review. Two classes carry case tables (2.3). `legacyShapes` holds the one named
 legacy rule, `LEGACY_VALLEY01_SPRITE` (section 9).
 
-`src/Formats/versions.json` pins the current version (5) with the schema's SHA-256
-`4b7d69b9b5c313a92f8256dab2ca3682edc65ce6749f13e4a3962bd35ab932a9`. Version 2
-adds the codec contracts `enum-1`, `set-1` and `int-array-1` to the version 1 contracts
-(`property-table-1`, `cfs-1`, `hsm-header-1`, `hss-header-1`, `stored-object-1`,
-`written-object-1`, `cp1252-frozen-1`). Version 3 adds `record-1`, `bit-array-1` and `raw-1`.
-Version 4 adds `list-element-1`, `grouped-list-1` and `bit-list-1`. Version 5 adds `single-1`,
-`terrain-list-1`, `terrain-grid-1`, `ilb-1`, `image-sequences-1` and `fixed-slot-1`.
-The mapping contracts stay `DiplomaticProposal-1` and
-`ProductionOrder-1`. `unitMappings` names the persisted classes whose game load needs a unit
-mapping (`AoWHSMap`, `DiplomaticAction` (Delphi `TDiplomaticAction`), `MapContainer` (Delphi `TMapContainer`), `ProductionItem` (Delphi `TProductionItem`)). `flatMappings`,
-the kind classes that keep a flat mapping, is empty. Versions 1 to 4 keep their historical
-hashes. `SchemaTests` fails when the current schema's hash differs from the pinned one. Version 2
-reannotates the enum, set and fixed integer array properties of 2.3. Version 3 reannotates the
-record, bit-array and raw primitive properties of 2.3 and leaves every other property in place.
-Version 4 reannotates the list properties of 2.3. The four unit index lists become `int-list`, the
-three unit index list collections `int-list` with `groups` 8, the two legacy relation lists
-`byte-list` with `enum` `DiplomaticRelation`, and the move path `int-list` with `record`
-`MapCoordinate`, where version 3 declares all ten `stream`. The three bit lists gain `indices`.
-`Leader.Spheres` (Delphi `TLeader`), `PlayerDiplomaticRelations.Relations` and `Race.DefaultRelations`
-gain `enum` `MagicSphere`, `DiplomaticRelation` and `Status`. Twenty-seven list properties gain
+`src/Formats/versions.json` pins the current version (6) with the schema's SHA-256
+`ecb0ee7cfa8ed6480ff18f5c864c108f3173763a325bef91ba7a18997b542965`, the codec contracts of that
+version (`property-table-1`, `cfs-1`, `hsm-header-1`, `hss-header-1`, `stored-object-1`,
+`written-object-1`, `cp1252-frozen-1`, `enum-1`, `set-1`, `int-array-1`, `record-1`,
+`bit-array-1`, `raw-1`, `list-element-1`, `grouped-list-1`, `bit-list-1`, `single-1`,
+`terrain-list-1`, `terrain-grid-1`, `ilb-1`, `image-sequences-1`, `fixed-slot-1`) and the mapping
+contracts `DiplomaticProposal-1` and `ProductionOrder-1`. `unitMappings` names the persisted
+classes whose game load needs a unit mapping (`DiplomaticAction`, `MapContainer`,
+`ProductionItem`, `StrategicMap`). `flatMappings`, the kind classes that keep a flat mapping, is
+empty. `SchemaTests` fails when the current schema's hash differs from the pinned one. The file
+holds no earlier version: own formats are not stable yet (2.6).
+
+Versions 2 to 5 reannotated properties of version 1 in place: the enum, set and fixed integer
+array properties (version 2), the record, bit-array and raw primitive properties (version 3), the
+list properties with their `enum`, `record` and `domain` annotations (version 4), and the resource
+payloads with the fixed dynamic members' `$slot` (version 5). Twenty-seven list properties carry
 `domain`, the reference domain of their values (`unit-id`, `unit-resource-index`, `spell-id`,
 `player-slot` and the like). A domain is an annotation: no value and no check depends on it yet.
-Version 5 reannotates the resource payloads of 2.3. The five image sequence lists
-(`Ability.ImageSequences`, `GamePack.ImageSequences`, `MapObjectResource.ImageSequenceList`,
-`Spell.CastImages`, `UnitGraphicsResource.Sequences`) become `image-sequences`,
-`MapObjectResource.TerrainList` becomes `terrain-list` and `MapObjectResource.ImageLibrary`
-becomes `ilb`, where version 4 declares all seven `stream`. `FloodControl.OriginalTerrain` becomes
-`terrain-grid` with `width` `Width` and `height` `Height`, where version 4 declares `data`, and
-`AIPlayerControl.DefenseStrengthMultiplier` becomes `single`, where version 4 declares `float32`.
-The fixed dynamic members `AbilityControl.Abilities` and `SpellControl.Spells` keep their
-declaration, and their items gain `$slot`. After version 5 no property is `stream` or `float32`,
-and `DiplomaticAction.ActionType` is the one `data` property, on its case mapping.
+No property is `stream` or `float32`, and `DiplomaticAction.Kind` is the one `data` property, on
+its case mapping. Version 6 renames the members to their C# names (issue 230). It changes no
+codec, id or order.
 
-Initial names use fields without `F`, checked against recovery metadata for local
-arguments, with declaring-class prefixes for collisions. Persisted class, member
-and case names survive C# renames. Cases use explicit registration keys, not
+Class names are the C# names, member names the names of the C# members they bind, and record
+fields and enum members their C# names. A C# rename renames the stored name and bumps the
+version. Cases use explicit registration keys, not
 `Type.Name`. Descriptors differ from per-engine enlistment. Resolve ids through
 the profile's actual engine table and reject ambiguity. Completeness checks invoke
 no creation delegates and demand no global id uniqueness across all descriptors.
@@ -281,8 +273,8 @@ storage streams name the same operations by CLR type (`persistence-tree.md` 1): 
 | `rwCreateEObject` | Object with `$class`, `null` for stored class id 0, absent for absent property |
 | `rwChildren` | `Children` in semantic traversal order. Every identity-bearing child slot has explicit `$slot` |
 | Map property 6 | `Fields[y][x]`, fixed field class from the level profile. Since PE-2c-4 the tree and the direct original path store it too, as a grid of the level's width and height |
-| Dynamic sprites | `Sprites` in original table order with `$class` and explicit identity metadata where a dynamic id carries identity. The sprite ids carry none, so a sprite has no `$slot`. Since PE-2c-4 the tree and the direct original path store them too, at ids 50 and on |
-| Keyed dynamic members | `AbilityOwner.AbilityData` and `ItemControl.Items`: an array of created objects in stored order, each with `$class` and `$slot`, the stored id less the slot base (50 and 10). A stored null is `{"$class": null, "$slot": n}`. Since PE-2c-2 the tree and the direct original path store them too. The fixed objects of `AbilityControl.Abilities` and `SpellControl.Spells` are an array in stored order, each with `$slot`, the stored id less 10, and no `$class`. Version 4 imports them without `$slot` and cannot export them. From version 5 they keep `$slot`, and since PE-2c-5 the tree and the direct original path store them |
+| Dynamic sprites | `HexSpriteList` in original table order with `$class` and explicit identity metadata where a dynamic id carries identity. The sprite ids carry none, so a sprite has no `$slot`. Since PE-2c-4 the tree and the direct original path store them too, at ids 50 and on |
+| Keyed dynamic members | `AbilityOwner.AbilityData` and `ItemControl.Items`: an array of created objects in stored order, each with `$class` and `$slot`, the stored id less the slot base (50 and 10). A stored null is `{"$class": null, "$slot": n}`. Since PE-2c-2 the tree and the direct original path store them too. The fixed objects of `AbilityControl.Abilities` and `SpellControl.RegisteredSpells` are an array in stored order, each with `$slot`, the stored id less 10, and no `$class`. Version 4 imports them without `$slot` and cannot export them. From version 5 they keep `$slot`, and since PE-2c-5 the tree and the direct original path store them |
 | Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile. `Campaign` ids 5 (size) and 6 (bytes) form the one member. Since PE-2c-4 the tree holds the file's bytes and the direct original path stores them. The direct document path imports and exports the nested document through its profile and keeps no compressed-stream residue |
 | Production item and diplomatic action | `$case`, the case name of the registered kind, then that case's fields. Values the case does not keep go to `$residue`. An unregistered key reads as the case `Unknown`, which keeps the discriminator as `Kind` and every value |
 | Absent property | Absent member, with documented reader default at game load. A present default value stays present through conversion |
@@ -409,61 +401,26 @@ id 30), and `scenario-set` 1 part in its one file. The check expectation file pi
 
 ### 2.6 Versioning and code page
 
-`$version` is a positive integer. Writers emit the current one. Readers retain
-historical decoder contracts, parse under the declared version, migrate through
-pure tree transforms in `src/Formats/Migrations`, then validate the current result.
-Newer versions fail with both numbers. Opening never rewrites an input file.
+`$version` is a positive integer. Writers emit the current one. Own formats are not stable yet
+(the user's decision, 2026-11-12): readers accept the current version only, there are no
+migrations and no back-compatibility. A newer version fails with both numbers. An older version
+fails with both numbers and asks for the original file to be converted again (`Codes.Version`,
+classified `UnsupportedVersion`). Opening never rewrites an input file. The playtest saves the
+driver keeps are converted from their originals again after a format change.
 
-Changes to schema meaning, order or mapping behavior bump the version and supply
-migrations. Cosmetic source changes do not. Additions use identity migrations only
-when old presence and defaults retain their meaning. New required fields or
-changed defaults need explicit transforms. Stable names do not follow C# names.
+Changes to schema meaning, names, order or mapping behavior bump the version. Cosmetic source
+changes do not. `versions.json` pins the normalized schema hash and the mapping contract
+identifiers of the current version. A test checks them. Golden binary/document pairs pin behavior
+too, since unchanged mapping names do not prove unchanged code. Mapping implementation changes
+receive format-change review.
 
-Migrations create no game object, execute no rules and read no clock, filesystem
-or mod assembly. They preserve semantic residue and source provenance, and
-validate or invalidate encoding residue. Historical golden documents cover whole
-chains, renamed classes/cases, defaults and both residue types.
-
-`versions.json` pins normalized schema hashes and mapping contract identifiers.
-A test checks them against the current version. Golden binary/document pairs pin
-behavior too, since unchanged mapping names do not prove unchanged code. Mapping
-implementation changes receive format-change review.
-
-Version 5 is the current version. `MigrationChain.Default` holds four steps.
-`1-symbolic-enum-set-array` rewrites version 1 hex of an enum, a set and a fixed integer array
-into the names and lists of 2.3, by the enum catalog. `2-record-bit-primitive` rewrites version 2
-hex of a padded record, the ability bit array and a raw primitive into the version 3 shapes of 2.3.
-It walks the pinned version 2 schema and decodes each of 39 pinned properties through an
-embedded version 3 codec spec. The three record layouts are embedded field lists. The codec specs
-and the record layouts are pinned. The codec implementations are live code. A later schema
-reannotation or a C# field rename does not change the step. A change to a live codec implementation
-does. Enum and set
-names still come from the enum catalog. `3-lists` rewrites the version 3 values of the 16 list
-properties of 2.2 into the version 4 shapes of 2.3. It walks the pinned version 3 schema
-(`schema-v3.json`). Each pinned property encodes its version 3 value through the version 3 codec,
-so a hex payload passes through as its bytes, and decodes those bytes through an embedded version
-4 codec spec. The `MapCoordinate` layout is an embedded field list. A list payload whose runs the
-writer does not make gains a `value-encoding` part on its object, so the original bytes stay exact.
-No step reads `FormatSchema.Current` and no step embeds the current schema. Each recomputes every
-`$layout` fingerprint so the retained parts still match the visible values, and leaves every other
-value in place. A nested campaign map's fingerprint uses that map's profile. `4-resources`
-rewrites the version 4 values of the nine resource properties of 2.2 into the version 5 shapes of
-2.3. It walks the pinned version 4 schema (`schema-v4.json`). Each pinned property encodes its
-version 4 value through the version 4 codec, so hex and `$bits` pass through as the stored bytes,
-and decodes those bytes through an embedded version 5 codec spec. A sequence list whose nil or
-has-next bytes the writer does not make gains a `value-encoding` part. Version 4 keeps no slot of
-a fixed dynamic item, so the step refuses an item of `AbilityControl.Abilities` or
-`SpellControl.Spells` without `$slot` (`Codes.Slot`). The version 4 export refused such an item
-too. Documents of versions 1 to 4 still load. The converter writes version 5.
-`MigrationTests` run a test chain from version 1 to 3 over the golden hero lists of
-`src/Formats.Tests/Golden`, check that every step runs and names the values it synthesizes, and
-that a newer version fails with both numbers. `HeroLibrary` is a schema class. Those hero lists
-hold no reannotated member, so both steps leave their bodies unchanged apart from the version.
-Each frozen step switches on the codec type. That switch stays inside the step. Document value
-rules have no switch on a kind (`persistence-tree.md`).
-`SymbolicTests` migrates constructed hex and that golden file. The production order and
-diplomatic proposal mappings landed inside 9.7-3, before any game wrote a document, so they are
-part of version 1 and no flat-field migration exists.
+Version 6 is the current version. Issue 230 deleted the migration chain of versions 1 to 5
+(`1-symbolic-enum-set-array`, `2-record-bit-primitive`, `3-lists`, `4-resources` and the member
+name step), the pinned schemas `schema-v1.json` to `schema-v4.json`, the schema's `oldNames`, the
+enum member aliases of `names.csv`, the golden historical hero lists, and the per-version history
+of `versions.json`. `VersionTests` check that the current version reads and that a newer and an
+older one fail. The production order and diplomatic proposal mappings landed inside 9.7-3, before
+any game wrote a document, so they were part of version 1.
 
 9.7-1 uses `Aow.Rtl.Cp1252` from 9.5-P1b, including `IsMapped`, never `AnsiString`.
 It does not wait for 9.5-1. The table is frozen from 9.7-1 onward. Fixtures cover
@@ -475,7 +432,7 @@ report-only wording without changing 9.5 font/input normalization.
 ### 2.7 Validation before game load
 
 Original import validates container and codec structure without game behavior.
-Game load additionally validates the migrated tree against read-only content
+Game load additionally validates the read tree against read-only content
 context before destructive engine load steps. Formats owns structural validation.
 Units supplies data-only family, ownership, reference and content validators.
 The converter never constructs game objects.
@@ -535,11 +492,10 @@ the UI data module.
 ### 2.8 Diagnostics
 
 Parsing retains spans for names, values and array items, including valid JSON
-that later fails. Migrations carry provenance. Diagnostics include file, JSON
+that later fails. Diagnostics include file, JSON
 path, one-based line and column, stable code, rejected value and constraint.
 Missing members point to owners. Dangling references point to the reference and
-name its domain. Synthesized values name the migration and nearest original
-owner location. Gzip locations explicitly refer to decompressed text. Binary
+name its domain. Gzip locations explicitly refer to decompressed text. Binary
 errors give byte offset and profile, never fabricated line numbers.
 
 ```text
@@ -548,14 +504,13 @@ Leader id 17 is absent from root.Leaders. Use an existing id or the documented n
 ```
 
 That path illustrates the contract, not a fixed member. Game, CLI and logs share
-a diagnostic type. Fixtures pin syntax, valid-JSON semantic and migrated-field
-errors exactly.
+a diagnostic type. Fixtures pin syntax and valid-JSON semantic errors exactly.
 
 The type is `FormatDiagnostic` (`src/Formats/Diagnostics.cs`), with 35 stable codes from
 `E_SYNTAX` to `E_UNKNOWN_FORMAT`. Its text is `file:line:column CODE path` for a JSON location,
 `file:0xoffset CODE path [profile]` for a binary one, with `(decompressed)` after the location
-of an inflated or gunzipped input, then the message and the rejected value, the constraint
-and the migration where they exist. A dangling reference reads, for example,
+of an inflated or gunzipped input, then the message and the rejected value and the constraint
+where they exist. Issue 230 removed the migration provenance with the migrations. A dangling reference reads, for example,
 `The player-slot 1 is absent from root.Players.Children. Use an existing one.` The game logs
 the same text in its file log (4.2), and a refused load raises `GameFileErrorException` (Delphi `EGameFileError`) with it.
 
@@ -615,7 +570,7 @@ diff after game load/save. Canonical ordering makes real changes visible.
 
 - `src/Formats`, `Aow.Formats`, references only `Aow.Rtl`. It contains the versioned
   document model, profiles, schema, original codecs, transitional image adapter,
-  validation interfaces, writer, migrations and `GameFiles`. Engine-image generation
+  validation interfaces, writer and `GameFiles`. Engine-image generation
   and original export are separate operations. Images containing port state are
   not original-game exports.
 - Unit-dependent mappings live in `Aow.Game`, registered by persisted name in
@@ -645,8 +600,7 @@ diff after game load/save. Canonical ordering makes real changes visible.
 
 9.7-1 needs no Units edit. It tests validation interfaces with data fixtures and
 uses its accepted flat mappings. Unit mappings and the Units project reference
-enter with integration. Later mappings bump the format version and migrate the
-earlier flat documents.
+enter with integration. Later mappings bump the format version.
 
 9.7-3 wired the game library. `Aow.Formats` references only `Aow.Rtl`, `Aow.Game` references
 `Aow.Formats`, and `Aow.Convert` references `Aow.Rtl`, `Aow.Formats` and `Aow.Game`. `aowconv`
@@ -675,7 +629,7 @@ never uses this option. `--exact-layout` conflicts with lossy conversion and
 requires the retained exact-layout claim to remain valid. It does not promise
 outer zlib bytes excluded by G1.
 
-`normalize` parses, migrates, validates structure and writes canonical JSON. It
+`normalize` parses, validates structure and writes canonical JSON. It
 reports encoding invalidation and retains semantic residue. It does not assert
 playability without game-content context. `info` reports profile, kind, version,
 representability, residue and validation coverage. `check` separates G1, eligible
@@ -708,7 +662,7 @@ report completed and failed files without claiming a directory-wide transaction.
 ### 3.3 Guarantees
 
 Let I(F, P) import original file F under profile context P, E(D, P) strictly export
-document D, and N(D) parse, migrate and write canonical JSON preserving valid
+document D, and N(D) parse and write canonical JSON preserving valid
 residue. P includes kind and root context absent from headerless original files.
 
 - G1: for every supported, structurally valid original F under P,
@@ -720,8 +674,8 @@ residue. P includes kind and root context absent from headerless original files.
   invalidates that residue and recomputes sizes and outer checksums.
 - G2: for every current-version canonical original-representable D,
   `I(E(D, P), P)` has exactly D's bytes under the same context. Both writers share
-  metadata and residue rules. G2 excludes lossy export, obsolete versions before
-  migration and hand edits before normalization.
+  metadata and residue rules. G2 excludes lossy export, obsolete versions and hand
+  edits before normalization.
 - G-own: `N(N(D)) = N(D)` for every valid supported own document, including future
   port-only state. It never passes through original export. Game load/save is a
   separate behavior check because loading changes state.
@@ -746,7 +700,7 @@ as representable satisfy G2, including defaults, empty containers and nested ima
 For in-scope profiles, `GameFiles` is the only file boundary. Original loads read
 through `IRtlHost.Files`, import to a document, validate for game context, export
 for unmasked G1 comparison, then produce the engine image. Own loads classify,
-parse, migrate, validate and produce the engine image. No conversion step creates
+parse, validate and produce the engine image. No conversion step creates
 game objects. Existing engine loading starts only after preflight succeeds.
 
 G1 mismatch, unknown members and conversion failures are load errors. There is
@@ -975,7 +929,7 @@ and unavailable families. Counts reduced by skipped inputs fail.
 
 | layer | assertion after 9.7 |
 | --- | --- |
-| Product | Zero warnings. Formats tests cover codec pairs, canonical bytes, edits, diagnostics, limits, migrations and schema hashes. Units tests cover profiles, mappings and game validation |
+| Product | Zero warnings. Formats tests cover codec pairs, canonical bytes, edits, diagnostics, limits, the version check and schema hashes. Units tests cover profiles, mappings and game validation |
 | Persistence | Existing three summary lines retained, plus census-based summaries above. Unmasked G1 for every in-scope original, G2 for eligible documents, G-own for all own fixtures, explicit G3 coverage |
 | Oracle | Seven scenarios, 177 of 177 saves are current own documents. Strict exports lose nothing and equal native saves in byte and model modes. All 177 satisfy G2 and G-own |
 | Frames and language-frames | Existing frame counts and masks unchanged. Every in-scope actual state is own JSON, compared through strict export. Pixels remain independently compared |
@@ -1322,8 +1276,8 @@ through `MapObjectResource.ReadWrite` (Delphi `TMapObjectResource`) and never re
 map of the shipped Valley campaign unloadable through the converter, so 9.7-1 accepted it under one
 named rule, `LEGACY_VALLEY01_SPRITE` in `schema.json` `legacyShapes`: only for a
 `Resource` stored as a `MapField` (Delphi `TMapField`) sprite, the class decodes with the fixed legacy
-shape `ResourceId` (id 1, i32), `LegacyXhx` (id 3, u8), `LegacyYhx` (id 4, u8), `LegacyProperty10`
-(id 10, u8) and `LegacyProperty12` (id 12, u8). Any other id in that context is an unknown
+shape `ResourceId` (id 1, i32), `LegacyHexX` (id 3, u8), `LegacyHexY` (id 4, u8), `UnknownProperty10`
+(id 10, u8) and `UnknownProperty12` (id 12, u8). Any other id in that context is an unknown
 property, and the class keeps its 1.36 shape elsewhere. Export writes the legacy shape back byte
 for byte, so G1 holds and the engine reads the image the original reads. The check expectation
 pins the rule to exactly one occurrence in that file.
@@ -1341,7 +1295,8 @@ pins the rule to exactly one occurrence in that file.
   as names, lists and plain values. Version 4 stores the list payloads of `rwStreamProc` and the
   bit lists as lists and indices. Version 5 stores the resource payloads, the flood terrain and
   the single as layers, pairs, base64, changed hexagons and a number. Only the mapped
-  discriminator `DiplomaticAction.ActionType` stays exact hex.
+  discriminator `DiplomaticAction.Kind` stays exact hex. Version 6 (issue 230) stores every
+  member under the name of its C# member and drops the migrations of the earlier versions.
   A persisted array keeps its original size until an adapter of X28 gives its extra entries a
   port-features property.
 - The exit (6.3). Step 1, the typed persistence tree and its direct document backend, is
@@ -1352,7 +1307,8 @@ pins the rule to exactly one occurrence in that file.
   4 (PE-2c-3) stores the list payloads, the bit lists and the enum lists as lists, indices and
   names. PE-2c-4 put the map fields, the sprites and the campaign map on the tree. Version 5
   (PE-2c-5) stores the resource payloads, the flood terrain, the single and the fixed dynamic
-  items, and puts them, the grouped lists and a bit list member on the tree. Steps 3 to 5 are
+  items, and puts them, the grouped lists and a bit list member on the tree. Version 6 (issue 230)
+  renames the stored members to their C# names. Steps 3 to 5 are
   not implemented. `ReadWrite` and the converter remain the game's path until step 3. The exit is a
   prerequisite of milestone 10: no persistence interface becomes stable mod API before it, and
   the private roadmap allocates it as briefs PE-1 to PE-5 before step 10.4 publishes the API

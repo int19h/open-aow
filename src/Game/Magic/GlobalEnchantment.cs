@@ -56,12 +56,12 @@ public partial class GlobalEnchantment : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _enchantmentId = persister.Int32("TGlobalEnchantment.EnchantmentID", _enchantmentId);
-        EnchantmentType = persister.Enum("EnchantmentType", EnchantmentType);
-        PlayerIndex = PersistSupport.UnsignedByte(persister, "PlayerIndex", PlayerIndex);
-        Name = persister.String("Name", Name);
-        EnchantmentManaUpkeep = persister.Int32("EnchantmentManaUpkeep", EnchantmentManaUpkeep);
-        DispelMana = persister.Int32("DispelMana", DispelMana);
+        _enchantmentId = persister.Int32("EnchantmentId", value: _enchantmentId);
+        EnchantmentType = persister.Enum("EnchantmentType", value: EnchantmentType);
+        PlayerIndex = PersistSupport.UnsignedByte(persister, name: "PlayerIndex", value: PlayerIndex);
+        Name = persister.String("Name", value: Name);
+        EnchantmentManaUpkeep = persister.Int32("EnchantmentManaUpkeep", value: EnchantmentManaUpkeep);
+        DispelMana = persister.Int32("DispelMana", value: DispelMana);
     }
 
     // Spells.PAS:2477

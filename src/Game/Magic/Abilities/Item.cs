@@ -151,22 +151,22 @@ public partial class Item : AbilityOwner, IOwned<ItemList>, IOwnedSink<ItemList>
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _itemGraphicsIndex = persister.Int32("ItemGFXIndex", _itemGraphicsIndex);
-        OwnerName = persister.String("OwnerName", OwnerName);
-        Name = persister.String("Name", Name);
-        Availability = persister.Enum("Availability", Availability);
-        Attack = PersistSupport.UnsignedByte(persister, "Attack", Attack);
-        Defense = PersistSupport.UnsignedByte(persister, "Defense", Defense);
-        Damage = PersistSupport.UnsignedByte(persister, "Damage", Damage);
-        Resistance = PersistSupport.UnsignedByte(persister, "Resistance", Resistance);
-        ItemType = persister.Enum("ItemType", ItemType);
-        _hidden = persister.Boolean("Hidden", _hidden);
-        ItemId = persister.Int32("ItemID", ItemId);
-        PersistSupport.Lines(persister, "Description", _description);
-        _obtainValue = persister.Int32("ObtainValue", _obtainValue);
-        _spellId = persister.Int32("SpellID", _spellId);
-        LibraryId = persister.Int32("LibraryID", LibraryId, -1);
-        LibraryName = persister.String("LibraryName", LibraryName);
+        _itemGraphicsIndex = persister.Int32("ItemGraphicsIndex", value: _itemGraphicsIndex);
+        OwnerName = persister.String("OwnerName", value: OwnerName);
+        Name = persister.String("Name", value: Name);
+        Availability = persister.Enum("Availability", value: Availability);
+        Attack = PersistSupport.UnsignedByte(persister, name: "Attack", value: Attack);
+        Defense = PersistSupport.UnsignedByte(persister, name: "Defense", value: Defense);
+        Damage = PersistSupport.UnsignedByte(persister, name: "Damage", value: Damage);
+        Resistance = PersistSupport.UnsignedByte(persister, name: "Resistance", value: Resistance);
+        ItemType = persister.Enum("ItemType", value: ItemType);
+        _hidden = persister.Boolean("Hidden", value: _hidden);
+        ItemId = persister.Int32("ItemId", value: ItemId);
+        PersistSupport.Lines(persister, name: "Description", lines: _description);
+        _obtainValue = persister.Int32("ObtainValue", value: _obtainValue);
+        _spellId = persister.Int32("SpellId", value: _spellId);
+        LibraryId = persister.Int32("LibraryId", value: LibraryId, fallback: -1);
+        LibraryName = persister.String("LibraryName", value: LibraryName);
     }
 
     // Army.PAS:4229

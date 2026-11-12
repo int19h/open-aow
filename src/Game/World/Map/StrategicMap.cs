@@ -509,8 +509,8 @@ public partial class StrategicMap : GameMap
             _viewPixelX = 0;
             Y = _viewPixelY;
             _viewPixelY = 0;
-            L = _viewL;
-            _viewL = 0;
+            L = _viewMapLevel;
+            _viewMapLevel = 0;
         }
         else
         {
@@ -524,7 +524,7 @@ public partial class StrategicMap : GameMap
         {
             _viewPixelX = X;
             _viewPixelY = Y;
-            _viewL = L;
+            _viewMapLevel = L;
         }
 
         stream.String(ref _author, 7);
@@ -2098,7 +2098,7 @@ public partial class StrategicMap : GameMap
         {
             var hexY = Mouse.HexY;
             var hexX = Mouse.HexX;
-            field = MapContainer.GetField(hexX, hexY, _viewL);
+            field = MapContainer.GetField(hexX, hexY, _viewMapLevel);
             if (Current.ExplorationEnabled && !field.GetExplored(Current.SeatedPlayer))
             {
                 return;
@@ -2108,7 +2108,7 @@ public partial class StrategicMap : GameMap
             {
                 var pixelY = Mouse.PixelY;
                 var pixelX = Mouse.PixelX;
-                if (Selection.CanSelectLocation(pixelX, pixelY, _viewL) && !((GameMapMouse)Mouse).GetSelectingRectangle())
+                if (Selection.CanSelectLocation(pixelX, pixelY, _viewMapLevel) && !((GameMapMouse)Mouse).GetSelectingRectangle())
                 {
                     Mouse.CursorMode = 257;
                 }
@@ -2155,7 +2155,7 @@ public partial class StrategicMap : GameMap
             {
                 Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Lo = player.ViewX;
                 Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Lo).Hi = player.ViewY;
-                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo = player.ViewL;
+                Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref mapCoordinate).Hi).Lo = player.ViewMapLevel;
             }
             else
             {
@@ -2436,7 +2436,7 @@ public partial class StrategicMap : GameMap
                 GetViewCenter(out X, out Y, out L);
                 player.ViewX = (byte)X;
                 player.ViewY = (byte)Y;
-                player.ViewL = (byte)L;
+                player.ViewMapLevel = (byte)L;
             }
 
             CombatMap = (CombatMap)GameTables.GameEngine.LoadHsmMap(FileBoundary.ReadName(GameTables.GameEngine.StartupDirectory + fileName), false, null, GameProfile.TacticalMap);

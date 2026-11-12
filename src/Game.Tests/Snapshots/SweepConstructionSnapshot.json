@@ -21173,7 +21173,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -21277,7 +21277,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -22328,7 +22328,7 @@
             "Dungeon.Prisoners": {
               "$type": "Aow.Game.Units.PrisonersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -22395,7 +22395,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -22486,7 +22486,7 @@
             "Dungeon.Prisoners": {
               "$type": "Aow.Game.Units.PrisonersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -22553,7 +22553,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -23252,7 +23252,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -23344,7 +23344,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -24859,7 +24859,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -24963,7 +24963,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -27186,7 +27186,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -27290,7 +27290,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -29730,7 +29730,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -29834,7 +29834,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -31061,7 +31061,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -31165,7 +31165,7 @@
             "ExplorationSite._defenders": {
               "$type": "Aow.Game.World.Structures.DefendersArmy",
               "Army.ConcealedUnits": 0,
-              "Army.DestinationL": -1,
+              "Army.DestinationMapLevel": -1,
               "Army.DestinationX": -1,
               "Army.DestinationY": -1,
               "Army.IndependentRelation": -1,
@@ -33425,7 +33425,7 @@
             "Structure._shadow": null,
             "Structure.StructureId": 0,
             "Structure.UpdateCount": 0,
-            "Teleport._destinationL": 0,
+            "Teleport._destinationMapLevel": 0,
             "Teleport._destinationX": 0,
             "Teleport._destinationY": 0,
             "Teleport.State": {
@@ -33474,7 +33474,7 @@
             "Structure._shadow": null,
             "Structure.StructureId": 0,
             "Structure.UpdateCount": 0,
-            "Teleport._destinationL": 0,
+            "Teleport._destinationMapLevel": 0,
             "Teleport._destinationX": 0,
             "Teleport._destinationY": 0,
             "Teleport.State": {
@@ -33519,7 +33519,7 @@
               "Structure._shadow": null,
               "Structure.StructureId": 0,
               "Structure.UpdateCount": 0,
-              "Teleport._destinationL": 0,
+              "Teleport._destinationMapLevel": 0,
               "Teleport._destinationX": 0,
               "Teleport._destinationY": 0,
               "Teleport.State": {

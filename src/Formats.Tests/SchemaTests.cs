@@ -15,10 +15,9 @@ public sealed class SchemaTests : FormatsTest
         using var stream = typeof(FormatSchema).Assembly.GetManifestResourceStream("Aow.Formats.versions.json")!;
         using var memory = new MemoryStream();
         stream.CopyTo(memory);
-        var versions = (JsonObject)JsonReader.Parse(memory.ToArray());
-        Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)versions["current"]!).Value);
-        var current = ((JsonArray)versions["versions"]!).Items.Cast<JsonObject>()
-            .Single(v => ((JsonInteger)v["version"]!).Value == OwnFormat.CurrentVersion);
+        var current = (JsonObject)JsonReader.Parse(memory.ToArray());
+        Assert.Equal(OwnFormat.CurrentVersion, ((JsonInteger)current["version"]!).Value);
+        Assert.Null(current.Find("versions"));
         string pinned = ((JsonString)current["schemaSha256"]!).Value;
         Assert.True(pinned == Schema.Hash, $"versions.json pins {pinned}, the schema hashes to {Schema.Hash}. A schema change needs a version review.");
         Assert.Equal(OwnFormat.CurrentVersion, Schema.Version);
@@ -83,13 +82,13 @@ public sealed class SchemaTests : FormatsTest
         Assert.Equal("ConnectionType", map.Properties[0].Name);
         Assert.Equal("Children", map.Properties[^1].Name);
         var field = Schema.Get("TAoWMapField");
-        Assert.Equal(["Sprites", "FieldFlags"], field.Properties.Select(p => p.Name));
+        Assert.Equal(["HexSpriteList", "FieldFlags"], field.Properties.Select(p => p.Name));
     }
 
     [Fact]
     public void SubclassIdsShadowInheritedIds()
     {
-        Assert.Equal("TargetUnitIDs", Schema.Get("THuntAG").PropertyById(30)!.Name);
+        Assert.Equal("TargetUnitIds", Schema.Get("THuntAG").PropertyById(30)!.Name);
         Assert.Equal("ManaBudget", Schema.Get("TAIGroup").PropertyById(30)!.Name);
         Assert.Equal("MapFieldResponse", Schema.Get("TAoWTerrainResource").PropertyById(20)!.Name);
     }
@@ -97,10 +96,10 @@ public sealed class SchemaTests : FormatsTest
     [Fact]
     public void TheValleyLegacyShapeAppliesOnlyToSprites()
     {
-        var shape = Schema.LegacyShape("TMapField.Sprites", "TFlagMessageEventResource");
+        var shape = Schema.LegacyShape("TMapField.HexSpriteList", "TFlagMessageEventResource");
         Assert.NotNull(shape);
         Assert.Equal("LEGACY_VALLEY01_SPRITE", shape.Value.Rule);
-        Assert.Equal(["ResourceId", "LegacyXhx", "LegacyYhx", "LegacyProperty10", "LegacyProperty12"], shape.Value.Shape.Properties.Select(p => p.Name));
+        Assert.Equal(["ResourceId", "LegacyHexX", "LegacyHexY", "UnknownProperty10", "UnknownProperty12"], shape.Value.Shape.Properties.Select(p => p.Name));
         Assert.Null(Schema.LegacyShape("TECustomNode.Children", "TFlagMessageEventResource"));
     }
 

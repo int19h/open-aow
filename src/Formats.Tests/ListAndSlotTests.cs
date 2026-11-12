@@ -220,8 +220,7 @@ public sealed class ListAndSlotTests : FormatsTest
         Assert.Equal("root.Sprites", image.Diagnostic.Path);
     }
 
-    // A fixed dynamic member stores fixed objects, so a created object at its slot is refused. A
-    // document before version 5 stores no slot of such a member.
+    // A fixed dynamic member stores fixed objects, so a created object at its slot is refused.
     [Fact]
     public void ACreatedObjectInAFixedSlotIsRefused()
     {

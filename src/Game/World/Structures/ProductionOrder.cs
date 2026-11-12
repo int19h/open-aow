@@ -15,12 +15,12 @@ public abstract partial record ProductionOrder
     private static readonly Catalog<int, Func<int, int, int, ProductionOrder>> s_kinds = new("production order");
 
     // The production id, parameter and group id the original format stores.
-    public abstract (int Id, int Parameter, int GroupId) ToFields();
+    public abstract (int Kind, int Parameter, int GroupId) ToFields();
 
     // The order the three stored fields name. An id no kind registered reads as UnknownOrder,
     // which writes the three fields back unchanged.
-    public static ProductionOrder FromFields(int id, int parameter, int groupId) =>
-        s_kinds.TryGet(id, out var create) ? create(id, parameter, groupId) : new UnknownOrder(id, parameter, groupId);
+    public static ProductionOrder FromFields(int kind, int parameter, int groupId) =>
+        s_kinds.TryGet(kind, out var create) ? create(kind, parameter, groupId) : new UnknownOrder(kind, parameter, groupId);
 
     // Registers the kind of a production id. A second registration of an id throws.
     internal static void Register(int id, Func<int, int, int, ProductionOrder> create) => s_kinds.Add(id, create);

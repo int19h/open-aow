@@ -38,9 +38,9 @@ public partial class SingleTargetCombatAction : CombatAction
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        SourceId = persister.Byte("SourceID", SourceId);
-        TargetId = persister.Byte("TargetID", TargetId);
-        Mode = persister.Set("Mode", Mode);
+        SourceId = persister.Byte("SourceId", value: SourceId);
+        TargetId = persister.Byte("TargetId", value: TargetId);
+        Mode = persister.Set("Mode", value: Mode);
     }
 
     // Combat2.pas:749

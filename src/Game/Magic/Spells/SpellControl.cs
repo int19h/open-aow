@@ -53,11 +53,11 @@ public partial class SpellControl : EngineObject
         {
             if (RegisteredSpells[I] != null)
             {
-                persister.ObjectSlot("Spells", slot: I, objectValue: RegisteredSpells[I]);
+                persister.ObjectSlot("RegisteredSpells", slot: I, objectValue: RegisteredSpells[I]);
             }
         }
 
-        persister.Skip("Spells");
+        persister.Skip("RegisteredSpells");
     }
 
     // Spells.PAS:597

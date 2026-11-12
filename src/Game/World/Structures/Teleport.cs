@@ -20,14 +20,14 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-// DestinationX, DestinationY, DestinationL, State (bit 0 razed)
+// DestinationX, DestinationY, DestinationMapLevel, State (bit 0 razed)
 public partial class Teleport : Structure
 {
     public Teleport(ECustomNode owner) : base(owner)
     {
         _destinationX = 0;
         _destinationY = 0;
-        _destinationL = 0;
+        _destinationMapLevel = 0;
     }
 
     // Teleport.pas:105
@@ -35,7 +35,7 @@ public partial class Teleport : Structure
 
     private sbyte _destinationX;
     private sbyte _destinationY;
-    private sbyte _destinationL;
+    private sbyte _destinationMapLevel;
     public Set<StateElement> State;
 
     // Teleport.pas:122
@@ -44,7 +44,7 @@ public partial class Teleport : Structure
         base.ReadWrite(stream);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationX), 7);
         stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationY), 8);
-        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationL), 9);
+        stream.Byte(ref Unsafe.As<sbyte, byte>(ref _destinationMapLevel), 9);
         TransferSet(ref State, 1, 10, stream.Bytes, 0);
     }
 
@@ -54,7 +54,7 @@ public partial class Teleport : Structure
     public override void MapFieldMessageProc(ref MapFieldMessage message)
     {
         base.MapFieldMessageProc(ref message);
-        if (message.HexNumber == 0 && message.MessageId == 4416 && message.Param[1].As<MapField>().HexX == _destinationX && message.Param[1].As<MapField>().HexY == _destinationY && message.Param[1].As<MapField>().HexLevel == _destinationL)
+        if (message.HexNumber == 0 && message.MessageId == 4416 && message.Param[1].As<MapField>().HexX == _destinationX && message.Param[1].As<MapField>().HexY == _destinationY && message.Param[1].As<MapField>().HexLevel == _destinationMapLevel)
         {
             bool notFogEnabled = !StrategicMap.Current.FogEnabled;
             if (!notFogEnabled)
@@ -65,7 +65,7 @@ public partial class Teleport : Structure
                 notFogEnabled = StrategicMap.Current.VisibleForPlayer(hexX, hexY, hexLevel, StrategicMap.Current.SeatedPlayer);
             }
 
-            if (notFogEnabled || StrategicMap.Current.VisibleForPlayer(_destinationX, _destinationY, _destinationL, StrategicMap.Current.SeatedPlayer))
+            if (notFogEnabled || StrategicMap.Current.VisibleForPlayer(_destinationX, _destinationY, _destinationMapLevel, StrategicMap.Current.SeatedPlayer))
             {
                 AudioPlayback.PlaySample("SFX\\PLACES\\TELEPORT.WAV");
             }
@@ -79,7 +79,7 @@ public partial class Teleport : Structure
     {
         if (info.HexNumber == 0 && !State.Contains(StateElement.Razed))
         {
-            var fieldValue = StrategicMap.Current.MapContainer.GetField(_destinationX, _destinationY, _destinationL);
+            var fieldValue = StrategicMap.Current.MapContainer.GetField(_destinationX, _destinationY, _destinationMapLevel);
             ((MoveControl)info.Sender).ExecuteExternalMove(info.MapField, fieldValue, 0);
         }
     }
@@ -152,7 +152,7 @@ public partial class Teleport : Structure
         StrategicMap.Current.PlaceHex(animation, hexX, hexY, hexLevel);
         animation = new ImageSequenceAnimation(null);
         animation.SetImageSequence(GamePack.Current.ImageSequences.ImageSequences[12]);
-        StrategicMap.Current.PlaceHex(animation, _destinationX, _destinationY, _destinationL);
+        StrategicMap.Current.PlaceHex(animation, _destinationX, _destinationY, _destinationMapLevel);
     }
 
     // Teleport.pas:185
@@ -161,9 +161,9 @@ public partial class Teleport : Structure
         MapField field;
         ArmyHexSprite otherArmy;
         bool result = false;
-        if (_destinationL >= 0 && _destinationL < StrategicMap.Current.MapContainer.LevelCount && _destinationX >= 0 && _destinationX < StrategicMap.Current.MapContainer.Width && _destinationY >= 0 && _destinationY < StrategicMap.Current.MapContainer.Height)
+        if (_destinationMapLevel >= 0 && _destinationMapLevel < StrategicMap.Current.MapContainer.LevelCount && _destinationX >= 0 && _destinationX < StrategicMap.Current.MapContainer.Width && _destinationY >= 0 && _destinationY < StrategicMap.Current.MapContainer.Height)
         {
-            field = StrategicMap.Current.MapContainer.GetField(_destinationX, _destinationY, _destinationL);
+            field = StrategicMap.Current.MapContainer.GetField(_destinationX, _destinationY, _destinationMapLevel);
             if (armyHexSprite.Army.ValidTerrain(field.TerrainType, field.OverlayType))
             {
                 otherArmy = field.GetArmyHexSprite();
@@ -205,11 +205,11 @@ public partial class Teleport : Structure
             {
                 armyHexSprite.Army.ResetDestinationPosition();
                 path = new MovePath();
-                path.AddMapCoordinate(_destinationX, _destinationY, _destinationL);
+                path.AddMapCoordinate(_destinationX, _destinationY, _destinationMapLevel);
                 var hexLevel = GetHexLevel();
                 var hexY = GetHexY();
                 path.AddMapCoordinate(GetHexX(), hexY, hexLevel);
-                field = StrategicMap.Current.MapContainer.GetField(_destinationX, _destinationY, _destinationL);
+                field = StrategicMap.Current.MapContainer.GetField(_destinationX, _destinationY, _destinationMapLevel);
                 bool condition = field.GetMoveAction(armyHexSprite.Army.Player) != MoveAction.Attack || field.GetPlayer() <= 0;
                 if (!condition)
                 {
@@ -249,7 +249,7 @@ public partial class Teleport : Structure
 
                     if (result && (byte)StrategicMap.Current.SeatedPlayer == (byte)armyHexSprite.Army.Player)
                     {
-                        StrategicMap.Current.CenterViewTo(_destinationX, _destinationY, _destinationL);
+                        StrategicMap.Current.CenterViewTo(_destinationX, _destinationY, _destinationMapLevel);
                         StrategicMap.Current.SelectedArmy.Select(armyHexSprite);
                     }
                 }

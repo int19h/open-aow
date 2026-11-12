@@ -26,7 +26,7 @@ public partial class ArmyNegotiateMoveTokenEvent : MoveArmyTokenEvent
     {
         // { Matches: Assign inherited Validate to Result before the conjunction. }
         bool result = base.Validate();
-        return result && StrategicMap.Current.MapContainer.GetField(TargetX, TargetY, TargetL).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate;
+        return result && StrategicMap.Current.MapContainer.GetField(TargetX, TargetY, TargetMapLevel).GetMoveAction(ArmyHexSprite.Army.Player) == MoveAction.Negotiate;
     }
 
     // MoveT.PAS:2442

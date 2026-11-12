@@ -258,7 +258,7 @@ public sealed class ProductionOrderTests
         return result;
     }
 
-    private static readonly (int Id, int Parameter, int GroupId)[] s_kinds =
+    private static readonly (int Kind, int Parameter, int GroupId)[] s_kinds =
     [
         (1, 5, 12), (2, 5, 0), (10, 1, 0), (10, -1, 0), (11, 0, 0), (12, 0, 0), (13, 6, 0), (14, 0, 0), (0, 0, 0), (99, 7, 3),
     ];

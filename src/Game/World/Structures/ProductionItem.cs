@@ -27,13 +27,13 @@ public partial class ProductionItem : EngineObject, IOwned<ProductionQueue>, IOw
     public override void ReadWrite(StorageStream stream)
     {
         base.ReadWrite(stream);
-        var (id, parameter, groupId) = Order.ToFields();
-        stream.Int32(ref id, 20);
+        var (kind, parameter, groupId) = Order.ToFields();
+        stream.Int32(ref kind, 20);
         stream.Int32(ref parameter, 21);
         stream.Int32(ref groupId, 22);
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
-            Order = ProductionOrder.FromFields(id, parameter, groupId);
+            Order = ProductionOrder.FromFields(kind, parameter, groupId);
         }
     }
 

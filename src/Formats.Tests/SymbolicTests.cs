@@ -1,6 +1,5 @@
 using System.Text;
 using Aow.Formats.Json;
-using Aow.Formats.Migrations;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
@@ -8,8 +7,8 @@ using Aow.Formats.Tree;
 namespace Aow.Formats.Tests;
 
 /// <summary>
-/// Version 2 stores an enum as its C# member name, a set as names and a fixed integer array as
-/// a list. Version 1 hex migrates to those values. Export refuses a list longer than the original count.
+/// An enum stores its C# member name, a set stores names and a fixed integer array stores a list.
+/// Export refuses a list longer than the original count.
 /// </summary>
 public sealed class SymbolicTests : FormatsTest
 {
@@ -117,77 +116,6 @@ public sealed class SymbolicTests : FormatsTest
     }
 
     [Fact]
-    public void Version1HexMigratesToNamesAndLists()
-    {
-        var relation = Migrate("""
-            {"$format":"OpenAoW","$version":1,"$kind":"hero-list","$container":{"profile":"hero-list","compression":"none"},
-             "root":{"$class":"TDiplomaticRelationHistoryItem","Day":4,"Relation":"02"}}
-            """);
-        var root = (JsonObject)relation.Document["root"]!;
-        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name, ListMigration.Name, ResourceMigration.Name], relation.Migrations);
-        Assert.Equal(5, ((JsonInteger)relation.Document["$version"]!).Value);
-        Assert.Equal("Alliance", ((JsonString)root["Relation"]!).Value);
-        Assert.Equal(4, ((JsonInteger)root["Day"]!).Value);
-
-        var unnamed = Migrate("""
-            {"$format":"OpenAoW","$version":1,"$kind":"hero-list","$container":{"profile":"hero-list","compression":"none"},
-             "root":{"$class":"TDiplomaticRelationHistoryItem","Relation":"ff"}}
-            """);
-        Assert.Equal(255, ((JsonInteger)((JsonObject)unnamed.Document["root"]!)["Relation"]!).Value);
-
-        var style = Migrate("""
-            {"$format":"OpenAoW","$version":1,"$kind":"hero-list","$container":{"profile":"hero-list","compression":"none"},
-             "root":{"$class":"TEControlStyleObject","ControlStyle":"a5"}}
-            """);
-        Assert.Equal(["SaveLoad", "VerifyFixedChildren", 5L, 7L], Items(((JsonObject)style.Document["root"]!)["ControlStyle"]!));
-
-        var spell = Migrate("""
-            {"$format":"OpenAoW","$version":1,"$kind":"hero-list","$container":{"profile":"hero-list","compression":"none"},
-             "root":{"$class":"TUnitSpellCA","SpellData":"07000000ffffffff"}}
-            """);
-        Assert.Equal([7L, -1L], Items(((JsonObject)spell.Document["root"]!)["SpellData"]!));
-    }
-
-    [Fact]
-    public void Version1HexInsideNestedValuesMigrates()
-    {
-        var child = MigrateRoot("""{"$class":"TGlobalEnchantmentList","Children":[{"$class":"TGlobalEnchantment","$slot":0,"EnchantmentType":"03"}]}""");
-        var enchantment = (JsonObject)((JsonArray)((JsonObject)child.Document["root"]!)["Children"]!).Items[0];
-        Assert.Equal("PowerLeak", ((JsonString)enchantment["EnchantmentType"]!).Value);
-
-        var created = MigrateRoot("""{"$class":"TGlobalEnchantmentSpellTE","Enchantment":{"$class":"TGlobalEnchantment","EnchantmentType":"01"}}""");
-        var made = (JsonObject)((JsonObject)created.Document["root"]!)["Enchantment"]!;
-        Assert.Equal("Hatred", ((JsonString)made["EnchantmentType"]!).Value);
-
-        // The item states its slot, which the version 4 step requires of a fixed dynamic item.
-        var dynamicItem = MigrateRoot("""{"$class":"TAbilityControl","Abilities":[{"$slot":0,"SelectionTypes":"0100"}]}""");
-        var ability = (JsonObject)((JsonArray)((JsonObject)dynamicItem.Document["root"]!)["Abilities"]!).Items[0];
-        Assert.Equal(new List<object> { "Unit" }, Items(ability["SelectionTypes"]!));
-
-        var field = MigrateRoot("""{"$class":"TMapLevel","Fields":[[{"Sprites":[{"$class":"TDiplomaticRelationHistoryItem","Relation":"01"}]}]]}""");
-        var row = (JsonArray)((JsonArray)((JsonObject)field.Document["root"]!)["Fields"]!).Items[0];
-        var sprites = (JsonArray)((JsonObject)row.Items[0])["Sprites"]!;
-        Assert.Equal("War", ((JsonString)((JsonObject)sprites.Items[0])["Relation"]!).Value);
-
-        var campaign = MigrateRoot("""{"$class":"TAoWCampaign","Map":{"root":{"$class":"TDiplomaticRelationHistoryItem","Relation":"03"}}}""");
-        var nested = (JsonObject)((JsonObject)((JsonObject)campaign.Document["root"]!)["Map"]!)["root"]!;
-        Assert.Equal("Unknown", ((JsonString)nested["Relation"]!).Value);
-    }
-
-    [Fact]
-    public void MalformedVersion1HexAndAnIntegerAreRefused()
-    {
-        var integer = Assert.Throws<ConversionException>(() => MigrateRoot("""{"$class":"TDiplomaticRelationHistoryItem","Relation":2}"""));
-        Assert.Equal(Codes.Type, integer.Diagnostic.Code);
-        Assert.Equal("root.Relation", integer.Diagnostic.Path);
-        Assert.Contains("hexadecimal", integer.Diagnostic.Message);
-
-        var broken = Assert.Throws<ConversionException>(() => MigrateRoot("""{"$class":"TDiplomaticRelationHistoryItem","Relation":"zz"}"""));
-        Assert.Equal(Codes.Type, broken.Diagnostic.Code);
-        Assert.Equal("root.Relation", broken.Diagnostic.Path);
-    }
-
-    [Fact]
     public void AMissingCatalogEntryCarriesThePath()
     {
         var direct = Assert.Throws<ConversionException>(() => EnumCatalog.Require("TNoSuchEnum", "sample.json", "root.Rank"));
@@ -216,57 +144,6 @@ public sealed class SymbolicTests : FormatsTest
     }
 
     [Fact]
-    public void MigrationRefreshesLayoutFingerprints()
-    {
-        var root = new JsonObject()
-            .Add("$class", new JsonString("TDiplomaticRelationHistoryItem"))
-            .Add("Day", new JsonInteger(4))
-            .Add("Relation", new JsonString("02"));
-        AttachLayout(root, "hero-list");
-        var container = new JsonObject()
-            .Add("profile", new JsonString("hero-list"))
-            .Add("compression", new JsonString("none"));
-        AttachLayout(container, "hero-list");
-        var read = GameFiles.Read(GameFiles.Write(Envelope("hero-list", container, root)), "layout.json");
-        var migrated = (JsonObject)read.Document["root"]!;
-        Assert.Equal("Alliance", ((JsonString)migrated["Relation"]!).Value);
-        Assert.Equal(LayoutResidue.Fingerprint(migrated, "hero-list"), FingerprintOf(migrated));
-        Assert.Equal(LayoutResidue.TableFormOrder, PartCategory(migrated));
-        var migratedContainer = (JsonObject)read.Document["$container"]!;
-        Assert.Equal(LayoutResidue.Fingerprint(migratedContainer, "hero-list"), FingerprintOf(migratedContainer));
-
-        var nested = new JsonObject()
-            .Add("$class", new JsonString("TDiplomaticRelationHistoryItem"))
-            .Add("Relation", new JsonString("03"));
-        var map = new JsonObject()
-            .Add("$container", new JsonObject()
-                .Add("profile", new JsonString("world-hsm"))
-                .Add("compression", new JsonString("cfs"))
-                .Add("level", new JsonInteger(1)))
-            .Add("root", nested);
-        AttachLayout(map, "world-hsm");
-        var campaign = new JsonObject().Add("$class", new JsonString("TAoWCampaign")).Add("Map", map);
-        var outer = new JsonObject().Add("profile", new JsonString("campaign")).Add("compression", new JsonString("none"));
-        var migratedCampaign = GameFiles.Read(GameFiles.Write(Envelope("campaign", outer, campaign)), "campaign.json").Document;
-        var migratedMap = (JsonObject)((JsonObject)migratedCampaign["root"]!)["Map"]!;
-        Assert.Equal("Unknown", ((JsonString)((JsonObject)migratedMap["root"]!)["Relation"]!).Value);
-        Assert.Equal(LayoutResidue.Fingerprint(migratedMap, "world-hsm"), FingerprintOf(migratedMap));
-        Assert.NotEqual(LayoutResidue.Fingerprint(migratedMap, "campaign"), FingerprintOf(migratedMap));
-        Assert.Equal(LayoutResidue.TableFormOrder, PartCategory(migratedMap));
-    }
-
-    [Fact]
-    public void TheHeroListGoldenKeepsItsBody()
-    {
-        var golden = Golden("hero-list-v1.json");
-        var read = GameFiles.Read(golden, "hero-list-v1.json");
-        var original = (JsonObject)JsonReader.Parse(golden, "hero-list-v1.json");
-        Assert.Equal([SymbolicMigration.Name, RecordMigration.Name, ListMigration.Name, ResourceMigration.Name], read.Migrations);
-        Assert.Equal(5, ((JsonInteger)read.Document["$version"]!).Value);
-        Assert.Equal(JsonWriter.ToUtf8((JsonObject)original["root"]!), JsonWriter.ToUtf8((JsonObject)read.Document["root"]!));
-    }
-
-    [Fact]
     public void AMappedClassIsRefusedByBothBackends()
     {
         var schema = FormatSchema.Current;
@@ -286,54 +163,12 @@ public sealed class SymbolicTests : FormatsTest
         Assert.Equal("root", production.Diagnostic.Path);
     }
 
-    private static void AttachLayout(JsonObject target, string profile)
-    {
-        var layout = new JsonObject()
-            .Add("codec", new JsonString(LayoutResidue.Codec))
-            .Add("fingerprint", new JsonString(LayoutResidue.Fingerprint(target, profile)))
-            .Add("parts", new JsonArray().Add(new JsonObject()
-                .Add("category", new JsonString(LayoutResidue.TableFormOrder))
-                .Add("entries", new JsonArray())));
-        int at = 0;
-        while (at < target.Members.Count && target.Members[at].Name.StartsWith('$')) at++;
-        target.Members.Insert(at, new JsonMember("$layout", layout));
-    }
-
-    private static JsonObject Envelope(string profile, JsonObject container, JsonObject root) => new JsonObject()
-        .Add("$format", new JsonString(OwnFormat.FormatName))
-        .Add("$version", new JsonInteger(1))
-        .Add("$kind", new JsonString(profile))
-        .Add("$container", container)
-        .Add("root", root);
-
-    private static string FingerprintOf(JsonObject objectValue) =>
-        ((JsonString)((JsonObject)objectValue["$layout"]!)["fingerprint"]!).Value;
-
-    private static string PartCategory(JsonObject objectValue)
-    {
-        var parts = (JsonArray)((JsonObject)objectValue["$layout"]!)["parts"]!;
-        return ((JsonString)((JsonObject)parts.Items[0])["category"]!).Value;
-    }
-
-    private static ReadResult Migrate(string json) => GameFiles.Read(Encoding.UTF8.GetBytes(json), "symbolic.json");
-
-    private static ReadResult MigrateRoot(string root) =>
-        Migrate("{\"$format\":\"OpenAoW\",\"$version\":1,\"root\":" + root + "}");
-
     private static void AssertWidth(string kind, string property, string path)
     {
         string json = "{\"version\":2,\"classes\":[{\"name\":\"TSampleHolder\",\"properties\":[" + property + "]}]}";
         var error = Assert.Throws<InvalidOperationException>(() => FormatSchema.Load(Encoding.UTF8.GetBytes(json), "wide.json"));
         Assert.Contains(path, error.Message);
         Assert.Contains(kind, error.Message);
-    }
-
-    private static byte[] Golden(string name)
-    {
-        using var stream = typeof(SymbolicTests).Assembly.GetManifestResourceStream("Aow.Formats.Tests.Golden." + name)!;
-        using var memory = new MemoryStream();
-        stream.CopyTo(memory);
-        return memory.ToArray();
     }
 
     private static byte[] Pilot(SchemaClass classValue, FormatSchema schema, JsonObject document) =>

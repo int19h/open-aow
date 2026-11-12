@@ -242,8 +242,7 @@ internal static class Commands
                 var read = GameFiles.Read(bytes, input);
                 parseMilliseconds = watch.Elapsed.TotalMilliseconds;
                 document = read.Document;
-                format = (read.Gzip ? "gzip own JSON" : "own JSON") + $", declared version {read.DeclaredVersion}" +
-                    (read.Migrations.Count > 0 ? ", migrated by " + string.Join(", ", read.Migrations) : "");
+                format = (read.Gzip ? "gzip own JSON" : "own JSON") + $", declared version {read.DeclaredVersion}";
                 counts = new LayoutCounts();
                 importMilliseconds = 0;
                 watch.Restart();

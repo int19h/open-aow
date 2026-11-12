@@ -12,7 +12,7 @@ public sealed partial record ResearchSpell(int Index) : ProductionOrder
 {
     public const int Kind = 2;
 
-    public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, Index, 0);
+    public override (int Kind, int Parameter, int GroupId) ToFields() => (Kind, Index, 0);
 
     public override CityAction CityAction => CityAction.Research;
 

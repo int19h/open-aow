@@ -62,9 +62,9 @@ public partial class EventLog : EngineObject, IOwned<EventLogList>, IOwnedSink<E
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _day = persister.Int32("TEventLog.Day", _day);
-        _player = PersistSupport.UnsignedByte(persister, "Player", _player);
-        Id = persister.Int32("ID", Id);
+        _day = persister.Int32("Day", value: _day);
+        _player = PersistSupport.UnsignedByte(persister, name: "Player", value: _player);
+        Id = persister.Int32("Id", value: Id);
     }
 
     // EventLog.pas:345

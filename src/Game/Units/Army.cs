@@ -46,7 +46,7 @@ public partial class Army : UnitList
         MapLevel = -1;
         DestinationX = -1;
         DestinationY = -1;
-        DestinationL = -1;
+        DestinationMapLevel = -1;
         IndependentRelation = -1;
     }
 
@@ -72,7 +72,7 @@ public partial class Army : UnitList
     public GroupBehavior OldAIBehavior;
     public sbyte DestinationX;
     public sbyte DestinationY;
-    public sbyte DestinationL;
+    public sbyte DestinationMapLevel;
     public Set<ArmyUserModeElement> UserMode;
     private byte _visibilityRanges;
 
@@ -105,7 +105,7 @@ public partial class Army : UnitList
         {
             stream.Byte(ref Unsafe.As<sbyte, byte>(ref DestinationX), 8);
             stream.Byte(ref Unsafe.As<sbyte, byte>(ref DestinationY), 9);
-            stream.Byte(ref Unsafe.As<sbyte, byte>(ref DestinationL), 10);
+            stream.Byte(ref Unsafe.As<sbyte, byte>(ref DestinationMapLevel), 10);
             TransferSet(ref UserMode, 1, 13, stream.Bytes, 0);
         }
 
@@ -120,20 +120,20 @@ public partial class Army : UnitList
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Player = PersistSupport.UnsignedByte(persister, "Player", Player);
-        X = PersistSupport.UnsignedByte(persister, "X", X);
-        Y = PersistSupport.UnsignedByte(persister, "Y", Y);
-        MapLevel = PersistSupport.UnsignedByte(persister, "L", MapLevel);
+        Player = PersistSupport.UnsignedByte(persister, name: "Player", value: Player);
+        X = PersistSupport.UnsignedByte(persister, name: "X", value: X);
+        Y = PersistSupport.UnsignedByte(persister, name: "Y", value: Y);
+        MapLevel = PersistSupport.UnsignedByte(persister, name: "MapLevel", value: MapLevel);
         if (persister.Loading || StrategicMap.Current == null || StrategicMap.Current.ConnectionType != (PlayerConnectionType)1)
         {
-            DestinationX = PersistSupport.UnsignedByte(persister, "DestinationX", DestinationX);
-            DestinationY = PersistSupport.UnsignedByte(persister, "DestinationY", DestinationY);
-            DestinationL = PersistSupport.UnsignedByte(persister, "DestinationL", DestinationL);
-            UserMode = persister.Set("UserMode", UserMode);
+            DestinationX = PersistSupport.UnsignedByte(persister, name: "DestinationX", value: DestinationX);
+            DestinationY = PersistSupport.UnsignedByte(persister, name: "DestinationY", value: DestinationY);
+            DestinationMapLevel = PersistSupport.UnsignedByte(persister, name: "DestinationMapLevel", value: DestinationMapLevel);
+            UserMode = persister.Set("UserMode", value: UserMode);
         }
 
-        OldAIBehavior = persister.Enum("OldAIBehavior", OldAIBehavior);
-        Mode = persister.Set("Mode", Mode);
+        OldAIBehavior = persister.Enum("OldAIBehavior", value: OldAIBehavior);
+        Mode = persister.Set("Mode", value: Mode);
         if (persister.Loading && Mode.Contains(ArmyModeElement.Moving))
         {
             Mode = Mode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
@@ -817,7 +817,7 @@ public partial class Army : UnitList
     {
         DestinationX = army.DestinationX;
         DestinationY = army.DestinationY;
-        DestinationL = army.DestinationL;
+        DestinationMapLevel = army.DestinationMapLevel;
         Player = army.Player;
     }
 
@@ -968,7 +968,7 @@ public partial class Army : UnitList
     {
         DestinationX = -1;
         DestinationY = -1;
-        DestinationL = -1;
+        DestinationMapLevel = -1;
     }
 
     // Army.PAS:672
@@ -976,7 +976,7 @@ public partial class Army : UnitList
     {
         DestinationX = X;
         DestinationY = Y;
-        DestinationL = L;
+        DestinationMapLevel = L;
     }
 
     // Army.PAS:675

@@ -66,10 +66,10 @@ public partial class CustomAbilityList : EngineObject
     {
         base.PersistFields(persister);
         int count = AbilityCount;
-        count = persister.Int32("AbCount", count);
+        count = persister.Int32("AbilityCount", count);
         if (persister.Loading) SetAbilityCount(count);
         int length = (int)(((uint)(AbilityCount + 7)) >> 3);
-        persister.BitArray("AbilityCount", AbilityCount, AbilityBits.AsSpan(0, length));
+        persister.BitArray("AbilityBits", AbilityCount, AbilityBits.AsSpan(0, length));
         if (persister.Preview) return;
         for (int index = 0; index < AbilityCount; index++)
         {

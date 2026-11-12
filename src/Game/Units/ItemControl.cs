@@ -130,7 +130,7 @@ public partial class ItemControl : EngineObject
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        _lastId = persister.Int32("LastID", _lastId);
+        _lastId = persister.Int32("LastId", _lastId);
         if (persister.Preview)
         {
             persister.Skip("Items");

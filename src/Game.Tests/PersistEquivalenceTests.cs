@@ -340,7 +340,7 @@ public sealed class PersistEquivalenceTests
                             .Add("$class", new JsonString("FrozenWaterHexSprite"))
                             .Add("DaysRemaining", new JsonInteger(k + 1))
                             .Add("CasterPlayer", new JsonInteger(x - y)));
-                    if (sprites.Items.Count != 0) field.Add("Sprites", sprites);
+                    if (sprites.Items.Count != 0) field.Add("HexSpriteList", sprites);
                     field.Add("FieldFlags", new JsonInteger(x * 100 + y + 1));
                 }
                 row.Add(field);
@@ -493,7 +493,7 @@ public sealed class PersistEquivalenceTests
         Each<CityEnchantmentId>(value =>
         {
             var control = new GlobalMagicControl(null!);
-            var city = new CityEnchantment(null!) { _enchantmentId = value };
+            var city = new CityEnchantment(null!) { CityEnchantmentId = value };
             city.EnchantmentLocation.Packed = 9;
             city.SetOwner(control.Enchantments);
             Check("GlobalMagicControl", control, converterRead: false);
@@ -638,15 +638,15 @@ public sealed class PersistEquivalenceTests
     {
         using var source = AbilityItem(withData: true);
         var document = PilotImage.Decode(Image(source), "Item");
-        // IDs names slot 33 and an absent slot 99, and leaves the stored slot 47 unread.
-        var ids = (JsonArray)((JsonObject)document["IDs"]!)["items"]!;
+        // AbilityDataIds names slot 33 and an absent slot 99, and leaves the stored slot 47 unread.
+        var ids = (JsonArray)((JsonObject)document["AbilityDataIds"]!)["items"]!;
         ids.Items.Clear();
         ids.Items.Add(new JsonInteger(33));
         ids.Items.Add(new JsonInteger(99));
         SameLoad("Item", document);
         var noBits = PilotImage.Decode(Image(source), "Item");
         // ReadWrite tests the ability bits (property 3), not the count.
-        Assert.True(noBits.Remove("AbilityCount"));
+        Assert.True(noBits.Remove("AbilityBits"));
         SameLoad("Item", noBits);
     }
 
@@ -804,18 +804,18 @@ public sealed class PersistEquivalenceTests
             var army = new Army(null!);
             army.DestinationX = 3;
             army.DestinationY = 4;
-            army.DestinationL = 1;
+            army.DestinationMapLevel = 1;
             army.UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             var classValue = s_schema.Get("Army");
             var document = DocumentBackend.Write(TreeWriter.Write(army, Factory), classValue, s_schema, "game");
             Assert.Null(document.Find("DestinationX"));
             Assert.Null(document.Find("DestinationY"));
-            Assert.Null(document.Find("DestinationL"));
+            Assert.Null(document.Find("DestinationMapLevel"));
             Assert.Null(document.Find("UserMode"));
             Check("Army", army);
 
             map.ConnectionType = PlayerConnectionType.Local;
-            var source = new Army(null!) { DestinationX = 3, DestinationY = 4, DestinationL = 1 };
+            var source = new Army(null!) { DestinationX = 3, DestinationY = 4, DestinationMapLevel = 1 };
             source.UserMode = Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             var image = Image(source);
             source.Dispose();
@@ -828,11 +828,11 @@ public sealed class PersistEquivalenceTests
                 Load(viaReadWrite, image);
                 Assert.Equal(3, viaPersist.DestinationX);
                 Assert.Equal(4, viaPersist.DestinationY);
-                Assert.Equal(1, viaPersist.DestinationL);
+                Assert.Equal(1, viaPersist.DestinationMapLevel);
                 Assert.True(viaPersist.UserMode.Contains(ArmyUserModeElement.Guard));
                 Assert.Equal(3, viaReadWrite.DestinationX);
                 Assert.Equal(4, viaReadWrite.DestinationY);
-                Assert.Equal(1, viaReadWrite.DestinationL);
+                Assert.Equal(1, viaReadWrite.DestinationMapLevel);
                 Assert.True(viaReadWrite.UserMode.Contains(ArmyUserModeElement.Guard));
                 EqualBytes(Image(viaPersist), Image(viaReadWrite), "Army network load");
             }
@@ -1561,7 +1561,7 @@ public sealed class PersistEquivalenceTests
     {
         public UnitIndexList Units { get; } = new();
 
-        public void Persist(IPersister persister) => PersistSupport.UnitIndexList(persister, "ItemIDs", Units);
+        public void Persist(IPersister persister) => PersistSupport.UnitIndexList(persister, "ItemIds", Units);
     }
 
     private static byte[] Image(EngineObject objectValue)

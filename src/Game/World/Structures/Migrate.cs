@@ -10,7 +10,7 @@ public sealed partial record Migrate(int Race) : ProductionOrder
 {
     public const int Kind = 13;
 
-    public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, Race, 0);
+    public override (int Kind, int Parameter, int GroupId) ToFields() => (Kind, Race, 0);
 
     public override CityAction CityAction => CityAction.Migrate;
 

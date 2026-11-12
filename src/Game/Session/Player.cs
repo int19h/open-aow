@@ -147,7 +147,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
 
     public byte ViewX;
     public byte ViewY;
-    public byte ViewL;
+    public byte ViewMapLevel;
     private string _password = "";
     private StringList _messages;
 
@@ -412,17 +412,17 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
                 StrategicMap.Current.GetViewCenter(out X, out Y, out L);
                 ViewX = (byte)X;
                 ViewY = (byte)Y;
-                ViewL = (byte)L;
+                ViewMapLevel = (byte)L;
                 stream.Byte(ref ViewX, 20);
                 stream.Byte(ref ViewY, 21);
-                stream.Byte(ref ViewL, 22);
+                stream.Byte(ref ViewMapLevel, 22);
             }
         }
         else
         {
             stream.Byte(ref ViewX, 20);
             stream.Byte(ref ViewY, 21);
-            stream.Byte(ref ViewL, 22);
+            stream.Byte(ref ViewMapLevel, 22);
         }
 
         if (!stream.StorageMode().Contains(StorageModeElement.Preview))
@@ -559,7 +559,7 @@ public partial class Player : EngineObject, IOwned<PlayerList>, IOwnedSink<Playe
         {
             ViewX = 255;
             ViewY = 255;
-            ViewL = 255;
+            ViewMapLevel = 255;
         }
 
         MagicControl.MessageProc(ref message, sender);

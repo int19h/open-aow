@@ -10,7 +10,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.Events;
 
-// UnitId. OldLevel. NewLevel. _day
+// UnitId. OldLevel. NewLevel. UpgradeDay
 public partial class HeroUpgradeEventLog : EventLog
 {
     public HeroUpgradeEventLog(ECustomNode owner) : base(owner)
@@ -21,7 +21,7 @@ public partial class HeroUpgradeEventLog : EventLog
     public int UnitId;
     public byte OldLevel;
     public byte NewLevel;
-    public new int _day;
+    public int UpgradeDay;
 
     // Hero.PAS:57
     public override void ReadWrite(StorageStream stream)
@@ -30,7 +30,7 @@ public partial class HeroUpgradeEventLog : EventLog
         stream.Int32(ref UnitId, 25);
         stream.Byte(ref OldLevel, 26);
         stream.Byte(ref NewLevel, 27);
-        stream.Int32(ref _day, 28);
+        stream.Int32(ref UpgradeDay, 28);
     }
 
     // Hero.PAS:66
@@ -82,7 +82,7 @@ public partial class HeroUpgradeEventLog : EventLog
             }
             else
             {
-                if (StrategicMap.Current.Players.GetPlayers(hero.Player).Day == _day)
+                if (StrategicMap.Current.Players.GetPlayers(hero.Player).Day == UpgradeDay)
                 {
                     var canOnlyUpgradeHeroOnce = AbilityRules.TranslateResourceString(s_canOnlyUpgradeHeroOnceText);
                     StrategicMap.Current.ShowWarning(canOnlyUpgradeHeroOnce);

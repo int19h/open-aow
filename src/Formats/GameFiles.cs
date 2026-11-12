@@ -1,7 +1,6 @@
 using System.Globalization;
 using System.IO.Compression;
 using Aow.Formats.Json;
-using Aow.Formats.Migrations;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 
@@ -10,7 +9,7 @@ namespace Aow.Formats;
 public static class OwnFormat
 {
     public const string FormatName = "OpenAoW";
-    public const int CurrentVersion = 5;
+    public const int CurrentVersion = 6;
 }
 
 /// <summary>What content detection found (own-formats.md 2.9).</summary>
@@ -44,7 +43,6 @@ public sealed class ReadResult
 {
     public required JsonObject Document { get; init; }
     public required int DeclaredVersion { get; init; }
-    public required IReadOnlyList<string> Migrations { get; init; }
     public required bool Gzip { get; init; }
 }
 
@@ -149,7 +147,7 @@ public static class GameFiles
     public static (FileProfile Profile, string Kind, JsonObject Container, JsonValue Root) Envelope(JsonObject document, string? fileName)
     {
         ConversionException Fail(string code, string message, JsonValue at, string path, string? value = null) =>
-            new(new FormatDiagnostic(code, message) { File = fileName, Span = at.Span, Path = path, Value = value, Migration = at.Origin });
+            new(new FormatDiagnostic(code, message) { File = fileName, Span = at.Span, Path = path, Value = value });
         foreach (var m in document.Members)
         {
             if (m.Name is "$format" or "$version" or "$kind" or "$container" or "root") continue;
@@ -188,14 +186,14 @@ public static class GameFiles
     }
 
     /// <summary>
-    /// Reads an own document: bounded gunzip when gzip magic is present, strict parsing, the
-    /// envelope check, then migration to the current version. Newer versions fail with both
-    /// numbers. Nothing here falls back to the original formats.
+    /// Reads an own document: bounded gunzip when gzip magic is present, strict parsing and the
+    /// envelope check. Own formats are not stable yet, so only the current version reads. A
+    /// document of another version fails with both numbers, and an older one asks for the
+    /// original file to be converted again. Nothing here falls back to the original formats.
     /// </summary>
-    public static ReadResult Read(byte[] bytes, string? fileName = null, FormatLimits? limits = null, MigrationChain? chain = null)
+    public static ReadResult Read(byte[] bytes, string? fileName = null, FormatLimits? limits = null)
     {
         limits ??= FormatLimits.Default;
-        chain ??= MigrationChain.Default;
         bool gzip = IsGzip(bytes);
         if (gzip) bytes = Gunzip(bytes, limits, fileName);
         var value = JsonReader.Parse(bytes, fileName, gzip, limits);
@@ -207,14 +205,12 @@ public static class GameFiles
         if (document["$version"] is not JsonInteger { Value: >= 1 } versionValue)
             throw new ConversionException(new FormatDiagnostic(Codes.Version, "$version is a positive integer.")
             { File = fileName, Span = (document["$version"] ?? document).Span, Path = "$version", Decompressed = gzip });
-        if (versionValue.Value > chain.Current)
-            throw new ConversionException(new FormatDiagnostic(Codes.Version,
-                $"The document has version {versionValue.Value}, newer than the supported version {chain.Current}.")
+        if (versionValue.Value != OwnFormat.CurrentVersion)
+            throw new ConversionException(new FormatDiagnostic(Codes.Version, versionValue.Value > OwnFormat.CurrentVersion
+                ? $"The document has version {versionValue.Value}, newer than the supported version {OwnFormat.CurrentVersion}."
+                : $"The document has version {versionValue.Value}, older than the supported version {OwnFormat.CurrentVersion}. Convert the original file again.")
             { File = fileName, Span = versionValue.Span, Path = "$version", Value = versionValue.Value.ToString(CultureInfo.InvariantCulture), Decompressed = gzip });
-        int declared = (int)versionValue.Value;
-        var applied = new List<string>();
-        document = chain.Migrate(document, declared, applied);
-        return new ReadResult { Document = document, DeclaredVersion = declared, Migrations = applied, Gzip = gzip };
+        return new ReadResult { Document = document, DeclaredVersion = (int)versionValue.Value, Gzip = gzip };
     }
 
     private static byte[] Gunzip(byte[] bytes, FormatLimits limits, string? fileName)
@@ -241,14 +237,14 @@ public static class GameFiles
     }
 
     /// <summary>
-    /// N(D): parse, migrate, validate and write canonical JSON. For the version 1 schema every
+    /// N(D): parse, validate and write canonical JSON. For the version 1 schema every
     /// valid document is original-representable, so validation is the strict export and the
     /// canonical form is the import of its result. Valid residue survives and encoding
     /// invalidated by edits is reported.
     /// </summary>
-    public static (byte[] Bytes, IReadOnlyList<FormatDiagnostic> Invalidated) Normalize(byte[] own, string? fileName = null, FormatLimits? limits = null, MigrationChain? chain = null)
+    public static (byte[] Bytes, IReadOnlyList<FormatDiagnostic> Invalidated) Normalize(byte[] own, string? fileName = null, FormatLimits? limits = null)
     {
-        var read = Read(own, fileName, limits, chain);
+        var read = Read(own, fileName, limits);
         var (profile, kind, _, _) = Envelope(read.Document, fileName);
         var exported = Export(read.Document, null, fileName, limits);
         var imported = Import(exported.Bytes, profile, kind, fileName, limits);

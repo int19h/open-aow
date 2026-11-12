@@ -7,8 +7,8 @@ using Aow.Formats.Tree;
 namespace Aow.Formats.Tests;
 
 /// <summary>
-/// The scenario set and the game set files hold every resource payload of version 5. A game set
-/// file (<c>Release\*.pfs</c>) stays outside the own formats (own-formats.md 1.1). It is a written
+/// The scenario set and the game set files hold every resource payload of the current version. A
+/// game set file (<c>Release\*.pfs</c>) stays outside the own formats (own-formats.md 1.1). It is a written
 /// object between two CRC words (TEngine.WriteToFileCRC), read here through a written-object
 /// profile of its root class. <c>comb_res.pfs</c> holds tactical classes and reads through the
 /// tactical engine table. <c>HEROES.PFS</c>, <c>ITEMS.PFS</c> and <c>General.pfs</c> hold more

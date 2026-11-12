@@ -228,7 +228,7 @@ public partial class Battle : EngineObject
         data.MapLevel = L;
         data.AttackerX = attackerX;
         data.AttackerY = attackerY;
-        data.AttackerL = attackerL;
+        data.AttackerMapLevel = attackerL;
         data.AttackerPlayer = (sbyte)AddCombatPlayer(attackerPlayer, attackerRelation, CombatSideIndex.Attacker);
         data.DefenderPlayer = (sbyte)AddCombatPlayer(defenderPlayer, defenderRelation, CombatSideIndex.Defender);
         var fieldValue = StrategicMap.Current.MapContainer.GetField(data.X, data.Y, data.MapLevel);

@@ -32,10 +32,10 @@ public partial class DurationAbilityData : AbilityData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Duration = persister.Byte("Duration", Duration);
-        AbilityId = persister.UInt16("AbilityID", AbilityId);
-        PlayerIndex = persister.Byte("PlayerIndex", PlayerIndex);
-        Source = persister.Int32("Source", Source);
+        Duration = persister.Byte("Duration", value: Duration);
+        AbilityId = persister.UInt16("AbilityId", value: AbilityId);
+        PlayerIndex = persister.Byte("PlayerIndex", value: PlayerIndex);
+        Source = persister.Int32("Source", value: Source);
     }
 
     // AoWAb.PAS:11

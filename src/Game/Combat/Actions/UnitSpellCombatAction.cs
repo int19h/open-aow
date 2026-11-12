@@ -43,9 +43,9 @@ public partial class UnitSpellCombatAction : CombatAction
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        SpellId = persister.Int32("SpellID", SpellId);
-        SourceId = persister.Byte("SourceID", SourceId);
-        TargetId = persister.Byte("TargetID", TargetId);
+        SpellId = persister.Int32("SpellId", SpellId);
+        SourceId = persister.Byte("SourceId", SourceId);
+        TargetId = persister.Byte("TargetId", TargetId);
         PersistSupport.Int32Array(persister, "SpellData", SpellData);
         Mana = persister.Int32("Mana", Mana);
     }

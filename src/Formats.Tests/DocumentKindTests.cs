@@ -1,3 +1,4 @@
+using System.Text;
 using Aow.Formats.Original;
 
 namespace Aow.Formats.Tests;
@@ -62,7 +63,7 @@ public sealed class DocumentKindTests : FormatsTest
     [Fact]
     public void ClassificationIgnoresTheFormOfTheExtension()
     {
-        var own = "{\"$format\": \"OpenAoW\", \"$version\": 1, \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {}}"u8.ToArray();
+        var own = Encoding.UTF8.GetBytes("{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {}}");
         Assert.Equal(DetectedFormat.OwnJson, GameFiles.Classify(own, ".ahl").Format);
         Assert.Equal(DetectedFormat.OwnJson, GameFiles.Classify(own, ".oahl").Format);
         var original = GameFiles.Export(GameFiles.Read(own).Document).Bytes;

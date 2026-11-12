@@ -239,7 +239,7 @@ internal static class ObjectImage
         var writer = new ObjectWriter();
         foreach (var prop in classValue.Properties)
         {
-            var member = objectValue.Find(prop.Name) ?? prop.OldNames.Select(objectValue.Find).FirstOrDefault(found => found is not null);
+            var member = objectValue.Find(prop.Name);
             if (member is null) continue;
             var memberPath = path.Member(prop.Name);
             if (prop.IsDynamic)

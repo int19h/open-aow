@@ -105,23 +105,23 @@ public partial class AbilityOwner : CustomAbilityList
         }
     }
 
-    // The load follows IDs, as ReadWrite does: one AbilityData per stored id, from the slot of
-    // that id, and a slot IDs does not name stays unread. ReadWrite reads neither member when the
+    // The load follows AbilityDataIds, as ReadWrite does: one AbilityData per stored id, from the slot of
+    // that id, and a slot AbilityDataIds does not name stays unread. ReadWrite reads neither member when the
     // ability bits (property 3) are absent.
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
         if (persister.Loading)
         {
-            if (!persister.Has("AbilityCount"))
+            if (!persister.Has("AbilityBits"))
             {
-                persister.Skip("IDs");
+                persister.Skip("AbilityDataIds");
                 persister.Skip("AbilityData");
                 return;
             }
 
             var ids = new Int32List();
-            PersistSupport.Int32List(persister, "IDs", ids);
+            PersistSupport.Int32List(persister, "AbilityDataIds", ids);
             AbilityData previous = null;
             for (int i = 0; i < ids.Count; i++)
             {
@@ -151,7 +151,7 @@ public partial class AbilityOwner : CustomAbilityList
             stored.Add(data.GetAbilityId());
         }
 
-        PersistSupport.Int32List(persister, "IDs", stored);
+        PersistSupport.Int32List(persister, "AbilityDataIds", stored);
         for (var data = AbilityData; data != null; data = data.Next)
         {
             persister.CreatedSlot("AbilityData", slot: data.GetAbilityId(), objectValue: data);

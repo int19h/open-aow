@@ -28,8 +28,8 @@ public partial class MultiLevelAbilityData : AbilityData
     public override void PersistFields(IPersister persister)
     {
         base.PersistFields(persister);
-        Level = persister.Byte("Level", Level);
-        LevelAbilityId = persister.UInt16("LevelAbilityID", LevelAbilityId);
+        Level = persister.Byte("Level", value: Level);
+        LevelAbilityId = persister.UInt16("LevelAbilityId", value: LevelAbilityId);
     }
 
     // AoWAb.PAS:243

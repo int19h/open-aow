@@ -42,7 +42,7 @@ public partial class ProductionQueue : ENode, IChildList<ProductionItem>
         while (result != 0)
         {
             result -= 1;
-            if (id == this[result].Order.ToFields().Id)
+            if (id == this[result].Order.ToFields().Kind)
             {
                 return result;
             }

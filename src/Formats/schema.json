@@ -1,19 +1,19 @@
 {
   "format": "OpenAoW-schema",
-  "version": 5,
+  "version": 6,
   "note": "Hand-owned from 9.7-1. Generated once from the 9.7-0 census, the class baseline, registration reachability and corpus order evidence.",
   "legacyShapes": [
     {
       "name": "LEGACY_VALLEY01_SPRITE",
       "class": "FlagMessageEvent.Resource",
-      "context": "MapField.Sprites",
+      "context": "MapField.HexSpriteList",
       "note": "Valley01.CSM stores a map object image under class id 132462 as a field sprite. 1.36 reads ids 1, 3 and 4 through TMapObjectResource and never reads ids 10 and 12.",
       "properties": [
-        {"name": "ResourceId", "oldNames": ["ResourceID"], "id": 1, "codec": "i32"},
-        {"name": "LegacyXhx", "id": 3, "codec": "u8"},
-        {"name": "LegacyYhx", "id": 4, "codec": "u8"},
-        {"name": "LegacyProperty10", "id": 10, "codec": "u8"},
-        {"name": "LegacyProperty12", "id": 12, "codec": "u8"}
+        {"name": "ResourceId", "id": 1, "codec": "i32"},
+        {"name": "LegacyHexX", "id": 3, "codec": "u8"},
+        {"name": "LegacyHexY", "id": 4, "codec": "u8"},
+        {"name": "UnknownProperty10", "id": 10, "codec": "u8"},
+        {"name": "UnknownProperty12", "id": 12, "codec": "u8"}
       ]
     }
   ],
@@ -102,10 +102,10 @@
       "parent": "UnitUserList",
       "id": 136272,
       "properties": [
-        {"name": "GroupID", "id": 20, "codec": "i32"},
-        {"name": "TransporterID", "id": 21, "codec": "i32"},
-        {"name": "LeaderID", "id": 22, "codec": "i32"},
-        {"name": "TargetXYL", "id": 23, "codec": "i32"},
+        {"name": "GroupId", "id": 20, "codec": "i32"},
+        {"name": "TransporterId", "id": 21, "codec": "i32"},
+        {"name": "LeaderId", "id": 22, "codec": "i32"},
+        {"name": "TargetMapCoordinate", "id": 23, "codec": "i32"},
         {"name": "TargetType", "id": 24, "codec": "enum", "enum": "AIGroupTargetStatus", "width": 1, "signed": false},
         {"name": "Player", "id": 25, "codec": "u8"},
         {"name": "IndependentRelation", "id": 26, "codec": "i8", "raw": true},
@@ -170,7 +170,7 @@
       "parent": "AIGroupList",
       "id": 256,
       "properties": [
-        {"name": "NextID", "id": 30, "codec": "i32"}
+        {"name": "NextId", "id": 30, "codec": "i32"}
       ]
     },
     {
@@ -382,7 +382,7 @@
       "properties": [
         {"name": "Description", "id": 5, "codec": "strings"},
         {"name": "SkillPointCost", "id": 6, "codec": "i32"},
-        {"name": "SFXLibrary", "id": 7, "codec": "object", "class": "SfxLibrary"},
+        {"name": "SfxLibrary", "id": 7, "codec": "object", "class": "SfxLibrary"},
         {"name": "ImageSequences", "id": 8, "codec": "image-sequences"},
         {"name": "SelectionTypes", "id": 9, "codec": "set", "set": "AbilitySelectionType", "width": 2}
       ]
@@ -406,7 +406,7 @@
       "parent": "CustomAbilityList",
       "id": 80,
       "properties": [
-        {"name": "IDs", "id": 49, "codec": "int-list", "domain": "ability-id"},
+        {"name": "AbilityDataIds", "id": 49, "codec": "int-list", "domain": "ability-id"},
         {"name": "AbilityData", "dynamic": 50, "codec": "created", "family": "AbilityData", "slotBase": 50}
       ]
     },
@@ -416,11 +416,11 @@
       "id": 66048,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "HssFileName", "oldNames": ["HSSFileName"], "id": 2, "codec": "string"},
-        {"name": "Unsafe", "id": 3, "codec": "u8"},
-        {"name": "ViewPixelX", "oldNames": ["ViewXhp"], "id": 4, "codec": "i32"},
-        {"name": "ViewPixelY", "oldNames": ["ViewYhp"], "id": 5, "codec": "i32"},
-        {"name": "ViewL", "id": 6, "codec": "i32"}
+        {"name": "HssFileName", "id": 2, "codec": "string"},
+        {"name": "Version", "id": 3, "codec": "u8"},
+        {"name": "ViewPixelX", "id": 4, "codec": "i32"},
+        {"name": "ViewPixelY", "id": 5, "codec": "i32"},
+        {"name": "ViewMapLevel", "id": 6, "codec": "i32"}
       ]
     },
     {
@@ -479,11 +479,11 @@
       "parent": "AbilityOwner",
       "id": 80,
       "properties": [
-        {"name": "GroupID", "id": 4, "codec": "i32"},
-        {"name": "UnitID", "id": 5, "codec": "i32"},
+        {"name": "GroupId", "id": 4, "codec": "i32"},
+        {"name": "UnitId", "id": 5, "codec": "i32"},
         {"name": "MoraleValue", "id": 6, "codec": "u8"},
         {"name": "Player", "id": 47, "codec": "u8"},
-        {"name": "Legacy", "id": 48, "codec": "created"}
+        {"name": "LegacyGroup", "id": 48, "codec": "created"}
       ]
     },
     {
@@ -491,7 +491,7 @@
       "parent": "EngineResource",
       "id": 1024,
       "properties": [
-        {"name": "UnitGFXResourceIndex", "id": 8, "codec": "i32"}
+        {"name": "UnitGraphicsResourceIndex", "id": 8, "codec": "i32"}
       ]
     },
     {
@@ -712,9 +712,9 @@
       "id": 131815,
       "properties": [
         {"name": "Dimensions", "id": 10, "codec": "record", "record": "Rect", "size": 16},
-        {"name": "HexX", "oldNames": ["Xhx"], "id": 11, "codec": "u8"},
-        {"name": "HexY", "oldNames": ["Yhx"], "id": 12, "codec": "u8"},
-        {"name": "HexLevel", "oldNames": ["Lhx"], "id": 13, "codec": "u8"},
+        {"name": "HexX", "id": 11, "codec": "u8"},
+        {"name": "HexY", "id": 12, "codec": "u8"},
+        {"name": "HexLevel", "id": 13, "codec": "u8"},
         {"name": "FrameCounter", "id": 14, "codec": "i32"}
       ]
     },
@@ -749,7 +749,7 @@
         {"name": "TransferSettings", "id": 7, "codec": "object", "class": "CampaignTransferSettings"},
         {"name": "Scenarios", "id": 10, "codec": "object", "class": "AoWCampaignScenarioList"},
         {"name": "Name", "id": 12, "codec": "string"},
-        {"name": "CurrentScenarioID", "id": 13, "codec": "i32"},
+        {"name": "CurrentScenarioId", "id": 13, "codec": "i32"},
         {"name": "CompletedScenarios", "id": 14, "codec": "int-list", "domain": "campaign-scenario-id"},
         {"name": "ScenarioStarted", "id": 15, "codec": "bool"},
         {"name": "RaceHistory", "id": 16, "codec": "byte-list", "domain": "race-index"},
@@ -763,7 +763,7 @@
       "id": 131588,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ID", "id": 9, "codec": "i32"},
+        {"name": "Id", "id": 9, "codec": "i32"},
         {"name": "Name", "id": 10, "codec": "string"},
         {"name": "FileName", "id": 11, "codec": "string"}
       ]
@@ -783,7 +783,7 @@
         {"name": "Items", "id": 21, "codec": "object", "class": "ItemList"},
         {"name": "Units", "id": 22, "codec": "object", "class": "UnitList"},
         {"name": "Spells", "id": 23, "codec": "int-list", "domain": "spell-id"},
-        {"name": "ResearchSpellID", "id": 24, "codec": "i32"},
+        {"name": "ResearchSpellId", "id": 24, "codec": "i32"},
         {"name": "ResearchPointsLeft", "id": 25, "codec": "i32"},
         {"name": "ResearchPercentage", "id": 26, "codec": "i32"},
         {"name": "Leader", "id": 27, "codec": "created", "family": "Leader"}
@@ -864,9 +864,9 @@
         {"name": "StartingGame", "id": 61, "codec": "bool"},
         {"name": "ShowAllPlayers", "id": 62, "codec": "bool"},
         {"name": "VictoryMode", "id": 63, "codec": "u8", "raw": true},
-        {"name": "LegacyProperty57", "id": 57, "codec": "bool", "legacy": true}
+        {"name": "UnknownProperty57", "id": 57, "codec": "bool", "legacy": true}
       ],
-      "order": ["ConnectionType", "HssFileName", "Unsafe", "ViewPixelX", "ViewPixelY", "ViewL", "Author", "Description", "Objectives", "IndependentAIMode", "CurrentPlayer", "TurnOrderMode", "TurnOrder", "Day", "SessionName", "Players", "Races", "ExplorationEnabled", "HeroControl", "MapName", "FogEnabled", "HeroCountMax", "DefendersSeed", "StartupSongs", "ItemControl", "GameStatus", "GameResult", "InitialRandomSeed", "GameType", "UnitControl", "PlayMode", "GlobalMagicControl", "SphereCount", "TextControl", "CampaignSettings", "HeroControlCopy", "VictoryCondition", "VictoryMana", "VictoryGold", "FixedLeaders", "AlliedVictory", "AIGroupManager", "DayLimit", "TurnTime", "UnlimitedMoves", "StructureControl", "TurnTimeElapsed", "TutorialControl", "TurnTimeBeep", "LeadersFixed", "LegacyProperty57", "GameSongs", "StartingGame", "ShowAllPlayers", "VictoryMode", "Children"]
+      "order": ["ConnectionType", "HssFileName", "Version", "ViewPixelX", "ViewPixelY", "ViewMapLevel", "Author", "Description", "Objectives", "IndependentAIMode", "CurrentPlayer", "TurnOrderMode", "TurnOrder", "Day", "SessionName", "Players", "Races", "ExplorationEnabled", "HeroControl", "MapName", "FogEnabled", "HeroCountMax", "DefendersSeed", "StartupSongs", "ItemControl", "GameStatus", "GameResult", "InitialRandomSeed", "GameType", "UnitControl", "PlayMode", "GlobalMagicControl", "SphereCount", "TextControl", "CampaignSettings", "HeroControlCopy", "VictoryCondition", "VictoryMana", "VictoryGold", "FixedLeaders", "AlliedVictory", "AIGroupManager", "DayLimit", "TurnTime", "UnlimitedMoves", "StructureControl", "TurnTimeElapsed", "TutorialControl", "TurnTimeBeep", "LeadersFixed", "UnknownProperty57", "GameSongs", "StartingGame", "ShowAllPlayers", "VictoryMode", "Children"]
     },
     {
       "name": "HexSpriteMapKeyboard",
@@ -883,13 +883,13 @@
         {"name": "Name", "id": 4, "codec": "string"},
         {"name": "MapObjectResourceList", "id": 5, "codec": "object", "class": "MapObjectResourceList"},
         {"name": "ResourceEditSettings", "id": 6, "codec": "object", "class": "ResourceEditSettings"},
-        {"name": "PluginControl", "oldNames": ["PlugInControl"], "id": 7, "codec": "object", "class": "PluginControl"},
+        {"name": "PluginControl", "id": 7, "codec": "object", "class": "PluginControl"},
         {"name": "RaceResources", "id": 10, "codec": "object", "class": "RaceResourceList"},
         {"name": "ItemLibraries", "id": 11, "codec": "object", "class": "ItemLibraryManager"},
         {"name": "UnitResources", "id": 111, "codec": "object", "class": "UnitResourceList"},
-        {"name": "UnitGFXResources", "id": 112, "codec": "object", "class": "UnitGFXResourceList"},
+        {"name": "UnitGraphicsResources", "id": 112, "codec": "object", "class": "UnitGFXResourceList"},
         {"name": "HeroResources", "id": 113, "codec": "object", "class": "HeroResourceList"},
-        {"name": "ItemGFXResources", "id": 114, "codec": "object", "class": "ItemGFXList"},
+        {"name": "ItemGraphicsResources", "id": 114, "codec": "object", "class": "ItemGFXList"},
         {"name": "FaceResources", "id": 115, "codec": "object", "class": "FaceResourceList"},
         {"name": "SpellControl", "id": 117, "codec": "object", "class": "SpellControl"},
         {"name": "AbilityControl", "id": 118, "codec": "object", "class": "AbilityControl"},
@@ -930,7 +930,7 @@
       "id": 131090,
       "inherits": false,
       "properties": [
-        {"name": "Sprites", "dynamic": 50, "codec": "created"},
+        {"name": "HexSpriteList", "dynamic": 50, "codec": "created"},
         {"name": "FieldFlags", "id": 4, "codec": "u16"}
       ],
       "children": false
@@ -943,7 +943,7 @@
       "properties": [
         {"name": "Width", "id": 3, "codec": "u8"},
         {"name": "Height", "id": 4, "codec": "u8"},
-        {"name": "HexLevel", "oldNames": ["Lhx"], "id": 5, "codec": "u8"},
+        {"name": "HexLevel", "id": 5, "codec": "u8"},
         {"name": "Fields", "id": 6, "codec": "map-fields", "fieldClass": "MapField"}
       ],
       "fieldClass": "MapField"
@@ -1011,7 +1011,7 @@
       "id": 133294,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "UnitIDs", "id": 40, "codec": "int-list", "domain": "unit-id"}
+        {"name": "UnitIds", "id": 40, "codec": "int-list", "domain": "unit-id"}
       ]
     },
     {
@@ -1023,10 +1023,10 @@
         {"name": "Player", "id": 4, "codec": "u8"},
         {"name": "X", "id": 5, "codec": "u8"},
         {"name": "Y", "id": 6, "codec": "u8"},
-        {"name": "L", "id": 7, "codec": "u8"},
+        {"name": "MapLevel", "id": 7, "codec": "u8"},
         {"name": "DestinationX", "id": 8, "codec": "u8"},
         {"name": "DestinationY", "id": 9, "codec": "u8"},
-        {"name": "DestinationL", "id": 10, "codec": "u8"},
+        {"name": "DestinationMapLevel", "id": 10, "codec": "u8"},
         {"name": "UserMode", "id": 13, "codec": "set", "set": "ArmyUserModeElement", "width": 1},
         {"name": "OldAIBehavior", "id": 11, "codec": "enum", "enum": "GroupBehavior", "width": 1, "signed": false},
         {"name": "Mode", "id": 12, "codec": "set", "set": "ArmyModeElement", "width": 1}
@@ -1093,7 +1093,7 @@
       "properties": [
         {"name": "Player", "id": 10, "codec": "u8"},
         {"name": "Location", "id": 11, "codec": "i32"},
-        {"name": "UnitIDs", "id": 12, "codec": "int-list", "domain": "unit-id"}
+        {"name": "UnitIds", "id": 12, "codec": "int-list", "domain": "unit-id"}
       ]
     },
     {
@@ -1267,8 +1267,8 @@
       "id": 2236419,
       "engines": ["tactical"],
       "properties": [
-        {"name": "AbilityID", "id": 30, "codec": "i32"},
-        {"name": "SpellID", "id": 31, "codec": "i32"},
+        {"name": "AbilityId", "id": 30, "codec": "i32"},
+        {"name": "SpellId", "id": 31, "codec": "i32"},
         {"name": "TargetX", "id": 32, "codec": "u16"},
         {"name": "TargetY", "id": 33, "codec": "u16"},
         {"name": "SourceX", "id": 34, "codec": "u16"},
@@ -1281,7 +1281,7 @@
       "id": 2236418,
       "engines": ["tactical"],
       "properties": [
-        {"name": "AbilityID", "id": 30, "codec": "i32"}
+        {"name": "AbilityId", "id": 30, "codec": "i32"}
       ]
     },
     {
@@ -1391,7 +1391,7 @@
       "properties": [
         {"name": "Mode", "id": 20, "codec": "enum", "enum": "ChangeGlobalMagicTokenEventMode", "width": 1, "signed": false},
         {"name": "PlayerIndex", "id": 21, "codec": "u8"},
-        {"name": "EnchantmentID", "id": 22, "codec": "i32"},
+        {"name": "EnchantmentId", "id": 22, "codec": "i32"},
         {"name": "Value", "id": 23, "codec": "i32"}
       ]
     },
@@ -1436,7 +1436,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Player", "id": 20, "codec": "u8"},
-        {"name": "CheatID", "id": 21, "codec": "i32"}
+        {"name": "CheatId", "id": 21, "codec": "i32"}
       ]
     },
     {
@@ -1467,7 +1467,7 @@
       "id": 131820,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "TCityEnchantment.EnchantmentID", "id": 20, "codec": "enum", "enum": "CityEnchantmentId", "width": 1, "signed": false},
+        {"name": "CityEnchantmentId", "id": 20, "codec": "enum", "enum": "CityEnchantmentId", "width": 1, "signed": false},
         {"name": "EnchantmentLocation", "id": 21, "codec": "i32"}
       ]
     },
@@ -1509,9 +1509,9 @@
       "id": 131346,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "Xhx", "id": 20, "codec": "i32"},
-        {"name": "Yhx", "id": 21, "codec": "i32"},
-        {"name": "Lhx", "id": 22, "codec": "i32"},
+        {"name": "HexX", "id": 20, "codec": "i32"},
+        {"name": "HexY", "id": 21, "codec": "i32"},
+        {"name": "HexLevel", "id": 22, "codec": "i32"},
         {"name": "CityName", "id": 23, "codec": "string"}
       ]
     },
@@ -1579,8 +1579,8 @@
       "parent": "EngineObject",
       "id": 80,
       "properties": [
-        {"name": "Side0", "id": 10, "codec": "object", "class": "CombatSide"},
-        {"name": "Side1", "id": 11, "codec": "object", "class": "CombatSide"},
+        {"name": "AttackerSide", "id": 10, "codec": "object", "class": "CombatSide"},
+        {"name": "DefenderSide", "id": 11, "codec": "object", "class": "CombatSide"},
         {"name": "Logbook", "id": 12, "codec": "created", "family": "CombatLogbook"},
         {"name": "CombatData", "id": 13, "codec": "object", "class": "CombatData"}
       ]
@@ -1605,11 +1605,11 @@
       "properties": [
         {"name": "X", "id": 10, "codec": "i32"},
         {"name": "Y", "id": 11, "codec": "i32"},
-        {"name": "L", "id": 12, "codec": "i32"},
-        {"name": "_CombatData_22", "id": 13, "codec": "set", "set": "DamageType", "width": 2},
+        {"name": "MapLevel", "id": 12, "codec": "i32"},
+        {"name": "ImmunityTypes", "id": 13, "codec": "set", "set": "DamageType", "width": 2},
         {"name": "AttackerPlayer", "id": 14, "codec": "u8"},
         {"name": "DefenderPlayer", "id": 15, "codec": "u8"},
-        {"name": "_CombatData_30", "id": 16, "codec": "u8", "raw": true},
+        {"name": "CombatResult", "id": 16, "codec": "u8", "raw": true},
         {"name": "Round", "id": 17, "codec": "i32"},
         {"name": "Players", "id": 18, "codec": "object", "class": "CombatPlayerList"},
         {"name": "CombatObjects", "id": 19, "codec": "object", "class": "ENode"},
@@ -1617,7 +1617,7 @@
         {"name": "Header", "id": 21, "codec": "string"},
         {"name": "AttackerX", "id": 22, "codec": "i32"},
         {"name": "AttackerY", "id": 23, "codec": "i32"},
-        {"name": "AttackerL", "id": 24, "codec": "i32"},
+        {"name": "AttackerMapLevel", "id": 24, "codec": "i32"},
         {"name": "DefeatedLeaders", "id": 25, "codec": "byte-list", "domain": "combat-player"},
         {"name": "TurnOrder", "id": 26, "codec": "byte-list", "domain": "combat-player"},
         {"name": "WallType", "id": 27, "codec": "u8", "raw": true},
@@ -1711,7 +1711,7 @@
         {"name": "InitialData", "id": 5, "codec": "object", "class": "CombatData"},
         {"name": "FinalData", "id": 6, "codec": "object", "class": "CombatData"},
         {"name": "Actions", "id": 7, "codec": "object", "class": "CombatActionList"},
-        {"name": "_CombatLogbook_19", "id": 8, "codec": "bool"}
+        {"name": "PlayerEliminated", "id": 8, "codec": "bool"}
       ]
     },
     {
@@ -1735,7 +1735,7 @@
         {"name": "Position", "id": 10, "codec": "u8"},
         {"name": "CombatPlayer", "id": 12, "codec": "u8"},
         {"name": "Status", "id": 13, "codec": "set", "set": "CombatObjectStatusElement", "width": 1},
-        {"name": "ID", "id": 14, "codec": "u8", "raw": true}
+        {"name": "Id", "id": 14, "codec": "u8", "raw": true}
       ]
     },
     {
@@ -1744,7 +1744,7 @@
       "id": 131772,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "_CombatObjectTurnDoneCA_0C", "id": 20, "codec": "u8", "raw": true}
+        {"name": "CombatObjectId", "id": 20, "codec": "u8", "raw": true}
       ]
     },
     {
@@ -1779,12 +1779,12 @@
       "id": 131746,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "_CombatParty_0C", "id": 11, "codec": "i32"},
-        {"name": "_CombatParty_10", "id": 12, "codec": "i32"},
-        {"name": "_CombatParty_14", "id": 13, "codec": "i32"},
+        {"name": "X", "id": 11, "codec": "i32"},
+        {"name": "Y", "id": 12, "codec": "i32"},
+        {"name": "MapLevel", "id": 13, "codec": "i32"},
         {"name": "PlayerIndex", "id": 14, "codec": "u8"},
         {"name": "Wall", "id": 15, "codec": "u8", "raw": true},
-        {"name": "_CombatParty_19", "id": 16, "codec": "u8"}
+        {"name": "Position", "id": 16, "codec": "u8"}
       ]
     },
     {
@@ -1848,7 +1848,7 @@
       "id": 131778,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "SpellID", "id": 30, "codec": "i32"},
+        {"name": "SpellId", "id": 30, "codec": "i32"},
         {"name": "ManaCost", "id": 31, "codec": "i32"}
       ]
     },
@@ -1907,7 +1907,7 @@
       "id": 131745,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "AbilityOwner", "id": 20, "codec": "created", "family": "Troop"},
+        {"name": "Troop", "id": 20, "codec": "created", "family": "Troop"},
         {"name": "Disabled", "id": 21, "codec": "bool"}
       ]
     },
@@ -1933,7 +1933,7 @@
       "id": 131755,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "AbilityID", "id": 20, "codec": "i32"},
+        {"name": "AbilityId", "id": 20, "codec": "i32"},
         {"name": "CommandedUnits", "id": 21, "codec": "byte-list"}
       ]
     },
@@ -1943,7 +1943,7 @@
       "id": 131763,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "AbilityID", "id": 20, "codec": "i32"},
+        {"name": "AbilityId", "id": 20, "codec": "i32"},
         {"name": "Successful", "id": 21, "codec": "bool"}
       ]
     },
@@ -1959,9 +1959,9 @@
       "id": 131757,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "AbilityID", "id": 20, "codec": "i32"},
-        {"name": "CommandAbilityID", "id": 21, "codec": "i32"},
-        {"name": "SourceID", "id": 22, "codec": "u8"},
+        {"name": "AbilityId", "id": 20, "codec": "i32"},
+        {"name": "CommandAbilityId", "id": 21, "codec": "i32"},
+        {"name": "SourceId", "id": 22, "codec": "u8"},
         {"name": "OriginalCombatPlayer", "id": 23, "codec": "u8"}
       ]
     },
@@ -2001,8 +2001,8 @@
       "id": 135962,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ControlID", "id": 20, "codec": "i32"},
-        {"name": "UnitID", "id": 21, "codec": "i32"},
+        {"name": "ControlId", "id": 20, "codec": "i32"},
+        {"name": "UnitId", "id": 21, "codec": "i32"},
         {"name": "Player", "id": 22, "codec": "u8"}
       ]
     },
@@ -2097,8 +2097,8 @@
       "id": 80,
       "inherits": false,
       "properties": [
-        {"name": "AbCount", "id": 2, "codec": "i32"},
-        {"name": "AbilityCount", "id": 3, "codec": "bit-array", "count": "AbCount"}
+        {"name": "AbilityCount", "id": 2, "codec": "i32"},
+        {"name": "AbilityBits", "id": 3, "codec": "bit-array", "count": "AbilityCount"}
       ]
     },
     {
@@ -2240,17 +2240,17 @@
         {"name": "OtherPlayer", "id": 22, "codec": "u8"},
         {"name": "Gold", "id": 23, "codec": "i32"},
         {"name": "Mana", "id": 24, "codec": "i32"},
-        {"name": "ActionType", "id": 25, "codec": "data", "size": 1},
+        {"name": "Kind", "id": 25, "codec": "data", "size": 1},
         {"name": "Reaction", "id": 26, "codec": "enum", "enum": "DiplomaticActionReaction", "width": 1, "signed": false},
         {"name": "Message", "id": 27, "codec": "strings"},
         {"name": "EscrowGold", "id": 28, "codec": "i32"},
         {"name": "EscrowMana", "id": 29, "codec": "i32"},
-        {"name": "EventLogID", "id": 30, "codec": "i32"},
+        {"name": "EventLogId", "id": 30, "codec": "i32"},
         {"name": "Day", "id": 31, "codec": "i32"}
       ],
       "mapping": {
         "name": "DiplomaticProposal",
-        "discriminator": "ActionType",
+        "discriminator": "Kind",
         "cases": [
           {"key": 0, "case": "DeclareWar", "fields": []},
           {"key": 1, "case": "OfferPeace", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]},
@@ -2263,7 +2263,7 @@
           {"key": 8, "case": "BreakAllianceWithY", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]},
           {"key": 9, "case": "DeclareWarToY", "fields": [["Gold", "Gold"], ["Mana", "Mana"]]}
         ],
-        "unknown": {"case": "Unknown", "fields": [["Kind", "ActionType"], ["Gold", "Gold"], ["Mana", "Mana"]]}
+        "unknown": {"case": "Unknown", "fields": [["Kind", "Kind"], ["Gold", "Gold"], ["Mana", "Mana"]]}
       }
     },
     {
@@ -2315,7 +2315,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Player", "id": 20, "codec": "u8"},
-        {"name": "UnitID", "id": 21, "codec": "i32"}
+        {"name": "UnitId", "id": 21, "codec": "i32"}
       ]
     },
     {
@@ -2342,7 +2342,7 @@
       "id": 135961,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "EnchantmentID", "id": 20, "codec": "i32"},
+        {"name": "EnchantmentId", "id": 20, "codec": "i32"},
         {"name": "DispelChance", "id": 21, "codec": "i32"}
       ]
     },
@@ -2381,9 +2381,9 @@
       "id": 131827,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "SourceID", "id": 25, "codec": "i32"},
+        {"name": "SourceId", "id": 25, "codec": "i32"},
         {"name": "SourcePlayer", "id": 26, "codec": "u8"},
-        {"name": "TargetID", "id": 27, "codec": "i32"},
+        {"name": "TargetId", "id": 27, "codec": "i32"},
         {"name": "TargetPlayer", "id": 28, "codec": "u8"}
       ]
     },
@@ -2392,7 +2392,7 @@
       "parent": "SingleTargetCombatAction",
       "id": 80,
       "properties": [
-        {"name": "EnchantmentIDs", "id": 50, "codec": "int-list", "domain": "enchantment-id"}
+        {"name": "EnchantmentIds", "id": 50, "codec": "int-list", "domain": "enchantment-id"}
       ]
     },
     {
@@ -2401,7 +2401,7 @@
       "id": 131793,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "SpellID", "id": 60, "codec": "i32"},
+        {"name": "SpellId", "id": 60, "codec": "i32"},
         {"name": "ManaCost", "id": 61, "codec": "i32"}
       ]
     },
@@ -2462,7 +2462,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Duration", "id": 11, "codec": "u8"},
-        {"name": "AbilityID", "id": 12, "codec": "u16"},
+        {"name": "AbilityId", "id": 12, "codec": "u16"},
         {"name": "PlayerIndex", "id": 13, "codec": "u8"},
         {"name": "Source", "id": 14, "codec": "i32"}
       ]
@@ -2562,8 +2562,8 @@
       "parent": "EngineObject",
       "id": 1024,
       "properties": [
-        {"name": "ResourceId", "oldNames": ["ResourceID"], "id": 1, "codec": "i32"},
-        {"name": "EditId", "oldNames": ["EditID"], "id": 2, "codec": "i32"},
+        {"name": "ResourceId", "id": 1, "codec": "i32"},
+        {"name": "EditId", "id": 2, "codec": "i32"},
         {"name": "EditIndex", "id": 3, "codec": "i32"}
       ]
     },
@@ -2628,10 +2628,10 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Name", "id": 20, "codec": "string"},
-        {"name": "UniqueLocalID", "id": 21, "codec": "i32"},
-        {"name": "UniqueID", "id": 22, "codec": "i32"},
+        {"name": "UniqueLocalId", "id": 21, "codec": "i32"},
+        {"name": "UniqueId", "id": 22, "codec": "i32"},
         {"name": "EmailAddress", "id": 23, "codec": "string"},
-        {"name": "SecurityID", "id": 24, "codec": "i32"}
+        {"name": "SecurityId", "id": 24, "codec": "i32"}
       ]
     },
     {
@@ -2679,7 +2679,7 @@
         {"name": "DispelResistance", "id": 10, "codec": "u8"},
         {"name": "Source", "id": 11, "codec": "u8"},
         {"name": "Upkeep", "id": 12, "codec": "i32"},
-        {"name": "EnchantmentID", "id": 13, "codec": "i32"}
+        {"name": "EnchantmentId", "id": 13, "codec": "i32"}
       ]
     },
     {
@@ -2775,9 +2775,9 @@
       "parent": "EngineObject",
       "id": 80,
       "properties": [
-        {"name": "TEventLog.Day", "id": 10, "codec": "i32"},
+        {"name": "Day", "id": 10, "codec": "i32"},
         {"name": "Player", "id": 11, "codec": "u8"},
-        {"name": "ID", "id": 12, "codec": "i32"}
+        {"name": "Id", "id": 12, "codec": "i32"}
       ]
     },
     {
@@ -2792,7 +2792,7 @@
       "id": 131808,
       "properties": [
         {"name": "Events", "id": 10, "codec": "object", "class": "EventLogList"},
-        {"name": "NextID", "id": 11, "codec": "i32"}
+        {"name": "NextId", "id": 11, "codec": "i32"}
       ]
     },
     {
@@ -2800,11 +2800,11 @@
       "parent": "CombatAction",
       "id": 80,
       "properties": [
-        {"name": "SourceID", "id": 20, "codec": "u8"},
-        {"name": "TargetID", "id": 21, "codec": "u8"},
+        {"name": "SourceId", "id": 20, "codec": "u8"},
+        {"name": "TargetId", "id": 21, "codec": "u8"},
         {"name": "ManaCost", "id": 22, "codec": "i32"},
         {"name": "Succeeded", "id": 23, "codec": "bool"},
-        {"name": "SpellID", "id": 24, "codec": "i32"}
+        {"name": "SpellId", "id": 24, "codec": "i32"}
       ]
     },
     {
@@ -3100,7 +3100,7 @@
       "id": 131776,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ObjectID", "id": 20, "codec": "u8", "raw": true}
+        {"name": "ObjectId", "id": 20, "codec": "u8", "raw": true}
       ]
     },
     {
@@ -3271,7 +3271,7 @@
       "parent": "EngineObject",
       "id": 80,
       "properties": [
-        {"name": "TGlobalEnchantment.EnchantmentID", "id": 10, "codec": "i32"},
+        {"name": "EnchantmentId", "id": 10, "codec": "i32"},
         {"name": "EnchantmentType", "id": 11, "codec": "enum", "enum": "GlobalEnchantmentType", "width": 1, "signed": false},
         {"name": "PlayerIndex", "id": 12, "codec": "u8"},
         {"name": "Name", "id": 13, "codec": "string"},
@@ -3315,7 +3315,7 @@
       "id": 80,
       "properties": [
         {"name": "Enchantments", "id": 10, "codec": "object", "class": "GlobalEnchantmentList"},
-        {"name": "NextEnchantmentID", "id": 11, "codec": "i32"},
+        {"name": "NextEnchantmentId", "id": 11, "codec": "i32"},
         {"name": "DoubleSphereManaCount", "id": 0, "codec": "int-array", "width": 4, "signed": true, "count": 9}
       ]
     },
@@ -3475,9 +3475,9 @@
       "id": 131826,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "SourceID", "id": 25, "codec": "i32"},
+        {"name": "SourceId", "id": 25, "codec": "i32"},
         {"name": "SourcePlayer", "id": 26, "codec": "u8"},
-        {"name": "TargetID", "id": 27, "codec": "i32"},
+        {"name": "TargetId", "id": 27, "codec": "i32"},
         {"name": "TargetPlayer", "id": 28, "codec": "u8"}
       ]
     },
@@ -3506,7 +3506,7 @@
         {"name": "Nickname", "id": 11, "codec": "string"},
         {"name": "Race", "id": 12, "codec": "u8"},
         {"name": "CastingPoints", "id": 13, "codec": "u8"},
-        {"name": "CastingSpellID", "id": 14, "codec": "i32"},
+        {"name": "CastingSpellId", "id": 14, "codec": "i32"},
         {"name": "Gender", "id": 15, "codec": "enum", "enum": "UnitGender", "width": 1, "signed": false},
         {"name": "UnitAttack", "id": 16, "codec": "u8"},
         {"name": "UnitDefense", "id": 17, "codec": "u8"},
@@ -3522,16 +3522,16 @@
         {"name": "DeathPlayer", "id": 27, "codec": "u8"},
         {"name": "MovePoints", "id": 29, "codec": "u8"},
         {"name": "HitPoints", "id": 30, "codec": "u8"},
-        {"name": "CastingMana", "id": 31, "codec": "i32"},
+        {"name": "CastingManaValue", "id": 31, "codec": "i32"},
         {"name": "CastSpellInstantly", "id": 33, "codec": "bool"},
         {"name": "CastingProgress", "id": 34, "codec": "i32"},
-        {"name": "LibraryID", "id": 35, "codec": "i32"},
+        {"name": "LibraryId", "id": 35, "codec": "i32"},
         {"name": "Inventory", "id": 36, "codec": "object", "class": "HeroInventory"},
         {"name": "HeroItems", "id": 37, "codec": "object", "class": "HeroItems"},
         {"name": "LibraryName", "id": 38, "codec": "string"},
         {"name": "UsedSkillPoints", "id": 39, "codec": "i32"}
       ],
-      "order": ["HeroResourceIndex", "AbCount", "AbilityCount", "IDs", "AbilityData", "GroupID", "UnitID", "MoraleValue", "Player", "Legacy", "FaceIndex", "OldExperience", "HeroName", "Nickname", "Race", "CastingPoints", "CastingSpellID", "Gender", "UnitAttack", "UnitDefense", "UnitDamage", "UnitHits", "UnitMoves", "UnitResistance", "Level", "UpgradePending", "Experience", "HeroStatus", "DeathDay", "DeathPlayer", "MovePoints", "HitPoints", "CastingMana", "CastSpellInstantly", "CastingProgress", "LibraryID", "Inventory", "HeroItems", "LibraryName", "UsedSkillPoints"]
+      "order": ["HeroResourceIndex", "AbilityCount", "AbilityBits", "AbilityDataIds", "AbilityData", "GroupId", "UnitId", "MoraleValue", "Player", "LegacyGroup", "FaceIndex", "OldExperience", "HeroName", "Nickname", "Race", "CastingPoints", "CastingSpellId", "Gender", "UnitAttack", "UnitDefense", "UnitDamage", "UnitHits", "UnitMoves", "UnitResistance", "Level", "UpgradePending", "Experience", "HeroStatus", "DeathDay", "DeathPlayer", "MovePoints", "HitPoints", "CastingManaValue", "CastSpellInstantly", "CastingProgress", "LibraryId", "Inventory", "HeroItems", "LibraryName", "UsedSkillPoints"]
     },
     {
       "name": "HeroControl",
@@ -3547,8 +3547,8 @@
       "id": 131832,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "UnitID", "id": 39, "codec": "i32"},
-        {"name": "THeroEmergeEventLog.Day", "id": 40, "codec": "i32"},
+        {"name": "UnitId", "id": 39, "codec": "i32"},
+        {"name": "EmergeDay", "id": 40, "codec": "i32"},
         {"name": "Text", "id": 41, "codec": "string"},
         {"name": "LocationName", "id": 42, "codec": "string"},
         {"name": "Mode", "id": 43, "codec": "enum", "enum": "HeroEmergeEventLog.HeroJoinMode", "width": 1, "signed": false}
@@ -3579,7 +3579,7 @@
       "id": 256,
       "properties": [
         {"name": "LibraryName", "id": 20, "codec": "string"},
-        {"name": "NextLibraryID", "id": 21, "codec": "i32"}
+        {"name": "NextLibraryId", "id": 21, "codec": "i32"}
       ]
     },
     {
@@ -3641,9 +3641,9 @@
       "id": 135429,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "UnitID", "id": 20, "codec": "i32"},
+        {"name": "UnitId", "id": 20, "codec": "i32"},
         {"name": "Mode", "id": 21, "codec": "enum", "enum": "HeroUpdateTokenEventMode", "width": 1, "signed": false},
-        {"name": "ItemID", "id": 22, "codec": "i32"},
+        {"name": "ItemId", "id": 22, "codec": "i32"},
         {"name": "Parameter", "id": 23, "codec": "i32"}
       ]
     },
@@ -3653,10 +3653,10 @@
       "id": 131825,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "UnitID", "id": 25, "codec": "i32"},
+        {"name": "UnitId", "id": 25, "codec": "i32"},
         {"name": "OldLevel", "id": 26, "codec": "u8"},
         {"name": "NewLevel", "id": 27, "codec": "u8"},
-        {"name": "THeroUpgradeEventLog.Day", "id": 28, "codec": "i32"}
+        {"name": "UpgradeDay", "id": 28, "codec": "i32"}
       ]
     },
     {
@@ -3672,7 +3672,7 @@
         {"name": "Moves", "id": 34, "codec": "u8"},
         {"name": "Hits", "id": 35, "codec": "u8"},
         {"name": "Abilities", "id": 36, "codec": "object", "class": "AbilityOwner"},
-        {"name": "UnitID", "id": 37, "codec": "i32"},
+        {"name": "UnitId", "id": 37, "codec": "i32"},
         {"name": "Player", "id": 38, "codec": "u8"}
       ]
     },
@@ -3801,7 +3801,7 @@
       "id": 136288,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "TargetUnitIDs", "id": 30, "codec": "int-list", "domain": "unit-id"}
+        {"name": "TargetUnitIds", "id": 30, "codec": "int-list", "domain": "unit-id"}
       ]
     },
     {
@@ -3920,7 +3920,7 @@
       "id": 131688,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ItemGFXIndex", "id": 7, "codec": "i32"},
+        {"name": "ItemGraphicsIndex", "id": 7, "codec": "i32"},
         {"name": "OwnerName", "id": 8, "codec": "string"},
         {"name": "Name", "id": 9, "codec": "string"},
         {"name": "Availability", "id": 10, "codec": "enum", "enum": "ItemAvailability", "width": 1, "signed": false},
@@ -3930,11 +3930,11 @@
         {"name": "Resistance", "id": 14, "codec": "u8"},
         {"name": "ItemType", "id": 15, "codec": "enum", "enum": "ItemType", "width": 1, "signed": false},
         {"name": "Hidden", "id": 16, "codec": "bool"},
-        {"name": "ItemID", "id": 17, "codec": "i32"},
+        {"name": "ItemId", "id": 17, "codec": "i32"},
         {"name": "Description", "id": 18, "codec": "strings"},
         {"name": "ObtainValue", "id": 19, "codec": "i32"},
-        {"name": "SpellID", "id": 20, "codec": "i32"},
-        {"name": "LibraryID", "id": 21, "codec": "i32"},
+        {"name": "SpellId", "id": 20, "codec": "i32"},
+        {"name": "LibraryId", "id": 21, "codec": "i32"},
         {"name": "LibraryName", "id": 22, "codec": "string"}
       ]
     },
@@ -3943,7 +3943,7 @@
       "parent": "EngineObject",
       "id": 80,
       "properties": [
-        {"name": "LastID", "id": 9, "codec": "i32"},
+        {"name": "LastId", "id": 9, "codec": "i32"},
         {"name": "Items", "dynamic": 10, "codec": "created", "family": "Item", "slotBase": 10}
       ]
     },
@@ -3962,7 +3962,7 @@
       "id": 132085,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ItemIDs", "id": 20, "codec": "int-list", "domain": "item-id"},
+        {"name": "ItemIds", "id": 20, "codec": "int-list", "domain": "item-id"},
         {"name": "Messages", "id": 21, "codec": "strings"},
         {"name": "Title", "id": 22, "codec": "string"}
       ]
@@ -4013,7 +4013,7 @@
       "id": 265,
       "properties": [
         {"name": "Name", "id": 20, "codec": "string"},
-        {"name": "LastID", "id": 21, "codec": "i32"}
+        {"name": "LastId", "id": 21, "codec": "i32"}
       ]
     },
     {
@@ -4036,9 +4036,9 @@
       "id": 131698,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ItemID", "id": 20, "codec": "i32"},
+        {"name": "ItemId", "id": 20, "codec": "i32"},
         {"name": "Action", "id": 21, "codec": "u8", "raw": true},
-        {"name": "HeroID", "id": 22, "codec": "i32"}
+        {"name": "HeroId", "id": 22, "codec": "i32"}
       ]
     },
     {
@@ -4046,8 +4046,8 @@
       "parent": "EventLog",
       "id": 80,
       "properties": [
-        {"name": "FirstUnitID", "id": 21, "codec": "i32"},
-        {"name": "UnitIDs", "id": 22, "codec": "int-list", "domain": "unit-id"},
+        {"name": "FirstUnitId", "id": 21, "codec": "i32"},
+        {"name": "UnitIds", "id": 22, "codec": "int-list", "domain": "unit-id"},
         {"name": "Selection", "id": 23, "codec": "u8"},
         {"name": "JoinMessage", "id": 24, "codec": "strings"},
         {"name": "Gold", "id": 25, "codec": "i32"},
@@ -4066,7 +4066,7 @@
         {"name": "SpherePicksMax", "id": 45, "codec": "u8"},
         {"name": "Spheres", "id": 46, "codec": "byte-list", "enum": "MagicSphere"}
       ],
-      "order": ["HeroResourceIndex", "AbCount", "AbilityCount", "IDs", "AbilityData", "GroupID", "UnitID", "MoraleValue", "Player", "Legacy", "FaceIndex", "OldExperience", "HeroName", "Nickname", "Race", "CastingPoints", "CastingSpellID", "Gender", "UnitAttack", "UnitDefense", "UnitDamage", "UnitHits", "UnitMoves", "UnitResistance", "Level", "UpgradePending", "Experience", "HeroStatus", "DeathDay", "DeathPlayer", "MovePoints", "HitPoints", "CastingMana", "CastSpellInstantly", "CastingProgress", "LibraryID", "Inventory", "HeroItems", "LibraryName", "UsedSkillPoints", "SpherePicksMax", "Spheres"]
+      "order": ["HeroResourceIndex", "AbilityCount", "AbilityBits", "AbilityDataIds", "AbilityData", "GroupId", "UnitId", "MoraleValue", "Player", "LegacyGroup", "FaceIndex", "OldExperience", "HeroName", "Nickname", "Race", "CastingPoints", "CastingSpellId", "Gender", "UnitAttack", "UnitDefense", "UnitDamage", "UnitHits", "UnitMoves", "UnitResistance", "Level", "UpgradePending", "Experience", "HeroStatus", "DeathDay", "DeathPlayer", "MovePoints", "HitPoints", "CastingManaValue", "CastSpellInstantly", "CastingProgress", "LibraryId", "Inventory", "HeroItems", "LibraryName", "UsedSkillPoints", "SpherePicksMax", "Spheres"]
     },
     {
       "name": "LeaderSetupControl",
@@ -4161,9 +4161,9 @@
       "id": 131816,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "Xhx", "id": 20, "codec": "u8"},
-        {"name": "Yhx", "id": 21, "codec": "u8"},
-        {"name": "Lhx", "id": 22, "codec": "u8"}
+        {"name": "HexX", "id": 20, "codec": "u8"},
+        {"name": "HexY", "id": 21, "codec": "u8"},
+        {"name": "HexLevel", "id": 22, "codec": "u8"}
       ]
     },
     {
@@ -4252,7 +4252,7 @@
       "id": 65878,
       "inherits": false,
       "properties": [
-        {"name": "ResourceId", "oldNames": ["ResourceID"], "id": 1, "codec": "i32"}
+        {"name": "ResourceId", "id": 1, "codec": "i32"}
       ]
     },
     {
@@ -4367,16 +4367,16 @@
       "parent": "MoveTokenEvent",
       "id": 135424,
       "properties": [
-        {"name": "UnitIDs", "id": 30, "codec": "int-list", "domain": "unit-id"},
+        {"name": "UnitIds", "id": 30, "codec": "int-list", "domain": "unit-id"},
         {"name": "Player", "id": 31, "codec": "u8"},
         {"name": "TargetX", "id": 32, "codec": "u8"},
         {"name": "TargetY", "id": 33, "codec": "u8"},
-        {"name": "TargetL", "id": 34, "codec": "u8"},
+        {"name": "TargetMapLevel", "id": 34, "codec": "u8"},
         {"name": "TargetPlayer", "id": 35, "codec": "u8"},
         {"name": "Mode", "id": 36, "codec": "set", "set": "ArmyMoveModeElement", "width": 1},
         {"name": "DestinationX", "id": 37, "codec": "u8"},
         {"name": "DestinationY", "id": 38, "codec": "u8"},
-        {"name": "DestinationL", "id": 39, "codec": "u8"}
+        {"name": "DestinationMapLevel", "id": 39, "codec": "u8"}
       ]
     },
     {
@@ -4423,8 +4423,8 @@
       "id": 131767,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "_MoveWallCA_0C", "id": 20, "codec": "u8", "raw": true},
-        {"name": "_MoveWallCA_0D", "id": 21, "codec": "u8", "raw": true}
+        {"name": "CombatObjectId", "id": 20, "codec": "u8", "raw": true},
+        {"name": "InsideWall", "id": 21, "codec": "u8", "raw": true}
       ]
     },
     {
@@ -4445,8 +4445,8 @@
       "parent": "MapObject",
       "id": 65878,
       "properties": [
-        {"name": "HexX", "oldNames": ["Xhx"], "id": 3, "codec": "u8"},
-        {"name": "HexY", "oldNames": ["Yhx"], "id": 4, "codec": "u8"}
+        {"name": "HexX", "id": 3, "codec": "u8"},
+        {"name": "HexY", "id": 4, "codec": "u8"}
       ]
     },
     {
@@ -4455,10 +4455,10 @@
       "id": 65877,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ImageOffsetX", "oldNames": ["dXImage"], "id": 12, "codec": "i32"},
-        {"name": "ImageOffsetY", "oldNames": ["dYImage"], "id": 13, "codec": "i32"},
-        {"name": "MainPointOffsetX", "oldNames": ["dXmainP"], "id": 14, "codec": "i32"},
-        {"name": "MainPointOffsetY", "oldNames": ["dYmainP"], "id": 15, "codec": "i32"}
+        {"name": "ImageOffsetX", "id": 12, "codec": "i32"},
+        {"name": "ImageOffsetY", "id": 13, "codec": "i32"},
+        {"name": "MainPointOffsetX", "id": 14, "codec": "i32"},
+        {"name": "MainPointOffsetY", "id": 15, "codec": "i32"}
       ]
     },
     {
@@ -4474,7 +4474,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Level", "id": 10, "codec": "u8"},
-        {"name": "LevelAbilityID", "id": 11, "codec": "u16"}
+        {"name": "LevelAbilityId", "id": 11, "codec": "u16"}
       ]
     },
     {
@@ -4492,11 +4492,11 @@
       "parent": "CombatAction",
       "id": 80,
       "properties": [
-        {"name": "SourceID", "id": 20, "codec": "u8"},
-        {"name": "TargetIDs", "id": 21, "codec": "byte-list", "domain": "combat-unit-id"},
+        {"name": "SourceId", "id": 20, "codec": "u8"},
+        {"name": "TargetIds", "id": 21, "codec": "byte-list", "domain": "combat-unit-id"},
         {"name": "ManaCost", "id": 22, "codec": "i32"},
         {"name": "Succeeded", "id": 23, "codec": "bool"},
-        {"name": "SpellID", "id": 24, "codec": "i32"}
+        {"name": "SpellId", "id": 24, "codec": "i32"}
       ]
     },
     {
@@ -4512,11 +4512,11 @@
       "properties": [
         {"name": "X", "id": 40, "codec": "u8"},
         {"name": "Y", "id": 41, "codec": "u8"},
-        {"name": "L", "id": 42, "codec": "u8"},
+        {"name": "MapLevel", "id": 42, "codec": "u8"},
         {"name": "Object", "id": 43, "codec": "enum", "enum": "NegotiateObject", "width": 1, "signed": false},
         {"name": "Data1", "id": 44, "codec": "i32"},
         {"name": "Data2", "id": 45, "codec": "i32"},
-        {"name": "ArmyID", "id": 46, "codec": "created", "family": "ArmyId"}
+        {"name": "ArmyId", "id": 46, "codec": "created", "family": "ArmyId"}
       ]
     },
     {
@@ -4529,7 +4529,7 @@
         {"name": "Offer", "id": 31, "codec": "enum", "enum": "NegotiateTokenEvent.NegotiateOffer", "width": 1, "signed": false},
         {"name": "X", "id": 32, "codec": "u8"},
         {"name": "Y", "id": 33, "codec": "u8"},
-        {"name": "L", "id": 34, "codec": "u8"},
+        {"name": "MapLevel", "id": 34, "codec": "u8"},
         {"name": "Player", "id": 35, "codec": "u8"},
         {"name": "OwnerPlayer", "id": 36, "codec": "u8"},
         {"name": "Object", "id": 37, "codec": "enum", "enum": "NegotiateObject", "width": 1, "signed": false},
@@ -4538,8 +4538,8 @@
         {"name": "Data2", "id": 40, "codec": "i32"},
         {"name": "Mode", "id": 41, "codec": "set", "set": "NegotiateModeElement", "width": 1},
         {"name": "Result", "id": 42, "codec": "enum", "enum": "NegotiateTokenEvent.NegotiateResult", "width": 1, "signed": false},
-        {"name": "ArmyID", "id": 43, "codec": "created", "family": "ArmyId"},
-        {"name": "EventLogID", "id": 44, "codec": "i32"}
+        {"name": "ArmyId", "id": 43, "codec": "created", "family": "ArmyId"},
+        {"name": "EventLogId", "id": 44, "codec": "i32"}
       ]
     },
     {
@@ -4555,7 +4555,7 @@
       "id": 131770,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "_NewCombatTurnCA_0C", "id": 20, "codec": "u8"}
+        {"name": "CombatPlayer", "id": 20, "codec": "u8"}
       ]
     },
     {
@@ -4735,7 +4735,7 @@
         {"name": "Leader", "id": 19, "codec": "created", "family": "Leader"},
         {"name": "ViewX", "id": 20, "codec": "u8"},
         {"name": "ViewY", "id": 21, "codec": "u8"},
-        {"name": "ViewL", "id": 22, "codec": "u8"},
+        {"name": "ViewMapLevel", "id": 22, "codec": "u8"},
         {"name": "EventLogbook", "id": 23, "codec": "object", "class": "EventLogbook"},
         {"name": "Password", "id": 24, "codec": "string"},
         {"name": "GameOverStatus", "id": 25, "codec": "enum", "enum": "GameOverStatus", "width": 1, "signed": false},
@@ -4755,11 +4755,11 @@
         {"name": "HighestHeroLevel", "id": 39, "codec": "i32"},
         {"name": "Messages", "id": 40, "codec": "strings"},
         {"name": "LegacyRelations", "id": 41, "codec": "byte-list", "enum": "DiplomaticRelation"},
-        {"name": "EmergingHeroID", "id": 50, "codec": "i32"},
+        {"name": "EmergingHeroId", "id": 50, "codec": "i32"},
         {"name": "AIBudget", "id": 51, "codec": "object", "class": "AIBudgetManager"},
         {"name": "DiplomaticActions", "id": 52, "codec": "object", "class": "DiplomaticActionList"},
         {"name": "AIValidAttackPlayers", "id": 53, "codec": "bit-list", "indices": true},
-        {"name": "PBEMSettings", "id": 54, "codec": "object", "class": "PbemPlayerSettings"},
+        {"name": "PbemSettings", "id": 54, "codec": "object", "class": "PbemPlayerSettings"},
         {"name": "HeroEmerging", "id": 56, "codec": "bool"},
         {"name": "BaseHeroJoinDay", "id": 57, "codec": "i32"},
         {"name": "DiplomaticRelations", "id": 58, "codec": "object", "class": "PlayerDiplomaticRelations"}
@@ -4771,7 +4771,7 @@
       "id": 80,
       "properties": [
         {"name": "ConnectionMode", "id": 5, "codec": "enum", "enum": "ConnectionMode", "width": 1, "signed": false},
-        {"name": "SystemId", "oldNames": ["SystemID"], "id": 6, "codec": "i32"}
+        {"name": "SystemId", "id": 6, "codec": "i32"}
       ]
     },
     {
@@ -4835,14 +4835,14 @@
         {"name": "Mana", "id": 20, "codec": "i32"},
         {"name": "ResearchPercentage", "id": 21, "codec": "i32"},
         {"name": "Spells", "id": 22, "codec": "int-list", "domain": "spell-id"},
-        {"name": "ResearchSpellID", "id": 23, "codec": "i32"},
+        {"name": "ResearchSpellId", "id": 23, "codec": "i32"},
         {"name": "ResearchPointsLeft", "id": 24, "codec": "i32"},
         {"name": "Enchantments", "id": 25, "codec": "object", "class": "EnchantmentList"},
         {"name": "ActiveEnchantments", "id": 26, "codec": "set", "set": "PlayerEnchantmentType", "width": 1},
         {"name": "ExternalMana", "id": 27, "codec": "i32"},
         {"name": "ExternalPower", "id": 28, "codec": "i32"},
         {"name": "CheatEnabled", "id": 29, "codec": "bool"},
-        {"name": "NextEnchantmentID", "id": 30, "codec": "i32"}
+        {"name": "NextEnchantmentId", "id": 30, "codec": "i32"}
       ]
     },
     {
@@ -4852,7 +4852,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Mode", "id": 20, "codec": "enum", "enum": "PlayerMagicEventLog.EventMode", "width": 1, "signed": false},
-        {"name": "SpellID", "id": 21, "codec": "i32"},
+        {"name": "SpellId", "id": 21, "codec": "i32"},
         {"name": "Value", "id": 22, "codec": "i32"},
         {"name": "EnchantmentName", "id": 23, "codec": "string"},
         {"name": "Location", "id": 24, "codec": "i32"}
@@ -4864,7 +4864,7 @@
       "id": 131683,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "PlayerID", "id": 10, "codec": "u8"},
+        {"name": "PlayerId", "id": 10, "codec": "u8"},
         {"name": "Behavior", "id": 11, "codec": "record", "record": "SetupPlayerBehavior", "size": 8},
         {"name": "Race", "id": 12, "codec": "u8"},
         {"name": "BehaviorMode", "id": 13, "codec": "u8", "raw": true},
@@ -4924,7 +4924,7 @@
       "parent": "EngineObject",
       "id": 80,
       "properties": [
-        {"name": "UsedPlugins", "oldNames": ["UsedPlugIns"], "id": 1, "codec": "strings"}
+        {"name": "UsedPlugins", "id": 1, "codec": "strings"}
       ]
     },
     {
@@ -5097,15 +5097,15 @@
       "id": 131735,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ProductionID", "id": 20, "codec": "i32"},
+        {"name": "Kind", "id": 20, "codec": "i32"},
         {"name": "Parameter", "id": 21, "codec": "i32"},
-        {"name": "GroupID", "id": 22, "codec": "i32"}
+        {"name": "GroupId", "id": 22, "codec": "i32"}
       ],
       "mapping": {
         "name": "ProductionOrder",
-        "discriminator": "ProductionID",
+        "discriminator": "Kind",
         "cases": [
-          {"key": 1, "case": "ProduceUnit", "fields": [["Index", "Parameter"], ["GroupId", "GroupID"]]},
+          {"key": 1, "case": "ProduceUnit", "fields": [["Index", "Parameter"], ["GroupId", "GroupId"]]},
           {"key": 2, "case": "ResearchSpell", "fields": [["Index", "Parameter"]]},
           {"key": 10, "case": "Trade", "fields": [["TurnsTotal", "Parameter"]]},
           {"key": 11, "case": "Upgrade", "fields": []},
@@ -5113,7 +5113,7 @@
           {"key": 13, "case": "Migrate", "fields": [["Race", "Parameter"]]},
           {"key": 14, "case": "Loot", "fields": []}
         ],
-        "unknown": {"case": "Unknown", "fields": [["Kind", "ProductionID"], ["Parameter", "Parameter"], ["GroupId", "GroupID"]]}
+        "unknown": {"case": "Unknown", "fields": [["Kind", "Kind"], ["Parameter", "Parameter"], ["GroupId", "GroupId"]]}
       }
     },
     {
@@ -5165,7 +5165,7 @@
         {"name": "TurnsLeft", "id": 12, "codec": "u8"},
         {"name": "TurnsTotal", "id": 13, "codec": "u8"},
         {"name": "Player", "id": 14, "codec": "u8"},
-        {"name": "GroupID", "id": 15, "codec": "i32"},
+        {"name": "GroupId", "id": 15, "codec": "i32"},
         {"name": "UnitProductionIndex", "id": 16, "codec": "i32"},
         {"name": "Unit", "id": 17, "codec": "created", "family": "Unit"},
         {"name": "GoldUpkeep", "id": 18, "codec": "i32"},
@@ -5181,11 +5181,11 @@
         {"name": "Command", "id": 20, "codec": "i32"},
         {"name": "X", "id": 21, "codec": "u8"},
         {"name": "Y", "id": 22, "codec": "u8"},
-        {"name": "L", "id": 23, "codec": "u8"},
+        {"name": "MapLevel", "id": 23, "codec": "u8"},
         {"name": "Player", "id": 24, "codec": "u8"},
         {"name": "Item", "id": 25, "codec": "created", "family": "ProductionItem"},
         {"name": "Index", "id": 26, "codec": "i32"},
-        {"name": "Reserved", "id": 27, "codec": "i32"},
+        {"name": "UnknownValue", "id": 27, "codec": "i32"},
         {"name": "Queue", "id": 28, "codec": "bool"}
       ]
     },
@@ -5215,7 +5215,7 @@
       "id": 131586,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "Race", "id": 2, "codec": "u8"},
+        {"name": "RaceIndex", "id": 2, "codec": "u8"},
         {"name": "PlayerRelations", "id": 3, "codec": "int-list"},
         {"name": "Enabled", "id": 4, "codec": "bool"},
         {"name": "DefaultRelations", "id": 5, "codec": "byte-list", "enum": "Status"}
@@ -5309,7 +5309,7 @@
       "id": 131753,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "AbilityID", "id": 20, "codec": "i32", "raw": true}
+        {"name": "AbilityId", "id": 20, "codec": "i32", "raw": true}
       ]
     },
     {
@@ -5396,7 +5396,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Name", "id": 20, "codec": "string"},
-        {"name": "RemoteID", "id": 21, "codec": "i32", "raw": true},
+        {"name": "RemoteId", "id": 21, "codec": "i32", "raw": true},
         {"name": "PreferredRace", "id": 22, "codec": "u8"},
         {"name": "MapValidation", "id": 23, "codec": "enum", "enum": "MapValidationInfo", "width": 1, "signed": false},
         {"name": "Version", "id": 24, "codec": "i32"}
@@ -5488,7 +5488,7 @@
       "id": 2162690,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "Id", "oldNames": ["ID"], "id": 5, "codec": "i32"}
+        {"name": "Id", "id": 5, "codec": "i32"}
       ]
     },
     {
@@ -5587,7 +5587,7 @@
       "id": 131681,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "MessageID", "id": 20, "codec": "i32"},
+        {"name": "MessageId", "id": 20, "codec": "i32"},
         {"name": "Param2", "id": 21, "codec": "i32"},
         {"name": "Param1", "id": 22, "codec": "i32"},
         {"name": "Data", "id": 23, "codec": "created"}
@@ -5611,14 +5611,14 @@
         {"name": "DayLimit", "id": 19, "codec": "i32"},
         {"name": "TurnTime", "id": 20, "codec": "i32"},
         {"name": "RemotePlayers", "id": 21, "codec": "object", "class": "RemotePlayerList"},
-        {"name": "HostRemoteID", "id": 22, "codec": "i32"},
+        {"name": "HostRemoteId", "id": 22, "codec": "i32"},
         {"name": "MapDay", "id": 23, "codec": "i32"},
         {"name": "AlliedVictory", "id": 24, "codec": "bool"},
         {"name": "ConnectionType", "id": 25, "codec": "u8", "raw": true},
-        {"name": "MapCRC", "id": 26, "codec": "i32"},
-        {"name": "SetCRC", "id": 27, "codec": "i32"},
-        {"name": "TacticalCombatAvailability", "id": 28, "codec": "u8", "raw": true},
-        {"name": "AlwaysViewTC", "id": 29, "codec": "bool"}
+        {"name": "MapCrc", "id": 26, "codec": "i32"},
+        {"name": "SetCrc", "id": 27, "codec": "i32"},
+        {"name": "TacticalBattleAvailability", "id": 28, "codec": "u8", "raw": true},
+        {"name": "AlwaysViewTacticalBattle", "id": 29, "codec": "bool"}
       ]
     },
     {
@@ -5701,8 +5701,8 @@
       "parent": "CombatAction",
       "id": 80,
       "properties": [
-        {"name": "SourceID", "id": 10, "codec": "u8"},
-        {"name": "TargetID", "id": 11, "codec": "u8"},
+        {"name": "SourceId", "id": 10, "codec": "u8"},
+        {"name": "TargetId", "id": 11, "codec": "u8"},
         {"name": "Mode", "id": 12, "codec": "set", "set": "SingleTargetModeElement", "width": 1}
       ]
     },
@@ -5806,8 +5806,8 @@
       "id": 131823,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "UnitID", "id": 20, "codec": "i32"},
-        {"name": "SpellID", "id": 21, "codec": "i32"}
+        {"name": "UnitId", "id": 20, "codec": "i32"},
+        {"name": "SpellId", "id": 21, "codec": "i32"}
       ]
     },
     {
@@ -5827,7 +5827,7 @@
       "parent": "EngineObject",
       "id": 80,
       "properties": [
-        {"name": "Spells", "dynamic": 10, "codec": "object", "class": "Spell", "slotBase": 10}
+        {"name": "RegisteredSpells", "dynamic": 10, "codec": "object", "class": "Spell", "slotBase": 10}
       ]
     },
     {
@@ -5836,8 +5836,8 @@
       "id": 135936,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "EventSpellID", "id": 15, "codec": "i32"},
-        {"name": "EventSourceID", "id": 16, "codec": "i32"},
+        {"name": "EventSpellId", "id": 15, "codec": "i32"},
+        {"name": "EventSourceId", "id": 16, "codec": "i32"},
         {"name": "EventPlayerIndex", "id": 17, "codec": "u8"},
         {"name": "EventMana", "id": 18, "codec": "i32"}
       ]
@@ -5919,7 +5919,7 @@
       "properties": [
         {"name": "X", "id": 20, "codec": "u8"},
         {"name": "Y", "id": 21, "codec": "u8"},
-        {"name": "L", "id": 22, "codec": "u8"}
+        {"name": "MapLevel", "id": 22, "codec": "u8"}
       ]
     },
     {
@@ -5950,7 +5950,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "BuildingDays", "id": 0, "codec": "u8"},
-        {"name": "StructureID", "id": 98, "codec": "i32"},
+        {"name": "StructureId", "id": 98, "codec": "i32"},
         {"name": "BuildingPlayer", "id": 99, "codec": "u8"}
       ]
     },
@@ -5971,7 +5971,7 @@
       "parent": "EngineObject",
       "id": 80,
       "properties": [
-        {"name": "NextID", "id": 20, "codec": "i32"},
+        {"name": "NextId", "id": 20, "codec": "i32"},
         {"name": "CityCount", "id": 21, "codec": "i32"}
       ]
     },
@@ -5993,8 +5993,8 @@
       "id": 131915,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "SelectSFXLooped", "id": 20, "codec": "bool"},
-        {"name": "SelectSFX", "id": 21, "codec": "string"},
+        {"name": "SelectSfxLooped", "id": 20, "codec": "bool"},
+        {"name": "SelectSfx", "id": 21, "codec": "string"},
         {"name": "Description", "id": 22, "codec": "strings"},
         {"name": "ScannerIcon", "id": 23, "codec": "i32"},
         {"name": "Defenders", "id": 28, "codec": "int-list", "groups": 8, "domain": "unit-resource-index"}
@@ -6015,9 +6015,9 @@
         {"name": "Action", "id": 15, "codec": "i32"},
         {"name": "X", "id": 16, "codec": "u8"},
         {"name": "Y", "id": 17, "codec": "u8"},
-        {"name": "L", "id": 18, "codec": "u8"},
+        {"name": "MapLevel", "id": 18, "codec": "u8"},
         {"name": "Player", "id": 19, "codec": "u8"},
-        {"name": "StructureClassID", "id": 20, "codec": "i32"},
+        {"name": "StructureClassId", "id": 20, "codec": "i32"},
         {"name": "Razed", "id": 21, "codec": "bool"},
         {"name": "Param", "id": 22, "codec": "i32"},
         {"name": "Param2", "id": 23, "codec": "i32"}
@@ -6194,8 +6194,8 @@
       "id": 131785,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "SourceID", "id": 20, "codec": "u8"},
-        {"name": "TargetID", "id": 21, "codec": "u8"},
+        {"name": "SourceId", "id": 20, "codec": "u8"},
+        {"name": "TargetId", "id": 21, "codec": "u8"},
         {"name": "ManaCost", "id": 22, "codec": "i32"},
         {"name": "Succeeded", "id": 23, "codec": "bool"}
       ]
@@ -6220,7 +6220,7 @@
       "properties": [
         {"name": "DestinationX", "id": 7, "codec": "u8"},
         {"name": "DestinationY", "id": 8, "codec": "u8"},
-        {"name": "DestinationL", "id": 9, "codec": "u8"},
+        {"name": "DestinationMapLevel", "id": 9, "codec": "u8"},
         {"name": "State", "id": 10, "codec": "set", "set": "Teleport.StateElement", "width": 1}
       ]
     },
@@ -6280,7 +6280,7 @@
       "id": 131738,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ID", "id": 9, "codec": "i32"},
+        {"name": "Id", "id": 9, "codec": "i32"},
         {"name": "Text", "id": 10, "codec": "strings"},
         {"name": "Name", "id": 11, "codec": "string"}
       ]
@@ -6331,7 +6331,7 @@
       "id": 135972,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ArmyID", "id": 40, "codec": "created", "family": "ArmyId"}
+        {"name": "ArmyId", "id": 40, "codec": "created", "family": "ArmyId"}
       ]
     },
     {
@@ -6375,7 +6375,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "TeleportLocation", "id": 30, "codec": "i32"},
-        {"name": "ArmyID", "id": 31, "codec": "created", "family": "ArmyId"}
+        {"name": "ArmyId", "id": 31, "codec": "created", "family": "ArmyId"}
       ]
     },
     {
@@ -6566,7 +6566,7 @@
         {"name": "Experience", "id": 7, "codec": "u8"},
         {"name": "MovePoints", "id": 8, "codec": "u8"},
         {"name": "HitPoints", "id": 9, "codec": "u8"},
-        {"name": "Unsafe", "id": 10, "codec": "u16"}
+        {"name": "UnitResourceIndex", "id": 10, "codec": "u16"}
       ]
     },
     {
@@ -6574,7 +6574,7 @@
       "parent": "EngineObject",
       "id": 80,
       "properties": [
-        {"name": "NextUnitID", "id": 10, "codec": "i32"}
+        {"name": "NextUnitId", "id": 10, "codec": "i32"}
       ]
     },
     {
@@ -6583,8 +6583,8 @@
       "id": 135951,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "EnchantmentAbilityID", "id": 20, "codec": "i32"},
-        {"name": "UnitID", "id": 21, "codec": "i32"}
+        {"name": "EnchantmentAbilityId", "id": 20, "codec": "i32"},
+        {"name": "UnitId", "id": 21, "codec": "i32"}
       ]
     },
     {
@@ -6599,7 +6599,7 @@
       "id": 131756,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "EnchantmentAbilityID", "id": 15, "codec": "u16"},
+        {"name": "EnchantmentAbilityId", "id": 15, "codec": "u16"},
         {"name": "Enchantment", "id": 16, "codec": "created", "family": "UnitEnchantment"},
         {"name": "EnchantmentPlayerIndex", "id": 17, "codec": "i8"},
         {"name": "EnchantmentDuration", "id": 18, "codec": "i8"}
@@ -6615,12 +6615,12 @@
         {"name": "FaceImageLibraryName", "id": 6, "codec": "string"},
         {"name": "Name", "id": 7, "codec": "string"},
         {"name": "FaceIndex", "id": 8, "codec": "i32"},
-        {"name": "_UnitGFXResource_30", "id": 10, "codec": "u8", "raw": true},
-        {"name": "SFXLibrary0", "id": 15, "codec": "object", "class": "SfxLibrary"},
-        {"name": "SFXLibrary1", "id": 16, "codec": "object", "class": "SfxLibrary"},
-        {"name": "SFXLibrary2", "id": 17, "codec": "object", "class": "SfxLibrary"},
-        {"name": "SFXLibrary3", "id": 18, "codec": "object", "class": "SfxLibrary"},
-        {"name": "SFXLibrary4", "id": 19, "codec": "object", "class": "SfxLibrary"}
+        {"name": "MoveAnimationSpeed", "id": 10, "codec": "u8", "raw": true},
+        {"name": "SelectSfxLibrary", "id": 15, "codec": "object", "class": "SfxLibrary"},
+        {"name": "MoveSfxLibrary", "id": 16, "codec": "object", "class": "SfxLibrary"},
+        {"name": "MeleeSfxLibrary", "id": 17, "codec": "object", "class": "SfxLibrary"},
+        {"name": "HitSfxLibrary", "id": 18, "codec": "object", "class": "SfxLibrary"},
+        {"name": "DeathSfxLibrary", "id": 19, "codec": "object", "class": "SfxLibrary"}
       ]
     },
     {
@@ -6698,13 +6698,13 @@
         {"name": "Champion", "id": 22, "codec": "raw-bool"},
         {"name": "Gender", "id": 23, "codec": "enum", "enum": "UnitGender", "width": 1, "signed": false},
         {"name": "TransportCapacity", "id": 24, "codec": "u8"},
-        {"name": "Abilities0", "id": 25, "codec": "object", "class": "AbilityOwner"},
+        {"name": "NoRankAbilities", "id": 25, "codec": "object", "class": "AbilityOwner"},
         {"name": "Description", "id": 26, "codec": "strings"},
         {"name": "ObtainValue", "id": 27, "codec": "i32"},
         {"name": "UnitSize", "id": 28, "codec": "enum", "enum": "UnitSize", "width": 1, "signed": false},
         {"name": "BloodType", "id": 29, "codec": "enum", "enum": "BloodType", "width": 1, "signed": false},
-        {"name": "Abilities1", "id": 30, "codec": "object", "class": "AbilityOwner"},
-        {"name": "Abilities2", "id": 31, "codec": "object", "class": "AbilityOwner"}
+        {"name": "SilverRankAbilities", "id": 30, "codec": "object", "class": "AbilityOwner"},
+        {"name": "GoldRankAbilities", "id": 31, "codec": "object", "class": "AbilityOwner"}
       ]
     },
     {
@@ -6743,9 +6743,9 @@
       "id": 131779,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "SpellID", "id": 20, "codec": "i32"},
-        {"name": "SourceID", "id": 21, "codec": "u8"},
-        {"name": "TargetID", "id": 22, "codec": "u8"},
+        {"name": "SpellId", "id": 20, "codec": "i32"},
+        {"name": "SourceId", "id": 21, "codec": "u8"},
+        {"name": "TargetId", "id": 22, "codec": "u8"},
         {"name": "SpellData", "id": 23, "codec": "int-array", "width": 4, "signed": true, "count": 2},
         {"name": "Mana", "id": 24, "codec": "i32"}
       ]
@@ -6762,7 +6762,7 @@
       "id": 135944,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "TargetUnitIDs", "id": 30, "codec": "int-list", "domain": "unit-id"},
+        {"name": "TargetUnitIds", "id": 30, "codec": "int-list", "domain": "unit-id"},
         {"name": "SpellData", "id": 31, "codec": "int-array", "width": 4, "signed": true, "count": 2},
         {"name": "TargetPlayer", "id": 32, "codec": "u8"}
       ]
@@ -6779,7 +6779,7 @@
       "id": 131766,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "_UpdateHeaderCA_0C", "id": 20, "codec": "string"}
+        {"name": "Header", "id": 20, "codec": "string"}
       ]
     },
     {
@@ -6789,9 +6789,9 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "Text", "id": 15, "codec": "strings"},
-        {"name": "Xhx", "id": 16, "codec": "u8"},
-        {"name": "Yhx", "id": 17, "codec": "u8"},
-        {"name": "Lhx", "id": 18, "codec": "u8"}
+        {"name": "HexX", "id": 16, "codec": "u8"},
+        {"name": "HexY", "id": 17, "codec": "u8"},
+        {"name": "HexLevel", "id": 18, "codec": "u8"}
       ]
     },
     {
@@ -6850,7 +6850,7 @@
       "id": 135973,
       "engines": ["game", "tactical", "campaign"],
       "properties": [
-        {"name": "ArmyID", "id": 40, "codec": "created", "family": "ArmyId"}
+        {"name": "ArmyId", "id": 40, "codec": "created", "family": "ArmyId"}
       ]
     },
     {
@@ -6871,7 +6871,7 @@
         {"name": "ImageLibrary", "id": 12, "codec": "string"},
         {"name": "PathDescription", "id": 13, "codec": "string"},
         {"name": "Description", "id": 14, "codec": "string"},
-        {"name": "_WMCampaignScenario_20", "id": 15, "codec": "bool"},
+        {"name": "UnknownFlag", "id": 15, "codec": "bool"},
         {"name": "MapX", "id": 16, "codec": "i32"},
         {"name": "MapY", "id": 17, "codec": "i32"},
         {"name": "IntroPages", "id": 19, "codec": "object", "class": "WMCampaignScenarioPageList"},
@@ -6935,7 +6935,7 @@
       "engines": ["game", "tactical", "campaign"],
       "properties": [
         {"name": "WarpLocation", "id": 30, "codec": "i32"},
-        {"name": "ArmyID", "id": 31, "codec": "created", "family": "ArmyId"}
+        {"name": "ArmyId", "id": 31, "codec": "created", "family": "ArmyId"}
       ]
     },
     {
@@ -7067,7 +7067,7 @@
         {"name": "GenerateSpell", "id": 30, "codec": "bool"},
         {"name": "MagicSpheres", "id": 31, "codec": "set", "set": "MagicSphere", "width": 2},
         {"name": "SpellLevel", "id": 32, "codec": "u8"},
-        {"name": "SpellID", "id": 33, "codec": "i32", "raw": true}
+        {"name": "SpellId", "id": 33, "codec": "i32", "raw": true}
       ]
     },
     {

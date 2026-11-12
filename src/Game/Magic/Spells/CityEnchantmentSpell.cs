@@ -34,7 +34,7 @@ public partial class CityEnchantmentSpell : CityTargetSpell
         CityEnchantment enchantment;
         targetCity = ((CityTargetSpellTokenEvent)eventValue).GetSelectedCity();
         enchantment = new CityEnchantment(null);
-        enchantment._enchantmentId = EnchantmentId;
+        enchantment.CityEnchantmentId = EnchantmentId;
         enchantment.EnchantmentManaUpkeep = ManaUpkeep;
         var mapCoordinate = targetCity.Owner.GetMapCoordinate();
         enchantment.EnchantmentLocation.Packed = mapCoordinate;

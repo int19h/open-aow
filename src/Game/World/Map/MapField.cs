@@ -145,7 +145,7 @@ public partial class MapField : ECustomNode, IOwned<MapLevel>, IOwnedSink<MapLev
     // load creates each sprite with this field as owner and then places it, as rwCreateEObject does.
     public override void PersistFields(IPersister persister)
     {
-        persister.CreatedSequence("Sprites", new NodeChildren(this));
+        persister.CreatedSequence("HexSpriteList", new NodeChildren(this));
         int flags = FieldFlags;
         FieldFlags = (flags & ~0xFFFF) | persister.UInt16("FieldFlags", (ushort)flags);
     }
