@@ -189,6 +189,206 @@ public sealed class PersistEquivalenceTests
         Check("FrozenWaterHexSprite", new FrozenWaterHexSprite(null!) { DaysRemaining = 127, CasterPlayer = -1 });
     }
 
+    // A level of 5 by 3 fields: field [0][0] is empty, the others hold up to three frozen water
+    // sprites and nonzero field flags. The grid, the sprite sequence and the progress reports
+    // match MainReadWrite on load and on save, through both backends.
+    [Theory]
+    [InlineData("MapLevel", "game")]
+    [InlineData("CombatMapLevel", "tactical")]
+    public void MapLevelMatchesTheConverter(string className, string engine)
+    {
+        var classValue = s_schema.Get(className);
+        var document = LevelDocument(width: 5, height: 3);
+        var image = PilotImage.Encode(document, className, engine);
+        bool added = Register<FrozenWaterHexSprite>();
+        var (viaReadWrite, streamMap) = NewLevel(className);
+        var (fromImage, imageMap) = NewLevel(className);
+        var (fromDocument, documentMap) = NewLevel(className);
+        try
+        {
+            Load(viaReadWrite, image);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, engine), fromImage, Factory);
+            TreeReader.Read(DocumentBackend.Read(document, classValue, s_schema, engine), fromDocument, Factory);
+            Assert.Equal(streamMap.Reports, imageMap.Reports);
+            Assert.Equal(streamMap.Reports, documentMap.Reports);
+            // 15 fields report one tenth each, after the report at 0.
+            Assert.Equal(16, streamMap.Reports.Count);
+            Assert.Equal((MapProgressType.Loading, 150), streamMap.Reports[^1]);
+            Assert.Equal(15, fromImage.GetCount());
+            Assert.Equal(3, fromImage.GetField(3, 0).GetCount());
+            Assert.Same(fromImage.GetField(3, 0), fromImage.GetField(3, 0).GetChild(0).Owner);
+            Assert.Same(fromImage, fromImage.GetField(1, 0).Owner);
+            Assert.Same(EngineFixture.Engine, fromImage.GetEngine());
+            int streamSaved = streamMap.Reports.Count;
+            var rewritten = Image(viaReadWrite);
+            EqualBytes(rewritten, Image(fromImage), className + " original read");
+            EqualBytes(rewritten, Image(fromDocument), className + " document read");
+            int treeSaved = imageMap.Reports.Count;
+            var tree = TreeWriter.Write(fromImage, Factory);
+            Assert.Equal(streamMap.Reports[streamSaved..], imageMap.Reports[treeSaved..]);
+            Assert.Equal((MapProgressType.Saving, 0), imageMap.Reports[treeSaved]);
+            EqualJson(PilotImage.Decode(rewritten, className, engine), DocumentBackend.Write(tree, classValue, s_schema, engine), className + " write");
+            EqualBytes(rewritten, OriginalBackend.Write(tree, classValue, s_schema, engine), className + " original");
+        }
+        finally
+        {
+            fromDocument.Dispose();
+            fromImage.Dispose();
+            viaReadWrite.Dispose();
+            if (added) EngineFixture.Engine.UnregisterEngineClasses([EngineClass.Of<FrozenWaterHexSprite>()]);
+        }
+    }
+
+    [Fact]
+    public void AnAbsentGridLeavesTheLevelEmpty()
+    {
+        var classValue = s_schema.Get("MapLevel");
+        var document = (JsonObject)JsonReader.Parse("""{"Width":2,"Height":1,"HexLevel":1}"""u8, "level.json");
+        var image = PilotImage.Encode(document, "MapLevel");
+        var (viaReadWrite, streamMap) = NewLevel("MapLevel");
+        var (fromImage, imageMap) = NewLevel("MapLevel");
+        try
+        {
+            Load(viaReadWrite, image);
+            TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), fromImage, Factory);
+            Assert.Equal(streamMap.Reports, imageMap.Reports);
+            Assert.Equal(2, fromImage.GetCount());
+            Assert.Equal(0, fromImage.GetField(1, 0).GetCount());
+            EqualBytes(Image(viaReadWrite), Image(fromImage), "absent grid");
+        }
+        finally
+        {
+            fromImage.Dispose();
+            viaReadWrite.Dispose();
+        }
+    }
+
+    [Fact]
+    public void ASpriteWhosePersistThrowsIsDroppedUnlessTheHandlerStops()
+    {
+        var classValue = s_schema.Get("MapLevel");
+        var image = PilotImage.Encode(LevelDocument(width: 2, height: 1), "MapLevel");
+        var descriptor = EngineClass.Of<FrozenWaterHexSprite>();
+        bool added = Register<FrozenWaterHexSprite>();
+        var previous = EngineClassCreation.Substitute(descriptor, next: static owner => new ThrowingFrozenWater(owner));
+        try
+        {
+            var (continued, _) = NewLevel("MapLevel");
+            var (continuedTree, _) = NewLevel("MapLevel");
+            try
+            {
+                Load(continued, image);
+                TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), continuedTree, Factory);
+                Assert.Equal(0, continued.GetField(1, 0).GetCount());
+                Assert.Equal(0, continuedTree.GetField(1, 0).GetCount());
+                EqualBytes(Image(continued), Image(continuedTree), "dropped sprites");
+            }
+            finally
+            {
+                continuedTree.Dispose();
+                continued.Dispose();
+            }
+            var (stopped, _) = NewLevel("MapLevel");
+            var (stoppedTree, _) = NewLevel("MapLevel");
+            try
+            {
+                var streamError = Assert.Throws<InvalidOperationException>(() =>
+                    Load(stopped, image, static (StorageStream _, string _, ref bool cont) => cont = false));
+                var treeError = Assert.Throws<InvalidOperationException>(() =>
+                    TreeReader.Read(OriginalBackend.Read(image, classValue, s_schema, "game"), stoppedTree, Factory,
+                        static (string _, out bool cont) => cont = false));
+                Assert.Equal("frozen water failed", streamError.Message);
+                Assert.Equal("frozen water failed", treeError.Message);
+            }
+            finally
+            {
+                stoppedTree.Dispose();
+                stopped.Dispose();
+            }
+        }
+        finally
+        {
+            EngineClassCreation.Substitute(descriptor, next: previous);
+            if (added) EngineFixture.Engine.UnregisterEngineClasses([descriptor]);
+        }
+    }
+
+    // The fixture engine enlists the classes its other tests create. A stored sprite is created by its class id.
+    private static bool Register<T>() where T : EngineObject
+    {
+        var descriptor = EngineClass.Of<T>();
+        if (EngineFixture.Engine.ClassTable.ContainsKey(descriptor.ClassId)) return false;
+        EngineFixture.Engine.RegisterEngineClasses([descriptor]);
+        return true;
+    }
+
+    // Field [y][x] holds (x + y) % 4 sprites with distinct values, and flags x * 100 + y + 1.
+    private static JsonObject LevelDocument(int width, int height)
+    {
+        var rows = new JsonArray();
+        for (int y = 0; y < height; y++)
+        {
+            var row = new JsonArray();
+            for (int x = 0; x < width; x++)
+            {
+                var field = new JsonObject();
+                if (x != 0 || y != 0)
+                {
+                    var sprites = new JsonArray();
+                    for (int k = 0; k < (x + y) % 4; k++)
+                        sprites.Add(new JsonObject()
+                            .Add("$class", new JsonString("FrozenWaterHexSprite"))
+                            .Add("DaysRemaining", new JsonInteger(k + 1))
+                            .Add("CasterPlayer", new JsonInteger(x - y)));
+                    if (sprites.Items.Count != 0) field.Add("Sprites", sprites);
+                    field.Add("FieldFlags", new JsonInteger(x * 100 + y + 1));
+                }
+                row.Add(field);
+            }
+            rows.Add(row);
+        }
+        return new JsonObject()
+            .Add("Width", new JsonInteger(width))
+            .Add("Height", new JsonInteger(height))
+            .Add("HexLevel", new JsonInteger(1))
+            .Add("Fields", rows);
+    }
+
+    // A level in a container of a map that records its progress reports.
+    private static (MapLevel Level, ProgressMap Map) NewLevel(string className)
+    {
+        var map = new ProgressMap();
+        var container = new MapContainer(map) { Map = map };
+        MapLevel level = className == "CombatMapLevel" ? new CombatMapLevel(container) : new MapLevel(container);
+        return (level, map);
+    }
+
+    private sealed class ProgressMap() : GameMap(null!)
+    {
+        public List<(MapProgressType Type, int Percent)> Reports { get; } = [];
+
+        public override void NotifyProgress(in MapProgress progress) => Reports.Add((progress.ProgressType, progress.Percent));
+    }
+
+    private sealed class ThrowingFrozenWater : FrozenWaterHexSprite
+    {
+        public ThrowingFrozenWater(ECustomNode owner) : base(owner)
+        {
+        }
+
+        public override void ReadWrite(StorageStream stream)
+        {
+            if (stream.StorageMode().Contains(StorageModeElement.Read)) throw new InvalidOperationException("frozen water failed");
+            base.ReadWrite(stream);
+        }
+
+        public override void PersistFields(IPersister persister)
+        {
+            if (persister.Loading) throw new InvalidOperationException("frozen water failed");
+            base.PersistFields(persister);
+        }
+    }
+
     [Fact]
     public void FloodEnchantmentMatchesTheConverter()
     {

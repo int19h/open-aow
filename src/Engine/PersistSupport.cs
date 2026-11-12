@@ -1,6 +1,7 @@
 
 using Aow.Engine.Collections;
 using Aow.Formats.Tree;
+using Aow.Game;
 
 using Aow.Game.Units;
 
@@ -11,6 +12,11 @@ namespace Aow.Engine;
 
 public static class PersistSupport
 {
+    /// <summary>The engine of a tree load, which <c>ReadWrite</c> reads as <c>Stream.Engine</c>.</summary>
+    public static GameEngine Engine(IPersister persister) =>
+        (persister.Factory as IEnginePersistableFactory)?.Engine
+            ?? throw new InvalidOperationException("The load's factory names no engine.");
+
     public static T Record<T>(IPersister persister, string name, T value) where T : unmanaged =>
         RecordValues.Transfer(persister, name, value);
 

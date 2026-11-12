@@ -8,7 +8,7 @@ using Aow.Rtl;
 namespace Aow.Game.Tests;
 
 // Test harness for the persistence tree. Formats does not name these types.
-public sealed class EnginePersistableFactory : IPersistableFactory
+public sealed class EnginePersistableFactory : IEnginePersistableFactory
 {
     private readonly GameEngine _engine;
     private readonly Dictionary<string, EngineClass> _byName;
@@ -21,6 +21,8 @@ public sealed class EnginePersistableFactory : IPersistableFactory
             if (!_byName.TryAdd(engineClass.StorageKey, engineClass))
                 throw new InvalidOperationException("Two engine classes are named " + engineClass.StorageKey + ".");
     }
+
+    public GameEngine Engine => _engine;
 
     public string ClassName(IPersistable objectValue) => NameTable.Stored(objectValue.GetType());
 

@@ -40,8 +40,23 @@ public abstract partial class PropertyCodec
     }
 
     /// <summary>
-    /// Writes the entries of a dynamic member, one per slot, into the object's table. The base
-    /// refuses the member. A keyed created member overrides it.
+    /// Writes a member into the object's table. The base writes one entry at the member's id. A
+    /// member that stores two entries (the campaign map) overrides it.
+    /// </summary>
+    internal virtual void WriteMemberImage(Tree.TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame)
+    {
+        writer.Begin(frame.Id, frame.Property);
+        WriteImage(value, context, writer.Data, frame);
+        writer.End();
+    }
+
+    /// <summary>Reads a member stored as two entries, the member's id and its data id. Either can be absent.</summary>
+    internal virtual Tree.TreeValue ReadPairImage(DecodeContext context, (int Start, int End)? first, (int Start, int End)? second, ImageFrame frame) =>
+        throw new InvalidOperationException(GetType().Name + " stores one entry.");
+
+    /// <summary>
+    /// Writes the entries of a dynamic member into the object's table. The base refuses the
+    /// member. A created member overrides it, keyed by slot or in sequence.
     /// </summary>
     internal virtual void WriteSlotsImage(Tree.TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame) =>
         throw context.Fail(Codes.Type, "PE-3 still needs a dynamic member. The direct path does not store it.", null, frame.Path);

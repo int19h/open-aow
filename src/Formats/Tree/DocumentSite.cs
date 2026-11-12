@@ -17,7 +17,16 @@ internal sealed class DocumentSite
     /// <summary>The object being read. A bit array takes its count from a sibling on this object.</summary>
     public JsonObject? Owner { get; init; }
 
-    public DocumentSite For(SchemaProperty property) => new()
+    /// <summary>The tree object being written. A map level's grid checks its width and height against it.</summary>
+    public ObjectNode? Parent { get; init; }
+
+    /// <summary>The class of the object being read or written. A map level's class names its field class.</summary>
+    public SchemaClass? OwnerClass { get; init; }
+
+    public DocumentSite For(SchemaProperty property) => For(property, Parent, OwnerClass);
+
+    /// <summary>The site of a member of <paramref name="parent"/>, an object of <paramref name="ownerClass"/>.</summary>
+    public DocumentSite For(SchemaProperty property, ObjectNode? parent, SchemaClass? ownerClass) => new()
     {
         Property = property,
         Path = Path.Member(property.Name),
@@ -25,6 +34,8 @@ internal sealed class DocumentSite
         Engine = Engine,
         Context = Context,
         Owner = Owner,
+        Parent = parent,
+        OwnerClass = ownerClass,
     };
 
     public DocumentSite At(DocumentNodePath path, bool element) => new()
@@ -36,6 +47,8 @@ internal sealed class DocumentSite
         Context = Context,
         Element = element,
         Owner = Owner,
+        Parent = Parent,
+        OwnerClass = OwnerClass,
     };
 
     public DocumentSite WithOwner(JsonObject owner) => new()
@@ -47,6 +60,8 @@ internal sealed class DocumentSite
         Context = Context,
         Element = Element,
         Owner = owner,
+        Parent = Parent,
+        OwnerClass = OwnerClass,
     };
 
     public ConversionException Fail(string code, string message, JsonValue? at = null, string? value = null, string? constraint = null) =>

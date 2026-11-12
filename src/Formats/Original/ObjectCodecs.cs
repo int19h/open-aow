@@ -203,10 +203,8 @@ internal sealed partial class ChildrenCodec : PropertyCodec
 /// the level's field class, in engine y then x order. The document holds Fields[y][x], one row
 /// per line.
 /// </summary>
-internal sealed class MapFieldsCodec : PropertyCodec
+internal sealed partial class MapFieldsCodec : PropertyCodec
 {
-    internal override string? ImageRefusal => "PE-2c still needs map fields. The direct path does not store them.";
-
     internal override bool AcceptsDocumentArray(int version) => true;
 
     private static int Dimension(JsonObject owner, string name) => owner[name] is JsonInteger n ? (int)n.Value : 0;
@@ -275,10 +273,8 @@ internal sealed class MapFieldsCodec : PropertyCodec
 /// $container. The exact compressed bytes stay as a nested-compression part, validated against
 /// the visible map before export uses them.
 /// </summary>
-internal sealed class CampaignMapCodec : PropertyCodec
+internal sealed partial class CampaignMapCodec : PropertyCodec
 {
-    internal override string? ImageRefusal => "PE-2c still needs a campaign map. The direct path does not store it.";
-
     private static HsmProfile Nested => (HsmProfile)FileProfile.Find("world-hsm")!;
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site) =>

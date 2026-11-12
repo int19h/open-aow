@@ -284,8 +284,9 @@ Version 3 stores a padded record as named fields, the ability bit array as ascen
 and a primitive `rwData` value as a plain integer or boolean. The original backend writes the
 tree to the property-table image and back. `FloodControl.OriginalTerrain` (Delphi `TFloodControl`) and
 `DiplomaticAction.ActionType` (Delphi `TDiplomaticAction`) stay exact hex. The integer and byte lists and the
-keyed dynamic members are on the tree and the direct path since PE-2c-2. Stream callbacks, bit
-lists, map blobs and sprites stay for PE-2c. The C# record structs keep their explicit layout while `ReadWrite` still copies
+keyed dynamic members are on the tree and the direct path since PE-2c-2, and the map fields, the
+sprites and the campaign map since PE-2c-4. Resource stream callbacks, the flood terrain, and bit
+lists and grouped lists on the tree stay for PE-2c. The C# record structs keep their explicit layout while `ReadWrite` still copies
 their bytes. The catalog names the fields. It does not replace the struct with a plain record.
 The game still loads and saves through `ReadWrite` and the converter. Step 3 is the switch.
 

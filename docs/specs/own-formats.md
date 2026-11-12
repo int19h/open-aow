@@ -267,10 +267,10 @@ storage streams name the same operations by CLR type (`persistence-tree.md` 1): 
 | `rwEObject` | Object with fixed class from schema context, no editable `$class` |
 | `rwCreateEObject` | Object with `$class`, `null` for stored class id 0, absent for absent property |
 | `rwChildren` | `Children` in semantic traversal order. Every identity-bearing child slot has explicit `$slot` |
-| Map property 6 | `Fields[y][x]`, fixed field class from the level profile |
-| Dynamic sprites | `Sprites` in original table order with `$class` and explicit identity metadata where a dynamic id carries identity |
+| Map property 6 | `Fields[y][x]`, fixed field class from the level profile. Since PE-2c-4 the tree and the direct original path store it too, as a grid of the level's width and height |
+| Dynamic sprites | `Sprites` in original table order with `$class` and explicit identity metadata where a dynamic id carries identity. The sprite ids carry none, so a sprite has no `$slot`. Since PE-2c-4 the tree and the direct original path store them too, at ids 50 and on |
 | Keyed dynamic members | `AbilityOwner.AbilityData` and `ItemControl.Items`: an array of created objects in stored order, each with `$class` and `$slot`, the stored id less the slot base (50 and 10). A stored null is `{"$class": null, "$slot": n}`. Since PE-2c-2 the tree and the direct original path store them too |
-| Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile. `Campaign` ids 5 (size) and 6 (bytes) form the one member |
+| Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile. `Campaign` ids 5 (size) and 6 (bytes) form the one member. Since PE-2c-4 the tree holds the file's bytes and the direct original path stores them. The direct document path imports and exports the nested document through its profile and keeps no compressed-stream residue |
 | Production item and diplomatic action | `$case`, the case name of the registered kind, then that case's fields. Values the case does not keep go to `$residue`. An unregistered key reads as the case `Unknown`, which keeps the discriminator as `Kind` and every value |
 | Absent property | Absent member, with documented reader default at game load. A present default value stays present through conversion |
 
@@ -1078,8 +1078,9 @@ the original backend writes one object's tree to the property-table image and ba
 `ReadWrite` on that path (`persistence-tree.md`). PE-2c-2 adds the integer and byte lists and
 the keyed dynamic members to the tree and the direct path, with no document change. PE-2c-3,
 version 4, stores the list-typed `stream` callbacks, the bit lists and the enum lists as lists,
-indices and names. The resource payloads of the other `stream` callbacks, the bit lists on the
-tree, the map blobs and the sprites are PE-2c. Steps 3 to 5 are
+indices and names. PE-2c-4 adds the map fields, the sprites and the campaign map to the tree and
+the direct path, with no document change. The resource payloads of the other `stream` callbacks,
+the flood terrain, and the bit lists and grouped lists on the tree are PE-2c. Steps 3 to 5 are
 not implemented. `ReadWrite` and the converter
 remain the game's path until step 3. The private roadmap allocates the five steps as briefs
 PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md`
@@ -1324,7 +1325,8 @@ pins the rule to exactly one occurrence in that file.
   the ability bit array and raw primitives, and the original backend is the direct tree-to-image
   path. PE-2c-2 put the integer and byte lists and the keyed dynamic members on the tree. Version
   4 (PE-2c-3) stores the list payloads, the bit lists and the enum lists as lists, indices and
-  names. The rest of PE-2c (resource payloads, bit lists on the tree, map blobs and sprites) and
+  names. PE-2c-4 put the map fields, the sprites and the campaign map on the tree. The rest of
+  PE-2c (resource payloads, the flood terrain, bit lists and grouped lists on the tree) and
   steps 3 to 5 are
   not implemented. `ReadWrite` and the converter remain the game's path until step 3. The exit is a
   prerequisite of milestone 10: no persistence interface becomes stable mod API before it, and

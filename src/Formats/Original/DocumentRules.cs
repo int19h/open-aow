@@ -221,7 +221,7 @@ internal sealed partial class CreatedObjectCodec
     {
         if (frame.Property.SlotBase is not int slotBase)
         {
-            base.WriteSlotsImage(value, context, writer, frame);
+            WriteSequenceImage(value, context, writer, frame);
             return;
         }
         string name = frame.Property.Name;
@@ -248,7 +248,7 @@ internal sealed partial class CreatedObjectCodec
 
     internal override TreeValue ReadSlotsImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame)
     {
-        if (frame.Property.SlotBase is not int slotBase) return base.ReadSlotsImage(context, entries, frame);
+        if (frame.Property.SlotBase is not int slotBase) return ReadSequenceImage(context, entries, frame);
         context.CheckItems(entries.Count, entries[0].Start, frame.Path);
         var node = new SlotListNode();
         for (int i = 0; i < entries.Count; i++)
@@ -262,7 +262,7 @@ internal sealed partial class CreatedObjectCodec
 
     internal override JsonValue WriteSlotsTree(TreeValue value, DocumentSite site)
     {
-        if (site.Property?.SlotBase is not int slotBase) return base.WriteSlotsTree(value, site);
+        if (site.Property?.SlotBase is not int slotBase) return WriteSequenceTree(value, site);
         string name = site.Property.Name;
         if (value is not SlotListNode node) throw site.Mismatch(name + " is created objects at slots.");
         if (node.Entries.Count > site.Context.Limits.CollectionItems)
@@ -288,7 +288,7 @@ internal sealed partial class CreatedObjectCodec
 
     internal override TreeValue ReadSlotsTree(JsonValue value, DocumentSite site)
     {
-        if (site.Property?.SlotBase is not int slotBase) return base.ReadSlotsTree(value, site);
+        if (site.Property?.SlotBase is not int slotBase) return ReadSequenceTree(value, site);
         string name = site.Property.Name;
         if (value is not JsonArray array) throw site.Mismatch($"{name} is an array.", value);
         if (array.Items.Count > site.Context.Limits.CollectionItems)
@@ -318,6 +318,97 @@ internal sealed partial class CreatedObjectCodec
         }
         return node;
     }
+
+    // A dynamic member without a slot base stores its objects at ids from the dynamic minimum in
+    // order (TMapField sprites from 50). The id carries no identity, so the document has no $slot.
+    private void WriteSequenceImage(TreeValue value, EncodeContext context, ObjectWriter writer, ImageFrame frame)
+    {
+        string name = frame.Property.Name;
+        if (value is not SequenceNode node) throw context.Fail(Codes.Type, name + " is a sequence of created objects.", null, frame.Path);
+        if (node.Items.Count > context.Limits.CollectionItems)
+            throw context.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, "at most " + context.Limits.CollectionItems + " items");
+        int first = frame.Property.DynamicMinimum!.Value;
+        if ((long)first + node.Items.Count - 1 > int.MaxValue)
+            throw context.Fail(Codes.Range, name + " has more items than its ids hold.", null, frame.Path);
+        for (int i = 0; i < node.Items.Count; i++)
+        {
+            var item = node.Items[i];
+            if (item is ObjectNode { Slot: not null })
+                throw context.Fail(Codes.ReservedMember, "Items of " + name + " have no $slot.", null, frame.Path.Item(i).Member("$slot"), "$slot");
+            writer.Begin(first + i, frame.Property, i);
+            WriteImage(item, context, writer.Data, new ImageFrame { Property = frame.Property, Id = first + i, Path = frame.Path.Item(i), Parent = frame.Parent });
+            writer.End();
+        }
+    }
+
+    // The entries in data order, the order the converter lists them. A stored id that is not the
+    // writer's is accepted and not kept, as the direct path keeps no layout.
+    private TreeValue ReadSequenceImage(DecodeContext context, IReadOnlyList<SlotImage> entries, ImageFrame frame)
+    {
+        context.CheckItems(entries.Count, entries[0].Start, frame.Path);
+        var items = new TreeValue[entries.Count];
+        for (int i = 0; i < entries.Count; i++)
+        {
+            var (id, start, end) = entries[i];
+            items[i] = ReadCreated(context, start, end, new ImageFrame { Property = frame.Property, Id = id, Path = frame.Path.Item(i), Parent = frame.Parent }, null);
+        }
+        return new SequenceNode(items);
+    }
+
+    private JsonValue WriteSequenceTree(TreeValue value, DocumentSite site)
+    {
+        string name = site.Property!.Name;
+        if (value is not SequenceNode node) throw site.Mismatch(name + " is a sequence of created objects.");
+        if (node.Items.Count > site.Context.Limits.CollectionItems)
+            throw site.Fail(Codes.Limit, "A collection has too many items.", constraint: $"at most {site.Context.Limits.CollectionItems} items");
+        var array = new JsonArray();
+        for (int i = 0; i < node.Items.Count; i++)
+        {
+            var at = site.At(site.Path.Item(i), element: false);
+            if (node.Items[i] is NullNode) array.Add(new JsonObject().Add("$class", new JsonNull()));
+            else if (node.Items[i] is ObjectNode { ClassName: string className, Slot: null } objectNode)
+                array.Add(DocumentBackend.WriteObject(objectNode, Shape(at, DocumentBackend.RequireClass(at, className, LegacyFamily(at, className), null)), at, created: true, slotted: false));
+            else throw at.Mismatch($"An item of {name} is a created object without a slot, or null.");
+        }
+        return array;
+    }
+
+    private TreeValue ReadSequenceTree(JsonValue value, DocumentSite site)
+    {
+        string name = site.Property!.Name;
+        if (value is not JsonArray array) throw site.Mismatch($"{name} is an array.", value);
+        if (array.Items.Count > site.Context.Limits.CollectionItems)
+            throw site.Fail(Codes.Limit, "A collection has too many items.", array, null, $"at most {site.Context.Limits.CollectionItems} items");
+        var items = new TreeValue[array.Items.Count];
+        for (int i = 0; i < array.Items.Count; i++)
+        {
+            var at = site.At(site.Path.Item(i), element: false);
+            if (array.Items[i] is not JsonObject item) throw at.Mismatch($"An item of {name} is an object.", array.Items[i]);
+            if (item.Find("$slot") is { } extra)
+                throw at.At(at.Path.Member("$slot"), element: false).Fail(Codes.ReservedMember, $"Items of {name} have no $slot.", extra.Value, "$slot");
+            if (item["$class"] is JsonNull)
+            {
+                foreach (var member in item.Members)
+                    if (member.Name != "$class")
+                        throw at.At(at.Path.Member(member.Name), element: false).Fail(Codes.UnknownMember, "A nil object has no members.", member.Value, member.Name);
+                items[i] = NullNode.Instance;
+                continue;
+            }
+            if (item["$class"] is not JsonString className) throw at.Fail(Codes.MissingMember, "A created object needs $class.", item);
+            var classValue = DocumentBackend.RequireClass(at, className.Value, LegacyFamily(at, className.Value), className);
+            items[i] = DocumentBackend.ReadObject(item, Shape(at, classValue), at, created: true, slotted: false);
+        }
+        return new SequenceNode(items);
+    }
+
+    // A legacy shape (schema legacyShapes) stores a class under another property set where its
+    // context names it, as the image side reads it. The document keeps the class name.
+    private static SchemaClass Shape(DocumentSite site, SchemaClass classValue) =>
+        site.Property is { } property ? site.Schema.LegacyShape(property.Owner.Name + "." + property.Name, classValue.Name)?.Shape ?? classValue : classValue;
+
+    // The family check does not apply to a class the legacy shape names, as on the image side.
+    private string? LegacyFamily(DocumentSite site, string className) =>
+        site.Property is { } property && site.Schema.LegacyShape(property.Owner.Name + "." + property.Name, className) is not null ? null : Family;
 
     private TreeValue ReadCreated(DecodeContext context, int start, int end, ImageFrame frame, int? slot)
     {

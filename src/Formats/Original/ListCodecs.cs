@@ -336,7 +336,60 @@ internal sealed class BitListCodec(bool indices = false) : PropertyCodec
     /// <summary>True from version 4: the set bits are indices, not hex.</summary>
     public bool Indices { get; } = indices;
 
-    internal override string? ImageRefusal => "PE-2c still needs a bit list. The direct path does not store it.";
+    // The tree and the direct path store the default byte, the count, the set bits and the residue (PE-2c-4).
+    internal override void WriteImage(Tree.TreeValue value, EncodeContext context, ByteBuffer data, ImageFrame frame)
+    {
+        if (value is not Tree.BitListNode node) throw context.Fail(Codes.Type, frame.Property.Name + " is a bit list.", null, frame.Path);
+        data.Byte(node.Default);
+        data.Int32(node.Count);
+        data.Bytes(Bits(node));
+    }
+
+    internal override Tree.TreeValue ReadImage(DecodeContext context, int start, int end, ImageFrame frame)
+    {
+        context.Need(start, 5, end, frame.Path, "bit list header");
+        int count = context.Int32(start + 1);
+        if (count < 0 || start + 5L + ((count + 7L) >> 3) != end)
+            throw context.Fail(Codes.Corrupt, $"A bit list of {count} bits does not fill its {end - start} stored bytes.", start, frame.Path);
+        var (set, residue) = BitArrayCodec.Unpack(count, context.Data.AsSpan(start + 5, end - start - 5), context, frame.Path.Member("bits"));
+        return new Tree.BitListNode(context.Data[start], count, set, residue);
+    }
+
+    internal override JsonValue? WriteTree(Tree.TreeValue value, Tree.DocumentSite site)
+    {
+        if (value is not Tree.BitListNode node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a bit list.");
+        if (!Indices)
+            return new JsonObject().Add("default", new JsonInteger(node.Default)).Add("count", new JsonInteger(node.Count))
+                .Add("bits", new JsonString(LayoutResidue.Hex(Bits(node))));
+        var bits = new JsonArray();
+        foreach (int index in node.Indices) bits.Add(new JsonInteger(index));
+        var document = new JsonObject().Add("default", RawBooleanCodec.Value(node.Default)).Add("count", new JsonInteger(node.Count)).Add("bits", bits);
+        if (node.Residue != 0) document.Add("$reserved", new JsonString(LayoutResidue.Hex([node.Residue])));
+        return document;
+    }
+
+    internal override Tree.TreeValue? ReadTree(JsonValue value, Tree.DocumentSite site)
+    {
+        // The converter's rules check the document. The bytes they write are the node.
+        var data = new ByteBuffer();
+        Encode(site.Context, value, data, new ValueSite { Property = site.Property!, Id = site.Property!.Id ?? 0, Path = site.Path, Owner = site.Owner ?? new JsonObject() });
+        var bytes = data.ToArray();
+        int count = System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(bytes.AsSpan(1));
+        int used = count & 7;
+        var set = new List<int>();
+        for (int i = 0; i < count; i++)
+            if ((bytes[5 + (i >> 3)] & (1 << (i & 7))) != 0) set.Add(i);
+        byte residue = used != 0 ? (byte)(bytes[^1] & (byte)(0xFF << used)) : (byte)0;
+        return new Tree.BitListNode(bytes[0], count, [.. set], residue);
+    }
+
+    private static byte[] Bits(Tree.BitListNode node)
+    {
+        var bits = new byte[(node.Count + 7) >> 3];
+        foreach (int index in node.Indices) bits[index >> 3] |= (byte)(1 << (index & 7));
+        if ((node.Count & 7) != 0 && bits.Length != 0) bits[^1] |= node.Residue;
+        return bits;
+    }
 
     internal override JsonValue Decode(DecodeContext context, int start, int end, ValueSite site)
     {

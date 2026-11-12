@@ -13,6 +13,9 @@ internal sealed class ImageFrame
     public JsonObject Owner { get; init; } = new();
     public ObjectNode? Parent { get; init; }
 
+    /// <summary>The class of the object that holds the value. A map level's class names its field class.</summary>
+    public SchemaClass? OwnerClass { get; init; }
+
     public ValueSite Value(DecodeContext context) => new()
     {
         Property = Property,
