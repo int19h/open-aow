@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Collections;
 using Aow.Engine.Nodes;
 
@@ -266,8 +267,8 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
         S = AbilityRules.TranslateResourceString(GameTables.RaceNamesPluralTexts[players.PlayerRace]);
         var name = StrategicMap.Current.Players.GetPlayers(player).GetName();
         S = S + "/" + name;
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, "DIPLOMACY (" + S + ")");
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, "IDEAL PEACE PLAYERS");
+        GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, "DIPLOMACY (" + S + ")");
+        GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, "IDEAL PEACE PLAYERS");
         for (int I = 0, last = idealPeace.Count - 1; I <= last; I++)
         {
             var item = idealPeace[I];
@@ -276,15 +277,15 @@ public partial class DiplomacyAIPlayerAction : AIPlayerAction, IAIPlayerActionCl
             var idealPeaceItem = idealPeace[I];
             var name2 = StrategicMap.Current.Players.GetPlayers(idealPeaceItem).GetName();
             S = S + "/" + name2;
-            GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, S);
+            GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, S);
         }
 
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, "IDEAL WAR PLAYERS");
+        GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, "IDEAL WAR PLAYERS");
         for (int I = 0, last = idealWar.Count - 1; I <= last; I++)
         {
             var item = idealWar[I];
             var name2 = StrategicMap.Current.Players.GetPlayers(item).GetName();
-            GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, name2);
+            GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, name2);
         }
 
         idealPeace?.Dispose();

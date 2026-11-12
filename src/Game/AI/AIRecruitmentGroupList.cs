@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Game.AI.Groups;
 using Aow.Game.Magic.Abilities;
@@ -46,7 +47,7 @@ public partial class AIRecruitmentGroupList : EReferenceNode, IChildList<AIRecru
             text = text + "/Loc:(" + IntToStr(group.Location.X) + "," + IntToStr(group.Location.Y) + "," + IntToStr(group.Location.MapLevel) + ")";
             text = text + "/MP:" + IntToStr(group.MovePoints);
             text = text + "/MPBFS:" + IntToStr(group.PathStrength);
-            GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, text);
+            GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, text);
         }
     }
 

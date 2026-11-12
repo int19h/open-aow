@@ -184,8 +184,9 @@ when the codec was missing.
    `ExpandFileName` and `ExtractRelativePath` work on a current directory kept by the service,
    never on the process's. The drive list offered to the file dialog is one virtual drive, the
    game root, on every platform, and `ExtractFileDrive` returns its letter.
-4. `FindFirst` and `FindNext` (16 and 9 sites) return entries in upper-cased name order
-   (`rtl-shim.md`), merged over both layers, with `faDirectory` honored.
+4. The directory search `IFileSystem.FindEntries` (Delphi `FindFirst` and `FindNext`, replaced by
+   issue 193) returns entries in upper-cased name order (`rtl-shim.md` 3.5), merged over both
+   layers, with `faDirectory` honored.
 5. The directories the game uses: `Release\` (`RELEASE.HSS`, `GENERAL.PFS`), `Scenario\Custom\`,
    `Scenario\Campaign\`, `TCMaps`, `Save\` (saves and autosaves, user layer), `User\` (`.ahl` hero
    and `.ail` item lists, user layer), `EmailIn\` and `EmailOut\` (play by e-mail, user layer),

@@ -272,7 +272,7 @@ public partial class WindowManager : UIComponent
                     Draw(lockedSurface);
                     if (_drawOverlay && _overlayPriority > 0)
                     {
-                        var rectangle = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
+                        var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                         _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle, ref lockedSurface);
                     }
 
@@ -313,7 +313,7 @@ public partial class WindowManager : UIComponent
                         Draw(lockedSurface);
                         if (_drawOverlay && _overlayPriority > 0)
                         {
-                            var rectangle2 = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
+                            var rectangle2 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                             _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
                         }
 
@@ -383,7 +383,7 @@ public partial class WindowManager : UIComponent
 
                                 var rectangle = new Rect(D.Rectangle.Left, D.Rectangle.Top, D.Rectangle.Right, D.Rectangle.Bottom);
                                 lockedSurface.ClipRectangle = rectangle;
-                                var rectangle2 = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
+                                var rectangle2 = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                                 _foregroundTexture.DrawTiled(_imageLibraryIndexTFore, rectangle2, ref lockedSurface);
                             }
 
@@ -423,7 +423,7 @@ public partial class WindowManager : UIComponent
         }
 
         _overlayPriority = _newOverlayPriority;
-        var rectangle = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
+        var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
         _backgroundTexture.DrawTiled(_imageLibraryIndexTBack, rectangle, ref lockedSurface);
     }
 

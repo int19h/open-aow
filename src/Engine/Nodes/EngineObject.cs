@@ -206,9 +206,9 @@ public partial class EngineObject : IDisposable, IPersistable, IOwned
         E = GetEngine();
         if (E != null)
         {
-            for (var C = EngineClass; C.Type != typeof(EngineObject) && result == null; C = C.Parent)
+            for (var type = GetType(); type != typeof(EngineObject) && result == null; type = type.BaseType)
             {
-                result = E.Editors.FindEditor(C.ClassId);
+                result = E.Editors.FindEditor(EngineClass.Of(type).ClassId);
             }
         }
 

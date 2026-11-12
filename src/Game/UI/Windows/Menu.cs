@@ -439,7 +439,7 @@ public partial class Menu : GenericWindow
         {
             if (Valid && Visible)
             {
-                var rectangle = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
+                var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                 _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                 var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
@@ -447,7 +447,7 @@ public partial class Menu : GenericWindow
                 var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                 var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                 var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                var rectangle2 = new Rect(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                var rectangle2 = new SizedRectangle(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                 _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
                 _font.Color = Color;
                 oldClip = lockedSurface.ClipRectangle;
@@ -471,7 +471,7 @@ public partial class Menu : GenericWindow
                                 var imageLibraryFrame7 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                                 var imageLibraryFrame8 = _imageLibraryFrame[_imageLibraryIndexFrame];
                                 var imageLibraryFrame9 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                                var rectangle3 = new Rect(WinLeft + imageLibraryFrame9.Width, WinTop + imageLibraryFrame8.Height + _itemHeight * I, WinWidth - imageLibraryFrame6.Width - imageLibraryFrame7.Width, _itemHeight);
+                                var rectangle3 = new SizedRectangle(WinLeft + imageLibraryFrame9.Width, WinTop + imageLibraryFrame8.Height + _itemHeight * I, WinWidth - imageLibraryFrame6.Width - imageLibraryFrame7.Width, _itemHeight);
                                 _imageLibraryTextureSelected.DrawTiled(_imageLibraryIndexTSelected, rectangle3, ref lockedSurface);
                             }
                             else

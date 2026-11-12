@@ -18,6 +18,7 @@ using Aow.Game.UI.Windows;
 using Aow.Game.World.Map;
 
 using Aow.Rtl;
+using Aow.Rtl.Host;
 
 using static Aow.Rtl.RtlUnit;
 
@@ -182,7 +183,6 @@ public partial class FileDialogWindow : DataModule
         bool includeFile;
         string extension;
         string directory;
-        SearchRec search = default;
         FileTime stamp;
         for (int I = 0, last = DateList.Items.Count - 1; I <= last; I++)
         {
@@ -207,33 +207,28 @@ public partial class FileDialogWindow : DataModule
             directory = Copy(directory, 1, directory.Length - 1);
         }
 
-        if (FindFirst(directory + "\\**", 16, ref search) == 0)
+        foreach (var entry in RtlUnit.Files.FindEntries(directory + "\\**", attributes: 16))
         {
-            do
+            if (entry.Name != "." && entry.Name != "..")
             {
-                if (search.Name != "." && search.Name != "..")
+                if ((entry.Attribute & 16) == 16)
                 {
-                    if ((search.Attr & 16) == 16)
+                    Directories.Add(entry.Name);
+                }
+                else
+                {
+                    extension = LowerCase(ExtractFileExt(entry.Name));
+                    includeFile = ListsFile(Mode, GameTables.GameEngine.Campaign != null, extension);
+                    if (includeFile)
                     {
-                        Directories.Add(search.Name);
-                    }
-                    else
-                    {
-                        extension = LowerCase(ExtractFileExt(search.Name));
-                        includeFile = ListsFile(Mode, GameTables.GameEngine.Campaign != null, extension);
-                        if (includeFile)
-                        {
-                            stamp = new FileTime();
-                            stamp.Time = FileDateToDateTime(search.Time);
-                            Files.AddObject(search.Name, stamp);
-                        }
+                        stamp = new FileTime();
+                        stamp.Time = FileDateToDateTime(entry.FileDate);
+                        Files.AddObject(entry.Name, stamp);
                     }
                 }
             }
-            while (!(FindNext(ref search) != 0));
         }
 
-        FindClose(ref search);
         FileList.Selected = -1;
         SaveList.Selected = -1;
         DateList.Selected = -1;

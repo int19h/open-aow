@@ -1,3 +1,4 @@
+using Aow.Rtl.Host;
 using static Aow.Rtl.RtlUnit;
 using Assert = Xunit.Assert;
 
@@ -23,10 +24,8 @@ public sealed class HostPathTests
             for (int i = 0; i < s_names.Length; i++) File.WriteAllBytes(Path.Combine(directory.Root, s_names[i]), [(byte)i]);
 
             var found = new List<string>();
-            SearchRec search = default;
-            for (int result = FindFirst("*.sav", faAnyFile, ref search); result == 0; result = FindNext(ref search))
-                found.Add(search.Name);
-            FindClose(ref search);
+            foreach (var entry in Files.FindEntries("*.sav", attributes: faAnyFile))
+                found.Add(entry.Name);
             Assert.Equal(s_names.Order(StringComparer.Ordinal), found.Order(StringComparer.Ordinal));
 
             foreach (string name in found)

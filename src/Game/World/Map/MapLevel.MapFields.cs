@@ -21,7 +21,6 @@ public partial class MapLevel
         _width = width;
         _height = height;
         _count = width * height;
-        _fieldSize = type.InstanceSize;
         _fields = new MapField[_count];
         for (int y = 0; y < height; y++)
             for (int x = 0; x < width; x++)
@@ -36,7 +35,7 @@ public partial class MapLevel
         for (int hexNumber = 1; hexNumber <= 6; hexNumber++)
             for (int parity = 0; parity <= 1; parity++)
                 HexNumberOffsets[parity][hexNumber] = (HexGeometry.HexNumberToXYTable[parity][hexNumber].X
-                    + HexGeometry.HexNumberToXYTable[parity][hexNumber].Y * width) * _fieldSize;
+                    + HexGeometry.HexNumberToXYTable[parity][hexNumber].Y * width);
 
     }
 

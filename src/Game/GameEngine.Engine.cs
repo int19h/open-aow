@@ -37,7 +37,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game;
 
 // FMsgCount, FEClasses, FClassTable, FEditors, FControlNode, FComponent (the owning component),
-// FDebugIDs, DebugMessage, FStartupDirectory, FOptions. Every engine is in the Engines list
+// DebugMessage, FStartupDirectory, FOptions. Every engine is in the Engines list
 public partial class GameEngine : ENode
 {
     private int _messageCount;
@@ -45,8 +45,6 @@ public partial class GameEngine : ENode
     private Dictionary<int, EngineClass> _classTable;
     private EngineObjectEditorList _editors;
     private EControlStyleNode _controlNode;
-
-    private StringList _debugIds;
 
     internal EventStore<EngineDebugNotification> DebugEventsStore { get; set; }
 
@@ -69,18 +67,6 @@ public partial class GameEngine : ENode
     // The map and game dispose work runs only after Create's constructor finishes.
     private bool _fullInstance;
 
-    // Engine.pas:8776
-    internal int CreateUniqueDebugId()
-    {
-        int result = 0;
-        while (_debugIds.IndexOfObject(IntToObject(result)) != -1)
-        {
-            result += 1;
-        }
-
-        return result;
-    }
-
     // Engine.pas:8814
     public override GameEngine GetEngine() => this;
 
@@ -96,8 +82,6 @@ public partial class GameEngine : ENode
         _editors = new EngineObjectEditorList();
         _controlNode = new EControlStyleNode(this);
         _controlNode.SetControlStyle(Set<ControlStyleElement>.Of(EngineServices.Shared));
-        _debugIds = new StringList();
-        _debugIds.AddObject(s_userText, IntToObject(-1));
         RegisterEngineClasses([EngineClass.Of<ControlStyleObject>(), EngineClass.Of<EControlStyleNode>(), EngineClass.Of<ECustomOwner>(), EngineClass.Of<ResourceEditSettings>()]);
         EngineHost.Engines.Add(this);
         if (!s_fullConstruction) return;
@@ -112,7 +96,6 @@ public partial class GameEngine : ENode
         RegisterEngineClasses([EngineClass.Of<MapContainer>(), EngineClass.Of<GameMap>()]);
         RegisterEngineClasses([EngineClass.Of<MapObjectResource>(), EngineClass.Of<MultiHexMapObjectResource>()]);
         RegisterEngineClasses([EngineClass.Of<AbstractHexagon>(), EngineClass.Of<AbstractBorderHexagon>(), EngineClass.Of<AbstractRoad>()]);
-        HexSpriteEngineDebugChannel = RegisterDebugId("HS-Engine");
         _hssFileName = "noname.hss";
         CreateHexSpriteSet();
 
@@ -139,10 +122,6 @@ public partial class GameEngine : ENode
         RegisterEventLog(this);
         RegisterAbilities(GameSet.AbilityControl);
         RegisterSpells(this);
-        CombatAbilityTables.CombatDebugChannel = RegisterDebugId("Combat");
-        AbilityRules.AiDebugChannel = RegisterDebugId("AI");
-        AbilityRules.TemporaryDebugChannel = RegisterDebugId("TMP");
-        MagicDebugChannel = RegisterDebugId("MAGIC");
         Editors.RegisterClass(EditorClass.Of<MapObjectEditor>());
         EmailGames.Load();
         _fullInstance = true;
@@ -165,7 +144,6 @@ public partial class GameEngine : ENode
 
         EngineHost.Engines.Remove(this);
         DebugEventsStore.Clear();
-        _debugIds?.Dispose();
         base.Dispose();
         _engineClasses?.Clear();
         if (_fullInstance || s_fullConstruction)
@@ -234,41 +212,22 @@ public partial class GameEngine : ENode
         return result;
     }
 
-    // Engine.pas:8782
-    public int RegisterDebugId(string name)
-    {
-        int result = CreateUniqueDebugId();
-        _debugIds.AddObject(name, IntToObject(result));
-        return result;
-    }
-
-    // Engine.pas:8788
-    public void UnregisterDebugId(int id)
-    {
-        int I;
-        I = _debugIds.IndexOfObject(IntToObject(id));
-        if (I != -1)
-        {
-            _debugIds.Delete(I);
-        }
-    }
-
     // Engine.pas:8796
     public void OutputDebugString(string S)
     {
         var notification = new EngineDebugNotification();
         ref EngineDebugNotification.DebugInfo info = ref notification.Info;
-        info.Id = -1;
+        info.Channel = DebugChannel.User;
         info.Text = S;
         DebugEventsStore.Raise(notification);
     }
 
     // Engine.pas:8805
-    public void OutputDebugMessage(int id, string S)
+    public void OutputDebugMessage(DebugChannel channel, string S)
     {
         var notification = new EngineDebugNotification();
         ref EngineDebugNotification.DebugInfo info = ref notification.Info;
-        info.Id = id;
+        info.Channel = channel;
         info.Text = S;
         DebugEventsStore.Raise(notification);
     }
@@ -333,7 +292,7 @@ public partial class GameEngine : ENode
         L = new EngineObjectClassList();
         for (int I = 0, last = _engineClasses.Count - 1; I <= last; I++)
         {
-            if ((_engineClasses[I]).InheritsFrom(classValue))
+            if (classValue.IsAssignableFrom(_engineClasses[I].Type))
             {
                 L.Add(_engineClasses[I]);
             }
@@ -670,7 +629,6 @@ public partial class GameEngine : ENode
     public Dictionary<int, EngineClass> ClassTable { get => _classTable; }
     public EngineObjectEditorList Editors { get => _editors; }
     public EControlStyleNode ControlNode { get => _controlNode; }
-    public StringList DebugIds { get => _debugIds; }
 
     public event NotifyEvent<EngineDebugNotification> DebugEvents
     {
@@ -700,8 +658,6 @@ public partial class GameEngine : ENode
         message.Sender = sender;
         message.Result = -1;
     }
-
-    private static readonly string s_userText = "User";
 
     internal static void UnregisterSoundEngineClasses(GameEngine engine)
     {

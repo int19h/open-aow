@@ -3,6 +3,7 @@ using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
 using Aow.Rtl;
+using Aow.Rtl.Host;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Audio;
@@ -71,9 +72,7 @@ public partial class SongList : EngineObject
     // Sound.pas:832
     public void Search(string path, string ext)
     {
-        SearchRec sr = default;
         string fullPath;
-        bool found;
         if (path[path.Length - 1] != 92)
         {
             path = path + "\\";
@@ -81,14 +80,11 @@ public partial class SongList : EngineObject
 
         fullPath = AudioHost.BaseSoundEnginePath + path;
         _songs.BeginUpdate();
-        found = FindFirst(fullPath + "*." + ext, 63 & ~16, ref sr) == 0;
-        while (found)
+        foreach (var entry in Files.FindEntries(fullPath + "*." + ext, attributes: 63 & ~16))
         {
-            _songs.Add(UpperCase(path + sr.Name));
-            found = FindNext(ref sr) == 0;
+            _songs.Add(UpperCase(path + entry.Name));
         }
 
-        FindClose(ref sr);
         _songs.EndUpdate();
     }
 

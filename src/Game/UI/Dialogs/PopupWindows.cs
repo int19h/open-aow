@@ -1,6 +1,7 @@
 // Translated from AoWPWindows.pas.
 using System.Collections.Immutable;
 
+using Aow.Game.Combat;
 using Aow.Game.Events;
 using Aow.Game.Host;
 using Aow.Game.Magic.Abilities;
@@ -40,7 +41,7 @@ public partial class PopupWindows : DataModule
                 EmailSettingsDialog.ShowEmailSettings(DialogHosts.EmailSettingsDialog);
                 break;
             case 5:
-                DialogHosts.ConfirmationDialog.DebugWindow.Visible = true;
+                DialogHosts.DebugWindow.Show();
                 break;
         }
     }
@@ -88,10 +89,22 @@ public partial class PopupWindows : DataModule
             case 0:
                 var quitCombat = AbilityRules.TranslateResourceString(QuitCombatText);
                 var confirm = AbilityRules.TranslateResourceString(LobbyText.ConfirmText);
-                DialogHosts.ConfirmationDialog.Confirm(confirm, quitCombat, 6);
+                DialogHosts.ConfirmationDialog.Confirm(confirm, text: quitCombat, onConfirmed: SurrenderCombat);
                 break;
         }
     }
+
+    // AOWDialogWin.pas:73, action 6: the seated player gives up the battle.
+    internal static void SurrenderCombat()
+    {
+        if (CombatMap.Current != null)
+        {
+            CombatMap.Current.Surrender(CombatMap.Current.SeatedCombatPlayer);
+        }
+    }
+
+    // AOWDialogWin.pas:73, action 4: the seated player gives up the game.
+    private static void SurrenderEmpire() => StrategicMap.Current.Players.GetPlayers(StrategicMap.Current.SeatedPlayer).Surrender();
 
     // AoWPWindows.pas:115
     public const string AgeOfWondersUrl = "http://www.ageofwonders.com";
@@ -123,7 +136,8 @@ public partial class PopupWindows : DataModule
             case 0:
                 DialogHosts.ConfirmationDialog.Confirm(
                     AbilityRules.TranslateResourceString(LobbyText.ConfirmText),
-                    AbilityRules.TranslateResourceString(s_surrenderYourEmpireText), 4);
+                    text: AbilityRules.TranslateResourceString(s_surrenderYourEmpireText),
+                    onConfirmed: SurrenderEmpire);
                 break;
             case 1:
                 StrategicMap.Current.ExitGame(ExitGameMode.Terminate, null);

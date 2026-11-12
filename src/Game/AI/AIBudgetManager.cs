@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
@@ -361,7 +362,7 @@ public partial class AIBudgetManager : EngineObject
 
         if (gold > 0 || mana > 0)
         {
-            GameTables.GameEngine.OutputDebugMessage(AbilityRules.TemporaryDebugChannel, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(gold) + "/MANA:" + IntToStr(mana) + ")");
+            GameTables.GameEngine.OutputDebugMessage(DebugChannel.Temporary, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(gold) + "/MANA:" + IntToStr(mana) + ")");
             ReturnFromBudgets(gold, mana);
         }
     }
@@ -376,9 +377,9 @@ public partial class AIBudgetManager : EngineObject
 
         var groupsGoldBudget = GetGroupsGoldBudget();
         var groupsManaBudget = GetGroupsManaBudget();
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.TemporaryDebugChannel, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.TemporaryDebugChannel, "POOL (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.TemporaryDebugChannel, "REAL (GOLD:" + IntToStr(Player.Gems) + "/MANA:" + IntToStr(Player.MagicControl.Mana) + ")");
+        GameTables.GameEngine.OutputDebugMessage(DebugChannel.Temporary, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
+        GameTables.GameEngine.OutputDebugMessage(DebugChannel.Temporary, "POOL (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
+        GameTables.GameEngine.OutputDebugMessage(DebugChannel.Temporary, "REAL (GOLD:" + IntToStr(Player.Gems) + "/MANA:" + IntToStr(Player.MagicControl.Mana) + ")");
     }
 
     // AI.pas:1954

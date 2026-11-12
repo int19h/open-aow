@@ -10253,49 +10253,6 @@
       }
     }
   },
-  "AoWDictionary": {
-    "$prefix": "success:",
-    "$value": {
-      "$jsonText": {
-        "$type": "Aow.Game.AoWDictionary",
-        "Component.ComponentState": {
-          "$type": "Aow.Rtl.Set\u00601[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-          "Set\u00601.a": 0,
-          "Set\u00601.b": 0,
-          "Set\u00601.bounded": false,
-          "Set\u00601.c": 0,
-          "Set\u00601.d": 0,
-          "Set\u00601.high": 0,
-          "Set\u00601.low": 0
-        },
-        "Component.Owner": null,
-        "Component.Tag": 0,
-        "Component.children": [],
-        "Component.freeNotifies": null,
-        "Component.name": "",
-        "IvDictionary.DictionaryName": "",
-        "IvDictionary.FileName": "",
-        "IvDictionary.Language": 0,
-        "IvDictionary._dictionary": {
-          "$type": "Aow.Rtl.Localize.MldDictionary",
-          "MldDictionary.ByteOrder": 0,
-          "MldDictionary.CharacterSet": 0,
-          "MldDictionary.ConsumedBytes": 0,
-          "MldDictionary.ContextCode": 0,
-          "MldDictionary.Entries": [],
-          "MldDictionary.FileSize": 0,
-          "MldDictionary.Info": null,
-          "MldDictionary.IsOpen": false,
-          "MldDictionary.Languages": [],
-          "MldDictionary.Version": 0,
-          "MldDictionary._contextual": [],
-          "MldDictionary._fileName": null,
-          "MldDictionary._language": 1,
-          "MldDictionary._sorted": "$ref:$.IvDictionary._dictionary.MldDictionary._contextual"
-        }
-      }
-    }
-  },
   "HexSpriteMapKeyboard": {
     "$prefix": "success:",
     "$value": {
@@ -18290,62 +18247,6 @@
                 "AIGroupClass.Behavior": 13,
                 "AIGroupClass.Class": {
                   "$type": "Aow.Engine.EngineClass",
-                  "EngineClass.InstanceSize": 84,
-                  "EngineClass.Parent": {
-                    "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 80,
-                    "EngineClass.Parent": {
-                      "$type": "Aow.Engine.EngineClass",
-                      "EngineClass.InstanceSize": 16,
-                      "EngineClass.Parent": {
-                        "$type": "Aow.Engine.EngineClass",
-                        "EngineClass.InstanceSize": 16,
-                        "EngineClass.Parent": {
-                          "$type": "Aow.Engine.EngineClass",
-                          "EngineClass.InstanceSize": 16,
-                          "EngineClass.Parent": {
-                            "$type": "Aow.Engine.EngineClass",
-                            "EngineClass.InstanceSize": 8,
-                            "EngineClass.Parent": {
-                              "$type": "Aow.Engine.EngineClass",
-                              "EngineClass.InstanceSize": 8,
-                              "EngineClass.Parent": null,
-                              "EngineClass.Type": "Aow.Engine.Nodes.EngineObject",
-                              "EngineClass._create": [
-                                "Aow.Game.ClassRegistry+<>c.<Register>b__0_0"
-                              ],
-                              "EngineClass.ClassId": 80
-                            },
-                            "EngineClass.Type": "Aow.Engine.Nodes.ECustomNode",
-                            "EngineClass._create": [
-                              "Aow.Game.ClassRegistry+<>c.<Register>b__0_87"
-                            ],
-                            "EngineClass.ClassId": 80
-                          },
-                          "EngineClass.Type": "Aow.Engine.Nodes.EChangeNotifyNode",
-                          "EngineClass._create": [
-                            "Aow.Game.ClassRegistry+<>c.<Register>b__0_243"
-                          ],
-                          "EngineClass.ClassId": 265
-                        },
-                        "EngineClass.Type": "Aow.Game.Units.UnitList",
-                        "EngineClass._create": [
-                          "Aow.Game.ClassRegistry+<>c.<Register>b__0_375"
-                        ],
-                        "EngineClass.ClassId": 265
-                      },
-                      "EngineClass.Type": "Aow.Game.Units.UnitUserList",
-                      "EngineClass._create": [
-                        "Aow.Game.ClassRegistry+<>c.<Register>b__0_617"
-                      ],
-                      "EngineClass.ClassId": 265
-                    },
-                    "EngineClass.Type": "Aow.Game.AI.Groups.AIGroup",
-                    "EngineClass._create": [
-                      "Aow.Game.ClassRegistry+<>c.<Register>b__0_723"
-                    ],
-                    "EngineClass.ClassId": 136272
-                  },
                   "EngineClass.Type": "Aow.Game.AI.Groups.HuntAIGroup",
                   "EngineClass._create": [
                     "Aow.Game.ClassRegistry+<>c.<Register>b__0_783"
@@ -18372,17 +18273,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 20,
-                    "EngineClass.Parent": {
-                      "$type": "Aow.Engine.EngineClass",
-                      "EngineClass.InstanceSize": 20,
-                      "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIGroupManager.AIGroupManager.RegisteredClasses[0].AIGroupClass.Class.EngineClass.Parent.EngineClass.Parent.EngineClass.Parent.EngineClass.Parent.EngineClass.Parent.EngineClass.Parent",
-                      "EngineClass.Type": "Aow.Game.AI.AIPlayerAction",
-                      "EngineClass._create": [
-                        "Aow.Game.ClassRegistry+<>c.<Register>b__0_17"
-                      ],
-                      "EngineClass.ClassId": 80
-                    },
                     "EngineClass.Type": "Aow.Game.AI.InitializeAIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_168"
@@ -18405,8 +18295,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 24,
-                    "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[0].AIPlayerActionClass.Class.EngineClass.Parent",
                     "EngineClass.Type": "Aow.Game.AI.ProcessEventLogAIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_185"
@@ -18429,8 +18317,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 20,
-                    "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[0].AIPlayerActionClass.Class.EngineClass.Parent",
                     "EngineClass.Type": "Aow.Game.AI.BudgetManagerAIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_126"
@@ -18453,8 +18339,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 40,
-                    "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[0].AIPlayerActionClass.Class.EngineClass.Parent",
                     "EngineClass.Type": "Aow.Game.AI.CastSpellAIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_128"
@@ -18477,8 +18361,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 20,
-                    "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[0].AIPlayerActionClass.Class.EngineClass.Parent",
                     "EngineClass.Type": "Aow.Game.AI.ResearchSpellAIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_189"
@@ -18501,17 +18383,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 28,
-                    "EngineClass.Parent": {
-                      "$type": "Aow.Engine.EngineClass",
-                      "EngineClass.InstanceSize": 28,
-                      "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[0].AIPlayerActionClass.Class.EngineClass.Parent",
-                      "EngineClass.Type": "Aow.Game.AI.StructureAIPlayerAction",
-                      "EngineClass._create": [
-                        "Aow.Game.ClassRegistry+<>c.<Register>b__0_198"
-                      ],
-                      "EngineClass.ClassId": 80
-                    },
                     "EngineClass.Type": "Aow.Game.AI.StructurePhase1AIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_368"
@@ -18534,8 +18405,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 28,
-                    "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[0].AIPlayerActionClass.Class.EngineClass.Parent",
                     "EngineClass.Type": "Aow.Game.AI.GroupControlLoopAIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_159"
@@ -18558,8 +18427,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 28,
-                    "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[0].AIPlayerActionClass.Class.EngineClass.Parent",
                     "EngineClass.Type": "Aow.Game.AI.GroupControlAIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_158"
@@ -18582,8 +18449,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 28,
-                    "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[5].AIPlayerActionClass.Class.EngineClass.Parent",
                     "EngineClass.Type": "Aow.Game.AI.StructurePhase2AIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_369"
@@ -18606,8 +18471,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 24,
-                    "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[0].AIPlayerActionClass.Class.EngineClass.Parent",
                     "EngineClass.Type": "Aow.Game.AI.DiplomacyAIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_143"
@@ -18630,8 +18493,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 40,
-                    "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[0].AIPlayerActionClass.Class.EngineClass.Parent",
                     "EngineClass.Type": "Aow.Game.AI.AutoProduceAIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_125"
@@ -18654,8 +18515,6 @@
                   "$type": "Aow.Game.AI.AIPlayerActionClass",
                   "AIPlayerActionClass.Class": {
                     "$type": "Aow.Engine.EngineClass",
-                    "EngineClass.InstanceSize": 20,
-                    "EngineClass.Parent": "$ref:$.MoveControl.Map.StrategicMap.AIPlayerActionManager.AIPlayerActionManager._registeredClasses.DelphiList\u00601.items[0].AIPlayerActionClass.Class.EngineClass.Parent",
                     "EngineClass.Type": "Aow.Game.AI.EndTurnAIPlayerAction",
                     "EngineClass._create": [
                       "Aow.Game.ClassRegistry+<>c.<Register>b__0_150"
@@ -21867,7 +21726,7 @@
           },
           "StrategicMap.TokenEventLogging": false,
           "StrategicMap.TokenManager": {
-            "$type": "Aow.Game.Net.AoWTokenManager",
+            "$type": "Aow.Game.Net.TokenManager",
             "TokenManager.OnMessage": [
               "Aow.Game.World.Map.StrategicMap.OnTokenManagerMessage"
             ],

@@ -696,7 +696,7 @@ public partial class HtmlMemo : BaseWindow
                     else
                     {
                         BackSurface.Lock(ref backSurfaceDescription);
-                        var rectangle = new Rect(0, 0, _textWidth, _textHeight);
+                        var rectangle = new SizedRectangle(0, 0, _textWidth, _textHeight);
                         _images.DrawTiled(_imageLibraryIndexTexture, rectangle, ref backSurfaceDescription);
                     }
 

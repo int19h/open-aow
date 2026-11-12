@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using Aow.Rtl.Host;
 using static Aow.Rtl.RtlUnit;
 using Assert = Xunit.Assert;
 
@@ -48,14 +49,13 @@ public sealed class FilesAndStreamsTests
             Assert.True(DeleteFile("a/new.bin")); Assert.False(DeleteFile("a/new.bin"));
             Assert.Equal("Cannot open file missing", Assert.Throws<FileNotFoundException>(() => OpenFile("missing", fmOpenRead)).Message);
             Assert.Equal("Cannot create file absent/file", Assert.Throws<IOException>(() => OpenFile("absent/file", fmCreate)).Message);
-            SearchRec search = default;
-            Assert.Equal(3, FindFirst("absent\\*", faAnyFile, ref search));
+            Assert.Empty(Files.FindEntries("absent\\*", attributes: faAnyFile));
             File.WriteAllBytes("a/hidden", []); File.SetAttributes("a/hidden", FileAttributes.Hidden);
             // Only Windows has a hidden attribute. On Linux a hidden file is one whose name starts with a dot.
             if (OperatingSystem.IsWindows())
             {
-                Assert.Equal(18, FindFirst("a\\hidden", 0, ref search)); FindClose(ref search);
-                Assert.Equal(0, FindFirst("a/hidden", faHidden, ref search)); Assert.True((search.Attr & faHidden) != 0); FindClose(ref search); Assert.Equal(6, FindNext(ref search));
+                Assert.Empty(Files.FindEntries("a\\hidden", attributes: 0));
+                var hidden = Assert.Single(Files.FindEntries("a/hidden", attributes: faHidden)); Assert.True((hidden.Attribute & faHidden) != 0);
             }
             Assert.Equal("C:\\", ExtractFileDir("C:\\file.ext")); Assert.Equal("\\", ExtractFileDir("\\file")); Assert.Equal("C:", ExtractFileDir("C:file"));
             Assert.Equal("\\\\server\\share\\", ExtractFilePath("\\\\server\\share\\file"));
@@ -104,9 +104,10 @@ public sealed class FilesAndStreamsTests
             Assert.True(FileExists("a")); Assert.True(DirectoryExists("a")); Assert.True(CreateDir("a")); Assert.True(DeleteFile("a")); Assert.True(RenameFile("a", "b"));
             using (var stream = OpenFile("virtual", fmCreate)) { stream.WriteBuffer(new byte[] { 7 }); Assert.Equal(new byte[] { 7 }, files.Opened.ToArray()); }
             Assert.Contains("open virtual 65535", files.Calls);
-            SearchRec search = default;
-            Assert.Equal(0, FindFirst("*", 0, ref search)); Assert.Equal("A", search.Name); Assert.Equal(1, search.Size); Assert.Equal(FileAge("A"), search.Time);
-            Assert.Equal(0, FindNext(ref search)); Assert.Equal("b", search.Name); Assert.Equal(18, FindNext(ref search)); FindClose(ref search);
+            var entries = Files.FindEntries("*", attributes: 0);
+            Assert.Equal(2, entries.Count);
+            Assert.Equal("A", entries[0].Name); Assert.Equal(1, entries[0].Size); Assert.Equal(FileAge("A"), entries[0].FileDate);
+            Assert.Equal("b", entries[1].Name);
             Assert.Contains("enumerate fake", files.Calls);
         }
         finally { Files = saved; }

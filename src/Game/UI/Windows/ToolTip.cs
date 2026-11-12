@@ -281,7 +281,7 @@ public partial class ToolTip : GenericWindow
         {
             if (Valid && Visible)
             {
-                var rectangle = new Rect(WinLeft, WinTop, WinWidth, WinHeight);
+                var rectangle = new SizedRectangle(WinLeft, WinTop, WinWidth, WinHeight);
                 _imageLibraryFrame.DrawFrame(_imageLibraryIndexFrame, rectangle, ref lockedSurface);
                 var imageLibraryFrameHeight = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                 var imageLibraryFrame = _imageLibraryFrame[_imageLibraryIndexFrame + 6];
@@ -289,7 +289,7 @@ public partial class ToolTip : GenericWindow
                 var imageLibraryFrame2 = _imageLibraryFrame[_imageLibraryIndexFrame + 4];
                 var imageLibraryFrame3 = _imageLibraryFrame[_imageLibraryIndexFrame + 1];
                 var imageLibraryFrame4 = _imageLibraryFrame[_imageLibraryIndexFrame + 3];
-                var rectangle2 = new Rect(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
+                var rectangle2 = new SizedRectangle(WinLeft + imageLibraryFrame4.Width, WinTop + imageLibraryFrame3.Height, WinWidth - imageLibraryFrameWidth.Width - imageLibraryFrame2.Width, WinHeight - imageLibraryFrameHeight.Height - imageLibraryFrame.Height);
                 _imageLibraryTexture.DrawTiled(_imageLibraryIndexTexture, rectangle2, ref lockedSurface);
                 _font.Color = Color;
                 oldClip = lockedSurface.ClipRectangle;

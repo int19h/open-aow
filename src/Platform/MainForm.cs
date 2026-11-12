@@ -181,7 +181,7 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
                 finally { back.Unlock(); }
             }
             FLastCursorRectangle = rectangle;
-            DialogHosts.ConfirmationDialog.FrameRateLabel.Text = RtlUnit.IntToStr(Display.CurrentFrameRate);
+            DialogHosts.DebugWindow.ShowFrameRate(Display.CurrentFrameRate);
         }
         if (StrategicMap.Current is not null && StrategicMap.Current.ExitPending) DialogHosts.General.ReturnToTitle();
         VideoDialog.ApplyVideoSettings(DialogHosts.VideoDialog);
@@ -282,7 +282,8 @@ public sealed class MainForm : IGameHost, IDisplayEvents, IDisposable
             StrategicMap.Current.ExitGame(ExitGameMode.Terminate, (_, exited) => IsClosed |= exited);
             return IsClosed |= StrategicMap.Current.ExitPending;
         }
-        DialogHosts.ConfirmationDialog.Confirm(AbilityRules.TranslateResourceString(PlayerControl.ConfirmText), AbilityRules.TranslateResourceString(PopupWindows.QuitCombatText), 6);
+        DialogHosts.ConfirmationDialog.Confirm(AbilityRules.TranslateResourceString(PlayerControl.ConfirmText), text: AbilityRules.TranslateResourceString(PopupWindows.QuitCombatText),
+            onConfirmed: PopupWindows.SurrenderCombat);
         return false;
     }
 

@@ -125,7 +125,7 @@ public partial class MenuBar : Control
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new Rect(Window.WinLeft + WinLeft + WinWidth * I / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * I / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexDown, rectangle, ref lockedSurface);
                         if (_font != null)
                         {
@@ -139,7 +139,7 @@ public partial class MenuBar : Control
                     {
                         var count = _items.Count;
                         var fItemsCount = _items.Count;
-                        var rectangle = new Rect(Window.WinLeft + WinLeft + WinWidth * I / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
+                        var rectangle = new SizedRectangle(Window.WinLeft + WinLeft + WinWidth * I / fItemsCount, Window.WinTop + WinTop, WinWidth / count, WinHeight);
                         _imageLibraryButton.DrawHorizontalStrip(_imageLibraryIndexUp, rectangle, ref lockedSurface);
                         if (_font != null)
                         {

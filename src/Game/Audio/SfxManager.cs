@@ -1,5 +1,6 @@
 // Translated from Sound.pas.
 using Aow.Rtl;
+using Aow.Rtl.Host;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Audio;
@@ -37,30 +38,21 @@ public partial class SfxManager : Component
         string oldDirectory;
         void Search(string directory)
         {
-            SearchRec sr = default;
             StringList directories;
-            bool found;
-            found = FindFirst(_searchPath + directory + "*." + s_sfxExtension, 63 & ~16, ref sr) == 0;
-            while (found)
+            foreach (var entry in Files.FindEntries(_searchPath + directory + "*." + s_sfxExtension, attributes: 63 & ~16))
             {
-                _sfx.Add(UpperCase(directory + sr.Name));
-                found = FindNext(ref sr) == 0;
+                _sfx.Add(UpperCase(directory + entry.Name));
             }
 
-            FindClose(ref sr);
             directories = new StringList();
-            found = FindFirst(directory + "*.*", 16, ref sr) == 0;
-            while (found)
+            foreach (var entry in Files.FindEntries(directory + "*.*", attributes: 16))
             {
-                if ((sr.Attr & 16) != 0 && sr.Name != "." && sr.Name != "..")
+                if ((entry.Attribute & 16) != 0 && entry.Name != "." && entry.Name != "..")
                 {
-                    directories.Add(directory + UpperCase(sr.Name) + "\\");
+                    directories.Add(directory + UpperCase(entry.Name) + "\\");
                 }
-
-                found = FindNext(ref sr) == 0;
             }
 
-            FindClose(ref sr);
             for (int I = 0, last = directories.Count - 1; I <= last; I++)
             {
                 Search(directories[I]);

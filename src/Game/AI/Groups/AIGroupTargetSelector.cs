@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+using Aow.Engine;
 using Aow.Engine.Nodes;
 
 using Aow.Game.Combat;
@@ -1188,7 +1189,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
     {
         string text = "";
         AIGroupControlTarget target;
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, "Targets for Group (ID:" + IntToStr(GroupControl.Group.GroupId) + ")");
+        GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, "Targets for Group (ID:" + IntToStr(GroupControl.Group.GroupId) + ")");
         for (int I = 0, last = GroupControl.Targets.Count - 1; I <= last; I++)
         {
             target = GroupControl.Targets.GetTargets(I);
@@ -1223,7 +1224,7 @@ public partial class AIGroupTargetSelector : AIGroupTask
                 text = text + "d";
             }
 
-            GameTables.GameEngine.OutputDebugMessage(AbilityRules.AiDebugChannel, text);
+            GameTables.GameEngine.OutputDebugMessage(DebugChannel.AI, text);
         }
     }
 

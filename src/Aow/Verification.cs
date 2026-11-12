@@ -312,10 +312,9 @@ internal static class Verification
                 @"Scenario\Custom\base.hsm", @"Scenario\Campaign\x.hsm"), "shim relative path");
             Equal(Path.Combine(root, "Images", "x.ilb"), RtlUnit.ExtractRelativePath(
                 "", Path.Combine(root, "Images", "x.ilb")), "empty base keeps the destination");
-            var search = new SearchRec();
-            Equal(0, RtlUnit.FindFirst(@"Images\*.ilb", 0, ref search), "shim FindFirst");
-            Equal("a.ilb", search.Name, "FindFirst order");
-            RtlUnit.FindClose(ref search);
+            var libraries = RtlUnit.Files.FindEntries(@"Images\*.ilb", attributes: 0);
+            Check(libraries.Count != 0, "file search finds the libraries");
+            Equal("a.ilb", libraries[0].Name, "file search order");
             int missingDirectoryExceptions = 0;
             void MissingDirectoryException(object? sender, FirstChanceExceptionEventArgs error)
             {
@@ -325,9 +324,8 @@ internal static class Verification
             try
             {
                 Equal(0, files.Enumerate("PLUGINS").Count(), "missing directory enumerates no entries");
-                Equal(3, RtlUnit.FindFirst(@"PLUGINS\*.dll", 0, ref search), "missing plugin directory returns path not found");
-                Equal(6, RtlUnit.FindNext(ref search), "missing directory leaves no search handle");
-                Equal(3, RtlUnit.FindFirst(@"PLUGINS\*", RtlUnit.faDirectory, ref search), "missing directory has no synthetic dot entries");
+                Equal(0, RtlUnit.Files.FindEntries(@"PLUGINS\*.dll", attributes: 0).Count, "missing plugin directory finds nothing");
+                Equal(0, RtlUnit.Files.FindEntries(@"PLUGINS\*", attributes: RtlUnit.faDirectory).Count, "missing directory has no synthetic dot entries");
                 Equal(0, missingDirectoryExceptions, "missing directory emits no first chance exception");
             }
             finally { AppDomain.CurrentDomain.FirstChanceException -= MissingDirectoryException; }

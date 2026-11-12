@@ -211,7 +211,7 @@ public static class FileBoundary
 
     /// <summary>
     /// The names of the documents of a kind in a directory, for a listing that loads each one
-    /// (the user hero and item lists). Originals come first in FindFirst order, then own
+    /// (the user hero and item lists). Originals come first in FindEntries order, then own
     /// documents. A name present in both forms lists its own document only, in the original's
     /// place, so a list saved again by the port loads once.
     /// </summary>
@@ -239,14 +239,7 @@ public static class FileBoundary
     private static List<string> FindNames(string mask)
     {
         var names = new List<string>();
-        SearchRec search = default;
-        bool found = RtlUnit.FindFirst(mask, 63 & ~16, ref search) == 0;
-        while (found)
-        {
-            names.Add(search.Name);
-            found = RtlUnit.FindNext(ref search) == 0;
-        }
-        RtlUnit.FindClose(ref search);
+        foreach (var entry in RtlUnit.Files.FindEntries(mask, attributes: 63 & ~16)) names.Add(entry.Name);
         return names;
     }
 

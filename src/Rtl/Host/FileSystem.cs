@@ -1,6 +1,10 @@
 namespace Aow.Rtl.Host;
 
-public readonly record struct RtlFileEntry(string Name, int Size, int Attribute, DateTime Modified);
+public readonly record struct RtlFileEntry(string Name, int Size, int Attribute, DateTime Modified)
+{
+    // The DOS date and time of Modified, the time SYSUTILS.PAS FindFirst reports.
+    public int FileDate => RtlUnit.FileDate(Modified);
+}
 
 // The host brief replaces these defaults through Rtl.Files and Rtl.Clock.
 public interface IFileSystem

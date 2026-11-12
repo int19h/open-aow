@@ -1,4 +1,5 @@
 // Translated from AoWE.pas.
+using Aow.Engine;
 using Aow.Engine.Nodes;
 using Aow.Engine.Storage;
 
@@ -73,7 +74,7 @@ public partial class AIBudget : EngineObject
     // AI.pas:1678
     public virtual void OutputDebugInfo()
     {
-        GameTables.GameEngine.OutputDebugMessage(AbilityRules.TemporaryDebugChannel, this.GetType().Name + " Gold:" + IntToStr(Gold) + "/" + IntToStr(RequiredGold) + " Mana:" + IntToStr(Mana) + "/" + IntToStr(RequiredMana));
+        GameTables.GameEngine.OutputDebugMessage(DebugChannel.Temporary, this.GetType().Name + " Gold:" + IntToStr(Gold) + "/" + IntToStr(RequiredGold) + " Mana:" + IntToStr(Mana) + "/" + IntToStr(RequiredMana));
     }
 
     // AI.pas:1675

@@ -773,11 +773,7 @@ public static class AbilityRules
 
     internal static ImmutableArray<string> ExplosionSfx { get; } = ["SFX\\ATTACK\\STORM.WAV", "SFX\\ATTACK\\EXPLOD1.WAV"];
 
-    internal static int AiDebugChannel { get; set; }
-
     internal static ReadOnlySpan<byte> ArmySelectionMasks => [0, 1, 3, 7, 15, 31, 63, 127, 255];
-
-    internal static int TemporaryDebugChannel { get; set; }
 
     internal static EngineClass MultiLevelDataClass { get; } = EngineClass.Of<MultiLevelAbilityData>();
 
